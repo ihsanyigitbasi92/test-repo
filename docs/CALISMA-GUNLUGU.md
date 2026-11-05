@@ -33,3 +33,8 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - `create-expo-app` çalıştı: Expo SDK 58, React Native 0.88.1, React 19.3, TypeScript 6.
 - `npx expo install` komutu proxy tarafından engellendi (api.expo.dev → Forbidden). Çözüm: sürümleri `node_modules/expo/bundledNativeModules.json` dosyasından okuyup `npm install` ile kurmak.
 - Web export + Playwright ekran görüntüsü testi BAŞARILI: `expo export --platform web` çalıştı, statik çıktı yerel sunucudan Chromium'da açıldı, konsol hatası yok, 390x844 ekran görüntüsü alındı. Sonuç: Oyunu bu ortamda tarayıcıda otomatik test edip ekran görüntüsüyle doğrulayabiliriz (cihaz gerekmeden).
+
+### Yeni bağlayıcı kararlar (kullanıcı)
+- Oyun ilk günden iki dilli: Türkçe + İngilizce, ikisi de birinci sınıf. İngilizce "çeviri" değil "transcreation" olacak (kendi başına komik). Bunun için T10 araştırması eklendi: `docs/research/10-ingilizce-ses-ve-iki-dilli-icerik-hatti.md`.
+- Çalışma standardı: "en iyi oyun şirketinin CEO'su + piyasanın en iyi ekibi" kalitesi. Her faz için düşman eleştiri (publisher gözü, oyuncu gözü, komedi yazarı gözü, mühendis gözü) zorunlu; "yeterince iyi" kabul edilmeyecek.
+- Git: `claude/hayat-sim-analiz-ve-plan` dalı açıldı ve push edildi; her anlamlı adım commit edilecek.
