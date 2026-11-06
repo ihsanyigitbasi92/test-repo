@@ -40,3 +40,16 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - Git: `claude/hayat-sim-analiz-ve-plan` dalı açıldı ve push edildi; her anlamlı adım commit edilecek.
 - Kullanıcı: "Oyunun her detayı çok detaylı düşünülsün; dopamin salgılatan, bağımlılık yapan oyun nasıl yapılır araştırılsın." → T11 araştırması eklendi: `docs/research/11-dopamin-muhendisligi-ve-bagimlilik-algoritmalari.md` (nörobilim + vaka analizleri + sözde-kod algoritmalar + etik/yasal sınır). Faz 2 çıktısı tek GDD yerine sistem başına ayrı dokümanlardan oluşan bir "tasarım paketi" olacak.
 - Kullanıcı yetkisi: GitHub tarafında soru sormadan süreç yürütülecek (commit, push, PR açma, merge). Uygulama: her faz sonunda `claude/hayat-sim-analiz-ve-plan` dalından `main`'e PR açılıp merge edilecek; günlük ve dokümanlar her zaman güncel tutulacak.
+
+## 2026-11-06
+
+### Araştırma durumu
+- Hesabın 5 saatlik kullanım limiti doldu (01:40 UTC'de sıfırlandı); kullanıcı "resetlenince otomatik devam et" dedi. Limit dolmadan önce 10/11 araştırma dokümanı tamamlanmıştı (T1, T2, T3, T4, T5, T7, T8, T9, T10, T11; her biri 7.000–11.000 kelime, kaynaklı). Eksik: T6 monetizasyon → yeniden başlatıldı (workflow w0qfu6dcl).
+- Şüpheci doğrulama turları (verify) limit yüzünden hiç çalışamadı. Karar: kullanım bütçesini önce tasarıma harcamak; doğrulama, tasarım paketinin eleştiri aşamasında "çapraz doküman tutarlılık + olgu kontrolü" olarak yapılacak. Araştırma dokümanlarındaki sayılar o aşamaya kadar "doğrulanmamış" kabul edilmeli.
+- Not: Araştırma dokümanlarının çoğu "(doğrulanmadı)" işaretli iddialar içeriyor; GDD'ye alınan her sayı eleştiri aşamasında kontrol edilecek.
+
+### Faz 2a başladı (workflow wxzfs04m1)
+- 4 bağımsız konsept (A1 anlatıcı-merkezli, A2 yetişkin-olmak hicvi, A3 roguelike hayat, A4 roast koç) → `docs/design/concepts/`
+- 3 jüri (publisher/pazar, oyuncu+komedi yazarı, üretim+hukuk) puanlar, aşı listesi ve "öldür" listesi çıkarır
+- Sentez → `docs/design/00-VIZYON-ve-KARARLAR.md` (oyun adı, anlatıcı, sütunlar, core loop, ilk 60 sn, kapsam, 40+ bağlayıcı karar)
+- Sonraki adım (Faz 2b): 11 ayrıntılı sistem dokümanı, ardından 5 düşman eleştirmen (publisher, manipülasyondan nefret eden oyuncu, komedi yazarı TR/EN, mühendis, avukat) ve revizyon.
