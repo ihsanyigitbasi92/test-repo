@@ -80,3 +80,6 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - v3: zaman birimi GÜN (takvim satırı "Gün N · Salı, 3 Mart 2026"), her günde bir olay, olaysız günler tek satırla atlanır, doğum gününde karne; 14 NPC (Anne, Barış, Nevin Hanım, Yağmur, Pamuk, Dayı, Şükran Teyze, kurye, kombi ustası, ev sahibi, İK, doktor, garson, komşunun torunu) sohbet balonlarıyla konuşuyor; oyuncunun seçimi cevap balonu olarak akışa yazılıyor.
 - Headless Chromium testi: 6 gün tıklanarak geçildi, 10 NPC balonu, 6 cevap balonu, konsol hatası yok, taşma yok. Artifact aynı URL'de güncellendi.
 - Kararlar 00 §12'ye (D-061…D-065) işlendi; benchmark özellik dokümanı `docs/design/12-...md` yazıldı. Eksik tasarım dokümanları (03, 04, 05, 06, 09, 11) haftalık limit sıfırlanınca yeniden başlatıldı (w21y2xcx2), hepsi yeni gün-tabanlı kararı okuyor.
+
+### Süreç kuralı (kullanıcı): her sprint sonunda demo
+- Her sprintin "bitti" tanımına **oynanabilir demo** eklendi: Sprint 0'dan itibaren gerçek Expo uygulamasının web export'u (react-native-web) Claude artifact olarak yayınlanır + Playwright ekran görüntüleri/akış videosu benzeri kare dizisi günlüğe eklenir; kullanıcıya link ve "bu sprintte eklenenler" listesiyle sunulur. Sprint planında her sprint için "Demo kapsamı" satırı zorunlu.
