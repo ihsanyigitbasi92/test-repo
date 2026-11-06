@@ -83,3 +83,7 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 
 ### Süreç kuralı (kullanıcı): her sprint sonunda demo
 - Her sprintin "bitti" tanımına **oynanabilir demo** eklendi: Sprint 0'dan itibaren gerçek Expo uygulamasının web export'u (react-native-web) Claude artifact olarak yayınlanır + Playwright ekran görüntüleri/akış videosu benzeri kare dizisi günlüğe eklenir; kullanıcıya link ve "bu sprintte eklenenler" listesiyle sunulur. Sprint planında her sprint için "Demo kapsamı" satırı zorunlu.
+
+### Sahip geri bildirimi: zaman akmalı, hayat gerçekten değişmeli
+- D-066: "Ertesi Gün" düğmesi kaldırıldı; üstte canlı saat/tarih ve hız kontrolü (⏸ ▶ ▶▶ + otomatik). Zaman yalnızca karar beklerken durur.
+- D-067: kalıcı hayat durumu (İş/maaş, Ev/kira, İlişki, Varlıklar) + para akışı (maaş günü, kira günü, günlük gider) + olayların durumu değiştirmesi + gündelik satırlar. Maket v4 buna göre yazılıyor.
