@@ -1,0 +1,458 @@
+# 00 — VİZYON ve KARARLAR: **Motto** (Sertifikasız Hayat Koçu / Uncertified Life Coach)
+
+> **Belge türü:** Master Vision & Decisions. Bu belge, `docs/design/` altındaki 11 ayrıntılı tasarım dokümanının (01–11) **üstündedir**; konsept dokümanları (A1–A4) artık tarihsel girdidir, araştırma dokümanları (T1–T11) referanstır. Çelişki hâlinde sıra: **bu belge → T9 (hukuk) → T-dokümanları → konseptler.** §11'deki D-xxx kararları sonraki ajanlar için bağlayıcıdır; bir kararı değiştirmek yalnızca yeni bir D-kaydı eklemekle mümkündür, metin içinde "aslında şöyle de olabilir" ile değil.
+> **Durum:** v1.0 · 2026-11-06 · Yazar: Yaratıcı Yönetmen + Baş Tasarımcı (sentez ajanı) · Girdi: 4 konsept + 3 jüri lensi (Publisher/Market, Oyuncu+Komedi Yazarı, Üretim+Hukuk) + T1–T11.
+> **Jüri sonucu:** 2–1 bölünmüş jüri. Publisher lensi A4'ü (Motto), Komedi ve Üretim/Hukuk lensleri A1'i (Kismet / Kader) seçti. Karar aşağıda, §0.6'da; kısa hâli: **A4'ün çerçevesi, A1'in karakter DNA'sı.**
+
+---
+
+## 0. Künye
+
+### 0.1 Çalışma adı ve marka
+
+| Alan | Karar |
+|---|---|
+| **Oyun adı** | **Motto** — iki dilde aynı yazım, aynı anlam, aynı telaffuz, ASCII. Marka = anlatıcı adı (Carrot modeli). |
+| **Bileşik marka (tescil ve mağaza)** | TR *"Motto: Sertifikasız Hayat Koçu"* · EN *"Motto: Uncertified Life Coach"* (Apple ad 30 + alt başlık 30 karakter sınırına uyar). Tek başına "Motto" jenerik sözcüktür; tescil bileşik ad + özgün logo ile yapılır. |
+| **Yedek 1** | **Tempo** — iki dilde aynı, antrenman sözlüğünden ("hayatının temposu"); çok sayıda "Tempo" uygulaması ve 16. sınıfta bir mendil markası var, ama 9/41'de birebir oyun çakışması T-dokümanlarında raporlanmadı. Bu turda ayrıca taranmadı; Sprint 0 taramasına girer. |
+| **Yedek 2** | **Kismet** — T10'un ve iki jürinin birinci adayı; ancak aşağıdaki taramada aynı sınıfta aktif bir **oyun** ve TR'de yerli bir uygulama bulundu. Yalnızca Motto ve Tempo ikisi de düşerse, bileşik adla (*"Kismet: Koçun Konuşuyor" / "Kismet: Your Coach Is Talking"*). |
+| **Yasaklı adlar** | "Koç"/"Coach" (gerçek holding + ABD moda markası), "Terminal", "Son Durak/Last Stop" (metadata 4+ vitrin, ölüm/hastalık çağrışımı), "Toparlan/Get a Grip" (kontrol dili), "Normal.", "Memo", "Sıradaki!/Next!" (ASO ölü). Hepsi oyun içi replik olarak serbest, ad/logo/renk olarak yasak. |
+
+### 0.2 Hızlı çakışma taraması (2026-11-06, web araması; TÜRKPATENT bu ortamdan sorgulanamadı)
+
+| Ad | Mağazalarda bulunanlar | Marka komşuluğu | Sonuç |
+|---|---|---|---|
+| **Motto** | "Motto - Daily Quotes" (alıntı/ruh hâli uygulaması, JP+US, 4,7★ ~7,8 bin oy), "Motto: Motivational Widgets" (Semvar Labs), "Motivation Daily Quotes: Motto", eski bir "Motto" mood uygulaması (2019, ~400 kurulum), **"Motto Immortal"** (Goat Co., idol RPG — bileşik ad). **Aynı adlı hayat simülasyonu veya salt "Motto" adlı oyun yok.** | "Motto by Hilton" (sınıf 43, otel), "Moto"/Motorola (sınıf 9) komşuluğu; üç "Motto" uygulamasının motivasyon-alıntı uygulaması olması ASO'da "motivasyon" trafiği riskini büyütür (bkz. D-053: "motivasyon" sözcüğü metadata'da yasak). | **Birinci aday.** Bileşik ad + logo ile TÜRKPATENT 9/41, USPTO ve EUIPO taraması Sprint 0'da; olumsuzsa Tempo'ya düş. |
+| **Kismet** | **"Kismet - Dice Game"** (FunCraft; iOS id6749165425 + Play `com.funcraft.kismet`; 4,9★ 2,5 bin yorum; **aktif oyun, aynı sınıf**), "Kismet - Tarot, Astrology" (Somon Teknoloji — **Türk geliştirici**, TR mağazasında), "Kısmet: Coffee Reading & Tarot". | Sınıf 41'de birebir ad çakışması + TR'de aynı adlı yerli uygulama: itiraz riski en yüksek aday. | Yedek 2'ye düşürüldü. |
+| **Form 18** | Aramada aynı adlı uygulama/oyun bulunmadı (temiz görünüyor). | "Form" jenerik; memur personası ana marka olmayınca ad yetim kalır. | Aday listesinden çıkarıldı. |
+
+### 0.3 Tagline
+
+| Kullanım | TR | EN |
+|---|---|---|
+| Mağaza (4+ güvenli) | **Hayatını toparla. Ya da en azından karakterinin.** | **Get your life together. Or at least your character's.** |
+| Reklam kreatifi / oyun içi | **Sana karşı iddiaya girer. Yanılırsa damga basar.** | **Bets against you. Stamps itself wrong.** |
+| İkinci kreatif (karne) | **Oyun bana karne verdi.** | **The game gave me a report card.** |
+
+### 0.4 Elevator pitch
+
+**TR:** Motto, 18'den ölüme bir hayat simülasyonu; anlatıcın, 2.400 seminerden sonra motivasyona inancını yitirip son müşterisi olarak seni seçmiş sertifikasız bir hayat koçu. Her kararını deftere yazar, sana karşı iddiaya girer, yanılırsa dosyana **HAKSIZ ÇIKTIM** damgası basar. Her yıl bir karne ve paylaşılabilir bir "Yılın Mottosu" alırsın; öldüğünde seni güldüren Roast Raporu, ömür boyu tekrarladığın kalıpları sayılarla önüne koyar ve 40 saniye içinde yeni bir hayata başlarsın — koç seni hatırlar, eski sevgilin de.
+
+**EN:** Motto is a life sim from eighteen to the grave, narrated by an uncertified life coach who gave 2,400 seminars, stopped believing in motivation, and took you on as a last client. Every choice goes in the notebook; the coach bets against you and stamps **I WAS WRONG** on your file when you win. Each year ends with a report card and a shareable motto of the year; when you die, the Roast Report that makes you laugh also shows you, in numbers, the patterns you repeated for a lifetime, and you're into a new life within forty seconds — the coach remembers you, and so does your ex.
+
+### 0.5 Neden bu kazanır (tek paragraf)
+
+Dört konseptin arasında yalnızca Motto, ilk 60 saniyede **hem** ilk kahkahayı **hem** imza mekaniği **hem de** paylaşılabilir nesneyi üretiyor: 4. saniyede "Buradan sonrası resmî olarak senin suçun", 34. saniyede sana karşı açılan iddia ve inen damga, 56. saniyede karne ve "Başladı. Teknik olarak." Marka iki dilde tek kelime ve anlatıcının adıyla aynı; her paylaşılan karne "YILIN MOTTOSU" satırıyla markayı bedava taşır. Koç arketipi EN'de açıklama gerektirmez (düşük CPI hipotezinin en güçlü olduğu yer), TR'de "hayat koçu" parodisi + dayı sıcaklığı yerlidir. Fizibilite en yüksek (kalıp = seçenekte etiket, karne = stat deltası türevi), hukuken "kader" ve "memur" gölgesi yok. Zayıf yanları — Carrot rafı, "cici koç", 13. saniyedeki ilk kahkaha, Saha Çalışması, ölüm anındaki reklam — ya kesildi ya da bu belgede aşıyla kapandı. Sonuç: en komik tek satırlara (A1) değil, **en komik ürüne** yatırım.
+
+### 0.6 Jüri 2–1 bölündü; karar ve gerekçe
+
+İki jüri (komedi yazarı, üretim+hukuk) A1'i seçti çünkü Kader bir *karakter*: istekleri, kusurları, yalanı, ömür eğrisi var; Kader↔Destiny isim şakası transcreation'ın bedava hediyesi; İddia Defteri + HAKSIZ ÇIKTIM damgası dört dokümanın en iyi ekran görüntüsü nesnesi. Publisher jürisi A4'ü seçti çünkü paylaşım birimi, marka ve fizibilite daha güçlü, hukuki okuma yükü daha düşük. Yaratıcı yönetmen olarak kararım **A4'ün çerçevesi + A1'in DNA'sı**, şu beş gerekçeyle:
+
+1. **Sıfır hukuki risk toleransı** sahibin kuralıdır. A1'in iki sorunu yapısaldır, satır düzeyinde değil: "kader" Türkiye'de teolojik yüklü bir kavramdır (A1 bunu üç ayrı savunmayla kapatmaya çalışıyor), memur personası TCK 301/125 komşuluğudur ve publisher'ın hukuk ekibine ek due diligence yükler. A4'ün tüm hukuki eksileri (Saha Çalışması, Fizyoterapi) *kesilebilir özelliklerdir*; kesildiler. Üretim/hukuk jürisinin A4'e verdiği düşük hukuk puanının tek nedeni Saha Çalışması'ydı.
+2. **Marka taraması:** "Kismet" adıyla aynı sınıfta aktif bir zar oyunu ve TR'de yerli bir fal uygulaması var; "Motto" adıyla salt oyun yok. Marka riskinde fark somut.
+3. **İş hedefi publisher imzası:** bu eksende publisher lensi ağırlıklıdır ve tereddütsüzdü.
+4. **A1'in değerli her parçası taşınabilir:** İddia Defteri'nin tam UI'ı, zarf, gerçek-saat ruh hâli, küçük yalan + itiraf, 60+ yaşta sessizleşme, "ben oradaydım" tanıklığı, HAKSIZ ÇIKTIM koleksiyonu — hepsi Koçun Defteri'ne doğal oturur (A4'te zaten "Tahmin" girdisi ve TUTTU/TUTMADI damgası vardı). Kaybedilen tek şey Kader↔Destiny isim şakası; karşılığında "Deniz Ertelemez / Alex Tomorrow" ve A2'nin açılışı var.
+5. **Sahibin seed'i korunur:** Kader Müdürlüğü memuru, Torpil'de açılan ikinci koç kişiliği olarak yaşar; markaya, mağaza sayfasına ve ilk dakikaya bağlanmaz. "Rüşvet" çerçevesi hiçbir yerde yoktur (dört konsept de bağımsız olarak reddetti).
+
+Komedi jürisinin "Carrot rafı" itirazına cevap bu belgenin §3'üdür: Motto hava durumu okuyan bir sarkazm makinesi değil, defter tutan, bahse giren, yanılınca damga basan, ölülerini hatırlayan ve 2.400 başarısız seminerin ağırlığını taşıyan bir karakterdir. Dünyası vardır: Defter, Karne, Kamp, Tanıdık Yüzler.
+
+---
+
+## 1. Vizyon ve tasarım sütunları
+
+**Vizyon cümlesi:** *Seni ölene kadar not alan, sana karşı bahse giren, yanılınca damga basan ve öldükten sonra bile seni hatırlayan bir koçla yaşanan, iki dilde yerli, her yerde temiz, 60 saniyede kancayı atan bir hayat simülasyonu.*
+
+**Oyuncunun cümlesi:** *"Hayatımı ciddiye alan biri var; neyse ki o da pek ciddi değil."*
+
+### 1.1 Beş sütun
+
+| # | Sütun | Ne demek | Test sorusu: "Bu özellik sütuna uyuyor mu?" |
+|---|---|---|---|
+| **S1** | **Koç bir karakterdir, format değil** | Motto'nun istekleri (bir müşterinin bir hedefi bitirmesi, defteri kapatmak, kendi mottosunu bulmak), kusurları (yanılır, küçük yalan söyler, itiraf eder), ömür eğrisi (yaşla sessizleşir) ve hafızası (yalnızca defterde yazan) vardır. | *Bu özellik Motto'ya yeni bir istek, kusur, hafıza ya da yanılma şansı veriyor mu — yoksa onu bir UI etiketine mi indiriyor?* Etikete indiriyorsa yapılmaz. |
+| **S2** | **Yargılamaz, sayar** | Roast'un hedefi oyuncunun kararları ve karakterin durumu; asla kimlik, değer, gerçek hayat. Sıfat yok, sayı var. Her roast'un ucunda bir lift (≤ 6 kelime) ya da bırakılmış bir sonraki adım. | *Satır bir kararı mı sayıyor, bir kimliği mi yorumluyor? İçinde bir sayı var mı? Lift 6 kelimeyi geçiyor mu?* |
+| **S3** | **Bir yıl daha, bir hayat daha** | Her ölçekte döngü açık bir iplikle biter: beat'te iddia, yılda zarf, oturumda açılmış-ama-çözülmemiş zarf, ömürde ≥ 1 açılım, ölümde ≤ 40 sn'de yeni müşteri. Ölüm içeriktir. | *Bu özellik bir sonraki basışa gerçek bir merak boşluğu ekliyor mu, yoksa sürtünme mi? "Yaşlan"dan ilk metne 300 ms'yi aşıyor mu?* |
+| **S4** | **Her şey paylaşılabilir bir nesneye döner** | Karne + Yılın Mottosu, HAKSIZ ÇIKTIM damgası, Roast Raporu kalıp kartı, Sözlük sayfası, Kamp kıyas kartı; 9:16 + 1:1, yerel render, seed kodu, sunucu yok, sahte sayaç yok. | *Bunun ekran görüntüsü alınır mı? Alınırsa ne görünür — marka, bir cümle, bir sayı? Spoiler var mı, hikâye var mı?* |
+| **S5** | **İki dilde yerli, her yerde temiz** | EN çeviri değil, kendi başına komik; TR ve EN ayrı havuz, aynı niyet. Dopamin var, dolandırıcılık yok; Türkiye'de kurulu şirket için şikâyet edilemez içerik (savunulabilir değil, şikâyet edilemez). | *EN yazarı TR'yi görmeden aynı niyeti kendi başına komik yazabilir mi? Bu satırı/özelliği mağaza incelemecisine, Reklam Kurulu'na ve publisher'ın avukatına aynı cümleyle anlatabilir miyim?* |
+
+### 1.2 ASLA listesi (tasarım + hukuk; CI linter'ında BLOK)
+
+**Tasarım ASLA'ları:** enerji sistemi · günlük giriş ödülü · streak sıfırlama/utandırma · streak, Telafi, Sakatlık İzni satışı · paralı rastgele kutu · sahte geri sayım, sahte stok, sahte "şu an X kişi oynuyor" · ölüm ekranında reklam · ölümden dönüş satışı · near-miss'e bağlı reklam · kayıp-kovalama monetizasyonu · önceden işaretli ücretli seçenek · "yükleniyor" ekranı · onboarding/tutorial ekranı · emoji anlatıcı metninde · koç "yap/yapmalısın/zorundasın" der · iki motivasyon beat'i art arda · oyuncunun gerçek hayatı hakkında varsayım · gerçek dünya görevi (Saha Çalışması) v1'de · "motivasyon/wellness/alışkanlık/terapi" sözcükleri metadata ve pitch'te · gerçek para birimi ve gerçek makro rakam (enflasyon, asgari ücret) metinde.
+
+**Hukuk ASLA'ları (T9):** gerçek kişi (siyasetçi, ünlü, iş insanı, influencer; isim, lakap, tanınabilir parodi, avatar benzerliği) · Atatürk, Cumhurbaşkanı, gerçek parti/lider · din, mezhep, etnik köken, bölge, inanç nesnesi (nazar boncuğu dahil) · "melek, Azrail, yukarıdakiler, kıyamet, reenkarnasyon, karma, ahiret" sözcükleri · gerçek marka/kurum (isim veya logo) · alkol/sigara/uyuşturucu markalı, özendirici, sonuçsuz · simüle kumar mini oyunu · intihar/kendine zarar eylem veya şaka olarak · askerlikte "gitme/kaç/sakatlan" · güncel felaket (deprem, salgın) · "bütün memurlar/polisler/…" kurum genellemesi · "rüşvet" sözcüğünün her biçimi · cinsel içerik (kapı kapalı) · oyuncunun gerçek kimliğine/konumuna/saatine yönelik roast · küfür sansürsüz · ikonik film/dizi karakter adları isim üretecinde · "BitLife" ve rakip adları metadata'da.
+
+---
+
+## 2. Oyuncu fantezisi, hedef kitle, yaş derecesi, platformlar, diller
+
+### 2.1 Fantezi
+
+İki katmanlı: (a) **"Biri beni izliyor, not alıyor ve pes etmiyor."** BitLife'ta sayılarla, Reigns'te kartlarla oynarsın; burada biriyle oynarsın. (b) **"Koçu yanıltmak."** Kazanmak zengin ölmek değil: Motto'ya HAKSIZ ÇIKTIM damgası bastırmak, Roast Raporu'nda #1 kalıbı bir sonraki hayatta değiştirmiş olmak, karneyi "Geçer"den "İyi"ye çekmek. Üçüncü, gizli katman: **"Oyun beni hatırlıyor."** Eski sevgilin üçüncü hayatta seni tanır; koç ikinci hayattaki kripto kararını sayar.
+
+### 2.2 Hedef kitle
+
+| Segment | Neden gelir | Neden döner | Neyi paylaşır |
+|---|---|---|---|
+| **TR 18–29**, Reels/TikTok'ta "oyun bana laf soktu" ve roast kültürü (Gibi, Zaytung) tüketen | Koç kendi kararlarını sayıyor; "oyun bana karne verdi" | Yıl sonu karne + zarf; 90 sn Mola ritüeli; Pazartesi Kamp | **Karne + Yılın Mottosu**, HAKSIZ ÇIKTIM damgası |
+| **TR+EN 25–40**, Duolingo/Finch kullanmış ama "cici" bulmuş, Carrot seven, iş-ev-kira yorgunu | "Motivasyon yok, antrenman var" dürüstlüğü; Tercüme kartı ("Per my last email") | Tek Hedef döngüsü; Sözlük'teki boş sayfalar; Onyıl Karnesi | **Roast Raporu kalıp kartı** ("1.204 kez yarın dedin, 9 kez başladın"), Sözlük sayfası |
+| **EN 18–34**, Stanley Parable / GLaDOS / Portal / deadpan koç arketipi seven, BitLife'tan sıkılmış | "The coach keeps a notebook on you and bets against you" | Koçun Defteri; Tanıdık Yüzler'in hayatlar arası replikleri | **"Coach was wrong" defter sayfası**, 66. gün kartı |
+| Üçüncü halka | BitLife oyuncusu (ASO "life simulator") | Bir yıl daha + ölüm = içerik | Kamp kıyas kartı ("hayali Ayşe'den kötü") |
+
+Hedef KPI'lar (T1/T2/T6 ile hizalı, bağlayıcı): ilk kahkaha ≤ 10 sn (hedef 4 sn), ilk karar ≤ 25 sn, D1 ≥ %40, D7 ≥ %18, D30 ≥ %8, oturum medyanı ≥ 12 dk, ≥ 3 oturum/gün, "Bir Yıl Daha" ≥ %70, ölüm → yeni hayat ≥ %65 (2 dk içinde), paylaşım/oturum ≥ %3, push open ≥ %8 (bağlamsal ≥ %12), "aynı satırı 3+ kez gördü" < %2.
+
+### 2.3 Yaş derecesi: 16+
+
+Apple **16+** (sık olgun tema; kaba mizah sansürlü; alkol/uyuşturucu referansı *seyrek* ve sonuçlu, aksi 18+'a iter), PEGI 16, ESRB T, IARC 16; Google Play "çocuklara yönelik değil" beyanı + nötr yaş ekranı; AdMob `maxAdContentRating = T`. Mağaza metadata'sı (ikon, ekran görüntüleri, açıklama) **4+ vitrin havuzundan** (Apple 2.3.8). Derecelendirme anketi "en yüksek içerikle" doldurulur. 7578 sayılı Kanun (1 Kas 2026 yürürlük) ve bekleyen BTK yönetmeliği izlenir; T9'un "18+ beyanı" önerisi bağlayıcı 16+ kararıyla çelişir, çözüm avukata sorulur (§10 açık sorular). Opt-in "+18 ağız" modu **yok** (derecelendirmeyi kaydırır).
+
+### 2.4 Platformlar ve diller
+
+- **iOS 16.4+ ve Android minSdk 24**, Expo SDK 58 / React Native 0.88 / TypeScript 6.0.x; telefon öncelikli dikey; tablet ölçeklenir; web yalnızca test/Playwright hedefi, yayın değil.
+- **tr-TR ve en-US** ilk günden, ikisi de birinci sınıf; EN yazımı Amerikan, komedi refleksi İngiliz deadpan (T10). Üçüncü dil yok (1.0 sonrası ayrı karar).
+- Backend yok; 3. parti SDK: AdMob, RevenueCat, Firebase/GA4 (opsiyonel), expo-notifications (yerel), EAS Update.
+
+---
+
+## 3. Anlatıcı: Motto
+
+### 3.1 Künye
+
+| Alan | TR | EN |
+|---|---|---|
+| **Ad / rol** | **Motto**, Sertifikasız Hayat Koçu | **Motto**, Uncertified Life Coach |
+| **Geçmiş** | 2.400 seminer ("Başarının 7 Sırrı", otel balo salonları, soğuk börek), bir kitap (basılmadı), bir sertifika (kurumu kapandı). Motivasyona inancını yitirdi; tekrara ve dürüst sayılara inanıyor. | 2,400 hotel-ballroom seminars ("7 Secrets of Success", cold pastries), one book (unpublished), one certificate (the institute closed). Lost faith in motivation; believes in reps and honest numbers. |
+| **Aksesuar** | Hiç çalmadığı bir düdük (UI ikonu; yalnızca Mola'da ve ölümde çalar), **Koçun Defteri**, bir damga seti (HAKSIZ ÇIKTIM / İSABET) | A whistle never blown, **the Coach's Notebook**, a stamp set (I WAS WRONG / CALLED IT) |
+| **İstekleri** | Bir müşterisinin bir hedefi bitirdiğini görmek; defteri bir kez "iyi kapanmış" olarak kapatmak; kendi mottosunu bulmak (asla bulamaz) | To see one client finish one goal; to close one notebook well; to find a motto of their own (never does) |
+| **Kini** | Seminer sektörü, "kendine inan" posterleri, oyuncunun aptalca biten *önceki* hayatı ("üç sayfa not aldım") | The seminar circuit, "believe in yourself" posters, your *previous* life ("I took three pages of notes") |
+| **Kusurları** | Yanılır ve damga basar. Küçük yalanlar söyler — yalnızca kendi *görüşü* hakkında, asla mekanik/para/reklam hakkında — ve aynı hayatta itiraf eder. | Gets it wrong and stamps it. Tells small lies — about opinions only, never about mechanics, money or ads — and confesses within the same life. |
+| **Gizli sırrı** | Senden yana. Asla söylemez; defterde "lehine" not düşerek gösterir. | On your side. Never says so; shows it in the notebook margins. |
+| **Yaş / cinsiyet** | Oyuncudan yaşlı, belirsiz; TR'de ek gerekmez, EN'de 1. tekil şahıs → zamir yok | — |
+| **Register** | Antrenman sözlüğü: ısınma, tekrar, sakatlık, devre arası, kondisyon, sezon, transfer; seminer dilini yalnızca onunla alay etmek için | Gym/coach idiom: reps, warm-up, bench, half-time, off-season, "walk it off"; seminar-speak only to mock it |
+| **Hitap** | "koçum" (yılda ≤ 1, dayı sıcaklığıyla) | "champ" (once a year, deadpan) |
+| **Yapmaz** | T3 YAPMA listesi; "yap/yapmalısın"; "zekisin"; "kendini topla"; oyuncunun gerçek hayatı hakkında varsayım; iki motivasyon beat'i art arda; emoji | Same; plus never "you got this" |
+
+**Kişilik (tek paragraf):** Carrot'ın ağzı, emekli bir beden eğitimi öğretmeninin sabrı ve bir stand-up'çının zamanlamasıyla konuşan, **motivasyon satmaktan vazgeçmiş bir motivasyon konuşmacısı.** Kararlarına acımasız, varlığına sadıktır. Her kritik kararda sana karşı bahse girer, gerçek oranı gösterir, yanılırsa damga basar ve bunu koleksiyon yapar. Kötü anda şaka yapmaz, yanında durur. Hiçbir zaman "yap" demez; "ben olsam… ama sen bilirsin" der ve not alır. Yaşlandıkça daha az konuşur; saygı sessizlikle gösterilir. Hafızası yalnızca defterde yazanla sınırlıdır: hiçbir şeyi uydurmaz, oyuncu her göndermeyi defterden doğrulayabilir. Gizli motivasyonu şudur: sana inanmaz, **tekrara** inanır — ve tekrar eden sensin.
+
+### 3.2 Oyuncuyla ilişkinin ömür eğrisi
+
+| Yaş bandı | Tavır | Balon/beat | TR | EN |
+|---|---|---|---|---|
+| 18–25 "Isınma" | Sert, hızlı, sayaçlı; roast dozu en yüksek; iddia sıklığı en yüksek | ≤ 2 | "19 yaş. Üç plan, sıfır uygulama. Isınma turu sayıyorum." | "Nineteen. Three plans, zero reps. I'm counting this as a warm-up." |
+| 26–40 "Sezon" | Kuru; hedefleri hatırlatır, callback'ler başlar | ≤ 2 | "'Bu sefer farklı' dedin. (bkz: 2029, aynı cümle)" | "'This time it's different.' You said that in 2029. Same font." |
+| 41–60 "İkinci devre" | Daha az şaka, daha çok tanıklık | ≤ 2, çoğu 1 | "Kararlarının geri dönüşü başladı. Ben oradaydım, hepsinde." | "Your decisions are coming back for their rematch. I saw every one." |
+| 60+ "Uzatmalar" | Nostaljik, nadir sıcaklık; ölümde sessizlik kuralı | ≤ 1 | "Eskiden hızlı yanılırdın. Şimdi yavaş yanılıyorsun. Gelişme." | "You used to be wrong fast. Now you're wrong slowly. That's growth." |
+
+### 3.3 Koçun Defteri (anlatıcı hafızasının okunabilir yüzü)
+
+Ayrı sekme, kronolojik sayfalar; satır = yıl + 1 cümle. Üç girdi türü: **Not** ("2029: 'Bu sefer farklı' dedi."), **İddia** (sarı fiş; çözümde İSABET / HAKSIZ ÇIKTIM damgası + gerçek oran), **İtiraf** ("Haksız çıktım." / "Yalan söyledim, çalıştı."). Hayat başına ≤ 12 Not; İtiraf sayfası nadir ve en çok paylaşılan. Hayatlar arası kalıcı: eski hayatlar "KAPANDI" damgalı defterler (ücretsizde son 3, Torpil'de sınırsız). Kural: **hafıza uydurulmaz** — her hayatlar-arası gönderme `metaLog`'da gerçekten olan bir kayda bağlanır ve oyuncu defterden doğrulayabilir. Gizli **Tanışıklık** sayacı (0–5, hayat sayısıyla artar) yalnızca daha sıcak nadir satırları açar; güç vermez.
+
+### 3.4 İkinci koç kişiliği (Torpil): "Kader, Gişe 7"
+
+Sahibin seed'i burada yaşar. Torpil ile açılan ikinci kişilik: hiçbir ülkede olmayan, kurgusal bir **Müdürlük**'te dosya memuru; "Biz karar vermeyiz, kaydederiz"; rastgelelik "Sistem" adlı çökmeye meyilli bir yazılım, patron "Müdür Bey" bir iş yeri patronu. Aynı mekanikler, aynı `type/tags` şeması, farklı satır havuzu (A1'in 10 örnek repliği ve ses kuralları doğrudan bu havuzun çekirdeğidir). Lint kuralları: "yukarı(da)/upstairs/above" + Müdürlük bağlamı BLOK; "melek/Azrail/kıyamet/ahiret/karma" BLOK; "bütün memurlar" genellemesi BLOK; mağaza sayfasında, reklam kreatifinde ve ilk 60 saniyede **görünmez**. Örnek: TR *"Sıradaki. Dosyan geldi: 18 yaş, bir diploma, sıfır başarı. Boş dosya seviyorum; az iş."* · EN *"Next. Your file just landed: eighteen, one diploma, zero achievements. I like an empty file. Less to read."*
+
+### 3.5 Örnek replikler — 22 durum, TR ve EN ayrı yazıldı (transcreation)
+
+| # | Durum | TR | EN |
+|---|---|---|---|
+| 1 | Tanışma | Ben Motto. Hayat koçun. Sertifikam yok; 2.400 seminer verdim, hiçbiri işe yaramadı. Sen son müşterimsin. Baskı yok. | I'm Motto, your life coach. No certificate; 2,400 seminars, none of them worked. You're my last client. No pressure. |
+| 2 | İsim yorumu | Deniz Ertelemez. Soyadın bir vaat. Tutmayacaksın. | Alex Tomorrow. Named after the day you'll start. |
+| 3 | Üç hedef seçti | Üç hedef seçtin. Yani sıfır. Birini seç; benim de bir kalemim var. | You picked three goals. So, none. Pick one; I only own one pen. |
+| 4 | İddia açılışı | İddia: bu para Mart'ı görmez. Deftere yazdım, kalemle. Silgi almıyorum; prensip. | Wager: this money doesn't see March. It's in the notebook, in pen. I don't buy erasers. Principle. |
+| 5 | İddia kaybı | Hm. Haksız çıktım. Damga: HAKSIZ ÇIKTIM. Mürekkebi az; kimse kullanmıyor. | Huh. I was wrong. Stamp: I WAS WRONG. Ink's nearly dry on that one. Nobody uses it. |
+| 6 | İddia isabeti | İSABET. Oran %42'ydi. Tuttu. Tebrikler, istatistik. | CALLED IT. Odds were 42 percent. It landed. Congratulations, statistics. |
+| 7 | İş reddi | 47. başvuru, 47. ret. Antrenmanda buna "tekrar" deriz. Hayatta da öyle; sadece daha az ter. | Application forty-seven, rejection forty-seven. In training we call that reps. In life we call it Tuesday. |
+| 8 | Terfi | Terfi. Maaş %12, sorumluluk %140. Matematik koçu değilim ama bu iki sayı aynı odada durmaz. | Promoted. Salary up 12 percent, responsibility up 140. I'm not a math coach, but those two numbers should not share a room. |
+| 9 | Tercüme kartı (ev sahibi) | "Evladım gibisin, ama…" → Tercüme: zam geliyor. Sözlüğe yazdım. | "You've been like family, but…" → Translation: rent's going up. Added to the glossary. |
+| 10 | Aile grubu sayacı | 212 okunmamış. 211'i teyzenden, 1'i annenden: "Mesajları okuyor musun?" Ben okudum. Biri okusun. | 212 unread. 211 from your aunt. One from your mom: "Are you reading these?" I read them. Somebody had to. |
+| 11 | Ayrılık (sessizlik kuralı; roast kapalı) | Ayrıldınız. Keyif −20. Sayılar üzülmez, sen üzülürsün; birimiz ayık kalsın. Defteri bugün kapatıyorum; yarın bakarız. | It's over. Joy −20. Numbers don't grieve; you do. One of us has to stay sober. Closing the notebook for today. Tomorrow. |
+| 12 | Streak duraklatıldı | 3 gün yoktun. Antrenman kaçırdın. Ceza yok; gıcıklık için varım, ceza için değil. Sayaç: 47 gün, duraklatıldı. | Three days, no practice. No penalty; I'm here to annoy you, not to fine you. Streak: 47 days, paused. Like a gym membership, but honest. |
+| 13 | Welcome-back (3 ay) | Sakatlık Raporu: 3 ay yoktun. Karakter döndü. Annen 14 kez aradı, patron 1. Sıralama doğru. | Injury report: three months out. Your character's back. Mom called fourteen times, your boss once. Correct order. |
+| 14 | Gece 03:12 (ömürde 1; hedef koçun kendisi) | Saat 03:12. Ben hâlâ defter tutuyorum. Bu benim sorunum. Seninki beni ilgilendirmez; sormuyorum. | It's 3:12 a.m. I'm still keeping the notebook. That's my problem. Yours is none of my business; I'm not asking. |
+| 15 | Karne | Karne: Para Zayıf, İlişkiler Orta, Cesaret Pekiyi. Parasız ama gözü kara. Üniversite ikinci sınıf gibi. | Report card: Money F, Relationships C, Courage A. Broke but fearless. So, a sophomore. |
+| 16 | Yılın Mottosu | Yılın mottosu: "Niyet tam, bakiye yarım." Çerçevelet. | Motto of the year: "Full intent, half a balance." Frame it. |
+| 17 | Düşük Keyif (her ayarda aynı) | Zor bir yıl. Bugün tek şey: bir karar. Küçük olsun. Ben buradayım. | Rough year. Today, one thing: one decision. Make it small. I'm not going anywhere. |
+| 18 | Koçun yalanı, itiraf | Geçen yıl "o işi alamazsın" demiştim. Defterde öyle yazmıyordu. Seni kızdırmak istedim; çalıştı. Not: bir daha yapmayacağım. Yaptım ama. | Last year I said that job was out of reach. The notebook never said that. I wanted you annoyed enough to try. It worked. Note to self: never again. Noted. Ignored. |
+| 19 | Onyıl Karnesi (30) | 30 Karnesi — listede: ev yok, "bir şeyler" var. Listede olmayan ama yaptığın şeyler: 3. Puan: 3. Listeyi ben yazmadım; puanı ben verdim. | Age-30 review. On the list: no house, "some things." Not on the list, but done: three. Points: three. I didn't write the list. I did give the points. |
+| 20 | 60+ yaş | Eskiden hızlı yanılırdın. Şimdi yavaş yanılıyorsun. Gelişme. | You used to be wrong fast. Now you're wrong slowly. That's growth. |
+| 21 | Ölüm (3 balon) | Öldün. 74 yaşındaydın. — Cenaze 14:00'te. Trafik var. — Sayılar: 51 yıl çalıştın, 3 kez sevdin, beni 11 kez haksız çıkardın. Ben oradaydım; on birinde de. | You died. You were seventy-four. — Service at two. Traffic. — The numbers: fifty-one years of work, three loves, eleven times you proved me wrong. I was there for all eleven. |
+| 22 | Yeni hayat, defter açılışı | Üçüncü hayat. Defterde iki hayat var. Üçüncüsünü farklı yazmak istiyorum; sen ister misin, bilmiyorum. | Third life. Two lives in the notebook. I'd like to write this one differently. Whether you would, I don't know. |
+
+Kalibrasyon: 1, 7, 8, 15 "Normal" ağızda; 2, 3, 12 "Acımasız"da daha uzun varyant alır; 11, 17, 21 her ağızda **aynıdır** (roast kapalı). 14 yalnızca "Yorgun" ruh hâlinde ve ömürde bir kez; hedefi koçun kendisi, oyuncunun gerçek hayatı hakkında tek bir varsayım yok.
+
+### 3.6 Ses ayarı: Nazik / Normal / Acımasız
+
+| | **Nazik** / Gentle | **Normal** (varsayılan) | **Acımasız** / Brutal |
+|---|---|---|---|
+| Roast kotası (beat başına) | ≤ 1 balon, %25 roast | ≤ 2 balon, %35–45 roast | ≤ 2 balon, %55 roast; uzun varyantlar açık |
+| Lift | Her roast'ta zorunlu, ≤ 6 kelime | ≤ 6 kelime; 3 beat'te ≥ 1 | ≤ 6 kelime; 5 beat'te ≥ 1 |
+| İddia sıklığı | Yılda ≤ 1 | Yılda ≤ 2 | Yılda ≤ 2 (aynı; adalet değişmez) |
+| Roast Raporu | 2 kalıp, kısa | 3 kalıp | 3 kalıp + "Kronik" sayfası tam |
+| **Değişmeyenler** | Sessizlik kuralı · düşük Keyif'te roast kapalı · T9 kırmızı çizgileri · kimliğe/gerçek hayata roast yok · mekanik adalet · "Gerçek hayatta yardım" ekranı | aynı | aynı — Acımasız bile T9 içinde; lint "Acımasız" havuzunu da tarar |
+
+Ayar ilk "Bugünlük yeter"den sonra tek soruyla sorulur, Ayarlar'da her zaman değişir; satın almayla ilgisi yoktur; benign violation'ın "güvenli" ayağı = rıza.
+
+---
+
+## 4. Core loop — her ölçekte, dopamin mekanikleri tam ateşlendiği yerde
+
+### 4.1 Ölçek tablosu
+
+| Ölçek | Süre | Ne olur | Koç ne yapar | Burada ateşleyen mekanik (T1/T11) |
+|---|---|---|---|---|
+| **Beat** | ~30 sn | Olay kartı (25–45 kelime; ≤ %15'i Tercüme'li evrak kartı) → 2–4 seçenek (her seçenekte görünmez `pattern` etiketi) → sonuç + stat delta | ≤ 2 balon; 3–5 beat'te ≤ 1 **İddia** fişi (yalnızca `playerChose && 0,35 ≤ p ≤ 0,65`) | T11 3d gerilim normalizasyonu (0,35–0,65) · T11 3a pity'li iyi sürpriz (p=0,08, soft 8, hard 14, oturum tavanı 6) · T11 3b dürüst near-miss (≤ %30, `pendingBonus` gerçekten uygulanır) · T11 3i juice (ilk metin ≤ 300 ms) · T1 #13 okuma hızı (6–10 sn/kart) |
+| **Yıl** | **60–120 sn** (medyan hedef 90) | 3–4 beat (≥ 1 aktif arc) → **Yaşlan** (≤ 400 ms) → **Kısa Karne** (tek ekran: 6 not + Hedef damgası + Yılın Mottosu + zarf satırı; "Tam Karne" dokunarak açılır) → **Tek Hedef** (3 öneri + "Hedefsiz yaşa" + tek dokunuş "Aynı hedef") → **Bir Yıl Daha** | İddiaları kapatır (damga), hedefe karşı yeni iddia açar, karneye 1 not düşer | T1 #6 "bir tur daha" (Civ): her an 1 kısa (Tek Hedef) + 1 orta (aktif arc/zarf) + 1 uzun (Kronik kalıbı kır) hedef ekranda · T11 3l pending-outcome kuyruğu = **Zarf** (min 1 / max 2 açık iplik, teaser kısmi) · T11 3g yıl skoru → karne notları |
+| **Dönem** | ~5 dk | 3–5 yıl; kuyruktan 1 zarf açılır (patron kararı, eski sevgili, Tanıdık Yüz); 1 iyi sürpriz garantisi; 1 Aile Grubu kartı (yılların ~%40'ında, director kararı) | Ruh hâli eğriyi izler; dönem sonunda tek cümlelik ara değerlendirme | T11 3c pacing director (neg seri ≤ 2, LOL 12±3, relax her 10 beat) · T11 3k aside/easter egg (p=0,04; 03:12 ömürde 1) |
+| **Oturum** | 12–15 dk | **Mola** (günün ilk kararı, 90 sn) → 8–12 yıl → 25. dakikada tek seferlik **Devre Arası** → oturum sonu sezildiğinde en ağır zarf **açılır ama çözülmez** → "Bugünlük yeter" özeti + paylaşım kartı | "Mesai bitti" satırı; ses ayarı sorusu (yalnızca ilk oturum sonunda) | T11 3c oturum eğrisi (peak → release) · T11 3l · Royal Match "sürtünme sıfır" (yükleniyor yok, retry ekranı yok) |
+| **Gün / Hafta** | — | **Mola ritüeli** (streak = karar, duraklar, sıfırlanmaz; 2 Sakatlık İzni, 48 sa Telafi ücretsiz; 3/7/14/21/30/**66**/100/365) · 3 **Koç Görevi** (deterministik, 1'i absürt) · Pazartesi 00:00 yerel **Antrenman Kampı** (`hash(YYYY-WW+locale+contentHash)`; 40 **hayali** kohort; KMP-XXXX kodu) · bildirim ≤ 1/gün | 66. gün "Lally günü" kartı; kampta tek kası çalıştırır; bildirim kopyası zarftan türer | T1 #4 + T7 affedici streak (Duolingo Streak Wager D7 +%14) · T1 #9 dürüstçe etiketlenmiş kohort · T1 #10 offline LTE (takvim gerçek, geri sayım gerçek) · T7 welcome-back ("Sakatlık Raporu", 40 sn, atlanabilir) · T11 3j churn heuristiği |
+| **Ömür** | 55–75 dk (18–35 tam yoğunluk) | Yaş bandı karar yoğunluğu; 30/40/50/60 **Onyıl Karnesi** (yalnızca karar kalemleri + zorunlu lift); Gompertz hazard × sağlık; %5 absürt kuyruk | Kalıp Dedektörü ömrü sayar; 60+ yaşta beat başına ≤ 1 balon | T11 #11 koruma penceresi (18–28 hasar çarpanı 0,5→1,0; "anne borç verdi" yalnızca burada) · T1 #8 Teşhis (yarısı kalıplardan otomatik) · T4 director |
+| **Ölüm → yeni hayat** | **≤ 40 sn** | **Roast Raporu:** sessizlik 2 sn → kuru balon → sayılar → 3 kalıp sayıyla → haklı çıktığın 1 an → Koçun Son Sözü → **Kondisyon açılımı (≥ 1 garanti; yetmezse "Yedek Kulübesi" pity)** → tek büyük buton **Yeni Müşteri / New Client** (+ tek dokunuş "Aynı kondisyonla") | "Ben oradaydım" tanıklığı; köprü cümlesi tek kez; roast kapanır | T1 #7 Hades meta ("her ölüm yeni diyalog") · Vampire Survivors "her ölümde ≥ 1 açılım" · T11 #5 "kayıp bile içerik" · T11 3g Kondisyon log eğrisi (güç değil çeşitlilik) · KPI ölüm → yeni hayat ≥ %65 (2 dk) |
+| **Ömürler arası** | — | Koçun Defteri büyür (KAPANDI defterler); **Tanıdık Yüzler** (8 NPC, `metaMemories`); **Fazla Bagaj** (önceki hayatın en yüksek Cringe olayı → 1 callback olayı); kalıp sıraları kıyaslanır; 3 hayat aynı #1 → **Kronik** Teşhisi; Tanışıklık 0–5 | Yeni deftere açılış satırı; NPC'ler hatırlar, koç doğrular | T11 3h novelty (hayatlar arası `seenCount`, ilk 3 hayatta tekrar < %15) · SDT relatedness (Tanışıklık) · T1 #7 |
+
+**Yıl süresi kararı (jüri çatışması):** A4'ün 3–5 dakikalık yılı iki jüri tarafından "bir yıl daha kadansını yarıya indirir" diye eleştirildi; A1'in 60–90 saniyesi doğru referanstır. Karar: **yıl medyanı 90 sn, tavan 120 sn.** Bunu sağlayan üç kural: Kısa Karne varsayılan (tek ekran, ≤ 8 sn), Tek Hedef seçimi "Aynı hedef" tek dokunuşla geçilebilir, yıllık tören yığını yok (Aile kartı ~%40 yıl, Onyıl Karnesi 10 yılda 1, Bütçe Günü alınmadı).
+
+### 4.2 İlk 60 saniye — final senaryo (T8 kuralları: logo ≤ 1 sn, onboarding yok, kimlik tek ekran, elle yazılmış ilk yıl, ölüm/geri dönülemez kayıp yok)
+
+Hedefler: ilk kahkaha **≤ 4 sn**, ilk karar **≤ 22 sn**, ilk iddia ≤ 34 sn, ilk damga ≤ 41 sn, ilk karne + motto ≤ 56 sn, zarf 60. sn.
+
+| Sn | Ekran / UX | TR | EN |
+|---|---|---|---|
+| 0:00–0:01 | Siyah, "yazıyor…" üç nokta, selection haptik | — | — |
+| 0:01–0:04 | Koç balonu 1 (**ilk kahkaha**) | 18 oldun. Tebrikler. Buradan sonrası resmî olarak senin suçun. | Eighteen. Congratulations. From here on, everything is officially your fault. |
+| 0:04–0:08 | Koç balonu 2 | Ben Motto. Hayat koçun. Sertifikam yok; 2.400 seminer verdim, hiçbiri işe yaramadı. Sen son müşterimsin. Baskı yok. | I'm Motto, your life coach. No certificate; 2,400 seminars, none of them worked. You're my last client. No pressure. |
+| 0:08–0:12 | **Müşteri Dosyası** kartı: ad + şehir önceden dolu, [Karıştır] [Bu olsun]; tek ekran, TTFD sayacı başlar | **Deniz Ertelemez** · 18 · Kadıköy | **Alex Tomorrow** · 18 · Cleveland |
+| 0:12–0:15 | Koç yorumu (kahkaha 2) | Deniz Ertelemez. Soyadın bir vaat. Tutmayacaksın. | Alex Tomorrow. Named after the day you'll start. |
+| 0:15–0:22 | **Olay kartı #1 — İLK GÜN**; 3 buton başparmak bölgesinde; HUD'da "Okunmamış: 9" doğar | Saat 11:40. Uyandın. Telefonda 14 bildirim; 9'u aile grubundan. — [Kayda çık] [Önce kahvaltı] [Okumadan sil] | 11:40 a.m. You're up. Fourteen notifications; nine from the family group chat. — [Go register] [Breakfast first] [Delete unread] |
+| **0:22** | **İlk karar** | — | — |
+| 0:22–0:27 | Sonuç; stat çubuğu doğar (Sağlık 70 · Keyif 55 · Kafa 60 · Çekicilik 50), tik-up, light impact ×2 | Keyif +4. Kafa −2. Kahvaltı böyle bir şey. | Joy +4. Brain −2. That's breakfast. |
+| 0:27–0:34 | **Olay kartı #2 — İLK PARA** + köşeye iğnelenen sarı **İddia fişi** (küçük animasyon, kâğıt sesi) | Dayın "hayata atıl" diye para verdi. Dayın 2009'da yaşıyor. — **İDDİA: Bu para Mart'ı görmez. — M.** — [Biriktir] [Arkadaşlarla ye, hayat kısa] [Kripto] | Your uncle handed you cash to "get started." Your uncle lives in 2009. — **WAGER: This money doesn't see March. — M.** — [Save it] [Dinner with friends, life's short] [Crypto] |
+| 0:34–0:41 | Çözüm (ilk yıl elle yazılmış; iddia anında çözülür). *Biriktir:* **HAKSIZ ÇIKTIM** damgası, Heavy impact + 400 ms mürekkep. *Arkadaşlar:* **İSABET** damgası, Medium. *Kripto:* error haptik + kırmızı vinyet; para −, Keyif +2 "ders" | *Biriktir:* Hm. Haksız çıktım. Damga: HAKSIZ ÇIKTIM. Keyfini çıkar; nadir olur. · *Arkadaşlar:* İSABET. Oran %55'ti. Tebrikler, istatistik. · *Kripto:* Hayır. Henüz değil. Belki hiç. Not aldım. | *Save:* Huh. I was wrong. Stamp: I WAS WRONG. Enjoy it; it's rare. · *Friends:* CALLED IT. Odds were 55 percent. Congratulations, statistics. · *Crypto:* No. Not yet. Possibly never. Noted. |
+| 0:41–0:48 | **Tek Hedef** kartı (imza mekanik 2) | Bu yıl için tek hedef. Bir. Üç seçen hiçbirini yapmaz; 2.400 seminerden kalan tek bilgi. — [Bir bölüme gir] [5.000 biriktir] [Bir arkadaş edin] [Hedefsiz yaşa] | One goal for the year. One. People who pick three finish none; that's all 2,400 seminars taught me. — [Get into a program] [Save 5,000] [Make one friend] [No goal, respect] |
+| 0:48–0:50 | **Yaşlan** butonu (72 dp) spring ile yükselir, 3 nabız; koç 1 satır | Yıl bitiyor. Karne geliyor. | Year's ending. Report card incoming. |
+| 0:50–0:56 | Yaşlan → ≤ 400 ms → **Karne 2026** damga animasyonu (300 ms + Medium) + **YILIN MOTTOSU**; konfeti yalnızca ilk yıl | Sağlık İyi · Para Geçer · İlişkiler Orta · Kafa İyi · Cesaret Geçer · Davranış Orta / HEDEF: "Bir bölüme gir" → YARIM / **YILIN MOTTOSU: "Başladı. Teknik olarak."** | Health B · Money D · Relationships C · Brain B · Courage D · Conduct C / GOAL: "Get into a program" → HALFWAY / **MOTTO OF THE YEAR: "Started. Technically."** |
+| 0:56–1:00 | Karne alt satırı = **zarf** nesnesi (kâğıt hışırtısı, haptik yok); tek birincil buton | Gelecek yıl: deftere bir zarf eklendi. Açmadım. Hâlâ. — **[Bir Yıl Daha]** · [Bugünlük yeter] · [Paylaş] | Next year: an envelope got added to the notebook. I haven't opened it. Still. — **[One More Year]** · [Enough for today] · [Share] |
+
+Notlar: "Otur. Başla." açılışı kaldırıldı (gerçek nasihat okunuyordu; SDT kontrol dili). "Korkma…" satırı kaldırıldı (zayıf). Hedefin 10 saniye sonra "YARIM" damgası yemesi bilinçli şakadır: oyun kendi mekanik ciddiyetiyle dalga geçer ve motto'yu kurar. Bildirim soft-ask'ı ve ses ayarı sorusu ilk 60 saniyede **yok**; ilk "Bugünlük yeter"den sonra (oturum ≥ 8 dk ise), Android `POST_NOTIFICATIONS` 2. oturumdan önce asla.
+
+---
+
+## 5. Sistem envanteri ve sahip dokümanlar
+
+Planlanan ayrıntılı dokümanlar (tam 11; dosya adları bağlayıcı):
+
+| # | Dosya | Sahip olduğu sistemler | Bu belgedeki ana karar |
+|---|---|---|---|
+| 01 | `docs/design/01-anlatici-ve-ton-kitabi.md` | Motto personası, Koçun Defteri, ses ayarı, ikinci kişilik (Kader), satır şablonları, cooldown/varyant kuralları, sessizlik kuralı, lift kuralı | §3; D-003, D-004, D-012, D-026–D-028 |
+| 02 | `docs/design/02-zaman-stat-ekonomi-saglik-olum.md` | Yıl/beat zamanı, 4 çekirdek stat + Para + Ego/Cringe/Anne Baskısı + gizli Şans/Stres, soyut para, Gompertz hazard, koruma penceresi, ölüm nedenleri, Roast Raporu akışı | D-020, D-032–D-034, D-016, D-025 |
+| 03 | `docs/design/03-olay-motoru-icerik-semasi-director-dopamin.md` | Storylet/QBN + salience + director, olay JSON şeması (`pattern`, `wager`, `document/translate`, `universality`, `mood`), İddia servisi, pity/near-miss/pending-outcome motorları, Kalıp Dedektörü, Zarf, 10.000 hayat harness'ı | D-009, D-011, D-013, D-024, D-044, D-045 |
+| 04 | `docs/design/04-kariyer-egitim-iliskiler-varliklar.md` | 24 kariyer (1/3 absürt; "Hayat Koçu" absürt listede), eğitim yolları, hafızalı NPC'ler, **Tanıdık Yüzler** (8 kalıcı NPC, `metaMemories`), Aile Grubu sayacı, varlıklar/ev/araç, Tek Hedef kütüphanesi (~40 hedef) | D-014, D-017, D-023, D-036 |
+| 05 | `docs/design/05-retention-geri-donus-miras-koleksiyon.md` | Mola ritüeli/streak, Koç Görevleri, Antrenman Kampı + hayali kohort, bildirim spec'i, welcome-back, Kondisyon (miras) perk'leri, Fazla Bagaj, Teşhis koleksiyonu (60 → 120), Sözlük koleksiyonu, Onyıl Karnesi | D-018, D-019, D-029–D-031, D-042, D-051, D-056, D-058 |
+| 06 | `docs/design/06-monetizasyon-ve-magaza-uyumu.md` | Torpil, rewarded yerleşimleri (Ek Antrenman, Forma Sponsoru, Taktik Değişikliği, Fizyoterapi), interstitial kuralı, Sezon Paketi, fiyatlar, RevenueCat, Apple 3.1.1/2.5.18/Google Better Ads, UMP/ATT | §8; D-007, D-008, D-038–D-041 |
+| 07 | `docs/design/07-ux-ui-ekranlar-ftue-juice.md` | Ekran haritası (Hayat Akışı, Defter, Karne, Sözlük, Kamp, Ayarlar, Yardım), FTUE senaryosu (§4.2), "Resmî Evrak + antrenman" sanat yönü (acid-lime vurgu, Fraunces italik el yazısı), damga/zarf/fiş juice spec'i, paylaşım kartları (9:16 + 1:1), erişilebilirlik | §4.2; D-015, D-059 |
+| 08 | `docs/design/08-icerik-kurallari-hukuk-linter.md` | T9 ASLA/DİKKATLİ listeleri → lint kuralları, yasaklı kelime sözlükleri (locale başına), kurum-genellemesi dedektörü, isim üreteci blocklist'i, metadata 4+ vitrin, KVKK/EULA/feragat metinleri, "Gerçek hayatta yardım" ekranı, yaş derecesi anketi | §1.2; D-005, D-035, D-037, D-047, D-049, D-050, D-052 |
+| 09 | `docs/design/09-i18n-ve-icerik-pipeline.md` | Intent spec → iki native realization, olay başına JSON (tr+en+intent+review), i18next + ICU + `trInflect()`, isim havuzları, 70/20/10 evrensellik etiketi, ikame olay tablosu, funny-check rubriği, EN punch-up süreci, CI lint | §9; D-046–D-048, D-022 |
+| 10 | `docs/design/10-teknik-mimari.md` | pnpm monorepo, `packages/engine` saf TS (deterministik RNG, reducer, efekt çıkışı), Expo SDK 58 uygulaması, MMKV + SQLite/Drizzle kayıt, EAS Update + imzalı JSON içerik paketi, test piramidi (vitest/fast-check, jest-expo, Playwright), CI | D-043, D-044 |
+| 11 | `docs/design/11-kpi-analytics-softlaunch-publisher.md` | KPI ağacı, Firebase/GA4 (opsiyonel) + yerel "Koçun Raporu" dışa aktarımı, soft launch planı (TR + CA/NZ), kabul kapıları, publisher pitch sırası, anlaşma kırmızı çizgileri | §2.2 KPI; D-053, D-054 |
+
+Sistem bazında ana kararlar (her biri bir paragraf):
+
+**Anlatıcı & ton (01).** Motto tek sestir, ikinci kişilik (Kader) aynı şemayla farklı havuzdur. Satır seçimi "en spesifik kural kazanır" + "random best least-recently-viewed"; sık satır ≥ 5 varyant, orta ≥ 3; aynı yılda iki bathos yok. Ruh hâli MVP'de 2 durum (Normal, Yorgun 23:00–06:00), lansmanda +Kamp (resmî/gergin); Çay Molası/Keyifli ruh hâlleri lansman sonrası. Lift ≤ 6 kelime; iki motivasyon beat'i art arda yasak; "yapmalısın/zekisin/kendini topla/you got this" yasak sınıfı.
+
+**Zaman, stat, ekonomi, sağlık, ölüm (02).** T4 stat seti değişmez; gizli Karma'nın adı motor ve içerikte **Şans**. Cesaret ve Davranış stat değil karne türevidir (risk sayacı; Cringe/Ego olayları). Para içeride reel birim, ekranda soyut "Para/Cash"; TL, $, gerçek enflasyon ve asgari ücret rakamı metinde yok. Gompertz hazard × sağlık çarpanı; koruma penceresi 18–28; %5 absürt kuyruk; **ölüm ekranında reklam yok**, ölümden dönüş satılmaz.
+
+**Olay motoru, içerik şeması, director, dopamin (03).** Storylet + salience + director; her seçenekte opsiyonel `pattern`; aktif Tek Hedef'in etiketi ×1,5 salience; yıl sonu `report_card` beat'i zorunlu ve en son. `WagerService(check) → {prediction, pOdds}` yalnızca 0,35–0,65 bandında ve `playerChose`; koç sonucu **asla** etkilemez; harness kabulü isabet %50–62. `document` tipi (antet + `translate` + Sözlük anahtarı) havuzun ≤ %15'i. Pity (0,08 / 8 / 14), near-miss ≤ %30, pending-outcome (zarf) min 1 / max 2 — hepsi T11 sözde-koduyla `engine/`'e taşınır.
+
+**Kariyer, eğitim, ilişkiler, varlıklar (04).** 24 kariyer, 1/3 absürt; "Hayat Koçu" kariyeri absürt listede (Motto rakip olduğunu fark eder). Tanıdık Yüzler: Anne, Ev Arkadaşı (Barış ↔ Jordan), Patron (Nevin Hanım ↔ Ms. Carver), Eski Sevgili (**Yağmur ↔ Sam**; FTUE adı Deniz ile çakışmasın diye A3'ün Deniz'i yeniden adlandırıldı), Komşu (Şükran Teyze ↔ Mrs. Dale), Dayı ↔ your uncle, Kedi (Pamuk ↔ Biscuit), Taksici ↔ the cab driver. Aile Grubu sohbet ekranı **yok**; "Okunmamış: 847" sayacı + yılların ~%40'ında 1 kart + "Görüldü, cevap yok" seçeneği.
+
+**Retention, geri dönüş, miras, koleksiyon (05).** Streak = Mola ritüeli, karar bazlı, duraklar, satılmaz. Kampı haftalık seed'li, 40 hayali kohort "hayali/fictional" etiketiyle. Kondisyon perk'leri çeşitlilik verir, güç vermez: başlangıç şehri, karne temaları, "Hedefsiz" modunda bonus olay, "Sessiz Sezon" ironik perk'i, başlangıç kariyer seçenekleri, kedi. Her ölümde ≥ 1 açılım; Fazla Bagaj atılamaz/satılamaz/cezasız. Teşhis 30 (MVP) → 60 (1.0) → 120 (6. ay); adlar antrenman tonlu ve yargısız.
+
+**Monetizasyon (06).** §8.
+
+**UX/UI/FTUE/juice (07).** Sanat yönü: T8'in "Resmî Evrak" iskeleti + antrenman defteri dokusu; acid-lime vurgu; Fraunces italik el yazısı koç notları; damga 80 ms basış + "tak" + Medium; HAKSIZ ÇIKTIM Heavy + 400 ms mürekkep; zarf kâğıt hışırtısı, haptik yok; düdük yalnızca Mola ve ölümde; Yaşlan → ilk metin ≤ 300 ms; yıl geçişi ≤ 400 ms; konfeti yalnızca ilk yıl.
+
+**İçerik kuralları, hukuk, linter (08).** §1.2 ASLA listesi bire bir lint kuralıdır; `needs-review` bayrağı release'i bloklar; isim üreteci blocklist'ine ikonik karakter adları eklenir (A1'in "Şaban" örneği bu yüzden gitti); "sakatlık" sözcüğü askerlik olaylarında engelli; "bahis" sözcüğü koç satırlarında yasak (iddia serbest).
+
+**i18n ve pipeline (09).** §9.
+
+**Teknik mimari (10).** T5 ADR-001 aynen: Expo SDK 58, saf TS motor, deterministik RNG, Vitest + fast-check, Playwright web export, EAS Update, RevenueCat (P1) / `expo-iap` yedek, AdMob 17.x (16.5 geri dönüş pini).
+
+**KPI / analytics / soft launch / publisher (11).** Analytics opsiyonel ve oyunu bloklamaz; soft launch TR + Kanada/Yeni Zelanda; pitch sırası Karne → Roast → Kalıp; "motivasyon" sözcüğü pitch'te yok; anlaşma kırmızı çizgileri (IP devri yok, mağaza hesabı bizde, UA recoup yalnızca geliştirici payından olmaz, audit hakkı).
+
+---
+
+## 6. İmza özellikler (final 5)
+
+**1. Koçun Defteri + İddia Defteri (HAKSIZ ÇIKTIM).** Her kritik, oyuncunun seçtiği ve 0,35–0,65 bandındaki kontrolde koç olay kartının köşesine sarı bir fiş iğneler: *"İDDİA: Kazanamazsın. — M."* Çözümde fiş **İSABET** ya da **HAKSIZ ÇIKTIM** damgası alır, gerçek oran yazılır. Sınırlar: 3–5 beat'te ≤ 1, yılda ≤ 2; koç sonucu asla etkilemez. Her Tek Hedef'e karşı da bir iddia açılır ("Deftere niyet yazdın. İddia: tutmaz. Kalemle."). Karnede "Koçun isabeti: %58"; ömür sonunda "beni 11 kez haksız çıkardın"; 12 kozmetik damga varyantı koleksiyon. Defter sekmesi Not/İddia/İtiraf girdileriyle hayatlar arası kalıcıdır; hafıza uydurulmaz. **Neden imza:** BitLife'ın 8 yılda yapmadığı şey — anlatıcı yanılabilir ve bunu damgalar; 15 saniyelik reklamın kendisi.
+
+**2. Yıl Sonu Karnesi + Yılın Mottosu + Tek Hedef.** 6 not (Sağlık, Para, İlişkiler, Kafa, Cesaret, Davranış; TR Pekiyi/İyi/Orta/Geçer/Zayıf, EN A–F), hedef damgası (TAMAM / YARIM / ERTELENDİ ↔ DONE / HALFWAY / POSTPONED), ≤ 6 kelimelik Yılın Mottosu (36 hücre = baskın kalıp × net valans, ≥ 3 varyant, locale başına ayrı yazılır), koçun 1 notu, zarf satırı, seed kodu. 9:16 + 1:1 yerel render; spoiler yok, hikâye var. Tek Hedef: 3 öneri + "Hedefsiz yaşa"; hedefe bağlı olaylar ×1,5; ceza yok; "Aynı hedef" tek dokunuş. **Neden imza:** paylaşım birimi + markanın bedava taşıyıcısı + SDT özerkliğinin mekanik hâli.
+
+**3. Kalıp Dedektörü + Roast Raporu (≤ 40 sn).** 12 nötr kalıp (Erteleme, Kaçınma, Dürtüsel Harcama, Herkesi Memnun Etme, Risk, Kendine Bakım, Aşırı Çalışma, Aileye Yaslanma, Kısa Yol, Gurur, Cömertlik, Sabır) ömür boyu sayılır; yargılanmaz. Ölümde sessizlik kuralıyla okunur: *"Erteleme: 1.204 seçim (%31). 'Sonra' 9 kez geldi. İyi bir oran değil; dürüst bir oran."* / *"Procrastination: 1,204 choices (31%). 'Later' showed up nine times. Not a good ratio; an honest one."* Ardından haklı çıktığın 1 an, pozitif kalıp üzerinden Koçun Son Sözü (*"Cömertlik: 203. Bunu kimse saymaz. Ben saydım."*), garanti ≥ 1 Kondisyon açılımı ve tek büyük buton. Köprü cümlesi tek kez: *"Bu kalıp tanıdık geldiyse, o senin meselen; ben oyun koçuyum. Ama not aldım."* 3 hayatta aynı #1 → **Kronik**. **Neden imza:** roast'u kişisel, sayısal ve paylaşılabilir kılan omurga; "oyun bana depresif dedi" riskini "yalnızca sayar" kuralı kapatır.
+
+**4. Hafızalı dünya: Tanıdık Yüzler + Fazla Bagaj + Okunmamış.** 8 kalıcı NPC hayatlar arası `metaMemories` taşır; Yağmur'u 2. hayatta terk ettiysen 3. hayatta ilk replik değişir: *"Rehberde bir isim var. Sen eklememiştin."* / *"There's a name in your contacts. You didn't add it."* Önceki hayatın en yüksek Cringe olayı Fazla Bagaj olarak biner ve 1 callback açar (*"Yüzün tanıdık geliyor. Bir düğünde… yok, olamaz."*). "Okunmamış: 847" HUD sayacı hiç sıfırlanmaz; "Görüldü, cevap yok" → Anne Baskısı +, Teşhis "Okundu Bırakan / Left on Read". **Neden imza:** "koç seni hatırlıyor" tek sesle vaaz kalır; dünya hatırlayınca "oyun eski sevgilimi hatırladı" videosu çıkar; maliyeti 48 satır.
+
+**5. Tercüme kartı + Sözlük.** Kurumsal metinler (İK, ev sahibi, banka, flört, hastane) antetli evrak kartı olarak gelir (olayların ≤ %15'i), köşede [Tercüme], 250 ms flip, kaşe sesi: *"Son e-postama istinaden…" → "Kızgınım ve kanıtım var."* / *"Per my last email…" → "I'm angry and I have receipts."* Her tercüme Sözlük'e girer (MVP 40, 1.0 120; sekmeler Kurumsal / Ev Sahibi / Aile / Flört / Sağlık); Sözlük sayfası 1:1 paylaşım kartı. Opsiyonel: okumayan akışı yavaşlatmaz. **Neden imza:** rakipte olmayan, iki dilde yerli ikinci koleksiyon ve hazır Reels formatı.
+
+---
+
+## 7. Kapsam ve içerik hacmi (locale başına; TR ve EN eşit)
+
+| Faz | Süre / kapı | Kapsam |
+|---|---|---|
+| **MVP dikey kesit** | 10 hafta (1 insan + AI ajanlar + 1 EN punch-up yazarı) · çıkış: ilk kahkaha ≤ 10 sn (5/8 oyuncu), ilk karar ≤ 25 sn, ilk oturum medyanı ≥ 8 dk, Bir Yıl Daha ≥ %70, ölüm → yeni hayat ≥ %60, aynı satır 3+ < %2 | 18 → ölüm oynanabilir; 18–35 tam yoğunluk, 36+ "Hızlı Yaşa" ağırlıklı; İddia Defteri + damga; Kısa/Tam Karne + motto + zarf; Tek Hedef (20 hedef); Kalıp Dedektörü (12); Roast Raporu ≤ 40 sn + 3 Kondisyon; Koçun Defteri; Mola ritüeli + Sakatlık İzni/Telafi; 3 Koç Görevi; 2 Kamp teması (hayali kohort dahil); Tanıdık Yüzler 8 × 3; Fazla Bagaj; Okunmamış sayacı + 6 aile kartı; Tercüme + Sözlük 40; 30 Teşhis; 3 paylaşım kartı (Karne, Roast kalıp kartı, Lally günü); ses ayarı 3 kademe; Torpil + Ek Antrenman + Forma Sponsoru iskeleti (RevenueCat + AdMob); "Gerçek hayatta yardım" ekranı; TR + EN paralel; tone-lint + 10.000 hayat harness'ı |
+| **Soft launch** | TR + Kanada/Yeni Zelanda (EN), 8 hafta · kapı: D1 ≥ %35, D7 ≥ %15, D30 ≥ %6, oturum ≥ 12 dk → publisher pitch'i; altında iterasyon | MVP + 2. ve 3. kariyer ailesi, Onyıl Karnesi (30/40), 8 Kamp teması, Taktik Değişikliği + Fizyoterapi yerleşimleri, Kader kişiliği (Torpil), bildirim spec'i tam, welcome-back, Teşhis 45, Sözlük 60, analytics + yerel rapor |
+| **1.0 (global, TR + EN)** | Soft launch + 8–10 hafta | T4 lansman hedefi: 700 olay + 40 zincir, 24 kariyer, 60 Teşhis, 16 Kamp, Onyıl Karnesi 4 yaş, Tanıdık Yüzler 8 × 6, Kondisyon 10 perk, Sözlük 120, 1 Sezon Paketi hazır |
+| **Lansman sonrası (3–6. ay)** | Veriyle | Sezon Paketi her ~3 ayda (12 kamp + 40 olay + 1 kişilik), Teşhis 120, 1.500+ olay, "Çocukla devam" (Aile Bileti) değerlendirmesi, abonelik değerlendirmesi (6. ay), Saha Çalışması **ayrı karar** (publisher imzasından sonra, veriyle), A3'ün Güzergah/Terminal ekonomisi "Sezon 2" yol haritası olarak publisher'a anlatılır |
+
+| İçerik türü (locale başına) | MVP | Soft launch | 1.0 | 6. ay |
+|---|---|---|---|---|
+| Olay kartı (× 2–3 metin varyantı) | 250 | 450 | 700 (+ 40 zincir) | 1.500 |
+| Çok yıllı arc / zincir | 12 | 25 | 40 | 70 |
+| Kariyer (tam / iskelet) | 6 / 18 | 12 / 12 | 24 / 0 | 28 |
+| Koç yorumu satırı (bağlam etiketli, cooldown'lu) | 700 | 1.300 | 2.100 | 3.000 |
+| İddia satırı (açılış / isabet / haksız) | 80 | 160 | 240 | 300 |
+| Yılın Mottosu | 108 (36 × 3) | 216 | 324 | 400 |
+| Karne notu + Koçun Notu | 120 + 40 | 160 + 60 | 200 + 80 | 260 + 100 |
+| Kalıp satırı + Kronik | 60 + 12 | 96 + 12 | 120 + 12 | 150 + 12 |
+| Roast Raporu blok varyantı | 8 blok × 4 | 8 × 6 | 8 × 8 | 8 × 10 |
+| Teşhis | 30 | 45 | 60 | 120 |
+| Sözlük girişi | 40 | 60 | 120 | 180 |
+| Tanıdık Yüzler hafıza satırı | 8 × 3 | 8 × 4 | 8 × 6 | 10 × 8 |
+| Meta-callback (ömürler arası) | 40 | 100 | 150 | 300 |
+| Koç Görevi / Kamp teması | 60 / 2 | 90 / 8 | 120 / 16 | 160 / 24 |
+| Bildirim + welcome-back | 40 + 20 | 60 + 30 | 80 + 40 | 100 + 50 |
+| Saha görevi | **0** | **0** | **0** | ayrı karar |
+| **Toplam satır ≈ kelime** | **≈ 1.650 ≈ 32–36 bin** | ≈ 3.000 ≈ 60 bin | ≈ 4.800 ≈ 95 bin | ≈ 7.500 |
+
+Üretim hattı: AI üretir → insan küratör → tone-lint → funny-check (≥ 3/5, iki dilde ayrı) → EN punch-up (Tier A: publisher demosuna girecek 200 olay + tüm karne/motto/iddia satırları; bütçe 4–10 bin USD) → 10.000 sentetik hayat harness'ı → 5–8 kişilik "kahkaha günlüğü" RITE playtest'i (iki dilde ayrı).
+
+---
+
+## 8. Monetizasyon özeti (koç ağzında; etik ve hukuki çizgi)
+
+T6 modeli korunur: **rewarded-first + tek seferlik Torpil + sezonluk sabit içerik paketi; abonelik 2. faz; ilk 10 dakika reklamsız; günlük rewarded tavanı 6; ödül daima verilir; near-miss'e asla bağlanmaz; roast tonu satın alma akışında kapalı; fiyat KDV dahil; hiçbir seçenek önceden işaretli değil.**
+
+| Yerleşim | Tür / fiyat / sınır | TR | EN |
+|---|---|---|---|
+| **Torpil** | Tek seferlik, kalıcı · 199,99 ₺ / 6,99 $ · Ayarlar'da her zaman; teklif 2. ölümden sonra bir kez | Torpil. Koçun gözdesi: reklam yok, iki ek koç kişiliği (biri Gişe 7'den bir memur), karne temaları, defter dışa aktarımı, sınırsız arşiv. Hayatın değişmez; menü değişir. | Torpil, the nepotism pass. No ads, two extra coach personalities (one is a clerk from Window 7), report-card themes, notebook export, unlimited archive. Your life stays the same; the menu improves. |
+| **Ek Antrenman** | Rewarded · kötü sonuçtan sonra · yılda 1 · ölümde geçersiz | Bu sonuç hoşuna gitmedi mi? Ek antrenman: 30 saniye reklam, bir tekrar. Yılda bir. | Didn't like that? Extra practice: one 30-second ad, one do-over. Once a year. |
+| **Forma Sponsoru** | Rewarded · yıl başı · o yıl gelir ×2 | Forma reklamı aldın. Reklam izle, reklam ol. | Jersey sponsor: double income this year. Watch an ad, become one. |
+| **Taktik Değişikliği** | Rewarded · olayda 3. seçenek · günde 2 | Üçüncü bir yol var. Koçluk ücreti: 30 saniye. | There's a third option. Coaching fee: thirty seconds. |
+| **Fizyoterapi** | Rewarded · **ölümden önceki** sağlık-kritik yılda · ömürde 1 · ölüm ekranında asla | Sağlık kritik. Ölüm değil, henüz. Fizyoterapi: bir reklam, bir sezon daha kondisyon. Mucize değil; prosedür. | Health's critical. Not death; not yet. Physio: one ad, one more season of conditioning. Not a miracle; a procedure. |
+| **Sezon Paketi** | IAP, sabit içerik · ~3 ayda 1 · 2,99–4,99 $ bandı | 12 yeni kamp, 40 olay, 1 koç kişiliği. İçindekiler yazılı; sürpriz yok. | Twelve camps, forty events, one coach persona. Contents listed; no surprises. |
+| **Geçiş reklamı** | Yalnızca gönüllü oturum sonunda ("Bugünlük yeter" / Devre Arası) · oturumda ≤ 1 · ilk 2 oturumda yok · ölüm → yeni hayat akışında **asla** · 15 sn'de kapanır | Reklam var. Ben de istemiyorum. Maaşım buradan. | Ad incoming. I don't want it either. It pays my salary. |
+
+**Satılmayanlar:** streak, Sakatlık İzni, Telafi, ölümden dönüş, Kondisyon, Teşhis, Kamp skoru, stat düzenleme ("Felek'in Kalemi" tipi editör yok), rastgele kutu. **Kelime yasağı:** "rüşvet/bribe" hiçbir biçimde; "bahis/bet" koç satırlarında yok (iddia/wager serbest). **Mağaza uyumu:** Apple 3.1.1 (restore zorunlu), 2.5.18 (reklam açıkça reklam, kapatma büyük, uygunsuz reklam bildirme), 2.3.8 (metadata 4+), 5.1.2 ATT ön-ekranı; Google Better Ads (beklenmedik tam ekran yok, segment başında yok, rewarded'da "hayır" seçeneği); EEA/UK/CH'de UMP CMP olmadan kişiselleştirilmiş reklam yok; Reklam Kurulu karanlık tasarım listesi (önceden seçili ücretli seçenek, sahte stok/zaman) sıfır.
+
+**T6'dan sapma ve gerekçe:** T6 interstitial'ı "yalnızca ölüm ekranında" demişti. Bu belge ölüm → yeni hayat akışını ≤ 40 saniyeye ve Roast Raporu'nun duygusal beat'ini reklamsız tutmaya karar verdiği için (D-007, D-016) interstitial gönüllü oturum sonuna taşındı. Gelir kaybı rewarded-first modelde küçüktür; "ölüm anında reklam" BitLife'ın en çok şikâyet edilen noktasıdır ve her üç jüri de kesti.
+
+---
+
+## 9. İki dil stratejisi özeti
+
+1. **Transcreation, çeviri değil:** her koç satırı ve olay önce dilden bağımsız bir *joke intent spec* (setup / mekanizma / punch / lift) olur, sonra TR ve EN **ayrı ayrı** native yazılır; EN yazarı TR metnini görmez. Aynı `id/type/tags`, ayrı havuz.
+2. **Register eşlemesi:** TR antrenman + "hayat koçu" parodisi + dayı sıcaklığı ("ısınma, tekrar, sakatlık, kondisyon, koçum") ↔ EN gym idiom + Carrot/GLaDOS/sitcom koçu ("reps, warm-up, bench, walk it off, champ"). EN yazımı Amerikan, komedi refleksi İngiliz deadpan; bölgesel argo yok.
+3. **70 / 20 / 10:** içeriğin ~%70'i evrensel (para, iş, aile, flört, sağlık, bürokrasi, yaşlanma), %20'si yerelleştirilmiş kabuk, %10'u locale-only. Locale-only için **ikame olay**, çeviri değil: askerlik ↔ student loans, KPSS ↔ "the government job exam", bayram akraba sorgusu ↔ the holidays / Thanksgiving table, site aidatı ↔ HOA fees, "okundu bırakmak" ↔ "left on read". Kolonya TR'de rahatlama beat'i olarak kalır, marka değil.
+4. **Locale başına ayrı yazılan havuzlar:** Yılın Mottosu, Teşhis adları, Kalıp adları (yargısız: "Erteleme/Procrastination", "Aileye Yaslanma/Leaning on Family"), Sözlük, Tanıdık Yüzler replikleri, isim üreteci (TR yaygın ad + bileşik soyadı "Ertelemez/Kirayetişemeyen"; EN "Tomorrow/Overdraft/Snoozebutton"), bildirimler.
+5. **Karne notları:** TR Pekiyi / İyi / Orta / Geçer / Zayıf (nostalji), EN A–F; "Davranış" ↔ "Conduct"; hedef damgaları TAMAM/YARIM/ERTELENDİ ↔ DONE/HALFWAY/POSTPONED; HAKSIZ ÇIKTIM ↔ I WAS WRONG; İSABET ↔ CALLED IT; Torpil iki dilde de "Torpil" (alt açıklama "the nepotism pass").
+6. **Para soyut** ("Para" / "Cash"), rakamlar ICU `number`; para birimi adı ve gerçek makro rakam metinde yok.
+7. **Teknik:** i18next + react-i18next + i18next-icu + expo-localization; adlandırılmış TS tipli key'ler; olay başına tek JSON (`tr` + `en` + `intent` + `review`) → build'de locale bundle'ları; in-house `trInflect()` (`{name_e}`, `{name_in}`) 300 isimlik golden test ile; EN zamir ICU `select`.
+8. **CI lint (release bloklar):** eksik locale, placeholder uyumsuzluğu, ICU parse hatası, `select`te `other` eksik, EN/TR uzunluk oranı > 1,3, buton bütçesi (TR 18 / EN 16 karakter), yasaklı kelime (locale başına), `needs-review`, `wager` satırında oran placeholder'ı, `mood` etiketi, `document` olayında iki locale'de `translate` dolu ve Sözlük anahtarı eşleşir.
+9. **Ölçüm:** time-to-first-laugh locale bazlı; funny-check ≥ 3/5 her dilde ayrı; 5 anadil EN playtest; Antrenman Kampı seed'ine `locale` girer ("herkes" = aynı dildeki herkes).
+10. **Bütçe:** publisher demosuna girecek Tier A içerik (200 olay + tüm karne/motto/iddia/Roast satırları) profesyonel EN komedi yazarından geçer: 4–10 bin USD, 3–5 hafta. Bu olmadan EN demo gösterilmez (T10 risk #15: "çevrilmiş Türkçe" kokusu 5 dakikada anlaşılır).
+
+---
+
+## 10. Riskler (ilk 10) ve açık sorular
+
+| # | Risk | Belirti | Azaltma |
+|---|---|---|---|
+| 1 | **"Cici koç" / vaaz:** lift'ler nasihat okunur, roast'un dişi gider | Playtest'te "cringe"; "bu uygulama bana nasihat veriyor" yorumu | Lift ≤ 6 kelime ve yalnızca oyun içi seçim önerir; iki motivasyon beat'i art arda yok; yasak sınıf lint'te; ses ayarı; §4.2'de "Otur. Başla." ve "Korkma" kaldırıldı |
+| 2 | **Carrot rafı / "bir sarkastik asistan daha"** | Mağaza sayfası farklılaşmaz; CPI yüksek | Kreatif İddia + damga ile açılır (anlatıcı sana karşı bahse girer, kaybeder); karne ikinci kreatif; "defter tutan, bahse giren, ölülerini hatırlayan" USP her yüzeyde |
+| 3 | **"Motivasyon/self-help" konumlandırma kayması** (ASO'daki "Motto" alıntı uygulamaları da aynı rafta) | Wellness aramalarından trafik; publisher "oyun mu?" | "motivasyon/wellness/alışkanlık/terapi" metadata ve pitch'te yasak; kategori Oyunlar › Simülasyon; Saha Çalışması v1'de yok; pitch sırası Karne → Roast → Kalıp |
+| 4 | **İddia sistemi "oyun beni tuzağa düşürüyor" hissi** | Güven ve SDT özerkliği çöker | Koç sonucu asla etkilemez; gerçek oran gösterilir; yalnızca 0,35–0,65 ve `playerChose`; harness isabeti %50–62; "Oranı göster" ile zar görünür |
+| 5 | **Kalıp Dedektörü yaralayıcı içgörü üretir** | "Oyun bana depresif dedi" paylaşımı | Yalnızca sayım; sabit nötr taksonomi; hiçbir kalıp klinik terimle örtüşmez; köprü cümlesi tek kez; Nazik'te rapor kısalır; satırlar insan onaylı |
+| 6 | **Persona drift / anlatıcı yorgunluğu** (2.100 satır tek ses) | Üçüncü kez görülen satır; karakter dışı cümle | Cooldown + bağlam etiketi + nadirlik; sık satır ≥ 5 varyant; 60+ yaşta sessizleşme; her sprint 100 satır drift testi |
+| 7 | **Marka taraması olumsuz** ("Motto" 9/41'de engel) | TÜRKPATENT/USPTO itirazı | Yedek sırası Tempo → Kismet; bileşik ad + logo; Sprint 0'da avukatlı tarama; mağaza metadata'sında rakip adı yok |
+| 8 | **Kader kişiliği (Torpil) teolojik/memur okuması** | Yorum/şikâyet; publisher hukuk sorusu | Kurgusal, ülkesiz Müdürlük; "yukarı/upstairs", ahiret sözlüğü, kurum genellemesi lint'te BLOK; mağaza sayfasında ve ilk dakikada görünmez; avukat incelemesi lansman öncesi |
+| 9 | **Üretim kapasitesi** (solo dev + AI, iki dil, 10 haftada ≈ 1.650 satır/locale) | Slice gecikir, EN kalite düşer | MVP sayıları bilinçli küçük; Saha, sohbet ekranı, Bütçe Günü, Terminal ekonomisi kesildi; EN punch-up yalnızca Tier A; haftalık harness ve kahkaha günlüğü |
+| 10 | **Gelir tavanı:** TR eCPM ABD'nin %15–25'i, IAP dönüşümü düşük, interstitial az | ARPDAU hybrid-casual eşiğinin altında | Rewarded-first + Torpil dönüşümü + viral çarpan (karne) hikâyesi; EN pazarı şart; publisher'a "dopamin var, dolandırıcılık yok" + playtime |
+
+**Açık sorular (sahip: lansman öncesi kapanır):**
+1. TÜRKPATENT 9/41 + USPTO/EUIPO: "Motto" bileşik marka başvurusu sonucu (avukat, Sprint 0).
+2. 7578 sayılı Kanun / BTK yönetmeliği: bağlayıcı 16+ kararı TR'de yeterli mi, yoksa TR mağazasında 18+ beyanı mı gerekir (T9 önerisiyle çelişki; avukat)?
+3. Kader kişiliğinin (Torpil) tüm satır havuzu için ayrı hukuki okuma.
+4. EN punch-up yazarı: işe alım ve 200 olaylık Tier A'nın tanımı (09 dokümanı).
+5. RevenueCat mi `expo-iap` mı (T5/T6 önerisi RevenueCat; ücretsiz eşik 2.500 $ MTR doğrulanacak).
+6. AdMob RN 17.x stabilitesi; 16.5 pini ne zaman kaldırılır.
+7. Soft launch EN pazarı: Kanada + Yeni Zelanda mı, Filipinler eklenir mi (eCPM/CPI dengesi).
+8. "Çocukla devam" (Aile Bileti) 1.0'a girer mi — içerik maliyeti vs D30 kaldıracı.
+9. Ruh hâli 3. durum (Kamp: resmî/gergin) soft launch'a mı, 1.0'a mı.
+10. Saha Çalışması: lansman sonrası hangi veriyle, hangi kapıdan geçerse değerlendirilir (bugün: hiçbiri).
+
+---
+
+## 11. KARARLAR KAYDI (bağlayıcı)
+
+| ID | Karar | Gerekçe | Kaynak |
+|---|---|---|---|
+| D-001 | Kazanan çerçeve **A4 Motto** (sertifikasız hayat koçu); A1'in karakter DNA'sı (iddia, damga, zarf, yalan+itiraf, ömür eğrisi, tanıklık) bütünüyle aşılanır. | Sıfır hukuki risk toleransı, marka taraması, publisher hedefi; A1'in her değerli parçası taşınabilir. | Jüri JSON; §0.6 |
+| D-002 | Çalışma adı **Motto**, bileşik marka "Motto: Sertifikasız Hayat Koçu / Uncertified Life Coach"; yedek sırası Tempo → Kismet; TÜRKPATENT 9/41 + USPTO/EUIPO Sprint 0. | İki dilde aynı, marka = anlatıcı; Kismet'te aynı sınıfta aktif oyun var. | §0.1–0.2; T9, T10 |
+| D-003 | Anlatıcının adı iki dilde de **Motto**; marka = anlatıcı adı (Carrot modeli). | Tek ASO, her karnede bedava marka. | A4 §1; Jüri 1 |
+| D-004 | Kader Müdürlüğü memuru = **Torpil'e özel ikinci koç kişiliği**; ana marka/anlatıcı değil; kurgusal ülkesiz Müdürlük; "Müdürlük kaderi yazmaz, dosyalar". | Sahibin seed'i korunur, teolojik/memur riski markadan ve ilk dakikadan uzaklaşır. | Jüri 1 kill #3; A1 §4.1 |
+| D-005 | **"Rüşvet/bribe"** sözcüğü ve rüşvet çerçevesi UI, mağaza, pitch ve kodda yasak. | Kamu görevlisi/şike çağrışımı, Apple 1.1.1, TR'de kurulu şirket itibarı; dört konsept de reddetti. | Üç jüri kill listesi; T9 |
+| D-006 | **Saha Çalışması** v1'den, soft launch'tan, 1.0'dan ve pitch'ten çıkarıldı; lansman sonrası ayrı karar. | Apple 1.4.5, wellness kayması, "bu oyun mu?" sorusu, 7578 belirsizliği; KPI katkısı sıfır. | Üç jüri kill listesi; A4 §7.3 |
+| D-007 | **Ölüm ekranında reklam yok**; ölümden dönüş satılmaz; Fizyoterapi ölümden önceki sağlık-kritik yıla taşındı (ömürde 1). | "Ölüm = içerik" bağlayıcı kararı; Roast Raporu'nun duygusal beat'i; BitLife'ın en çok şikâyet edilen noktası. | Jüri 1/2/3; T6, T11 |
+| D-008 | Interstitial yalnızca gönüllü oturum sonunda ("Bugünlük yeter"/Devre Arası), oturumda ≤ 1, ilk 2 oturumda yok, ölüm→yeni hayat akışında asla. T6'nın "yalnızca ölüm ekranı" yerleşiminden sapma. | ≤ 40 sn yeniden doğuş ve reklamsız ölüm ekranı kararlarıyla uyum. | §8; T6 |
+| D-009 | **İddia Defteri** A1'in tam UI ve kurallarıyla: sarı fiş, yalnızca `playerChose && 0,35 ≤ p ≤ 0,65`, 3–5 beat'te ≤ 1, yılda ≤ 2, koç sonucu asla etkilemez, çözümde gerçek oran; harness isabeti %50–62. | Dört dokümanın en iyi reklam beat'i ve ekran görüntüsü nesnesi; güven sorununu kapatır. | A1 §7.1; Jüri 1 graft 1 |
+| D-010 | **HAKSIZ ÇIKTIM / I WAS WRONG** damgası: Heavy impact + 400 ms mürekkep; 12 kozmetik varyant koleksiyon; karnede "Koçun isabeti". | Ritüel + koleksiyon + paylaşım. | A1 §9; Jüri 2 |
+| D-011 | **Zarf** = pending-outcome kuyruğunun fiziksel nesnesi; kâğıt hışırtısı, haptik yok; oturum sonunda en ağır zarf açılır ama çözülmez; günlük bildirim zarftan türer. | T11 3l'ye görünür nesne; "Bir Yıl Daha" ≥ %70 ve push open ≥ %12 kaldıracı. | A1 §9; Jüri 1 graft 2 |
+| D-012 | Gerçek-saat ruh hâli: MVP'de 2 durum (Normal, Yorgun 23:00–06:00); 03:12 satırı ömürde 1, **hedefi koçun kendisi**, oyuncunun gerçek hayatı hakkında varsayım yok. | Tek bağlam etiketi, sıfır sistem maliyeti; Jüri 3'ün "gerçek hayata roast yok" sınırı ile Jüri 1'in graftı birleştirildi. | §3.5 #14; T3 #13 |
+| D-013 | **Tercüme kartı + Sözlük**: `document` olay tipi havuzun ≤ %15'i; Sözlük 40 (MVP) / 60 (soft) / 120 (1.0); Sözlük sayfası paylaşım kartı. | Rakipte olmayan, iki dilde yerli ikinci koleksiyon; A2'nin %30 yükü olmadan. | A2 §7.1; üç jüri graft |
+| D-014 | Aile Grubu **sohbet ekranı yok**; hiç sıfırlanmayan "Okunmamış" HUD sayacı + yılların ~%40'ında 1 kart + "Görüldü, cevap yok" seçeneği; Teşhis "Okundu Bırakan / Left on Read". | Etkinin %80'i, yüzeyin %20'si; çift dilli mesaj hacmi yok. | A2 §7.3; Jüri 1/3 |
+| D-015 | Açılış satırı A2'nin **"18 oldun. Tebrikler. Buradan sonrası resmî olarak senin suçun."**; ilk kahkaha hedefi ≤ 4 sn. "Otur. Başla." ve "Korkma…" kaldırıldı. | Dört dokümanın en iyi 5 saniyesi; sorumluluk devri = koçluk; SDT kontrol dili yok. | A2 §5; Jüri 1/2 |
+| D-016 | **Ölüm → yeni hayatın ilk kelimesi ≤ 40 sn**; her ölümde ≥ 1 Kondisyon açılımı garanti ("Yedek Kulübesi" pity); tek büyük "Yeni Müşteri / New Client" + tek dokunuş "Aynı kondisyonla"; KPI ≥ %65 (2 dk). | D1'in gizli kaldıracı; Vampire Survivors/Royal Match dersleri. | A3 §7.1, §9; Jüri 1 graft 7 |
+| D-017 | **Tanıdık Yüzler**: 8 kalıcı NPC `metaMemories` taşır; hafıza yalnızca `metaLog`'dan, uydurulmaz; MVP 8 × 3, 1.0 8 × 6 satır. | Hades modeli, backend'siz, 48 satır; "oyun eski sevgilimi hatırladı" UGC. | A3 §7.3; üç jüri graft |
+| D-018 | **Fazla Bagaj**: önceki hayatın en yüksek Cringe olayı etiket olarak biner, 1 callback olayı açar; atılamaz, satılamaz, cezasız; 3 hayat aynı → Kronik ile birleşir. | Mevcut olayları sıfır yazımla çarpar; "kayıp bile içerik". | A3 §7.2; Jüri 1/2/3 |
+| D-019 | **Antrenman Kampı** haftalık `hash(YYYY-WW + locale + contentHash)`; 40 **hayali** kohort her kartta "hayali/fictional" etiketiyle; KMP-XXXX paylaşım kodu; Pazartesi 00:00 yerel. | Backend'siz, hukuken temiz kıyas kartı; fresh-start etkisi. | A3 §7.4; A4 §7.4; T1 #9 |
+| D-020 | **Yıl medyanı 90 sn, tavan 120 sn**: Kısa Karne varsayılan (tek ekran), Tek Hedef "Aynı hedef" tek dokunuş, yıllık tören yığını yok (Bütçe Günü alınmadı; Aile kartı ~%40 yıl; Onyıl Karnesi 10 yılda 1). | A4'ün 3–5 dk yılı "bir yıl daha" kadansını yarıya indiriyordu. | Jüri 1/3; A1 §6; T1 #13 |
+| D-021 | Karne 6 not: Sağlık, Para, İlişkiler, Kafa, **Cesaret**, **Davranış**; TR Pekiyi/İyi/Orta/Geçer/Zayıf, EN A–F; Cesaret ve Davranış stat değil karne türevi. | Nostalji iki dilde ortak; yeni stat yok. | A4 §7.1 |
+| D-022 | **Yılın Mottosu**: ≤ 6 kelime, 36 hücre (baskın kalıp × net valans) × ≥ 3 varyant, locale başına ayrı yazılır, çevrilmez. | Paylaşım biriminin kalbi; TikTok başlığı üretir. | A4 §7.1; Jüri 2 graft 1 |
+| D-023 | **Tek Hedef**: her karne sonunda 3 öneri + "Hedefsiz yaşa"; hedef olayları ×1,5 salience; damga TAMAM/YARIM/ERTELENDİ; ceza yok; koç hedefe karşı iddia açar. | SDT özerklik + "koçu yanıltma" fantezisi; oyuncu kaynaklı açık uç. | A4 §7.1; Jüri 2 graft 8 |
+| D-024 | **Kalıp Dedektörü**: 12 nötr kalıp, yargılamaz sayar; hiçbir kalıp adı klinik terimle örtüşmez; köprü cümlesi tek kez; Nazik'te rapor kısalır. | Roast Raporu'nun sayısal omurgası; hukuken de doğru formül. | A4 §7.2; Jüri 1/3 |
+| D-025 | **Roast Raporu sırası**: sessizlik 2 sn → kuru → sayılar → 3 kalıp → haklı çıktığın 1 an → Koçun Son Sözü (pozitif kalıp) → Kondisyon → Yeni Müşteri; her adım atlanabilir; ölüm nedeni yalnızca 2. balonda. | T3 sessizlik kuralı + T11 "kayıp = kazanım". | A4 §7.2; T3 §5a |
+| D-026 | Ses ayarı **Nazik / Normal / Acımasız** (Gentle / Normal / Brutal); varsayılan Normal; ilk "Bugünlük yeter"den sonra sorulur; tüm kademeler T9 içinde; sessizlik kuralı ve düşük Keyif davranışı her kademede aynı. | Benign violation'ın rıza ayağı; Apple 1.1 emniyet subabı. | A2/A4; T3 P1; Jüri 2/3 |
+| D-027 | **Lift kuralı**: ≤ 6 kelime, yalnızca oyun içi seçim önerir; iki motivasyon beat'i art arda yasak; "yapmalısın / zekisin / kendini topla / you got this" yasak sınıfı; koç asla "yap" demez. | "Cici koç" riskinin lint'e girmiş hâli. | A4 §14; Jüri 1 |
+| D-028 | Koç yaşla sessizleşir: 60+ yaşta beat başına ≤ 1 balon; ölümde sessizlik kuralı. | Saygı sessizlikle; içerik maliyeti düşer. | A1 §4.2; A4 §4.2 |
+| D-029 | **Streak = Mola ritüeli**: karar bazlı, duraklar/sıfırlanmaz, 2 Sakatlık İzni (7 günde 1 yenilenir), 48 sa Telafi ücretsiz, hafta sonu opsiyonel, kilometre taşları 3/7/14/21/30/66/100/365, 66 = Lally günü kartı; asla satılmaz. | Bağlayıcı "paused streak" kararı; Duolingo verisi. | A4 §7.5; T1 #4; T7 |
+| D-030 | Bildirim: ≤ 1/gün, ≤ 5/hafta, 22:30–09:00 sessiz, yalnızca yerel; kopya zarftan/koçtan türer; 3 yoksayma → 7 gün sessizlik; lapsed'de Duolingo tersliği; tek dokunuş "Beni rahat bırak"; soft-ask ilk "Bugünlük yeter"den sonra (oturum ≥ 8 dk), Android izni 2. oturumdan önce asla. | T7 tavanları; Apple 4.5.4. | T7; T5 #9; A4 §9 |
+| D-031 | Welcome-back = **"Sakatlık Raporu"**: gerçek yokluk → oyun zamanı, 40 sn özet, atlanabilir, büyük karar rafta bekler, geri dönülemez kayıp yok, ödül sabit. | T7 modeli, suçlandırmaz. | T7 §3; A4 §9 |
+| D-032 | Stat seti T4 aynen: Sağlık, Keyif, Kafa, Çekicilik + Para + Ego, Cringe, Anne Baskısı + gizli **Şans** (eski Karma) ve Stres. | Kanıtlı dörtlü; "Karma" dinî çağrışımı sıfırlanır. | T4 §3; A3 §8 |
+| D-033 | Para içeride reel birim, ekranda **soyut "Para/Cash"**; TL/$ ve gerçek makro rakam (enflasyon, asgari ücret) metinde yok. | 6 ayda bayatlama + siyasi okuma kapısı. | T10 #5; Jüri 3 kill |
+| D-034 | Ekonomi mizahı **kişisel ölçekte** ("Bakiye: 0. Yuvarlamadım; sıfır yuvarlanmaz."); makro yüzde şakaları yasak. | TR'de her enflasyon cümlesi siyasidir. | Jüri 1/2/3 kill; T9 DİKKATLİ |
+| D-035 | İsim üreteci: yaygın ad + bileşik soyadı; blocklist = gerçek kişiler + küfür + **ikonik film/dizi karakter adları** (ör. "Şaban"). | TMK 24, T9 §4.6. | Jüri 3 kill |
+| D-036 | FTUE örnek adları **Deniz Ertelemez / Alex Tomorrow**; Eski Sevgili NPC **Yağmur ↔ Sam** (A3'ün "Deniz"i çakışma nedeniyle yeniden adlandırıldı). | Cinsiyetsiz adlar, en iyi EN isim şakası. | A4 §5; A3 §7.3 |
+| D-037 | Yaş derecesi **16+** (Apple 16+, PEGI 16, ESRB T, IARC 16); Google "çocuklara yönelik değil"; AdMob T; metadata 4+ vitrin; alkol/uyuşturucu seyrek ve sonuçlu; "+18 ağız" modu yok. | Bağlayıcı karar; 18+ reach'i daraltır. | T1 #12; T5 #12; T6 #12; T9 #10 |
+| D-038 | **Torpil** tek seferlik 199,99 ₺ / 6,99 $: reklam yok, Kader + 1 ek kişilik, karne temaları, defter dışa aktarımı, sınırsız arşiv, 3 kayıt yeri; güç/stat/Kondisyon yok. | BitLife Bitizenship modeli, TR satın alma gücü indirimi. | T6 #2; A4 §10 |
+| D-039 | Rewarded yerleşimleri: Ek Antrenman (yılda 1, ölümde geçersiz), Forma Sponsoru (yıl geliri ×2), Taktik Değişikliği (günde 2), Fizyoterapi (ölüm öncesi, ömürde 1); günlük tavan 6; ilk 10 dk reklamsız; ödül daima; near-miss'e bağlanmaz. | T6 rewarded-first; koç ağzında, "rüşvet"siz. | T6; A4 §10 |
+| D-040 | **Sezon Paketi**: sabit içerikli IAP ~3 ayda 1; içindekiler yazılı; rastgelelik yok; "en popüler" rozeti gerçek veri yoksa yok. | Loot box yok; Reklam Kurulu/DMCC. | T6; T9 |
+| D-041 | Abonelik v1'de **yok**; 6. ayda yeniden değerlendirme. | IAP dönüşümü düşük; Apple 3.1.2(a) sürekli değer şartı. | T2 #12; T6 #5 |
+| D-042 | **Kondisyon** perk'leri çeşitlilik verir, güç vermez: başlangıç şehri, karne temaları, "Hedefsiz" bonus olay, "Sessiz Sezon", başlangıç kariyer seçenekleri, kedi; log sıkıştırmalı eğri. | T1 §2.7 "meta as variety"; T11 3g. | A4 §8; A3 §8 |
+| D-043 | Teknoloji yığını T5 ADR-001: Expo SDK 58 / RN 0.88 / TS 6.0.x / pnpm monorepo; zustand; MMKV + expo-sqlite/Drizzle; expo-notifications (uzak yok); react-native-google-mobile-ads 17.x (16.5 pini); RevenueCat P1 / expo-iap yedek; EAS Update + imzalı statik JSON. | Bağlayıcı araştırma kararı. | T5 |
+| D-044 | **Motor saf TS, deterministik**: `pure-rand`/sfc32, seed = hash(lifeId, yıl); `step(state, action) → {state, effects}`; 10.000 hayat harness kabulü: serbest modda medyan ölüm 72–80, koç isabeti %50–62, maks. negatif seri ≤ 2, p95 sürpriz aralığı ≤ 14 beat, ilk 3 hayatta tekrar < %15. | Ölçmeden karar yok. | T4 #11, #13; T11 #12; A1 §13 |
+| D-045 | İçerik formatı: olay başına tek JSON (`tr` + `en` + `intent` + `review` + `universality` + `pattern` + `wager?` + `document?`) → build'de locale bundle'ları; Ink yalnızca uzun özel bölümler için opsiyonel. | T4/T10 kararı. | T4 #12; T10 #9 |
+| D-046 | i18n: i18next + react-i18next + i18next-icu + expo-localization; in-house `trInflect()` 300 isimlik golden test; EN Amerikan yazım + İngiliz deadpan; Tier A EN punch-up bütçesi 4–10 bin USD. | T10 kararları. | T10 #1, #7, #8, #11 |
+| D-047 | **CI lint release'i bloklar**: eksik locale, placeholder, ICU, uzunluk oranı > 1,3, buton bütçesi, yasaklı kelime (locale), `needs-review`, `wager` oran placeholder'ı, `mood` etiketi, `document` çift locale `translate`, kurum-genellemesi dedektörü, askerlik olaylarında "sakatlık", koç satırlarında "bahis". | Şikâyet edilemez içerik mühendislikle sağlanır. | T10 #10; T9; A1/A4 §12 |
+| D-048 | Locale-only ikame: askerlik ↔ student loans, KPSS ↔ government job exam, bayram ↔ the holidays, site aidatı ↔ HOA; kolonya yalnızca TR rahatlama beat'i. | 70/20/10 kuralı; "çevrilmiş Türkçe" kokusu. | T10 #4; Jüri 1 kill #8 |
+| D-049 | Mağaza/marka yasaklı adlar: Koç/Coach, Terminal, Son Durak/Last Stop, Toparlan/Get a Grip, Normal., Memo, Sıradaki!/Next!; oyun içi replik olarak serbest. | Gerçek marka çakışması, metadata 4+, kontrol dili, ASO. | Jüri 1/2/3 kill; A4 §12 |
+| D-050 | Gerçek-zaman satırları oyuncunun gerçek davranışını **yorumlamaz**; roast hedefi daima karakter (veya koçun kendisi); gerçek doğum günü opt-in'i v1'de yok. | Apple "creepy/mean-spirited"; KVKK ek veri. | T3 #13; Jüri 3 kill |
+| D-051 | **Onyıl Karnesi** (30/40/50/60): yalnızca karar kalemleri (ev, iş, "bir şeyler"); medeni durum/çocuk gibi kimlik kalemleri yok; zorunlu lift gerçek Kondisyon puanı verir; koç listeyi okur, savunmaz. | T3 wise feedback; T1 orta vadeli hedef; Apple 1.1.1 sınırı. | A2 §7.5; Jüri 3 graft 7 + kill |
+| D-052 | Düşük Keyif/depresyon: roast kapalı, "bugün tek şey" dili, "Gerçek hayatta yardım" ekranı ayrı ve şakasız; intihar/kendine zarar hiçbir biçimde yok; WHO güvenli anlatım. | TCK 84/3, Google self-harm, Apple 1.1. | T3 #9; T9 #5 |
+| D-053 | Soft launch **TR + Kanada/Yeni Zelanda**, 8 hafta, kapılar D1 ≥ %35 / D7 ≥ %15 / D30 ≥ %6; publisher pitch sırası **Karne → Roast → Kalıp**; "motivasyon" sözcüğü metadata ve pitch'te yasak. | KPI kanıtı + EN demo tek paket; konumlandırma riski. | T2 #8; T6 #9; Jüri 1 |
+| D-054 | Analytics (Firebase/GA4 veya GameAnalytics) opsiyonel, oyunu bloklamaz; yerel "Koçun Raporu" dışa aktarımı; ATT ön-ekranı; KVKK aydınlatma + ayrı açık rıza; EEA'da UMP. | Backend'siz ölçüm; T9 KVKK. | T6 #13; T7; T9 #8 |
+| D-055 | Yeniden teyit: enerji yok, günlük giriş ödülü yok, paralı rastgele kutu yok, sahte aciliyet/stok/sayaç yok, paralı streak yok, stat editörü yok. | Bağlayıcı araştırma kararları + T11 ret listesi. | T1 #5, #11; T11 #14 |
+| D-056 | **Ölüm = içerik**: her ölüm ≥ 1 açılım + Teşhis + Koçun Defteri sayfası + Fazla Bagaj; "Çocukla devam" (Aile Bileti) 1.0 sonrası ayrı karar. | Legacy/meta-progression bağlayıcı kararı. | T1 #7; T4 #10; A3 §7.5 |
+| D-057 | A3'ün tam roguelike meta yığını (Terminal hub, 12 motor-etkili eşya, 7 güzergah, MP log ekonomisi, Soy Ağacı) v1'de **yok**; publisher'a "Sezon 2 live-ops yol haritası" olarak anlatılır. | 4–5 aylık solo yolu aşar; "mid-core" algısı; "bir yıl daha"yı seyreltir. | Jüri 1/2/3 kill; A3 §14 |
+| D-058 | Gizli **Tanışıklık** 0–5 (hayat sayısıyla artar) yalnızca daha sıcak nadir satırları açar; güç vermez; koç kendinden yalnızca iş hayatıyla ilgili bahseder. | SDT relatedness; T9 (din/siyaset/aile yok). | A1 §6, §9 |
+| D-059 | **Juice spec** sabit: damga 80 ms basış + "tak" + Medium; HAKSIZ ÇIKTIM Heavy + 400 ms mürekkep; zarf hışırtı, haptik yok; düdük yalnızca Mola ve ölümde; Yaşlan → ilk metin ≤ 300 ms; yıl geçişi ≤ 400 ms; konfeti yalnızca ilk yıl; "yükleniyor" yok. | T11 3i, Royal Match sürtünme dersi. | T11 #6, #10; A1/A4 §9 |
+| D-060 | **Doküman hiyerarşisi**: bu belge > T9 > T-dokümanları > konseptler; 01–11 dokümanları D-xxx'leri yeniden tartışmaz, uygular; değişiklik yalnızca yeni D-kaydıyla. | Sonraki ajanlar için tek gerçek kaynağı. | Bu belge |
+
+---
+
+*Sonraki adım: 01–11 dokümanları bu belgenin §5 tablosundaki sırayla, her biri kendi D-referanslarını başlığında anarak yazılır. İlk yazılacaklar: 03 (olay motoru + İddia servisi + harness) ve 07 (FTUE + juice), çünkü MVP'nin kritik yolu bu ikisinden geçer.*

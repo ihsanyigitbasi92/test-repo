@@ -53,3 +53,7 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - 3 jüri (publisher/pazar, oyuncu+komedi yazarı, üretim+hukuk) puanlar, aşı listesi ve "öldür" listesi çıkarır
 - Sentez → `docs/design/00-VIZYON-ve-KARARLAR.md` (oyun adı, anlatıcı, sütunlar, core loop, ilk 60 sn, kapsam, 40+ bağlayıcı karar)
 - Sonraki adım (Faz 2b): 11 ayrıntılı sistem dokümanı, ardından 5 düşman eleştirmen (publisher, manipülasyondan nefret eden oyuncu, komedi yazarı TR/EN, mühendis, avukat) ve revizyon.
+
+### Faz 2a sonucu
+- 4 konsept + 3 jüri tamamlandı; sentez ajanı `docs/design/00-VIZYON-ve-KARARLAR.md` dosyasını yazdı, ancak kullanım limiti (10:10 UTC'de sıfırlandı) yapılandırılmış çıktı adımında kesti. Dosya diskte tam; commit edildi.
+- Kullanıcı hatırlatması (bağlayıcı): oyun hem iOS hem Android'de çalışacak. Expo/React Native bu ikisini tek kod tabanından kapsıyor; her sistem dokümanı iOS/Android farklarını (bildirim izinleri, IAP/StoreKit vs Play Billing, haptik, geri tuşu, safe area, 16 KB sayfa boyutu, yaş derecelendirme anketleri) ayrı bir "Platform notları" bölümünde ele alacak.
