@@ -57,3 +57,15 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 ### Faz 2a sonucu
 - 4 konsept + 3 jüri tamamlandı; sentez ajanı `docs/design/00-VIZYON-ve-KARARLAR.md` dosyasını yazdı, ancak kullanım limiti (10:10 UTC'de sıfırlandı) yapılandırılmış çıktı adımında kesti. Dosya diskte tam; commit edildi.
 - Kullanıcı hatırlatması (bağlayıcı): oyun hem iOS hem Android'de çalışacak. Expo/React Native bu ikisini tek kod tabanından kapsıyor; her sistem dokümanı iOS/Android farklarını (bildirim izinleri, IAP/StoreKit vs Play Billing, haptik, geri tuşu, safe area, 16 KB sayfa boyutu, yaş derecelendirme anketleri) ayrı bir "Platform notları" bölümünde ele alacak.
+
+### Faz 2a kararları (özet)
+- Oyun adı: **Motto** — bileşik marka "Motto: Sertifikasız Hayat Koçu" / "Motto: Uncertified Life Coach". Yedekler: Tempo, Kismet (Kismet'te aynı sınıfta aktif bir zar oyunu ve TR'de yerli bir fal uygulaması bulundu → geri çekildi). TÜRKPATENT/USPTO/EUIPO taraması Sprint 0'da.
+- Anlatıcı: Motto, 2.400 seminer vermiş, motivasyona inancını yitirmiş, seni son müşterisi olarak almış sertifikasız hayat koçu. İmza mekanikler: Koçun Defteri, sana karşı iddia + "HAKSIZ ÇIKTIM / I WAS WRONG" damgası, Yıl Sonu Karnesi + "Yılın Mottosu" paylaşım kartı, ölümde Roast Raporu (Kalıp Dedektörü sayılarıyla), 40 sn içinde yeni hayat, Tanıdık Yüzler (8 kalıcı NPC), haftalık Antrenman Kampı. "Kader Müdürlüğü memuru" fikri Torpil ile açılan ikinci koç kişiliği olarak yaşıyor; "rüşvet" çerçevesi hiçbir yerde yok (hukuk).
+- Jüri 2–1 bölündü (A1 anlatıcı-merkezli vs A4 roast koç); yaratıcı yönetmen kararı: A4 çerçevesi + A1 DNA'sı, gerekçeleri 00 §0.6'da.
+- 60 bağlayıcı karar (D-001…D-060) kaydedildi; doküman hiyerarşisi: 00 > T9 (hukuk) > araştırma > konseptler.
+
+### Faz 2b başladı (3 paralel workflow)
+- wq1zct75h: 03 olay motoru/şema/director/dopamin, 01 anlatıcı ve ton kitabı, 04 kariyer/ilişkiler/varlıklar, 11 KPI/soft launch/publisher
+- 2. workflow: 07 UX/UI/FTUE/juice, 02 zaman/stat/ekonomi/sağlık/ölüm, 05 retention/geri dönüş/miras/koleksiyon
+- 3. workflow: 10 teknik mimari (iOS+Android), 08 içerik kuralları/hukuk/linter, 09 i18n/içerik hattı, 06 monetizasyon/mağaza uyumu
+- Her dokümanda zorunlu "Platform notları (iOS / Android)" ve "Hukuk ve politika kontrolü" bölümleri; her doküman en az 15 test edilebilir kabul kriteri (AC-xx-nn) üretir → sprint planına girdi.
