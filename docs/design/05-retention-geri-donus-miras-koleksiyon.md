@@ -652,3 +652,283 @@ Bu belgenin kartları (şablon motoru doc 07 §2.6; ortak kurallar oradadır: ye
 
 Tek büyüme metriği çifti: `share_export`, `seed_import` (hedef §6.1).
 
+
+---
+
+## 3. Örnek içerik — concrete samples TR + EN
+
+### 3.1 Mola ve streak koç satırları (ctx etiketli; Normal ağız; ≥ 1 roast, lift ≤ 6 kelime)
+
+| ctx | TR | EN |
+|---|---|---|
+| `mola.first` | Günün ilk kararı. Yanlış da olsa benim için malzeme. Sayaç: 1. | First decision of the day. Even wrong, it's material. Count: one. |
+| `mola.done` | Bak, yapabiliyormuşsun. Not aldım; küçük harfle. | Look at that. Reps. Noted, small letters. |
+| `mola.done.v2` | Düdük doldu. Çalmayacağım; hiç çalmadım. Ama doldu. | Whistle's full. I won't blow it. I never have. But it's full. |
+| `streak.paused` | 3 gün yoktun. Antrenman kaçırdın. Ceza yok; gıcıklık için varım, ceza için değil. Sayaç: 47 gün, duraklatıldı. | Three days, no practice. No penalty; I'm here to annoy you, not to fine you. Streak: 47, paused. Like a gym membership, but honest. |
+| `streak.bridged.freeze` | Dün gelmedin. Sakatlık İzni devreye girdi; iki vardı, bir kaldı. Sayılar böyle. | You skipped yesterday. Injury leave covered it; had two, one left. That's how numbers work. |
+| `streak.bridged.weekend` | Hafta sonu. Antrenman yok, ceza yok. Pazartesi görüşürüz; takvim öyle diyor, ben değil. | Weekend. No practice, no penalty. See you Monday; the calendar says so, not me. |
+| `streak.broken.first` | Kesintisiz seri: 23'te durdu. Rekor olarak kaldı. Toplam sayaç duruyor: 47. İki gün üst üste gelirsen boşluğu kapatırım; kalemle. | Unbroken run: stopped at 23. Stays as a record. The total's still 47. Two days in a row and I'll close the gap. In pen. |
+| `streak.makeup.done` | Telafi tamam. Takvimde boşluk yok. Olmuştu; artık yok. Ben öyle diyorum. | Make-up done. No gap on the calendar. There was one; now there isn't. My call. |
+| `streak.offseason` | Sezon arası. Dokuz gün. Sayaç uyuyor, ben uyumam ama beklerim. | Off-season. Nine days. The count sleeps. I don't, but I wait. |
+| `streak.tamper` | Takvim ileri gitmiş. Defterim gitmemiş. İkisini de sayıyorum, birini küçük yazıyorum. | The calendar jumped ahead. The notebook didn't. I'm counting both; one in smaller handwriting. |
+
+### 3.2 Bildirimler — 30 karakter mesajı + 10 koç satırı (OS yüzeyi; ≤ 110 karakter; emoji yok; her biri `pre` ile oyun verisine bağlı)
+
+Biçim: **Başlık** → gövde. Koç parantezi `(… — M.)` yalnızca gövdenin sonunda ve ≤ 40 karakter.
+
+| # | Başlık | Pre | TR | EN |
+|---|---|---|---|---|
+| N-01 | Anne / Mom | her zaman | Yemek yedin mi? (Deniz'e soruyor. — M.) | Did you eat? (She means Alex. — M.) |
+| N-02 | Anne / Mom | Anne Baskısı ≥ 50 | Komşunun oğlu nişanlanmış. Söylemiş olayım. | The neighbor's son got engaged. Just saying. |
+| N-03 | Anne / Mom | işsiz | Bir yerlere başvurdun mu? Sormuyorum, merak ettim. | Did you apply anywhere? Not asking. Wondering. |
+| N-04 | Anne / Mom | Okunmamış ≥ 200 | Mesajları okuyor musun? | Are you reading these? |
+| N-05 | Anne / Mom | lapsed L3 | Üç gündür ses yok. İyi misin? (Oyunda üç hafta. — M.) | Three days, nothing. Are you okay? (Three in-game weeks. — M.) |
+| N-06 | Barış / Jordan | ev arkadaşı | KESİN BİR ŞEY BULDUM. GEL. | I DEFINITELY FOUND SOMETHING. COME HOME. |
+| N-07 | Barış / Jordan | Para < 0 | KİRA. BİLİYORUM. BEN DE BİLMİYORUM. | RENT. I KNOW. I ALSO DON'T KNOW. |
+| N-08 | Barış / Jordan | kedi var | KEDİ BİR ŞEY YAPTI. İYİ DEĞİL. | THE CAT DID A THING. NOT A GOOD THING. |
+| N-09 | Barış / Jordan | zarf: kripto | BU SEFER KESİN. GRAFİĞİ GÖRMEN LAZIM. | THIS TIME IT'S REAL. YOU NEED TO SEE THE CHART. |
+| N-10 | Nevin Hanım / Ms. Carver | çalışıyor | Yarın 09:00, odamda. Konu: sen. | Tomorrow, 9 a.m., my office. Subject: you. |
+| N-11 | Nevin Hanım / Ms. Carver | zarf: terfi | Gelişim alanlarınızı konuşalım. (Tercüme zarfta. — M.) | Let's discuss your growth areas. (Translation's in the envelope. — M.) |
+| N-12 | Nevin Hanım / Ms. Carver | zarf: işten çıkarma riski | Yeniden yapılanma var. Herkes için. (Herkes değil. — M.) | There's a restructuring. For everyone. (Not everyone. — M.) |
+| N-13 | Nevin Hanım / Ms. Carver | Aşırı Çalışma ≥ 30 | Hafta sonu e-postama bakmanıza gerek yok. (Bakacaksın. — M.) | No need to check email this weekend. (You will. — M.) |
+| N-14 | Yağmur / Sam | arc açık | Konuşmamız lazım. | We should talk. |
+| N-15 | Yağmur / Sam | ayrılık sonrası 1 yıl | Eşyan kaldı. | Your stuff's here. |
+| N-16 | Yağmur / Sam | metaMemory: terk edildi | Hâlâ numaram var. | Still have your number. |
+| N-17 | Şükran Teyze / Mrs. Dale | komşu | Kapının önünde koli var. Ben bakıyorum. | There's a package at your door. I'm watching it. |
+| N-18 | Şükran Teyze / Mrs. Dale | site aidatı (TR) / HOA (EN) | Aidat toplantısı yarın. Gelmeyen haklı sayılmıyor. | HOA meeting tomorrow. Absent means you agree. |
+| N-19 | Dayı / Your uncle | Para < 2 Birim | Hayata atıldın mı? Atılmadıysan bir şey göndereyim. | Have you gotten started? If not, I can send something. |
+| N-20 | Dayı / Your uncle | yıl sonu | Düğün var. Takı takacaksın. Ne kadar, sorma. | There's a wedding. Bring a gift. Don't ask how much. |
+| N-21 | Pamuk / Biscuit | kedi var | Miyav. (Mama. — M.) | Mrow. (Food. — M.) |
+| N-22 | Pamuk / Biscuit | kedi, 3+ gün yokluk | Miyav. (Üç gündür. Ben baktım. — M.) | Mrow. (Three days. I fed him. — M.) |
+| N-23 | Taksici / The cab driver | havaalanı arc'ı | Yoldayım. Trafik var. Hep var. | On my way. Traffic. There's always traffic. |
+| N-24 | Ev Sahibi / Landlord | kiracı | Evladım gibisin ama… (Zam. Sözlükte. — M.) | You've been like family, but… (Rent. It's in the glossary. — M.) |
+| N-25 | İK / HR | başvuru bekliyor | Başvurunuz değerlendirme aşamasındadır. (Hâlâ. — M.) | Your application is under review. (Still. — M.) |
+| N-26 | İK / HR | zarf: iş teklifi | Sizinle bir fırsatı paylaşmak isteriz. Oran %48. | We'd love to share an opportunity. Odds: 48 percent. |
+| N-27 | Doktor / Doctor | check-up ertelendi ≥ 2 | Randevunuz yeniden planlanabilir. Üçüncü kez. | Your appointment can be rescheduled. For the third time. |
+| N-28 | Kombi Ustası / The furnace guy | kış, ev arc'ı | Parça gelmedi. Haftaya. (Geçen hafta da haftaya demişti. — M.) | Part's not in. Next week. (He said next week last week. — M.) |
+| N-29 | Kurye / Courier | koli olayı | Teslim edilemedi: adreste yoktunuz. Evdeydin. | Delivery failed: recipient absent. You were home. |
+| N-30 | Banka / The bank (kurgusal antet) | Para < 0 | Değerli müşterimiz, hesabınız incelenmektedir. (Paran yok. Biliyoruz. — M.) | Dear valued customer, your account is under review. (You're broke. We know. — M.) |
+| C-01 | Motto | zarf | Defterde açılmamış bir zarf var. Açmadım. Hâlâ. | There's an unopened envelope in the notebook. I haven't opened it. Still. |
+| C-02 | Motto | mola | Bugün tek bir karar. Yanlış da olsa malzeme. | One decision today. Even a wrong one is material. |
+| C-03 | Motto | at-risk 21:00 | Bir saat kaldı. Sayaç 47. Tek karar yeter. Bir. | An hour left. Count's at 47. One decision. One. |
+| C-04 | Motto | days=65 | 66. gün yarın. Lally günü. Bir araştırma var; anlatırım. | Day 66 is tomorrow. Lally day. There's a study. I'll explain. Briefly. |
+| C-05 | Motto | Pazartesi | Pazartesi. Kamp açıldı: bu hafta tek kas, Sabır. Hayali 40 kişiyle yarışıyorsun. | Monday. Camp's open: one muscle this week, Patience. You're up against forty fictional people. |
+| C-06 | Motto | Cuma, kamp başlandı | Kamp Pazar biter. Hayali Ayşe önde. Hayali olması durumu değiştirmiyor. | Camp ends Sunday. Fictional Dana's ahead. Being fictional hasn't slowed her down. |
+| C-07 | Motto | lapsed L7 | Bir hafta. Defteri kapatmadım; açık bırakmak alışkanlık. | A week. I haven't closed the notebook. Leaving it open is a habit. |
+| C-08 | Motto | lapsed L21 | Tamam, susuyorum. Hayatın bensiz de devam eder; benimki de sensiz. Kapı açık. | These reminders aren't working. I'll stop. Your life goes on without me; mine without you. Door's open. |
+| C-09 | Motto | lapsed L30 | Son bildirim. Defter kapanmadı; KAPANDI damgasını yalnızca ölüme basarım. | Last notification. The notebook isn't closed. I only stamp CLOSED for a death. |
+| C-10 | Motto | Onyıl yarın | Karakterin 30 oluyor. Onyıl Karnesi. Listeyi ben yazmadım. | Your character turns thirty. Decade review. I didn't write the list. |
+
+### 3.3 Sakatlık Raporu — tam örnek (gerçek 19 gün yokluk → 210 oyun günü; Normal ağız)
+
+**TR** — Kart 0 (başlık): **SAKATLIK RAPORU** · "19 gün yoktun. Karakter döndü. 7 ay geçti." · [Atla] sağ üstte.
+Kart 1: *Nevin Hanım:* "Yeniden yapılanma oldu. Masanız duruyor." — Koç: "Masa duruyor. Sandalye konusunu açmadı; ben de açmadım."
+Kart 2: Sayılar — "Annen 14 kez aradı, patron 1, Yağmur 0. Sıralama doğru. Okunmamış: 847 → 902."
+Kart 3: *Şükran Teyze:* "Kedin benimle kaldı. Alıştı. Ben de." — Koç: "Pamuk sana dönecek. Sanırım. Kediler oy kullanmaz."
+Kart 4: *Barış:* "KİRA ZAMMI GELDİ. BEN BİR ŞEY BULDUM. KESİN." — Koç: "Zam gerçek. Barış'ın bulduğu şey zarfta; açmadım."
+Kart 5 (rafa): **BEKLEYEN KARAR** — *Yağmur:* "Konuşmamız lazım." — Koç: "Yedi aydır bekliyor. Sen de yedi ay bekledin; ödeşmiş sayılırsınız. İlk gün bu."
+Alt satır: "Sakatlık İzni +1 · Sayaç: 47, duraklatıldı · [Devam]"
+
+**EN** — Card 0: **INJURY REPORT** · "Nineteen days out. Your character's back. Seven months passed." · [Skip].
+Card 1: *Ms. Carver:* "There was a restructuring. Your desk is still here." — Coach: "The desk is still here. She didn't mention the chair. Neither did I."
+Card 2: Numbers — "Mom called fourteen times, your boss once, Sam zero. Correct order. Unread: 847 → 902."
+Card 3: *Mrs. Dale:* "Your cat stayed with me. He's used to it. So am I." — Coach: "Biscuit will come back to you. Probably. Cats don't vote."
+Card 4: *Jordan:* "RENT WENT UP. I FOUND SOMETHING. DEFINITELY." — Coach: "The rent part is real. What Jordan found is in an envelope. Unopened."
+Card 5 (shelf): **PENDING DECISION** — *Sam:* "We should talk." — Coach: "Been waiting seven months. So have you. Call it even. That's day one."
+Footer: "Injury Leave +1 · Count: 47, paused · [Continue]"
+
+### 3.4 Kamp — hafta sonucu ve kıyas satırları
+
+TR: **ERTELEME KAMPI · W47** — "Sen: 71 puan · Karne ort. Orta · 63 yaş · 'yarın' kilidi 9 kez denendi · 12/41" — "hayali Ayşe: 78 · İyi · 71 yaş" — Koç: "On ikincisin. Kırk kişiden on biri senden iyi; hepsi hayali. Hayali olmak kolaylaştırmıyor; sordum." — **Kohort hayalidir.** — KMP-7K3Q
+EN: **PROCRASTINATION CAMP · W47** — "You: 71 pts · avg. grade C · age 63 · tried the 'tomorrow' lock 9 times · 12/41" — "fictional Dana: 78 · B · age 71" — Coach: "Twelfth. Eleven of forty did better; all of them fictional. Being fictional doesn't make it easier. I asked." — **Cohort is fictional.** — KMP-7K3Q
+
+### 3.5 Teşhis koç satırları (veriliş anı; 6 örnek)
+
+| Teşhis | TR | EN |
+|---|---|---|
+| Yarıncı / Tomorrow Person | Yüz kez "yarın". Yarın bir tarih değil, bir yer; orada yaşıyorsun. Bugün bir karar. | A hundred "tomorrows." Tomorrow isn't a date; it's an address. You live there. Today, one decision. |
+| Okundu Bırakan / Left on Read | On kez görüldü, sıfır cevap. Annen saymıyor. Ben sayıyorum; iş bu. | Seen ten times, replied zero. Your mom isn't counting. I am. It's the job. |
+| Koçu Yanıltan / Coach Was Wrong | Beş damga. Mürekkep bitti; yeni aldım. Masraf senden sayılır. | Five stamps. Ran out of ink; bought more. I'm expensing it to you. |
+| Hedefsiz, Saygı / Goalless, Respect | Beş yıl hedefsiz. Saygı duyuyorum; not da aldım. İkisi aynı anda olur. | Five years, no goal. Respect. Also noted. Both can be true. |
+| Lally / Day 66 *(ritüel, roast yok)* | 66. Bilim bir sayı söyledi, sen de aynı sayıyı söyledin. Kart hazır. | Sixty-six. Science said a number; you said the same one. Card's ready. |
+| Kronik / Chronic | Üç defter, aynı ilk sayfa. Kalıp değişmedi. Ben değiştim; daha az konuşuyorum. | Three notebooks, same first page. The pattern didn't change. I did. I talk less now. |
+
+---
+
+## 4. Platform notları (iOS / Android)
+
+| Konu | iOS | Android | Nasıl ele alıyoruz |
+|---|---|---|---|
+| Bekleyen yerel bildirim tavanı | **64** (UNUserNotificationCenter; 65+ sessizce düşer) | ~500 (pratikte), ama Doze/hibernation silebilir | Planlı ≤ 12, ufuk ≤ 30 gün, her RESUME/SUSPEND'de `cancelAll + replan` |
+| İzin | `requestPermissionsAsync` bir kez; `canAskAgain=false` sonrası sistem ayarı; provisional **kullanılmıyor** (D-ÖNERİ-05-08) | Android 13+ `POST_NOTIFICATIONS` runtime; **≥ 1 kanal oluşturulmadan diyalog görünmez**; 2. oturumdan önce asla (D-030) | Kanallar boot'ta: `defter` (default), `mola` (default), `sessiz` (low; lapsed L30 `passive` eşleniği); soft-ask Android'de `sessionCount ≥ 2` kilidi |
+| Teslim zamanı | Dakika hassasiyeti; `interruptionLevel: 'active'` (timeSensitive/critical **asla**: entitlement + politika) | `delivery: 'bestEffort'` (`setExactAndAllowWhileIdle`); exact alarm izni **istenmez** (Play yalnızca alarm/takvim uygulamalarına); Doze'da gecikme olası; Android 15 cooldown | Kopya saat söylemez ("bu akşam"); at-risk 21:00 (22:30'a kaymasın); iki bildirim ≥ 20 sa aralıklı (15 dk Doze kuralının çok üstünde) |
+| Hibernation / unused apps | — | Android 11+ izin sıfırlama, 12+ hibernation (≈ 3 ay): bekleyen alarmlar ve izinler silinebilir; reboot/force-stop da siler | Lapsed merdiveni D30'da biter; dönen oyuncuda izin yeniden okunur (`getPermissionsAsync`), sessizce; ret varsa sorulmaz |
+| Zengin içerik | `attachments` (karakter portresi yok — avatar v1'de yok, D-ÖNERİ-07-06), `threadIdentifier` NPC gruplaması, `categoryIdentifier` aksiyonları | `largeIcon`/`color` sınırlı; aksiyon butonları var; grup `groupKey` | Görsel ek yok (iki platformda eşit yüzey); aksiyonlar üç kategori (§2.4.4) |
+| Uygulama adı yüzeyi | Başlık altında "Motto" sistem tarafından gösterilir | Kanal adı/ikon görünür | NPC adı başlıkta; "Motto" uygulama adı ayrıca yazılmaz (çift ad yok) |
+| Güvenilir saat | `ProcessInfo.systemUptime` → required-reason API (`35F9.1`) privacy manifest | `SystemClock.elapsedRealtime()`; izin yok | MVP `performance.now()` (süreç içi); soft launch `modules/motto-clock` (doc 10 Δ5) |
+| Saat dilimi / DST | `localDay` cihaz yerel takviminden; DST'de gün 23/25 saat | `ACTION_TIMEZONE_CHANGED` sonrası RESUME'da yeniden hesap | `dayDiff` yerel takvim gününe göre (UTC ile değil); 20 sa monoton kuralı DST'yi tolere eder |
+| Paylaşım | `expo-sharing` sistem sheet'i; `expo-media-library` "add only" izni yalnızca [Kaydet]'te | Share Intent; Android 10+ MediaStore ile kaydetme izinsiz, 13+ `READ_MEDIA_IMAGES` yalnızca okuma için (istenmez) | Render ≤ 400 ms; kaydetme izni dokununca; hiçbir izin açılışta |
+| Deep link | Universal link için `apple-app-site-association` statik dosya (alan adı Sprint 0) | App Links `assetlinks.json` statik; Android 12+ doğrulanmış link gerekir yoksa chooser | `motto://` özel şema her iki platformda hemen; doğrulanmış linkler alan adıyla |
+| Arka plan hesaplama (kohort) | Arka plan süresi ~5 sn; kohort üretimi **ön planda**, ilk 10 bot anında, kalanı oturum içinde `InteractionManager` sonrası | Aynı; düşük segment cihazda JS thread'i bloke etmemek için 5 botluk dilimler | Toplam ≤ 3 sn orta Android; bitmeden sıralama "hesaplanıyor" değil, **"10/40 hazır"** (gerçek sayı) |
+| Mağaza | Apple 4.5.4: push oyun için şart değil, pazarlama push'u yok; 2.5.18/2.3.8 kart ve bildirim içerik vitrini 4+ | Play: bildirim yalnızca entegre özellik için, sistem uyarısı taklidi yok; Deceptive Behavior → "hayali" etiketi | Bildirim havuzu Normal varyant; "hayali/fictional" lint; IAP push yok |
+| Erişilebilirlik | VoiceOver: Teşhis çarpması `accessibilityAnnouncement`; reduced-motion'da fade | TalkBack aynı; `reduceMotion` ayarı okunur | Tüm juice D-063 sürelerinde, reduced-motion'da kapanır |
+
+İki platformda **aynı davranış** garantisi: `NotificationPlanner`, `StreakService`, `AbsenceEngine`, `CampService`, `Legacy` tamamen saf TS'dir (doc 10); platform farkı yalnızca `NotificationPort`/`ClockPort`/`SharePort` adaptörlerindedir ve Playwright web export'ta bu port'lar no-op iken tüm akışlar aynı koşar.
+
+---
+
+## 5. Hukuk ve politika kontrolü
+
+### 5.1 Kırmızı çizgi eşlemesi (T9 ve 00 §1.2 → bu belgedeki mekanizma)
+
+| Çizgi | Bu belgede nasıl kalıyoruz |
+|---|---|
+| Streak sıfırlama/utandırma, streak/İzin/Telafi satışı (00 §1.2; DMCC "kayıp korkusuyla satış"; Reklam Kurulu karanlık tasarım) | `days` asla azalmaz; "kaybettin/lost" lint BLOK; İzin otomatik ve ücretsiz; Telafi ücretsiz; hiçbir streak öğesi IAP/reklam/Torpil'de değil; at-risk bildirimi yalnızca gerçek riskte |
+| Sahte sosyal kanıt, sahte sayaç (Google Deceptive Behavior, UCPD, 00 §1.2) | Kohort "hayali/fictional" etiketi üç yerde zorunlu, lint'te; Teşhis nadirliği "simüle hayat" ibaresiyle; "şu an X kişi" hiçbir yerde |
+| Sahte aciliyet / geri sayım (DMCC, Reklam Kurulu 2024) | Kamp geri sayımı gerçek takvim; "son şans/kaçırma" BLOK; bildirim tavanları koda gömülü |
+| Oyuncunun gerçek hayatına yönelik roast/yorum (D-050; Apple "creepy"; KVKK) | Bildirim öznesi NPC/koç/karakter; yokluk "karakter sen yokken"; gerçek saat yalnızca `tired` etiketi (doc 01); konum/takvim/sağlık/adım verisi **hiç okunmaz** |
+| Gerçek dünya görevi / wellness kayması (D-006; Apple 1.4.5) | Koç Görevleri yalnızca oyun içi fiiller; gerçek dünya fiili lint BLOK; metadata'da "alışkanlık/wellness" yok |
+| Kimlik/klinik etiket (TCK 125 komşuluğu; D-024; Apple 1.1) | Teşhis adı yasak sözlüğü (§2.8.1); Onyıl Karnesi kimlik kalemi yok (tip düzeyinde) |
+| Din/etnisite/siyaset/gerçek kişi/marka (T9 #1–2, #11) | Kamp temaları takvime değil kalıba bağlı; sezonluklar mevsimsel ve kurgusal; NPC/kurum antetleri jenerik ("Banka", "İK"); isim havuzu blocklist'li; 10 Kasım'da yalnızca sessizlik, gönderme yok |
+| Askerlik "sakatlık" (TCK 318) | "Sakatlık İzni/Raporu" sözcüğü yalnızca streak/welcome-back bağlamında; askerlik olaylarında lint BLOK (D-047) |
+| KVKK / veri | `installId` cihazda rastgele, reklam kimliği değil, cihazı terk etmez; seed kodları kişisel veri içermez; paylaşım kartında custom ad baş harf; analytics opsiyonel ve anonim (D-054); bildirim verisi cihazda |
+| 16+ ve mağaza vitrini (D-037, Apple 2.3.8) | Bildirim ve kart metinleri Normal varyant + 4+ sözlük; küfür yok |
+
+### 5.2 Bilinçli olarak tasarımdan çıkarılan en cazip 5 ihlal
+
+1. **"Streak'in tehlikede! 2 ₺'ye kurtar"** — Duolingo'nun en kârlı mekaniği; D-029 + DMCC + Reklam Kurulu. Yerine: otomatik İzin, ücretsiz Telafi, sıfırlanmayan sayaç.
+2. **Kohortu "bu hafta seninle aynı hayatı yaşayan 3.412 oyuncu" diye sunmak** — sosyal kanıt dopamini; Google Deceptive Behavior/UCPD. Yerine: 40 bot, "hayali" üç yerde.
+3. **"Son 24 saat: Sezon Paketi %40 indirim" bildirimi** — açılış oranı yüksek; Apple 4.5.4 + DMCC sahte aciliyet. Yerine: IAP bildirimi kategorisi hiç yok.
+4. **Welcome-back'te "sen yokken 17 gün geçti, işsiz misin?" tarzı gerçek-hayat esprisi** — A1'in cazip graftı; D-050 + Apple "mean-spirited" + KVKK çıkarım riski. Yerine: tüm sayılar oyun verisinden, özne karakter.
+5. **Koç Görevi'nde "bugün gerçekten annenizi arayın"** — motivasyon vaadi, SDT'nin gerçek yeterlik hissi; Apple 1.4.5/wellness kayması + D-006. Yerine: yalnızca oyun içi; "Gerçek hayatta yardım" ekranı ayrı ve şakasız.
+
+(+ gölge adaylar: Teşhis adlarında "Kronik Depresif" tipi klinik şaka — D-024; gerçek doğum gününe bağlı bildirim — D-050; provisional iOS bildirimle izin ekranını atlatmak — "bir kez sorarız" vaadi.)
+
+---
+
+## 6. Ölçüm ve kabul kriterleri
+
+### 6.1 KPI'lar (00 §2.2 ile hizalı; doc 11 ölçer; backend'siz, opsiyonel analytics)
+
+| Alan | KPI | Olay / hesap | Hedef (soft launch) |
+|---|---|---|---|
+| Retention | D1 / D7 / D30 | cohort | ≥ %40 / ≥ %18 / ≥ %8 (kapı: 35/15/6) |
+| Streak | DAU'nun `days ≥ 3` payı | `streak_day` | ≥ %45 |
+| Streak | `run` kırılması sonrası 7 gün dönüş | `streak_broken → session ≤ 7d` | ≥ %50 |
+| Streak | Telafi kullanımı → 7 gün sonra aktif | `makeup_done` | ≥ %60 |
+| Streak | 66. güne ulaşan (90 gün kohortu) | `milestone{66}` | ≥ %8 |
+| Görev | Günlük görev tamamlama (≥ 1 / 3) | `quest_done` / DAU | ≥ %55 / ≥ %25 |
+| Kamp | WAU'nun Kamp başlatma payı / tamamlama | `camp_start`, `camp_done` | ≥ %40 / ≥ %20 |
+| Kamp | Kıyas kartı paylaşımı / kamp tamamlama | `share_export{camp}` | ≥ %10 |
+| Bildirim | Soft-ask kabul / sistem izni (iOS/Android) | `softask_yes`, `perm_granted` | ≥ %60 / iOS ≥ %50, Android ≥ %60 |
+| Bildirim | Open rate (genel / karakter mesajı) | `push_open` / planlanan | ≥ %8 / ≥ %12 |
+| Bildirim | Push kaynaklı oturum payı | `session_start.source=push` | %20–30 (üstü bağımlılık sinyali) |
+| Bildirim | "Beni rahat bırak" | `quiet_mode_on` | < %5 |
+| Bildirim | Push günü + 72 sa sessizlik (uninstall proxy) | — | < %15 |
+| Welcome-back | Tamamlama (atlanmadan) | `wb_shown → wb_completed` | ≥ %75 |
+| Welcome-back | Rapor sonrası ilk Mola | `wb → decision ≤ 5 dk` | ≥ %85 |
+| Miras | Ölüm → yeni hayat (2 dk) | `death → new_client` | ≥ %65 |
+| Miras | "Aynı kondisyonla" payı | `same_conditioning` | %25–50 (üstü perk çeşitliliği yetersiz) |
+| Koleksiyon | Hayat başına Teşhis | `diagnosis_granted` | medyan 4–7 (ilk hayat ≥ 3 otomatik + ≥ 1) |
+| Koleksiyon | Sözlük ilerlemesi (30 gün) | `glossary_add` | medyan ≥ 15/40 |
+| Viral | `share_export` / oturum · `seed_import` / install | — | ≥ %3 · ≥ %2 |
+
+### 6.2 Harness ve simülasyon testleri (CI; `packages/engine` saf TS; vitest + fast-check)
+
+1. **Streak property testleri** (fast-check, 10.000 rastgele gün dizisi × saat dilimi × DST × tamper): `days` monoton artan; `run ≤ days`; `bestRun ≥ run`; İzin 7 günde en fazla 1 yenilenir; Telafi 30 günde 1; aynı `localDay` iki kez sayılmaz; 20 sa kuralı.
+2. **Planner testleri**: rastgele durum × 90 gün → hiçbir gün > 1, hiçbir kayan 7 gün > 5, sessiz saat/sessiz gün ihlali 0, plan ≤ 12, ufuk ≤ 30 gün, at-risk yalnızca `freezes=0`; `lifeEnded` sonrası plan boş; quiet mode sonrası plan boş.
+3. **AbsenceEngine**: deterministiklik (aynı girdi aynı rapor), ödül tavanı (7 gün = 30 gün), 365 gün tavanı, raporda ölüm 0, büyük karar yalnızca 14+ günde, her raporda ≥ 1 pozitif olay.
+4. **Kamp kohortu**: 40 botun skor dağılımı (10.000 haftalık seed): medyan 45–65, p10 ≥ 20, p90 ≤ 90; oyuncu "balanced" politikasıyla medyan sıra 15–25 (ne çok kolay ne imkânsız); `locale`/`contentHash` değişince seed değişir, aynı haftada aynı seed.
+5. **Kondisyon güç testi**: 10.000 hayat her perk açık vs kapalı → medyan ölüm yaşı, Para p50/p90, koç isabeti, karne ortalaması farkı ≤ gürültü (bootstrap %95 aralığı); `lifePoints` ile ölüm yaşı korelasyonu > 0; `lives/week` simülasyonu 2–4.
+6. **Teşhis nadirliği**: 10.000 serbest hayatta her Teşhis'in oranı tanımlı banda düşer; otomatik 3'ü %100; gizli 5'i < %12; hayat başına medyan 4–7; hiçbir hayat 0 Teşhis.
+7. **Lint**: `camp.*` string'lerinde "hayali/fictional" zorunlu; `notif.*`'te yasak sözlük (son şans, kaçırma, işsiz, gerçek konum/saat); `quest.*`'te gerçek dünya fiili listesi; Teşhis adı yasak sözlüğü; Onyıl şemasında kimlik alanı yok (tip testi).
+
+### 6.3 Kabul kriterleri (AC-05-nn; sprint planına doğrudan girer)
+
+| ID | Kriter | Doğrulama |
+|---|---|---|
+| **AC-05-01** | Streak yalnızca günün ilk **kararında** artar; uygulama açılışı, welcome-back kartı ve Hızlı Yaşa'da otomatik çözülen beat'ler artırmaz | birim + e2e |
+| **AC-05-02** | `days` hiçbir durum geçişinde azalmaz; ekranda hiçbir zaman "0" ya da "kaybettin" görünmez | property test + lint |
+| **AC-05-03** | Kaçırılan gün 00:00'da otomatik İzin'le köprülenir (2 slot, 7 günde 1 yenilenir); İzin hiçbir mağaza/reklam yüzeyinde yoktur | birim + doc 06 çapraz test (IapProvider ürün listesi) |
+| **AC-05-04** | Telafi: 48 sa içinde 2 ardışık Mola `run`'ı geri getirir; 30 günde 1; ücretsiz | birim |
+| **AC-05-05** | Hafta sonu muafiyeti varsayılan açık, Ayarlar'dan kapanır; kapalıyken Cmt/Paz normal gün | birim + e2e |
+| **AC-05-06** | 8 kilometre taşı doğru günde tetiklenir, her biri 1 kozmetik + 1 koç satırı verir; 66'da Lally kartı render ≤ 400 ms | e2e + snapshot |
+| **AC-05-07** | Koç Görevleri aynı gün/cihaz/içerik sürümünde deterministik; 1'i absürt; 14 gün tekrar yok; ödül yalnızca Kondisyon puanı | birim |
+| **AC-05-08** | Görev havuzunda gerçek dünya fiili içeren satır lint'i geçemez (örnek negatif test: "bir bardak su iç") | lint testi |
+| **AC-05-09** | Kamp seed'i `hash(isoWeek+locale+contentHash)`; Pazartesi 00:00 yerel açılır; aynı hafta iki cihazda aynı başlangıç ve aynı 40 bot | birim (iki seed karşılaştırması) |
+| **AC-05-10** | 40 hayali kohort cihazda headless üretilir; orta Android'de ilk 10 bot ≤ 1,5 sn, toplam ≤ 3 sn; UI "N/40 hazır" gerçek sayıyı gösterir | perf test (Pixel 6a sınıfı) |
+| **AC-05-11** | Kamp sıralaması, satır adları ve kıyas kartı "hayali/fictional" etiketini taşır; eksikse lint release'i bloklar | lint + snapshot |
+| **AC-05-12** | Bildirim planı: günde ≤ 1, kayan 7 günde ≤ 5, 22:30–09:00 ve `quietDays` ihlali 0, planlı ≤ 12, ufuk ≤ 30 gün; her RESUME/SUSPEND'de cancelAll + replan | property test + cihaz testi (`getAllScheduledNotificationsAsync` sayımı) |
+| **AC-05-13** | Streak-at-risk bildirimi yalnızca `freezes=0 ∧ bugün Mola yok ∧ muafiyet yok` koşulunda planlanır | birim |
+| **AC-05-14** | Soft-ask yalnızca `ask-consent` efektiyle (ilk "Bugünlük yeter" ∧ ≥ 8 dk ∧ ilk karne); Android'de ek olarak `sessionCount ≥ 2`; sistem reddi sonrası yeniden sorulmaz | e2e (iOS sim + Android emu) |
+| **AC-05-15** | Her bildirim başlığı NPC adı ya da "Motto"; gövde ≤ 110 karakter, emoji yok, yasak sözlük yok; her karakter mesajı `pre` koşulunu sağlamadan planlanmaz | lint + birim |
+| **AC-05-16** | `lifeEnded` → tüm planlı bildirimler iptal; yeni hayatın ilk oturumundan önce bildirim yok | birim + cihaz |
+| **AC-05-17** | Sakatlık Raporu: gün bazlı tablo; 3–6 kart; Atla her kartta görünür; rapor ≤ 40 sn (otomatik akış yok, kart sayısıyla sınır); +1 İzin (tavan 2); 7 gün ödül tavanı; 365 gün zaman tavanı; raporda ölüm 0 | birim + e2e |
+| **AC-05-18** | 14+ gün yoklukta son kart "büyük bekleyen karar"; rafa konur, çözülmez; ilk gün kartı o karardır | e2e |
+| **AC-05-19** | Her ölümde `unlocks.length ≥ 1`; eşik geçilmediyse Yedek Kulübesi kozmetiği deterministik sırayla; koç satırı "yedek kulübesi" sözcüğünü içerir | harness (10.000 ölüm) |
+| **AC-05-20** | Kondisyon güç testi: her perk için harness farkı gürültü bandında; başarısız perk CI'da reddedilir | CI harness |
+| **AC-05-21** | Fazla Bagaj: `highestCringeEvent` yeni hayata etiket olarak biner, Müşteri Dosyası'nda görünür, 2–8. yılda 1 callback olayı tetiklenir; kaldırma/satın alma yolu yoktur; 3 hayat aynı → Kronik sayfasına ek satır | birim + e2e |
+| **AC-05-22** | 30 Teşhis (3 otomatik, 5 gizli) tanımlı; ilk hayatta 3 otomatik verilir; nadirlik bantları harness'ta doğrulanır; kilitli kart ipucu + çubuk gösterir, gizli kart yalnızca "???" | harness + snapshot |
+| **AC-05-23** | Teşhis adı yasak sözlüğü (klinik/kimlik/sıfat) lint'te; örnek negatif test ("Kronik Depresif") bloklanır | lint testi |
+| **AC-05-24** | Teşhis veriliş juice'u D-063/D-059 sürelerinde; reduced-motion'da fade; oturumda 4. Teşhis'ten itibaren toast | e2e + a11y |
+| **AC-05-25** | Sözlük: Tercüme ile giriş, tekrar girişte sayaç; sekme ilerlemesi gerçek havuzdan; Mottolar ızgarası 36 hücre | birim + snapshot |
+| **AC-05-26** | Onyıl Karnesi lift puanı `fitness.points`'e gerçekten yazılır ve tik-up görünür; şemada kimlik alanı yok | birim + tip testi |
+| **AC-05-27** | HYT/KMP kodları kişisel veri içermez (yalnızca seed + sürüm + crc), içe aktarma aynı olay çekilişini üretir; sürüm uyumsuzluğunda uyarı | birim |
+| **AC-05-28** | Playwright web export'ta port'lar no-op iken Mola, Kamp, Sakatlık Raporu, ölüm→açılım akışları hatasız koşar (iki platform parite tabanı) | Playwright |
+
+---
+
+## 7. Açık sorular, riskler ve D-ÖNERİ listesi
+
+### 7.1 Açık sorular (sahip: lansman öncesi kapanır)
+
+1. Android `bestEffort` teslim gecikmesi soft launch'ta ölçülür; 21:00 at-risk bildirimi 22:30'a kayıyorsa 20:30'a çekilir.
+2. Oyun kategorisi opt-in tabanı (~%21/%28, ikincil) doğrulanır; iOS < %40 kalırsa soft-ask kopyası A/B (bandit yok, iki varyant elle).
+3. Kamp hayatının 35–50 dk hedefi D-061 sıkıştırmasıyla harness'ta doğrulanır; uzun kalırsa Kamp 18→50 ile biter (ölüm yerine "sezon sonu"; ayrı D-ÖNERİ gerekir).
+4. 40 botun orta Android'de ≤ 3 sn hedefi profillenir; aşarsa 24 bot (etiket "24 hayali kişi") — sayı tuning'dir, ilke değil.
+5. "Aynı kondisyonla" payı %50'yi aşarsa perk çeşitliliği yetersizdir; 1.0 öncesi K-07/K-08 öne alınır.
+6. 7578 sayılı Kanun/BTK yönetmeliği bildirim içeriğine (yaş derecesi uyarısı vb.) kural getirirse §2.4.1 #5 güncellenir (avukat).
+7. Teşhis "Isınma Turunda Kaldı" (erken ölüm) gizli ve Efsane; playtest'te "ölümle dalga" okuması çıkarsa adı "Kısa Sezon / Short Season" olur.
+
+### 7.2 Riskler
+
+| # | Risk | Belirti | Azaltma |
+|---|---|---|---|
+| 1 | Streak 20 saniyelik "check-in uygulaması"na dönüşür | Bite oturumlarında "Ertesi Gün" oranı düşük | Mola kartı zarfa/arc'a bağlanır (director: günün ilk kartı ≥ %50 aktif iplikten); KPI: Mola sonrası devam ≥ %70 |
+| 2 | Bildirim yorgunluğu / "creepy" algısı | `quiet_mode_on` > %5, uninstall proxy > %15 | Tavanlar sabit; özne NPC; D-050 lint; L21 tersliği |
+| 3 | Kohort "sahte oyuncu" diye okunur | Yorumlarda "bot" şikâyeti | Üç yerde etiket; koç kendisi "hayali" der; UCPD testi playtest'te |
+| 4 | Kondisyon "hiçbir şey vermiyor" hissi | "Aynı kondisyonla" > %50, Roast Raporu 7. adım atlama > %60 | Her perk somut ve ilk hayatta görünür (K-01 kedi 6 puan = ilk ölüm); Yedek Kulübesi satırı dürüst ve komik |
+| 5 | Teşhis adları yargılayıcı okunur | Playtest "oyun bana X dedi" | Yasak sözlük + insan onayı; ad ≠ roast; Nazik'te kısa satır |
+| 6 | Welcome-back büyük kararı "beni cezalandırdı" hissi | 14+ gün dönüşte `wb_completed` < %60 | Karar rafta, kayıp yok; 5 kişilik 2 haftalık ara testi (T7 açık soru #5) |
+| 7 | iOS/Android bildirim davranış farkı (Doze, hibernation) | Android open rate iOS'un yarısının altında | Planlı ≤ 12, replan ritüeli, kopyada saat yok; soft launch teslim ölçümü |
+
+### 7.3 D-ÖNERİ listesi (00'ın kapsamadığı kararlar; onaylanırsa 00 §11/§12'ye yeni D-kaydı)
+
+| ID | Karar | Gerekçe |
+|---|---|---|
+| **D-ÖNERİ-05-01** | Hafta sonu muafiyeti **varsayılan açık**; Ayarlar'da kapatılabilir | D-029 "opsiyonel" der, varsayılanı söylemez; Duolingo Weekend Amulet +%4 dönüş / −%5 kayıp; suçluluksuz hafta sonu DAU düşüşünü (T11 #9) karşılar |
+| **D-ÖNERİ-05-02** | Telafi 30 günde 1; iki sayaç modeli: `days` (toplam, asla azalmaz, kilometre taşlarının kaynağı) + `run` (kesintisiz rekor, yalnızca Defter/Lally kartında) | D-029 "48 sa Telafi" sıklığını söylemez; T7/A4 "ayda 1"; iki sayaç "sıfırlanmaz" vaadini ve Telafi'nin anlamını aynı anda korur |
+| **D-ÖNERİ-05-03** | Koç Görevi kartı **sistem metnidir**: emir kipi serbest (oyun içi fiil), D-027 koç balonuna uygulanır; gerçek dünya fiili lint BLOK | D-027 koç sesini korur; görev kartı koç değil; "oyun mu alışkanlık uygulaması mı" testi lint'e iner |
+| **D-ÖNERİ-05-04** | Koçun 3. ruh hâli `camp` **soft launch'ta** (00 açık soru #9) | Kamp soft launch'ta 8 temaya çıkıyor; ruh hâli tek bağlam etiketi, içerik maliyeti düşük |
+| **D-ÖNERİ-05-05** | Bildirim ve paylaşım kartı metinleri ses ayarından bağımsız **Normal** varyant + 4+ sözlük | OS/vitrin yüzeyi (Apple 2.3.8, T7 açık soru #7); Acımasız'ın rızası uygulama içindir |
+| **D-ÖNERİ-05-06** | `quietDays[locale]`: TR'de 10 Kasım'da bildirim planlanmaz ve Kamp kıyas satırı gönderilmez; içerikte hiçbir gönderme yok; EN listesi boş | İtibar/şikâyet riski sıfırlanır; T9 #1 (Atatürk hiçbir biçimde geçmez) ile uyumlu: sessizlik gönderme değildir |
+| **D-ÖNERİ-05-07** | Soft-ask koşuluna "ilk karne görüldü" eklenir (D-030 koşullarına ek, gevşetme değil) | T7 "değer anı" = ilk karne/zarf; D-061 ritminde ilk karne ≈ 8–12 dk, D-030 ile örtüşür |
+| **D-ÖNERİ-05-08** | iOS provisional bildirim **kullanılmaz**; soft-ask en fazla 2 kez (ilk + D3), 7 günlük rozet sorusu yok | "Bir kez sorarız" vaadi; provisional kilit ekranında görünmez, ses yok; reddedene saygı (D-030 "yeniden sorma yok") |
+| **D-ÖNERİ-05-09** | Welcome-back zaman tavanı **365 oyun günü** (T7'nin 2 yılı yerine), ödül tavanı 7 gün; en fazla 1 doğum günü rafa | D-061'de karne doğum günü ritüelidir; iki karne atlamak "yıl bir tören" hissini zedeler; T7 tabloyu gün birimine çevirir |
+| **D-ÖNERİ-05-10** | Kamp = tam hayat, gün sıkıştırması ½ (35–50 dk), hafta içinde sınırsız deneme, en iyi skor; Defter'e girmez, Tanıdık Yüzler taşımaz; skor `0,6·karne + 0,4·kas`, Para'ya bağlı değil | T7 haftalık model; S2 "zengin ölmek kazandırmaz"; defter/hafıza ana hayata ait kalır |
+| **D-ÖNERİ-05-11** | Hayali kohort = 40 headless bot, 6 politika, cihazda üretilir, `camps/<isoWeek>.json`'a yazılır; adlar "hayali/fictional" ön ekiyle | D-019 "hayali" ister, üretim yolunu söylemez; gerçek dağılım, sahte sayı yok, sunucu yok |
+| **D-ÖNERİ-05-12** | Kondisyon puanı `6·ln(1+yıl/12)` + Onyıl lift + görev (günde ≤ 4) + Kamp (+2/+1); 10 perk eşikleri 6…70; Yedek Kulübesi 12 kozmetik, deterministik sıra | D-042 "log sıkıştırmalı" der, sabitleri vermez; "hızlı öl" döngüsü kârsız; her ölüm ≥ 1 (D-016) |
+| **D-ÖNERİ-05-13** | Teşhis nadirlik bantları harness'tan (Y ≥ %40, S %12–40, N %3–12, E < %3); ekranda yalnızca etiket + "simüle hayat" cümlesi; `tuning.json` override yok | Sahte sosyal sayaç yok; eşik şeffaflığı (T1 §2.8) |
+| **D-ÖNERİ-05-14** | Mottolar albümü (36 hücre) Sözlük sekmesinin 6. sayfası; Onyıl Karnesi "Onyılın Mottoları" şeridi taşır | 00 §5 "Sözlük koleksiyonu + Onyıl" bu belgede; albüm örüntüyü yorumsuz gösterir (S2) |
+| **D-ÖNERİ-05-15** | Streak kilometre taşı ödülleri yalnızca kozmetik (düdük rengi, defter kapağı, 12 damga varyantından 6'sı); Kondisyon puanı **vermez** | Streak → güç köprüsü kurulmaz; T1 §5.3 |
+
+### 7.4 Diğer dokümanlarla çelişki kayıtları (bu belge 00'ı uyguladı)
+
+- **Doc 02 §2.1.4** welcome-back çevrimini T7'nin ay/yıl tablosuyla ve 2 yıl tavanıyla anar (`advanceTime({ months })`); 00 §12 D-061 gün birimini getirdiğinden bu belge tabloyu **gün** cinsinden kurdu ve `advanceTime({ days })` + 365 gün tavanını önerdi (D-ÖNERİ-05-09). Doc 02'nin D-061 revizyonunda kanca güncellenmeli.
+- **Görev brief'i** soft-ask'ı "ilk karne sonrası" diyor; 00 D-030 "ilk Bugünlük yeter, ≥ 8 dk" der. Çözüm: iki koşulun kesişimi (D-ÖNERİ-05-07); 00 kazanır, brief'in anı ek koşul olarak eklendi.
+- **Doc 01 §3.4** 30 bildirim satırını koç ağzında yazdı (P-01..P-30); 00 §12 D-062 karakter mesajlarını getirdi. Bu belge P-serisini koç havuzu olarak korur, N-serisini (30 NPC mesajı) ekler; çelişki değil, genişleme.
+- **Doc 10 `Streak` tipi** tek sayaç (`days`) tanımlar; bu belge `run/bestRun`, `offSeasonUntil`, `unverifiedDays` alanlarını ekler (geriye uyumlu; `schemaVersion` artmaz, alanlar opsiyonel başlar).
+- **T7 §2.2 sezonluk takvim** (Ramazan/Kurban/23 Nisan/29 Ekim/10 Kasım temalı içerik) bu belgeye **alınmadı**: T9 din/millî gün çizgisi ve 00 §1.2; yalnızca sessiz gün kuralı (D-ÖNERİ-05-06) kaldı. Sezonluk Kamp temaları mevsimsel ve kurgusaldır.
+- **T1 §2.13 jenerasyon / Aile Bileti** ve **T7 §5.3 mini oyunlar** bu belgenin kapsamı dışında (00 §7 lansman sonrası; D-057).
+
+*Son not: bu belgenin sabitleri (`tuning.json`: eşikler, tavanlar, saatler, kohort boyutu) dev dashboard'dan canlı değişir; D-ÖNERİ'ler 00'a alınmadan sabitlerin **anlamı** değişmez. Sayaç durur, sıfırlanmaz; kohort hayalidir, öyle yazar; miras çeşitlilik verir, güç vermez.*

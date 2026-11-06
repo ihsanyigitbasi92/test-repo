@@ -147,6 +147,20 @@ button{font:inherit;color:inherit}
 .dateline{align-self:center;font-family:var(--stamp-font);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);padding:8px 12px;border:1px dashed var(--line);border-radius:999px;margin-top:4px}
 .dateline b{color:var(--lime)}
 .skip{align-self:center;font-size:12px;color:var(--ink-2);font-style:italic;font-family:var(--coach-font);text-align:center;max-width:85%}
+.clock{grid-column:1 / -1;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.clock b{color:var(--ink);font-family:var(--stamp-font);font-size:13px;letter-spacing:.04em}
+.clock .dp{flex:1;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.clock .dp i{display:block;height:100%;background:var(--lime);width:0;transition:width .2s linear}
+.clock.fast .dp i{background:var(--gold)}
+.speed{display:flex;gap:4px}
+.speed button{border:1px solid var(--line);background:transparent;color:var(--ink-2);border-radius:6px;min-width:30px;height:26px;font-size:12px;font-weight:700;cursor:pointer;padding:0 6px}
+.speed button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.life{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-size:11px;color:var(--ink-2);border-top:1px dashed var(--line);padding-top:6px}
+.life span b{color:var(--ink);font-weight:600}
+.life span.chg{animation:jiggle .5s ease;color:var(--lime)}
+.mundane{align-self:flex-start;font-size:12.5px;color:var(--ink-2);padding:2px 14px;max-width:90%}
+.mundane::before{content:"· "}
+.flow{font-size:12px;color:var(--ink-2);letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:4px 0}
 .sys{align-self:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);padding:6px 0}
 .sticker{align-self:center;background:var(--lime);color:var(--lime-ink);font-family:var(--stamp-font);font-size:15px;letter-spacing:.06em;padding:10px 16px;border-radius:4px;transform:rotate(-3deg);box-shadow:4px 5px 0 rgba(0,0,0,.4);animation:stickIn .5s cubic-bezier(.2,1.7,.4,1) both;text-align:center;max-width:95%}
 .sticker small{display:block;font-family:var(--body-font);font-size:10px;letter-spacing:.16em;font-weight:700;margin-bottom:2px}
@@ -227,6 +241,7 @@ button{font:inherit;color:inherit}
     <div class="topbar">
       <div class="brand">MOTTO<small id="subtitle">Sertifikasız Hayat Koçu</small></div>
       <div class="chips">
+        <div class="speed" id="speed" aria-label="hız"><button type="button" data-s="0" title="Duraklat">II</button><button type="button" data-s="1" class="on">▶</button><button type="button" data-s="2">▶▶</button></div>
         <button class="chip on" id="soundBtn" type="button" aria-pressed="true">Ses</button>
         <button class="chip" id="langTR" type="button" aria-pressed="true">TR</button>
         <button class="chip" id="langEN" type="button" aria-pressed="false">EN</button>
@@ -246,6 +261,8 @@ button{font:inherit;color:inherit}
       <div class="who"><span id="lifeLbl">1. hayat</span><b id="nameLbl"></b></div>
       <div class="stats" id="stats"></div>
       <div class="meta" id="metaRow"></div>
+      <div class="clock" id="clock"><b id="clockDate">—</b><span id="clockTime">00:00</span><div class="dp"><i id="dayProg"></i></div></div>
+      <div class="life" id="lifeRow"></div>
     </div>
     <div class="feed" id="feed" aria-live="polite"></div>
     <div class="actions" id="actions"></div>
@@ -295,6 +312,11 @@ const UI={
   money:{tr:'Para',en:'Cash'}, unread:{tr:'Okunmamış',en:'Unread'}, mom:{tr:'Anne Baskısı',en:'Mom Pressure'}, cringe:{tr:'Cringe',en:'Cringe'},
   age:{tr:'yaş',en:'yrs'}, life:{tr:n=>n+'. hayat',en:n=>(['1st','2nd','3rd'][n-1]||n+'th')+' life'},
   shuffle:{tr:'Karıştır',en:'Shuffle'}, keep:{tr:'Bu olsun',en:'This one'},
+  flowing:{tr:'Hayat akıyor…',en:'Life is flowing…'}, auto:{tr:'Otomatik (koç karar versin)',en:'Auto (let the coach decide)'}, autoOff:{tr:'Otomatiği kapat',en:'Stop auto'},
+  payday:{tr:n=>`Maaş günü. +${n}. Hesaba girdi, hesaptan çıkacak.`,en:n=>`Payday. +${n}. In the account, soon out of it.`}, rentday:{tr:n=>`Kira günü. −${n}. Ev sahibi "evladım" dedi; otomatik ödeme demek.`,en:n=>`Rent day. −${n}. Landlord said "kid"; that means autopay.`},
+  catday:{tr:'Mama günü. −1. Pamuk teşekkür etmedi.',en:'Cat food day. −1. Biscuit did not say thanks.'}, momLoan:{tr:'Para bitti. Annen borç verdi; faizi ömür boyu laf.',en:'Out of cash. Mom lent some; interest is a lifetime of remarks.'},
+  lifeJob:{tr:'İş',en:'Job'}, lifeHome:{tr:'Ev',en:'Home'}, lifeRel:{tr:'İlişki',en:'Love'}, lifeCat:{tr:'Kedi',en:'Cat'}, jobless:{tr:'İşsiz',en:'Unemployed'}, momHome:{tr:'Anne evi (bedava, pahalı)',en:'Mom\'s place (free, costly)'}, rentHome:{tr:n=>`Kira ${n}/ay`,en:n=>`Rent ${n}/mo`}, ownHome:{tr:n=>`Kredili ev ${n}/ay`,en:n=>`Mortgage ${n}/mo`}, single:{tr:'Bekâr',en:'Single'}, perMo:{tr:'/ay',en:'/mo'},
+  jobTitle:{tr:'Kıdemli Belirsiz Uzman',en:'Senior Unspecified Specialist'}, jobTitle0:{tr:'Belirsiz Uzman',en:'Unspecified Specialist'},
   oneMore:{tr:'BİR YIL DAHA',en:'ONE MORE YEAR'}, age1:{tr:'YAŞLAN',en:'AGE UP'}, nextDay:{tr:'ERTESİ GÜN',en:'NEXT DAY'}, day:{tr:'Gün',en:'Day'}, you:{tr:'Sen',en:'You'},
   skipLines:{tr:[n=>`${n} gün geçti. Hiçbir şey olmadı; bu da bir olay.`,n=>`${n} gün. Uyudun, uyandın, kaydırdın. Deftere tek satır: "—".`,n=>`${n} sessiz gün. Annen ${Math.ceil(n/3)} kez aradı; saymıyorum, defter sayıyor.`,n=>`${n} gün sonra. Takvim ilerledi; sen ilerlemedin. Eşitlik yok.`],en:[n=>`${n} days passed. Nothing happened; that's also an event.`,n=>`${n} days. Sleep, wake, scroll. One line in the notebook: "—".`,n=>`${n} quiet days. Mom called ${Math.ceil(n/3)} times; I'm not counting, the notebook is.`,n=>`${n} days later. The calendar moved; you didn't. No tie.`]},
   firstSkip:{tr:'Yılın kalanı hızlı geçti: 340 gün, 3 olay. Normal; 18 yaş böyle. Doğum günün geldi.',en:'The rest of the year went fast: 340 days, three events. Normal; eighteen is like that. It\'s your birthday.'},
@@ -360,11 +382,11 @@ const NO_GOAL={tr:'Hedefsiz yaşa, saygı',en:'No goal, respect'};
 
 /* events */
 const EV=[
- {id:'exam',min:19,max:22,t:{tr:'Sonuçlar açıklandı. Puanın bir bölüme yetiyor. Hangisi, sistem söylemiyor; "sürpriz" diyor. Sürprizleri sevmezsin.',en:'Results are in. Your score gets you into a program. Which one, the system won\'t say; it calls it "a surprise." You hate surprises.'},
+ {id:'exam',min:18,max:22,t:{tr:'Sonuçlar açıklandı. Puanın bir bölüme yetiyor. Hangisi, sistem söylemiyor; "sürpriz" diyor. Sürprizleri sevmezsin.',en:'Results are in. Your score gets you into a program. Which one, the system won\'t say; it calls it "a surprise." You hate surprises.'},
   c:[{t:{tr:'Bölüme gir',en:'Enroll'},d:{b:6,m:-3,j:-1},tag:'plan',line:{tr:'Girdin. Bölümün adı dört kelime; ikisini sen de bilmiyorsun.',en:'You\'re in. The program\'s name is four words; you can\'t define two of them.'}},
      {t:{tr:'Bir yıl ara ver',en:'Take a gap year'},d:{j:5,b:-2},tag:'ertele',line:{tr:'"Kendini bulacaksın." Kayıp mıydın? Dosyada yazmıyor.',en:'"Finding yourself." Were you lost? Not in the file.'}},
      {t:{tr:'Kursa yaz; annem dedi',en:'Join the course; Mom said'},d:{b:3,mom:-6,j:-2},tag:'anne',line:{tr:'Annen kazandı. Skor: Annen 1, sen 0. Lig uzun; skor değişmez.',en:'Mom wins. Score: Mom 1, you 0. Long season; the score won\'t move.'}}]},
- {id:'job',min:19,max:26,t:{tr:'İlan: "Genç, dinamik, maaş: tatmin edici." Tercüme: düşük. 47. başvurun. 46\'sı "değerlendiriliyor"; yani çöpte.',en:'Listing: "Young, dynamic, salary: competitive." Translation: low. Application forty-seven. Forty-six are "under review"; that means the trash.'},
+ {id:'job',min:18,max:26,t:{tr:'İlan: "Genç, dinamik, maaş: tatmin edici." Tercüme: düşük. 47. başvurun. 46\'sı "değerlendiriliyor"; yani çöpte.',en:'Listing: "Young, dynamic, salary: competitive." Translation: low. Application forty-seven. Forty-six are "under review"; that means the trash.'},
   c:[{t:{tr:'Başvur',en:'Apply'},tag:'plan',w:{p:50,tr:'İDDİA: 47. başvuru da ret. — M.',en:'WAGER: Forty-seven is a rejection too. — M.'},
       ok:{d:{m:8,j:4,b:1},job:true,tr:'İşe alındın. Maaş "tatmin edici". Tatmin olmadın. Patron "biz bir aileyiz" dedi; ailelerde mesai ücreti olmaz.',en:'Hired. Salary "competitive." You feel uncompetitive. Boss said "we\'re a family here"; families don\'t pay overtime.'},
       fail:{d:{j:-3},tr:'47. ret. Antrenmanda buna "tekrar" deriz. Hayatta da öyle; sadece daha az ter, daha çok ağlama.',en:'Rejection forty-seven. In training we call that reps. In life, same thing; less sweat, more crying.'}},
@@ -375,11 +397,11 @@ const EV=[
       ok:{d:{m:-2,j:3},tr:'Zam yarıya indi. Ev sahibi "sen bilirsin evladım" dedi. Bu, kazandın demek. Kutla; sessizce.',en:'Hike halved. Landlord said "whatever you think, kid." That means you won. Celebrate quietly.'},
       fail:{d:{m:-6,j:-1},tr:'Zam aynen geldi, üstüne "evladım" da. İki kere ödedin: bir para, bir gurur.',en:'Full hike, plus a "kid" on top. You paid twice: once in cash, once in pride.'}},
      {t:{tr:'Taşın',en:'Move'},d:{m:-4,j:3,l:1},tag:'risk',line:{tr:'Taşındın. Yeni ev sahibi de "evladım" dedi. Ülkede 3 milyon evlat var.',en:'You moved. The new landlord also said "kid." There are three million kids in this city.'}}]},
- {id:'fam',min:19,max:70,t:{tr:'Aile grubu: 212 okunmamış. 211\'i teyzenden: günaydın görselleri, 1\'i annenden: "Mesajları okuyor musun?"',en:'Family group chat: 212 unread. 211 from your aunt: good-morning pictures. One from your mom: "Are you reading these?"'},
+ {id:'fam',min:18,max:70,t:{tr:'Aile grubu: 212 okunmamış. 211\'i teyzenden: günaydın görselleri, 1\'i annenden: "Mesajları okuyor musun?"',en:'Family group chat: 212 unread. 211 from your aunt: good-morning pictures. One from your mom: "Are you reading these?"'},
   c:[{t:{tr:'Hepsini oku',en:'Read them all'},d:{mom:-10,j:-3,b:-1},tag:'anne',line:{tr:'Okudun. 211 günaydın. Kafa −1; görseller kafaya zararlı.',en:'You read them. 211 good mornings. Brain −1; the pictures are bad for you.'}},
      {t:{tr:'Görüldü, cevap yok',en:'Seen, no reply'},d:{mom:8,j:1},tag:'kacin',line:{tr:'Görüldü. Annen "görüldü"yü gördü. Teyzen de. Akşam konu sensin.',en:'Seen. Mom saw the "seen." So did your aunt. You\'re tonight\'s topic.'}},
      {t:{tr:'Sadece anneme cevap ver',en:'Reply only to Mom'},d:{mom:-4,j:1},tag:'anne',line:{tr:'"Okuyorum anne." Yalan. Deftere yazdım; annen de biliyor.',en:'"Yes Mom, reading." A lie. In the notebook; Mom knows too.'}}],unreadReset:true},
- {id:'date',min:19,max:38,t:{tr:'Flört uygulaması. Profil: "Hayatı seven, macera arayan." 14 kişi aynı cümleyi yazmış. Macera: ortak taksi.',en:'Dating app. Profile: "Loves life, seeks adventure." Fourteen people wrote the same sentence. The adventure: splitting a cab.'},
+ {id:'date',min:18,max:38,t:{tr:'Flört uygulaması. Profil: "Hayatı seven, macera arayan." 14 kişi aynı cümleyi yazmış. Macera: ortak taksi.',en:'Dating app. Profile: "Loves life, seeks adventure." Fourteen people wrote the same sentence. The adventure: splitting a cab.'},
   c:[{t:{tr:'Mesaj at',en:'Send a message'},tag:'sosyal',w:{p:55,tr:'İDDİA: Cevap gelmez. — M.',en:'WAGER: No reply. — M.'},
       ok:{d:{j:8,l:1},love:true,tr:'Cevap geldi. İsmi Yağmur. Deftere yazdım; sen yazmazsın, sonra "nasıl tanışmıştık" dersin.',en:'A reply. Name\'s Sam. In the notebook; you won\'t write it down and later you\'ll ask "how did we meet."'},
       fail:{d:{j:-2},cringe:5,tr:'Cevap yok. Mesajın: "selam :)". Gülen yüz, iki nokta. Cringe +5; hak ettin.',en:'No reply. Your message: "hey :)". A smiley, a colon. Cringe +5; earned.'}},
@@ -394,21 +416,21 @@ const EV=[
   c:[{t:{tr:'Doktora git',en:'See a doctor'},d:{h:6,m:-3},tag:'plan',line:{tr:'Doktor: "Yaşınıza göre normal." Yani "normal" kötü bir şey.',en:'Doctor: "Normal for your age." So "normal" is bad now.'}},
      {t:{tr:'Geçer',en:'It\'ll pass'},d:{h:-5},tag:'ertele',line:{tr:'Geçmedi. Sırtın da seni erteledi.',en:'It didn\'t pass. Your back postponed you right back.'}},
      {t:{tr:'Yoga videosu',en:'A yoga video'},d:{h:2,j:2},tag:'plan',line:{tr:'4 dakika yaptın, 40 dakika yorum okudun. Sağlık +2; yorumlar sayılmıyor.',en:'Four minutes of yoga, forty minutes of comments. Health +2; comments don\'t count.'}}]},
- {id:'courier',min:19,max:60,t:{tr:'Kurye: "Adreste bulunamadı." Evdeydin. Kapıyı tutuyordun. Kurye seninle göz göze geldi ve yazdı.',en:'Courier: "Recipient not found." You were home. Holding the door. The courier made eye contact with you and typed it anyway.'},
+ {id:'courier',min:18,max:60,t:{tr:'Kurye: "Adreste bulunamadı." Evdeydin. Kapıyı tutuyordun. Kurye seninle göz göze geldi ve yazdı.',en:'Courier: "Recipient not found." You were home. Holding the door. The courier made eye contact with you and typed it anyway.'},
   c:[{t:{tr:'Peşinden koş',en:'Chase him'},d:{h:2,j:-3},tag:'risk',line:{tr:'Yetişemedin. Kurye 1, sen 0. Paket "dağıtımda". Sen de.',en:'Didn\'t catch him. Courier 1, you 0. Package "out for delivery." So are you.'}},
      {t:{tr:'Şikâyet yaz',en:'File a complaint'},d:{j:-1},cringe:3,tag:'plan',line:{tr:'Şikâyetin "değerlendirildi". Yani okunmadı. Üç paragraf yazmıştın; biri büyük harfle.',en:'Your complaint was "reviewed." Meaning unread. Three paragraphs; one in caps.'}},
      {t:{tr:'Kabullen',en:'Accept fate'},d:{j:1},tag:'kacin',line:{tr:'Kabullendin. Olgunluk mu, teslimiyet mi? Dosyaya "ikisi" yazdım.',en:'You accepted it. Maturity or surrender? I wrote "both."'}}]},
- {id:'boiler',min:21,max:70,t:{tr:'Kombi bozuldu. Usta "pazartesi" dedi. Üç pazartesi geçti. Pazartesi bir gün değil, bir kavram.',en:'The boiler died. The repairman said "Monday." Three Mondays have passed. Monday isn\'t a day, it\'s a concept.'},
+ {id:'boiler',min:18,max:70,t:{tr:'Kombi bozuldu. Usta "pazartesi" dedi. Üç pazartesi geçti. Pazartesi bir gün değil, bir kavram.',en:'The boiler died. The repairman said "Monday." Three Mondays have passed. Monday isn\'t a day, it\'s a concept.'},
   c:[{t:{tr:'Battaniyeyle idare et',en:'Blankets'},d:{h:-3,m:1},tag:'ertele',line:{tr:'Üç battaniye. Soğuktan değil, gururdan titriyorsun.',en:'Three blankets. You\'re shivering from pride, not cold.'}},
      {t:{tr:'Yeni usta çağır',en:'Call another guy'},d:{m:-6,h:1},tag:'harca',line:{tr:'Yeni usta "bunu kim yapmış" dedi. Eski usta. Fatura: iki usta.',en:'New guy said "who did this?" The old guy. Bill: two guys.'}},
      {t:{tr:'Kendin tamir et',en:'Fix it yourself'},tag:'risk',w:{p:65,tr:'İDDİA: Patlatırsın. — M.',en:'WAGER: You\'ll blow it up. — M.'},
       ok:{d:{h:2,j:6,b:2},tr:'Çalıştı. Mucize. Not: mucizeleri saymıyorum; bu bir tane.',en:'It works. A miracle. Note: I don\'t count miracles. This one I did.'},
       fail:{d:{m:-8,h:-2},tr:'Daha da bozuldu. Usta artık "çarşamba" diyor. Çarşamba da bir kavram.',en:'Now it\'s worse. The repairman says "Wednesday" now. Wednesday is also a concept.'}}]},
- {id:'post',min:20,max:50,t:{tr:'Sosyal medyada "Yeni bir yolculuğa başlıyorum" yazdın. 4 beğeni: annen, bir bot, eski sevgilinin iki arkadaşı. İzliyorlar.',en:'You posted "Starting a new journey." Four likes: your mom, a bot, and two of your ex\'s friends. They\'re watching.'},
+ {id:'post',min:18,max:50,t:{tr:'Sosyal medyada "Yeni bir yolculuğa başlıyorum" yazdın. 4 beğeni: annen, bir bot, eski sevgilinin iki arkadaşı. İzliyorlar.',en:'You posted "Starting a new journey." Four likes: your mom, a bot, and two of your ex\'s friends. They\'re watching.'},
   c:[{t:{tr:'Yolculuğu anlat',en:'Explain the journey'},d:{j:-2},cringe:6,tag:'sosyal',line:{tr:'Anlattın. 11 paragraf. Beğeni: 4\'te kaldı. Bot bile gitti.',en:'You explained. Eleven paragraphs. Still four likes. Even the bot left.'}},
      {t:{tr:'Sil',en:'Delete it'},d:{j:1},tag:'kacin',line:{tr:'Sildin. Ekran görüntüsü alındı. Eski sevgilinin arkadaşı hızlı.',en:'Deleted. Screenshot taken. Your ex\'s friend is fast.'}},
      {t:{tr:'Gerçekten yola çık',en:'Actually start the journey'},d:{j:4,m:-3,b:2},tag:'plan',line:{tr:'Çıktın. Nereye, belli değil; ama ilk kez paylaşım ile hayat aynı yönde.',en:'You went. Where, unclear; but for once the post and the life point the same way.'}}]},
- {id:'night',min:20,max:65,t:{tr:'Gece 03:12. Tavana bakıyorsun. Tavan da sana. İkiniz de bir şey söylemiyorsunuz. Sağlıklı.',en:'3:12 a.m. You\'re staring at the ceiling. The ceiling stares back. Neither of you says anything. Healthy.'},
+ {id:'night',min:18,max:65,t:{tr:'Gece 03:12. Tavana bakıyorsun. Tavan da sana. İkiniz de bir şey söylemiyorsunuz. Sağlıklı.',en:'3:12 a.m. You\'re staring at the ceiling. The ceiling stares back. Neither of you says anything. Healthy.'},
   c:[{t:{tr:'Uyumaya çalış',en:'Try to sleep'},d:{h:2},tag:'plan',line:{tr:'Uyudun. 04:50\'de. Alarm 07:00. Matematik: kötü.',en:'You slept. At 4:50. Alarm at 7. The math: bad.'}},
      {t:{tr:'Telefona bak',en:'Check your phone'},d:{h:-3,j:-2},cringe:4,tag:'ertele',line:{tr:'Eski sevgilinin yeni sevgilisinin kedisinin hesabını buldun. Kedi mutlu. Sen değil.',en:'You found your ex\'s new partner\'s cat\'s account. The cat is happy. You are not.'}},
      {t:{tr:'Hayatı sorgula',en:'Question everything'},d:{b:2,j:-1},tag:'plan',line:{tr:'Sorguladın. Cevap gelmedi. Cevap da "görüldü" yapıyor.',en:'You questioned. No answer. The answer left you on read.'}}]},
@@ -428,7 +450,7 @@ const EV=[
  {id:'cat',min:26,max:75,t:{tr:'Kapıda bir kedi. Senin değil. Artık senin. Kedi karar verdi; sen sadece haberdar edildin.',en:'A cat at the door. Not yours. Yours now. The cat decided; you were merely informed.'},
   c:[{t:{tr:'İçeri al',en:'Let it in'},d:{j:6,m:-2},tag:'sosyal',line:{tr:'Adı Pamuk. O koydu. Kira sözleşmesine de o baktı; "evcil hayvan yasak" maddesini yedi.',en:'Name\'s Biscuit. The cat chose it. Also reviewed your lease; ate the "no pets" clause.'}},
      {t:{tr:'Alma',en:'Don\'t'},d:{j:-2},tag:'kacin',line:{tr:'Kedi seni aldı. Mahallede konuşuluyor: "şu kedinin insanı".',en:'The cat took you. The street talks: "that cat\'s human."'}}]},
- {id:'gym',min:20,max:65,t:{tr:'Spor salonu: 11 ay ödendi, 2 kez gidildi. Salon seni "en sadık üye" seçti. Ödül: bir ay daha.',en:'Gym: eleven months paid, two visits. The gym named you "most loyal member." Prize: one more month.'},
+ {id:'gym',min:18,max:65,t:{tr:'Spor salonu: 11 ay ödendi, 2 kez gidildi. Salon seni "en sadık üye" seçti. Ödül: bir ay daha.',en:'Gym: eleven months paid, two visits. The gym named you "most loyal member." Prize: one more month.'},
   c:[{t:{tr:'Bu hafta git',en:'Go this week'},d:{h:4,j:2},tag:'plan',line:{tr:'Gittin. 20 dakika. 12\'si soyunma odasında. Sayıyorum.',en:'You went. Twenty minutes. Twelve in the locker room. I\'m counting.'}},
      {t:{tr:'Gelecek ay',en:'Next month'},d:{h:-1},tag:'ertele',line:{tr:'Gelecek ay. Deftere yazdım. 14. kez. Sayfa bitti.',en:'Next month. Written down. For the fourteenth time. Page is full.'}},
      {t:{tr:'İptal et',en:'Cancel'},d:{m:3},tag:'biriktir',line:{tr:'İptal için salona gittin. 11 ayda ilk kez terledin: formlar.',en:'You went to the gym to cancel. First sweat in eleven months: the forms.'}}]},
@@ -495,6 +517,18 @@ const DIALOG={
  mom:[{w:'anne',tr:'Bayramda gel. Komşular soruyor. Ben sormuyorum, komşular.',en:'Come for the holiday. The neighbors are asking. Not me, the neighbors.'}],
  lotto:[{w:'anne',tr:'Senin adına bilet almıştım. Tutmuş. Ben dedim.',en:'I bought a ticket in your name. It won. I told you.'}],
 };
+const MUNDANE=[
+ {tr:'Kaydırdın. İki saat. Bir şey öğrenmedin; emin değilim.',en:'Scrolled. Two hours. Learned nothing; not sure.'},
+ {tr:'Annen 1 mesaj. Görüldü.',en:'Mom, one message. Seen.'},
+ {tr:'Kuyrukta bekledin. Sıra sana gelince kapandı.',en:'Waited in line. It closed when you reached the front.'},
+ {tr:'Kurye yine "bulunamadı" yazdı. Evdeydin.',en:'Courier wrote "not found" again. You were home.'},
+ {tr:'Yarına plan yaptın. Yarın itiraz edecek.',en:'Made a plan for tomorrow. Tomorrow will object.'},
+ {job:true,tr:'İşe gittin, döndün. Arada bir şey olmadı; olmaması da iş.',en:'Went to work, came back. Nothing happened in between; that\'s also work.'},
+ {job:true,tr:'Nevin Hanım toplantı yaptı. Konu: toplantı.',en:'Ms. Carver held a meeting. Topic: the meeting.'},
+ {cat:true,tr:'Pamuk 05:00\'te uyandırdı. Sebep yok.',en:'Biscuit woke you at 5 a.m. No reason.'},
+ {partner:true,tr:'Yağmur "nasılsın" yazdı. "iyi" yazdın. Deftere yazdım: yalan.',en:'Sam texted "how are you." You said "fine." Notebook: a lie.'},
+ {nojob:true,tr:'İlanlara baktın. Hepsi "aile" arıyor.',en:'Checked listings. They all want "family."'},
+];
 const COACH={
  intro1:{tr:'18 oldun. Tebrikler. Buradan sonrası resmî olarak senin suçun.',en:'Eighteen. Congratulations. From here on, everything is officially your fault.'},
  intro1b:{tr:'Devletin gözünde yetişkinsin. Annenin gözünde hâlâ çocuk. İkisi de haklı; biri daha haklı.',en:'The state says you\'re an adult. Your mom says you\'re a child. Both are right; one is more right.'},
@@ -536,7 +570,7 @@ const COACH={
 let S=null, feed, actions, hud, phone, avatar;
 function newState(life, perks){
   return {life:life||1,perks:perks||[],age:18,year:2026,name:'',city:'',h:70,j:55,b:60,l:50,m:30,mom:40,ego:10,cringe:10,unread:9,job:false,loves:0,
-    wagersWon:0,wagersLost:0,decisions:0,years:0,pat:{},seen:{},env:[],goal:null,goalDone:0,streak:1,lastMissWager:null,hudShown:false,prevTop:null,alive:true,lastKarne:null,teshis:[],legendSeen:0,asideUsed:0,momCalled:0,dayIdx:0,date:new Date(2026,2,3).getTime(),daysInYear:0,birth:new Date(2008,2,3).getTime()};
+    wagersWon:0,wagersLost:0,decisions:0,years:0,pat:{},seen:{},env:[],goal:null,goalDone:0,streak:1,lastMissWager:null,hudShown:false,prevTop:null,alive:true,lastKarne:null,teshis:[],legendSeen:0,asideUsed:0,momCalled:0,dayIdx:0,date:new Date(2026,2,3).getTime(),daysInYear:0,birth:new Date(2008,2,3).getTime(),hour:9,speed:1,paused:true,auto:false,salary:0,title:'',rent:0,home:'mom',partner:null,partnerSince:0,cat:false,nextEventDay:1,loanUsed:false,running:false};
 }
 const wait=(ms)=>new Promise(r=>setTimeout(r, RM()?Math.min(ms,60):ms));
 function scrollDown(){ feed.scrollTop=feed.scrollHeight; }
@@ -578,6 +612,13 @@ async function coach(text, kind){
 }
 function sys(text){ feed.appendChild(el(`<div class="sys">${esc(text)}</div>`)); scrollDown(); }
 function setActions(list){ actions.innerHTML=''; list.forEach(a=>{ const b=el(`<button type="button" class="btn ${a.cls||''}">${esc(a.label)}${a.hint?`<span class="hint">${esc(a.hint)}</span>`:''}</button>`); b.addEventListener('click',()=>{ ac(); b.disabled=true; a.on(); }); actions.appendChild(b); }); }
+function lifeRender(chg){
+  const r=document.getElementById('lifeRow'); if(!r) return;
+  const home=S.home==='mom'?T(UI.momHome):S.home==='own'?UI.ownHome[lang](S.rent):UI.rentHome[lang](S.rent);
+  const rel=S.partner?`${S.partner}${S.partnerSince?` (${Math.max(1,Math.floor((S.date-S.partnerSince)/31536000000))} ${lang==='tr'?'yıl':'yr'})`:''}`:T(UI.single);
+  r.innerHTML=`<span class="${chg==='job'?'chg':''}">${T(UI.lifeJob)}: <b>${S.salary?esc(S.title)+' · '+S.salary+T(UI.perMo):T(UI.jobless)}</b></span><span class="${chg==='home'?'chg':''}">${T(UI.lifeHome)}: <b>${esc(home)}</b></span><span class="${chg==='rel'?'chg':''}">${T(UI.lifeRel)}: <b>${esc(rel)}</b></span><span class="${chg==='cat'?'chg':''}">${T(UI.lifeCat)}: <b>${S.cat?(lang==='tr'?'Pamuk':'Biscuit'):'—'}</b></span>`;
+}
+function clockRender(){ const c=document.getElementById('clock'); if(!c) return; document.getElementById('clockDate').textContent=fmtDate(S.date); document.getElementById('clockTime').textContent=String(Math.floor(S.hour)).padStart(2,'0')+':'+String(Math.floor((S.hour%1)*60)).padStart(2,'0'); document.getElementById('dayProg').style.width=(S.hour/24*100)+'%'; c.classList.toggle('fast', S.dayIdx<S.nextEventDay); }
 function hudRender(changed){
   if(!S.hudShown) return; hud.hidden=false;
   document.getElementById('ageNum').textContent=S.age;
@@ -586,6 +627,7 @@ function hudRender(changed){
   document.getElementById('nameLbl').textContent=S.name;
   const names=UI.stats[lang], vals=[S.h,S.j,S.b,S.l], keys=['h','j','b','l'];
   document.getElementById('stats').innerHTML=names.map((n,i)=>`<div class="stat ${changed&&changed[keys[i]]?'jiggle':''}">${n}<b>${Math.round(vals[i])}</b><div class="bar"><i style="width:${clamp(vals[i],0,100)}%"></i></div></div>`).join('');
+  lifeRender(); clockRender();
   document.getElementById('metaRow').innerHTML=`<span>${T(UI.money)}: <b>${Math.round(S.m)}</b></span><span>${T(UI.unread)}: <b>${S.unread}</b></span><span class="${S.mom>=75?'hot':''}">${T(UI.mom)}: <b>${Math.round(S.mom)}</b></span><span>${T(UI.cringe)}: <b>${S.cringe}</b></span>`;
 }
 function applyDelta(d, extra){
@@ -610,6 +652,22 @@ async function checkTeshis(){
     const s=el(`<div class="sticker"><small>${esc(T(UI.teshis))}</small>${esc(T(t))}</div>`); feed.appendChild(s); scrollDown(); SFX.slam(); shake(true); flash('lime'); mood('smirk'); await wait(700); await coach(T(t.line),'roast'); } }
 }
 
+function lifeFx(ev, ch, out, win){
+  const id=ev.id; let chg=null;
+  if(id==='job' && out===ch.ok){ S.salary=12; S.title=T(UI.jobTitle0); S.job=true; chg='job'; }
+  if(id==='promo' && (ch.d&&ch.d.m===8 || win)){ S.salary=Math.round(S.salary*1.4)+2; S.title=T(UI.jobTitle); chg='job'; }
+  if(id==='boss' && out===ch.fail){ S.salary=0; S.title=''; S.job=false; chg='job'; }
+  if(id==='hr' && ch.tag==='plan' && ch.d && ch.d.b){ S.salary=Math.max(S.salary,14); S.title=T(UI.jobTitle); chg='job'; }
+  if(id==='rent'){ if(S.home==='mom'){ S.home='rent'; S.rent=5; } if(out===ch.fail||(!ch.w&&ch.tag==='kacin')) S.rent+=2; else if(ch.w) S.rent+=1; else S.rent=S.rent+1; chg='home'; }
+  if(id==='house' && ch.tag==='risk'){ S.home='own'; S.rent=8; chg='home'; }
+  if(id==='house' && ch.tag==='anne'){ S.home='mom'; S.rent=0; chg='home'; }
+  if(id==='date' && out===ch.ok){ S.partner=lang==='tr'?'Yağmur':'Sam'; S.partnerSince=S.date; chg='rel'; }
+  if(id==='ex' && ch.tag==='sosyal' && !S.partner){ S.partner=lang==='tr'?'Yağmur':'Sam'; S.partnerSince=S.date; chg='rel'; }
+  if(id==='cat' && ch.tag==='sosyal'){ S.cat=true; chg='cat'; }
+  if(id==='exam' && ch.tag==='ertele' && S.home==='mom'){ /* stays */ }
+  if(id==='post' && ch.tag==='plan' && S.home==='mom'){ S.home='rent'; S.rent=4; chg='home'; }
+  if(chg){ lifeRender(chg); SFX.ding(); }
+}
 /* ================= CARDS ================= */
 function eventCard(ev, label, legend){
   const html=ev.doc
@@ -626,8 +684,10 @@ function miniGame(){
 }
 function runEvent(ev, legend){
   return new Promise(async resolve=>{
+    S.paused=true;
     await npcDialog(ev.id);
     const card=eventCard(ev, T(UI.event), legend);
+    if(S.auto){ setTimeout(()=>{ const btns=actions.querySelectorAll('button'); if(btns.length) btns[Math.floor(rnd()*btns.length)].click(); }, 900); }
     const wagerChoice=ev.c.find(x=>x.w);
     if(wagerChoice){ setTimeout(()=>{ card.appendChild(el(`<div class="slip">${esc(T(wagerChoice.w))}</div>`)); SFX.tick(); scrollDown(); },350); }
     setActions(ev.c.map(ch=>({label:T(ch.t), on:async()=>{
@@ -639,15 +699,15 @@ function runEvent(ev, legend){
         const out=fail?ch.fail:ch.ok;
         if(fail){ S.wagersWon++; stampOn(card,'called',T(UI.called)); } else { S.wagersLost++; stampOn(card,'wrong',T(UI.wrong)); S.lastMissWager={age:S.age,t:T(ev.t)}; }
         await wait(500);
-        parts=applyDelta(out.d, out); if(out.love) S.loves++; if(out.job===false) S.job=false; if(out.job===true) S.job=true;
+        parts=applyDelta(out.d, out); if(out.love) S.loves++; if(out.job===false) S.job=false; if(out.job===true) S.job=true; lifeFx(ev,ch,out,!fail);
         card.querySelector('.slip').insertAdjacentHTML('beforeend',`<span class="odds">${UI.odds[lang](ch.w.p)}</span>`);
         line=T(out); kind=fail?'roast':'lift';
       } else if(ch.mini){
         setActions([]); const win=await miniGame(); const out=win?ch.ok:ch.fail;
         stampOn(card, win?'called':'wrong', win?T(UI.called):T(UI.wrong), true); await wait(500);
-        parts=applyDelta(out.d, out); line=T(out); kind=win?'lift':'roast';
+        parts=applyDelta(out.d, out); line=T(out); kind=win?'lift':'roast'; lifeFx(ev,ch,out,win);
       } else {
-        parts=applyDelta(ch.d, ch); if(ch.love) S.loves++; if(ch.job) S.job=true;
+        parts=applyDelta(ch.d, ch); if(ch.love) S.loves++; if(ch.job) S.job=true; lifeFx(ev,ch,ch,true);
         stampOn(card,legend?'gold':'neutral',legend?'★':T(UI.processed));
         line=ch.line?T(ch.line):null; kind=(parts.reduce((a,[n,v])=>a+v,0)<0)?'roast':'';
       }
@@ -669,6 +729,7 @@ async function goalCard(){
   const opts=GOALS.filter(g=>S.age>=g.min&&S.age<=g.max).sort(()=>rnd()-.5).slice(0,3);
   return new Promise(resolve=>{
     setActions([...opts.map(g=>({label:T(g),on:()=>{S.goal=T(g);S.decisions++;bumpPat('plan');SFX.tick();setActions([]);resolve();}})),{label:T(NO_GOAL),cls:'ghost',on:()=>{S.goal=null;S.decisions++;setActions([]);resolve();}}]);
+    if(S.auto) setTimeout(()=>{ const b=actions.querySelector('button'); if(b) b.click(); },700);
   });
 }
 function gradeOf(v){ return v<35?0:v<50?1:v<65?2:v<80?3:4; }
@@ -734,7 +795,7 @@ function momCall(){
 
 /* ================= FLOWS ================= */
 async function start(){
-  feed.innerHTML=''; setActions([]); hud.hidden=true; document.getElementById('overlayHost').innerHTML='';
+  feed.innerHTML=''; setActions([]); hud.hidden=true; document.getElementById('overlayHost').innerHTML=''; setSpeed(1);
   await wait(400);
   if(S.life>1){ await coach(T(COACH.newLife[Math.min(S.life-2,1)])); }
   await coach(T(COACH.intro1),'roast'); await coach(T(COACH.intro1b)); await coach(T(COACH.intro2));
@@ -754,10 +815,18 @@ async function nameCard(){
   await firstYear();
 }
 async function firstYear(){
-  S.dayIdx=1; dateLine();
+  S.dayIdx=1; S.hour=11.5; S.running=true; S.paused=true; dateLine(); hudRender();
   await runEvent({id:'first',t:COACH.e1,c:COACH.e1c});
-  await new Promise(resolve=>setActions([{label:T(UI.nextDay),cls:'primary pulse',on:()=>resolve()}]));
-  await advanceDays(1+Math.floor(rnd()*4)); dateLine();
+  S.nextEventDay=3; S.forced='money';
+  idleActions(); S.paused=false;
+}
+function idleActions(){
+  const list=[{label:S.auto?T(UI.autoOff):T(UI.auto),cls:'ghost',on:()=>{S.auto=!S.auto; if(S.auto) setSpeed(2); idleActions(); if(S.auto&&S.paused&&actions.querySelector('button')){ } }},{label:T(UI.enough),cls:'ghost',on:()=>sessionEnd()},{label:T(UI.share),cls:'ghost',on:()=>shareSheet()}];
+  actions.innerHTML=`<div class="flow">${esc(T(UI.flowing))}</div>`; list.forEach(a=>{ const b=el(`<button type="button" class="btn ${a.cls||''}">${esc(a.label)}</button>`); b.addEventListener('click',()=>{ac(); a.on();}); actions.appendChild(b); });
+}
+function yearEndActions(){ idleActions(); S.paused=false; }
+function setSpeed(v){ S.speed=v; document.querySelectorAll('#speed button').forEach(b=>b.classList.toggle('on', +b.dataset.s===v)); }
+async function moneyEvent(){
   const ev2={id:'money',t:COACH.e2,c:COACH.e2c};
   await new Promise(async resolve=>{
     await npcDialog('money');
@@ -772,27 +841,27 @@ async function firstYear(){
       feed.appendChild(el(`<div class="result">${deltaHtml(parts)}</div>`)); scrollDown();
       await coach(T(ch.line), ch.wrong?'lift':'roast'); setActions([]); resolve();
     }})));
+    if(S.auto) setTimeout(()=>{ const b=actions.querySelectorAll('button'); if(b.length) b[Math.floor(rnd()*b.length)].click(); },900);
   });
   await goalCard();
-  feed.appendChild(el(`<div class="skip">${esc(T(UI.firstSkip))}</div>`)); scrollDown(); S.date+=340*86400000; S.dayIdx+=3; S.daysInYear=0;
-  await coach(T(COACH.yearEnd));
-  await new Promise(resolve=>setActions([{label:T(UI.age1),cls:'primary pulse',on:()=>resolve()}]));
-  await ageUpAnim(); ageUp(); await karne(); await wait(300);
-  yearEndActions();
 }
-function yearEndActions(){
-  const list=[{label:T(UI.nextDay),cls:'primary',on:()=>playDay()},{label:T(UI.enough),cls:'ghost',on:()=>sessionEnd()},{label:T(UI.share),cls:'ghost',on:()=>shareSheet()}];
-  if(S.age>=22) list.push({label:T(UI.fast),cls:'ghost',on:()=>fastForward()});
-  setActions(list);
-}
-async function playDay(){
-  setActions([]);
-  const n=skipDays(); await advanceDays(n);
-  if(S.daysInYear>=365){ return birthday(); }
-  dateLine();
-  if(S.dayIdx===5 || (S.dayIdx%9===0)) { if(S.j<30) await coach(T(COACH.lowJoy),'lift'); else await coach(yearIntro(),'roast'); }
-  if(S.life>1 && S.dayIdx===5 && S.prevTop){ await coach(COACH.callback[lang](S.prevTop)); }
-  if(S.asideUsed<1 && rnd()<.12){ S.asideUsed++; await coach(T(pick(COACH.asides))); }
+function scheduleNext(){ const a=S.age; const max=a<26?14:a<41?24:a<61?40:60; S.nextEventDay=S.dayIdx+1+Math.floor(rnd()*max); }
+async function dayRoll(){
+  S.date+=86400000; S.dayIdx++; S.daysInYear++; if(rnd()<.5) S.unread++; S.mom=clamp(S.mom+0.25,0,100); S.m-=0.1;
+  const d=new Date(S.date); const dom=d.getDate();
+  if(dom===1 && S.salary){ S.m+=S.salary; floatNum('+'+S.salary+' '+T(UI.money),true); SFX.cash(); feed.appendChild(el(`<div class="mundane">${esc(UI.payday[lang](S.salary))}</div>`)); scrollDown(); }
+  if(dom===5 && S.rent){ S.m-=S.rent; floatNum('−'+S.rent+' '+T(UI.money),false); feed.appendChild(el(`<div class="mundane">${esc(UI.rentday[lang](S.rent))}</div>`)); scrollDown(); }
+  if(dom===10 && S.cat){ S.m-=1; feed.appendChild(el(`<div class="mundane">${esc(T(UI.catday))}</div>`)); scrollDown(); }
+  if(S.m<0){ S.m=6; S.mom=clamp(S.mom+12,0,100); feed.appendChild(el(`<div class="mundane">${esc(T(UI.momLoan))}</div>`)); SFX.sad(); scrollDown(); }
+  hudRender();
+  if(S.daysInYear>=365){ S.paused=true; await birthday(); return; }
+  if(S.dayIdx<S.nextEventDay){ if(rnd()<.18){ const pool=MUNDANE.filter(m=>(!m.job||S.salary)&&(!m.cat||S.cat)&&(!m.partner||S.partner)&&(!m.nojob||!S.salary)); feed.appendChild(el(`<div class="mundane">${esc(T(pick(pool)))}</div>`)); scrollDown(); } return; }
+  // event day
+  S.paused=true; dateLine();
+  if(S.forced==='money'){ S.forced=null; await moneyEvent(); scheduleNext(); S.paused=false; return; }
+  if(S.dayIdx%7===0){ if(S.j<30) await coach(T(COACH.lowJoy),'lift'); else await coach(yearIntro(),'roast'); }
+  if(S.life>1 && !S.cbDone && S.prevTop){ S.cbDone=true; await coach(COACH.callback[lang](S.prevTop)); }
+  if(S.asideUsed<1 && rnd()<.1){ S.asideUsed++; await coach(T(pick(COACH.asides))); }
   if(S.mom>=75 && S.momCalled<2 && rnd()<.7){ await momCall(); }
   else {
     let item=null;
@@ -800,30 +869,31 @@ async function playDay(){
     if(!item){ await coach(lang==='tr'?'Bugün olay yok. Deftere "dinlenme günü" yazdım; sen "boşluk" dersin.':'No event today. I wrote "rest day" in the notebook; you\'d call it "a void".'); }
     else { await runEvent(item.ev, item.legend); if(!S.alive) return; }
   }
-  yearEndActions();
+  scheduleNext(); idleActions(); S.paused=false;
 }
 async function birthday(){
   S.daysInYear-=365; dateLine();
   await coach(UI.birthday[lang](S.age+1),'roast');
   if(S.goal===null || rnd()<.5){ await goalCard(); }
   await coach(T(COACH.yearEnd));
-  await new Promise(resolve=>setActions([{label:T(UI.age1),cls:'primary',on:()=>resolve()}]));
   await ageUpAnim(); ageUp();
   if(rnd()<hazard()){ return death(); }
-  await karne(); await wait(300); yearEndActions();
+  await karne(); await wait(2200); scheduleNext(); idleActions(); S.paused=false;
 }
-async function fastForward(){
-  setActions([]); sys(lang==='tr'?'Hızlı yaşa: koç kararları otomatik verdi':'Live fast: the coach auto-picked');
-  while(S.alive){
-    const item=pickEvent(); if(item){ const ev=item.ev; const ch=pick(ev.c); S.decisions++; bumpPat(ch.tag); const out=ch.w?(rnd()*100<ch.w.p?ch.fail:ch.ok):(ch.mini?(rnd()<.5?ch.ok:ch.fail):ch); const d=out.d||{}; for(const k of ['h','j','b','l']) if(d[k]) S[k]=clamp(S[k]+d[k],0,100); if(d.m) S.m+=d.m; if(d.mom) S.mom=clamp(S.mom+d.mom,0,100); if(ch.w){ if(out===ch.fail) S.wagersWon++; else S.wagersLost++; } if(out.love) S.loves++; if(S.m<0) S.m=4; }
-    S.date+=365*86400000; S.dayIdx+=Math.max(3,Math.round(14-S.age/8)); ageUp();
-    if(S.age%5===0){ sys(`${S.age} · ${S.year}`); SFX.tick(); await wait(140); }
-    if(rnd()<hazard() || S.age>=97) return death();
-  }
+function tick(){
+  if(!S||!S.running||S.paused||!S.alive||S.speed===0) return;
+  const quiet=S.dayIdx<S.nextEventDay; const base=S.speed===2?8:3; let h=base*(quiet?4:1);
+  const eventHour=11+((S.dayIdx*7)%9);
+  S.hour+=h;
+  if(S.hour>=24){ S.hour-=24; clockRender(); dayRoll(); return; }
+  clockRender();
 }
+function dayEvent(){ /* event fires on an event day at eventHour */ S.nextEventDay=S.dayIdx; S.paused=true; (async()=>{ S.hour=24; await dayRoll(); })(); }
+setInterval(tick,200);
+async function fastForward(){ S.auto=true; setSpeed(2); idleActions(); S.paused=false; }
 function topPatterns(){ return Object.entries(S.pat).sort((a,b)=>b[1]-a[1]).slice(0,3); }
 async function death(){
-  S.alive=false; setActions([]); mood('sad');
+  S.alive=false; S.paused=true; S.auto=false; setActions([]); mood('sad');
   const host=document.getElementById('overlayHost');
   const cause=pick(COACH.causes);
   host.innerHTML=`<div class="death"><svg class="ecg" viewBox="0 0 340 90"><path d="M0 45 L40 45 L52 45 L58 20 L64 70 L70 45 L110 45 L122 45 L128 22 L134 68 L140 45 L180 45 L192 45 L198 28 L204 62 L210 45 L250 45 L340 45"/></svg><div id="gv"></div></div>`;
@@ -855,7 +925,7 @@ async function death(){
   document.getElementById('rebirth').addEventListener('click',()=>{ const perks=S.perks.concat([unlock]); const prevTop=pats.length?T(PAT[pats[0][0]]):null; S=newState(S.life+1,perks); S.prevTop=prevTop; host.innerHTML=''; start(); });
 }
 function sessionEnd(){
-  const host=document.getElementById('overlayHost');
+  S.paused=true; const host=document.getElementById('overlayHost');
   host.innerHTML=`<div class="overlay"><div class="sheet">
     <h3>${esc(T(UI.sessionEnd))}</h3>
     <div style="font-family:var(--coach-font);font-style:italic;font-size:17px">${esc(UI.sessionTxt[lang](S.years,S.decisions))}</div>
@@ -871,7 +941,7 @@ function shareCardHtml(){
   return `<div class="share"><div><div class="k">${esc(T(UI.karne))} · ${k.year}</div><div class="g">${n.map((x,i)=>`<div>${x}<b>${esc(k.g[i])}</b></div>`).join('')}</div></div><q>${esc(k.motto)}</q><div class="f"><span>${esc(S.name)} · ${S.age}</span><span>MOTTO · HYT-${(S.dayIdx*131+S.age).toString(36).toUpperCase()}</span></div></div>`;
 }
 function shareSheet(){
-  const host=document.getElementById('overlayHost');
+  S.paused=true; const host=document.getElementById('overlayHost');
   host.innerHTML=`<div class="overlay"><div class="sheet"><h3>${esc(T(UI.share))}</h3>${shareCardHtml()}<div style="font-size:11px;color:var(--ink-2)">${esc(T(UI.shareHint))}</div><button type="button" class="btn" id="cls">${esc(T(UI.close))}</button></div></div>`;
   SFX.ding();
   document.getElementById('cls').addEventListener('click',()=>{host.innerHTML='';yearEndActions();});
@@ -888,6 +958,7 @@ function boot(){
   feed=document.getElementById('feed'); actions=document.getElementById('actions'); hud=document.getElementById('hud'); phone=document.getElementById('phone'); avatar=document.getElementById('avatar');
   document.getElementById('langTR').addEventListener('click',()=>{ac();setLang('tr');});
   document.getElementById('langEN').addEventListener('click',()=>{ac();setLang('en');});
+  document.querySelectorAll('#speed button').forEach(b=>b.addEventListener('click',()=>{ ac(); setSpeed(+b.dataset.s); }));
   const sb=document.getElementById('soundBtn');
   sb.addEventListener('click',()=>{sound=!sound;sb.classList.toggle('on',sound);sb.setAttribute('aria-pressed',sound); if(sound){ac();SFX.ding();}});
   let l='tr'; try{ l=localStorage.getItem('motto-lang')||'tr'; }catch(e){}
