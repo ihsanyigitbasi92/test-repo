@@ -43,9 +43,9 @@ button{font:inherit;color:inherit}
 @keyframes flash{0%{opacity:1}100%{opacity:0}}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px;gap:8px}
 .brand{font-family:var(--stamp-font);letter-spacing:.16em;font-size:14px;color:var(--lime)}
-.brand small{display:block;font-family:var(--body-font);font-weight:600;letter-spacing:.08em;font-size:10px;color:var(--ink-2);text-transform:uppercase}
+.brand small{display:block;font-family:var(--body-font);font-weight:600;letter-spacing:.04em;font-size:9px;white-space:nowrap;color:var(--ink-2);text-transform:uppercase}
 .chips{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-.chip{border:1px solid var(--line);border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700;letter-spacing:.05em;background:transparent;cursor:pointer}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 7px;font-size:11px;font-weight:700;letter-spacing:.05em;background:transparent;cursor:pointer}
 .chip.on{background:var(--lime);color:var(--lime-ink);border-color:var(--lime)}
 .hud{padding:6px 14px 8px;display:grid;grid-template-columns:52px 1fr auto;gap:6px 10px;align-items:center;border-bottom:1px solid var(--line);position:relative}
 .avatar{width:52px;height:52px;border-radius:50%;background:var(--paper-3);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -720,9 +720,10 @@ function runEvent(ev, legend){
 }
 function pickEvent(){
   if(S.legendSeen<1 && S.age>=20 && rnd()<.18){ const pool=LEGEND.filter(e=>S.age>=e.min&&S.age<=e.max&&!S.seen[e.id]); if(pool.length){ const e=pick(pool); S.seen[e.id]=true; S.legendSeen++; return {ev:e,legend:true}; } }
-  const pool=EV.filter(e=>S.age>=e.min&&S.age<=e.max&&!S.seen[e.id]&&(!e.need||S.job));
+  let pool=EV.filter(e=>S.age>=e.min&&S.age<=e.max&&!S.seen[e.id]&&(!e.need||S.job));
+  if(!pool.length) pool=EV.filter(e=>S.age>=e.min&&S.age<=e.max&&(!e.need||S.job)&&(S.dayIdx-S.seen[e.id])>45);
   if(!pool.length) return null;
-  const e=pick(pool); S.seen[e.id]=true; return {ev:e,legend:false};
+  const e=pick(pool); S.seen[e.id]=S.dayIdx; return {ev:e,legend:false};
 }
 async function goalCard(){
   await coach(T(COACH.goalAsk));
@@ -885,7 +886,7 @@ function tick(){
   const quiet=S.dayIdx<S.nextEventDay; const base=S.speed===2?8:3; let h=base*(quiet?4:1);
   const eventHour=11+((S.dayIdx*7)%9);
   S.hour+=h;
-  if(S.hour>=24){ S.hour-=24; clockRender(); dayRoll(); return; }
+  if(S.hour>=24){ S.hour=(S.hour-24)%24; clockRender(); dayRoll(); return; }
   clockRender();
 }
 function dayEvent(){ /* event fires on an event day at eventHour */ S.nextEventDay=S.dayIdx; S.paused=true; (async()=>{ S.hour=24; await dayRoll(); })(); }
