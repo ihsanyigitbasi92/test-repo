@@ -138,6 +138,15 @@ button{font:inherit;color:inherit}
 .envelope .ic{width:26px;height:18px;border:2px solid var(--ink);border-radius:2px;position:relative;flex:none;animation:wiggle 1.4s ease-in-out infinite}
 @keyframes wiggle{0%,100%{transform:rotate(0)}50%{transform:rotate(-8deg)}}
 .envelope .ic::after{content:"";position:absolute;left:-2px;top:-2px;width:26px;height:18px;clip-path:polygon(0 0,100% 0,50% 60%);background:var(--ink)}
+.npc{display:flex;gap:8px;align-items:flex-end;max-width:92%;align-self:flex-start;animation:slideIn .25s ease-out}
+.npc .av{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--stamp-font);font-size:13px;color:#111;border:2px solid var(--line)}
+.npc .bub{background:var(--paper-3);border:1px solid var(--line);border-radius:14px 14px 14px 4px;padding:8px 12px;font-size:15px}
+.npc .bub small{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:2px}
+.me{align-self:flex-end;max-width:85%;background:var(--lime);color:var(--lime-ink);border-radius:14px 14px 4px 14px;padding:8px 12px;font-size:15px;font-weight:600;animation:pop .22s ease-out}
+.me small{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:1px}
+.dateline{align-self:center;font-family:var(--stamp-font);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);padding:8px 12px;border:1px dashed var(--line);border-radius:999px;margin-top:4px}
+.dateline b{color:var(--lime)}
+.skip{align-self:center;font-size:12px;color:var(--ink-2);font-style:italic;font-family:var(--coach-font);text-align:center;max-width:85%}
 .sys{align-self:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);padding:6px 0}
 .sticker{align-self:center;background:var(--lime);color:var(--lime-ink);font-family:var(--stamp-font);font-size:15px;letter-spacing:.06em;padding:10px 16px;border-radius:4px;transform:rotate(-3deg);box-shadow:4px 5px 0 rgba(0,0,0,.4);animation:stickIn .5s cubic-bezier(.2,1.7,.4,1) both;text-align:center;max-width:95%}
 .sticker small{display:block;font-family:var(--body-font);font-size:10px;letter-spacing:.16em;font-weight:700;margin-bottom:2px}
@@ -286,7 +295,10 @@ const UI={
   money:{tr:'Para',en:'Cash'}, unread:{tr:'Okunmamış',en:'Unread'}, mom:{tr:'Anne Baskısı',en:'Mom Pressure'}, cringe:{tr:'Cringe',en:'Cringe'},
   age:{tr:'yaş',en:'yrs'}, life:{tr:n=>n+'. hayat',en:n=>(['1st','2nd','3rd'][n-1]||n+'th')+' life'},
   shuffle:{tr:'Karıştır',en:'Shuffle'}, keep:{tr:'Bu olsun',en:'This one'},
-  oneMore:{tr:'BİR YIL DAHA',en:'ONE MORE YEAR'}, age1:{tr:'YAŞLAN',en:'AGE UP'}, enough:{tr:'Bugünlük yeter',en:'Enough for today'}, share:{tr:'Paylaş',en:'Share'},
+  oneMore:{tr:'BİR YIL DAHA',en:'ONE MORE YEAR'}, age1:{tr:'YAŞLAN',en:'AGE UP'}, nextDay:{tr:'ERTESİ GÜN',en:'NEXT DAY'}, day:{tr:'Gün',en:'Day'}, you:{tr:'Sen',en:'You'},
+  skipLines:{tr:[n=>`${n} gün geçti. Hiçbir şey olmadı; bu da bir olay.`,n=>`${n} gün. Uyudun, uyandın, kaydırdın. Deftere tek satır: "—".`,n=>`${n} sessiz gün. Annen ${Math.ceil(n/3)} kez aradı; saymıyorum, defter sayıyor.`,n=>`${n} gün sonra. Takvim ilerledi; sen ilerlemedin. Eşitlik yok.`],en:[n=>`${n} days passed. Nothing happened; that's also an event.`,n=>`${n} days. Sleep, wake, scroll. One line in the notebook: "—".`,n=>`${n} quiet days. Mom called ${Math.ceil(n/3)} times; I'm not counting, the notebook is.`,n=>`${n} days later. The calendar moved; you didn't. No tie.`]},
+  firstSkip:{tr:'Yılın kalanı hızlı geçti: 340 gün, 3 olay. Normal; 18 yaş böyle. Doğum günün geldi.',en:'The rest of the year went fast: 340 days, three events. Normal; eighteen is like that. It\'s your birthday.'},
+  birthday:{tr:a=>`Doğum günün. ${a} oldun. Pasta yok; dayın aradı, "para göndermedim" demek için.`,en:a=>`Your birthday. You're ${a}. No cake; your uncle called to say he didn't send money.`}, enough:{tr:'Bugünlük yeter',en:'Enough for today'}, share:{tr:'Paylaş',en:'Share'},
   fast:{tr:'Hızlı yaşa (ölüme kadar)',en:'Live fast (until death)'}, cont:{tr:'Devam',en:'Continue'}, close:{tr:'Kapat',en:'Close'},
   newClient:{tr:'YENİ MÜŞTERİ',en:'NEW CLIENT'},
   karne:{tr:'KARNE',en:'REPORT CARD'}, gradeNames:{tr:['Sağlık','Para','İlişkiler','Kafa','Cesaret','Davranış'],en:['Health','Money','Relationships','Brain','Courage','Conduct']},
@@ -453,6 +465,36 @@ const MOMCALLS=[
  {q:{tr:'"Komşunun kızı evlendi. Söylüyorum sadece."',en:'"The neighbor\'s daughter got married. Just saying."'},acc:{tr:'"Sadece" söyledi. 14 dakika. Sadece.',en:'"Just saying." For fourteen minutes. Just.'}},
  {q:{tr:'"Ses niye kısık? Hasta mısın? Doktora git."',en:'"Why is your voice low? Are you sick? See a doctor."'},acc:{tr:'Hasta değilsin. Annen yine de ilaç adı yazdı. Üç tane. İkisi aynı.',en:'You\'re not sick. Mom listed three medicines anyway. Two are the same.'}},
 ];
+const NPC={
+ anne:{tr:'Anne',en:'Mom',c:'#ff9eb0',i:'A'}, baris:{tr:'Barış',en:'Jordan',c:'#ffb35a',i:'B'}, nevin:{tr:'Nevin Hanım',en:'Ms. Carver',c:'#b8c0cc',i:'N'},
+ yagmur:{tr:'Yağmur',en:'Sam',c:'#8fd3ff',i:'Y'}, pamuk:{tr:'Pamuk',en:'Biscuit',c:'#c9ff3a',i:'P'}, dayi:{tr:'Dayı',en:'Uncle',c:'#d9c7a8',i:'D'},
+ sukran:{tr:'Şükran Teyze',en:'Mrs. Dale',c:'#e6b8ff',i:'Ş'}, kurye:{tr:'Kurye',en:'Courier',c:'#aab',i:'K'}, usta:{tr:'Kombi Ustası',en:'Boiler Guy',c:'#aab',i:'U'},
+ evsahibi:{tr:'Ev Sahibi',en:'Landlord',c:'#aab',i:'E'}, ik:{tr:'İK',en:'HR',c:'#aab',i:'İ'}, doktor:{tr:'Doktor',en:'Doctor',c:'#aab',i:'Dr'}, garson:{tr:'Garson',en:'Waiter',c:'#aab',i:'G'}, cocuk:{tr:'Komşunun torunu',en:'Neighbor\'s grandkid',c:'#aab',i:'?'},
+};
+const DIALOG={
+ first:[{w:'anne',tr:'Uyandın mı? Kayıt bugün. Kahvaltı yaptın mı? Yapmadın. Biliyorum.',en:'Are you up? Registration is today. Did you eat? You didn\'t. I know.'}],
+ money:[{w:'dayi',tr:'Al bakalım. Hayata atıl. Benim zamanımda bununla araba alınırdı.',en:'Here. Get started. In my day this bought a car.'},{w:'anne',tr:'Dayına teşekkür ettin mi? Et.',en:'Did you thank your uncle? Do it.'}],
+ exam:[{w:'anne',tr:'Sonuçlar açıklanmış. Komşunun oğlu tıp kazanmış. Söylüyorum sadece.',en:'Results are out. The neighbor\'s son got into med school. Just saying.'}],
+ job:[{w:'baris',tr:'KANKA BU İLAN KESİN. BAŞVUR. Ben de başvurdum, 3 ay oldu, cevap yok, KESİN.',en:'BRO THIS LISTING IS A SURE THING. APPLY. I applied, three months ago, no answer, SURE THING.'}],
+ rent:[{w:'evsahibi',tr:'Evladım gibisin, biliyorsun. Ama piyasa malum. Ben de mağdurum.',en:'You\'ve been like family, you know that. But the market. I\'m a victim here too.'}],
+ fam:[{w:'anne',tr:'Mesajları okuyor musun?',en:'Are you reading these?'},{w:'anne',tr:'?',en:'?'},{w:'anne',tr:'Teyzen soruyor, cevap vermiyormuşsun.',en:'Your aunt says you don\'t reply.'}],
+ date:[{w:'yagmur',tr:'selam. profilin komik. ciddi misin',en:'hey. funny profile. serious?'}],
+ promo:[{w:'nevin',tr:'Seni bir üst seviyeye taşımak istiyoruz. Maaş konusunu İK ile konuşuruz. Bütçe esnek değil ama heyecan verici.',en:'We\'d like to take you to the next level. Salary we\'ll discuss with HR. Budget isn\'t flexible, but this is exciting.'}],
+ back:[{w:'doktor',tr:'Yaşınıza göre normal. Çorabı oturarak giyin.',en:'Normal for your age. Put socks on sitting down.'}],
+ courier:[{w:'kurye',tr:'Adreste bulunamadı.',en:'Recipient not found.'},{w:'kurye',tr:'(göz göze geldiniz)',en:'(eye contact was made)'}],
+ boiler:[{w:'usta',tr:'Pazartesi.',en:'Monday.'},{w:'usta',tr:'Pazartesi dedim ya.',en:'I said Monday.'},{w:'usta',tr:'Hangi pazartesi demedim.',en:'I didn\'t say which Monday.'}],
+ post:[{w:'baris',tr:'KANKA PAYLAŞIMINI GÖRDÜM. YOLCULUK NEREYE? BEN DE GELEYİM',en:'BRO SAW YOUR POST. JOURNEY TO WHERE? I\'M IN'}],
+ wedding:[{w:'sukran',tr:'Senin düğün ne zaman? Masa 14\'tesin, görüyorum.',en:'When\'s your wedding? Table 14, I see.'},{w:'garson',tr:'Siz… gelin tarafı mı?',en:'Are you… with the bride?'}],
+ crypto:[{w:'baris',tr:'KESİN. BU SEFER KESİN. GEÇEN SEFERKİ SAYILMAZ, PİYASAYDI.',en:'SURE THING. THIS TIME. LAST TIME DOESN\'T COUNT, THAT WAS THE MARKET.'}],
+ house:[{w:'anne',tr:'Komşunun kızı ev almış. Kirada ne yapıyorsun sen?',en:'The neighbor\'s daughter bought a house. What are you doing renting?'},{w:'dayi',tr:'Benim zamanımda bir maaşla ev alınırdı.',en:'In my day one salary bought a house.'}],
+ cat:[{w:'pamuk',tr:'Miyav.',en:'Meow.'},{w:'pamuk',tr:'(içeri girdi)',en:'(walked in)'}],
+ hr:[{w:'ik',tr:'Değerli ekip arkadaşımız, esnek tasarruf dönemimizde desteğiniz için teşekkürler.',en:'Dear valued team member, thank you for your support during our flexible savings period.'}],
+ old:[{w:'cocuk',tr:'Bu telefon eski. Sen de eskisin.',en:'This phone\'s old. So are you.'}],
+ ex:[{w:'yagmur',tr:'konuşabilir miyiz',en:'can we talk'},{w:'yagmur',tr:'kedi iyi bu arada',en:'cat\'s fine btw'}],
+ boss:[{w:'nevin',tr:'Kapıyı kapatır mısın? Konuşmamız gereken bir yeniden yapılanma var.',en:'Could you close the door? There\'s a restructuring we need to discuss.'}],
+ mom:[{w:'anne',tr:'Bayramda gel. Komşular soruyor. Ben sormuyorum, komşular.',en:'Come for the holiday. The neighbors are asking. Not me, the neighbors.'}],
+ lotto:[{w:'anne',tr:'Senin adına bilet almıştım. Tutmuş. Ben dedim.',en:'I bought a ticket in your name. It won. I told you.'}],
+};
 const COACH={
  intro1:{tr:'18 oldun. Tebrikler. Buradan sonrası resmî olarak senin suçun.',en:'Eighteen. Congratulations. From here on, everything is officially your fault.'},
  intro1b:{tr:'Devletin gözünde yetişkinsin. Annenin gözünde hâlâ çocuk. İkisi de haklı; biri daha haklı.',en:'The state says you\'re an adult. Your mom says you\'re a child. Both are right; one is more right.'},
@@ -494,13 +536,21 @@ const COACH={
 let S=null, feed, actions, hud, phone, avatar;
 function newState(life, perks){
   return {life:life||1,perks:perks||[],age:18,year:2026,name:'',city:'',h:70,j:55,b:60,l:50,m:30,mom:40,ego:10,cringe:10,unread:9,job:false,loves:0,
-    wagersWon:0,wagersLost:0,decisions:0,years:0,pat:{},seen:{},env:[],goal:null,goalDone:0,streak:1,lastMissWager:null,hudShown:false,prevTop:null,alive:true,lastKarne:null,teshis:[],legendSeen:0,asideUsed:0,momCalled:0};
+    wagersWon:0,wagersLost:0,decisions:0,years:0,pat:{},seen:{},env:[],goal:null,goalDone:0,streak:1,lastMissWager:null,hudShown:false,prevTop:null,alive:true,lastKarne:null,teshis:[],legendSeen:0,asideUsed:0,momCalled:0,dayIdx:0,date:new Date(2026,2,3).getTime(),daysInYear:0,birth:new Date(2008,2,3).getTime()};
 }
 const wait=(ms)=>new Promise(r=>setTimeout(r, RM()?Math.min(ms,60):ms));
 function scrollDown(){ feed.scrollTop=feed.scrollHeight; }
 function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
+function fmtDate(ms){ try{ return new Intl.DateTimeFormat(lang==='tr'?'tr-TR':'en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(ms)); }catch(e){ return new Date(ms).toDateString(); } }
+function dateLine(){ feed.appendChild(el(`<div class="dateline"><b>${esc(T(UI.day))} ${S.dayIdx}</b> · ${esc(fmtDate(S.date))}</div>`)); scrollDown(); }
+async function npcSay(d){ const n=NPC[d.w]; const ty=el(`<div class="typing">•••</div>`); feed.appendChild(ty); scrollDown(); await wait(260); ty.remove();
+  feed.appendChild(el(`<div class="npc"><div class="av" style="background:${n.c}">${esc(n.i)}</div><div class="bub"><small>${esc(T(n))}</small>${esc(T(d))}</div></div>`)); SFX.tick(); scrollDown(); await wait(240); }
+async function npcDialog(id){ const lines=DIALOG[id]; if(!lines) return; for(const d of lines) await npcSay(d); }
+function meSay(text){ feed.appendChild(el(`<div class="me"><small>${esc(T(UI.you))}</small>${esc(text)}</div>`)); scrollDown(); }
+function skipDays(){ const a=S.age; const max=a<26?22:a<41?35:a<61?55:80; return 1+Math.floor(rnd()*max); }
+async function advanceDays(n){ S.date+=n*86400000; S.dayIdx++; S.daysInYear+=n; S.unread+=Math.floor(n/2); S.mom=clamp(S.mom+n*0.25,0,100); if(n>3){ feed.appendChild(el(`<div class="skip">${esc(pick(UI.skipLines[lang])(n))}</div>`)); scrollDown(); await wait(350);} hudRender(); }
 /* ================= FX ================= */
 function shake(hard){ if(RM()) return; phone.classList.remove('shake','shake-hard'); void phone.offsetWidth; phone.classList.add(hard?'shake-hard':'shake'); }
 function flash(kind){ const f=document.getElementById('flash'); f.style.background=kind==='red'?'var(--red-flash)':kind==='gold'?'var(--gold-flash)':'var(--lime-flash)'; f.classList.remove('go'); void f.offsetWidth; f.classList.add('go'); }
@@ -531,7 +581,7 @@ function setActions(list){ actions.innerHTML=''; list.forEach(a=>{ const b=el(`<
 function hudRender(changed){
   if(!S.hudShown) return; hud.hidden=false;
   document.getElementById('ageNum').textContent=S.age;
-  document.getElementById('ageLbl').textContent=`${T(UI.age)} · ${S.year}`;
+  document.getElementById('ageLbl').textContent=`${T(UI.age)} · ${new Date(S.date).getFullYear()}`;
   document.getElementById('lifeLbl').textContent=UI.life[lang](S.life);
   document.getElementById('nameLbl').textContent=S.name;
   const names=UI.stats[lang], vals=[S.h,S.j,S.b,S.l], keys=['h','j','b','l'];
@@ -575,12 +625,13 @@ function miniGame(){
   });
 }
 function runEvent(ev, legend){
-  return new Promise(resolve=>{
+  return new Promise(async resolve=>{
+    await npcDialog(ev.id);
     const card=eventCard(ev, T(UI.event), legend);
     const wagerChoice=ev.c.find(x=>x.w);
     if(wagerChoice){ setTimeout(()=>{ card.appendChild(el(`<div class="slip">${esc(T(wagerChoice.w))}</div>`)); SFX.tick(); scrollDown(); },350); }
     setActions(ev.c.map(ch=>({label:T(ch.t), on:async()=>{
-      S.decisions++; bumpPat(ch.tag);
+      S.decisions++; bumpPat(ch.tag); meSay(T(ch.t)); await wait(200);
       if(ev.unreadReset) S.unread=1;
       let parts=[], line=null, kind='';
       if(ch.w){
@@ -655,7 +706,7 @@ async function ageUpAnim(){
 function ageUp(){
   S.age++; S.year++; S.years++;
   if(S.age>30) S.h-=1; if(S.age>50) S.h-=1.5; if(S.age>65) S.h-=2;
-  S.l-= S.age>35?1:0; S.m += S.job? 6 : 1; S.m -= 3; S.unread += 20+Math.floor(rnd()*40); S.mom += 3; S.j -= 1;
+  S.l-= S.age>35?1:0; S.m += S.job? 6 : 1; S.m -= 3; S.j -= 1; S.year=new Date(S.date).getFullYear();
   S.h=clamp(S.h,0,100); S.j=clamp(S.j,0,100); S.l=clamp(S.l,0,100); S.mom=clamp(S.mom,0,100);
   hudRender();
 }
@@ -703,13 +754,17 @@ async function nameCard(){
   await firstYear();
 }
 async function firstYear(){
+  S.dayIdx=1; dateLine();
   await runEvent({id:'first',t:COACH.e1,c:COACH.e1c});
+  await new Promise(resolve=>setActions([{label:T(UI.nextDay),cls:'primary pulse',on:()=>resolve()}]));
+  await advanceDays(1+Math.floor(rnd()*4)); dateLine();
   const ev2={id:'money',t:COACH.e2,c:COACH.e2c};
-  await new Promise(resolve=>{
+  await new Promise(async resolve=>{
+    await npcDialog('money');
     const card=eventCard(ev2,T(UI.event));
     setTimeout(()=>{ card.appendChild(el(`<div class="slip">${esc(T(COACH.e2w))}</div>`)); SFX.tick(); scrollDown(); },350);
     setActions(ev2.c.map(ch=>({label:T(ch.t),on:async()=>{
-      S.decisions++; bumpPat(ch.tag);
+      S.decisions++; bumpPat(ch.tag); meSay(T(ch.t)); await wait(200);
       if(ch.wrong){ S.wagersLost++; stampOn(card,'wrong',T(UI.wrong)); S.lastMissWager={age:18,t:T(COACH.e2)}; }
       else { S.wagersWon++; stampOn(card,'called',T(UI.called)); }
       await wait(500); const parts=applyDelta(ch.d);
@@ -719,30 +774,37 @@ async function firstYear(){
     }})));
   });
   await goalCard();
+  feed.appendChild(el(`<div class="skip">${esc(T(UI.firstSkip))}</div>`)); scrollDown(); S.date+=340*86400000; S.dayIdx+=3; S.daysInYear=0;
   await coach(T(COACH.yearEnd));
   await new Promise(resolve=>setActions([{label:T(UI.age1),cls:'primary pulse',on:()=>resolve()}]));
   await ageUpAnim(); ageUp(); await karne(); await wait(300);
   yearEndActions();
 }
 function yearEndActions(){
-  const list=[{label:T(UI.oneMore),cls:'primary',on:()=>playYear()},{label:T(UI.enough),cls:'ghost',on:()=>sessionEnd()},{label:T(UI.share),cls:'ghost',on:()=>shareSheet()}];
+  const list=[{label:T(UI.nextDay),cls:'primary',on:()=>playDay()},{label:T(UI.enough),cls:'ghost',on:()=>sessionEnd()},{label:T(UI.share),cls:'ghost',on:()=>shareSheet()}];
   if(S.age>=22) list.push({label:T(UI.fast),cls:'ghost',on:()=>fastForward()});
   setActions(list);
 }
-async function playYear(){
+async function playDay(){
   setActions([]);
-  if(S.j<30) await coach(T(COACH.lowJoy),'lift'); else await coach(yearIntro(),'roast');
-  if(S.life>1 && S.age===19 && S.prevTop){ await coach(COACH.callback[lang](S.prevTop)); }
-  if(S.asideUsed<1 && rnd()<.25){ S.asideUsed++; await coach(T(pick(COACH.asides))); }
-  const beats=S.age<30?3:2;
-  for(let i=0;i<beats;i++){
-    if(S.mom>=75 && S.momCalled<2 && rnd()<.7){ await momCall(); continue; }
+  const n=skipDays(); await advanceDays(n);
+  if(S.daysInYear>=365){ return birthday(); }
+  dateLine();
+  if(S.dayIdx===5 || (S.dayIdx%9===0)) { if(S.j<30) await coach(T(COACH.lowJoy),'lift'); else await coach(yearIntro(),'roast'); }
+  if(S.life>1 && S.dayIdx===5 && S.prevTop){ await coach(COACH.callback[lang](S.prevTop)); }
+  if(S.asideUsed<1 && rnd()<.12){ S.asideUsed++; await coach(T(pick(COACH.asides))); }
+  if(S.mom>=75 && S.momCalled<2 && rnd()<.7){ await momCall(); }
+  else {
     let item=null;
-    if(S.env.length && i===0){ item={ev:S.env.shift(),legend:false}; sys(lang==='tr'?'Zarf açıldı':'Envelope opened'); SFX.tick(); } else { item=pickEvent(); }
-    if(!item) break;
-    await runEvent(item.ev, item.legend);
-    if(!S.alive) return;
+    if(S.env.length){ item={ev:S.env.shift(),legend:false}; sys(lang==='tr'?'Zarf açıldı':'Envelope opened'); SFX.tick(); } else { item=pickEvent(); }
+    if(!item){ await coach(lang==='tr'?'Bugün olay yok. Deftere "dinlenme günü" yazdım; sen "boşluk" dersin.':'No event today. I wrote "rest day" in the notebook; you\'d call it "a void".'); }
+    else { await runEvent(item.ev, item.legend); if(!S.alive) return; }
   }
+  yearEndActions();
+}
+async function birthday(){
+  S.daysInYear-=365; dateLine();
+  await coach(UI.birthday[lang](S.age+1),'roast');
   if(S.goal===null || rnd()<.5){ await goalCard(); }
   await coach(T(COACH.yearEnd));
   await new Promise(resolve=>setActions([{label:T(UI.age1),cls:'primary',on:()=>resolve()}]));
@@ -754,7 +816,7 @@ async function fastForward(){
   setActions([]); sys(lang==='tr'?'Hızlı yaşa: koç kararları otomatik verdi':'Live fast: the coach auto-picked');
   while(S.alive){
     const item=pickEvent(); if(item){ const ev=item.ev; const ch=pick(ev.c); S.decisions++; bumpPat(ch.tag); const out=ch.w?(rnd()*100<ch.w.p?ch.fail:ch.ok):(ch.mini?(rnd()<.5?ch.ok:ch.fail):ch); const d=out.d||{}; for(const k of ['h','j','b','l']) if(d[k]) S[k]=clamp(S[k]+d[k],0,100); if(d.m) S.m+=d.m; if(d.mom) S.mom=clamp(S.mom+d.mom,0,100); if(ch.w){ if(out===ch.fail) S.wagersWon++; else S.wagersLost++; } if(out.love) S.loves++; if(S.m<0) S.m=4; }
-    ageUp();
+    S.date+=365*86400000; S.dayIdx+=Math.max(3,Math.round(14-S.age/8)); ageUp();
     if(S.age%5===0){ sys(`${S.age} · ${S.year}`); SFX.tick(); await wait(140); }
     if(rnd()<hazard() || S.age>=97) return death();
   }
@@ -766,7 +828,7 @@ async function death(){
   const cause=pick(COACH.causes);
   host.innerHTML=`<div class="death"><svg class="ecg" viewBox="0 0 340 90"><path d="M0 45 L40 45 L52 45 L58 20 L64 70 L70 45 L110 45 L122 45 L128 22 L134 68 L140 45 L180 45 L192 45 L198 28 L204 62 L210 45 L250 45 L340 45"/></svg><div id="gv"></div></div>`;
   for(let i=0;i<3;i++){ SFX.beep(); await wait(RM()?50:700); } SFX.flat(); await wait(RM()?60:1500);
-  document.getElementById('gv').innerHTML=`<div class="grave"><div class="n">${esc(S.name)}</div><div class="y">${2026-18+0+ (S.year-S.age+18-2026)+2008} – ${S.year}</div><div class="e">${esc(S.lastKarne?S.lastKarne.motto:T(MOTTOS[0]))}</div></div>`;
+  document.getElementById('gv').innerHTML=`<div class="grave"><div class="n">${esc(S.name)}</div><div class="y">${new Date(S.birth).getFullYear()} – ${new Date(S.date).getFullYear()}</div><div class="e">${esc(S.lastKarne?S.lastKarne.motto:T(MOTTOS[0]))}</div></div>`;
   SFX.thud(); shake(true); await wait(RM()?60:1400);
   host.innerHTML='';
   await wait(600);
@@ -806,7 +868,7 @@ function sessionEnd(){
 }
 function shareCardHtml(){
   const k=S.lastKarne||{g:['-','-','-','-','-','-'],motto:'',year:S.year}; const n=UI.gradeNames[lang];
-  return `<div class="share"><div><div class="k">${esc(T(UI.karne))} · ${k.year}</div><div class="g">${n.map((x,i)=>`<div>${x}<b>${esc(k.g[i])}</b></div>`).join('')}</div></div><q>${esc(k.motto)}</q><div class="f"><span>${esc(S.name)} · ${S.age}</span><span>MOTTO · HYT-${(S.year*7+S.age).toString(36).toUpperCase()}</span></div></div>`;
+  return `<div class="share"><div><div class="k">${esc(T(UI.karne))} · ${k.year}</div><div class="g">${n.map((x,i)=>`<div>${x}<b>${esc(k.g[i])}</b></div>`).join('')}</div></div><q>${esc(k.motto)}</q><div class="f"><span>${esc(S.name)} · ${S.age}</span><span>MOTTO · HYT-${(S.dayIdx*131+S.age).toString(36).toUpperCase()}</span></div></div>`;
 }
 function shareSheet(){
   const host=document.getElementById('overlayHost');
@@ -819,7 +881,7 @@ function shareSheet(){
 function setLang(l){ lang=l; document.getElementById('langTR').classList.toggle('on',l==='tr'); document.getElementById('langEN').classList.toggle('on',l==='en');
   document.getElementById('langTR').setAttribute('aria-pressed',l==='tr'); document.getElementById('langEN').setAttribute('aria-pressed',l==='en');
   document.getElementById('subtitle').textContent=l==='tr'?'Sertifikasız Hayat Koçu':'Uncertified Life Coach';
-  document.getElementById('foot').textContent=l==='tr'?'Tasarım maketi. Gerçek uygulama değil; metinler, olaylar ve sayılar örnektir. Ses için bir kez dokunmak gerekir.':'Design mock. Not the real app; lines, events and numbers are samples. Tap once to enable sound.';
+  document.getElementById('foot').textContent=l==='tr'?'Tasarım maketi: gün gün ilerleyen hayat, konuşan karakterler, koçun iddiaları. Gerçek uygulama değil; metinler ve sayılar örnektir.':'Design mock: a day-by-day life, characters who talk, a coach who bets against you. Not the real app; lines and numbers are samples.';
   try{localStorage.setItem('motto-lang',l);}catch(e){}
   S=newState(1,[]); start(); }
 function boot(){
