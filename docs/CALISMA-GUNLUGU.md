@@ -69,3 +69,8 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - 2. workflow: 07 UX/UI/FTUE/juice, 02 zaman/stat/ekonomi/sağlık/ölüm, 05 retention/geri dönüş/miras/koleksiyon
 - 3. workflow: 10 teknik mimari (iOS+Android), 08 içerik kuralları/hukuk/linter, 09 i18n/içerik hattı, 06 monetizasyon/mağaza uyumu
 - Her dokümanda zorunlu "Platform notları (iOS / Android)" ve "Hukuk ve politika kontrolü" bölümleri; her doküman en az 15 test edilebilir kabul kriteri (AC-xx-nn) üretir → sprint planına girdi.
+
+### Etkileşimli maket (kullanıcı isteği: "oyunu mockla, demo göster")
+- `docs/mock/motto-demo.html`: tek dosyalık, telefon çerçeveli, TR/EN geçişli tasarım maketi. 00 §4.2'deki ilk 60 saniye senaryosunu birebir uygular (18 oldun → Müşteri Dosyası → İlk Gün → İlk Para + İddia fişi + HAKSIZ ÇIKTIM/İSABET damgası → Tek Hedef → Yaşlan → Karne + Yılın Mottosu + zarf satırı → Bir Yıl Daha). Sonrasında 15 örnek olay, 3 zarf olayı, koç bahisleri (gerçek oran gösterilir), Aile Grubu sayacı, Anne Baskısı metresi, "Bugünlük yeter" oturum özeti + paylaşım kartı, "Hızlı yaşa", Gompertz benzeri ölüm, Roast Raporu (kalıp sayıları, "beni N kez haksız çıkardın"), Kondisyon açılımı, yeni hayatta önceki kalıba callback.
+- Headless Chromium ile duman testi: ilk yıl akışı tıklanarak geçildi, konsol hatası yok, yatay taşma yok. Claude artifact olarak yayınlandı (link sohbette).
+- Bu bir tasarım maketi; gerçek uygulama Expo/React Native ile Sprint 0–1'de kurulacak. Metin ve sayılar örnektir.

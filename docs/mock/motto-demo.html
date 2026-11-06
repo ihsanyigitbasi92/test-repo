@@ -1,0 +1,582 @@
+<title>Motto Demo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Archivo+Black&display=swap">
+<style>
+/* Layout: a phone-sized "life feed" (coach bubbles, event cards, stamps, report cards) with a fixed HUD on top and a thumb-zone action bar below; everything else is quiet paper. */
+:root{
+  --paper:#f3efe6; --paper-2:#e9e3d6; --ink:#1d2430; --ink-2:#4b5563; --line:#cfc7b6;
+  --lime:#b9e526; --lime-ink:#2d3b00; --note:#fff1a8; --note-ink:#4a3b00;
+  --wrong:#8a1c2b; --called:#1f6b3a; --accent-soft:#e2f2b0;
+  --coach-font:"Fraunces", Georgia, "Times New Roman", serif;
+  --body-font:"IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --stamp-font:"Archivo Black", Impact, "Arial Black", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1b1f1a; --paper-2:#242922; --ink:#eae6da; --ink-2:#b7b2a4; --line:#3a4034;
+    --lime:#c6f23a; --lime-ink:#1a2200; --note:#5a4d12; --note-ink:#fff1a8;
+    --wrong:#ff7a8a; --called:#6fdc8c; --accent-soft:#2f3a12; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1b1f1a; --paper-2:#242922; --ink:#eae6da; --ink-2:#b7b2a4; --line:#3a4034;
+  --lime:#c6f23a; --lime-ink:#1a2200; --note:#5a4d12; --note-ink:#fff1a8;
+  --wrong:#ff7a8a; --called:#6fdc8c; --accent-soft:#2f3a12; color-scheme:dark;
+}
+html,body{height:100%}
+body{margin:0;background:var(--paper-2);color:var(--ink);font-family:var(--body-font);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit}
+.stage{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.phone{width:100%;max-width:420px;height:100%;max-height:860px;background:var(--paper);display:flex;flex-direction:column;position:relative;overflow:hidden;
+  border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.18)}
+@media (max-width:460px){.phone{border-radius:0;border-left:0;border-right:0;max-height:none}}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px;gap:8px;border-bottom:1px dashed var(--line)}
+.brand{font-family:var(--stamp-font);letter-spacing:.14em;font-size:13px}
+.brand small{display:block;font-family:var(--body-font);font-weight:500;letter-spacing:.06em;font-size:10px;color:var(--ink-2);text-transform:uppercase}
+.chips{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 9px;font-size:11px;font-weight:600;letter-spacing:.04em;background:transparent;cursor:pointer}
+.chip.on{background:var(--ink);color:var(--paper)}
+.hud{padding:8px 14px 8px;display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:center;border-bottom:1px solid var(--line)}
+.age{font-family:var(--stamp-font);font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.age small{display:block;font-family:var(--body-font);font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--ink-2);text-transform:uppercase;margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 10px;grid-column:1 / -1}
+.stat{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
+.stat b{display:block;font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:0;text-transform:none}
+.bar{height:4px;background:var(--line);border-radius:2px;margin-top:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ink);width:50%;transition:width .4s ease}
+.meta{grid-column:1 / -1;display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--ink-2)}
+.meta span{border:1px solid var(--line);border-radius:6px;padding:2px 7px;font-variant-numeric:tabular-nums}
+.meta span b{color:var(--ink)}
+.feed{flex:1;overflow-y:auto;padding:14px 14px 20px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){.feed{scroll-behavior:auto}}
+.coach{max-width:88%;align-self:flex-start;font-family:var(--coach-font);font-style:italic;font-size:17px;line-height:1.35;padding:8px 12px 8px 14px;border-left:3px solid var(--lime);background:transparent;position:relative}
+.coach .who{display:block;font-family:var(--body-font);font-style:normal;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:2px}
+.typing{align-self:flex-start;color:var(--ink-2);font-size:12px;padding:4px 14px;letter-spacing:.2em}
+.card{background:var(--paper);border:1px solid var(--ink);border-radius:4px;padding:12px 14px;position:relative;box-shadow:3px 3px 0 var(--line)}
+.card .label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
+.card .label b{color:var(--ink)}
+.card p{margin:0;font-size:15.5px}
+.card.doc{background:var(--paper-2)}
+.card.doc .tr{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:13px;color:var(--ink-2)}
+.card.doc .tr b{color:var(--ink)}
+.slip{margin:10px -4px -4px;background:var(--note);color:var(--note-ink);padding:8px 10px;font-size:13px;font-weight:600;transform:rotate(-1.2deg);box-shadow:2px 3px 0 rgba(0,0,0,.12);position:relative}
+.slip::before{content:"";position:absolute;top:-5px;left:14px;width:9px;height:9px;border-radius:50%;background:var(--wrong);box-shadow:0 1px 0 rgba(0,0,0,.3)}
+.slip .odds{display:block;font-weight:500;margin-top:3px;font-size:12px}
+.result{font-size:14px;color:var(--ink-2);padding:0 4px}
+.result b{color:var(--ink);font-variant-numeric:tabular-nums}
+.delta{display:inline-block;margin-right:8px;font-variant-numeric:tabular-nums;font-weight:600}
+.delta.up{color:var(--called)} .delta.down{color:var(--wrong)}
+.stamp{position:absolute;right:10px;top:8px;font-family:var(--stamp-font);font-size:17px;letter-spacing:.06em;padding:4px 8px;border:3px solid currentColor;border-radius:3px;transform:rotate(-12deg) scale(1);opacity:.92;pointer-events:none;mix-blend-mode:multiply;text-transform:uppercase}
+:root[data-theme="dark"] .stamp{mix-blend-mode:screen}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .stamp{mix-blend-mode:screen}}
+.stamp.wrong{color:var(--wrong)} .stamp.called{color:var(--called)} .stamp.neutral{color:var(--ink)}
+.stamp.anim{animation:stampIn .32s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stampIn{0%{transform:rotate(-12deg) scale(2.2);opacity:0}60%{transform:rotate(-12deg) scale(.95);opacity:1}100%{transform:rotate(-12deg) scale(1);opacity:.92}}
+@media (prefers-reduced-motion: reduce){.stamp.anim{animation:none}}
+.note{font-family:var(--coach-font);font-style:italic;font-size:13.5px;color:var(--ink-2);padding:2px 14px;border-left:2px dotted var(--line);align-self:flex-start;max-width:90%}
+.note::before{content:"Defter · ";font-family:var(--body-font);font-style:normal;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.karne{border:2px solid var(--ink);padding:0;overflow:hidden;background:var(--paper)}
+.karne .head{display:flex;justify-content:space-between;align-items:baseline;padding:10px 14px;border-bottom:2px solid var(--ink)}
+.karne .head .t{font-family:var(--stamp-font);letter-spacing:.1em;font-size:14px}
+.karne .head .y{font-variant-numeric:tabular-nums;font-size:12px;color:var(--ink-2)}
+.grades{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.grades div{display:flex;justify-content:space-between;padding:6px 14px;border-bottom:1px solid var(--line);font-size:13px}
+.grades div:nth-child(odd){border-right:1px solid var(--line)}
+.grades b{font-family:var(--stamp-font);font-size:12px;letter-spacing:.05em}
+.goal{padding:8px 14px;font-size:13px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;align-items:center}
+.goal .st{font-family:var(--stamp-font);font-size:11px;letter-spacing:.08em;border:2px solid currentColor;padding:1px 6px;border-radius:3px;transform:rotate(-4deg)}
+.motto{padding:12px 14px 10px;background:var(--lime);color:var(--lime-ink)}
+.motto small{display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:3px}
+.motto q{font-family:var(--coach-font);font-style:italic;font-size:19px;line-height:1.25;quotes:"“" "”"}
+.envelope{padding:9px 14px;font-size:13px;display:flex;gap:10px;align-items:center;background:var(--paper-2)}
+.envelope .ic{width:26px;height:18px;border:2px solid var(--ink);border-radius:2px;position:relative;flex:none}
+.envelope .ic::after{content:"";position:absolute;left:-2px;top:-2px;width:26px;height:18px;clip-path:polygon(0 0,100% 0,50% 60%);background:var(--ink)}
+.sys{align-self:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);padding:6px 0}
+.actions{padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px;background:var(--paper)}
+.btn{width:100%;min-height:48px;border:1.5px solid var(--ink);background:var(--paper);border-radius:6px;padding:10px 14px;text-align:left;font-weight:600;font-size:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.btn:hover{background:var(--paper-2)} .btn:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.btn .hint{font-size:11px;font-weight:600;color:var(--ink-2);letter-spacing:.06em;text-transform:uppercase}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink);justify-content:center;font-family:var(--stamp-font);letter-spacing:.12em;font-weight:400;min-height:60px;font-size:16px}
+.btn.primary.pulse{animation:pulse 1.2s ease-in-out 3}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@media (prefers-reduced-motion: reduce){.btn.primary.pulse{animation:none}}
+.btn.ghost{border-style:dashed;color:var(--ink-2);min-height:40px;font-weight:500;font-size:13px}
+.row{display:flex;gap:8px}
+.row .btn{flex:1}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;top:-10px;width:7px;height:11px;background:var(--lime);animation:fall 1.6s linear forwards}
+.confetti i:nth-child(3n){background:var(--ink)} .confetti i:nth-child(4n){background:var(--note)}
+@keyframes fall{to{transform:translateY(900px) rotate(540deg);opacity:0}}
+.overlay{position:absolute;inset:0;background:rgba(10,12,8,.55);display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}
+.sheet{background:var(--paper);color:var(--ink);border-radius:10px;max-width:360px;width:100%;max-height:92%;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--line)}
+.sheet h3{margin:0;font-family:var(--stamp-font);letter-spacing:.1em;font-size:14px;font-weight:400}
+.share{aspect-ratio:1/1;max-width:100%;background:var(--ink);color:var(--paper);padding:16px;display:flex;flex-direction:column;justify-content:space-between;border-radius:6px}
+.share .k{font-family:var(--stamp-font);letter-spacing:.12em;font-size:12px;color:var(--lime)}
+.share .g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:11px;margin:10px 0}
+.share .g b{display:block;font-family:var(--stamp-font);font-size:14px}
+.share q{font-family:var(--coach-font);font-style:italic;font-size:20px;line-height:1.2;quotes:"“" "”"}
+.share .f{font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.8;display:flex;justify-content:space-between}
+.roast{display:flex;flex-direction:column;gap:10px}
+.roast .big{font-family:var(--coach-font);font-style:italic;font-size:20px;line-height:1.3}
+.roast .nums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.roast .nums div{border:1px solid var(--line);padding:8px;text-align:center;font-size:11px;color:var(--ink-2)}
+.roast .nums b{display:block;font-family:var(--stamp-font);font-size:20px;color:var(--ink);font-variant-numeric:tabular-nums}
+.roast .pat{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:6px 2px;font-size:14px}
+.roast .pat b{font-variant-numeric:tabular-nums}
+.unlock{background:var(--accent-soft);padding:10px;border-radius:6px;font-size:14px}
+.unlock small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink-2)}
+.footnote{max-width:420px;width:100%;font-size:11px;color:var(--ink-2);text-align:center;padding:0 8px 8px;line-height:1.4}
+@media (max-width:460px){.footnote{display:none}}
+</style>
+
+<div class="stage">
+  <div class="phone" id="phone">
+    <div class="topbar">
+      <div class="brand">MOTTO<small id="subtitle">Sertifikasız Hayat Koçu</small></div>
+      <div class="chips">
+        <button class="chip" id="soundBtn" type="button" aria-pressed="true">Ses</button>
+        <button class="chip" id="langTR" type="button" aria-pressed="true">TR</button>
+        <button class="chip" id="langEN" type="button" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <div class="hud" id="hud" hidden>
+      <div class="age"><span id="ageNum">18</span><small id="ageLbl">yaş · 2026</small></div>
+      <div style="text-align:right;font-size:12px;color:var(--ink-2)"><span id="lifeLbl">1. hayat</span><br><b id="nameLbl" style="color:var(--ink)"></b></div>
+      <div class="stats" id="stats"></div>
+      <div class="meta" id="metaRow"></div>
+    </div>
+    <div class="feed" id="feed" aria-live="polite"></div>
+    <div class="actions" id="actions"></div>
+    <div class="confetti" id="confetti" hidden></div>
+    <div id="overlayHost"></div>
+  </div>
+  <div class="footnote" id="foot">Tasarım maketi: Motto'nun ilk 60 saniyesi ve "bir yıl daha" döngüsü. Gerçek uygulama değil; metinler ve sayılar örnektir.</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+let lang='tr';
+const T=(o)=>typeof o==='string'?o:(o[lang]||o.tr);
+const rnd=()=>Math.random();
+const pick=(a)=>a[Math.floor(rnd()*a.length)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+/* ---------- content ---------- */
+const NAMES={tr:[['Deniz Ertelemez','Kadıköy'],['Ece Sonradan','Bornova'],['Kerem Bellibelirsiz','Çankaya'],['Selin Yarınbaşlar','Nilüfer'],['Mert Hemenşimdi','Karşıyaka']],
+             en:[['Alex Tomorrow','Cleveland'],['Sam Eventually','Leeds'],['Jordan Nextweek','Tacoma'],['Morgan Someday','Adelaide'],['Riley Rightaway','Halifax']]};
+const UI={
+  stats:{tr:['Sağlık','Keyif','Kafa','Çekicilik'],en:['Health','Joy','Brain','Looks']},
+  money:{tr:'Para',en:'Cash'}, unread:{tr:'Okunmamış',en:'Unread'}, mom:{tr:'Anne Baskısı',en:'Mom Pressure'}, streak:{tr:'Seri',en:'Streak'},
+  age:{tr:'yaş',en:'yrs'}, life:{tr:n=>n+'. hayat',en:n=>(['1st','2nd','3rd'][n-1]||n+'th')+' life' },
+  shuffle:{tr:'Karıştır',en:'Shuffle'}, keep:{tr:'Bu olsun',en:'This one'},
+  oneMore:{tr:'BİR YIL DAHA',en:'ONE MORE YEAR'}, age1:{tr:'YAŞLAN',en:'AGE UP'}, enough:{tr:'Bugünlük yeter',en:'Enough for today'}, share:{tr:'Paylaş',en:'Share'},
+  fast:{tr:'Hızlı yaşa (ölüme kadar)',en:'Live fast (until death)'}, cont:{tr:'Devam',en:'Continue'}, close:{tr:'Kapat',en:'Close'},
+  newClient:{tr:'YENİ MÜŞTERİ',en:'NEW CLIENT'}, sameShape:{tr:'Aynı kondisyonla',en:'Same conditioning'},
+  karne:{tr:'KARNE',en:'REPORT CARD'}, gradeNames:{tr:['Sağlık','Para','İlişkiler','Kafa','Cesaret','Davranış'],en:['Health','Money','Relationships','Brain','Courage','Conduct']},
+  grades:{tr:['ZAYIF','GEÇER','ORTA','İYİ','PEKİYİ'],en:['F','D','C','B','A']},
+  goal:{tr:'HEDEF',en:'GOAL'}, goalSt:{tr:['YOK','YARIM','TAMAM'],en:['NONE','HALFWAY','DONE']},
+  mottoLbl:{tr:'Yılın Mottosu',en:'Motto of the Year'}, coach:{tr:'Motto',en:'Motto'},
+  event:{tr:'OLAY',en:'EVENT'}, doc:{tr:'EVRAK',en:'DOCUMENT'}, translate:{tr:'Tercüme',en:'Translation'},
+  wager:{tr:'İDDİA',en:'WAGER'}, odds:{tr:p=>'Gerçek oran: %'+p,en:p=>'Actual odds: '+p+'%'},
+  wrong:{tr:'HAKSIZ ÇIKTIM',en:'I WAS WRONG'}, called:{tr:'İSABET',en:'CALLED IT'}, processed:{tr:'İŞLENDİ',en:'FILED'},
+  envLine:{tr:'Gelecek yıl: deftere bir zarf eklendi. Açmadım. Hâlâ.',en:'Next year: an envelope got added to the notebook. I haven\'t opened it. Still.'},
+  envNone:{tr:'Zarf yok. Bu yıl sessiz geçti; şüpheli.',en:'No envelope. A quiet year; suspicious.'},
+  sessionEnd:{tr:'BUGÜNLÜK YETER',en:'ENOUGH FOR TODAY'},
+  sessionTxt:{tr:(y,d)=>`Mesai bitti. ${y} yıl, ${d} karar. Seri: 1 gün, başladı. Yarın görüşürüz; ben buradayım, defter de.`,en:(y,d)=>`Clocking out. ${y} years, ${d} decisions. Streak: day one, started. See you tomorrow; I'll be here, so will the notebook.`},
+  shareHint:{tr:'9:16 ve 1:1 kart yerel olarak üretilir; sunucu yok. (Maket: önizleme)',en:'9:16 and 1:1 cards render on device; no server. (Mock: preview)'},
+  roastTitle:{tr:'ROAST RAPORU',en:'ROAST REPORT'},
+  died:{tr:a=>`Öldün. ${a} yaşındaydın.`,en:a=>`You died. You were ${a}.`},
+  funeral:{tr:'Cenaze 14:00\'te. Trafik var.',en:'Service at two. Traffic.'},
+  numsLbl:{tr:['yıl çalıştın','kez sevdin','kez beni haksız çıkardın'],en:['years of work','loves','times you proved me wrong']},
+  there:{tr:n=>`Ben oradaydım; ${n}'inde de.`,en:n=>`I was there for all ${n}.`},
+  patTitle:{tr:'Ömür boyu kalıpların',en:'Your lifetime patterns'},
+  times:{tr:'kez',en:'×'},
+  rightMoment:{tr:'Haklı çıktığın an',en:'The moment you were right'},
+  lastWord:{tr:'Koçun son sözü',en:'Coach\'s last word'},
+  unlockLbl:{tr:'Kondisyon açıldı',en:'Conditioning unlocked'},
+  noMoney:{tr:'Para bitti. Anne borç verdi; bir kez.',en:'Out of cash. Mom lent some; once.'},
+};
+const UNLOCKS={tr:['Yeni başlangıç şehri: Bornova','Karne teması: Antrenman Defteri','Başlangıç kariyeri: Düğün DJ\'i','Kedi: Pamuk, ilk yıldan'],en:['New starting city: Leeds','Report card theme: Training Log','Starting career: Wedding DJ','Cat: Biscuit, from year one']};
+const PAT={ertele:{tr:'Erteleme',en:'Procrastination'},risk:{tr:'Gözü karalık',en:'Recklessness'},kacin:{tr:'Kaçınma',en:'Avoidance'},harca:{tr:'Harcama',en:'Spending'},sosyal:{tr:'Kalabalık arayışı',en:'Crowd-seeking'},anne:{tr:'Anneye evet',en:'Yes to Mom'},biriktir:{tr:'Biriktirme',en:'Hoarding'},plan:{tr:'Plan yapma',en:'Planning'}};
+const MOTTOS=[
+ {tr:'Başladı. Teknik olarak.',en:'Started. Technically.'},
+ {tr:'Niyet tam, bakiye yarım.',en:'Full intent, half a balance.'},
+ {tr:'Plan vardı. Pazartesi de vardı.',en:'There was a plan. There was also a Monday.'},
+ {tr:'Yorgun ama kararlı. Daha çok yorgun.',en:'Tired but determined. Mostly tired.'},
+ {tr:'Herkes gibi, ama daha geç.',en:'Like everyone else, only later.'},
+ {tr:'Bu yıl da olmadı; ama az kaldı.',en:'Not this year either. Close, though.'},
+ {tr:'Para gitti, ders kaldı.',en:'The money left. The lesson stayed.'},
+ {tr:'Konfor bölgesi: aylık kira.',en:'Comfort zone: monthly rent.'},
+ {tr:'Sakin. Çünkü uykusuz.',en:'Calm. Because sleep-deprived.'},
+ {tr:'Hayır demeyi öğrendin. Aynaya.',en:'You learned to say no. To the mirror.'},
+ {tr:'Üç plan, sıfır uygulama, bir yıl.',en:'Three plans, zero reps, one year.'},
+];
+const GOALS=[
+ {tr:'Bir bölüme gir',en:'Get into a program',min:18,max:24},{tr:'5.000 biriktir',en:'Save 5,000',min:18,max:60},{tr:'Bir arkadaş edin',en:'Make one friend',min:18,max:70},
+ {tr:'Taşın',en:'Move out',min:20,max:40},{tr:'Terfi al',en:'Get promoted',min:22,max:55},{tr:'Spora 3 kez git',en:'Gym, three times',min:18,max:70},
+ {tr:'Anneni ara',en:'Call your mom',min:18,max:80},{tr:'Bir şeyi bitir',en:'Finish one thing',min:25,max:80},
+];
+const NO_GOAL={tr:'Hedefsiz yaşa',en:'No goal, respect'};
+
+/* events: text, choices [{t, d:{h,j,b,l,m,mom}, tag, w:{p, line} (coach bets the choice FAILS with prob p), ok/fail texts}] */
+const EV=[
+ {id:'exam',min:19,max:22,t:{tr:'Sonuçlar açıklandı. Puanın bir bölüme yetiyor. Hangisi, sistem söylemiyor; "sürpriz" diyor.',en:'Results are in. Your score gets you into a program. Which one, the system won\'t say; it calls it "a surprise."'},
+  c:[{t:{tr:'Bölüme gir',en:'Enroll'},d:{b:6,m:-3,j:-1},tag:'plan'},{t:{tr:'Bir yıl ara ver',en:'Take a gap year'},d:{j:5,b:-2},tag:'ertele'},{t:{tr:'Kursa yaz; annem dedi',en:'Join the course; Mom said'},d:{b:3,mom:-6,j:-2},tag:'anne'}]},
+ {id:'job',min:19,max:26,t:{tr:'İlan: "Genç, dinamik, maaş: tatmin edici." Tercüme: düşük. 47. başvurun.',en:'Listing: "Young, dynamic, salary: competitive." Translation: low. Application forty-seven.'},
+  c:[{t:{tr:'Başvur',en:'Apply'},tag:'plan',w:{p:50,tr:'İDDİA: 47. başvuru da ret. — M.',en:'WAGER: Forty-seven is a rejection too. — M.'},
+      ok:{d:{m:8,j:4,b:1},tr:'İşe alındın. Maaş "tatmin edici". Tatmin olmadın. Normal.',en:'Hired. Salary "competitive." You feel uncompetitive. Normal.'},
+      fail:{d:{j:-3},tr:'47. başvuru, 47. ret. Antrenmanda buna "tekrar" deriz. Hayatta da öyle; sadece daha az ter.',en:'Application forty-seven, rejection forty-seven. In training we call that reps. In life we call it Tuesday.'}},
+     {t:{tr:'Başvurma, ilan sahte',en:'Skip it, listing\'s fake'},d:{j:1},tag:'kacin'}]},
+ {id:'rent',min:20,max:45,doc:true,t:{tr:'"Evladım gibisin, ama piyasa malum…"',en:'"You\'ve been like family, but you know the market…"'},tr:{tr:'zam geliyor. Sözlüğe yazdım.',en:'rent\'s going up. Added to the glossary.'},
+  c:[{t:{tr:'Kabul et',en:'Accept'},d:{m:-6,j:-2},tag:'kacin'},
+     {t:{tr:'Pazarlık yap',en:'Negotiate'},tag:'risk',w:{p:55,tr:'İDDİA: "Evladım" lafı pazarlığı yener. — M.',en:'WAGER: "Like family" beats your negotiation. — M.'},
+      ok:{d:{m:-2,j:3},tr:'Zam yarıya indi. Ev sahibi "sen bilirsin evladım" dedi. Bu, kazandın demek.',en:'Hike halved. Landlord said "whatever you think, kid." That means you won.'},
+      fail:{d:{m:-6,j:-1},tr:'Zam aynen geldi, üstüne "evladım" da. İki kere ödedin.',en:'Full hike, plus a "kid" on top. You paid twice.'}},
+     {t:{tr:'Taşın',en:'Move'},d:{m:-4,j:3,l:1},tag:'risk'}]},
+ {id:'fam',min:19,max:70,t:{tr:'Aile grubu: 212 okunmamış. 211\'i teyzenden, 1\'i annenden: "Mesajları okuyor musun?"',en:'Family group chat: 212 unread. 211 from your aunt. One from your mom: "Are you reading these?"'},
+  c:[{t:{tr:'Hepsini oku',en:'Read them all'},d:{mom:-10,j:-3,b:-1},tag:'anne',line:{tr:'Ben okudum. Biri okusun.',en:'I read them. Somebody had to.'}},{t:{tr:'Görüldü, cevap yok',en:'Seen, no reply'},d:{mom:8,j:1},tag:'kacin'},{t:{tr:'Sadece anneme cevap ver',en:'Reply only to Mom'},d:{mom:-4,j:1},tag:'anne'}],unreadReset:true},
+ {id:'date',min:19,max:38,t:{tr:'Flört uygulaması. Profil: "Hayatı seven, macera arayan." 14 kişi aynı cümleyi yazmış.',en:'Dating app. Profile: "Loves life, seeks adventure." Fourteen people wrote the exact same sentence.'},
+  c:[{t:{tr:'Mesaj at',en:'Send a message'},tag:'sosyal',w:{p:55,tr:'İDDİA: Cevap gelmez. — M.',en:'WAGER: No reply. — M.'},
+      ok:{d:{j:8,l:1},love:true,tr:'Cevap geldi. İsmi Yağmur. Deftere yazdım; sen yazmazsın.',en:'A reply. Name\'s Sam. In the notebook; you won\'t write it down, so I did.'},
+      fail:{d:{j:-2},cringe:5,tr:'Cevap yok. Cringe +5. Sayılar üzülmez; sen de bu kez üzülme.',en:'No reply. Cringe +5. Numbers don\'t grieve. Skip it this time.'}},
+     {t:{tr:'Uygulamayı sil',en:'Delete the app'},d:{j:2},tag:'kacin'}]},
+ {id:'promo',min:22,max:50,need:'job',t:{tr:'Terfi teklifi. Maaş %12, sorumluluk %140. Matematik koçu değilim ama bu iki sayı aynı odada durmaz.',en:'Promotion offer. Salary up 12 percent, responsibility up 140. I\'m not a math coach, but those two numbers should not share a room.'},
+  c:[{t:{tr:'Kabul et',en:'Accept'},d:{m:8,j:-4,h:-2},tag:'plan'},{t:{tr:'Reddet',en:'Decline'},d:{j:3},tag:'kacin'},
+     {t:{tr:'Daha fazlasını iste',en:'Ask for more'},tag:'risk',w:{p:45,tr:'İDDİA: Patron "bütçe yok" der. — M.',en:'WAGER: Boss says "no budget." — M.'},
+      ok:{d:{m:12,j:2},tr:'Verdiler. Demek bütçe vardı. Nevin Hanım\'ın yüzü: bütçe gibi.',en:'They paid. So there was a budget. Ms. Carver\'s face: like a budget.'},
+      fail:{d:{m:8,j:-2},cringe:3,tr:'"Bütçe yok." Terfi yine de oldu; ama sen o cümleyi bir hafta düşüneceksin.',en:'"No budget." You still got promoted, but you\'ll replay that sentence for a week.'}}]},
+ {id:'back',min:22,max:60,t:{tr:'Sırtın tutuldu. İnternet "yaşlılık" diyor. 24 yaşındasın; internet 40 diyor.',en:'Your back went out. The internet says "aging." You\'re twenty-four; the internet says forty.'},
+  c:[{t:{tr:'Doktora git',en:'See a doctor'},d:{h:6,m:-3},tag:'plan'},{t:{tr:'Geçer',en:'It\'ll pass'},d:{h:-5},tag:'ertele'},{t:{tr:'Yoga videosu',en:'A yoga video'},d:{h:2,j:2},tag:'plan'}]},
+ {id:'wedding',min:23,max:50,t:{tr:'Düğün. Takı sırası. Altın pahalı, dostluk ucuz; ikisi de sende yok.',en:'A wedding. Gift line. Gold is expensive, friendship is cheap; you\'re short on both.'},
+  c:[{t:{tr:'Çeyrek tak',en:'Gold coin'},d:{m:-5,j:3,l:1},tag:'harca'},{t:{tr:'Zarf, miktar belirsiz',en:'Envelope, amount vague'},d:{m:-2},cringe:4,tag:'biriktir'},{t:{tr:'Gitme',en:'Don\'t go'},d:{j:-2},tag:'kacin'}]},
+ {id:'crypto',min:21,max:55,t:{tr:'Ev arkadaşın Barış "kesin" bir şey buldu. Barış\'ın bir önceki "kesin"i hâlâ kayıp.',en:'Your roommate Jordan found a "sure thing." Jordan\'s previous sure thing is still missing.'},
+  c:[{t:{tr:'Yatır',en:'Invest'},tag:'risk',w:{p:60,tr:'İDDİA: Para Mart\'ı görmez. — M.',en:'WAGER: This money doesn\'t see March. — M.'},
+      ok:{d:{m:12,j:5},tr:'Tuttu. Barış haklıydı. Bunu bir daha yazmayacağım; mürekkep pahalı.',en:'It landed. Jordan was right. I will never write that again; ink is expensive.'},
+      fail:{d:{m:-10,j:-3},tr:'Gitti. Barış "piyasa" dedi. Deftere "Barış" yazdım, altını çizdim.',en:'Gone. Jordan said "the market." I wrote "Jordan" in the notebook and underlined it.'}},
+     {t:{tr:'Yatırma',en:'Pass'},d:{m:0},ego:2,tag:'biriktir',line:{tr:'Hayır dedin. Ego +2. Bu da bir stat.',en:'You said no. Ego +2. That\'s a stat too.'}}]},
+ {id:'house',min:30,max:60,t:{tr:'Herkes ev alıyor. Sen "bir şeyler" biriktiriyorsun. "Bir şeyler" faiz getirmiyor.',en:'Everyone\'s buying a house. You\'re saving "some things." "Some things" don\'t earn interest.'},
+  c:[{t:{tr:'Kredi çek',en:'Take the loan'},d:{m:-8,j:2},tag:'risk',line:{tr:'30 yıl. Ben 30 yıl kimseyle konuşmadım.',en:'Thirty years. I haven\'t talked to anyone for thirty years.'}},{t:{tr:'Kirada kal',en:'Keep renting'},d:{m:1},tag:'biriktir'},{t:{tr:'Anneme sor',en:'Ask Mom'},d:{mom:-8,m:2},tag:'anne'}]},
+ {id:'cat',min:26,max:75,t:{tr:'Kapıda bir kedi. Senin değil. Artık senin.',en:'A cat at the door. Not yours. Yours now.'},
+  c:[{t:{tr:'İçeri al',en:'Let it in'},d:{j:6,m:-2},tag:'sosyal',line:{tr:'Adı Pamuk. O koydu.',en:'Name\'s Biscuit. The cat chose it.'}},{t:{tr:'Alma',en:'Don\'t'},d:{j:-2},tag:'kacin',line:{tr:'Kedi seni aldı. Mahallede konuşuluyor.',en:'The cat took you. The street is talking.'}}]},
+ {id:'gym',min:20,max:65,t:{tr:'Spor salonu üyeliği: 11 ay ödendi, 2 kez gidildi. Salon seni "en sadık üye" seçti.',en:'Gym membership: eleven months paid, two visits. The gym named you "most loyal member."'},
+  c:[{t:{tr:'Bu hafta git',en:'Go this week'},d:{h:4,j:2},tag:'plan'},{t:{tr:'Gelecek ay',en:'Next month'},d:{h:-1},tag:'ertele'},{t:{tr:'İptal et',en:'Cancel'},d:{m:3},tag:'biriktir'}]},
+ {id:'old',min:55,max:90,t:{tr:'Torunun (ya da komşunun torunu) telefonu "eski" buldu. Telefon iki yaşında.',en:'Your grandkid (or the neighbor\'s) called your phone "old." The phone is two.'},
+  c:[{t:{tr:'Yenisini al',en:'Buy a new one'},d:{m:-4,j:2},tag:'harca'},{t:{tr:'Bu iyi',en:'This one\'s fine'},d:{j:1},ego:2,tag:'biriktir'}]},
+];
+const ENVELOPES=[
+ {id:'ex',min:24,max:70,t:{tr:'Zarf: Yağmur yazmış. "Konuşabilir miyiz?" Üç kelime, iki yıl.',en:'Envelope: Sam wrote. "Can we talk?" Three words, two years.'},
+  c:[{t:{tr:'Konuş',en:'Talk'},tag:'sosyal',love:true,d:{j:4},line:{tr:'Konuştunuz. Sonuç belirsiz; belirsizlik de bir sonuç.',en:'You talked. Outcome unclear; unclear is also an outcome.'}},{t:{tr:'Görüldü',en:'Seen'},d:{j:1},tag:'kacin',line:{tr:'Görüldü. Yağmur da gördü ki gördün.',en:'Seen. Sam saw that you saw.'}}]},
+ {id:'boss',min:23,max:62,need:'job',t:{tr:'Zarf: Nevin Hanım seni odasına çağırdı. Kapı kapandı. Kapılar iki şey için kapanır.',en:'Envelope: Ms. Carver called you into her office. The door closed. Doors close for two reasons.'},
+  c:[{t:{tr:'Dinle',en:'Listen'},tag:'plan',w:{p:50,tr:'İDDİA: İşten çıkarma. — M.',en:'WAGER: It\'s a layoff. — M.'},
+      ok:{d:{m:10,j:5},tr:'Terfi. Kapı bunun için kapanmış. Haksız çıktım; mürekkep taze.',en:'Promotion. That\'s what the door was for. I was wrong; fresh ink.'},
+      fail:{d:{m:-6,j:-6},job:false,tr:'"Yeniden yapılanma." Tercüme: işten çıkarıldın. Bugün tek şey: eve git. Yarın bakarız.',en:'"Restructuring." Translation: you\'re laid off. Today, one thing: go home. Tomorrow.'}}]},
+ {id:'mom',min:22,max:80,t:{tr:'Zarf: Annen. "Bayramda gel. Komşular soruyor." Komşular her zaman soruyor.',en:'Envelope: Mom. "Come for the holiday. The neighbors are asking." The neighbors are always asking.'},
+  c:[{t:{tr:'Git',en:'Go'},d:{mom:-15,j:3,m:-2},tag:'anne'},{t:{tr:'İşim var de',en:'Say you\'re busy'},d:{mom:10,j:-1},tag:'kacin'}]},
+];
+const COACH={
+ intro1:{tr:'18 oldun. Tebrikler. Buradan sonrası resmî olarak senin suçun.',en:'Eighteen. Congratulations. From here on, everything is officially your fault.'},
+ intro2:{tr:'Ben Motto. Hayat koçun. Sertifikam yok; 2.400 seminer verdim, hiçbiri işe yaramadı. Sen son müşterimsin. Baskı yok.',en:'I\'m Motto, your life coach. No certificate; 2,400 seminars, none of them worked. You\'re my last client. No pressure.'},
+ name:{tr:n=>`${n}. Soyadın bir vaat. Tutmayacaksın.`,en:n=>`${n}. Named after the day you\'ll start.`},
+ e1:{tr:'Saat 11:40. Uyandın. Telefonda 14 bildirim; 9\'u aile grubundan.',en:'11:40 a.m. You\'re up. Fourteen notifications; nine from the family group chat.'},
+ e1c:[{t:{tr:'Kayda çık',en:'Go register'},d:{b:2,j:-1},tag:'plan',line:{tr:'Kayda gittin. Sıra 47 kişi. Hayatın ilk kuyruğu; alış.',en:'You went to register. Forty-seven people in line. Your first queue; get used to it.'}},
+      {t:{tr:'Önce kahvaltı',en:'Breakfast first'},d:{j:4,b:-2},tag:'ertele',line:{tr:'Keyif +4. Kafa −2. Kahvaltı böyle bir şey.',en:'Joy +4. Brain −2. That\'s breakfast.'}},
+      {t:{tr:'Okumadan sil',en:'Delete unread'},d:{j:2,mom:6},tag:'kacin',line:{tr:'Sildin. Annen "görüldü" bile görmedi. Not aldım.',en:'Deleted. Mom didn\'t even get a "seen." Noted.'}}],
+ e2:{tr:'Dayın "hayata atıl" diye para verdi. Dayın 2009\'da yaşıyor.',en:'Your uncle handed you cash to "get started." Your uncle lives in 2009.'},
+ e2w:{tr:'İDDİA: Bu para Mart\'ı görmez. — M.',en:'WAGER: This money doesn\'t see March. — M.'},
+ e2c:[{t:{tr:'Biriktir',en:'Save it'},d:{m:5},tag:'biriktir',wrong:true,line:{tr:'Hm. Haksız çıktım. Damga: HAKSIZ ÇIKTIM. Keyfini çıkar; nadir olur.',en:'Huh. I was wrong. Stamp: I WAS WRONG. Enjoy it; it\'s rare.'}},
+      {t:{tr:'Arkadaşlarla ye, hayat kısa',en:'Dinner with friends, life\'s short'},d:{m:-4,j:5},tag:'sosyal',called:true,line:{tr:'İSABET. Oran %55\'ti. Tebrikler, istatistik.',en:'CALLED IT. Odds were 55 percent. Congratulations, statistics.'}},
+      {t:{tr:'Kripto',en:'Crypto'},d:{m:-5,j:2},tag:'risk',called:true,line:{tr:'Hayır. Henüz değil. Belki hiç. Not aldım.',en:'No. Not yet. Possibly never. Noted.'}}],
+ goalAsk:{tr:'Bu yıl için tek hedef. Bir. Üç seçen hiçbirini yapmaz; 2.400 seminerden kalan tek bilgi.',en:'One goal for the year. One. People who pick three finish none; that\'s all 2,400 seminars taught me.'},
+ yearEnd:{tr:'Yıl bitiyor. Karne geliyor.',en:'Year\'s ending. Report card incoming.'},
+ wagerOpen:{tr:'Deftere yazdım, kalemle. Silgi almıyorum; prensip.',en:'It\'s in the notebook, in pen. I don\'t buy erasers. Principle.'},
+ band:[{max:25,tr:a=>`${a} yaş. Üç plan, sıfır uygulama. Isınma turu sayıyorum.`,en:a=>`${['','','','','','','','','','','','','','','','','','','','Nineteen','Twenty','Twenty-one','Twenty-two','Twenty-three','Twenty-four','Twenty-five'][a]||a}. Three plans, zero reps. I\'m counting this as a warm-up.`},
+       {max:40,tr:a=>`"Bu sefer farklı" dedin. (bkz: ${2026+(a-18)-3}, aynı cümle)`,en:a=>`"This time it\'s different." You said that in ${2026+(a-18)-3}. Same font.`},
+       {max:60,tr:()=>'Kararlarının geri dönüşü başladı. Ben oradaydım, hepsinde.',en:()=>'Your decisions are coming back for their rematch. I saw every one.'},
+       {max:200,tr:()=>'Eskiden hızlı yanılırdın. Şimdi yavaş yanılıyorsun. Gelişme.',en:()=>'You used to be wrong fast. Now you\'re wrong slowly. That\'s growth.'}],
+ lowJoy:{tr:'Zor bir yıl. Bugün tek şey: bir karar. Küçük olsun. Ben buradayım.',en:'Rough year. Today, one thing: one decision. Make it small. I\'m not going anywhere.'},
+ newLife:[{tr:'İkinci hayat. Defterde bir hayat var. Bu sefer üç sayfa not aldım.',en:'Second life. One life in the notebook. I took three pages of notes this time.'},
+          {tr:'Üçüncü hayat. Defterde iki hayat var. Üçüncüsünü farklı yazmak istiyorum; sen ister misin, bilmiyorum.',en:'Third life. Two lives in the notebook. I\'d like to write this one differently. Whether you would, I don\'t know.'}],
+ callback:{tr:(p)=>`Geçen hayatta da birinci kalıbın "${p}" idi. Yağmur hatırlıyor. Ben de.`,en:(p)=>`Last life, your number one pattern was "${p}" too. Sam remembers. So do I.`},
+ lastWords:[{tr:'Seminerlerde "potansiyel" derdim. Sende gördüm; kullanmadın. Olsun. Oradaydım.',en:'In the seminars I used to say "potential." I saw it in you; you didn\'t use it. That\'s fine. I was there.'},
+            {tr:'Defteri kapatıyorum. İyi kapanmadı; ama kapandı. Bu da bir şey.',en:'Closing the notebook. Not a clean close, but a close. That\'s something.'}],
+};
+
+/* ---------- state ---------- */
+let S=null, feed, actions, hud, sound=true, actx=null;
+function newState(life, perks){
+  return {life:life||1,perks:perks||[],age:18,year:2026,name:'',city:'',h:70,j:55,b:60,l:50,m:30,mom:40,ego:10,cringe:10,unread:9,job:false,loves:0,
+    wagersWon:0,wagersLost:0,decisions:0,years:0,pat:{},seen:{},env:[],goal:null,goalDone:0,notes:[],streak:1,lastMissWager:null,hudShown:false,prevTop:null,alive:true};
+}
+function tick(){ if(!sound) return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); const o=actx.createOscillator(), g=actx.createGain(); o.type='square'; o.frequency.value=180; g.gain.value=.08; o.connect(g); g.connect(actx.destination); o.start(); g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.09); o.stop(actx.currentTime+.1);}catch(e){} }
+const wait=(ms)=>new Promise(r=>setTimeout(r, matchMedia('(prefers-reduced-motion: reduce)').matches?Math.min(ms,80):ms));
+function scrollDown(){ feed.scrollTop=feed.scrollHeight; }
+function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+async function coach(text){
+  const ty=el(`<div class="typing">•••</div>`); feed.appendChild(ty); scrollDown(); await wait(420); ty.remove();
+  const b=el(`<div class="coach"><span class="who">${T(UI.coach)}</span>${esc(text)}</div>`); feed.appendChild(b); scrollDown(); await wait(260);
+}
+function note(text){ const n=el(`<div class="note">${esc(text)}</div>`); feed.appendChild(n); S.notes.push(text); scrollDown(); }
+function sys(text){ feed.appendChild(el(`<div class="sys">${esc(text)}</div>`)); scrollDown(); }
+function setActions(list){ actions.innerHTML=''; list.forEach(a=>{ const b=el(`<button type="button" class="btn ${a.cls||''}">${esc(a.label)}${a.hint?`<span class="hint">${esc(a.hint)}</span>`:''}</button>`); b.addEventListener('click',()=>{ b.disabled=true; a.on(); }); actions.appendChild(b); }); }
+function hudRender(){
+  if(!S.hudShown) return; hud.hidden=false;
+  document.getElementById('ageNum').textContent=S.age;
+  document.getElementById('ageLbl').textContent=`${T(UI.age)} · ${S.year}`;
+  document.getElementById('lifeLbl').textContent=UI.life[lang](S.life);
+  document.getElementById('nameLbl').textContent=S.name;
+  const names=UI.stats[lang], vals=[S.h,S.j,S.b,S.l];
+  document.getElementById('stats').innerHTML=names.map((n,i)=>`<div class="stat">${n}<b>${Math.round(vals[i])}</b><div class="bar"><i style="width:${clamp(vals[i],0,100)}%"></i></div></div>`).join('');
+  document.getElementById('metaRow').innerHTML=`<span>${T(UI.money)}: <b>${Math.round(S.m)}</b></span><span>${T(UI.unread)}: <b>${S.unread}</b></span><span>${T(UI.mom)}: <b>${Math.round(S.mom)}</b></span><span>${T(UI.streak)}: <b>1</b></span>`;
+}
+function applyDelta(d, extra){
+  d=d||{}; const parts=[];
+  const map={h:0,j:1,b:2,l:3};
+  for(const k of ['h','j','b','l']){ if(d[k]){ S[k]=clamp(S[k]+d[k],0,100); parts.push([UI.stats[lang][map[k]],d[k]]); } }
+  if(d.m){ S.m=S.m+d.m; parts.push([T(UI.money),d.m]); }
+  if(d.mom){ S.mom=clamp(S.mom+d.mom,0,100); parts.push([T(UI.mom),d.mom]); }
+  if(extra&&extra.cringe){ S.cringe+=extra.cringe; parts.push(['Cringe',extra.cringe]); }
+  if(extra&&extra.ego){ S.ego+=extra.ego; parts.push(['Ego',extra.ego]); }
+  if(S.m<0){ S.m=4; parts.push([T(UI.noMoney),0]); }
+  hudRender();
+  return parts;
+}
+function deltaHtml(parts){ return parts.map(([n,v])=>v===0?`<span class="delta">${esc(n)}</span>`:`<span class="delta ${v>0?'up':'down'}">${esc(n)} ${v>0?'+':'−'}${Math.abs(v)}</span>`).join(''); }
+function stampOn(card, kind, text){ const s=el(`<div class="stamp ${kind} anim">${esc(text)}</div>`); card.appendChild(s); tick(); }
+function bumpPat(tag){ if(!tag) return; S.pat[tag]=(S.pat[tag]||0)+1; }
+
+/* ---------- event card runner ---------- */
+function eventCard(ev, label){
+  const html=ev.doc
+    ?`<div class="card doc"><div class="label"><span>${esc(label)}</span><b>${esc(T(UI.doc))}</b></div><p>${esc(T(ev.t))}</p><div class="tr"><b>${esc(T(UI.translate))}:</b> ${esc(T(ev.tr))}</div></div>`
+    :`<div class="card"><div class="label"><span>${esc(label)}</span><b>${S.age} ${esc(T(UI.age))}</b></div><p>${esc(T(ev.t))}</p></div>`;
+  const c=el(html); feed.appendChild(c); scrollDown(); return c;
+}
+function runEvent(ev){
+  return new Promise(resolve=>{
+    const card=eventCard(ev, T(UI.event));
+    const wagerChoice=ev.c.find(x=>x.w);
+    if(wagerChoice){ card.appendChild(el(`<div class="slip">${esc(T(wagerChoice.w))}</div>`)); scrollDown(); }
+    setActions(ev.c.map(ch=>({label:T(ch.t), on:async()=>{
+      S.decisions++; bumpPat(ch.tag);
+      if(ev.unreadReset) S.unread=1;
+      let parts=[], line=null;
+      if(ch.w){
+        const fail=rnd()*100 < ch.w.p;   // coach bet on failure
+        const out=fail?ch.fail:ch.ok;
+        parts=applyDelta(out.d, out);
+        if(out.love) S.loves++;
+        if(out.job===false) S.job=false;
+        if(fail){ S.wagersWon++; stampOn(card,'called',T(UI.called)); }
+        else { S.wagersLost++; stampOn(card,'wrong',T(UI.wrong)); S.lastMissWager={age:S.age,t:T(ev.t)}; }
+        card.querySelector('.slip').insertAdjacentHTML('beforeend',`<span class="odds">${UI.odds[lang](ch.w.p)}</span>`);
+        line=T(out);
+      } else {
+        parts=applyDelta(ch.d, ch);
+        if(ch.love) S.loves++;
+        if(ev.id==='job'||ev.id==='promo') S.job=true;
+        stampOn(card,'neutral',T(UI.processed));
+        line=ch.line?T(ch.line):null;
+      }
+      if(ev.id==='job'&&ch.w&&!(S.wagersWon&&line&&line.indexOf('47')>-1)) S.job=true;
+      feed.appendChild(el(`<div class="result">${deltaHtml(parts)}</div>`)); scrollDown();
+      if(line) await coach(line);
+      setActions([]); resolve();
+    }})));
+  });
+}
+function pickEvent(){
+  const pool=EV.filter(e=>S.age>=e.min&&S.age<=e.max&&!S.seen[e.id]&&(!e.need||S.job));
+  if(!pool.length) return null;
+  const e=pick(pool); S.seen[e.id]=true; return e;
+}
+async function goalCard(){
+  await coach(T(COACH.goalAsk));
+  const opts=GOALS.filter(g=>S.age>=g.min&&S.age<=g.max).sort(()=>rnd()-.5).slice(0,3);
+  return new Promise(resolve=>{
+    setActions([...opts.map(g=>({label:T(g),on:()=>{S.goal=T(g);S.decisions++;bumpPat('plan');setActions([]);resolve();}})),{label:T(NO_GOAL),cls:'ghost',on:()=>{S.goal=null;S.decisions++;setActions([]);resolve();}}]);
+  });
+}
+function gradeOf(v){ return v<35?0:v<50?1:v<65?2:v<80?3:4; }
+function karne(){
+  const moneyG=gradeOf(clamp(S.m*1.6,0,100));
+  const rel=clamp(40+S.loves*15-(S.pat.kacin||0)*4+(S.pat.sosyal||0)*5,0,100);
+  const cour=clamp(30+(S.pat.risk||0)*12,0,100);
+  const cond=clamp(70-(S.pat.kacin||0)*5-S.cringe*0.6+(S.pat.plan||0)*4,0,100);
+  const g=[gradeOf(S.h),moneyG,gradeOf(rel),gradeOf(S.b),gradeOf(cour),gradeOf(cond)];
+  const goalSt=S.goal? (rnd()<.3?2:1) : 0; if(goalSt===2) S.goalDone++;
+  const motto=!S.lastKarne?MOTTOS[0]:pick(MOTTOS.slice(1));
+  const hasEnv=S.env.length>0 || (S.age>=22 && rnd()<.6);
+  if(hasEnv && !S.env.length){ const pool=ENVELOPES.filter(e=>S.age>=e.min&&S.age<=e.max&&!S.seen[e.id]&&(!e.need||S.job)); if(pool.length){ const e=pick(pool); S.seen[e.id]=true; S.env.push(e);} }
+  const names=UI.gradeNames[lang], gl=UI.grades[lang];
+  const k=el(`<div class="card karne">
+    <div class="head"><span class="t">${esc(T(UI.karne))} ${S.year}</span><span class="y">${esc(S.name)} · ${S.age}</span></div>
+    <div class="grades">${names.map((n,i)=>`<div><span>${n}</span><b>${gl[g[i]]}</b></div>`).join('')}</div>
+    <div class="goal"><span>${esc(T(UI.goal))}: ${esc(S.goal||T(NO_GOAL))}</span><span class="st">${esc(UI.goalSt[lang][goalSt])}</span></div>
+    <div class="motto"><small>${esc(T(UI.mottoLbl))}</small><q>${esc(T(motto))}</q></div>
+    <div class="envelope"><span class="ic"></span><span>${esc(S.env.length?T(UI.envLine):T(UI.envNone))}</span></div>
+  </div>`);
+  feed.appendChild(k); scrollDown(); tick();
+  S.lastKarne={g:g.map(i=>gl[i]),motto:T(motto),year:S.year};
+  if(S.years===1) confetti();
+}
+function confetti(){ const c=document.getElementById('confetti'); if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; c.hidden=false; c.innerHTML=''; for(let i=0;i<40;i++){ const p=document.createElement('i'); p.style.left=(rnd()*100)+'%'; p.style.animationDelay=(rnd()*.5)+'s'; c.appendChild(p);} setTimeout(()=>{c.hidden=true;c.innerHTML='';},2200); }
+function ageUp(){
+  S.age++; S.year++; S.years++;
+  if(S.age>30) S.h-=1; if(S.age>50) S.h-=1.5; if(S.age>65) S.h-=2;
+  S.l-= S.age>35?1:0; S.m += S.job? 6 : 1; S.m -= 3; S.unread += 20+Math.floor(rnd()*40); S.mom += 2; S.j -= 1;
+  S.h=clamp(S.h,0,100); S.j=clamp(S.j,0,100); S.l=clamp(S.l,0,100); S.mom=clamp(S.mom,0,100);
+  hudRender();
+}
+function hazard(){ const a=S.age; const base=0.00043*Math.exp(0.0866*(a-18)); const mult=1+(100-S.h)/50; return a<28?0:base*mult; }
+function yearIntro(){ const b=COACH.band.find(x=>S.age<=x.max); return b[lang](S.age); }
+
+/* ---------- flows ---------- */
+async function start(){
+  feed.innerHTML=''; setActions([]); hud.hidden=true;
+  await wait(500);
+  if(S.life>1){ await coach(T(COACH.newLife[Math.min(S.life-2,1)])); }
+  await coach(T(COACH.intro1));
+  await coach(T(COACH.intro2));
+  await nameCard();
+}
+async function nameCard(){
+  const roll=()=>{ const [n,c]=pick(NAMES[lang]); S.name=n; S.city=c; };
+  roll();
+  const card=el(`<div class="card"><div class="label"><span>${lang==='tr'?'MÜŞTERİ DOSYASI':'CLIENT FILE'}</span><b>#${String(S.life).padStart(3,'0')}</b></div><p><b id="nm"></b> · 18 · <span id="ct"></span></p></div>`);
+  feed.appendChild(card); scrollDown();
+  const paint=()=>{ card.querySelector('#nm').textContent=S.name; card.querySelector('#ct').textContent=S.city; };
+  paint();
+  await new Promise(resolve=>setActions([
+    {label:T(UI.shuffle),on:()=>{roll();paint();nameCard2(resolve);}},
+    {label:T(UI.keep),cls:'primary',on:()=>resolve()}
+  ]));
+  function nameCard2(resolve){ setActions([{label:T(UI.shuffle),on:()=>{roll();paint();nameCard2(resolve);}},{label:T(UI.keep),cls:'primary',on:()=>resolve()}]); }
+  setActions([]); stampOn(card,'neutral',T(UI.processed));
+  S.hudShown=true; hudRender();
+  await coach(COACH.name[lang](S.name));
+  await firstYear();
+}
+async function firstYear(){
+  // Event 1
+  await runEvent({id:'first',t:COACH.e1,c:COACH.e1c});
+  // Event 2 with hand-written wager
+  const ev2={id:'money',t:COACH.e2,c:COACH.e2c};
+  await new Promise(resolve=>{
+    const card=eventCard(ev2,T(UI.event));
+    card.appendChild(el(`<div class="slip">${esc(T(COACH.e2w))}</div>`)); scrollDown();
+    setActions(ev2.c.map(ch=>({label:T(ch.t),on:async()=>{
+      S.decisions++; bumpPat(ch.tag); const parts=applyDelta(ch.d);
+      if(ch.wrong){ S.wagersLost++; stampOn(card,'wrong',T(UI.wrong)); S.lastMissWager={age:18,t:T(COACH.e2)}; }
+      else { S.wagersWon++; stampOn(card,'called',T(UI.called)); }
+      card.querySelector('.slip').insertAdjacentHTML('beforeend',`<span class="odds">${UI.odds[lang](55)}</span>`);
+      feed.appendChild(el(`<div class="result">${deltaHtml(parts)}</div>`)); scrollDown();
+      await coach(T(ch.line)); setActions([]); resolve();
+    }})));
+  });
+  await goalCard();
+  await coach(T(COACH.yearEnd));
+  await new Promise(resolve=>setActions([{label:T(UI.age1),cls:'primary pulse',on:()=>{tick();resolve();}}]));
+  ageUp(); karne(); await wait(500);
+  yearEndActions();
+}
+function yearEndActions(){
+  const list=[{label:T(UI.oneMore),cls:'primary',on:()=>playYear()},{label:T(UI.enough),cls:'ghost',on:()=>sessionEnd()},{label:T(UI.share),cls:'ghost',on:()=>shareSheet()}];
+  if(S.age>=24) list.push({label:T(UI.fast),cls:'ghost',on:()=>fastForward()});
+  setActions(list);
+}
+async function playYear(){
+  setActions([]);
+  if(S.j<30) await coach(T(COACH.lowJoy)); else await coach(yearIntro());
+  if(S.life>1 && S.age===19 && S.prevTop){ await coach(COACH.callback[lang](S.prevTop)); }
+  const beats=S.age<30?3:2;
+  for(let i=0;i<beats;i++){
+    let ev=null;
+    if(S.env.length && i===0){ ev=S.env.shift(); } else { ev=pickEvent(); }
+    if(!ev) break;
+    await runEvent(ev);
+    if(!S.alive) return;
+  }
+  if(S.goal===null || rnd()<.5){ await goalCard(); }
+  await coach(T(COACH.yearEnd));
+  await new Promise(resolve=>setActions([{label:T(UI.age1),cls:'primary',on:()=>{tick();resolve();}}]));
+  ageUp();
+  if(rnd()<hazard()){ return death(); }
+  karne(); await wait(400); yearEndActions();
+}
+async function fastForward(){
+  setActions([]); sys(lang==='tr'?'Hızlı yaşa: koç kararları otomatik verdi':'Live fast: the coach auto-picked');
+  while(S.alive){
+    const ev=pickEvent(); if(ev){ const ch=pick(ev.c); S.decisions++; bumpPat(ch.tag); const out=ch.w?(rnd()*100<ch.w.p?ch.fail:ch.ok):ch; applyDelta(out.d,out); if(ch.w){ if(out===ch.fail) S.wagersWon++; else S.wagersLost++; } if(out.love) S.loves++; }
+    ageUp();
+    if(S.age%10===0){ sys(`${S.age} · ${S.year}`); await wait(120); }
+    if(rnd()<hazard() || S.age>=97) return death();
+  }
+}
+function topPatterns(){ return Object.entries(S.pat).sort((a,b)=>b[1]-a[1]).slice(0,3); }
+async function death(){
+  S.alive=false; setActions([]);
+  await wait(900); // silence rule
+  await coach(UI.died[lang](S.age));
+  await coach(T(UI.funeral));
+  const worked=Math.max(0,Math.min(S.age-22,47)); const pats=topPatterns();
+  const host=document.getElementById('overlayHost');
+  const unlock=UNLOCKS[lang][S.perks.length%UNLOCKS[lang].length];
+  host.innerHTML=`<div class="overlay"><div class="sheet roast">
+    <h3>${esc(T(UI.roastTitle))}</h3>
+    <div class="big">${esc(S.name)}, ${S.age}.</div>
+    <div class="nums"><div><b>${worked}</b>${esc(UI.numsLbl[lang][0])}</div><div><b>${S.loves}</b>${esc(UI.numsLbl[lang][1])}</div><div><b>${S.wagersLost}</b>${esc(UI.numsLbl[lang][2])}</div></div>
+    <div class="big" style="font-size:16px">${esc(UI.there[lang](S.wagersLost))}</div>
+    <div><small style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink-2)">${esc(T(UI.patTitle))}</small>
+      ${pats.length?pats.map(([k,v])=>`<div class="pat"><span>${esc(T(PAT[k]))}</span><b>${v} ${esc(T(UI.times))}</b></div>`).join(''):`<div class="pat"><span>—</span></div>`}</div>
+    ${S.lastMissWager?`<div><small style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink-2)">${esc(T(UI.rightMoment))}</small><div style="font-family:var(--coach-font);font-style:italic">${S.lastMissWager.age} ${esc(T(UI.age))}: ${esc(S.lastMissWager.t)}</div></div>`:''}
+    <div><small style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink-2)">${esc(T(UI.lastWord))}</small><div style="font-family:var(--coach-font);font-style:italic;font-size:17px">${esc(T(pick(COACH.lastWords)))}</div></div>
+    <div class="unlock"><small>${esc(T(UI.unlockLbl))}</small>${esc(unlock)}</div>
+    <button type="button" class="btn primary" id="rebirth">${esc(T(UI.newClient))}</button>
+  </div></div>`;
+  document.getElementById('rebirth').addEventListener('click',()=>{ const perks=S.perks.concat([unlock]); const prevTop=pats.length?T(PAT[pats[0][0]]):null; S=newState(S.life+1,perks); S.prevTop=prevTop; host.innerHTML=''; start(); });
+}
+function sessionEnd(){
+  const host=document.getElementById('overlayHost');
+  host.innerHTML=`<div class="overlay"><div class="sheet">
+    <h3>${esc(T(UI.sessionEnd))}</h3>
+    <div style="font-family:var(--coach-font);font-style:italic;font-size:17px">${esc(UI.sessionTxt[lang](S.years,S.decisions))}</div>
+    ${shareCardHtml()}
+    <div style="font-size:11px;color:var(--ink-2)">${esc(T(UI.shareHint))}</div>
+    <button type="button" class="btn primary" id="cont">${esc(T(UI.cont))}</button>
+  </div></div>`;
+  document.getElementById('cont').addEventListener('click',()=>{host.innerHTML='';yearEndActions();});
+}
+function shareCardHtml(){
+  const k=S.lastKarne||{g:['-','-','-','-','-','-'],motto:'',year:S.year}; const n=UI.gradeNames[lang];
+  return `<div class="share"><div><div class="k">${esc(T(UI.karne))} · ${k.year}</div><div class="g">${n.map((x,i)=>`<div>${x}<b>${esc(k.g[i])}</b></div>`).join('')}</div></div><q>${esc(k.motto)}</q><div class="f"><span>${esc(S.name)} · ${S.age}</span><span>MOTTO · HYT-${(S.year*7+S.age).toString(36).toUpperCase()}</span></div></div>`;
+}
+function shareSheet(){
+  const host=document.getElementById('overlayHost');
+  host.innerHTML=`<div class="overlay"><div class="sheet"><h3>${esc(T(UI.share))}</h3>${shareCardHtml()}<div style="font-size:11px;color:var(--ink-2)">${esc(T(UI.shareHint))}</div><button type="button" class="btn" id="cls">${esc(T(UI.close))}</button></div></div>`;
+  document.getElementById('cls').addEventListener('click',()=>{host.innerHTML='';yearEndActions();});
+}
+
+/* ---------- boot ---------- */
+function setLang(l){ lang=l; document.getElementById('langTR').classList.toggle('on',l==='tr'); document.getElementById('langEN').classList.toggle('on',l==='en');
+  document.getElementById('langTR').setAttribute('aria-pressed',l==='tr'); document.getElementById('langEN').setAttribute('aria-pressed',l==='en');
+  document.getElementById('subtitle').textContent=l==='tr'?'Sertifikasız Hayat Koçu':'Uncertified Life Coach';
+  document.getElementById('foot').textContent=l==='tr'?'Tasarım maketi: Motto\'nun ilk 60 saniyesi ve "bir yıl daha" döngüsü. Gerçek uygulama değil; metinler ve sayılar örnektir.':'Design mock: Motto\'s first 60 seconds and the "one more year" loop. Not the real app; lines and numbers are samples.';
+  try{localStorage.setItem('motto-lang',l);}catch(e){}
+  S=newState(1,[]); document.getElementById('overlayHost').innerHTML=''; start(); }
+function boot(){
+  feed=document.getElementById('feed'); actions=document.getElementById('actions'); hud=document.getElementById('hud');
+  document.getElementById('langTR').addEventListener('click',()=>setLang('tr'));
+  document.getElementById('langEN').addEventListener('click',()=>setLang('en'));
+  const sb=document.getElementById('soundBtn'); sb.classList.add('on');
+  sb.addEventListener('click',()=>{sound=!sound;sb.classList.toggle('on',sound);sb.setAttribute('aria-pressed',sound);});
+  let l='tr'; try{ l=localStorage.getItem('motto-lang')||'tr'; }catch(e){}
+  setLang(l);
+}
+boot();
+})();
+</script>
