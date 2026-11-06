@@ -526,3 +526,282 @@ Yıl sonu ekranı: özet (3 satır) → "Gelecek yıl: {teaser}" → tek büyük
 
 **Bu oyuna nasıl uygularız (Bölüm 3 özeti):** Uygulama sırası: (1) 3a + 3c + 3l motorun çekirdeğine (storylet seçimi zaten var; bunlar skorlama katmanı), (2) 3i'nin ilk 6 satırı (metin, seçenek, para ±, nice/great sürpriz, yıl sonu) UI'a, (3) 3e ribbon + 3g skor (meta), (4) 3f streak + bildirim, (5) 3b near-miss, 3d rubber band, 3h novelty (içerik hacmi büyüyünce), (6) 3j churn, 3k aside'lar (cila). Her adım Bölüm 4 harness'ında test edilir.
 
+---
+
+## 4. Ölçüm: backend'siz tuning
+
+### 4.1 Lokal telemetri (cihazda kalır)
+
+Her beat için tek satırlık olay: `{ t, lifeId, age, beatId, valence, intensity, surpriseTier, nearMiss, ribbon, moneyDelta, healthDelta, msSincePrev, sessionId }`. Cihazda 50.000 satırlık ring-buffer (SQLite/MMKV, ~5 MB). Oyuncu **ayarlardan** "Oyun verimi dışa aktar" ile JSON paylaşabilir (playtest için; KVKK/GDPR: kişisel veri yok, cihaz kimliği yok, isteğe bağlı). Analytics SDK (ör. Firebase) opsiyoneldir; sadece toplu sayaçlar (D1/D7, oturum süresi) gönderilir, beat düzeyi değil. Oyun SDK'sız tamamen çalışır.
+
+### 4.2 Dev build "tuning dashboard"
+
+Dev build'de gizli ekran (7 kez versiyon numarasına dokun). Paneller: (1) **Sürpriz aralığı histogramı** (beat ve dakika), pity tetiklenme oranı; (2) **Valans dizisi** şeridi (son 60 beat; kırmızı seri uzunluğu); (3) **LOL aralığı** gerçek vs hedef; (4) **Para/sağlık eğrileri** yaşa göre, koruma penceresi işaretli; (5) **Ribbon unlock oranları** vs hedef tier aralığı; (6) **Novelty**: tekrar oranı, görülmemiş havuz yüzdesi; (7) **Streak/bildirim**: alışkanlık saati + güven, planlanan bildirimler, yoksayma sayacı; (8) **Churn skoru** canlı. Tüm sabitler (`C.*`) bu ekrandan slider ile canlı değiştirilebilir ve `tuning.json` olarak dışa aktarılır.
+
+### 4.3 Simülasyon harness: 10.000 sentetik hayat
+
+```ts
+// packages/engine/sim/run.ts — headless, CI'da çalışır (hedef: 10k hayat < 60 sn, Node)
+for (const persona of ['safe', 'risky', 'chaotic', 'speedrunner', 'completionist']) {
+  for (let i = 0; i < 2000; i++) {
+    const life = simulateLife({ seed: hash(persona, i), policy: personaPolicy[persona], tuning: C });
+    collect(life.metrics);     // surpriseGaps[], maxNegStreak, lolGaps[], deathAge, moneyByAge[], healthByAge[], ribbons[], repeats, nearMissRate, bailouts
+  }
+}
+assert(p95(surpriseGaps) <= 14 && median(surpriseGaps) in [6, 9]);
+assert(max(maxNegStreak) <= 2);
+assert(median(lolGaps) in [9, 15] && p95(lolGaps) <= 20);
+assert(median(deathAge) in [72, 80] && p05(deathAge) >= 45);          // T4: medyan ~75
+assert(pct(lives, l => l.money[28] < 0) <= 0.05);                     // ilk 10 yıl spiral yok
+assert(ribbonRate('legendary') in [0.003, 0.01]);
+assert(repeatRate(life3) < 0.15 && repeatRate(life10) < 0.40);
+assert(nearMissRate <= 0.30);
+```
+
+Persona politikaları basit kurallardır (ör. `risky`: en yüksek varyanslı seçeneği seç; `speedrunner`: her zaman ilk seçenek). Her tuning değişikliği PR'ında harness çalışır; assert'ler kırmızıysa merge yok. Ek çıktı: `sim-report.html` (dağılım grafikleri) — dashboard ile aynı panel seti.
+
+### 4.4 Playtest protokolü ("eğlence" için)
+
+GDC'deki küçük ekip pratikleri [76] + komedi tasarımı notları [68][77] + T4'teki RITE yaklaşımı:
+
+1. **Katılımcı:** oturum başına 5–8 kişi, hedef kitle (18–35, TR), yarısı BitLife oynamış.
+2. **Ölçülen zamanlar (kronometre, gözlemci):** uygulama açılışı → ilk beat (hedef < 10 sn), **ilk kahkaha/burun sesi** (hedef < 90 sn; yüksek sesle okunan metinlerin gülme anı loglanır), ilk "iyi sürpriz" (hedef < 2 dk), ilk ribbon (hedef < 5 dk), ilk "bir yıl daha" (oyuncu bırakmaya niyetlenip devam ederse işaretle).
+3. **Sesli düşünme** + oturum sonu 5 soru: "Yarın açar mısın? Neden?", "En komik an?", "Haksızlık hissettiğin an?", "Ne zaman bırakmak istedin?", "Birine ne gönderirdin?" (paylaşım testi).
+4. **Kahkaha günlüğü:** her LOL etiketli beat için gerçekleşen gülme oranı; %40'ın altında kalan beat etiketi kaybeder ve yeniden yazılır.
+5. **RITE:** her oturumdan sonra bariz sorunlar düzeltilir, bir sonraki oturum yeni build ile.
+6. **Haftalık uzak test:** TestFlight/Internal Testing, 20–30 kişi, dışa aktarılmış lokal telemetri + 3 soruluk form; D1/D7 bu gruptan elle hesaplanır.
+
+### 4.5 Hedef KPI'lar
+
+GameAnalytics 2025/2026 benchmark'larında tüm oyunlar medyanı D1 ≈ %22, D7 < %4, D30 ≈ %0,7–0,8; üst çeyrek D1 ≈ %26–33 [75]. Simülasyon türü için üçüncü taraf blog D1 ≈ %30 veriyor (doğrulanmadı). Hedeflerimiz:
+
+| KPI | Lansman hedefi | Publisher pitch hedefi | Nasıl ölçülür |
+|---|---|---|---|
+| D1 / D7 / D30 | %35 / %12 / %5 | %40 / %18 / %8 | Opsiyonel SDK veya uzak test grubu |
+| Oturum süresi (medyan) | 10–15 dk | 15 dk | Lokal |
+| Oturum/gün | 2 | 2,5 | Lokal |
+| İlk kahkaha | < 90 sn | < 60 sn | Playtest |
+| İlk iyi sürpriz | < 2 dk | < 90 sn | Lokal (beat index) |
+| "Bir yıl daha" oranı (yıl sonu ekranında devam) | > %80 | > %85 | Lokal |
+| Hayat tamamlama (ölüme ulaşma) | > %55 ilk hayat | > %65 | Lokal |
+| Streak 7 gün ulaşan | > %15 yükleyen | > %20 | Lokal |
+| Paylaşım (mezar kartı) | > %5 hayat sonu | > %10 | Lokal (share intent) |
+
+**Bu oyuna nasıl uygularız:** Sim harness Sprint 0'da (motor iskeletiyle birlikte) kurulur; dashboard Sprint 1; playtest protokolü ilk oynanabilir build'den itibaren haftalık. KPI'lar publisher görüşmesinde "soft launch planı" olarak sunulur.
+
+---
+
+## 5. Etik ve yasal çizgi
+
+### 5.1 Kabul / ret tablosu
+
+| Mekanik | Durum | Gerekçe ve kaynak |
+|---|---|---|
+| Değişken anlatı ödülü (pity'li sürpriz motoru) | **KABUL** | Para ile ilişkisiz; şans statı sıklığı değil büyüklüğü etkiler; King & Delfabbro'nun "gizli maliyet" kriterine girmez [30] |
+| Dürüst near-miss (≤%30, gerçek marj, takip bonusu) | **KABUL (şartlı)** | Clark/Kassinove bulgularını kullanır; aldatma yok; asla satın alma/reklam ile tamamlanmaz |
+| Affedici streak, hafta sonu kalkanı, oyunla onarım | **KABUL** | Duolingo pratiği; para ile streak satın alma yok |
+| Koleksiyon/ribbon, "az kaldı" ipucu | **KABUL** | Goal-gradient; satın alınabilir ribbon yok |
+| Juice (ses/haptik/animasyon), atlanabilir | **KABUL** | Kayıplar sade, kazanımlar parlak; LDW benzeri "kaybı kazanç gibi gösterme" yok |
+| Pacing, cliffhanger, bekleyen sonuç | **KABUL** | Anlatı tekniği; oyuncu her yıl sonunda bırakabilir, doğal durak korunur |
+| Legacy/prestige çarpanı | **KABUL** | İçerik açar, güç satmaz |
+| Yerel bildirim (alışkanlık saati, günde ≤1, 3 yoksayma → sessizlik) | **KABUL** | Apple 4.5.4: promosyon yok, opt-in, opt-out [61]; EC'nin TikTok bulgusunda push bildirimleri "bağımlılık yapan tasarım" kalemi — bizde düşük frekans ve içerik-bağlı [52] |
+| Hoş geldin ödülü (sabit, artmayan) | **KABUL** | Ayrılmayı ödüllendirmez |
+| Ödüllü reklam (opsiyonel, "izle → ekstra storylet varyantı") | **KABUL (dikkat)** | Hiçbir ödül mekaniği reklama bağlı değil; reklam yalnızca kozmetik/ekstra; Apple 2.5.18 kapat butonu [61] |
+| Paralı loot box / rastgele paket | **RET** | Apple 3.1.1 ve Google Play oran açıklama zorunluluğu [61][69]; King & Delfabbro; AB CPC/DFA gündemi [70][72] — risk/fayda oranı kötü |
+| Harcamaya bağlı near-miss ("az kaldı, 5 hamle al") | **RET** | Candy Crush'ın modeli; CPC'nin "dark pattern" tanımı [70]; dürüstlük ilkesiyle çelişir |
+| Enerji/can duvarı, paralı zamanlayıcı | **RET** | Zagal "playing by appointment"/"pay to skip" [28]; Royal Match bile sınırsız can pencereleriyle gevşetti |
+| Kayıp kovalama monetizasyonu ("streak'ini kurtar: 49 TL") | **RET** | Loss aversion istismarı; TR Reklam Kurulu'nun "karar verme yetisini bozan tasarım" tanımı [74] |
+| Sahte aciliyet / geri sayım | **RET** | UK DMCC Act: her koşulda haksız (banned practice), CMA207 "aciliyet kanıtlanabilir olmalı" [73]; Google Play/Apple yanıltıcı metadata |
+| Sonsuz kaydırma / otomatik devam | **RET** | EC TikTok ön bulgusu [52]; yıl sonu doğal durak korunur |
+| Çocuklara yönelik dürtme | **RET** | CPC "direct exhortations to children" [70]; BEUC önerisi [72] |
+
+### 5.2 Mevzuat hizası (özet; ayrıntı T9'da)
+
+- **Apple App Store Review Guidelines:** 3.1.1 loot box oran açıklama (bizde loot box yok → madde tetiklenmez); 4.5.4 push bildirim promosyon yasağı/opt-in; 3.1.2 abonelik dürüstlüğü ve "bait-and-switch" yasağı; 2.5.18 reklam kapatma [61].
+- **Google Play:** rastgele sanal eşya satışı oran açıklama (2019) [69]; "Monetization and Ads" politikası; aldatıcı davranış politikası.
+- **AB:** CPC Ağı'nın Mart 2025 "sanal para 7 ilkesi" (gerçek para fiyatı göster, ihtiyaç kadar satın alma, 14 gün cayma, çocuklara dürtme yok) ve Ekim 2026'da 9 şirkete koordineli eylem [70][71]; DSA kapsamında TikTok ön bulgusu bağımlılık yapan tasarımı "sistemik risk" sayıyor [52][53]; Digital Fairness Act taslağının dark pattern + bağımlılık yapan tasarım kurallarını kodlaması bekleniyor [72]. Oyunumuz AB'de yayınlanacaksa bu çizgi ticari zorunluluk.
+- **İngiltere:** DMCC Act 2024 CMA'ya doğrudan ceza yetkisi; sahte zaman kısıtı banned practice; Kasım 2025'te geri sayım soruşturmaları [73].
+- **Türkiye:** Ticari Reklam ve Haksız Ticari Uygulamalar Yönetmeliği'ne 1 Şubat 2022 eklemesi; Reklam Kurulu 8 Ağustos 2023 toplantısında "karanlık ticari tasarımlar" ana gündem, 1.226 dosya, 51,9 milyon TL ceza, erişim engelleri [74]. KVKK: lokal telemetri kişisel veri içermez, dışa aktarma kullanıcı eylemiyle.
+
+### 5.3 "Vicdanlı dopamin" manifestosu (publisher pitch paragrafı)
+
+> Oyunumuz, oyuncunun beynindeki ödül sistemini **bilerek** hedefler: belirsizlik, sürpriz, kıl payı kaçırma, koleksiyon, seri ve "bir yıl daha" merakı — hepsi literatürden alınmış, sayılarla ayarlanmış, 10.000 simüle hayatla test edilmiş mekaniklerdir. Ama tek bir kural her şeyin üstündedir: **hiçbir ödül, hiçbir gerilim, hiçbir "az kaldı" para ile çözülmez.** Loot box yok, enerji duvarı yok, sahte geri sayım yok, kaybı kazanç gibi gösteren efekt yok. Oyuncu kaybettiğinde bile anlatıcı onunla dalga geçer ve ona gerçek bir şey verir: bir ribbon ilerlemesi, bir espri, bir "gelecek yıl". Streak'i kaçırırsa oyun oynayarak onarır, para vererek değil. Bildirim günde bir kez, oyuncunun kendi alışkanlık saatinde, oyunun gerçek bir ipliğini hatırlatır; üç kez yok sayılırsa susar. Bu yaklaşım AB CPC ilkeleri, DSA'nın bağımlılık yapan tasarım bulguları, İngiltere DMCC Act ve Türkiye Reklam Kurulu içtihadıyla uyumludur — yani **regülasyon riski sıfıra yakın, retention tasarımı ise sektörün en iyilerinden ödünç alınmış** bir ürün. Dopamin var; dolandırıcılık yok. Oyuncu bizi "beni kandırdı" diye değil, "beni güldürdü ve geri çağırdı" diye hatırlasın.
+
+**Bu oyuna nasıl uygularız:** Bu tablo GDD'ye "Etik Sınır" eki olarak girer; her yeni mekanik PR'ı tabloya karşı işaretlenir ("hangi satır?"). Ret listesindeki bir şey "A/B test edelim" diye bile gelmez.
+
+---
+
+## 6. Dopamine Mechanics Matrix
+
+| Mekanik | Nöro/psiko sürücü | Örnek oyun | Bizim uygulama | Beklenen etki (D1 / D7 / oturum) | Etik bayrağı |
+|---|---|---|---|---|---|
+| Pity'li iyi sürpriz motoru | Tahmin hatası, VR, belirsizlik (p≈0,5) | Genshin pity (90/74), BitLife rastgele olay | 3(a): base 0,08, soft 8, hard 14, legendary 90 | D1 ↑↑ (ilk oturumda 3–5 sürpriz), oturum ↑ | Yeşil |
+| Dürüst near-miss | Clark 2009 striatum/insula; Kassinove %30 | Slot (kötü örnek), Candy Crush "1 kaldı" | 3(b): marj ≤0,15, ≤%30, takip +0,10 | Oturum ↑ ("bir daha dene"), D7 ↑ (hedef kalıcı) | Sarı (dürüstlük şart) |
+| Pacing director | Loss aversion λ≈2, flow, Left 4 Dead eğrisi | Royal Match 10'da 1 rahatlama; L4D | 3(c): max 2 negatif, LOL/12, rahatlama/10, peak %75–85 | Oturum ↑↑, hayat tamamlama ↑ | Yeşil |
+| Rubber band (ilk 10 yıl) | Flow (zorluk–beceri), sunk cost koruması | Mario Kart; Candy Crush testere | 3(d): koruma 1→0, bailout 1/hayat | D1 ↑ (erken ölüm spirali yok), D7 ↑ | Yeşil |
+| Ribbon koleksiyonu + "az kaldı" | Goal gradient, endowed progress, bilgi boşluğu | BitLife ribbon, Monopoly Go albüm | 3(e): 4 tier, eşik %30/%80, anında ödül | D7 ↑↑, D30 ↑ (uzun hedefler) | Yeşil |
+| Affedici streak + alışkanlık saati bildirimi | Loss aversion, habit (Wood), ritüel | Duolingo (+%14 D7 Wager), Pokémon GO 7 gün | 3(f): freeze/7 gün, cap 2, 48 sa onarım, günde ≤1 bildirim | D1 ↑, D7 ↑↑, D30 ↑↑ | Sarı (frekans/opt-in) |
+| Legacy/prestige "number go up" | Number go up, yatırım (Hook) | Cookie Clicker prestige, Balatro meta | 3(g): log skor, √ çarpan, içerik açar | D30 ↑↑, hayat sayısı ↑ | Yeşil |
+| Novelty yönetimi | Habituation'a karşı tahmin hatası | Yarn Spinner RBLRV | 3(h): unseen ×1,6, decay 0,55, wow bütçesi 3 | D7/D30 ↑ (tekrar hissi geç gelir) | Yeşil |
+| Juice spec | LDW/ses bulgusu (Dixon), game feel | Royal Match, Balatro skor | 3(i): ms/SFX/haptik tablosu | D1 ↑ (ilk izlenim), oturum ↑ | Yeşil (kayıpta sade) |
+| Churn heuristiği + hoş geldin | Habit yeniden kurma | Duolingo "we miss you" | 3(j): skor 0–1, sabit ödül | D7/D30 ↑ | Sarı (ödül artmamalı) |
+| Anlatıcı aside / easter egg | Merak, keşif, sosyal paylaşım | Stanley Parable, Wordle paylaşımı | 3(k): p=0,04, hayatta 1 kez | Paylaşım ↑, D7 ↑ | Yeşil |
+| Bekleyen sonuç kuyruğu + cliffhanger | Bilgi boşluğu, Zeigarnik | Clash Royale sandık, dizi finali | 3(l): 1–2 açık iplik, teaser 1 | Oturum ↑↑ ("bir yıl daha" >%80) | Yeşil |
+| Günün Hayatı + mezar kartı paylaşımı | Kıtlık, sosyal karşılaştırma, kimlik | Wordle | Tarih-seed, emoji özet | D1/D7 ↑, organik edinim | Yeşil |
+
+---
+
+## 7. Tuning sabitleri (başlangıç değerleri) ve simülasyon planı
+
+| Sabit | Değer | Not |
+|---|---|---|
+| SURPRISE_BASE_P / SOFT / HARD / RAMP | 0,08 / 8 / 14 / 0,12 | medyan aralık 7–8 beat |
+| SURPRISE_TIME_GUARANTEE_MS | 360.000 | 6 dk |
+| SURPRISE_MIN_GAP / SESSION_CAP | 3 / 6 | enflasyon freni |
+| LEGENDARY_BASE_P / SOFT / HARD / RAMP | 0,006 / 60 / 90 / 0,06 | ~3/hayat |
+| LUCK_MEAN / REVERSION / NOISE | 0,5 / 0,15 / 0,08 | büyüklük etkisi ±0,15 |
+| NEAR_MISS WINDOW / MAX_RATE / SESSION_CAP / COOLDOWN / BONUS | 0,15 / 0,30 / 2 / 2 yıl / 0,10 | Kassinove & Schare |
+| MAX_NEG_STREAK / LOL_INTERVAL ± JITTER / RELAX_EVERY | 2 / 12 ± 3 / 10 | |
+| CURVE peak aralığı | t ∈ [0,75; 0,85] → 0,95 | release 0,45 |
+| PROTECTION yaş penceresi / min çarpan | 18–28 / 0,5 | bailout 1/hayat |
+| GERİLİM NORMALİZASYONU k | 0,5 | hissedilen p → 0,35–0,65 |
+| RIBBON tier oranları | 40–70 / 10–25 / 2–6 / 0,3–1 % | sim ile kalibre |
+| HINT eşikleri | gizli <0,30; bar; almostThere ≥0,80 | |
+| FREEZE_EARN / CAP / REPAIR_WINDOW / REPAIR_COST | 7 gün / 2 / 48 sa / 3 beat | |
+| NOTIF: önce / varsayılan saat / sessiz saat / yoksayma limiti | −30 dk / 19:30 / 23–08 / 3 | iOS 64 limit → 7 gün planla |
+| SCORE: money log katsayısı / LP formülü / prestige çarpanı / eşik büyümesi | 10·log10 / 25·log2(1+S/2000) / 1+0,08√P / ×1,18 | |
+| NOVELTY unseen / decay / recency / wow bütçesi | 1,6 / 0,55 / 0,3 (2 hayat) / 3 | |
+| ASIDE_P | 0,04 | hayatta 1 kez |
+| PENDING min/max/teaser | 1 / 2 / 1 | |
+| CHURN ağırlıkları | 0,5 süre + 0,3 gap büyümesi + 0,2 uzunluk trendi | tier eşikleri 0,25/0,5/0,8 |
+
+**Simülasyon planı (sprint sırasına göre):**
+1. **S0:** `simulateLife()` iskeleti + 5 persona + metrik toplayıcı; sadece sürpriz motoru ve valans kuralı aktif. Çıktı: aralık histogramları. Kabul: p95 ≤ 14, max negatif seri ≤ 2.
+2. **S1:** Pacing curve + LOL + pending queue eklenir; "oturum" kavramı sim'e girer (oturum = 35 ± 10 beat, persona bazlı). Kabul: LOL medyanı 9–15, her oturum sonunda ≥1 açık iplik.
+3. **S2:** Para/sağlık rubber band + T4 Gompertz ölüm modeli birlikte; 10k hayat. Kabul: 28 yaşında para<0 oranı ≤ %5, medyan ölüm 72–80.
+4. **S3:** Ribbon tanımları (ilk 40) sim'den oran alır; tier etiketleri otomatik atanır; novelty tekrar oranı 3./10. hayat ölçülür.
+5. **S4:** Streak/bildirim/churn için "gün simülasyonu" (oyuncu davranış modeli: günlük oynama olasılığı Markov zinciri) — bildirimin yoksayılma oranı ve freeze tüketimi.
+6. **Sürekli:** her tuning PR'ında harness CI'da; `sim-report.html` artefakt olarak saklanır; playtest telemetrisi (4.1) aynı metrik şemasıyla karşılaştırılır (sim vs gerçek sapması > %30 ise persona modelleri güncellenir).
+
+---
+
+## Bu oyun için öneriler (öncelikli, puanlı)
+
+Puan = Etki (1–5) × Uygulanabilirlik (1–5) / Risk (1–3).
+
+| # | Öneri | Etki | Uygul. | Risk | Puan | Öncelik |
+|---|---|---|---|---|---|---|
+| 1 | Reward Schedule Engine (3a) + Pacing Director valans/LOL kuralları (3c) motor çekirdeğine | 5 | 4 | 1 | 20 | P0 |
+| 2 | Bekleyen sonuç kuyruğu + yıl sonu teaser ekranı (3l) | 5 | 5 | 1 | 25 | P0 |
+| 3 | Juice spec'in ilk 6 satırı (metin, seçenek, para ±, nice/great, yıl sonu) + atlanabilirlik (3i) | 4 | 4 | 1 | 16 | P0 |
+| 4 | Simülasyon harness'ı S0'da kurmak, CI'da assert (4.3) | 4 | 5 | 1 | 20 | P0 |
+| 5 | Ribbon sistemi: anında ödül, 3 eşikli ipucu, sim-kalibreli tier (3e) | 5 | 3 | 1 | 15 | P1 |
+| 6 | Affedici streak + alışkanlık saati bildirimi + 3 yoksayma kuralı (3f) | 4 | 4 | 2 | 8 | P1 |
+| 7 | İlk 10 yıl koruma + bailout + gerilim normalizasyonu (3d) | 4 | 4 | 1 | 16 | P1 |
+| 8 | Legacy/prestige log-√ eğrileri; içerik açan çarpan (3g) | 3 | 4 | 1 | 12 | P1 |
+| 9 | Günün Hayatı (tarih-seed) + emoji mezar kartı paylaşımı | 4 | 4 | 1 | 16 | P1 |
+| 10 | Dürüst near-miss generator (3b) — içerik 300+ olaya ulaşınca | 3 | 3 | 2 | 4,5 | P2 |
+| 11 | Novelty ağırlıkları + wow bütçesi (3h) — 2. içerik dalgasıyla | 3 | 4 | 1 | 12 | P2 |
+| 12 | Churn heuristiği + sabit hoş geldin ödülü (3j) | 3 | 4 | 2 | 6 | P2 |
+| 13 | Anlatıcı aside/easter egg havuzu (3k), 40 adet lansman | 3 | 5 | 1 | 15 | P2 |
+| 14 | Dev tuning dashboard (4.2) | 3 | 4 | 1 | 12 | P2 |
+| 15 | Etik sınır tablosunu GDD eki + PR şablonu "hangi satır?" sorusu (5.1) | 4 | 5 | 1 | 20 | P0 (sıfır maliyet) |
+
+---
+
+## Açık sorular
+
+1. **Beat süresi gerçekte ne?** Tüm pity/LOL sabitleri "beat ≈ 10–20 sn" varsayımına dayanıyor; ilk playtest'te medyan beat süresi ölçülmeden dakika bazlı garantiler kalibre edilemez.
+2. **Şans statı oyuncuya gösterilsin mi?** Gizli tutmak adalet tartışması doğurabilir ("oyun bana karşı"); göstermek ise "şansımı artırayım" talebi (ve monetizasyon baskısı) yaratır. Öneri: gizli, ama anlatıcı ima eder.
+3. **Near-miss Türkçe tonu:** "Az kaldı" kalıbı roast tonuyla çelişebilir mi? Playtest'te "haksızlık hissi" sorusu bunu ölçecek.
+4. **Bildirim izni ne zaman istenir?** İlk ribbon'dan hemen sonra (pozitif an) mı, ilk pending outcome'da mı? A/B için 2 build.
+5. **Hafta sonu kalkanı TR için doğru mu?** Duolingo verisi küresel; TR'de oyun hafta sonu artıyor olabilir. Lokal telemetriyle 2 hafta sonra karar.
+6. **Ödüllü reklam ile "ekstra varyant" sınırı:** Reklam izleyince ek storylet varyantı vermek "içerik duvarı" olarak algılanır mı? CPC dark pattern tanımına girmez ama oyuncu algısı test edilmeli.
+7. **Simülasyon persona modelleri gerçek oyuncuyu ne kadar temsil ediyor?** Sim–gerçek sapması %30 eşiği keyfi; ilk uzak testten sonra revize.
+8. **DFA takvimi:** Digital Fairness Act yasalaşırsa "bağımlılık yapan tasarım" tanımı streak/bildirimi kapsayabilir; T9 ile izlenecek.
+9. **Erişim kısıtı:** Bu araştırmada deconstructoroffun.com, blog.duolingo.com, gup.ub.gu.se ve docs.expo.dev doğrudan okunamadı (oturum ağ izinleri); bu kaynaklar ikincil özetlerden aktarıldı ve doğrulayıcı ajan tarafından birincil metinle karşılaştırılmalı.
+
+---
+
+## Kaynaklar
+
+1. Schultz, Dayan & Montague (1997), "A Neural Substrate of Prediction and Reward", Science 275:1593 — https://www.science.org/doi/10.1126/science.275.5306.1593
+2. Schultz (2016), "Dopamine reward prediction error coding", Dialogues Clin Neurosci — https://pmc.ncbi.nlm.nih.gov/articles/PMC4826767/
+3. Berridge & Robinson (1998), "What is the role of dopamine in reward…", Brain Res Rev — https://lecerveau.mcgill.ca/flash/capsules/articles_pdf/dopamine.pdf
+4. Berridge (2007), "The debate over dopamine's role in reward: the case for incentive salience", Psychopharmacology — https://link.springer.com/article/10.1007/s00213-006-0578-x
+5. Fiorillo, Tobler & Schultz (2003), "Discrete Coding of Reward Probability and Uncertainty by Dopamine Neurons", Science 299:1898 — https://www.science.org/doi/10.1126/science.1077349
+6. Fiorillo, Tobler & Schultz (2005), yanıt (Niv, Duff & Dayan tartışması), Behav Brain Funct — https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1182345/ ; derleme: https://pmc.ncbi.nlm.nih.gov/articles/PMC4293327
+7. Ferster & Skinner (1957), Schedules of Reinforcement; özet: https://en.wikipedia.org/wiki/Reinforcement#Schedules_of_reinforcement
+8. Hopson (2001), "Behavioral Game Design", Gamasutra/Game Developer — https://www.gamedeveloper.com/design/behavioral-game-design
+9. Compulsion loop — https://en.wikipedia.org/wiki/Compulsion_loop ; Princeton tech report (VR takvim oyunlarda) — https://www.cs.princeton.edu/techreports/2012/931.pdf
+10. Eyal (2014), Hooked — https://www.nirandfar.com/hooked/
+11. Clark, Lawrence, Astley-Jones & Gray (2009), "Gambling Near-Misses Enhance Motivation to Gamble and Recruit Win-Related Brain Circuitry", Neuron 61:481 — https://pmc.ncbi.nlm.nih.gov/articles/PMC2658737/
+12. Cambridge/EurekAlert özeti (2009) — https://www.eurekalert.org/news-releases/653015
+13. Kassinove & Schare (2001), "Effects of the 'near miss' and the 'big win' on persistence at slot machine gambling", Psychol Addict Behav 15:155 — https://psycnet.apa.org/doi/10.1037/0893-164X.15.2.155
+14. Stange, Brown, Harrigan & Dixon — near-miss ve regülasyon — https://cdspress.ca/wp-content/uploads/2022/09/Madison-Stange-Dan-G.-Brown-Kevin-Harrigan-Michael-Dixon.pdf ; Harrigan derlemesi — https://core.ac.uk/download/42584618.pdf
+15. Tversky & Kahneman (1992), "Advances in Prospect Theory", J Risk Uncertainty — https://link.springer.com/article/10.1007/BF00122574
+16. Tom, Fox, Trepel & Poldrack (2007), "The Neural Basis of Loss Aversion in Decision-Making Under Risk", Science 315:515 — https://ui.adsabs.harvard.edu/abs/2007Sci...315..515T/abstract
+17. Takeuchi et al. (2015), J Gambling Studies — https://link.springer.com/article/10.1007/s10899-015-9587-1
+18. Dixon, Harrigan, Sandhu, Collins & Fugelsang (2010), "Losses disguised as wins in modern multi-line video slot machines", Addiction 105:1819 — https://uwaterloo.ca/reasoning-decision-making-lab/sites/default/files/uploads/files/DixFugetal_10c.pdf
+19. Dixon et al. (2013), ses ve LDW — Waterloo haberi — https://uwaterloo.ca/news/news/music-gamblers-ears
+20. Csikszentmihalyi (1990), Flow — https://en.wikipedia.org/wiki/Flow_(psychology)
+21. Chen (2006), "Flow in Games", USC tezi — https://jenovachen.info/abstract
+22. Chen (2007), "Flow in Games (and Everything Else)", CACM — https://dl.acm.org/doi/10.1145/1232743.1232769
+23. Loewenstein (1994), "The Psychology of Curiosity", Psychological Bulletin 116:75 — https://www.cmu.edu/dietrich/sds/docs/loewenstein/PsychofCuriosity.pdf
+24. Wood, Quinn & Kashy (2002), "Habits in everyday life", JPSP 83:1281; APA söyleşisi — https://www.apa.org/research/action/speaking-of-psychology/behavioral-habits
+25. Duhigg (2012), The Power of Habit — https://charlesduhigg.com/the-power-of-habit/
+26. Nunes & Drèze (2006), "The Endowed Progress Effect", J Consumer Research 32:504 — https://ideas.repec.org/a/oup/jconrs/v32y2006i4p504-512.html
+27. Kivetz, Urminsky & Zheng (2006), "The Goal-Gradient Hypothesis Resurrected", J Marketing Research — https://doi.org/10.1509/jmkr.43.1.39
+28. Zagal, Björk & Lewis (2013), "Dark Patterns in the Design of Games", FDG — https://research.chalmers.se/en/publication/177148
+29. Deterding, Stenros & Montola (2020), "Against 'Dark Game Design Patterns'", DiGRA — https://eprints.whiterose.ac.uk/156460/1/DiGRA_2020_paper_189.pdf
+30. King & Delfabbro (2018), "Predatory monetization schemes in video games (e.g. 'loot boxes') and internet gaming disorder", Addiction 113:1967 — https://researchnow.flinders.edu.au/en/publications/predatory-monetization-schemes-in-video-games-eg-loot-boxes-and-i/
+31. King & Delfabbro (2019), "Video Game Monetization (e.g., 'Loot Boxes'): a Blueprint for Practical Social Responsibility Measures", IJMHA — https://link.springer.com/article/10.1007/s11469-019-00164-4
+32. Game Developer, "Candy Crush Saga: A Sweet Journey into Monetization" — https://www.gamedeveloper.com/design/candy-crush-saga-a-sweet-journey-into-monetization
+33. Riptide Lab, Candy Crush Saga incelemesi — https://riptidelab.com/candy-crush-saga-review/
+34. Deconstructor of Fun (2021), "Royal Match: The New King from Turkey" — https://www.deconstructoroffun.com/blog/2021/3/21/royal-match-the-new-king-from-turkey
+35. Naavik, "Royal Match: Dream Games' Regal Performance" — https://naavik.co/deep-dives/royal-match/
+36. Royal Match — https://en.wikipedia.org/wiki/Royal_Match ; seviye tasarımı analizi — https://pratama-naufal.medium.com/what-makes-royal-match-so-good-level-design-1d82ca2e3b11
+37. Sensor Tower, "MONOPOLY GO! revenue milestone ($6B)" — https://sensortower.com/blog/monopoly-go-app-revenue-milestone
+38. Scopely basın duyurusu (2025) — https://www.scopely.com/en/news/sensor-tower-scopelys-monopoly-go-hit-6-billion-revenue-milestone-in-2025-in-record-time
+39. mobilegamer.biz data digest (AppMagic 2024 tahmini) — https://mobilegamer.biz/data-digest-monopoly-go-saygames-talemonster-ua-hits-25bn-love-and-deepspace-arknights-efootball-more
+40. Monopoly Go albüm/partner etkinlik yapısı — https://www.thegamer.com/monopoly-go-sticker-albums-faq-complete-guide/ ; https://www.iggm.com/news/monopoly-go-next-partner-event-prediction-how-to-prepare-dice-tokens-partner
+41. Deconstructor of Fun (2019), "How Coin Master Disrupted Social Casino" — https://www.deconstructoroffun.com/blog/2019/3/4/is-coin-master-the-new-face-of-social-casino
+42. Mistplay, Coin Master rehberi — https://www.mistplay.com/blog/how-to-play-coin-master
+43. RoyaleAPI, "Chest time" — https://royaleapi.com/blog/chest-time
+44. Supercell, "Enter the Trophy Road" — https://clashroyale.com/blog/release-notes/new-update-feature-enter-the-trophy-road.html
+45. VideoGamer, Genshin Impact pity sistemi — https://www.videogamer.com/guides/genshin-impact-pity-system/
+46. Sportskeeda, pity/soft pity/50-50 — https://sportskeeda.com/esports/genshin-impact-pity-soft-pity-50-50-banner-history-explained
+47. Niantic yardım merkezi, Pokémon GO günlük bonuslar — https://niantic.helpshift.com/hc/en/6-pokemon-go/faq/105-daily-bonuses/
+48. Northeastern (2022), "What makes Wordle so G-R-E-A-T?" — https://news.northeastern.edu/2022/01/21/what-makes-wordle-so-g-r-e-a-t/
+49. Wordle — https://en.wikipedia.org/wiki/Wordle
+50. Duolingo Blog, "How Streaks keep Duolingo learners committed" (Streak Wager, Weekend Amulet) — https://blog.duolingo.com/how-streaks-keep-duolingo-learners-committed-to-their-language-goals/
+51. Duolingo streak freeze (fan wiki) — https://duolingo.fandom.com/wiki/Shop/Streak_freeze ; Trophy vaka çalışması — https://trophy.so/blog/duolingo-gamification-case-study
+52. Avrupa Komisyonu (6 Şubat 2026), TikTok bağımlılık yapan tasarım ön bulgusu (DSA) — https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-addictive-design-breach-digital-services-act
+53. BEUC basın açıklaması (2026) — https://www.beuc.eu/press-release/commissions-preliminary-findings-against-tiktok-under-dsa-good-step-towards-strong
+54. Schüll (2012), Addiction by Design — https://press.princeton.edu/books/paperback/9780691160887/addiction-by-design
+55. Portsmouth Üniversitesi, "Vampire Survivors: how developers used gambling psychology…" — https://researchportal.port.ac.uk/en/publications/vampire-survivors-how-developers-used-gambling-psychology-to-crea/
+56. Kotaku, Balatro skor animasyonu — https://kotaku.com/best-video-game-moment-2024-astro-bot-marvel-dragon-age-1851733392/15
+57. Sidequesting, "Why is Vampire Survivors so compelling" — https://sidequesting.com/2022/10/why-is-vampire-survivors-so-compelling
+58. Cookie Clicker — https://en.wikipedia.org/wiki/Cookie_Clicker
+59. Pro Game Guides, BitLife ribbon listesi — https://progameguides.com/bitlife/ribbons-list-guide/
+60. GameAnalytics, "Budget games top the charts by focusing on story" (BitLife) — https://www.gameanalytics.com/blog/budget-games-top-the-charts-by-focusing-on-story
+61. Apple App Store Review Guidelines (3.1.1, 3.1.2, 2.5.18, 4.5.4) — https://developer.apple.com/app-store/review/guidelines/
+62. Apple Developer Forums, UNNotificationRequest 64 limiti — https://developer.apple.com/forums/thread/765490
+63. Swink (2008), Game Feel; özet — https://en.wikipedia.org/wiki/Game_feel
+64. Material Design, motion duration (100 ms/300 ms) — https://medium.com/google-design/33089196e6c2 ; https://m1.material.io/motion/duration-easing.html
+65. Apple HIG, "Playing haptics" — https://developer.apple.com/design/human-interface-guidelines/playing-haptics
+66. Nijman (Vlambeer), "The Art of Screenshake" — https://gamedeveloper.com/design/vlambeer-co-founder-shares-advice-on-building-better-action-games
+67. Jonasson & Purho, "Juice it or lose it" (liste) — https://kenney.nl/learn/must-see-videos-for-indie-developers
+68. Zoe Quinn, GDC 2015, komedi ve oyunlar — https://www.thumbsticks.com/gdc-2015-zoe-quinn-on-comedy-in-videogames/
+69. Google Play loot box oran açıklama politikası (Fenwick özeti) — https://fenwick.com/insights/publications/google-play-now-requires-disclosure-of-loot-box-odds ; Play "Monetization and Ads" — https://support.google.com/googleplay/android-developer/answer/9857753
+70. Avrupa Komisyonu, CPC koordineli eylemler (sosyal medya, online oyunlar) — https://commission.europa.eu/topics/consumers/consumer-rights-and-complaints/enforcement-consumer-protection/coordinated-actions/social-media-online-games-and-search-engines_en
+71. TLT, "CPC Network takes enforcement action on in-game virtual currencies" — https://www.tlt.com/insights-and-events/insight/fair-play-for-gamers-cpc-network-takes-enforcement-action-on-in-game-virtual-currencies ; Lewis Silkin (Ekim 2026) — https://www.lewissilkin.com/insights/2026/10/15/eu-consumer-protection-network-launches-action-involving-nine-video-games-compani-102o5do
+72. BEUC (Aralık 2025), "Towards the Digital Fairness Act" — https://www.beuc.eu/sites/default/files/publications/BEUC-X-2025-110_Towards_the_Digital_Fairness_Act.pdf
+73. Ashurst, "Mind the nudge: the DMCC's crackdown on manipulative online design" — https://www.ashurst.com/en/insights/mind-the-nudge-the-dmccs-crackdown-on-manipulative-online-design/ ; CMA207 — https://www.gov.uk/government/publications/unfair-commercial-practices-cma207
+74. T.C. Ticaret Bakanlığı, "Reklam Kurulu Tarafından Karanlık Ticari Tasarımlar İncelemeye Alındı" — https://ticaret.gov.tr/haberler/reklam-kurulu-tarafindan-karanlik-ticari-tasarimlar-incelemeye-alindi ; AA — https://www.aa.com.tr/tr/ekonomi/karanlik-ticari-tasarimlar-reklam-kurulunun-radarina-girdi/2964843
+75. GameAnalytics, 2025 Mobile Gaming Benchmarks — https://www.gameanalytics.com/reports/2025-mobile-gaming-benchmarks ; 2026 — https://www.gameanalytics.com/reports/2026-mobile-pc-gaming-benchmarks
+76. GDC Vault, "Finding the Fun: Playtesting Your Game" — https://gdcvault.com/play/1019689/Finding-the-Fun-Playtesting-Your ; "Playtesting Process for Ultra Small Teams" — https://gdcvault.com/play/1035679/Playtesting-Process-for-Ultra-Small
+77. GDC Vault, "Comedy Games: An Underexplored…" — https://gdcvault.com/play/1021867/Comedy-Games-An-Underexplored
+78. Android Developers, alarm/exact alarm izinleri (Android 12+) — https://developer.android.com/develop/background-work/services/alarms/schedule
+79. Monopoly Go etkinlik takvimi (çoklu etkinlik örneği) — https://monopolygo.wiki/
+80. Brown Public Health Review, "What Makes TikTok so Addictive?" — https://sites.brown.edu/publichealthjournal/2021/12/13/tiktok/
