@@ -5,7 +5,7 @@
 > **Sürüm:** v1.1 · 2026-11-06 (akşam) · Yazar: Sistem tasarımı (02 sahibi) · Platform: iOS 16.4+ ve Android minSdk 24, tek Expo/RN/TS kod tabanı; motor saf TS (`packages/engine`), UI'dan bağımsız.
 
 > **Değişiklik günlüğü**
-> - **v1.1 — gün tabanlı revizyon, D-061** (2026-11-06, akşam). 00 §12 uygulandı: D-061 (zaman birimi GÜN), D-062 (NPC diyalog balonları), D-064 (roast dozu), D-066 (zaman kendi kendine akar, "Ertesi Gün" düğmesi yok), D-067 (hayat kalıcı durumdur, para akışla değişir). §2.1 zaman modeli yıl/beat'ten **gün/takvim**'e yazıldı (`dayIndex` + `calendarDay`; yaş bandına göre gösterilen gün bütçesi 12–18 / 8–12 / 5–8 / 3–5; atlama özeti + pasif güncelleme; doğum günü = yıl sınırı = Karne; oturum 15–25 gün; ömür 450–600 gün ≈ 90–120 dk). Tüm yıllık drift ve decay sabitleri **gün** ve **gösterilen gün** formülüyle verildi (§2.2, yıl toplamı değişmez). Para **akış** modeline geçti: maaş ayın 1'i, kira ayın 5'i, kedi ayın 10'u, sağlık gideri ayın 20'si, günlük küçük gider; "Kira günü" zorunlu olay (§2.3.2–2.3.4). Hazard zarı **doğum gününe** taşındı; Gompertz sabitleri ve koruma penceresi 18–28 **değişmedi** (§2.4.2, §2.3.6). Örnekler **GÜN kartı** + `dialog[]` ile yeniden yazıldı, atlama özeti / maaş-kira satırları / doğum günü kartı eklendi (§3). Harness ve KPI'lar gün tabanlı (§6.1–6.2); AC-02-01/02/20/21/26 metni güncellendi (numaralar korundu), **AC-02-29..AC-02-42** eklendi; D-ÖNERİ-02-08 geçersiz, **D-ÖNERİ-02-13..18** eklendi (§7). "Beat" sözcüğü bu belgede yalnızca "gün kartı içindeki karar anı" anlamında kaldı; D-020'nin "yıl medyanı 90 sn" kuralı D-061 ile geçersizdir.
+> - **v1.1 — gün tabanlı revizyon, D-061** (2026-11-06 akşam başladı; §2.3–§7 2026-11-07'de tamamlandı). 00 §12 uygulandı: D-061 (zaman birimi GÜN), D-062 (NPC diyalog balonları), D-064 (roast dozu), D-066 (zaman kendi kendine akar, "Ertesi Gün" düğmesi yok), D-067 (hayat kalıcı durumdur, para akışla değişir). §2.1 zaman modeli yıl/beat'ten **gün/takvim**'e yazıldı (`dayIndex` + `calendarDay`; yaş bandına göre gösterilen gün bütçesi 12–18 / 8–12 / 5–8 / 3–5; atlama özeti + pasif güncelleme; doğum günü = yıl sınırı = Karne; oturum 15–25 gün; ömür 450–600 gün ≈ 90–120 dk). Tüm yıllık drift ve decay sabitleri **gün** ve **gösterilen gün** formülüyle verildi (§2.2, yıl toplamı değişmez). Para **akış** modeline geçti: maaş ayın 1'i, kira ayın 5'i, kedi ayın 10'u, sağlık gideri ayın 20'si, günlük küçük gider; "Kira günü" zorunlu olay (§2.3.2–2.3.4). Hazard zarı **doğum gününe** taşındı; Gompertz sabitleri ve koruma penceresi 18–28 **değişmedi** (§2.4.2, §2.3.6). Örnekler **GÜN kartı** + `dialog[]` ile yeniden yazıldı, atlama özeti / maaş-kira satırları / doğum günü kartı eklendi (§3). Harness ve KPI'lar gün tabanlı (§6.1–6.2); AC-02-01/02/20/21/26 metni güncellendi (numaralar korundu), **AC-02-29..AC-02-42** eklendi; D-ÖNERİ-02-08 geçersiz, **D-ÖNERİ-02-13..18** eklendi (§7). "Beat" sözcüğü bu belgede yalnızca "gün kartı içindeki karar anı" anlamında kaldı; D-020'nin "yıl medyanı 90 sn" kuralı D-061 ile geçersizdir.
 > - **v1.0** (2026-11-06): ilk sürüm, yıl = tur modeli.
 
 ---
@@ -30,7 +30,7 @@
 | D-024 | Kalıp Dedektörü yargılamaz sayar | §2.5.2 Roast Raporu kalıp bloğu yalnızca sayı + pay; sıfat yok; sayımlar doc 03'ten okunur |
 | D-028 | 60+ yaşta gün başına ≤ 1 balon | §2.1.3 61+ bandı 3–5 gösterilen gün/yıl; koç balonu kotası doc 01/03'e `ageBand` ile iletilir |
 | D-031 | Welcome-back = Sakatlık Raporu; gerçek yokluk → oyun zamanı | §2.1.7: çevrim tablosu **T7 §3.1 / doc 05'tendir**, burada yeniden tanımlanmaz; bu belge yalnızca `advanceTime({ days })` arayüzünü verir (tek büyük boşluk gibi oynatılır) |
-| D-039 | Fizyoterapi ölüm öncesi sağlık-kritik yılda, ömürde 1 | §2.4.6 `healthCritical` tanımı ve etkisi (Sağlık +15, o yılın hazard zarı atlanır) |
+| D-039 | Fizyoterapi ölüm öncesi sağlık-kritik yılda, ömürde 1 | §2.4.6 `healthCritical` doğum günü pulse'ında hesaplanır, teklif sonraki gösterilen güne düşer; etkisi Sağlık +15 ve **bir sonraki doğum gününün** hazard zarı atlanır |
 | D-042 / D-056 | Kondisyon çeşitlilik verir, güç vermez; ölüm = içerik | §2.5.3 taşınanlar tablosu: stat/Para/Şans taşınmaz; perk listesi doc 05'te |
 | D-018 / D-017 | Fazla Bagaj; Tanıdık Yüzler metaMemories | §2.5.3 `LifeRecord.highestCringeEvent` ölümde yazılır; NPC hafızası doc 04'ün yazdığı alandan kopyalanır |
 | D-044 | Motor saf TS, deterministik; harness kabulü medyan ölüm 72–80 | §2.7 ve §6: medyan hedefi **72–78** (T4 ile aynı, D-044'ün bandının içinde); kanal bazlı RNG (`hazard` yalnızca doğum gününde, `outcome`, `director` boşluk/bütçe); seed `lifeSeed:dayIndex:kanal` (doc 03 §2.11) |
@@ -56,7 +56,7 @@
 
 ### 0.3 Sürüm
 
-v1.1 (2026-11-06, akşam; değişiklik günlüğü belgenin başında). v1.0 aynı gün, yıl = tur modeli. Değişiklik yalnızca bu dosyada ve yeni D-kaydıyla; §7'deki D-ÖNERİ'ler 00'a alınınca buradaki numaralar korunur; AC numaraları hiçbir sürümde yeniden kullanılmaz.
+v1.1 (2026-11-06 akşam → 2026-11-07 tamamlandı; değişiklik günlüğü belgenin başında). v1.0 aynı gün, yıl = tur modeli. Değişiklik yalnızca bu dosyada ve yeni D-kaydıyla; §7'deki D-ÖNERİ'ler 00'a alınınca buradaki numaralar korunur; AC numaraları hiçbir sürümde yeniden kullanılmaz.
 
 ---
 
@@ -342,9 +342,28 @@ export interface LifeState {
 - **Yasaklı sözcükler (02 alanı, iki locale, lint BLOK):** TL, lira, ₺, dolar, $, €, euro, kur, enflasyon/inflation, asgari ücret/minimum wage, faiz oranı/interest rate, zam oranı, "yüzde" + makro bağlam, "ekonomi kötü/economy's bad" tipi genelleme. "Faiz/interest" sözcüğü serbest, oran olarak yazımı yasak.
 - **Küçük sayı mizahı serbest ve teşvikli:** TR *"Bakiye: 0. Yuvarlamadım; sıfır yuvarlanmaz."* / EN *"Balance: zero. I didn't round. Zero doesn't round."*
 
-#### 2.3.2 Gelir: kariyer kademeleri
+#### 2.3.2 Gelir: kariyer kademeleri ve **maaş günü** (ayın 1'i; D-067)
 
-Kariyerler doc 04'tedir; bu belge **kademeleri** tanımlar, doc 04 her kariyer basamağını bir kademeye eşler. Yıllık gelir = 12 × kademe × performans çarpanı (0,9–1,1; doc 04 "performans" barı).
+Kariyerler doc 04'tedir; bu belge **kademeleri** tanımlar, doc 04 her kariyer basamağını bir kademeye eşler. **Aylık maaş** `status.job.monthly = kademe × performans çarpanı` (0,9–1,1; doc 04 "performans" barı) ve **ayın 1'inde** bakiyeye girer; yıllık gelir = 12 × aylık (harness ve karne için yıllık eşdeğer). Para akışla değişir (D-067): işe girildiği gün maaş akmaya **başlar** (ilk maaş sonraki ayın 1'i; "ilk maaşa kadar" günleri gerçek gerilimdir), işten çıkarıldığı gün **kesilir**, zam/terfi `monthly`'yi kalıcı değiştirir. Maaş günü gösterilen güne denk gelirse Durum şeridinde Para yeşil tik-up alır (D-063 uçan sayı) ve olay metni bir satırla anabilir; boşluğa düşerse `applyGap` uygular ve atlama özeti sayıyla söyler (*"Maaş yattı: 1.600."*). Koç maaş gününde yorum yapmaz; **maaş gününe 3 gün kala bakiye < günlük gider × 3** ise tek satır (ayda ≤ 1): TR *"Ayın 28'i. Bakiye: 140. Ayın 1'i bir tarih değil, bir umut."* / EN *"The 28th. Balance: 140. The 1st isn't a date; it's a belief system."*
+
+```ts
+// packages/engine/src/economy.ts (v1.1) — akış: boşluğa ya da gösterilen güne düşen her vade
+export const DUE = { payday: 1, rent: 5, cat: 10, healthCost: 20 } as const;          // ayın günü
+export function cashflow(st: LifeState, gap: number, rng: Rng): FlowLog {
+  const log: FlowLog = [];
+  for (let d = 1; d <= gap; d++) {
+    const c = calendarFrom(st.clock.startDate, st.clock.calendarDay - gap + d);
+    if (c.day === DUE.payday && st.status.job)      credit(st, st.status.job.monthly, 'payday', log);     // maaş / emekli maaşı
+    if (c.day === DUE.payday && !st.status.job)     credit(st, allowance(st), 'allowance', log);       // anne evi 0,10 · öğrenci 0,15 · aksi 0
+    if (c.day === DUE.rent)                         debit(st, st.status.home.rent, 'rent', log);       // §2.3.3; bakiye < kira → evt_kira_gunu kuyruğa
+    if (c.day === DUE.cat && st.status.assets.includes('kedi')) debit(st, 0.05, 'cat', log);
+    if (c.day === DUE.healthCost)                   debit(st, healthCost(st.clock.age), 'health', log);  // 45+: 0,10 / 0,25 / 0,45
+    debit(st, dailySpend(st), 'daily', log);                                                            // her takvim günü, §2.3.3
+    if (st.money.balance < 0) st.money.debt.card *= Math.pow(1.18, 1 / 365);                           // §2.3.4
+  }
+  return log;                                                                                           // özet satırı ve Durum şeridi buradan okur
+}
+```
 
 | Kademe | Aylık gelir (Birim) | Tipik basamak (doc 04'ten örnek) | Hayat payı hedefi (harness) |
 |---|---|---|---|
@@ -357,30 +376,36 @@ Kariyerler doc 04'tedir; bu belge **kademeleri** tanımlar, doc 04 her kariyer b
 | T6 | 10–15 | "yurt dışına kaçtı", özel hastane, franchise | %2–5; yıllık gelir tavanı 60 Birim (legendary hariç) |
 | Emekli | 0,9 × son kademe (≥ 20 yıl çalışmışsa), aksi 0,5 | otomatik 60–65 (doc 04 kariyere göre) | — |
 
-**Volatil gelir** (Influencer, Kripto Gurusu, Kahve Falcısı): kademe yerine yıllık `lognormal(μ, 0,7)` çekilir, 0,3–6,0 Birim'e kırpılır; iki ardışık yıl aynı yöne gidemez (harness: "sonsuz para" exploit'i yok).
+**Volatil gelir** (Influencer, Kripto Gurusu, Kahve Falcısı): kademe yerine **doğum gününde** o yılın aylık değeri `lognormal(μ, 0,7)` ile çekilir, 0,3–6,0 Birim'e kırpılır ve 12 maaş gününe eşit bölünür (ekranda "bir şeyler"; Durum şeridi *"gelir yıldan yıla"*); iki ardışık yıl aynı yöne gidemez (harness: "sonsuz para" exploit'i yok). **Emekli maaşı** aynı maaş gününde yatar (0,9 × son kademe).
 
-#### 2.3.3 Gider: barınma kademeleri ve yaşam tarzı
+#### 2.3.3 Gider: barınma kademeleri, **kira günü** (ayın 5'i) ve **günlük küçük gider** (D-067)
+
+Aylık sabit gider iki parçaya ayrılır: **kira** (`status.home.rent`, kademe tablosunun barınma payı; ayın 5'inde tek seferde çıkar) ve **temel geçim** (kalan pay; `dailySpend` ile her takvim günü eşit bölünerek düşer). Tablo aylık toplamı verir; kira payı sütunda ayrıca yazılıdır.
 
 | Barınma kademesi | Aylık toplam sabit gider (temel geçim + barınma, Birim) | Giriş/çıkış | Anne Baskısı |
 |---|---|---|---|
-| Anne evi | 0,10 | 18'de varsayılan; "Annenin yanına taşın" olayı | +4/yıl |
-| Oda / ev arkadaşı | 0,60 | Ev Arkadaşı (Barış ↔ Jordan) olayları | 0 |
-| 1+1 kiracı | 0,85 | Kira zammı olayları yılda 1 aday | −30 girişte |
-| Geniş kiracı | 1,10 | Yaşam tarzı; Ego +3 girişte | — |
-| Kredili ev | 1,25 (15 yıl), sonra Sahip | Peşinat ≥ 24 Birim + T2 üstü gelir; banka evrak kartı (Tercüme) | −30 girişte |
-| Ev sahibi (borçsuz) | 0,45 | Kredi biter / miras | — |
+| Anne evi | 0,10 (kira günü "katkı" 0,10; günlük 0) | 18'de varsayılan; "Annenin yanına taşın" olayı | +4/yıl |
+| Oda / ev arkadaşı | 0,60 (kira 0,30 + günlük 0,30/30) | Ev Arkadaşı (Barış ↔ Jordan) olayları | 0 |
+| 1+1 kiracı | 0,85 (kira 0,50 + günlük 0,35/30) | Kira zammı olayları yılda 1 aday; zam `rent`'i **kalıcı** artırır | −30 girişte |
+| Geniş kiracı | 1,10 (kira 0,70 + günlük 0,40/30) | Yaşam tarzı; Ego +3 girişte | — |
+| Kredili ev | 1,25 (taksit 0,80 kira gününde, 15 yıl; günlük 0,45/30), sonra Sahip | Peşinat ≥ 24 Birim + T2 üstü gelir; banka evrak kartı (Tercüme) | −30 girişte |
+| Ev sahibi (borçsuz) | 0,45 (aidat 0,10 kira gününde + günlük 0,35/30) | Kredi biter / miras | — |
 
-Ek giderler: **yaşam tarzı harcaması** = gelirin %15'i (Dürtüsel Harcama kalıbı baskınsa %35; Sabır baskınsa %10 — doc 03 kalıp sayımı yıl başında okunur); **sağlık gideri** (geç oyun gerilimi): 45–59 yaş 0,10 · 60–69 0,25 · 70+ 0,45 Birim/ay, hastalık arkı tedavi seçimleri ayrı; **küçük yıllık sürprizler** |N(0, 0,8)| Birim negatif (araba, diş, düğün takısı ↔ wedding gift).
+**Kira günü kuralı.** Ayın 5'inde `rent` bakiyeden düşer. `bakiye < rent` ise (a) kira yine düşer (bakiye eksiye geçer, kart borcu başlar — §2.3.4), (b) Stres **+8** (ayda ≤ 1; v1.0'ın "yıl başı Para < 0 +8"inin akış karşılığı), (c) **`evt_kira_gunu` zorunlu olayı** `dueQueue`'ya düşer ve **sonraki gösterilen gün** olur (ötelenmez; valans koruması bile 1 günden fazla erteleyemez — doc 03 §2.3.7): ev sahibi / Barış / banka diyalogda konuşur, seçenekler "Yarısını ver, kalanı 15'ine" (`sabır`; Anne Baskısı 0, ev sahibi anısı `gec_odedi`) · "Annenden iste" (`aileyeYaslanma`; +rent, Anne Baskısı +10) · "Görmezden gel" (`kaçınma`; Stres +6, Cringe +6; 2. ayda "Tahliye ihtarı" evrak kartı) · pencerede ise bailout (§2.3.6) bu olayın **içinden** teklif edilir. Bakiye yeterliyse olay **yoktur**: gösterilen güne denk gelirse Durum şeridi kırmızı tik-down + bir satır (*"Kira çıktı: 500. Ev sahibi 'teşekkürler' yazmadı."*), boşluğa düşerse atlama özeti sayıyla söyler. Harness: hayat başına kira günü olayı medyanı 2–6 (gergin ama sürekli değil; AC-02-31).
+
+**Günlük küçük gider.** `dailySpend = (temelGeçim + yaşamTarzı) / 30` Birim/takvim günü; her takvim günü (gösterilen ya da boşlukta) düşer; doğum günü arası toplamı yıllık tabloyla aynıdır (AC-02-32). Ekranda tek tek görünmez; Durum şeridi "günlük ≈ 12" satırı ve atlama özeti toplamı taşır (*"23 gün: market, yol, bir kahve. 280 gitti."*). **Kedi** ayın 10'unda 0,05 Birim yer (Pamuk/Biscuit: *"Mama."*); **sağlık gideri** ayın 20'sinde (45–59: 0,10 · 60–69: 0,25 · 70+: 0,45 Birim).
+
+Ek giderler: **yaşam tarzı harcaması** = gelirin %15'i (Dürtüsel Harcama kalıbı baskınsa %35; Sabır baskınsa %10 — doc 03 kalıp sayımı **doğum gününde** okunur, yıl boyunca `dailySpend`'e gömülü kalır); **sağlık gideri** (geç oyun gerilimi): 45–59 yaş 0,10 · 60–69 0,25 · 70+ 0,45 Birim/ay, ayın 20'sinde; hastalık arkı tedavi seçimleri ayrı ve gösterilen günde anında; **küçük sürprizler** |N(0, 0,8)| Birim negatif, yılda 1–2 kez `rng('director')` ile rastgele bir **gösterilen güne** düşer ve o günün kartında bir satırdır (araba, diş, düğün takısı ↔ wedding gift) — boşlukta sürpriz yoktur, sürpriz görülür.
 
 #### 2.3.4 Borç
 
-| Borç türü | Nasıl oluşur | Yıllık büyüme (iç sabit; ekranda asla oran olarak yok) | Çıkış |
+| Borç türü | Nasıl oluşur | Büyüme (iç sabit; ekranda asla oran olarak yok) — yıllık / takvim günü | Çıkış |
 |---|---|---|---|
-| Kart borcu | Bakiye < 0 | ×1,18 | Pozitif bakiye borcu kapatır; **İcra/İflas olayı**: borç < −24 Birim → zorunlu beat, borç −6'ya iner, Ego −15, Cringe +20, `iflas` bayrağı (kredili ev 10 yıl kapanır) |
+| Kart borcu | Bakiye < 0 (çoğunlukla kira gününde) | ×1,18 / yıl = ×1,18^(1/365) ≈ ×1,000453 / takvim günü (`cashflow`, her gün; 36 günlük boşlukta ×1,0165) | Pozitif bakiye (maaş günü) borcu kapatır; **İcra/İflas olayı**: borç < −24 Birim → `dueQueue` zorunlu **gün kartı** (banka evrakı, Tercüme), borç −6'ya iner, Ego −15, Cringe +20, `iflas` bayrağı (kredili ev 10 yıl kapanır) |
 | Banka kredisi | Kredili ev | Taksit kademeye gömülü (1,25), ayrıca büyümez | 15 yıl; erken kapatma olayı |
 | Kefalet borcu | "Arkadaşına kefil oldun" olayı (TR klasiği ↔ EN "co-signed a lease") | 0; **sürpriz** olarak 2–6 yıl sonra 3–8 Birim düşer | Ödersin ya da arkadaş kaybedersin (doc 04 anı) |
 
-Koç borcu kişisel ölçekte sayar: TR *"Borç 4.200. Geçen yıl 3.100'dü. Büyüyen tek şeyin."* / EN *"Debt: 4,200. Last year, 3,100. It's the only thing you've grown."*
+Koç borcu kişisel ölçekte ve **doğum gününde** sayar (Karne Para notu akıştan türer, §2.2.6): TR *"Borç 4.200. Geçen doğum gününde 3.100'dü. Büyüyen tek şeyin."* / EN *"Debt: 4,200. Last birthday, 3,100. It's the only thing you've grown."* Ay içinde koç borcu anmaz; Durum şeridi "Borç N" yazar, o kadar.
 
 #### 2.3.5 Sürpriz gelirler (windfalls)
 
@@ -415,15 +440,15 @@ export function bailoutCheck(st: LifeState, rng: Rng): StoryletId | null {
 }
 ```
 
-Bailout üç olaydan biridir; hepsi **+3 Birim** verir ve bir borç bırakır: "anne borç verdi" → Anne Baskısı +15 ve 3 yıl sonra "Annen parayı sormadı. Bu daha kötü." callback'i; "dayı iş buldu" → T1 iş + Ego −5; "ev arkadaşı kirayı ödedi" → Barış/Jordan anısı `borc_verdi`. Koç satırı §3.6'da. Senaryo ölümü kanalı pencerede kapalıdır (§2.4.4).
+Bailout üç olaydan biridir ve `bailoutCheck` **kira günü olayının içinde** ya da doğum günü pulse'ında çağrılır (boşlukta değil; teklif daima bir gün kartıdır); hepsi **+3 Birim** verir ve bir borç bırakır: "anne borç verdi" → Anne Baskısı +15 ve ~1.095 takvim günü sonra (`delayDays`) "Annen parayı sormadı. Bu daha kötü." callback'i; "dayı iş buldu" → T1 iş + Ego −5; "ev arkadaşı kirayı ödedi" → Barış/Jordan anısı `borc_verdi`. Koç satırı §3.6'da. Senaryo ölümü kanalı pencerede kapalıdır (§2.4.4).
 
 #### 2.3.7 Geç oyun gerilimi ve spiral çıkışı
 
-28'den sonra koruma yoktur: hasar ×1,0, bailout yok, sağlık gideri yaşla büyür, emekli geliri düşer, hastalık arkları Para ister. **Ölüm spirali** (Para < 0 ∧ Sağlık < 20) üst üste 3 yıl sürerse ve yaş ≥ 28 ise, hayatta **bir kez** anlatısal çıkış olayı tetiklenir (D-ÖNERİ-02-03): "uzak akraba mirası (küçük)", "eski patron pişman oldu (T2 iş)", "unutulmuş hesap" — yalnızca **Para** düzeltir (+6..+12 Birim), Sağlık'a dokunmaz, satılmaz, reklamla ilgisi yoktur. Bu bir pity'dir (T11 3d): oyuncuyu 3 yıl boyunca hiçbir seçeneğin işe yaramadığı bir durumda bırakmak "bir yıl daha"yı öldürür; ama **ölümü ertelemez**.
+28'den sonra koruma yoktur: hasar ×1,0, bailout yok, sağlık gideri yaşla büyür, emekli geliri düşer, hastalık arkları Para ister. **Ölüm spirali** (Para < 0 ∧ Sağlık < 20) üst üste 3 **doğum gününde** ölçülürse (`spiralYears`, pulse'ta sayılır) ve yaş ≥ 28 ise, hayatta **bir kez** anlatısal çıkış olayı tetiklenir (D-ÖNERİ-02-03): "uzak akraba mirası (küçük)", "eski patron pişman oldu (T2 iş)", "unutulmuş hesap" — yalnızca **Para** düzeltir (+6..+12 Birim), Sağlık'a dokunmaz, satılmaz, reklamla ilgisi yoktur. Bu bir pity'dir (T11 3d): oyuncuyu 3 yıl boyunca hiçbir seçeneğin işe yaramadığı bir durumda bırakmak "bir yıl daha"yı öldürür; ama **ölümü ertelemez**.
 
 #### 2.3.8 Üç arketipin 70 yıllık para eğrileri (Birim; ekran = ×1.000)
 
-Headless simülasyonla üretildi (başlangıç 2 Birim; yıllık küçük sürprizler; borç ×1,18; iflas −24'te; sağlık gideri yaşla). Net varlık ev öz sermayesini içerir (kredili ev taksitleri birikime sayılır; "sahip" olunca gider düşer).
+Headless simülasyonla üretildi (başlangıç 2 Birim; yıllık küçük sürprizler; borç ×1,18; iflas −24'te; sağlık gideri yaşla). Net varlık ev öz sermayesini içerir (kredili ev taksitleri birikime sayılır; "sahip" olunca gider düşer). **v1.1 notu:** değerler yıllık toplam modeliyle üretildi; günlük akış modeli (maaş 1 / kira 5 / günlük gider) aynı yıllık toplamları verir (Σ 12 maaş − Σ 12 kira − 365 × günlük = yıllık net), yalnızca **ay içi** dalgalanma eklenir (ayın 1–5'i arası tepe, 28–30 arası dip; harness §6.2 #14 iki modelin doğum günü bakiyelerini ±%2'de tutar). Ay içi dip, kira günü olayının ve Keyif hedefi oynamasının (§2.2.2) kaynağıdır — eğriler **doğum günü** değerleridir.
 
 | Yaş | **A — Sağlamcı** (üni 18–22, T1 23, T2 27, T3 33, T4 42; anne evi → oda → 1+1 → kredili 36 → sahip 51; harcama %15; 36'da −30 kaza; emekli 63) | **B — Riskli** (kurye 19, volatil gelir 22–39, kripto −4 @23 / +8 @29 / −10 @34; oda → geniş kiracı 28–40 → 1+1; harcama %35; T2 40, T3 48; emekli 65, düşük) | **C — Anne Evi** (atama bekleyen 24–30, T2 31, T3 36, T4 45; anne evi 18–34 → 1+1 → kredili 44 → sahip 59; harcama %10; 44'te −25; emekli 60) |
 |---|---|---|---|
@@ -463,20 +488,29 @@ hazard(age, h) = a · exp(b · (age − 18)) · M_health(h) · M_lifestyle · M_
 
 Kapalı form: sabit h için medyan ölüm yaşı `T: (a·M/b)·(e^{bT} − 1) = ln 2`. h = 70 sabit → ~82; h = 50 → ~75; h = 30 → ~69. Gerçek hayatlar drift'le aşağı kayar; 5 persona karışımında medyan **74** (§2.7).
 
-#### 2.4.2 Yıllık ölüm kontrolü
+#### 2.4.2 Doğum günü pulse'ı ve ölüm kontrolü (v1.1: yıllık zar **doğum gününe** taşındı; Gompertz değişmedi)
+
+Hazard formülü, sabitleri ve zar sıklığı v1.0 ile **aynıdır**: yılda **tam bir** zar, `rng('hazard')` kanalında, yalnızca doğum gününde (boşlukta ve gün kartlarında **asla**; AC-02-29). Değişen tek şey zarın takvimdeki yeri: "yıl sonu" artık doğum günüdür. Drift, gelir/gider ve metre tahakkuku **pulse'ta değil**, boşluklarda `applyGap` ile olur (§2.1.4); pulse yalnızca yılda bir yapılan kontrolleri ve sayaç sıfırlamalarını içerir.
 
 ```
-yılSonuPulse(st):
-  eşikOlayları(st)                      // Ego/Cringe/Anne eşik geçişleri → doc 01'e sinyal
-  bailoutCheck(st) / spiralCheck(st)    // §2.3.6–7
-  hastalıkZarı(st)                      // §2.4.5: Sağlık < 40 ise p=0,35 hastalık arkı başlar (gelecek yıl)
-  st.healthCritical = (st.stats.health < 15) || (hazard(st.age+1, st.stats.health) ≥ 0,20)
-  if st.stats.health ≤ 0: scheduleFinalArc(st)   // §2.4.5: ölüm değil, son evre arkı (D-ÖNERİ-02-07)
-  r = rng('hazard').next()
-  if r < hazard(st): return die(st, pickCause(st, rng('hazard')), channel='hazard')
+birthdayPulse(st):                       // calendarDay == birthdayDay; doğum günü kartı gösterilmeden ÖNCE, atomik (§4)
+  st.clock.age += 1; if st.status.job: st.yearsWorked += 1
+  eşikKuyruğu(st)                        // boşlukta geçilmiş Ego/Cringe/Anne eşikleri zaten dueQueue'dadır; burada yalnızca doğrulanır
+  bailoutCheck(st) / spiralCheck(st)     // §2.3.6–7 (bailout kira günü olayında zaten tetiklenmediyse)
+  hastalıkZarı(st)                       // §2.4.5: Sağlık < 40 → p=0,35 (< 25 → 0,55) hastalık arkı; ilk kartı 30–90 takvim günü sonra (dueQueue)
+  st.healthCritical = (st.stats.health < 15) || (hazard(st.clock.age, st.stats.health) ≥ 0,20)
+  if st.healthCritical && age ≥ 28 && !physioUsed: dueQueue.push(offer:physio, nextShownDay)   // §2.4.6
+  if st.stats.health ≤ 0: scheduleFinalArc(st)    // §2.4.5: ölüm değil, son evre arkı (D-ÖNERİ-02-07)
+  if !st.flags.has('physioThisYear'):
+    r = rng('hazard').next()
+    if r < hazard(st): return die(st, pickCause(st, rng('hazard')), channel='hazard')   // Karne gelmez, Roast Raporu gelir
+  st.flags.delete('physioThisYear')
+  st.yearStats = freshYearStats()        // karne sayaçları, momAccrued, paydays, rentDays, rentEvents
+  st.director.yearBudget = dayBudget(st.clock.age, st, rng('director'))   // §2.1.3
+  dueQueue.push(report_card, today)      // doğum günü kartı = YAŞLANIYORSUN → Kısa Karne → Tek Hedef → "Bir Yıl Daha"
 ```
 
-Sıra önemlidir: `healthCritical` **hazard zarından önce** hesaplanır ki doc 06'nın Fizyoterapi teklifi (sonraki yılın başında) ölümden önce gelsin; teklif kabul edilirse o yılın zarı atlanır (§2.4.6).
+Sıra önemlidir: (1) `healthCritical` **hazard zarından önce** hesaplanır; Fizyoterapi teklifi doğum gününden **sonraki ilk gösterilen güne** düşer ve kabul edilirse **bir sonraki doğum gününün** zarı atlanır (`physioThisYear`; §2.4.6) — yani teklif daima ölüm şansından bir yıl önce gelir. (2) Hazard zarı Karne'den önce: ölen karakter Karne almaz. (3) Senaryo ölümü (`outcome.death`) pulse'a bağlı değildir; günü anında bitirir. (4) `advanceTime` içindeki doğum günleri aynı pulse'ı **kartsız** çalıştırır, zar sonucu `pendingDeathRisk`'e gider (§2.1.7). Gün tabanlı modelde yılda zar sayısı değişmediği için harness ölüm dağılımı (§2.7) v1.0 ile aynıdır; AC-02-03..06 değişmedi.
 
 #### 2.4.3 Ölüm nedeni tabloları (hazard kanalı)
 
@@ -512,34 +546,34 @@ Olay JSON'ındaki `outcome.death` ayrı kanaldır; hazard'la çarpılmaz, pacing
 
 #### 2.4.5 Hastalık arkları
 
-Yıl sonu "doktor zarı": Sağlık < 40 ise p = 0,35 (Sağlık < 25 ise 0,55) ile bir hastalık arkı **gelecek yıl** başlar. Ark alt-turludur (3–6 ay, 2–3 kart), yıl sayacı ilerlemez.
+**Doğum günü** "doktor zarı" (`rng('hazard')` değil, `rng('outcome')`; hazard kanalı yalnızca ölüm zarıdır): Sağlık < 40 ise p = 0,35 (Sağlık < 25 ise 0,55) ile bir hastalık arkı başlar; ilk kartı doğum gününden **30–90 takvim günü sonra** `dueQueue`'ya düşer. Ark **takvim günü gecikmeli 2–3 gösterilen gün**dür (`chain.next.delayDays` 20–60; toplam 3–6 ay), yıl bütçesinden düşer (§2.1.6; yılda en fazla 2 ark günü, kalan sonraki yıla taşar), doğum günü ark ortasına gelebilir (Karne gelir, ark sürer).
 
 ```mermaid
 stateDiagram-v2
     [*] --> Belirti
     Belirti: Belirti kartı\n("Uyanınca yorgunsun. Uyurken de.")\n[Doktora git] [Geçer] [Annene sor]
     Belirti --> Teshis: Doktora git
-    Belirti --> Ertelenmis: Geçer (Stres +6; 1–2 yıl sonra Belirti ×1,5 ağır)
+    Belirti --> Ertelenmis: Geçer (Stres +6; 365–730 takvim günü sonra Belirti ×1,5 ağır)
     Teshis: TAHLİL SONUCU evrak kartı (document, Tercüme)\n"Değerleriniz referans aralığının dışında" → "Hasta sendin, şimdi resmî."
     Teshis --> Tedavi
     Tedavi: Tedavi seçimi (Para vs Sağlık)\n[Tam tedavi −4..−8 Birim, Sağlık +12] [Yarım −1, Sağlık +4, kronik p 0,5] [Bekle, Sağlık −10]
     Tedavi --> Iyilesme: Tam/Yarım başarı
     Tedavi --> Kronik: kronik bayrağı
     Iyilesme --> [*]
-    Kronik: `kronik_hastalık` (M_lifestyle 1,3; yıllık −1 Sağlık; "ilaç saati" rahatlama kartı)
+    Kronik: `kronik_hastalık` (M_lifestyle 1,3; −1 Sağlık/yıl = −0,0027/takvim günü, applyGap; "ilaç saati" rahatlama kartı)
     Kronik --> [*]
     Ertelenmis --> Belirti
 ```
 
-**Son evre arkı (D-ÖNERİ-02-07):** Sağlık ≤ 0 anında ölüm **değildir**; "son evre" arkı (1 yıl, 2 kart: hastane evrakı + "kimler geldi" kartı) başlar ve yıl sonunda `channel='health'` ölümüyle biter — Fizyoterapi (§2.4.6) kullanılmadıysa. Böylece oyuncu ölümü **görür**, sürpriz sıfır yok. Hastalık adı hiçbir zaman gerçek bir tanı değildir ("değerler", "bir şey çıktı", "uzun bir hastalık"); doc 08 lint listesi.
+**Son evre arkı (D-ÖNERİ-02-07):** Sağlık ≤ 0 anında ölüm **değildir**; "son evre" arkı (**2 gösterilen gün**, aralarında 60–180 takvim günü: hastane evrakı günü + "kimler geldi" günü; Anne/Yağmur/Barış diyalogda, koç ≤ 1 balon, roast kapalı) başlar ve **ikinci kartın sonunda** `channel='health'` ölümüyle biter — Fizyoterapi (§2.4.6) ilk kartta kabul edilmediyse. Ark sırasında araya giren doğum günü hazard zarı atmaz (ölüm zaten planlı; çift ölüm yok). Böylece oyuncu ölümü **görür**, sürpriz sıfır yok. Hastalık adı hiçbir zaman gerçek bir tanı değildir ("değerler", "bir şey çıktı", "uzun bir hastalık"); doc 08 lint listesi.
 
 #### 2.4.6 Sağlık-kritik yıl ve Fizyoterapi kancası (D-039, D-007)
 
-`healthCritical = Sağlık < 15 ∨ hazard(yıl+1) ≥ 0,20`. Yıl başında `healthCritical` doğruysa, yaş ≥ 28 ise ve `physioUsed` yoksa motor `offer:physio` efekti yayar; doc 06 ödüllü reklamı sunar (kabul/ret eşit büyüklükte buton). Kabul: **Sağlık +15, o yılın hazard zarı atlanır, `physioUsed`**. Ömürde 1. Ölüm anında ya da sonrasında **asla** (deathFlow'da `offer:*` efektleri derleme düzeyinde yoktur). Ret: hiçbir ceza; koç yorum yapmaz. Koç satırı doc 06'da sabit ("Mucize değil; prosedür.").
+`healthCritical = Sağlık < 15 ∨ hazard(yaş, Sağlık) ≥ 0,20`, **doğum günü pulse'ında** hesaplanır (§2.4.2). Doğruysa, yaş ≥ 28 ise ve `physioUsed` yoksa motor `offer:physio` efektini doğum gününden **sonraki ilk gösterilen güne** (`dueQueue`) koyar; doc 06 ödüllü reklamı o günün kartında sunar (kabul/ret eşit büyüklükte buton; kart bir olaydır, pop-up değil: fizyoterapist durumsal NPC olarak diyalogda konuşur). Kabul: **Sağlık +15, bir sonraki doğum gününün hazard zarı atlanır (`physioThisYear`), `physioUsed`**. Ömürde 1. Ölüm anında ya da sonrasında **asla** (deathFlow'da `offer:*` efektleri derleme düzeyinde yoktur). Ret: hiçbir ceza; koç yorum yapmaz. Koç satırı doc 06'da sabit ("Mucize değil; prosedür.").
 
 #### 2.4.7 Düşük Keyif protokolü (D-052; devir doc 01 + doc 08)
 
-Keyif < 25 → `lowJoy = true` (≥ 35'te kapanır; histerezis). Motor etkileri: director `roast` jokeType'ı 0'a çeker (doc 03), koç satır havuzu "bugün tek şey" moduna geçer (doc 01), beat bütçesi en az 2 (tek karar her zaman mümkün), "Gerçek hayatta yardım" ekranı bağlantısı Ayarlar'da zaten var olan girişine ek olarak yıl sonu kartında **şakasız** bir satır olur (doc 08 içerik). Motor hiçbir zaman "depresyon" tanısı koymaz; durum **belirti**dir (yataktan çıkmamak, telefonu açmamak), çıkış seçimleri (yürüyüş, arkadaş, terapi: Keyif +6..+12, Stres −8..−15) **her yıl** en az bir olayda erişilebilirdir (harness: lowJoy yıllarında ≥ 1 çıkış seçeneği, %100). İntihar/kendine zarar: olay yok, seçenek yok, neden yok, şaka yok, sözcük yok.
+Keyif < 25 → `lowJoy = true` (≥ 35'te kapanır; histerezis). Motor etkileri: director `roast` jokeType'ı 0'a çeker (doc 03), koç satır havuzu "bugün tek şey" moduna geçer (doc 01; D-064'ün "her sonuçta ≥ 1 roast" kuralının **tek** istisnası), gün bütçesi bant minimumunun altına inmez ve boşluklar kısalır (lowJoy yılında ort. `gap` ×0,7: "yalnız günler uzun sürmez"), "Gerçek hayatta yardım" ekranı bağlantısı Ayarlar'da zaten var olan girişine ek olarak doğum günü Karne kartında **şakasız** bir satır olur (doc 08 içerik). Motor hiçbir zaman "depresyon" tanısı koymaz; durum **belirti**dir (yataktan çıkmamak, telefonu açmamak), çıkış seçimleri (yürüyüş, arkadaş, terapi: Keyif +6..+12, Stres −8..−15) lowJoy açıkken **her 3 gösterilen günde** en az bir olayda erişilebilirdir (harness: lowJoy günlerinde 3 günlük her pencerede ≥ 1 çıkış seçeneği, %100). Atlama özeti lowJoy'da da roast'suzdur ve "hiçbir şey olmadı" kovasını **kullanmaz** (boşluk, boşluk hissi vermez; doc 03 §2.3.3 `lowJoy` kovası). İntihar/kendine zarar: olay yok, seçenek yok, neden yok, şaka yok, sözcük yok.
 
 ### 2.5 Ölüm akışı
 
@@ -570,7 +604,8 @@ Keyif < 25 → `lowJoy = true` (≥ 35'te kapanır; histerezis). Motor etkileri:
 export interface RoastReport {
   ageAtDeath: number;
   cause: { band: '18-29'|'30-44'|'45-64'|'65+'; cls: 'circ'|'tumor'|'resp'|'accident'|'external'|'absurd'|'health'|'scripted'; lineKey: string; isAbsurd: boolean };
-  numbers: { yearsWorked: number; loves: number; wagersTotal: number; wagersPlayerWon: number; unreadFinal: number; peakMoney: number };
+  numbers: { yearsWorked: number; loves: number; wagersTotal: number; wagersPlayerWon: number; unreadFinal: number; peakMoney: number;
+             shownDays: number; calendarDays: number; rentEvents: number };   // v1.1: "512 gün not aldım" / "kira günü 9 kez geldi" satırları buradan
   patterns: Array<{ id: PatternId; count: number; share: number; followThrough?: number }>;   // top-3, doc 03
   rightMoment?: { eventId: string; year: number; pOdds?: number };
   lastWord: { pattern: PatternId; count: number };
@@ -588,6 +623,7 @@ Sayılar **asla uydurulmaz**: her alan `LifeRecord`'dan gelir ve Koçun Defteri'
 export interface LifeRecord {                 // metaLog girdisi; ölüm anında atomik yazılır
   lifeId: string; seed: string; contentHash: string; name: string; startCity: string;
   ageAtDeath: number; cause: RoastReport['cause']; channel: 'hazard'|'scripted'|'health';
+  shownDays: number; calendarDays: number; sessions: number;             // v1.1 (D-061): doc 05 oturum/ömür ölçümü + Kamp kıyası
   peakIncomeTier: IncomeTier; peakMoney: number; endedInDebt: boolean;
   topPatterns: PatternId[]; patternCounts: Record<PatternId, number>;
   highestCringeEvent?: { eventId: string; year: number; delta: number };   // → Fazla Bagaj (D-018)
@@ -629,7 +665,7 @@ Düzen: antetli evrak kartı ("30 KARNESİ / AGE-30 REVIEW"), 5 satır, altında
 
 ### 2.7 Simülasyon kabulü ve tuning sabitleri
 
-Harness: `packages/engine/sim` · 10.000 hayat · 5 persona (`safe`, `risky`, `chaotic`, `speedrunner`, `completionist`; T11 §4.3) · Node'da < 60 sn · her tuning PR'ında CI.
+Harness: `packages/engine/sim` · 10.000 hayat · 5 persona (`safe`, `risky`, `chaotic`, `speedrunner`, `completionist`; T11 §4.3) · Node'da < 90 sn (gün tabanlı: hayat başına ≈ 500 gün kartı + ≈ 20.000 takvim günü `applyGap` adımı; v1.0'ın 60 sn'si 57 yıl adımı içindi) · her tuning PR'ında CI. Persona aksiyon dizileri gün kartlarına cevap verir; oturum simülasyonu 20 gösterilen günde bir "Bugünlük yeter" işaretler.
 
 | Hedef | Değer | Kalibrasyon sonucu (bu belgenin sabitleriyle) |
 |---|---|---|
@@ -645,6 +681,13 @@ Harness: `packages/engine/sim` · 10.000 hayat · 5 persona (`safe`, `risky`, `c
 | Senaryo ölümü payı | ≤ %15 | sim varsayımı ≈ %9 |
 | Bailout tetiklenme | hayat başına ≤ 1, yalnızca 18–27; hayatların %25–50'sinde | arketip B 23, C 22 |
 | Fizyoterapi teklifi | hayatların %60–85'inde en az 1 kez, ömürde ≤ 1 | — (S2) |
+| **Gösterilen gün toplamı (18–ölüm, serbest)** | **450–600** (p10–p90), medyan ≈ 480 | 456 (medyan ömür 74, bant medyanları) |
+| Gösterilen gün / yıl bant medyanları | 15 / 10 / 6,5 / 4 (±1) | tablo §2.1.3 |
+| Ömür dakika tahmini (12 sn/gün + Karne + Mola) | 90–120 dk; Hızlı Yaşa 36+ ile 70–80 dk | ≈ 91 / ≈ 74 |
+| Oturum (20 günlük pencere) | 1–3 doğum günü; 18–25 bandında ≈ 1,3 yıl, 61+ bandında ≈ 5 yıl | formül §2.1.3 |
+| Maaş / kira günü sayısı | her takvim yılında 12 / 12; kira günü **olayı** hayat başına medyan 2–6 | §2.3.3 |
+| Yıllık drift toplamı (applyGap Σ) | = Y (±366/365) | AC-02-33 |
+| Hazard zar sayısı | = ölüm yaşı − 18 (+ advanceTime doğum günleri); boşlukta 0 | AC-02-29 |
 
 **Tuning sabitleri (başlangıç değerleri; `tuning.json`, dev dashboard'dan canlı):**
 
@@ -655,7 +698,7 @@ Harness: `packages/engine/sim` · 10.000 hayat · 5 persona (`safe`, `risky`, `c
 | `HEALTH_EXP_K` | 1,0 | `JOY_FLOOR` / `JOY_PULL` | 5 / 0,30 |
 | `LIFESTYLE` sigara / sporcu / stres / kronik | 1,4 / 0,8 / 1,25 / 1,3 | `SMARTS_CAP_LOW_JOY` | 70 @ Keyif < 30 |
 | `LUCK_P_SCALE` / `LUCK_HAZARD_SCALE` | 500 / 1000 | `LUCK_REVERSION` | 0,15 |
-| `STRESS_DECAY` / `STRESS_HEALTH_70` / `_85` | −4 / −2 / −4 | `STRESS_BEAT_BONUS` | 1 @ > 70 |
+| `STRESS_DECAY` / `STRESS_HEALTH_70` / `_85` | −4 / −2 / −4 (yıl; applyGap gap/365) | `STRESS_DAY_BONUS` | +1 gösterilen gün/yıl @ > 70 |
 | `PROTECTION_WINDOW` / `MIN_MULT` | 18–28 / 0,5 | `BAILOUT_AMOUNT` | 3 Birim |
 | `SPIRAL_YEARS` / `SPIRAL_MIN_AGE` | 3 / 28 | `SPIRAL_RESCUE` | +6..+12 Birim, 1/hayat |
 | `DEBT_GROWTH` / `BANKRUPTCY_AT` / `BANKRUPTCY_RESET` | 1,18 / −24 / −6 | `START_MONEY` | 2 Birim |
@@ -665,107 +708,195 @@ Harness: `packages/engine/sim` · 10.000 hayat · 5 persona (`safe`, `risky`, `c
 | `PHYSIO_HEALTH` | +15, zar atlanır | `SCRIPTED_DEATH_MAX_P` / `MIN_AGE` | 0,05 / 25 |
 | `ABSURD_SHARE` | 0,05 | `AGE_HARD_CAP` | 100 |
 | `EGO_INVISIBLE` / `_NARCISSIST` / `_REVERSION` | 15 / 85 / 2 pt/yıl | `CRINGE_DECAY` / `_CALLBACK` / `_MOVE` | −10 / 60 / 90 |
-| `MOM_YEARLY_CAP` / `_SETUP` / `_MOVEIN` | +12 / 80 / 100 | `BEAT_BUDGET` bantlar | 3,5 / 3 / 2,5 / 2 / 1,5 / 1 |
+| `MOM_YEARLY_CAP` / `_SETUP` / `_MOVEIN` | +12 / 80 / 100 | `DAY_BUDGET` bantlar (18–25 / 26–40 / 41–60 / 61+) | 12–18 / 8–12 / 5–8 / 3–5 (+2 tavan düzeltme) |
+| `DUE_PAYDAY` / `DUE_RENT` / `DUE_CAT` / `DUE_HEALTH` | 1 / 5 / 10 / 20 (ayın günü) | `RENT_DAY_STRESS` / `RENT_EVENT_PER_MONTH` | +8 / ≤ 1 |
+| `DAILY_SPEND` | (temel geçim + yaşam tarzı) / 30 | `CAT_MONTHLY` | 0,05 Birim |
+| `DAY_SECONDS` ▶ / ▶▶ / Otomatik | 12 / 7 / 3 (UI çapası; motor bilmez) | `SESSION_DAYS` / `LIFE_DAYS` | 15–25 / 450–600 |
+| `SKIP_LINE_MS` (normal / Hızlı Yaşa) | 1.500 / 1.200 | `ILLNESS_FIRST_CARD_DELAY` / `FINAL_ARC_GAP` | 30–90 / 60–180 takvim günü |
+| `JOY_PULL_DAILY` | 1 − 0,70^(1/365) ≈ 0,00098 | `DEBT_GROWTH_DAILY` | 1,18^(1/365) ≈ 1,000453 |
 | `ROAST_STEP_MS` 1..7 | 2000 / 3000 / 5000 / 3500×3 / 4000 / 3000 / 4500 | `DEATH_TO_FIRST_TEXT_MS` | ≤ 40.000 (otomatik ≈ 34.400) |
 
 ---
 
 ## 3. Örnek içerik — TR + EN
 
-### 3.1 Sekiz olay (doc 03 şema stilinde; D-045: `tr` + `en` + `intent`, seçeneklerde `pattern`, efektler Birim)
+### 3.1 Sekiz **gün kartı** (doc 03 v1.1 şeması; D-045 `intent` + `tr`/`en`, D-062 `dialog[]` + `you` balonu, D-064 her sonuçta ≥ 1 `roast:true`, efektler Birim)
+
+Her kart tarihli bir gündür; tarih JSON'da değil, `GameClock`'tan gelir (yorum satırı yalnızca okuma kolaylığı için). Koç `coach[]` ayrı katmandır, diyalogda yoktur. `cooldownDays` takvim günüdür (v1.0'ın `cooldown.self` yıl değeri × 365). NPC ses kuralları doc 04 §2.5.3 / doc 03 §2.2.3 (Anne ≤ 8 kelime, soru işareti ≥ %50; Barış BÜYÜK HARF; Yağmur ≤ 3 kelime; Pamuk tek kelime; Şükran Teyze "canım" + komşu gözlemi). Örneklerdeki `pre.dayOfMonth`, `pre.rentShortfall`, `forced`, efektlerde `status.*`, `chainNext/chainDelayDays/chainWeight` ve `bailoutCheck` alanları bu belgenin doc 03 `pre` DSL'ine ve `effects` şemasına **önerdiği** eklerdir (D-ÖNERİ-02-15); doc 03 kabul edene kadar zod şemasında yoktur.
 
 ```jsonc
-// 1 — Para, koruma penceresi, bailout
-{ "id": "evt_anne_borc_verdi", "type": "event", "tags": ["para","aile","bailout"], "universality": "universal",
-  "pre": { "age": {"max": 27}, "money": {"max": -0.01}, "flags": {"none": ["bailoutUsed"]} }, "maxPerLife": 1,
-  "intent": { "setup": "bakiye eksi, annen fark etti", "mechanism": "yardım + borcun gizli faturası", "punch": "para değil, yemek bahanesi", "lift": "borç değil, kayıt" },
-  "tr": { "text": "Annen 'yemeğe gel' dedi. Yemek yoktu. Zarf vardı. İçinde 3.000. 'Borç değil' dedi. Borç.",
-          "choices": [ {"label":"Al, teşekkür et","pattern":"aileyeYaslanma"}, {"label":"Al, geri ödeme planı yap","pattern":"sabır"}, {"label":"Alma","pattern":"gurur"} ] },
-  "en": { "text": "Mom said 'come for dinner.' There was no dinner. There was an envelope. 3,000 inside. 'It's not a loan,' she said. It's a loan.",
-          "choices": [ {"label":"Take it, say thanks","pattern":"leaningOnFamily"}, {"label":"Take it, make a plan","pattern":"patience"}, {"label":"Don't take it","pattern":"pride"} ] },
-  "outcomes": { "al": {"money": "+3", "meters": {"momPressure": 15}, "followUp": [{"eventId":"evt_anne_parayi_sormadi","delay":[3,3]}]},
-                "plan": {"money": "+3", "meters": {"momPressure": 8}, "hidden": {"stress": -3}},
-                "alma": {"money": "+0", "meters": {"ego": 4, "momPressure": 6}, "stats": {"joy": -3}} },
-  "coach": { "tr": "Zarf. Antrenman dilinde buna 'yedek kulübesi' deriz. Oyuna girdin, hâlâ yedeksin.", "en": "An envelope. In training we call this the bench. You're in the game; you're still on the bench." } }
+// 1 — GÜN 71 · Pazar, 12 Mayıs 2026 · Para, koruma penceresi, bailout (kira günü olayının içinden ya da doğum günü pulse'ından gelir)
+{ "id": "evt_anne_borc_verdi", "v": 1, "type": "event", "tags": ["para","aile","bailout"], "rarity": "uncommon", "valence": 0, "intensity": 0.6,
+  "universality": "universal", "maxPerLife": 1,
+  "pre": { "age": {"max": 27}, "money": {"max": -0.01}, "flags": {"none": ["bailoutUsed"]}, "npc": {"mom": {"alive": true}} },
+  "intent": { "setup": "bakiye eksi, annen fark etti", "mechanism": "yardım + borcun gizli faturası", "punch": "para değil, yemek bahanesi", "lift": "borç değil, kayıt", "target": "decision" },
+  "dialog": [
+    { "speaker": "mom", "avatar": "neutral", "tr": "Yemeğe geliyor musun?", "en": "Coming for dinner?" },
+    { "speaker": "mom", "avatar": "worried", "tr": "Yemek yok. Zarf var. Tamam mı?", "en": "No dinner. An envelope. Okay?", "delayMs": 700 },
+    { "speaker": "mom", "avatar": "neutral", "tr": "Borç değil. Sorma?", "en": "Not a loan. Don't ask?" }
+  ],
+  "tr": { "text": "Zarfta 3.000. 'Borç değil' dedi. Borç." }, "en": { "text": "Three thousand in the envelope. 'Not a loan,' she said. It's a loan." },
+  "choices": [
+    { "id": "al", "tr": "Sağ ol anne", "en": "Thanks, Mom", "pattern": "aileyeYaslanma" },
+    { "id": "plan", "tr": "Alırım, ayın 1'inde başlarım ödemeye", "en": "I'll take it. Repaying from the 1st", "pattern": "sabır" },
+    { "id": "alma", "tr": "Almam", "en": "I can't", "pattern": "gurur" }
+  ],
+  "outcomes": {
+    "al":   { "effects": { "money": "+3", "meters": {"momPressure": 15}, "flags": {"add": ["bailoutUsed"]}, "npc": [{"role": "mom", "memory": "borc_verdi"}], "chain": {"id": "anne_borc", "next": [{"node": "sormadi", "delayDays": [1000, 1200]}]} },
+              "tr": "Zarf cebinde. Yemek de yedirdi. İkisi de sayıldı.", "en": "Envelope in your pocket. She fed you anyway. Both got counted.",
+              "coach": [ { "tr": "Bakiye artı. Anne Baskısı da artı. Bu oyunda bedava para yok; bedava yemek var.", "en": "Balance: positive. Mom Pressure: also positive. No free money in this game. Free dinner, yes.", "roast": true } ] },
+    "plan": { "effects": { "money": "+3", "meters": {"momPressure": 6}, "flags": {"add": ["bailoutUsed","anne_odeme_plani"]}, "npc": [{"role": "mom", "memory": "borc_plan"}] },
+              "tr": "Annen güldü. 'Tamam.' Takvime yazdın: ayın 1'i.", "en": "Mom laughed. 'Okay.' You wrote it down: the 1st.",
+              "coach": [ { "tr": "Ödeme planı. İlk 'plan'ın bu hayatta. Deftere yazdım; takvimine sen yaz.", "en": "A repayment plan. Your first plan this life. I wrote it in the notebook; you write it in the calendar.", "roast": true },
+                         { "tr": "Ayın 1'i. Bir satır.", "en": "The 1st. One line.", "roast": false, "lift": true } ] },
+    "alma": { "effects": { "meters": {"ego": 4, "momPressure": -4}, "hidden": {"stress": 6}, "flags": {"add": ["bailoutUsed"]}, "npc": [{"role": "mom", "memory": "almadi"}] },
+              "tr": "Zarf masada kaldı. Annen bir şey demedi; bu daha kötüydü.", "en": "The envelope stayed on the table. Mom said nothing. That was worse.",
+              "coach": [ { "tr": "Gurur: bir öğün. Bakiye: hâlâ eksi. Kira günü 12 gün sonra; takvim gururu saymıyor.", "en": "Pride: one meal. Balance: still negative. Rent day in twelve days; the calendar doesn't count pride.", "roast": true } ] }
+  },
+  "wager": { "eligible": false, "reason": "bailout; adalet" },
+  "review": { "status": "curated", "legal": "ok", "funnyTr": 3, "funnyEn": 3 } }
 
-// 2 — Sağlık, doktor zarı, hastalık arkı girişi
-{ "id": "evt_belirti_yorgunluk", "type": "arc:start", "arc": "hastalik_01", "tags": ["saglik","ark"], "universality": "universal",
-  "pre": { "stats": {"health": {"max": 39}} },
-  "intent": { "setup": "yorgunluk uyuyunca geçmiyor", "mechanism": "erteleme vs doktor", "punch": "yorgunluğun da yorgun", "lift": "bir randevu, bir karar" },
-  "tr": { "text": "Uyanınca yorgunsun. Uyurken de. Yorgunluğun kendine bir yorgunluk edinmiş.",
-          "choices": [ {"label":"Doktora git","pattern":"kendineBakım"}, {"label":"Geçer","pattern":"erteleme"}, {"label":"Annene sor","pattern":"aileyeYaslanma"} ] },
-  "en": { "text": "You wake up tired. You sleep tired. Your tiredness has started delegating.",
-          "choices": [ {"label":"See a doctor","pattern":"selfCare"}, {"label":"It'll pass","pattern":"procrastination"}, {"label":"Ask Mom","pattern":"leaningOnFamily"} ] },
-  "outcomes": { "doktor": {"arcNext": "evt_tahlil_sonucu", "money": "-0.3"}, "gecer": {"hidden": {"stress": 6}, "followUp": [{"eventId":"evt_belirti_yorgunluk","delay":[1,2],"weight":1.5}]},
-                "anne": {"stats": {"health": 2}, "meters": {"momPressure": 4}, "arcNext": "evt_tahlil_sonucu"} } }
+// 2 — GÜN 231 · Salı, 9 Şubat 2038 · Sağlık, doğum günü doktor zarıyla başlayan hastalık arkı (ilk kart; doğum gününden 30–90 gün sonra)
+{ "id": "evt_belirti_yorgunluk", "v": 1, "type": "arc:start", "arc": "hastalik_01", "tags": ["saglik","ark"], "rarity": "uncommon", "valence": -1, "intensity": 0.5,
+  "universality": "universal", "pre": { "stats": {"health": {"max": 39}} },
+  "chain": { "id": "hastalik_01", "node": "belirti", "next": [ { "node": "tahlil", "delayDays": [20, 45] } ] },
+  "intent": { "setup": "yorgunluk uyuyunca geçmiyor", "mechanism": "erteleme vs doktor", "punch": "yorgunluğun da yorgun", "lift": "bir randevu, bir karar", "target": "decision" },
+  "dialog": [
+    { "speaker": "cat", "avatar": "neutral", "tr": "Miyav.", "en": "Mrow.", "when": { "assets": ["kedi"] } },
+    { "speaker": "partner", "avatar": "worried", "tr": "Yine mi yorgunsun?", "en": "Tired again?", "when": { "status": {"relationship": true} } }
+  ],
+  "tr": { "text": "Uyanınca yorgunsun. Uyurken de. Yorgunluğun kendine bir yorgunluk edinmiş." },
+  "en": { "text": "You wake up tired. You sleep tired. Your tiredness has started delegating." },
+  "choices": [ { "id": "doktor", "tr": "Doktora git", "en": "See a doctor", "pattern": "kendineBakım" },
+               { "id": "gecer", "tr": "Geçer", "en": "It'll pass", "pattern": "erteleme" },
+               { "id": "anne", "tr": "Anneme sorayım", "en": "I'll ask Mom", "pattern": "aileyeLeaning", "requires": {"npc": {"mom": {"alive": true}}} } ],
+  "outcomes": {
+    "doktor": { "effects": { "money": "-0.3", "chainNext": "tahlil" }, "tr": "Randevu: perşembe. Sekreter 'aç karnına' dedi. Zaten.", "en": "Appointment: Thursday. 'Come fasting,' said the receptionist. Already was.",
+                "coach": [ { "tr": "Doktora gittin. Üç yıldır ilk. Antrenmanda buna 'ısınma' deriz; sen 'tahlil' diyorsun.", "en": "You saw a doctor. First time in three years. In training we call that a warm-up. You call it bloodwork.", "roast": true } ] },
+    "gecer":  { "effects": { "hidden": {"stress": 6}, "chainNext": "belirti", "chainDelayDays": [365, 730], "chainWeight": 1.5 }, "tr": "Geçmedi. Alıştın. Alışmak geçmek değil.", "en": "It didn't pass. You got used to it. Used to isn't the same as better.",
+                "coach": [ { "tr": "'Geçer.' Defterde bu kelime 14 kez var. Hiçbirinde geçmedi.", "en": "'It'll pass.' That phrase is in the notebook fourteen times. It has passed zero times.", "roast": true } ] },
+    "anne":   { "effects": { "stats": {"health": 2}, "meters": {"momPressure": 4}, "chainNext": "tahlil", "npc": [{"role": "mom", "memory": "hasta_sordu"}] }, "tr": "Annen 'çorba' dedi. Sonra 'doktor' dedi. Sonra ikisini birden.", "en": "Mom said 'soup.' Then 'doctor.' Then both, at once.",
+                "coach": [ { "tr": "Çorba Sağlık +2. Doktor randevusunu annen aldı. Sen 34 yaşındasın.", "en": "Soup: Health +2. Mom booked the doctor. You are thirty-four.", "roast": true } ] }
+  },
+  "wager": { "eligible": false, "reason": "ark girişi" }, "review": { "status": "curated", "legal": "ok", "funnyTr": 3, "funnyEn": 4 } }
 
-// 3 — Tahlil Sonucu (document + Tercüme), hastalık arkı 2. kart
-{ "id": "evt_tahlil_sonucu", "type": "document", "arc": "hastalik_01", "tags": ["saglik","evrak"], "universality": "universal",
+// 3 — GÜN 233 · Perşembe, 4 Mart 2038 · TAHLİL SONUCU (document + Tercüme; kurye diyalogda), hastalık arkı 2. gün
+{ "id": "evt_tahlil_sonucu", "v": 1, "type": "document", "arc": "hastalik_01", "tags": ["saglik","evrak"], "rarity": "uncommon", "valence": -1, "intensity": 0.7, "universality": "universal",
+  "chain": { "id": "hastalik_01", "node": "tahlil" },
   "document": { "letterhead": {"tr": "ÖZEL TAHLİL LABORATUVARI (kurgusal)", "en": "CLINICAL LAB RESULTS (fictional)"},
                 "translate": { "tr": {"from": "Bazı değerleriniz referans aralığının dışındadır. Hekiminize danışınız.", "to": "Hasta sendin, şimdi resmî."},
                                "en": {"from": "Several values fall outside the reference range. Please consult your physician.", "to": "You were sick before. Now it's notarized."} },
                 "glossaryKey": "saglik.referans_araligi" },
-  "tr": { "choices": [ {"label":"Tam tedavi","pattern":"kendineBakım","hint":"Para −4.000..−8.000"}, {"label":"Yarım tedavi","pattern":"kısaYol"}, {"label":"Bekle","pattern":"kaçınma"} ] },
-  "en": { "choices": [ {"label":"Full treatment","pattern":"selfCare","hint":"Cash −4,000..−8,000"}, {"label":"Half treatment","pattern":"shortcut"}, {"label":"Wait","pattern":"avoidance"} ] },
-  "outcomes": { "tam": {"money": "-6", "stats": {"health": 12}, "hidden": {"stress": -5}}, "yarim": {"money": "-1", "stats": {"health": 4}, "flagsP": {"kronik_hastalik": 0.5}},
-                "bekle": {"stats": {"health": -10}, "hidden": {"stress": 10}, "arcNext": "evt_belirti_yorgunluk"} },
-  "coach": { "tr": "Sayıları okudum. Hekim değilim; koçum. Koç olarak: bu antrenmanı kaçırma.", "en": "I read the numbers. I'm not a doctor; I'm a coach. As a coach: don't skip this session." } }
+  "dialog": [ { "speaker": "courier", "avatar": "neutral", "tr": "İmza.", "en": "Signature." },
+              { "speaker": "courier", "avatar": "neutral", "tr": "Kapıda yoktunuz. Üç kez.", "en": "Weren't home. Three times.", "delayMs": 500 } ],
+  "choices": [ { "id": "tam", "tr": "Tam tedavi", "en": "Full treatment", "pattern": "kendineBakım", "hint": {"tr": "Para −4.000..−8.000", "en": "Cash −4,000..−8,000"} },
+               { "id": "yarim", "tr": "Yarım tedavi", "en": "Half treatment", "pattern": "kısaYol" },
+               { "id": "bekle", "tr": "Bekle", "en": "Wait", "pattern": "kaçınma" } ],
+  "outcomes": { "tam":   { "effects": { "money": "-6", "stats": {"health": 12}, "hidden": {"stress": -5} }, "tr": "İki hafta, bir reçete, bir fatura. Değerler aralığa döndü.", "en": "Two weeks, one prescription, one bill. The values came home.",
+                           "coach": [ { "tr": "Para −6.000, Sağlık +12. Bu oyunda en pahalı şey beden; en ucuz şey 'geçer'.", "en": "Cash −6,000, Health +12. Most expensive thing in this game: a body. Cheapest: 'it'll pass.'", "roast": true } ] },
+                "yarim": { "effects": { "money": "-1", "stats": {"health": 4}, "flagsP": {"kronik_hastalik": 0.5} }, "tr": "Reçetenin yarısı. 'Gerisi gerekmez' dedin. Eczacı bakmadı bile.", "en": "Half the prescription. 'Don't need the rest,' you said. The pharmacist didn't even look up.",
+                           "coach": [ { "tr": "Yarım tedavi. Yarım kalan şeyler listen: diyet, kurs, bu.", "en": "Half a treatment. Your list of halves: the diet, the course, this.", "roast": true } ] },
+                "bekle": { "effects": { "stats": {"health": -10}, "hidden": {"stress": 10}, "chainNext": "belirti", "chainDelayDays": [60, 120] }, "tr": "Beklemek de bir karardır. Değerler de bekledi; kötüleşerek.", "en": "Waiting is a decision too. The values waited with you. They got worse at it.",
+                           "coach": [ { "tr": "Sayıları okudum. Hekim değilim; koçum. Koç olarak: bu antrenmanı kaçırdın.", "en": "I read the numbers. I'm not a doctor; I'm a coach. As a coach: you skipped this session.", "roast": true } ] } },
+  "wager": { "eligible": false, "reason": "sağlık evrakı" }, "review": { "status": "curated", "legal": "ok", "funnyTr": 4, "funnyEn": 4 } }
 
-// 4 — Ekonomi, kira zammı (mutlak Para, yüzde yok)
-{ "id": "evt_kira_zammi", "type": "event", "tags": ["para","ev"], "universality": "universal", "cooldown": {"self": 2},
-  "pre": { "housing": ["renting","wide"] },
-  "intent": { "setup": "ev sahibi 'evladım gibisin'", "mechanism": "sevgi dili = zam dili", "punch": "evlatlarına da böyle mi", "lift": "pazarlık bir tekrar" },
-  "tr": { "text": "Ev sahibin aradı. 'Evladım gibisin.' Kiran 300 arttı. Evlatlarına da böyle yapıyor demek.",
-          "choices": [ {"label":"Kabul et, iç çek","pattern":"kaçınma"}, {"label":"Pazarlık et","pattern":"risk","requires":{"meters":{"ego":{"min":30}}}}, {"label":"Annenin yanına taşın","pattern":"aileyeYaslanma","requires":{"npc":{"anne":{"alive":true}}}} ] },
-  "en": { "text": "Your landlord called. 'You're like family.' Rent went up 300. So that's how he treats family.",
-          "choices": [ {"label":"Accept, sigh","pattern":"avoidance"}, {"label":"Negotiate","pattern":"risk","requires":{"meters":{"ego":{"min":30}}}}, {"label":"Move back in with Mom","pattern":"leaningOnFamily","requires":{"npc":{"mom":{"alive":true}}}} ] },
-  "outcomes": { "kabul": {"money": "-0.3", "stats": {"joy": -4}, "hidden": {"stress": 6}},
-                "pazarlik": [ {"p": 0.45, "luckScaled": true, "money": "-0.15", "meters": {"ego": 5}, "stats": {"joy": 3}}, {"p": 0.55, "money": "-0.3", "meters": {"ego": -6, "cringe": 8}} ],
-                "tasin": {"money": "+0.4", "housing": "momsHouse", "meters": {"momPressure": 25, "ego": -10}} },
-  "wager": { "eligible": true, "check": "pazarlik", "coachTr": "İddia: zam aynen kalır. — M.", "coachEn": "Wager: the rent stays raised. — M." } }
+// 4 — GÜN 118 · Çarşamba, 5 Ağustos 2027 (kira günü) · Ekonomi, kira zammı (mutlak Para, yüzde yok; ev sahibi diyalogda; iddia 0,45 bandında)
+{ "id": "evt_kira_zammi", "v": 1, "type": "event", "tags": ["para","ev"], "rarity": "common", "valence": -1, "intensity": 0.6, "universality": "universal",
+  "cooldownDays": { "self": 730 }, "pre": { "housing": ["renting","wide"], "dayOfMonth": [5] },
+  "intent": { "setup": "ev sahibi 'evladım gibisin'", "mechanism": "sevgi dili = zam dili", "punch": "evlatlarına da böyle mi", "lift": "pazarlık bir tekrar", "target": "decision" },
+  "dialog": [ { "speaker": "landlord", "avatar": "smile", "tr": "Evladım gibisin.", "en": "You're like family." },
+              { "speaker": "landlord", "avatar": "neutral", "tr": "Kira ayın 5'inden itibaren 300 fazla.", "en": "Rent's 300 more, starting the 5th.", "delayMs": 800 },
+              { "speaker": "landlord", "avatar": "smile", "tr": "Evlatlarıma da böyle yapıyorum.", "en": "I do this to my own kids too." } ],
+  "tr": { "text": "Bugün ayın 5'i. Kira çıktı. Zam da." }, "en": { "text": "It's the 5th. Rent went out. So did the raise." },
+  "choices": [ { "id": "kabul", "tr": "Tamam, iç çek", "en": "Fine. Sigh", "pattern": "kaçınma" },
+               { "id": "pazarlik", "tr": "200 olsun?", "en": "Make it 200?", "pattern": "risk", "requires": {"meters": {"ego": {"min": 30}}} },
+               { "id": "tasin", "tr": "Annemin yanına taşınırım", "en": "I'll move back in with Mom", "pattern": "aileyeYaslanma", "requires": {"npc": {"mom": {"alive": true}}} } ],
+  "outcomes": {
+    "kabul":    { "effects": { "status": {"home": {"rent": "+0.3"}}, "stats": {"joy": -4}, "hidden": {"stress": 6} }, "tr": "Kiran 800 oldu. Kalıcı. Durum şeridi güncellendi; sen güncellenmedin.", "en": "Rent is 800 now. Permanent. The status bar updated. You didn't.",
+                  "coach": [ { "tr": "Kiran 300 arttı. Maaşın artmadı. İki sayı aynı evde oturuyor; biri kira ödemiyor.", "en": "Rent went up 300. Your pay went up a compliment. Two numbers, one apartment; only one pays rent.", "roast": true } ] },
+    "pazarlik": [ { "p": 0.45, "luckScaled": true, "effects": { "status": {"home": {"rent": "+0.15"}}, "meters": {"ego": 5}, "stats": {"joy": 3} }, "tr": "'200 olsun.' Kabul etti. Evlat olmanın avantajı.", "en": "'Make it 200.' He took it. Perks of being family.",
+                    "coach": [ { "tr": "Pazarlık tuttu. Oran %45'ti. İddiayı ben kaybettim; damga sende.", "en": "The haggle landed. Odds were 45 percent. I lost the wager; the stamp's yours.", "roast": true } ] },
+                  { "p": 0.55, "effects": { "status": {"home": {"rent": "+0.3"}}, "meters": {"ego": -6, "cringe": 8} }, "tr": "'Evladım, piyasa bu.' Piyasa evlat tanımıyor.", "en": "'Son, it's the market.' The market has no children.",
+                    "coach": [ { "tr": "Pazarlık tutmadı. Cringe +8: 'evladım' kelimesini sen de kullandın.", "en": "The haggle failed. Cringe +8: you said 'like family' back to him.", "roast": true } ] } ],
+    "tasin":    { "effects": { "status": {"home": {"kind": "momsHouse", "rent": 0.10}}, "money": "+0.4", "meters": {"momPressure": 25, "ego": -10}, "npc": [{"role": "mom", "memory": "geri_tasindi"}] }, "tr": "Kutular. Annen odanı aynı bırakmış. Posterler dahil.", "en": "Boxes. Mom kept your room the same. Posters included.",
+                  "coach": [ { "tr": "Kira: 100. Anne Baskısı: +25. Ucuz ev yok; faturası başka metreye kesilen ev var.", "en": "Rent: 100. Mom Pressure: +25. There's no cheap housing. There's housing billed to a different meter.", "roast": true } ] }
+  },
+  "wager": { "eligible": true, "check": "pazarlik", "coachTr": "İddia: zam aynen kalır. — M.", "coachEn": "Wager: the rent stays raised. — M." },
+  "review": { "status": "curated", "legal": "ok", "funnyTr": 4, "funnyEn": 4 } }
 
-// 5 — Sağlık/yaşam tarzı, Stres ipucu (sayı yok)
-{ "id": "evt_uyuyamiyorsun", "type": "event", "tags": ["saglik","stres"], "universality": "universal",
-  "pre": { "hidden": {"stress": {"min": 86}} }, "cooldown": {"self": 3},
-  "intent": { "setup": "gece 3, tavan", "mechanism": "stres sayı değil itiraf", "punch": "tavanı ezbere biliyorsun", "lift": "yürüyüş sayılır" },
-  "tr": { "text": "Saat 03:00. Tavanı ezbere biliyorsun. Tavan da seni. Uyku geldi mi? Gelmedi. Haber de yok.",
-          "choices": [ {"label":"Yürüyüşe çık (sabah)","pattern":"kendineBakım"}, {"label":"Terapi randevusu","pattern":"kendineBakım"}, {"label":"Telefona bak","pattern":"kaçınma"} ] },
-  "en": { "text": "3 a.m. You know the ceiling by heart. The ceiling knows you back. Sleep? Not coming. Didn't text either.",
-          "choices": [ {"label":"Morning walk","pattern":"selfCare"}, {"label":"Book therapy","pattern":"selfCare"}, {"label":"Check your phone","pattern":"avoidance"} ] },
-  "outcomes": { "yuru": {"hidden": {"stress": -8}, "stats": {"health": 3, "joy": 3}}, "terapi": {"money": "-0.5", "hidden": {"stress": -15}, "stats": {"joy": 6}}, "telefon": {"hidden": {"stress": 3}, "stats": {"joy": -2}, "meters": {"momPressure": 2}} },
-  "coach": { "tr": "Uyku: dört saat. Bu bir sayı değil, bir itiraf.", "en": "Sleep: four hours. That's not a number, that's a confession." } }
+// 5 — GÜN 302 · Cumartesi, 03:00 · Sağlık/yaşam tarzı, Stres > 85 (sayı yok; NPC yok, kedi varsa tek kelime)
+{ "id": "evt_uyuyamiyorsun", "v": 1, "type": "event", "tags": ["saglik","stres"], "rarity": "common", "valence": -1, "intensity": 0.6, "universality": "universal",
+  "pre": { "hidden": {"stress": {"min": 86}} }, "cooldownDays": { "self": 1095 },
+  "intent": { "setup": "gece 3, tavan", "mechanism": "stres sayı değil itiraf", "punch": "tavanı ezbere biliyorsun", "lift": "yürüyüş sayılır", "target": "decision" },
+  "dialog": [ { "speaker": "cat", "avatar": "neutral", "tr": "Miyav.", "en": "Mrow.", "when": { "assets": ["kedi"] } } ],
+  "tr": { "text": "Saat 03:00. Tavanı ezbere biliyorsun. Tavan da seni. Uyku geldi mi? Gelmedi. Haber de yok." },
+  "en": { "text": "3 a.m. You know the ceiling by heart. The ceiling knows you back. Sleep? Not coming. Didn't text either." },
+  "choices": [ { "id": "yuru", "tr": "Sabah yürüyüşe çıkarım", "en": "Morning walk", "pattern": "kendineBakım" },
+               { "id": "terapi", "tr": "Terapi randevusu alırım", "en": "Book therapy", "pattern": "kendineBakım" },
+               { "id": "telefon", "tr": "Telefona bakayım", "en": "Check my phone", "pattern": "kaçınma" } ],
+  "outcomes": { "yuru":    { "effects": { "hidden": {"stress": -8}, "stats": {"health": 3, "joy": 3} }, "tr": "Yürüdün. 07:10. Şehir uyanmamıştı; sen uyumamıştın. Berabere.", "en": "You walked. 7:10. The city wasn't up; you hadn't been down. A draw.",
+                             "coach": [ { "tr": "Yürüyüş. Dört saat uyku + kırk dakika yürüyüş. Bu bir program değil; ama bir satır.", "en": "A walk. Four hours of sleep plus forty minutes of walking. Not a program. A line, though.", "roast": true } ] },
+                "terapi":  { "effects": { "money": "-0.5", "hidden": {"stress": -15}, "stats": {"joy": 6} }, "tr": "Randevu: salı. Elli dakika. İlk on dakikası 'nereden başlasam'.", "en": "Appointment: Tuesday. Fifty minutes. The first ten were 'where do I start.'",
+                             "coach": [ { "tr": "Terapi. Para −500. Sertifikalı birine gittin; kıskandım, not aldım.", "en": "Therapy. Cash −500. You went to someone with a certificate. I'm jealous. Noted.", "roast": true } ] },
+                "telefon": { "effects": { "hidden": {"stress": 3}, "stats": {"joy": -2}, "meters": {"momPressure": 2} }, "tr": "Aile grubu: 212 okunmamış. 03:14'te okudun. 03:15'te pişman oldun.", "en": "Family group: 212 unread. Read at 3:14. Regretted at 3:15.",
+                             "coach": [ { "tr": "Uyku: dört saat. Bu bir sayı değil, bir itiraf.", "en": "Sleep: four hours. That's not a number, that's a confession.", "roast": true } ] } },
+  "wager": { "eligible": false, "reason": "check yok" }, "review": { "status": "curated", "legal": "ok", "funnyTr": 4, "funnyEn": 4 } }
 
-// 6 — Ego eşiği, Narsist Sezon tek seferlik olayı (Ego 100; ölüm yok)
-{ "id": "evt_kendi_heykeli", "type": "event", "tags": ["ego","absurt","para"], "universality": "universal", "maxPerLife": 1,
+// 6 — GÜN 266 · Cuma, 18 Eylül 2043 · Ego 100, Narsist Sezon tek seferlik olayı (ölüm yok; heykeltıraş durumsal NPC)
+{ "id": "evt_kendi_heykeli", "v": 1, "type": "event", "tags": ["ego","absurt","para","lol"], "rarity": "rare", "valence": 0, "intensity": 0.7, "isLOL": true, "universality": "universal", "maxPerLife": 1,
   "pre": { "meters": {"ego": {"min": 100}} },
-  "intent": { "setup": "ego tavan", "mechanism": "kendine anıt", "punch": "anıt da seni beğenmedi", "lift": "küçük bir şey yap" },
-  "tr": { "text": "Bir heykeltıraşa kendi büstünü sipariş ettin. Bitti. Benzemiyor. Heykeltıraş 'benzedi' diyor. İkiniz de haklısınız.",
-          "choices": [ {"label":"Salona koy","pattern":"gurur"}, {"label":"Annene hediye et","pattern":"aileyeYaslanma"}, {"label":"İptal et, parayı yak","pattern":"dürtüselHarcama"} ] },
-  "en": { "text": "You commissioned a bust of yourself. It's done. It doesn't look like you. The sculptor says it does. You're both right.",
-          "choices": [ {"label":"Living room","pattern":"pride"}, {"label":"Gift it to Mom","pattern":"leaningOnFamily"}, {"label":"Cancel, eat the cost","pattern":"impulseSpending"} ] },
-  "outcomes": { "salon": {"money": "-6", "meters": {"cringe": 15, "ego": -10}}, "anne": {"money": "-6", "meters": {"momPressure": -10, "cringe": 8, "ego": -15}}, "iptal": {"money": "-3", "meters": {"ego": -20}, "stats": {"joy": -2}} },
-  "coach": { "tr": "Ego 100. Kimse ölmedi. Bu oyunda egodan ölünmez; yalnızca izlenir.", "en": "Ego: one hundred. Nobody died. In this game ego doesn't kill you; it just gets watched." } }
+  "intent": { "setup": "ego tavan", "mechanism": "kendine anıt", "punch": "anıt da seni beğenmedi", "lift": "küçük bir şey yap", "target": "decision" },
+  "dialog": [ { "speaker": "sculptor", "avatar": "neutral", "tr": "Bitti.", "en": "It's done." },
+              { "speaker": "sculptor", "avatar": "smile", "tr": "Benzedi.", "en": "It's you.", "delayMs": 900 } ],
+  "tr": { "text": "Kendi büstün. Benzemiyor. Heykeltıraş 'benzedi' diyor. İkiniz de haklısınız." },
+  "en": { "text": "A bust of yourself. It doesn't look like you. The sculptor says it does. You're both right." },
+  "choices": [ { "id": "salon", "tr": "Salona", "en": "Living room", "pattern": "gurur" },
+               { "id": "anne", "tr": "Anneme hediye", "en": "Gift it to Mom", "pattern": "aileyeYaslanma", "requires": {"npc": {"mom": {"alive": true}}} },
+               { "id": "iptal", "tr": "İptal, parayı yak", "en": "Cancel, eat the cost", "pattern": "dürtüselHarcama" } ],
+  "outcomes": { "salon": { "effects": { "money": "-6", "meters": {"cringe": 15, "ego": -10}, "status": {"assets": {"add": ["bust"]}} }, "tr": "Salonda. Misafirler bakıyor, sonra sana bakıyor, sonra yine ona.", "en": "In the living room. Guests look at it, then at you, then back at it.",
+                           "coach": [ { "tr": "Ego 100. Kimse ölmedi. Bu oyunda egodan ölünmez; yalnızca izlenir. Varlıklar: kedi, telefon, büst.", "en": "Ego: one hundred. Nobody died. In this game ego doesn't kill you; it just gets watched. Assets: cat, phone, bust.", "roast": true } ] },
+                "anne":  { "effects": { "money": "-6", "meters": {"momPressure": -10, "cringe": 8, "ego": -15}, "npc": [{"role": "mom", "memory": "bust_hediye"}] }, "tr": "Annen vitrine koydu. Şükran Teyze gördü. Site gördü.", "en": "Mom put it in the cabinet. Mrs. Dale saw it. The building saw it.",
+                           "coach": [ { "tr": "Anne Baskısı −10. Cringe +8. Net: bir büst, iki metre, sıfır ders.", "en": "Mom Pressure −10. Cringe +8. Net: one bust, two meters, zero lessons.", "roast": true } ] },
+                "iptal": { "effects": { "money": "-3", "meters": {"ego": -20}, "stats": {"joy": -2} }, "tr": "Kapora gitti. Büst atölyede kaldı. Hâlâ benzemiyor.", "en": "Deposit gone. The bust stays at the studio. Still doesn't look like you.",
+                           "coach": [ { "tr": "Para −3.000, büst yok. Bu hayatta ilk kez bir şeyi yarım bırakman işe yaradı.", "en": "Cash −3,000, no bust. First time this life that quitting halfway paid off.", "roast": true } ] } },
+  "wager": { "eligible": false, "reason": "check yok" }, "review": { "status": "curated", "legal": "ok", "funnyTr": 4, "funnyEn": 4 } }
 
-// 7 — Senaryo ölümü kanalı (yaş ≥ 25; p ≤ 0,05; ipucu zinciri)
-{ "id": "evt_merdiven_tamir", "type": "event", "tags": ["ev","saglik","dark"], "universality": "universal", "rarity": "rare", "cooldown": {"self": 6},
+// 7 — GÜN 341 · Pazartesi, 2 Kasım 2048 · Senaryo ölümü kanalı (yaş ≥ 25; p ≤ 0,05; ipucu zinciri; Yağmur ≤ 3 kelime)
+{ "id": "evt_merdiven_tamir", "v": 1, "type": "event", "tags": ["ev","saglik","dark"], "rarity": "rare", "valence": -1, "intensity": 0.5, "universality": "universal", "cooldownDays": { "self": 2190 },
   "pre": { "age": {"min": 25}, "housing": ["owner","mortgage"], "flags": {"all": ["merdiven_gicirdiyor"]} },
-  "intent": { "setup": "dördüncü basamak yıllardır gıcırdıyor", "mechanism": "ertelemenin fiziksel hâli", "punch": "basamak da erteledi", "lift": "bir ustayı aramak bir karar" },
-  "tr": { "text": "Dördüncü basamak. Üç yıldır 'tamir ederim' dediğin. Bu gece daha yüksek sesle gıcırdadı. Seninle konuşuyor gibi.",
-          "choices": [ {"label":"Ustayı ara","pattern":"kendineBakım"}, {"label":"Yine atla, alıştın","pattern":"erteleme"} ] },
-  "en": { "text": "Fourth step. The one you've been 'getting to' for three years. Tonight it creaked louder. Almost like it's bringing it up.",
-          "choices": [ {"label":"Call someone","pattern":"selfCare"}, {"label":"Skip it, like always","pattern":"procrastination"} ] },
-  "outcomes": { "usta": {"money": "-0.4", "flags": {"remove": ["merdiven_gicirdiyor"]}, "hidden": {"stress": -2}},
-                "atla": [ {"p": 0.75, "stats": {"health": -4}}, {"p": 0.20, "stats": {"health": -25}, "flags": {"add": ["kronik_agri"]}}, {"p": 0.05, "death": {"cls": "external", "lineKey": "stairs_fourth_step"}} ] } }
+  "intent": { "setup": "dördüncü basamak yıllardır gıcırdıyor", "mechanism": "ertelemenin fiziksel hâli", "punch": "basamak da erteledi", "lift": "bir ustayı aramak bir karar", "target": "decision" },
+  "dialog": [ { "speaker": "partner", "avatar": "neutral", "tr": "Gıcırdıyor. Yine.", "en": "Creaking. Again.", "when": { "status": {"relationship": true} } } ],
+  "tr": { "text": "Dördüncü basamak. Üç yıldır 'tamir ederim' dediğin. Bu gece daha yüksek sesle gıcırdadı. Seninle konuşuyor gibi." },
+  "en": { "text": "Fourth step. The one you've been 'getting to' for three years. Tonight it creaked louder. Almost like it's bringing it up." },
+  "choices": [ { "id": "usta", "tr": "Ustayı arayayım", "en": "I'll call someone", "pattern": "kendineBakım" },
+               { "id": "atla", "tr": "Atlarım, alıştım", "en": "I'll skip it, like always", "pattern": "erteleme" } ],
+  "outcomes": { "usta": { "effects": { "money": "-0.4", "flags": {"remove": ["merdiven_gicirdiyor"]}, "hidden": {"stress": -2} }, "tr": "Usta geldi. 'Bu basamak üç yıldır mı böyle?' Evet.", "en": "The handyman came. 'Three years like this?' Yes.",
+                          "coach": [ { "tr": "Usta çağırdın. Para −400. Üç yıllık erteleme, kırk dakikalık iş. Oran: 40.000'e 1.", "en": "You called the handyman. Cash −400. Three years of putting it off; forty minutes of work. Ratio: forty thousand to one.", "roast": true } ] },
+                "atla": [ { "p": 0.75, "effects": { "stats": {"health": -4} }, "tr": "Atladın. Dizin bir şey dedi. Sen demedin.", "en": "You skipped it. Your knee said something. You didn't.",
+                            "coach": [ { "tr": "Sağlık −4. Basamak kazandı. Seri: 1.096 gün.", "en": "Health −4. The step wins. Streak: 1,096 days.", "roast": true } ] },
+                          { "p": 0.20, "effects": { "stats": {"health": -25}, "flags": {"add": ["kronik_agri"]} }, "tr": "Dördüncü basamak kırıldı. Sen de biraz. Alçı: altı hafta.", "en": "The fourth step gave. So did you, a little. Cast: six weeks.",
+                            "coach": [ { "tr": "Sağlık −25. 'Tamir ederim' dedin; basamak seni tamir etti.", "en": "Health −25. You said you'd fix the step. The step fixed you.", "roast": true } ] },
+                          { "p": 0.05, "effects": { "death": {"cls": "external", "lineKey": "stairs_fourth_step"} } } ] },
+  "wager": { "eligible": false, "reason": "ölüm kuyruğu olan sonuçta iddia yok" }, "review": { "status": "curated", "legal": "ok", "funnyTr": 4, "funnyEn": 4 } }
 
-// 8 — Onyıl Karnesi tetikleyici öncesi, geç oyun para gerilimi (emekli)
-{ "id": "evt_emekli_ilk_maas", "type": "event", "tags": ["para","emekli"], "universality": "universal", "maxPerLife": 1,
-  "pre": { "flags": {"all": ["emekli"]} },
-  "intent": { "setup": "ilk emekli maaşı", "mechanism": "matematik kişisel ölçek", "punch": "bakiye tek haneli", "lift": "bütçe bir karar" },
-  "tr": { "text": "İlk emekli maaşın yattı: 2.250. Kiran 850, ilaçlar 450, torunların doğum günü sayısı 4. Hesap makinesi değil, takvim gerek.",
-          "choices": [ {"label":"Bütçe yap","pattern":"sabır"}, {"label":"Çocuklardan iste","pattern":"aileyeYaslanma"}, {"label":"Yarı zamanlı iş","pattern":"aşırıÇalışma"} ] },
-  "en": { "text": "First pension payment: 2,250. Rent 850, pills 450, grandkids' birthdays this year: four. You don't need a calculator. You need a calendar.",
-          "choices": [ {"label":"Make a budget","pattern":"patience"}, {"label":"Ask the kids","pattern":"leaningOnFamily"}, {"label":"Part-time job","pattern":"overwork"} ] },
-  "outcomes": { "butce": {"hidden": {"stress": -4}, "stats": {"joy": 2}}, "cocuk": {"money": "+1.5", "meters": {"ego": -6}}, "is": {"money": "+6", "stats": {"health": -4}, "hidden": {"stress": 8}} } }
+// 8 — GÜN 498 · Pazartesi, 1 Mart 2071 (maaş günü) · Geç oyun para gerilimi: ilk emekli maaşı yattı (Şükran Teyze komşu gözlemi)
+{ "id": "evt_emekli_ilk_maas", "v": 1, "type": "event", "tags": ["para","emekli"], "rarity": "uncommon", "valence": 0, "intensity": 0.5, "universality": "universal", "maxPerLife": 1,
+  "pre": { "flags": {"all": ["emekli"]}, "dayOfMonth": [1] },
+  "intent": { "setup": "ilk emekli maaşı", "mechanism": "matematik kişisel ölçek", "punch": "hesap makinesi değil takvim", "lift": "bütçe bir karar", "target": "decision" },
+  "dialog": [ { "speaker": "neighbor", "avatar": "smile", "tr": "Canım, emekli maaşı yattı mı? Bizimki 2.100.", "en": "Dear, did the pension land? Ours was 2,100." },
+              { "speaker": "neighbor", "avatar": "neutral", "tr": "Torunların doğum günü var bu ay, değil mi canım?", "en": "The grandkids have birthdays this month, don't they, dear?", "delayMs": 800 } ],
+  "tr": { "text": "İlk emekli maaşın yattı: 2.250. Kiran 850, ilaçlar 450 (ayın 20'si), torun doğum günü bu ay: dört. Hesap makinesi değil, takvim gerek." },
+  "en": { "text": "First pension payment: 2,250. Rent 850, pills 450 (on the 20th), grandkids' birthdays this month: four. You don't need a calculator. You need a calendar." },
+  "choices": [ { "id": "butce", "tr": "Bütçe yaparım", "en": "I'll make a budget", "pattern": "sabır" },
+               { "id": "cocuk", "tr": "Çocuklardan isterim", "en": "I'll ask the kids", "pattern": "aileyeYaslanma" },
+               { "id": "is", "tr": "Yarı zamanlı iş bulurum", "en": "I'll find part-time work", "pattern": "aşırıÇalışma" } ],
+  "outcomes": { "butce": { "effects": { "hidden": {"stress": -4}, "stats": {"joy": 2}, "flags": {"add": ["emekli_butce"]} }, "tr": "Buzdolabına bir kâğıt: 1'i maaş, 5'i kira, 20'si ilaç. Takvim artık bir bütçe.", "en": "A sheet on the fridge: 1st pay, 5th rent, 20th pills. The calendar is a budget now.",
+                           "coach": [ { "tr": "Bütçe. 67 yaşında ilk. Antrenmanda buna 'geç ısınma' deriz; sayılır.", "en": "A budget. First one, at sixty-seven. In training we call that a late warm-up. It counts.", "roast": true } ] },
+                "cocuk": { "effects": { "money": "+1.5", "meters": {"ego": -6}, "npc": [{"role": "child", "memory": "para_istedi"}] }, "tr": "Çocuklar gönderdi. 'Sorun değil' dediler. Sorun değildi; ağırdı.", "en": "The kids sent it. 'No problem,' they said. It wasn't a problem. It was heavy.",
+                           "coach": [ { "tr": "Para +1.500, Ego −6. Elli yıl önce zarfı sana annen veriyordu. Zarf döndü.", "en": "Cash +1,500, Ego −6. Fifty years ago the envelope came from Mom. The envelope came back around.", "roast": true } ] },
+                "is":    { "effects": { "status": {"job": {"title": "yari_zamanli", "tier": "T1", "monthly": 0.5}}, "stats": {"health": -4}, "hidden": {"stress": 8} }, "tr": "Üç gün kasa. Maaş ayın 1'inde, emekli maaşıyla aynı gün. Takvim kalabalık.", "en": "Three days a week at the register. Paid on the 1st, same day as the pension. Crowded calendar.",
+                           "coach": [ { "tr": "Yarı zamanlı. Sağlık −4. 'Emekli' sözcüğü bu hayatta bir unvan değil, bir ara.", "en": "Part-time. Health −4. 'Retired' isn't a title in this life. It's a half-time break.", "roast": true } ] } },
+  "wager": { "eligible": false, "reason": "check yok" }, "review": { "status": "curated", "legal": "ok", "funnyTr": 4, "funnyEn": 4 } }
 ```
 
 ### 3.2 Roast Raporu — tam örnek (Normal ağız)
@@ -790,13 +921,76 @@ Harness: `packages/engine/sim` · 10.000 hayat · 5 persona (`safe`, `risky`, `c
 | Anne Baskısı ≥ 80 | Anne Baskısı 80. Pazar yemeğine bir "tanıdık" geliyor. Yemek bahane. | Mom Pressure: eighty. Sunday dinner has a "friend of the family" on the guest list. Dinner is the pretext. |
 | Anne Baskısı doğdu | Anne Baskısı: doğdu. Evet, bu bir stat. | Mom Pressure: born. Yes, that's a stat. |
 
-### 3.5 Yıl sonu pulse satırları (Stres/Sağlık ipuçları, sayı yok)
+### 3.5 Doğum günü pulse satırları (Stres/Sağlık ipuçları; Karne'nin yanında, sayı yok)
 
 TR *"Bu yıl üç kez 'check-up yaptırırım' dedin. Takvim üç kez boş kaldı. Takvimi suçlamıyorum."* / EN *"Three times this year you said 'I'll book a checkup.' The calendar stayed empty three times. I don't blame the calendar."* · TR *"Sağlık 38. Nokia kadar dayanıklısın; şarjın da Nokia kadar."* / EN *"Health: thirty-eight. You're built like an old flip phone. Battery included, barely."*
 
 ### 3.6 Koruma penceresi / bailout koç satırları
 
 TR *"Yirmi iki yaş. Bakiye eksi. Antrenman dilinde buna 'ısınma sakatlığı' deriz: sayılır, ama sezonu bitirmez."* / EN *"Twenty-two. Balance below zero. In training we call that a warm-up injury: it counts, it doesn't end the season."* · TR (28, pencere kapandı) *"Yirmi sekiz. Yedek kulübesi kaldırıldı. Sahada yalnız sen varsın. Defter burada."* / EN *"Twenty-eight. The bench has been removed. It's just you on the field now. The notebook stays."*
+
+### 3.7 Atlama özeti satırları (`gap ≥ 2`; ≤ 14 kelime, ≤ 1 sayı, roast yok, kimlik yok; sistem sesi, koç değil)
+
+| Kova (doc 03 §2.3.3) | TR | EN |
+|---|---|---|
+| Hiçbir şey | 11 gün geçti. Hiçbir şey olmadı; bu da bir olay. | Eleven days passed. Nothing happened; that's an event too. |
+| İş rutini | 23 gün: işe gittin, geldin. Pamuk her sabah beşte uyandırdı. | Twenty-three days of commute. Biscuit's five a.m. alarm, every morning. |
+| Para akışı (eksi) | Maaş yattı, kira çıktı. Bakiye: eksi. | Pay landed, rent left. Balance: below zero. |
+| Para akışı (artı) | Kira günü iki kez geldi. İkisinde de ödedin. | Rent day came twice. You paid both times. |
+| Aile | Annen 4 kez aradı. Telefon masada kaldı. | Mom called four times. The phone stayed on the table. |
+| Mevsim | Bir kış geçti. Kombi bozuldu, tamir edildi, yine bozuldu. | A winter went by. The boiler broke, got fixed, broke again. |
+| 61+ | 91 gün. Domatesler bu yıl da olmadı. | Ninety-one days. The tomatoes didn't happen this year either. |
+| İlişki | Üç ay. Yağmur'la iki film, bir tartışma. | Three months. Two movies with Sam, one argument. |
+| lowJoy (boşluk kısa, "hiçbir şey" kovası kapalı) | Beş gün. Perdeler kapalıydı; kedi değildi. | Five days. The curtains stayed shut. The cat didn't. |
+
+Sayı daima gerçek sayaçtan gelir (`momCalls`, `rentDays`, `gap`); Durum şeridi değişiklikleri (maaş girdi, kira çıktı, borç başladı) özetin **altında** ikonla gösterilir, cümleye sıkıştırılmaz (D-067, doc 07).
+
+### 3.8 Maaş günü ve kira günü — Durum şeridi satırları ve `evt_kira_gunu` zorunlu günü
+
+**Gösterilen güne denk gelen vade (olay değil, satır):** TR *"Maaş yattı: 1.600."* · *"Kira çıktı: 500. Ev sahibi 'teşekkürler' yazmadı."* · *"Pamuk'un maması: 50. Pamuk yorum yapmadı."* · *"İlaç: 250. Ayın 20'si; takvim hatırladı, sen değil."* / EN *"Pay landed: 1,600."* · *"Rent out: 500. The landlord didn't say thanks."* · *"Biscuit's food: 50. Biscuit declined to comment."* · *"Pills: 250. The 20th; the calendar remembered, you didn't."*
+
+```jsonc
+// GÜN 212 · Perşembe, 5 Şubat 2032 (kira günü; bakiye < kira) · zorunlu olay, dueQueue öncelik 6 (forced), ötelenmez
+{ "id": "evt_kira_gunu", "v": 1, "type": "event", "tags": ["para","ev","kira_gunu"], "rarity": "common", "valence": -1, "intensity": 0.7, "universality": "universal",
+  "forced": true, "cooldownDays": { "self": 28 }, "pre": { "housing": ["roommate","renting","wide","mortgage"], "rentShortfall": true },
+  "intent": { "setup": "ayın 5'i, bakiye kiradan az", "mechanism": "akış durumu çarptı", "punch": "ev sahibi 'teşekkürler' yazmaz, 'hatırlatma' yazar", "lift": "yarısı da bir ödeme", "target": "decision" },
+  "dialog": [ { "speaker": "landlord", "avatar": "neutral", "tr": "Hatırlatma: bugün 5.", "en": "Reminder: it's the 5th." },
+              { "speaker": "roommate", "avatar": "shock", "tr": "KİRA. BUGÜN. KESİN Mİ YATIRDIN?", "en": "RENT. TODAY. SURE THING YOU SENT IT?", "when": { "housing": ["roommate"] }, "delayMs": 600 } ],
+  "tr": { "text": "Ayın 5'i. Kira 500, bakiye 320. Takvim senden önce uyanmış." }, "en": { "text": "The 5th. Rent 500, balance 320. The calendar woke up before you did." },
+  "choices": [ { "id": "yarim", "tr": "Yarısını yatırırım, kalanı 15'ine", "en": "Half now, the rest on the 15th", "pattern": "sabır" },
+               { "id": "anne", "tr": "Annemden isterim", "en": "I'll ask Mom", "pattern": "aileyeYaslanma", "requires": {"npc": {"mom": {"alive": true}}} },
+               { "id": "gormezden", "tr": "Görmedim", "en": "Didn't see it", "pattern": "kaçınma" } ],
+  "outcomes": {
+    "yarim":     { "effects": { "money": "-0.25", "flags": {"add": ["kira_gec"]}, "hidden": {"stress": 4}, "npc": [{"role": "landlord", "memory": "gec_odedi"}], "followUp": [{"eventId": "evt_kira_kalan", "delayDays": [10, 10], "forced": true}] },
+                   "tr": "Yarısı gitti. Ev sahibi: 'Tamam.' Tek kelime; faturası 15'inde.", "en": "Half sent. Landlord: 'Okay.' One word, invoiced on the 15th.",
+                   "coach": [ { "tr": "Yarım kira. Bakiye: 70. Antrenmanda buna 'set bitmeden bırakmak' deriz; en azından sete girdin.", "en": "Half the rent. Balance: 70. In training we call that quitting mid-set. At least you started the set.", "roast": true },
+                              { "tr": "15'i. Takvime.", "en": "The 15th. Calendar.", "roast": false, "lift": true } ] },
+    "anne":      { "effects": { "money": "+0.5", "meters": {"momPressure": 10}, "npc": [{"role": "mom", "memory": "kira_istedi"}], "bailoutCheck": true },
+                   "tr": "Annen gönderdi. Açıklama: 'yemek'. Kira 'yemek' olarak ödendi.", "en": "Mom sent it. Memo line: 'food.' Rent paid as 'food.'",
+                   "coach": [ { "tr": "Kira annenden. Anne Baskısı +10. Ev sahibi parayı aldı; annen hikâyeyi.", "en": "Rent, courtesy of Mom. Mom Pressure +10. The landlord got the money; Mom got the story.", "roast": true } ] },
+    "gormezden": { "effects": { "hidden": {"stress": 6}, "meters": {"cringe": 6}, "flags": {"add": ["kira_odenmedi"]}, "followUp": [{"eventId": "evt_tahliye_ihtari", "delayDays": [28, 32], "forced": true}] },
+                   "tr": "Görmedin. Ev sahibi gördü. Kart borcu başladı; sessizce.", "en": "You didn't see it. The landlord did. Card debt started. Quietly.",
+                   "coach": [ { "tr": "'Görmedim.' Borç: 180. Borç seni gördü. Ayın 5'i her ay gelir; bu bir tehdit değil, takvim.", "en": "'Didn't see it.' Debt: 180. The debt saw you. The 5th comes every month; that's not a threat, that's a calendar.", "roast": true } ] }
+  },
+  "wager": { "eligible": false, "reason": "zorunlu olay; adalet" }, "review": { "status": "curated", "legal": "ok", "funnyTr": 4, "funnyEn": 4 } }
+```
+
+### 3.9 Doğum günü kartı (yıl sınırı: YAŞLANIYORSUN → hazard zarı (görünmez) → Kısa Karne → Tek Hedef → "Bir Yıl Daha")
+
+**GÜN 143 · Cuma, 2 Mart 2029 · 21 yaş** — tek ekran, ≤ 8 sn okuma (D-020'nin kalan tek kuralı: Kısa Karne hızlı), tek düğme.
+
+| Blok | TR | EN |
+|---|---|---|
+| Geçiş (D-063) | **YAŞLANIYORSUN** → 21 | **YOU'RE AGING** → 21 |
+| Diyalog (Anne, ≤ 8 kelime, soru) | Anne: "Doğum günün kutlu olsun. Yedin mi?" | Mom: "Happy birthday. Did you eat?" |
+| Sen (cevap balonu, seçim) | Sen: "Yedim anne." / "Pasta sayılır mı?" | You: "I ate, Mom." / "Does cake count?" |
+| Kısa Karne (6 not, akıştan ve sayaçlardan) | Sağlık Orta (−3) · Keyif İyi (+5) · Kafa Orta · Para **Zayıf** (12 maaş − 12 kira − 365 gün: net −1.900) · İlişkiler Orta · Cesaret Pekiyi (4 risk) · Davranış Orta ("düğünde mikrofon") | Health C (−3) · Joy B (+5) · Smarts C · Money **F** (12 paydays − 12 rent days − 365 days: net −1,900) · Relationships C · Courage A (4 risks) · Conduct C ("took the mic at a wedding") |
+| Yılın Mottosu | "Niyet tam, bakiye yarım." | "Full intent, half a balance." |
+| Koç (≤ 2 balon; roast + lift) | "Yirmi bir. Gösterilen gün: 16. Kira günü 3 kez kapıyı çaldı, 2'sinde açtın. Oran %67; antrenmanda buna 'devam' deriz." — "Tek hedef. Bir kalem." | "Twenty-one. Days on record: sixteen. Rent day knocked three times; you answered twice. Sixty-seven percent; in training we call that 'still in.'" — "One goal. One pen." |
+| Tek Hedef | 3 öneri + "Hedefsiz yaşa" + tek dokunuş "Aynı hedef" | 3 suggestions + "No goal" + one-tap "Same goal" |
+| Düğme (yalnızca burada) | **Bir Yıl Daha** | **One More Year** |
+
+Doğum günü gösterilen gün bütçesine dahildir ve ötelenmez; kart kapanınca akış kaldığı yerden kendi kendine devam eder (D-066) — bir sonraki kart "Gün 144"tür, "Ertesi Gün" düğmesi yoktur. Hazard zarı bu kartın **arkasında**, kart çizilmeden önce atılır; zar ölümle sonuçlanırsa YAŞLANIYORSUN geçişi EKG'ye döner (doc 07) ve Karne yerine §3.2 gelir.
 
 ---
 
@@ -806,16 +1000,18 @@ Sahibin kuralı: oyun iki platformda **kusursuz** çalışır. Bu belgenin siste
 
 | Konu | iOS | Android | Bizim çözüm (02 kapsamı) |
 |---|---|---|---|
-| **Zaman kaynağı** | Duvar saati kullanıcı değiştirebilir; arka planda uygulama dondurulur | Aynı + bazı OEM'lerde saat/zaman dilimi agresif senkron; Doze modunda zamanlayıcılar ertelenir | Motor **gerçek saati hiç okumaz**; `advanceTime({months})` doc 05'ten payload gelir. Roast Raporu otomatik ilerlemesi `setTimeout` değil, `requestAnimationFrame`'den bağımsız **monoton** zamanlayıcı (`performance.now()` tabanlı) ile; arka plana giderse adım korunur, zamanlayıcı sıfırdan başlar |
+| **Zaman kaynağı** | Duvar saati kullanıcı değiştirebilir; arka planda uygulama dondurulur | Aynı + bazı OEM'lerde saat/zaman dilimi agresif senkron; Doze modunda zamanlayıcılar ertelenir | Motor **gerçek saati hiç okumaz**; `advanceTime({ days })` doc 05'ten payload gelir; gün akışı zamanlayıcısı (D-066 ▶/▶▶) UI'dadır ve `AppState` 'background'da **durur** (arka planda gün ilerlemez; dönüşte aynı gün, aynı kalan süre). Roast Raporu otomatik ilerlemesi `setTimeout` değil, `requestAnimationFrame`'den bağımsız **monoton** zamanlayıcı (`performance.now()` tabanlı) ile; arka plana giderse adım korunur, zamanlayıcı sıfırdan başlar |
 | **Sayı biçimlendirme (ICU)** | Sistem ICU tam; `Intl.NumberFormat` güvenilir | Hermes Intl, RN 0.70+ tam ama bazı düşük segment/Go cihazlarda locale verisi eksik; "1.204" (TR) ve "1,204" (EN) karışabilir | Tüm Para/sayı render'ı tek yardımcıdan (`fmtNumber(locale)`), i18next-icu üzerinden; CI'da iki platform için golden test: `1204 → "1.204" | "1,204"`, compact `1200000 → "1,2 Mn" | "1.2M"`; eksi işareti asla üretilmez (Borç/Debt sözcüğü) |
 | **Haptik** | Taptic Engine: Light/Medium/Heavy impact ve Success/Error notification ayrımı net | Birçok cihazda amplitüd kontrolü yok (API 26 altı ya da zayıf motor); `expo-haptics` sessizce basit titreşime düşer | Ölüm ekranı: **haptik yok** iki platformda (sessizlik kuralı); HAKSIZ ÇIKTIM Heavy iOS'ta, Android'de `impactAsync(Heavy)` desteklenmezse **atla** (uzun titreşim yasak); stat tik-up Light; eşik rozet-metresi Medium tek vuruş |
 | **Geri jesti / tuşu** | Kenardan kaydırma geri; Roast Raporu'nda yanlışlıkla çıkış riski | Donanım/gesture geri tuşu; Android 14+ predictive back | Ölüm akışında geri = **"sonraki adım"** (asla çıkış, asla başka ekran); iOS swipe-back `gestureEnabled:false`; Android `BackHandler` adımı ilerletir; predictive back kapatılır. "Yeni Müşteri" basılmadan hayat **zaten** commit edilmiştir, o yüzden çıkış veri kaybetmez |
-| **Kayıt dayanıklılığı** | Arka planda askıya alma; nadir kill | Düşük RAM'de agresif kill; bazı OEM'ler kapatılan uygulamayı yeniden başlatır | `LifeRecord` + `deathFlowStep` tek SQLite transaction'ında **ekran çizilmeden önce** yazılır; MMKV'de `currentLifeId` pointer'ı en son güncellenir; açılışta `deathFlowStep` varsa aynı adımdan devam; harness "yıl ortasında kill" snapshot testi iki platform jest-expo'da |
+| **Kayıt dayanıklılığı** | Arka planda askıya alma; nadir kill | Düşük RAM'de agresif kill; bazı OEM'ler kapatılan uygulamayı yeniden başlatır | `LifeRecord` + `deathFlowStep` tek SQLite transaction'ında **ekran çizilmeden önce** yazılır; MMKV'de `currentLifeId` pointer'ı en son güncellenir; açılışta `deathFlowStep` varsa aynı adımdan devam; her `CHOOSE` ve her `NEXT_DAY` sonrası `persist:'now'` (doc 10); harness "gün ortasında kill" (seçim sonrası, applyGap sonrası, doğum günü pulse sonrası / kart öncesi) snapshot testleri iki platform jest-expo'da |
 | **Mağaza derecelendirme** | Apple 16+: "sık olgun tema"; ölüm metni grafik olmamalı; "Realistic violence: none" | IARC 16 / Google "çocuklara yönelik değil"; "Health" politikası: sağlık tavsiyesi ya da tanı iddiası yok | Ölüm nedeni metinleri ≤ 12 kelime, kan/yara/yöntem sözcükleri lint BLOK; Sağlık statı oyun değeridir, tanı yok ("değerler", "bir şey çıktı"); "Gerçek hayatta yardım" ekranı (doc 08) iki platformda aynı, bölgeye göre statik hat tablosu; intihar sözcüğü hiçbir yerde |
 | **Yazı ölçekleme** | Dynamic Type AX5'e kadar; `allowFontScaling` | `fontScale` 2,0'a kadar; Samsung "çok büyük" | Roast Raporu sayıları ve rozet-metre pill'leri `maxFontSizeMultiplier=1.6`; sayı satırları tek satırda kalmazsa 2. satıra kırılır, hiçbir sayı kesilmez (AC-02-26) |
 | **Hareket azaltma** | Reduce Motion | Geliştirici seçenekleri "animasyon süresi 0", `isReduceMotionEnabled` | Roast Raporu otomatik ilerlemesi animasyon callback'ine değil zamanlayıcıya bağlı; animasyon 0 ise süreler aynen korunur (adımlar atlanmaz/yapışmaz) |
 | **Kesintiler** | Bildirim banner'ı, gelen arama (tam ekran değil) | Gelen arama tam ekran, Picture-in-Picture | Ölüm akışı `AppState` 'background' → zamanlayıcı durur; 'active' → aynı adım devam; kaçırılan adım yok |
-| **Performans** | A12+ bol | minSdk 24, 2 GB RAM, Hermes | Yıl adımı (pulse + hazard + eşikler) hedef ≤ 8 ms, tavan 16 ms düşük segmentte; hazard `Math.exp` tek çağrı; olay adaylığı doc 03'te; harness Node'da, cihazda profil Sprint 1 |
+| **Performans** | A12+ bol | minSdk 24, 2 GB RAM, Hermes | Gün adımı (`NEXT_DAY` = `applyGap` + `planNextDay`) hedef ≤ 8 ms, doğum günü pulse'ı (+ hazard + bütçe) ≤ 16 ms düşük segmentte; `applyGap` 365 günlük boşlukta bile tek döngü (`cashflow` gün döngüsü ≤ 1 ms / 100 gün); hazard `Math.exp` yılda tek çağrı; `NEXT_DAY` → ilk metin ≤ 300 ms (D-059); olay adaylığı doc 03'te; harness Node'da, cihazda profil Sprint 1 |
+| **Takvim / tarih biçimi (ICU date)** | `Intl.DateTimeFormat` tam; TR gün/ay adları sistemden | Hermes `Intl.DateTimeFormat` RN 0.70+; bazı Go cihazlarda TR ay adları eksik olabilir | Tarih render'ı tek yardımcıdan (`fmtDate(locale)`), i18next-icu `date` ile; yedek: uygulama içi gömülü TR/EN ay-gün adı tablosu (takvim kozmetik, locale verisi eksikse de doğru görünmeli); golden test *"Salı, 3 Mart 2026"* / *"Tuesday, March 3, 2026"* iki platformda; üst şerit saati **oyun** saatidir, cihaz saat dilimi okunmaz (AC-02-42) |
+| **Arka plan / Doze ve gün akışı** | Arka planda JS zamanlayıcıları askıya alınır | Doze/App Standby zamanlayıcıları erteler; bazı OEM'ler süreci öldürür | Akış zamanlayıcısı monoton (`performance.now()`) ve yalnızca 'active'te çalışır; arka plana giderken `pendingDayPlan` + kalan ms kaydedilir; dönüşte gün **sıçramaz** (D-066'nın "zaman kendi kendine akar"ı ekran açıkken geçerlidir; kapalıyken yokluk doc 05'in welcome-back'idir, `advanceTime({ days })`) |
 | **Paylaşım anı** | Share sheet | Share intent / Nearby | Ölüm ekranı **yakalanmaya güvenli**: reklam yok, kişisel veri yok, saat yok; kalıp kartı yalnızca `RoastReport` alanlarından (doc 07 render) |
 | **Yerel bildirim** | iOS 64 planlı bildirim limiti | Doze; OEM kısıtları | `lifeEnded` → `cancelAllScheduledNotificationsAsync()` iki platformda; yeni hayatta planlama doc 05 |
 | **Belleğe kalıcı ayar** | — | — | Hızlı Yaşa ve ses ayarı MMKV'de cihaz başına; hayata bağlı değil; iki platformda aynı anahtar |
@@ -840,6 +1036,9 @@ Sahibin kuralı: oyun iki platformda **kusursuz** çalışır. Bu belgenin siste
 | Kurum genellemesi (TCK 125/301 komşuluğu) | Ev sahibi, doktor, banka tekil kurgusal kişi/evrak; "bütün ev sahipleri/doktorlar" lint BLOK (doc 08 dedektörü) |
 | Askerlik (TCK 318) | Bu belgede askerlik alt-turunun yalnızca zaman kuralı var; "sakatlan" sözcüğü askerlik bağlamında BLOK (doc 08); hazard/neden tablolarında askerlik yok |
 | KVKK | Bu belgenin hiçbir sistemi gerçek veri okumaz; yaş/sağlık **karakterin** değerleridir; gerçek yokluk süresi doc 05'in alanı ve cihazda kalır |
+| **Takvim gerçek dünyaya bağlanmaz (D-050, D-061; Apple 1.1 "creepy", T9 siyasi okuma)** | `calendarDay` kozmetiktir: cihaz tarihi/saati/dilimi okunmaz (lint: motor paketinde `Date.now`/`new Date()` BLOK); takvimde **bayram, anma günü, seçim, gerçek tarihli olay, gerçek ay-sonu/asgari ücret/zam günü** yoktur; maaş günü "ayın 1'i" ve kira günü "ayın 5'i" kurgusal sabitlerdir, hiçbir gerçek yasal/kamu takvimine ("maaşlar 15'inde", "emekli maaşı tarihi") gönderme yapılmaz; hafta günü ve mevsim yalnızca içerik etiketi; atlama özeti gerçek tarihli olay taşıyamaz (doc 08 kural L02-07) |
+| **Roast dozu D-064 ile yükseldi, T9 çizgileri aynı** | Bu belgenin örneklerinde (§3) her sonuçta ≥ 1 roast; hepsi **karara ve sayıya** vurur (bakiye, kira günü sayısı, erteleme), kimliğe/bedene/kökene değil; lowJoy'da roast 0 (D-052) D-064'ün tek istisnası ve bu belgede motor kuralıdır (§2.4.7), yazar tercihi değil |
+| **Kira/ev sahibi mizahı (TCK 125, "bütün ev sahipleri" genellemesi)** | Ev sahibi tekil kurgusal NPC'dir ("Evladım gibisin"), isim/semt/gerçek kira rakamı yok; kira zammı mutlak Para; "ev sahipleri hep…" tipi genelleme lint BLOK; tahliye ihtarı evrak kartı kurgusal antetli, gerçek kanun maddesi/kurum adı yok |
 
 ### 5.2 Bilinçli olarak tasarımdan çıkarılan en cazip 5 ihlal
 
@@ -862,9 +1061,15 @@ Ayrıca kapatılanlar: "Hayalet Anne Baskısı" (anne ölümünden sonra anlatı
 | Ölüm → yeni hayat (2 dk içinde) | ≥ %65 (MVP kapısı ≥ %60) | D-016 |
 | Roast Raporu tamamlanma (tümü atlanmadı) | ≥ %60 | yerel telemetri |
 | Roast kalıp kartı paylaşımı / ölüm | ≥ %3 | doc 07 share export |
-| "Bir Yıl Daha" / karne | ≥ %70 | 00 |
-| Yıl süresi medyanı / p90 | 90 sn / ≤ 120 sn (26–35 bandı) | cihaz telemetri |
-| Ömür süresi medyanı (serbest / Hızlı Yaşa) | 55–75 dk / 40–55 dk | — |
+| "Bir Yıl Daha" / doğum günü Karnesi | ≥ %70 | 00 |
+| **Gösterilen gün süresi** medyanı / p90 (▶, karar dahil) | 12 sn / ≤ 20 sn | cihaz telemetri (`NEXT_DAY` → `CHOOSE` aralığı) |
+| Atlama özeti ekranda kalma p50 | 1,5 sn (Hızlı Yaşa 1,2) | cihaz telemetri |
+| **Oturum başına gösterilen gün** medyanı | 15–25 (hedef 20) | `sessionDayIndex` |
+| Oturum medyanı (dk) | ≥ 12 (00 §2.2) | — |
+| **Ömür gösterilen gün toplamı** medyanı (serbest / Hızlı Yaşa 36+) | 450–600 / 350–420 | `LifeRecord.shownDays` |
+| Ömür süresi medyanı (serbest / Hızlı Yaşa) | 90–120 dk / 70–80 dk | — |
+| Kira günü olayı / hayat (gerçek oyuncu) | medyan 2–6; ≥ 10 ise ekonomi tuning uyarısı | `yearStats.rentEvents` toplamı |
+| "Ertesi Gün" düğmesi arayan oyuncu (RITE) | 0 / 5 ("zaman akıyor" fark edilir) | playtest |
 | İlk ölümde yaş medyanı (gerçek oyuncu) | 68–80 | sim–gerçek sapması ≤ %30 |
 | Fizyoterapi teklif → kabul | %25–45 (ödül daima verilir) | doc 06 |
 | lowJoy yılında "Gerçek hayatta yardım" ekranı açılma | izlenir, hedef yok (şikâyet 0) | doc 08 |
@@ -877,17 +1082,26 @@ Ayrıca kapatılanlar: "Hayalet Anne Baskısı" (anne ölümünden sonra anlatı
 4. **Koruma penceresi:** 18–27 negatif efekt çarpanı birim testi (18: 0,5; 23: 0,75; 28: 1,0); bailout ≤ 1 ve yalnızca pencerede; 25 altı `death` dönüşümü.
 5. **Eşik olayları:** Ego/Cringe/Anne geçişleri tam bir kez; anne öldükten sonra `momPressure === null` kalır.
 6. **lowJoy:** Keyif < 25 yıllarında roast satırı 0, ≥ 1 çıkış seçeneği.
-7. **Determinizm:** aynı `seed+contentHash` → aynı ölüm yaşı, neden, para serisi (snapshot); yıl ortasında save/load → aynı sonuç.
+7. **Determinizm:** aynı `seed+contentHash` → aynı ölüm yaşı, neden, para serisi, gün dizisi (snapshot); gün ortasında, `applyGap` öncesi/sonrası ve doğum günü pulse'ı sonrası save/load → aynı sonuç, aynı atlama özeti satırı.
 8. **Ölüm akışı zamanlaması:** otomatik ilerleme toplamı ≤ 35 sn (Normal), ≤ 38 sn (Acımasız + Kronik); `AdService` çağrısı 0.
 9. **Dead content:** hiç tetiklenmeyen hastalık/ölüm/bailout olayı raporu.
 10. **Invariant'lar:** `health ∈ [0,100]`, `joy ≥ 5`, drift tek başına `health < 5` yapmaz, `smarts ≤ 70` iken `joy < 30`, Para görüntüsünde eksi yok.
+11. **Gün bütçesi (D-061):** bant başına gösterilen gün/yıl medyanları 15 / 10 / 6,5 / 4 (±1); hiçbir yıl bant maksimumu + 2'yi aşmaz; doğum günü kartı her yılda tam 1 ve ötelenmemiş.
+12. **Ömür uzunluğu:** 18–ölüm gösterilen gün toplamı p10–p90 450–600 (serbest), 350–420 (Hızlı Yaşa 36+); 12 sn/gün + Karne 8 sn + Mola 90 sn/oturum çapasıyla dakika tahmini 90–120 / 70–80.
+13. **Pasif güncelleme eşdeğerliği:** her hayatta doğum günü arası `Σ applyGap` drift/decay/metre toplamı yıllık sabite eşit (±366/365); Keyif çekimi 365 günlük toplamı tek adım %30 ile ±%2.
+14. **Akış = yıllık toplam:** her takvim yılında maaş günü 12, kira günü 12, kedi 12, sağlık gideri 12 (45+); doğum günü bakiyesi, aynı aksiyon dizisiyle yıllık-toplam modelinden ±%2 içinde (§2.3.8 arketip eğrileri korunur).
+15. **Zar ve olay yerleşimi:** `rng('hazard')` tüketimi = (ölüm yaşı − 18) + advanceTime doğum günleri; boşlukta eşik olayı 0, ölüm 0, iddia 0, sürpriz 0; boşlukta geçilen eşik sonraki gösterilen günde tam 1 olay.
+16. **Kira günü olayı:** `evt_kira_gunu` yalnızca `bakiye < rent` kira günlerinde, ayda ≤ 1, ötelenme ≤ 1 gösterilen gün; hayat başına medyan 2–6; bakiye yeterliyken 0.
+17. **D-067 kalıcı iz:** her `CHOOSE` sonrası `status`/stat/flag/npc-memory/money alanlarından ≥ 1'i değişmiş (%100); işe giriş sonrası ilk maaş günü maaş akar, işten çıkış sonrası akmaz (birim).
+18. **Oturum simülasyonu:** persona 20 gösterilen günde "Bugünlük yeter" işaretler; pencere başına 1–3 doğum günü (bant ortalaması), en ağır zarf açık-çözümsüz, oturum sonu bir gün kartının ortasında **değil**.
+19. **Hastalık/son evre arkları:** ilk kart doğum gününden 30–90 takvim günü sonra; son evre 2 gösterilen gün, ölüm ikinci kartta, ark sırasında hazard zarı 0.
 
 ### 6.3 Numaralı kabul kriterleri (sprint planı için)
 
 | AC | Kriter | Doğrulama |
 |---|---|---|
-| **AC-02-01** | Beat bütçesi yaş bandına göre `beatBudget()` tablosunu uygular; 10.000 hayatta bant medyanları 3,5 / 3 / 2,5 / 2 / 1,5 (±0,3) | harness |
-| **AC-02-02** | Serbest modda 18–75 toplam beat 130–155; yıl süresi 26–35 bandında p50 85–95 sn, p90 ≤ 120 sn (cihaz) | harness + telemetri |
+| **AC-02-01** | *(v1.1)* Gösterilen gün bütçesi yaş bandına göre `dayBudget()` tablosunu uygular (12–18 / 8–12 / 5–8 / 3–5, tavan bant maks. + 2); 10.000 hayatta bant medyanları 15 / 10 / 6,5 / 4 (±1); doğum günü kartı her yılda tam 1 ve bütçeye dahil | harness |
+| **AC-02-02** | *(v1.1)* Serbest modda 18–ölüm toplam gösterilen gün p10–p90 450–600 (Hızlı Yaşa 36+: 350–420); gösterilen gün süresi (▶) p50 10–14 sn, p90 ≤ 20 sn; ömür 90–120 dk (cihaz) | harness + telemetri |
 | **AC-02-03** | Medyan ölüm yaşı 72–78 (tüm personalar, 10.000 hayat) | harness |
 | **AC-02-04** | p05 ≥ 42, p10 ≥ 50, p90 ≤ 92, p95 ≤ 96; hiçbir hayat 100'ü geçmez | harness |
 | **AC-02-05** | 28'den önce ölüm ≤ %2; 25'ten önce senaryo ölümü 0 (motor `death` → yaralanma dönüşümü) | harness + birim |
@@ -902,18 +1116,32 @@ Ayrıca kapatılanlar: "Hayalet Anne Baskısı" (anne ölümünden sonra anlatı
 | **AC-02-14** | Her ölümde `unlocks.length ≥ 1` (Yedek Kulübesi pity dahil) | harness |
 | **AC-02-15** | `highestCringeEvent` yalnızca ≥ 8 delta'lı bir Cringe olayı varsa yazılır; yoksa `undefined`, yeni hayatta hiçbir ceza yok | birim |
 | **AC-02-16** | `offer:physio` yalnızca `healthCritical && age ≥ 28 && !physioUsed` iken, ömürde ≤ 1, `deathFlow`'da hiç; kabulde Sağlık +15 ve o yıl hazard zarı atlanır | birim + harness |
-| **AC-02-17** | Keyif < 25 → `lowJoy`; o yılın koç çıktısında roast 0; ≥ 1 çıkış seçeneği; ≥ 35'te kapanır | harness + lint |
+| **AC-02-17** | *(v1.1 metin)* Keyif < 25 → `lowJoy`; lowJoy açıkken gün kartı koç çıktısında ve atlama özetinde roast 0 (D-064'ün tek istisnası); her 3 gösterilen günlük pencerede ≥ 1 çıkış seçeneği; ≥ 35'te kapanır | harness + lint |
 | **AC-02-18** | Ego/Cringe/Anne eşik geçiş olayları her geçişte tam 1 kez; anne öldükten sonra `momPressure` `null` kalır ve HUD'da gizlenir | birim |
 | **AC-02-19** | Şans'ın `p` üzerindeki etkisi ±%10 ile sınırlı; İddia fişinde ve "Oranı göster"de yazılan oran `pEtkin`'e eşit | birim |
-| **AC-02-20** | Stres > 70 → Sağlık −2/yıl, > 85 → −4/yıl uygulanır; Stres sayı olarak hiçbir UI yüzeyinde görünmez | birim + UI grep |
-| **AC-02-21** | Aynı `seed+contentHash` → aynı ölüm yaşı/nedeni/para serisi; yıl ortasında save/load sonucu değiştirmez | snapshot |
+| **AC-02-20** | *(v1.1)* Stres > 70 → Sağlık −2/yıl, > 85 → −4/yıl `applyGap` ile `gap/365` oranında uygulanır (doğum günü arası toplam −2 / −4, ±%1); Stres sayı olarak hiçbir UI yüzeyinde ve atlama özetinde görünmez | birim + harness + UI grep |
+| **AC-02-21** | *(v1.1)* Aynı `seed+contentHash` → aynı ölüm yaşı/nedeni/para serisi/gün dizisi/atlama özeti; gün ortasında, boşluk öncesi/sonrası ve doğum günü pulse'ı sonrası save/load sonucu değiştirmez | snapshot |
 | **AC-02-22** | 02 alanı metinlerinde (iki locale) para birimi simgesi/adı, "enflasyon/inflation", "asgari/minimum wage", oran olarak faiz 0 eşleşme | lint |
 | **AC-02-23** | `DecadeReview` şeması kimlik alanı kabul etmez (tsc + zod); `kondisyonPoints` doc 05 deposuna yazılır | tip + entegrasyon |
 | **AC-02-24** | Drift tek başına Sağlık'ı 5'in altına indirmez; Keyif ≥ 5; Keyif < 30 iken Kafa ≤ 70 | harness invariant |
 | **AC-02-25** | `applyDamage` 18'de ×0,5, 23'te ×0,75, 28'de ×1,0; pozitif efektlere dokunmaz | birim |
-| **AC-02-26** | Yıl pulse sırası sabit (yaş → drift → gelir/gider → faiz → metreler → beat'ler → eşikler → bailout → hastalık → healthCritical → hazard → karne); senaryo ölümü yılı anında bitirir | birim + snapshot |
+| **AC-02-26** | *(v1.1)* Doğum günü pulse sırası sabit (yaş → yearsWorked → eşik kuyruğu doğrulama → bailout/spiral → hastalık zarı → healthCritical → Fizyoterapi kuyruğu → son evre → hazard zarı → yearStats sıfırla → yıl bütçesi → report_card); drift, gelir/gider, borç büyümesi ve metre tahakkuku pulse'ta **değil** `applyGap`'te; senaryo ölümü günü anında bitirir (kalan diyalog ve koç balonu oynanmaz) | birim + snapshot |
 | **AC-02-27** | `LifeRecord` ve `deathFlowStep` ekran çiziminden önce tek transaction'da yazılır; kill-restart testi aynı adımdan devam eder (iOS sim + Android emu) | jest-expo + e2e |
 | **AC-02-28** | Roast Raporu sayı satırları `fontScale` 2,0'da kesilmez; ICU gruplama iki platformda locale'e uygun ("1.204" / "1,204") | golden test |
+| **AC-02-29** | *(v1.1)* Hazard zarı yalnızca doğum gününde: hayat boyunca `rng('hazard')` tüketimi = (ölüm yaşı − 18) + `advanceTime` içindeki doğum günleri; boşlukta ve gün kartlarında 0; Gompertz sabitleri (`a`, `b`, `k`) ve ölüm dağılımı (AC-02-03..06) v1.0 ile aynı | harness + birim |
+| **AC-02-30** | *(v1.1)* Maaş ayın 1'i, kira ayın 5'i, kedi ayın 10'u, sağlık gideri ayın 20'si: her takvim yılında her biri tam 12 kez (sağlık gideri 45+); boşluğa düşen vadeler `applyGap.cashflow` ile, gösterilen güne düşenler kart öncesi uygulanır; yıllık toplam = 12 × aylık (±0) | harness + birim |
+| **AC-02-31** | *(v1.1)* `evt_kira_gunu` yalnızca kira gününde `bakiye < rent` iken, ayda ≤ 1, sonraki gösterilen günde ve en fazla 1 gün ötelenerek gelir; Stres +8 aynı anda; bakiye yeterliyken olay 0, yalnızca Durum şeridi satırı/özet; hayat başına medyan 2–6 | harness + birim |
+| **AC-02-32** | *(v1.1)* Günlük küçük gider her takvim günü düşer ((temel geçim + yaşam tarzı)/30); doğum günü arası toplamı yıllık tabloyla ±%1; gösterilen günde tek tek görünmez, Durum şeridi "günlük ≈ N" ve özet toplamı taşır | birim + UI |
+| **AC-02-33** | *(v1.1)* Doğum günü arası `Σ applyGap` drift/decay toplamı yıllık sabite eşit (artık yıl 366/365 toleransı); üstel sabitler (`0,70^(gap/365)`, `0,85^(gap/365)`, `1,18^(gap/365)`) 365 gün toplamında tek adımla ±%2; taban/tavan her boşlukta uygulanır | harness invariant |
+| **AC-02-34** | *(v1.1)* Boşlukta eşik olayı, ölüm, hazard, iddia, sürpriz tetiklenmez; boşlukta geçilen Ego/Cringe/Anne eşiği sonraki gösterilen günde tam 1 kez olay olur; Sağlık ≤ 0 boşlukta ölüm değil son evre arkı planlar | harness + birim |
+| **AC-02-35** | *(v1.1)* Atlama özeti: ≤ 14 kelime, ≤ 1 rakamla yazılı sayı (gerçek sayaçtan), roast 0, kimlik 0, gerçek tarihli olay 0; `rng('director')` ile deterministik (save/load aynı satır); ekranda 1,5 sn (Hızlı Yaşa 1,2) | lint + snapshot + UI |
+| **AC-02-36** | *(v1.1)* Oturum simülasyonu: 20 gösterilen günlük pencerede 1–3 doğum günü; oturum sonu işareti gün kartı ortasında değil; `sessionDayIndex` save/load'da korunur; Mola + 20 gün + Karne(ler) ≈ 12–15 dk | harness + telemetri |
+| **AC-02-37** | *(v1.1)* `NEXT_DAY` → ilk metin ≤ 300 ms; gün adımı ≤ 8 ms, doğum günü pulse'ı ≤ 16 ms, 365 günlük `applyGap` ≤ 4 ms min-spec Android'de; akış zamanlayıcısı motor paketinde yok (`setTimeout`/`Date` lint BLOK) | cihaz profili + lint |
+| **AC-02-38** | *(v1.1)* Karne yalnızca doğum günü kartında; "Bir Yıl Daha" düğmesi yalnızca orada; başka hiçbir günde "Ertesi Gün"/"Bir Yıl Daha" düğmesi render edilmez (D-066); doğum günü kartı ötelenmez (bütçe tükenince boşluk uzar, kart yine gelir) | UI snapshot + harness |
+| **AC-02-39** | *(v1.1, D-067)* Her `CHOOSE` sonrası `status`/stat/flag/npc-memory/money alanlarından ≥ 1'i değişir (%100); işe giriş → ilk maaş günü akış başlar, çıkış → kesilir; kira zammı `status.home.rent`'i kalıcı artırır; Durum şeridi akıştan türer, akış şeritten | harness + birim |
+| **AC-02-40** | *(v1.1)* Keyif çekimi `Keyif += (1 − 0,70^(gap/365))·(hedef − Keyif)`; `keyifHedef` her boşlukta güncel Para ile hesaplanır (maaş günü sonrası ↑, kira günü sonrası ↓ ay içi dalgalanma harness'ta görünür); Keyif tabanı 5 korunur | birim + harness |
+| **AC-02-41** | *(v1.1)* `advanceTime({ days })` hayatı dondurmaz (`applyGap` tam uygulanır: drift, akış, borç, Anne Baskısı); aradaki doğum günleri kartsız pulse, zar sonucu `pendingDeathRisk`; Sakatlık Raporu'nda ölüm 0; dönüşte ilk gösterilen gün normal akışta çözer | birim + e2e |
+| **AC-02-42** | *(v1.1)* Tarih render'ı ICU `date` ile iki locale golden ("Salı, 3 Mart 2026" / "Tuesday, March 3, 2026"), iki platformda, locale verisi eksik cihazda gömülü tabloyla aynı çıktı; motor paketinde `Date.now`/`new Date()` 0 (lint); takvimde gerçek bayram/anma/seçim/gerçek tarihli olay 0 | golden + lint + içerik tarama |
 
 ---
 
@@ -930,13 +1158,22 @@ Ayrıca kapatılanlar: "Hayalet Anne Baskısı" (anne ölümünden sonra anlatı
 7. **Borç büyümesi ×1,18** gerçek dünyada "faiz" okunur mu? Metinde oran yok; yine de T9 "siyasi okuma" lensiyle avukat incelemesi (doc 08).
 8. **"Çocukla devam" (Aile Bileti)** 1.0 sonrası ayrı karar (D-056); bu belgenin `LifeRecord`'u o gün için `heirId?` alanı rezerve eder, kullanmaz.
 9. **Yaş 100 tavanı** "Yüz. Yeter." satırıyla gelir; 95+ oyuncu oranı %4 — mizahı mı, sabrı mı test ediyoruz?
+10. **(v1.1) 12 sn/gün çapası** doğru mu? 6 sn akış + 6 sn okuma/karar varsayımı; diyalog balonlu kartlar (3 balon × daktilo) 15 sn'ye çıkabilir → ömür 120 dk'yı aşar. Ölçüm: RITE'ta `NEXT_DAY`→`CHOOSE` aralığı; aşarsa bant medyanları 1'er düşer (`dayBudget` tuning), bant aralıkları (D-061) değişmez.
+11. **(v1.1) Kira günü olayı sıklığı:** medyan 2–6/hayat hedefi tahmindir; `risky` persona 10+ üretirse "gergin" değil "tekrarlayan" okunur. Alternatif: ikinci ve sonraki kira günü olayları `cooldownDays.self` 56 (iki ayda bir) ve ev sahibi anısı artan tonda.
+12. **(v1.1) Ay içi Keyif dalgalanması** (maaş günü ↑ / kira günü ↓) harness'ta görünür ama oyuncu fark eder mi? Fark etmezse mekanik sessiz kalır (zarar yok); fark ederse "ayın 1'i" koç satırı (§2.3.2) ayda ≤ 1 yeter mi?
+13. **(v1.1) Boşlukta eşik olayı ertelemesi** (Anne Baskısı 90 gün boyunca 75'i geçmiş ama ANNE ARIYOR ilk gösterilen güne düşüyor) "annen 90 gün beklemiş" okunur mu? Atlama özeti kovası "Annen 4 kez aradı" bunu kapatır; yetmezse ANNE ARIYOR boşluğu **böler** (gap kırpılır, doc 03 §2.3.8 ile karar).
+14. **(v1.1) Yıllık → günlük sabit dönüşümünde** yuvarlama: `−0,0011/gün` gibi değerler float; 32-bit tam sayı aritmetiği (doc 03 §2.11 kural 5) için drift'i 1/10.000 ölçekli tam sayı olarak tutmak gerekir (`healthMilli`); doc 10 ile karar.
 
 ### 7.2 Riskler
 
 | Risk | Belirti | Azaltma |
 |---|---|---|
 | Erken ölüm hissi (oyuncu 40'larında ölür ve "oyun beni öldürdü" der) | İlk ölüm → yeni hayat < %50 | Koruma penceresi; senaryo ölümü 25 altı kapalı; son evre arkı (ölüm görünür); Fizyoterapi teklifi |
-| Geç oyun sıkıcı (para yeter, sağlık yavaş düşer, beat 1–2) | 50+ yaşta oturum terk oranı yüksek | Sağlık gideri, emekli geliri, hastalık arkları Para ister; 60+ beat'leri "küçük ama kesin" sürpriz; Hızlı Yaşa |
+| Geç oyun sıkıcı (para yeter, sağlık yavaş düşer, yılda 3–5 gün) | 50+ yaşta oturum terk oranı yüksek | Sağlık gideri (ayın 20'si), emekli geliri, hastalık arkları Para ister; 61+ günleri "küçük ama kesin" sürpriz; boşluklar uzadıkça atlama özeti mevsim/torun kovaları; Hızlı Yaşa |
+| **(v1.1) Boşluk hissi:** 61+'da 91 günlük atlamalar "oyun beni atlıyor" okunur | 60+ yaşta "Bir Yıl Daha" < %60 | Atlama özeti tek satırdır ama **bir şey söyler** (sayı, NPC, mevsim); ▶▶ ve Hızlı Yaşa oyuncu seçimidir, zorlanmaz; 61+ bant minimumu 3 gün hiçbir yıl aşağı çekilmez |
+| **(v1.1) Gün sayısı şişmesi:** düzeltmeler (+1 Stres, +1 zincir, ANNE ARIYOR bütçe dışı, ark günleri) ömrü 600 günün üstüne iter | harness #12 p90 > 600 | Tavan bant maks. + 2 (`dayBudget`); ANNE ARIYOR yılda ≤ 2; ark günleri yılda ≤ 2 (taşar); 36+ Hızlı Yaşa varsayılan |
+| **(v1.1) Akış modeli bug yüzeyi:** 4 vade günü + günlük gider + borç günlük bileşik → yıllık toplam sapması | harness #14 > ±%2 | `cashflow` tek döngü, tek doğruluk kaynağı; §2.3.8 arketip eğrileri golden; vade günleri `DUE` sabiti, içerikte sabit kodlanmaz |
+| **(v1.1) "Zaman akıyor" kaygısı:** oyuncu karar vermeden gün geçecek sanır | RITE'ta ⏸'e basma oranı yüksek | Zaman yalnızca karar beklenmezken akar (D-066); seçenekler ekrandayken ilerleme çubuğu durur ve bunu görsel olarak söyler (doc 07); hiçbir gün oyuncu adına seçim yapmaz (Otomatik mod hariç, o da oyuncu açar) |
 | Rozet-metre fazlalığı (8 görünür metre) | Playtest'te "ekran kalabalık" | Yalnızca eşikte büyür; HUD'da ikon + küçük sayı; A/B: Anne Baskısı yalnızca ≥ 20'de görünür |
 | Harness–gerçek sapması | sim medyan 74, gerçek 66 | Persona güncellemesi; drift ayarı; dev dashboard slider'ları |
 | Para sayılarının "gerçek para" okunması (1.080.000) | Yorumlarda "bu kadar para kim kazanıyor" | Ölçek ×1.000 yerine ×100 A/B (Sprint 1 karar); compact gösterim; koç kişisel ölçekte |
@@ -951,12 +1188,18 @@ Ayrıca kapatılanlar: "Hayalet Anne Baskısı" (anne ölümünden sonra anlatı
 | **D-ÖNERİ-02-03** | Geç oyun spiral çıkışı: Para < 0 ∧ Sağlık < 20 üst üste 3 yıl, yaş ≥ 28 → 1 kez anlatısal Para düzeltmesi (+6..+12), Sağlık'a dokunmaz, satılmaz | T11 3d pity; 3 yıl seçeneksiz durum "bir yıl daha"yı öldürür; ölümü ertelemez |
 | **D-ÖNERİ-02-04** | Anne ölünce Anne Baskısı dondurulur ve gizlenir; "hayalet baskı" yok; EN adı **Mom Pressure** | Ahiret okuması riski; sessizlik kuralı; A2'nin EN satırı |
 | **D-ÖNERİ-02-05** | Senaryo ölümü kanalı: yaş < 25 kapalı (yaralanmaya dönüşür), 25–28 `p × (1 − protection)`, tek sonuç p ≤ 0,05, rarity ≥ rare, en az bir ölümsüz seçenek, toplam pay ≤ %15 | ≤ %2 erken ölüm hedefi; ölüm daima seçilen riskin kuyruğu |
-| **D-ÖNERİ-02-06** | `healthCritical = Sağlık < 15 ∨ hazard(yıl+1) ≥ 0,20`; Fizyoterapi etkisi Sağlık +15 + o yılın hazard zarı atlanır; yaş ≥ 28; ömürde 1 | D-039'un "sağlık-kritik yıl"ını sayısallaştırır; doc 06 yerleşimi değişmez |
+| **D-ÖNERİ-02-06** | `healthCritical = Sağlık < 15 ∨ hazard(yaş, Sağlık) ≥ 0,20`, doğum günü pulse'ında; Fizyoterapi etkisi Sağlık +15 + bir sonraki doğum gününün hazard zarı atlanır (v1.1: D-ÖNERİ-02-16 ile uyumlu); yaş ≥ 28; ömürde 1 | D-039'un "sağlık-kritik yıl"ını sayısallaştırır; doc 06 yerleşimi değişmez |
 | **D-ÖNERİ-02-07** | Sağlık ≤ 0 anında ölüm değil, 1 yıllık "son evre" arkı → `channel='health'` ölümü (Fizyoterapi yoksa) | Sürpriz sıfır ölümü yok; oyuncu ölümü görür; Roast Raporu'na hazırlanır |
-| **D-ÖNERİ-02-08** | Beat bütçesi bantları 3,5 / 3 / 2,5 / 2 / 1,5 / 1 (18–25 / 26–35 / 36–50 / 51–65 / 66–75 / 76+); Stres > 70 +1, tavan 4; Hızlı Yaşa = 1 beat, arc/zarf korunur | D-020'nin 90/120 sn'si ve 00 §4.1 "55–75 dk" aynı anda ancak böyle tutuluyor |
+| ~~**D-ÖNERİ-02-08**~~ | ~~Beat bütçesi bantları 3,5 / 3 / 2,5 / 2 / 1,5 / 1; Stres > 70 +1, tavan 4; Hızlı Yaşa = 1 beat~~ **Geçersiz (v1.1): D-061 ile yıl=tur modeli kalktı; yerine D-ÖNERİ-02-13.** | — |
 | **D-ÖNERİ-02-09** | Sürpriz gelir listesi sabit (dayı, kıdem, düğün takısı, unutulmuş hesap, uzak akraba mirası, kripto ×2); piyango/bahis/şans oyunu yok | T9 #4, 16+ derecelendirme, Reklam Kurulu |
 | **D-ÖNERİ-02-10** | Ölüm nedeni yasaklı sınıf listesi (intihar, felaket, silah, gaz, toplu taşıma kazası, boğulma, cinayet, madde, gerçek tanı/kurum, gerçek istatistik) doc 08 lint'ine **BLOK** olarak eklenir; absürt kuyruk yalnızca onaylı listeden | "Gerçek acı" filtresi; Apple 1.1.7 |
 | **D-ÖNERİ-02-11** | Gompertz sabitleri `a = 0,00030`, `b = ln2/8`, `k = 1,0`, drift tablosu §2.2.1; yaş 100 sert tavan; harness medyan hedefi 72–78 (D-044 bandı 72–80'in içinde) | Drift'li gerçek hayatlarda T4'ün 0,00043'ü medyanı 69'a çekiyordu; kalibrasyon §2.7 |
-| **D-ÖNERİ-02-12** | Hazard zarı welcome-back (`advanceTime`) içinde atılır ama `pendingDeathRisk` olarak rafa konur; Sakatlık Raporu'nda ölüm asla gerçekleşmez | D-031 "geri dönülemez kayıp yok" + yokluğun ölüm riskini silmemesi |
+| **D-ÖNERİ-02-12** | Hazard zarı welcome-back (`advanceTime({ days })`) içindeki kartsız doğum günlerinde atılır ama `pendingDeathRisk` olarak rafa konur; yokluk hayatı dondurmaz (`applyGap` tam uygulanır); Sakatlık Raporu'nda ölüm asla gerçekleşmez | D-031 "geri dönülemez kayıp yok" + yokluğun ölüm riskini silmemesi; D-067 akış yoklukta da sürer |
+| **D-ÖNERİ-02-13** *(v1.1)* | Gösterilen gün bütçesi `dayBudget()`: doğum gününde bant aralığından düzgün çekim (12–18 / 8–12 / 5–8 / 3–5), düzeltmeler Stres > 70 +1, aktif zincir +1, tavan bant maks. + 2; ANNE ARIYOR bütçe dışı; ark günleri bütçeden (yılda ≤ 2, taşar); Hızlı Yaşa (36+ MVP varsayılan, oyuncu ayarı) = bant minimumu, hikâye günleri korunur; doğum günü kartı bütçeye dahil ve ötelenmez | D-061'in sayısal şartnamesi; D-ÖNERİ-02-08'in yerine; harness §6.2 #11–12 |
+| **D-ÖNERİ-02-14** *(v1.1)* | **Pasif güncelleme kuralı:** bu belgedeki her yıllık sabit boşlukta `gap/365` oranıyla (üstel olanlar `^(gap/365)`) uygulanır, gösterilen gün sayısıyla **değil**; olay efektleri gösterilen günde anında; boşlukta eşik olayı / ölüm / hazard / iddia / sürpriz **yok**, boşlukta geçilen eşik sonraki gösterilen güne düşer; yıl toplamı bant bütçesinden bağımsız | Gün bütçesi değişince denge değişmesin (AC-02-33); boşluk "oyun benim yerime oynadı" hissi vermesin |
+| **D-ÖNERİ-02-15** *(v1.1, D-067)* | **Akış takvimi:** maaş ayın 1'i (`status.job.monthly`; emekli aynı gün), kira ayın 5'i (`status.home.rent`), kedi ayın 10'u (0,05), sağlık gideri ayın 20'si (45+), günlük küçük gider her takvim günü ((temel geçim + yaşam tarzı)/30); kira gününde `bakiye < rent` → Stres +8 (ayda ≤ 1) + `evt_kira_gunu` zorunlu olay sonraki gösterilen günde (bailout teklifi bu olayın içinden); kart borcu günlük bileşik ×1,18^(1/365); Karne Para notu akıştan sayılır; doc 03 şemasına `pre.dayOfMonth`, `pre.rentShortfall`, `forced`, `effects.status.*`, `effects.bailoutCheck` eklenir | D-067 "para akışla değişir"; §2.3.8 eğrileri korunur (harness #14); kira günü oyunun gergin ama adil ritmi |
+| **D-ÖNERİ-02-16** *(v1.1)* | **Hazard zarı ve Karne doğum gününde:** yılda tam bir `rng('hazard')` zarı, yalnızca `birthdayPulse`'ta, Karne'den önce; Gompertz sabitleri, koruma penceresi 18–28 ve ölüm dağılımı hedefleri değişmez; `healthCritical` pulse'ta hesaplanır, Fizyoterapi teklifi sonraki gösterilen güne düşer ve kabul **bir sonraki** doğum gününün zarını atlatır; son evre arkı sırasında zar yok | D-061 "doğum günü = yıl sınırı"; AC-02-03..06 ve AC-02-29 aynı anda tutulur |
+| **D-ÖNERİ-02-17** *(v1.1)* | **Arklar takvim günüyle:** hastalık arkı ilk kartı doğum gününden 30–90 takvim günü sonra, 2–3 gösterilen gün (`delayDays` 20–60); son evre arkı 2 gösterilen gün (60–180 gün ara), ölüm ikinci kartta; ertelenen belirti 365–730 gün sonra ×1,5; "ay" alt-turu yoktur | §2.1.6; doc 03 `chain.next.delayDays`; oyuncu ölümü görür, yıl sayacı yalnızca doğum gününde |
+| **D-ÖNERİ-02-18** *(v1.1, D-066)* | **Gün süresi çapası ve hız:** ▶ 1 gün ≈ 6 sn akış, gösterilen gün toplam ≈ 12 sn (harness dakika tahmini); ▶▶ ≈ 7, Otomatik ≈ 3; motor hızı bilmez (`NEXT_DAY` aksiyonu, UI zamanlayıcısı, arka planda durur); Otomatik modda koç seçimi deftere "koç seçti" olarak yazılır ve o günlerde **iddia açılmaz**; `LifeRecord.shownDays/calendarDays/sessions` ölçüm için yazılır | D-066 "zaman kendi kendine akar"; D-009 adaleti (koçun kendi seçimine iddia yok); doc 05/11 ölçümü |
 
-*Son not: bu belgenin sabitleri `tuning.json`'da yaşar ve dev dashboard'dan canlı değişir; ama D-ÖNERİ'ler 00'a alınmadan sabitlerin **anlamı** değişmez. Sayılar değişir, kurallar değişmez.*
+*Son not: bu belgenin sabitleri `tuning.json`'da yaşar ve dev dashboard'dan canlı değişir; ama D-ÖNERİ'ler 00'a alınmadan sabitlerin **anlamı** değişmez. Sayılar değişir, kurallar değişmez. v1.1'de değişen şey sabitlerin **takvimdeki yeri**dir (yıl → gün/doğum günü), değerleri değil: yıllık toplamlar, Gompertz, koruma penceresi ve ölüm dağılımı hedefleri v1.0 ile birebir aynıdır.*
