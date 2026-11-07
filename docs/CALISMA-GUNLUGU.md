@@ -91,3 +91,7 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 
 ### App Store teardown (kullanıcı: "life simulator uygulamalarını detaylı araştır, kopya çek")
 - Workflow wewhacrxv: 4 küme (A BitLife ailesi, B BitLife klonları/yeni çıkanlar, C anlatı-seçim oyunları + TR mağazası, D yorum madenciliği/ASO/fiyat matrisi) → `docs/research/12-app-store-teardown/` + sentez `docs/research/12-app-store-hayat-sim-ozellik-havuzu.md` (özellik havuzu, "kopya listesi ilk 30", fiyat matrisi) + 00 §13'e D-068+ kararları.
+
+## 2026-11-07
+- Konteyner yeniden başladı; diskteki her şey korundu ve commit edildi. Teardown sentezi ve 09/11 dokümanları yeniden başlatıldı.
+- App Store teardown tamamlandı: 4 küme (`docs/research/12-app-store-teardown/`) + sentez `docs/research/12-app-store-hayat-sim-ozellik-havuzu.md` (139 özellik, kopya listesi ilk 30, fiyat matrisi). Vizyon dokümanına §13 ile D-068…D-082 eklendi. Fiyat kararı: Torpil 6,99 $ / 199,99 ₺ doğrulandı (koşul: restore release-blocker, ayrı "reklam kaldır" SKU'su yok, vitrin ≤3 kalem).
