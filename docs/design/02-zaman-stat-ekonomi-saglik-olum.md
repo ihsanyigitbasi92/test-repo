@@ -1,8 +1,12 @@
 # 02 — Zaman, Statlar, Ekonomi, Sağlık ve Ölüm
 
-> **Belge türü:** Ayrıntılı sistem tasarımı (Motto tasarım paketi, doküman 02/11). Üstünde `00-VIZYON-ve-KARARLAR.md` (D-001..D-060) ve T9 (hukuk) vardır; bu belge D-kararlarını **uygular**, tartışmaz. Kapsamadığı yerde karar verir ve bunu **D-ÖNERİ-02-xx** olarak işaretler (§7).
-> **Sahip olduğu sistemler:** yıl/beat zamanı · 4 çekirdek stat + Para + Ego/Cringe/Anne Baskısı + gizli Şans/Stres · soyut para ve ekonomi · koruma penceresi · Gompertz hazard ve ölüm nedenleri · hastalık arkları · ölüm akışı ve Roast Raporu orkestrasyonu · Onyıl Karnesi girdileri · 10.000 hayat harness'ının denge kabulleri.
-> **Sürüm:** v1.0 · 2026-11-06 · Yazar: Sistem tasarımı (02 sahibi) · Platform: iOS 16.4+ ve Android minSdk 24, tek Expo/RN/TS kod tabanı; motor saf TS (`packages/engine`), UI'dan bağımsız.
+> **Belge türü:** Ayrıntılı sistem tasarımı (Motto tasarım paketi, doküman 02/11). Üstünde `00-VIZYON-ve-KARARLAR.md` (D-001..D-067; **§12 > §11**, yani D-061..D-067 önceki kararları geçersiz kılar) ve T9 (hukuk) vardır; bu belge D-kararlarını **uygular**, tartışmaz. Kapsamadığı yerde karar verir ve bunu **D-ÖNERİ-02-xx** olarak işaretler (§7).
+> **Sahip olduğu sistemler:** gün/takvim zamanı (`dayIndex` + `calendarDay`, yaş bandına göre gösterilen gün bütçesi, atlama özeti ve pasif güncelleme, doğum günü = yıl sınırı) · 4 çekirdek stat + Para + Ego/Cringe/Anne Baskısı + gizli Şans/Stres · soyut para ve **akış** ekonomisi (maaş günü, kira günü, günlük küçük gider) · koruma penceresi · Gompertz hazard ve ölüm nedenleri · hastalık arkları · ölüm akışı ve Roast Raporu orkestrasyonu · Onyıl Karnesi girdileri · 10.000 hayat harness'ının denge kabulleri.
+> **Sürüm:** v1.1 · 2026-11-06 (akşam) · Yazar: Sistem tasarımı (02 sahibi) · Platform: iOS 16.4+ ve Android minSdk 24, tek Expo/RN/TS kod tabanı; motor saf TS (`packages/engine`), UI'dan bağımsız.
+
+> **Değişiklik günlüğü**
+> - **v1.1 — gün tabanlı revizyon, D-061** (2026-11-06, akşam). 00 §12 uygulandı: D-061 (zaman birimi GÜN), D-062 (NPC diyalog balonları), D-064 (roast dozu), D-066 (zaman kendi kendine akar, "Ertesi Gün" düğmesi yok), D-067 (hayat kalıcı durumdur, para akışla değişir). §2.1 zaman modeli yıl/beat'ten **gün/takvim**'e yazıldı (`dayIndex` + `calendarDay`; yaş bandına göre gösterilen gün bütçesi 12–18 / 8–12 / 5–8 / 3–5; atlama özeti + pasif güncelleme; doğum günü = yıl sınırı = Karne; oturum 15–25 gün; ömür 450–600 gün ≈ 90–120 dk). Tüm yıllık drift ve decay sabitleri **gün** ve **gösterilen gün** formülüyle verildi (§2.2, yıl toplamı değişmez). Para **akış** modeline geçti: maaş ayın 1'i, kira ayın 5'i, kedi ayın 10'u, sağlık gideri ayın 20'si, günlük küçük gider; "Kira günü" zorunlu olay (§2.3.2–2.3.4). Hazard zarı **doğum gününe** taşındı; Gompertz sabitleri ve koruma penceresi 18–28 **değişmedi** (§2.4.2, §2.3.6). Örnekler **GÜN kartı** + `dialog[]` ile yeniden yazıldı, atlama özeti / maaş-kira satırları / doğum günü kartı eklendi (§3). Harness ve KPI'lar gün tabanlı (§6.1–6.2); AC-02-01/02/20/21/26 metni güncellendi (numaralar korundu), **AC-02-29..AC-02-42** eklendi; D-ÖNERİ-02-08 geçersiz, **D-ÖNERİ-02-13..18** eklendi (§7). "Beat" sözcüğü bu belgede yalnızca "gün kartı içindeki karar anı" anlamında kaldı; D-020'nin "yıl medyanı 90 sn" kuralı D-061 ile geçersizdir.
+> - **v1.0** (2026-11-06): ilk sürüm, yıl = tur modeli.
 
 ---
 
@@ -12,7 +16,10 @@
 
 | D | Karar (kısa) | Bu belgede somut karşılığı |
 |---|---|---|
-| **D-020** | Yıl medyanı 90 sn, tavan 120 sn | §2.1.2 beat bütçesi yaş bandına göre 3,5 / 3 / 2,5 / 2 / 1,5; yıl sonu pulse + Kısa Karne + Tek Hedef sabit 12,4 sn; 18–25 bandı 4 beat ile 120 sn tavanına değer, aşmaz |
+| ~~D-020~~ → **D-061** | **Zaman birimi GÜN**; D-020'nin "yıl medyanı 90 sn" kuralı geçersiz | §2.1: her gösterilen gün = tarihli kart + tam bir olay; olaysız günler tek satırla atlanır; gösterilen gün bütçesi yaş bandına göre **12–18 / 8–12 / 5–8 / 3–5**; doğum günü = yıl sınırı, Karne ve hazard zarı doğum gününde; oturum 15–25 gösterilen gün; ömür 450–600 gösterilen gün ≈ 90–120 dk; ayar harness'la (§6.2) |
+| **D-066** | Zaman kendi kendine akar; "Ertesi Gün" düğmesi yok; ▶ 1 gün ≈ 6 sn, ▶▶ ≈ 2 sn; Otomatik mod | §2.1.5 gün süresi çapası (▶'de gösterilen gün ≈ 12 sn: 6 sn akış + okuma/karar); akış zamanlayıcısı UI'dadır, motor yalnızca `NEXT_DAY` aksiyonu alır ve gerçek saati okumaz (§4); zaman Karne/ölüm/ANNE ARIYOR/"Bugünlük yeter"de durur; doğum günü Karnesi'nin tek düğmesi "Bir Yıl Daha" |
+| **D-067** | Hayat kalıcı durumdur; Para **akışla** değişir | §2.2.7 `status` alanı (İş, Ev, İlişki, Varlıklar); §2.3.2 maaş günü (ayın 1'i), §2.3.3 kira günü (ayın 5'i) + kedi (10) + sağlık gideri (20) + günlük küçük gider; olaylar durumu değiştirir, akış durumdan türer; "Kira günü" zorunlu olayı; her kararın ≥ 1 kalıcı izi (harness §6.2 #17) |
+| D-062 / D-064 | NPC diyalog balonları; roast dozu (Normal'de her sonuçta ≥ 1 roast) | §3 örnekleri `dialog[]` + `you` balonu + `coach[]` taşır; koç diyalogdan **sonra**, ayrı katman; lowJoy'da roast 0 kuralı (§2.4.7) D-064'ün tek istisnasıdır; havuzlar doc 01/03/04 |
 | **D-032** | Stat seti T4 aynen; Karma → **Şans** | §2.2: Sağlık, Keyif, Kafa, Çekicilik + Para + Ego, Cringe, Anne Baskısı + gizli Şans (−50..+50) ve Stres (0–100); "Karma" sözcüğü motor, içerik ve lint'te yok |
 | **D-033** | Para içeride reel birim, ekranda soyut "Para/Cash"; TL/$ ve makro rakam yok | §2.3.1 **Birim** (1 Birim = giriş seviyesi aylık net gelir), ekranda ×1.000 ölçekli "Para"; nominal/enflasyon katmanı tamamen kaldırıldı (D-ÖNERİ-02-01); lint listesi §5 |
 | **D-034** | Ekonomi mizahı kişisel ölçekte; makro yüzde şakası yok | §2.3.1 görüntüleme kuralları: yüzde yalnızca iddia oranı ve kalıp payı için; kira zammı, faiz, borç daima mutlak Para olarak yazılır |
@@ -21,15 +28,15 @@
 | D-007 / D-008 | Ölüm ekranında reklam yok; ölümden dönüş satılmaz; interstitial ölüm akışında asla | §2.5.1 `deathFlow` durumunda `AdService` çağrısı derleme düzeyinde yasak (tip sistemi: `DeathFlowContext` içinde reklam API'si yok); Fizyoterapi yalnızca ölümden **önceki** sağlık-kritik yılda (§2.4.6) |
 | D-021 | Karne 6 not; Cesaret ve Davranış stat değil türev | §2.2.6 `gradeFor()` + Cesaret (risk sayacı) + Davranış (Cringe/Ego olayları) formülleri |
 | D-024 | Kalıp Dedektörü yargılamaz sayar | §2.5.2 Roast Raporu kalıp bloğu yalnızca sayı + pay; sıfat yok; sayımlar doc 03'ten okunur |
-| D-028 | 60+ yaşta beat başına ≤ 1 balon | §2.1.2 66+ bandı 1–2 beat; koç balonu kotası doc 01'e `ageBand` ile iletilir |
-| D-031 | Welcome-back = Sakatlık Raporu; gerçek yokluk → oyun zamanı | §2.1.4: çevrim tablosu **T7 §3.1 / doc 05'tendir**, burada yeniden tanımlanmaz; bu belge yalnızca `advanceTime()` arayüzünü verir |
+| D-028 | 60+ yaşta gün başına ≤ 1 balon | §2.1.3 61+ bandı 3–5 gösterilen gün/yıl; koç balonu kotası doc 01/03'e `ageBand` ile iletilir |
+| D-031 | Welcome-back = Sakatlık Raporu; gerçek yokluk → oyun zamanı | §2.1.7: çevrim tablosu **T7 §3.1 / doc 05'tendir**, burada yeniden tanımlanmaz; bu belge yalnızca `advanceTime({ days })` arayüzünü verir (tek büyük boşluk gibi oynatılır) |
 | D-039 | Fizyoterapi ölüm öncesi sağlık-kritik yılda, ömürde 1 | §2.4.6 `healthCritical` tanımı ve etkisi (Sağlık +15, o yılın hazard zarı atlanır) |
 | D-042 / D-056 | Kondisyon çeşitlilik verir, güç vermez; ölüm = içerik | §2.5.3 taşınanlar tablosu: stat/Para/Şans taşınmaz; perk listesi doc 05'te |
 | D-018 / D-017 | Fazla Bagaj; Tanıdık Yüzler metaMemories | §2.5.3 `LifeRecord.highestCringeEvent` ölümde yazılır; NPC hafızası doc 04'ün yazdığı alandan kopyalanır |
-| D-044 | Motor saf TS, deterministik; harness kabulü medyan ölüm 72–80 | §2.7 ve §6: medyan hedefi **72–78** (T4 ile aynı, D-044'ün bandının içinde); kanal bazlı RNG (`hazard`, `outcome`) |
+| D-044 | Motor saf TS, deterministik; harness kabulü medyan ölüm 72–80 | §2.7 ve §6: medyan hedefi **72–78** (T4 ile aynı, D-044'ün bandının içinde); kanal bazlı RNG (`hazard` yalnızca doğum gününde, `outcome`, `director` boşluk/bütçe); seed `lifeSeed:dayIndex:kanal` (doc 03 §2.11) |
 | D-051 | Onyıl Karnesi yalnızca karar kalemleri; zorunlu lift gerçek Kondisyon puanı | §2.6 girdi şeması tip düzeyinde kimlik alanı içermez |
 | D-052 | Düşük Keyif: roast kapalı, "bugün tek şey", yardım ekranı; intihar/kendine zarar yok | §2.4.7 `lowJoy` protokolü ve doc 01/08 devri; ölüm nedeni tablolarında yasaklı sınıf (§2.4.3) |
-| D-055 | Enerji yok, stat editörü yok, sahte sayaç yok | §2.1: T4'ün "enerji 4/yıl serbest aksiyon menüsü" alınmadı; tüm eylemler beat'tir |
+| D-055 | Enerji yok, stat editörü yok, sahte sayaç yok | §2.1: T4'ün "enerji 4/yıl serbest aksiyon menüsü" alınmadı; tüm eylemler gün kartıdır (gün = olay, olay = seçenekler) |
 | D-009 / D-010 | İddia gerçek oran; HAKSIZ ÇIKTIM sayımı | §2.2.5 Şans'ın orana etkisi görünen orana **dahildir**; §2.5.2 "beni N kez haksız çıkardın" sayacı |
 
 ### 0.2 Bağımlı dokümanlar (arayüz sözleşmeleri)
@@ -37,11 +44,11 @@
 | Doküman | Bu belge ona ne verir | Ondan ne alır |
 |---|---|---|
 | **01** Anlatıcı | `ageBand`, `lowJoy`, `healthCritical`, `deathFlowStep`, rozet-metre eşik olayları (koç satır tetikleyicisi) | Satır havuzları; sessizlik kuralı metinleri; 60+ balon kotası |
-| **03** Olay motoru | Yıl sonu pulse sırası, `applyDamage()`/`protection()` (olay efektleri buradan geçer), hazard ve ölüm nedeni servisleri, `GameClock` | `patternCounts`, iddia sayımı (`wagersTotal`, `wagersPlayerWon`), `report_card` beat'i, director'ün beat bütçesi talebi |
+| **03** Olay motoru | Doğum günü pulse sırası, `applyGap(days)` pasif güncelleme fonksiyonu, `applyDamage()`/`protection()` (olay efektleri buradan geçer), hazard ve ölüm nedeni servisleri, `GameClock`, maaş/kira/kedi/sağlık gideri vadeleri (`dueQueue` girdisi), `evt_kira_gunu` zorunlu olay kancası | `patternCounts`, iddia sayımı (`wagersTotal`, `wagersPlayerWon`), `report_card` günü, Gün Director'ünün yıl bütçesi (`yearBudget`) ve boşluk (`gap`) çıktısı, atlama özeti havuzu |
 | **04** Kariyer/ilişkiler | Gelir kademeleri T0–T6, barınma kademeleri, borç/kefalet kuralları, Anne Baskısı'nın yıllık artış girdileri | Kariyer → kademe eşlemesi; NPC `alive` bayrakları (anne); evlilik/çocuk/ev olayları; `metaMemories` |
-| **05** Retention/miras | `LifeRecord` (metaLog kaydı), Fazla Bagaj etiketi, Onyıl Karnesi lift puanı, `lifeEnded` efekti (bildirim iptali) | Kondisyon perk listesi ve Yedek Kulübesi pity; Teşhis hesaplaması; welcome-back çevrim tablosu (T7) |
+| **05** Retention/miras | `LifeRecord` (metaLog kaydı; `shownDays`, `calendarDays`), Fazla Bagaj etiketi, Onyıl Karnesi lift puanı, `lifeEnded` efekti (bildirim iptali), oturum gün sayacı (`sessionDayIndex`) | Kondisyon perk listesi ve Yedek Kulübesi pity; Teşhis hesaplaması; welcome-back çevrim tablosu (T7, gerçek gün → takvim günü) |
 | **06** Monetizasyon | `healthCritical` tetikleyicisi (Fizyoterapi), `deathFlow` durumunda reklam yasağı | Fizyoterapi/Ek Antrenman kabul edildi sinyali |
-| **07** UX/UI | Rozet-metre eşik animasyon anları, Roast Raporu adım süreleri, Para görüntü kuralları | Ekran bileşenleri; paylaşım kartı render'ı |
+| **07** UX/UI | Rozet-metre eşik animasyon anları, Roast Raporu adım süreleri, Para görüntü kuralları, Durum şeridi alanları (`status`, D-067), canlı saat/tarih kaynağı (`GameClock`, D-066), gün süresi çapası | Ekran bileşenleri; akış zamanlayıcısı (⏸ / ▶ / ▶▶); "YAŞLANIYORSUN" geçişi; paylaşım kartı render'ı |
 | **08** Hukuk/linter | §5 yasaklı sözcük listesi (para, ölüm, sağlık alanları), ölüm nedeni onaylı listesi, "Gerçek hayatta yardım" tetikleyicisi | Lint kuralları; yardım ekranı içeriği |
 | **09** i18n | ICU `number` kullanım kuralı (gruplama locale'e göre), EN karşılık adları (Mom Pressure, Cash, Debt) | Çift locale realizasyon |
 | **10** Teknik | `step(state, action)` içinde yıl pulse ve ölüm commit'inin atomikliği gereksinimi | RNG (`sfc32`), kayıt katmanı |
@@ -49,19 +56,19 @@
 
 ### 0.3 Sürüm
 
-v1.0 (2026-11-06). Değişiklik yalnızca bu dosyada ve yeni D-kaydıyla; §7'deki D-ÖNERİ'ler 00'a alınınca buradaki numaralar korunur.
+v1.1 (2026-11-06, akşam; değişiklik günlüğü belgenin başında). v1.0 aynı gün, yıl = tur modeli. Değişiklik yalnızca bu dosyada ve yeni D-kaydıyla; §7'deki D-ÖNERİ'ler 00'a alınınca buradaki numaralar korunur; AC numaraları hiçbir sürümde yeniden kullanılmaz.
 
 ---
 
 ## 1. Amaç ve kapsam — MVP / Soft launch / 1.0 farkları
 
-**Amaç.** Oyuncunun 55–75 dakikada 18'den ölüme yaşadığı, her "Yaşlan" basışında bir şey kazandığı ya da kaybettiği, 28'inden önce hiçbir zaman "bitmiş" hissetmediği, 50'sinden sonra ise gerçekten gergin bir hayat eğrisi kurmak; bu eğrinin **ölçülebilir** olması (harness), **okunabilir** olması (karne, rozet-metre, Roast Raporu) ve **şikâyet edilemez** olması (gerçek para birimi yok, gerçek felaket yok, intihar yok). Bu belge "ne kadar" sorularının cevabıdır: kaç beat, kaç yıl, kaç Birim, hangi olasılık.
+**Amaç.** Oyuncunun 90–120 dakikada (450–600 gösterilen gün) 18'den ölüme **gün gün** yaşadığı, her gösterilen günde bir şey kazandığı ya da kaybettiği, 28'inden önce hiçbir zaman "bitmiş" hissetmediği, 50'sinden sonra ise gerçekten gergin bir hayat eğrisi kurmak; bu eğrinin **ölçülebilir** olması (harness), **okunabilir** olması (karne, rozet-metre, Roast Raporu) ve **şikâyet edilemez** olması (gerçek para birimi yok, gerçek felaket yok, intihar yok). Bu belge "ne kadar" sorularının cevabıdır: kaç gösterilen gün, kaç takvim günü boşluk, kaç yıl, kaç Birim, hangi gün maaş, hangi olasılık.
 
 **Kapsam farkları.**
 
 | Alan | MVP (dikey kesit, 10 hafta) | Soft launch (+8 hafta) | 1.0 |
 |---|---|---|---|
-| Zaman | Yıl + beat; 18–35 tam bütçe; 36+ **Hızlı Yaşa** varsayılan (1 beat/yıl, Kısa Karne otomatik); alt-tur yalnızca **hastalık arkı** | 36–50 tam bütçe; askerlik alt-turu (TR) / student loans ikamesi (EN, alt-tur yok) | Tüm bantlar tam; hamilelik ve sınav alt-turları (doc 04) |
+| Zaman | Gün + takvim (D-061); bant bütçeleri tam (12–18 / 8–12 / 5–8 / 3–5); atlama özeti havuzu 40 satır/locale; 36+ **Hızlı Yaşa** varsayılan (bant minimumu, özet 1,2 sn); akış hızı ▶ / ▶▶ (D-066), Otomatik mod yok; takvim günü gecikmeli ark yalnızca **hastalık arkı**; maaş/kira/günlük gider akışı tam (D-067) | Otomatik mod; askerlik arkı (TR) / student loans ikamesi (EN, ark yok); özet havuzu 100 satır; kedi/varlık giderleri | Tüm arklar (hamilelik, sınav; doc 04); özet havuzu 200 satır; mevsim/hafta günü etiketli özetler |
 | Statlar | 4 çekirdek + Para + 3 rozet-metre + gizli Şans/Stres **hepsi** (motor tam) | Aynı | Aynı; tuning'de yalnızca sabitler değişir |
 | Ekonomi | Birim modeli, 6 gelir kademesi, 6 barınma kademesi, kart borcu + iflas olayı, koruma penceresi + 3 bailout olayı, 4 sürpriz gelir | Banka kredisi (kredili ev), kefalet borcu, geç oyun sağlık gideri, spiral çıkışı | Miras (uzak akraba), emeklilik kademeleri, 24 kariyerin tam gelir eşlemesi |
 | Sağlık/ölüm | Gompertz hazard, 4 yaş bandı × 6 neden sınıfı, absürt kuyruk 12 satır/locale, 1 hastalık arkı (3 kart), senaryo ölümü kanalı (2 olay) | Absürt kuyruk 24 satır, 3 hastalık arkı, Fizyoterapi kancası canlı, 6 senaryo ölümü | Absürt kuyruk 40 satır, 5 hastalık arkı (kronik dahil), yaş bandı başına 8 varyant neden metni |
@@ -73,86 +80,134 @@ v1.0 (2026-11-06). Değişiklik yalnızca bu dosyada ve yeni D-kaydıyla; §7'de
 
 ## 2. Tasarım
 
-### 2.1 Zaman modeli
+### 2.1 Zaman modeli (v1.1: gün tabanlı — D-061, D-066, D-067)
 
-#### 2.1.1 Yıl = tur
+#### 2.1.1 Gün = tur, doğum günü = yıl sınırı
 
-Oyuncu **Yaşlan** basar; motor bir yılı tek `step` zinciriyle oynatır. Yıl beş fazdan oluşur ve faz sırası sabittir — harness snapshot'ları bu sıraya bağlıdır.
+Zaman birimi **gün**dür. Hayat Akışı bir takvimdir; her kart tarihli bir gündür (*"Gün 1 · Salı, 3 Mart 2026"* / *"Day 1 · Tuesday, March 3, 2026"*) ve **her gösterilen günde tam bir olay** olur (D-061). İki sayaç birlikte yürür (doc 03 §2.1 ile aynı tanım; tip doc 10 `GameClock`):
+
+- **`dayIndex`** — yalnızca *gösterilen* günleri sayan monoton sayaç (0'dan başlar). Oturum ölçümü, pity, cooldown ve RNG seed'i (`lifeSeed:dayIndex:kanal`) bunun üstünde çalışır.
+- **`calendarDay`** — 18. doğum gününden itibaren geçen takvim günü. Tarih, mevsim, doğum günü, maaş/kira günleri, zarf vadesi, zincir gecikmesi ve **tüm pasif güncellemeler** bunun üstünde çalışır.
+
+Olaysız günler gösterilmez: aradaki boşluk (`gap`, takvim günü) tek satırlık **atlama özeti** ile geçilir ve yıllık her sabit `gap` ile orantılı uygulanır (§2.1.4). Yıl artık bölünmez bir tur değildir; **doğum günü** yıl sınırıdır: yaş +1, "YAŞLANIYORSUN" geçişi (D-063), Karne + Yılın Mottosu + Tek Hedef ve **hazard zarı** yalnızca orada (§2.4.2). D-066 gereği "Ertesi Gün" düğmesi yoktur: zaman üstteki canlı saat/tarihle kendi kendine akar, yalnızca bir karar beklerken, tam ekran anlarda (Karne, ölüm, ANNE ARIYOR) ve "Bugünlük yeter"de durur; doğum günü Karnesi'nin tek düğmesi **"Bir Yıl Daha / One More Year"**dır.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> YilBasiPulse
-    YilBasiPulse: Yıl başı pulse\n(yaş+1, drift, gelir−gider, borç faizi,\nAnne Baskısı artışı, Stres decay, Keyif hedefe yaklaşır)
-    YilBasiPulse --> DirectorBütçe
-    DirectorBütçe: Director (doc 03)\nbeat bütçesi = bant(yaş) ± arc/Stres düzeltmesi
-    DirectorBütçe --> Beatler
-    Beatler: Beat'ler (olay kartı → seçim → sonuç)\nher negatif efekt applyDamage()'dan geçer
-    Beatler --> SenaryoOlum: outcome.death
-    Beatler --> YilSonuPulse
-    YilSonuPulse: Yıl sonu pulse\n(eşik olayları, bailout kontrolü, hastalık zarı,\nhealthCritical, hazard zarı)
-    YilSonuPulse --> HazardOlum: rng('hazard') < hazard
-    YilSonuPulse --> Karne
-    Karne: report_card beat'i (doc 03) → Kısa Karne + Yılın Mottosu\n→ Tek Hedef → "Bir Yıl Daha"
-    Karne --> [*]
+    [*] --> PlanDay
+    PlanDay: Director (doc 03) planNextDay()\n(zorunlu kuyruk → gap çekimi → doğum günü kırpması)
+    PlanDay --> Gap: gap ≥ 2
+    PlanDay --> DayCard: gap = 1
+    Gap: applyGap(gap) — §2.1.4\n(stat drift, Keyif çekimi, metre tahakkuku, Stres decay, Şans geri çekilme,\nmaaş/kira/kedi/sağlık/günlük gider, borç büyümesi)\n+ atlama özeti (tek satır)
+    Gap --> DayCard
+    DayCard: Gün kartı (tarih + olay metni + dialog[] balonları)\n→ seçim = cevap balonu → sonuç + Durum değişikliği\nher negatif efekt applyDamage()'dan geçer\nkoç yorumu diyalogdan sonra, ayrı katman
+    DayCard --> SenaryoOlum: outcome.death
+    DayCard --> Birthday: calendarDay == birthdayDay
+    DayCard --> PlanDay: aksi hâlde
+    Birthday: Doğum günü pulse — §2.4.2\n(yaş+1 → eşik olayları → bailout/spiral → hastalık zarı\n→ healthCritical → hazard zarı → yearStats sıfırla → yeni bütçe)
+    Birthday --> HazardOlum: rng('hazard') < hazard
+    Birthday --> Karne
+    Karne: report_card günü (doc 03): Kısa Karne + Yılın Mottosu\n→ Tek Hedef → "Bir Yıl Daha" (tek düğme, yalnızca burada)
+    Karne --> PlanDay
     SenaryoOlum --> DeathFlow
     HazardOlum --> DeathFlow
     DeathFlow: §2.5
 ```
 
-İki kural: (1) **Senaryo ölümü yılı anında bitirir** — kalan beat'ler oynanmaz, karne gösterilmez, akış §2.5'e geçer. (2) **Hazard zarı karneden önce** atılır; ölen karakter karne almaz, Roast Raporu alır ("son karne" Roast Raporu'nun 3. balonundaki sayılardır).
+Üç kural: (1) **Senaryo ölümü günü anında bitirir** — o günün kalan diyaloğu ve koç yorumu oynanmaz, akış §2.5'e geçer. (2) **Hazard zarı karneden önce** atılır; ölen karakter karne almaz, Roast Raporu alır ("son karne" Roast Raporu'nun 3. balonundaki sayılardır). (3) **Doğum günü kartı yıl bütçesine dahildir ve asla ötelenmez** (doc 03 §2.3.2): bütçe erken tükenirse boşluklar uzar, geç kalırsa kısalır — takvim kendini düzeltir.
 
-#### 2.1.2 Beat bütçesi yaş bandına göre
+#### 2.1.2 Takvim ve tarih
 
-Beat ≈ 28 sn (kart 6–10 sn okuma + karar + sonuç + ≤ 2 koç balonu). Yıl sabit payı 12,4 sn (Yaşlan geçişi ≤ 0,4 + Kısa Karne ≤ 8 + Tek Hedef ≤ 4; "Aynı hedef" tek dokunuş). D-020'nin 90 sn medyanı ve 120 sn tavanı buradan çıkar:
+- FTUE takvimi **2026**'da başlar; karakterin doğum günü `rng('names')` ile çekilir; Gün 1 = 18. doğum gününün ertesi günü. Takvim **kozmetiktir**: oyuncunun gerçek tarihine, saatine, konumuna bağlanmaz (D-050); bayram, anma, seçim, gerçek tarihli olay taşımaz (§5). Hafta günü ve mevsim yalnızca içerik etiketidir (`weekday`, `season`; doc 03 §2.2).
+- Tarih iki locale'de ICU `date` ile yazılır (TR *"Salı, 3 Mart 2026"* · EN *"Tuesday, March 3, 2026"*); saat yalnızca üst şeritte (D-066, oyun saati) ve koç satırlarında (03:12 ömürde 1).
+- `calendarDay` 32-bit tam sayıdır; tarih = `startDate + calendarDay`; artık yıl hesaplanır, mekanik etkisi yoktur (doğum günü aralığı 365 ya da 366 gün).
 
-| Yaş bandı (koç adı) | Beat bütçesi (medyan) | Tipik yıl süresi | Yıl sayısı | Beat toplamı | Dakika | Not |
+#### 2.1.3 Gösterilen gün bütçesi yaş bandına göre (D-061)
+
+Yıl bütçesi doğum gününde `rng('director')` ile bant aralığından düzgün çekilir; doğum günü kartı bütçeye dahildir. Gösterilen gün süresi çapası **≈ 12 sn** (▶ akış 6 sn + okuma/karar/sonuç ≈ 6 sn; §2.1.5) — v1.0'ın 28 sn'lik beat'i yerine.
+
+| Yaş bandı (koç adı) | Gösterilen gün / yıl (medyan) | Ort. boşluk (takvim günü) | Yıl sayısı (medyan ömür 74) | Gösterilen gün toplamı | Dakika (12 sn/gün) | Not |
 |---|---|---|---|---|---|---|
-| 18–25 "Isınma" | 3–4 (3,5) | ~110 sn | 8 | 28 | 14,7 | 4 beat'li yıl 124 sn'ye değer; director 4. beat'i yalnızca aktif arc varsa verir, böylece tavan korunur |
-| 26–35 "Sezon" | 3 | ~96 sn | 10 | 30 | 16,1 | Medyan yıl burada; D-020'nin "90 sn" çapası |
-| 36–50 "Sezon / İkinci devre" | 2–3 (2,5) | ~77 sn | 15 | 38 | 19,4 | Her 2 yılda 1 ekstra beat (arc ya da zarf açılışı) |
-| 51–65 "İkinci devre" | 2 | ~60 sn | 15 | 30 | 15,1 | Koç çoğu beat'te 1 balon |
-| 66–75 "Uzatmalar" | 1–2 (1,5) | ~45 sn | 10 | 15 | 7,6 | ≤ 1 balon (D-028); "yıllar su gibi" hissi mekaniktir, replik değil |
-| 76+ | 1 | ~40 sn | — | — | — | Hazard zaten yüksek; her yıl bir "küçük şey" |
-| **Toplam 18–75** | | | **58** | **≈ 141** | **≈ 73** | 00 §4.1 "55–75 dk" bandının içinde; Hızlı Yaşa ile ≈ 53 dk |
+| 18–25 "Isınma" | **12–18** (15) | ~24 | 8 | 120 | 24 | Roast dozu ve iddia sıklığı en yüksek; koruma penceresi; FTUE yılı elle yazılmış 15 gün |
+| 26–40 "Sezon" | **8–12** (10) | ~36 | 15 | 150 | 30 | Medyan yıl; callback'ler başlar; Onyıl Karnesi 30 ve 40 doğum gününde |
+| 41–60 "İkinci devre" | **5–8** (6,5) | ~56 | 20 | 130 | 26 | Her yıl ≥ 1 gün zarf/ark için ayrılır; sağlık gideri başlar |
+| 61+ "Uzatmalar" | **3–5** (4) | ~91 | 14 | 56 | 11 | ≤ 1 koç balonu/gün (D-028); "yıllar su gibi" hissi mekaniktir, replik değil |
+| **Toplam 18–74** | | | **57** | **≈ 456** | **≈ 91** | Düzeltmelerle 450–600 gün ≈ 90–120 dk (D-061 hedefi; harness §6.2 #11–12) |
 
-Düzeltmeler: **Stres > 70 → +1 beat** (hayat "yoğun"; T4), tavan 4. **Aktif arc** kendi beat'ini bütçeden alır, bütçeyi aşamaz (Valve dersi: scripted track pacing'den ayrı ama yılın 2 beat'ini geçmez). **Hızlı Yaşa** (oyuncu açar/kapar; MVP'de 36+ varsayılan açık): bütçe 1, Kısa Karne otomatik 3 sn, Tek Hedef "Aynı hedef" varsayılan; zarf ve arc beat'leri yine oynanır (Hızlı Yaşa hikâyeyi atlamaz, dolguyu atlar).
+Düzeltmeler (doc 03 §2.3.1 ile birebir; tavan = bant maksimumu + 2): **Stres > 70 → +1**; **aktif zincir/ark → +1**; **Anne Baskısı ≥ 75 → 1 ANNE ARIYOR günü bütçe dışı** (D-063); **hastalık arkı** kendi 2–3 gününü bütçeden alır; **lowJoy** yılında bütçe bant minimumunun altına inmez ve ≥ 1 gün çıkış olayı taşır (§2.4.7). **Hızlı Yaşa** (oyuncu ayarı; MVP'de 36+ varsayılan açık; D-066'nın ▶▶ hız anahtarından **ayrı**): bütçe = bant minimumu, atlama özeti 1,2 sn, Kısa Karne otomatik 3 sn; zarf, ark, ANNE ARIYOR ve kira günü olayları yine oynanır (Hızlı Yaşa hikâyeyi atlamaz, dolguyu atlar).
 
-#### 2.1.3 Alt-turlar yalnızca arklarda
-
-Yıl bölünmez; **ay** yalnızca belirli arkların içinde "hızlandırılmış kart" olarak görünür. Bu belgenin sahip olduğu alt-turlu ark **hastalık arkı**dır (§2.4.5): 3–6 ay, 2–3 kart. Doc 04'ün alt-turları: askerlik (TR, 6–12 ay, 3 kart; EN ikamesi student loans alt-tur **içermez**), sınav dönemi, hamilelik. Alt-turun kuralı: **yıl sayacı ilerlemez**, beat bütçesinden düşer, karne o yılın sonunda tek kez gelir.
+**Oturum ve ömür.** Oturum = **15–25 gösterilen gün** (medyan 20 ≈ 4 dk saf gün süresi + Mola 90 sn + 1–3 Karne + zarf; 12–15 dk oturum medyanı 00 §4.1 ile uyumlu). Ömür = **450–600 gösterilen gün ≈ 90–120 dk** (Hızlı Yaşa 36+ ile ≈ 380 gün / 70–80 dk). 18–25 bandında oturum ≈ 1,3 yıl, 41–60'ta ≈ 3 yıl, 61+'da ≈ 5 yıl: aynı 20 günlük oturum yaşlandıkça daha çok takvim yutar — "zaman hızlanıyor" hissi mekaniktir.
 
 ```ts
-// packages/engine/src/time.ts
-export type AgeBand = 'warmup' | 'season' | 'secondHalf' | 'overtime';   // 18–25 | 26–50 | 51–65 | 66+
-export interface GameClock {
-  year: number;            // takvim yılı (FTUE'de 2026'dan başlar; sadece karne başlığı için)
-  age: number;             // 18..100
-  month?: 1|2|3|4|5|6|7|8|9|10|11|12;   // yalnızca alt-tur arkı içinde tanımlı
-  arcId?: string;          // açık alt-tur arkı
-}
-export function ageBand(age: number): AgeBand {
-  return age <= 25 ? 'warmup' : age <= 50 ? 'season' : age <= 65 ? 'secondHalf' : 'overtime';
-}
-export function beatBudget(age: number, stress: number, hasActiveArc: boolean, fastLife: boolean): number {
-  if (fastLife) return 1;
-  const base = age <= 25 ? (hasActiveArc ? 4 : 3)
-             : age <= 35 ? 3
-             : age <= 50 ? (age % 2 === 0 ? 3 : 2)
-             : age <= 65 ? 2
-             : age <= 75 ? (age % 2 === 0 ? 2 : 1) : 1;
-  return Math.min(4, base + (stress > 70 ? 1 : 0));
+// packages/engine/src/time.ts (v1.1)
+export function dayBudget(age: number, st: LifeState, rng: Rng): number {
+  const [lo, hi] = age <= 25 ? [12, 18] : age <= 40 ? [8, 12] : age <= 60 ? [5, 8] : [3, 5];
+  let b = st.settings.fastLife ? lo : lo + Math.floor(rng.next() * (hi - lo + 1));
+  if (st.hidden.stress > 70) b += 1;
+  if (hasActiveChain(st)) b += 1;
+  if (st.lowJoy) b = Math.max(b, lo);
+  return Math.min(hi + 2, b);            // doğum günü kartı dahil; ANNE ARIYOR günü bütçe dışı
 }
 ```
 
-#### 2.1.4 Gerçek zaman → oyun zamanı (referans, yeniden tanım yok)
+#### 2.1.4 Atlama özeti ve pasif güncelleme kuralları
 
-Welcome-back çevrimi (gerçek 1–3 gün → 1–3 ay; 14–29 gün → 1–2 yıl; 30+ gün → 2 yıl tavanı; büyük karar rafta bekler; geri dönülemez kayıp yok) **T7 §3.1'de tanımlıdır ve doc 05 uygular**. Bu belge yalnızca kancayı verir: doc 05'in `AbsenceEngine.resolve()` çıktısı `advanceTime({ months })` aksiyonuna çevrilir; `months ≥ 12` ise motor §2.1.1'deki yıl pulse'ını **beat'siz** çalıştırır (drift, gelir–gider, hazard zarı dahil — çünkü yokluk ölüm riskini silmez, ama Sakatlık Raporu'nda ölüm **asla** gerçekleşmez: `advanceTime` içinde hazard zarı `rng('hazard')` ile atılır fakat sonuç `pendingDeathRisk` olarak rafa konur ve oyuncunun ilk Yaşlan'ında normal akışta çözülür). Motor gerçek saati **hiç okumaz**; `advanceTime` payload olarak gelir. Ruh hâli (Yorgun 23:00–06:00) doc 01'in meselesidir.
+`gap ≥ 2` ise akışa **tek satır** ayraç yazılır: ≤ 14 kelime, en fazla bir sayı (gerçek sayaçtan), roast yok, kimlik yok; NPC adı geçebilir ama balon yoktur (havuz ve kovalar doc 03 §2.3.3; örnekler §3.7). Bu belgenin kuralı **pasif güncelleme**dir: yıllık her sabit, atlanan **takvim günü** sayısıyla orantılı uygulanır (`applyGap`), gösterilen gün sayısıyla değil — böylece 3 günlük boşlukla 90 günlük boşluk aynı hayat değişimini vermez ve yıl toplamı bant bütçesinden bağımsız kalır.
+
+```ts
+export function applyGap(st: LifeState, gap: number, rng: Rng): GapSummary {
+  const f = gap / 365;
+  driftStats(st, f);        // §2.2.1: yıllık drift × f; taban/tavan her boşlukta (Sağlık ≥ 5 drift'le, Keyif ≥ 5, Kafa ≤ 70 @ Keyif < 30)
+  pullJoy(st, f);           // §2.2.2: Keyif += (1 − 0,70^f)·(hedef − Keyif)
+  accrueMeters(st, f);      // §2.2.4: Ego 50'ye 2·f; Cringe −10·f; Anne Baskısı +yıllık·f (doğum günü arası tavan 12)
+  decayHidden(st, f);       // §2.2.5: Stres −4·f (Keyif ≥ 70: −7·f); Şans ×0,85^f
+  cashflow(st, gap, rng);   // §2.3.2–2.3.4: boşluğa düşen maaş/kira/kedi/sağlık günleri + gap × günlük gider; borç ×1,18^f
+  return summarize(st, gap);// tek satır (rng('director')) + Durum şeridi değişiklikleri (D-067)
+}
+```
+
+Kurallar: (a) **Eşik olayları boşlukta tetiklenmez**; boşluk sonunda bir eşik geçilmişse (Ego/Cringe/Anne) eşik olayı `dueQueue` ile **sonraki gösterilen güne** düşer ve gün kartı olur. (b) **Hazard zarı boşlukta atılmaz** — yalnızca doğum gününde; doğum günü boşluğun içine düşemez (`gap` doğum gününe kırpılır). (c) **Para kesintisi gösterilir:** boşlukta bakiye eksiye düşerse özet satırı bunu bir sayıyla söyler (*"Maaş yattı, kira çıktı. Bakiye: eksi."*) ve kira günü olayı (§2.3.3) sonraki gösterilen günde zorunlu olur. (d) **Ölüm boşlukta gerçekleşmez** (Sağlık ≤ 0 → son evre arkı §2.4.5; gösterilir). (e) Özet deterministiktir (`rng('director')`); save/load aynı satırı verir. (f) Olay efektleri (stat delta, Para, bayrak) gösterilen günde **anında** uygulanır, drift'e karışmaz.
+
+#### 2.1.5 Gün süresi çapası ve akış hızı (D-066)
+
+| Hız | Gün akışı | Gösterilen gün toplam ≈ | Nerede |
+|---|---|---|---|
+| ⏸ | durur | — | Karar bekleniyor; Karne / ölüm / ANNE ARIYOR tam ekran; "Bugünlük yeter"; uygulama arka planda |
+| ▶ (varsayılan) | 1 gün ≈ 6 sn | ≈ 12 sn (6 + okuma/karar ≈ 6) | Normal oyun; harness dakika çapası |
+| ▶▶ | 1 gün ≈ 2 sn | ≈ 7 sn | Oyuncu seçer; 36+ Hızlı Yaşa ile birlikte "yıllar su gibi" |
+| Otomatik (soft launch) | ▶▶ + koç kararları verir | ≈ 3 sn | Oyuncu açar; koç kendi seçimini deftere "koç seçti" notuyla yazar, bu günlerde **iddia açılmaz** (D-009 adaleti) |
+
+Motor hızı **bilmez**: akış zamanlayıcısı UI'dadır (doc 07), motor yalnızca `NEXT_DAY` aksiyonu alır; `NEXT_DAY` → ilk metin ≤ 300 ms (D-059, Royal Match "sürtünme sıfır"). Harness çapayı yalnızca dakika tahmini için kullanır (§6.2 #12); gerçek değer cihaz telemetrisiyle kalibre edilir (§6.1).
+
+#### 2.1.6 Arklar ve alt-turlar takvim günleriyle yazılır
+
+"Ay" alt-turu yoktur; her ark **takvim günü gecikmeli gösterilen günler** dizisidir (doc 03 `chain.next.delayDays`). Bu belgenin sahip olduğu ark **hastalık arkı**dır (§2.4.5): 3–6 takvim ayı içinde 2–3 gösterilen gün. Doc 04'ün arkları: askerlik (TR, 6–12 ay, 3 gün; EN ikamesi student loans ark **içermez**), sınav dönemi, hamilelik. Kural: ark günleri yıl bütçesinden düşer (yılda en fazla 2, kalan sonraki yıla taşar); doğum günü ark ortasına gelebilir (Karne gelir, ark devam eder); yıl sayacı yalnızca doğum gününde ilerler.
+
+```ts
+// packages/engine/src/time.ts (v1.1)
+export type AgeBand = 'warmup' | 'season' | 'secondHalf' | 'overtime';   // 18–25 | 26–40 | 41–60 | 61+
+export interface GameClock {
+  dayIndex: number;        // gösterilen gün sayacı (0..); seed, pity, cooldown, oturum ölçümü
+  calendarDay: number;     // 18. doğum gününden itibaren takvim günü (0..); drift, vade, tarih
+  age: number;             // 18..100; yalnızca doğum gününde artar
+  birthdayDay: number;     // bir sonraki doğum gününün calendarDay değeri
+  startDate: string;       // ISO; FTUE'de "2026-03-03" gibi; tarih = startDate + calendarDay (kozmetik)
+  sessionDayIndex: number; // bu oturumda gösterilen gün (15–25 hedefi; doc 03 yoğunluk eğrisi)
+}
+export const ageBand = (age: number): AgeBand =>
+  age <= 25 ? 'warmup' : age <= 40 ? 'season' : age <= 60 ? 'secondHalf' : 'overtime';
+export const isBirthday = (c: GameClock) => c.calendarDay === c.birthdayDay;
+export const dayOfMonth = (c: GameClock) => calendarFrom(c.startDate, c.calendarDay).day;   // maaş (1), kira (5), kedi (10), sağlık (20)
+```
+
+#### 2.1.7 Gerçek zaman → oyun zamanı (referans, yeniden tanım yok)
+
+Welcome-back çevrimi (gerçek 1–3 gün → 1–3 ay; 14–29 gün → 1–2 yıl; 30+ gün → 2 yıl tavanı; büyük karar rafta bekler; geri dönülemez kayıp yok) **T7 §3.1'de tanımlıdır ve doc 05 uygular**. Bu belge yalnızca kancayı verir: doc 05'in `AbsenceEngine.resolve()` çıktısı `advanceTime({ days })` aksiyonuna çevrilir; motor bunu **tek büyük boşluk** gibi `applyGap(days)` ile oynatır (drift, akış, borç dahil — yokluk hayatı dondurmaz, Sakatlık Raporu özetler: *"Annen 14 kez aradı, patron 1."*). Aradaki doğum günleri **kartsız** pulse olarak işlenir: yaş artar, Karne Sakatlık Raporu'nun içinde tek satıra iner, hazard zarı `rng('hazard')` ile atılır fakat sonuç `pendingDeathRisk` olarak rafa konur ve oyuncunun ilk gösterilen gününde normal akışta çözülür (D-ÖNERİ-02-12): Sakatlık Raporu'nda ölüm **asla** gerçekleşmez. Motor gerçek saati **hiç okumaz**; `advanceTime` payload olarak gelir. Ruh hâli (Yorgun 23:00–06:00) doc 01'in meselesidir; üst şeritteki canlı saat (D-066) **oyun** saatidir, cihaz saati değil.
 
 ### 2.2 Statlar
 
 #### 2.2.1 Çekirdek dörtlü
 
-| Stat (TR / EN) | Başlangıç aralığı (FTUE sabit) | Taban / tavan | Yaşa göre yıllık drift | Mekanik rol |
+| Stat (TR / EN) | Başlangıç aralığı (FTUE sabit) | Taban / tavan | Yaşa göre **yıllık** drift (doğum günü arası toplam; gün formülü aşağıda) | Mekanik rol |
 |---|---|---|---|---|
 | **Sağlık / Health** | 65–80 (70) | 0 / 100; drift tek başına 5'in altına indiremez | 18–29: 0 · 30–44: −0,4 · 45–59: −0,7 · 60–69: −1,0 · 70+: −1,2 · `sporcu` +0,5 · `sigara` −0,3 · Stres > 70: −2 · Stres > 85: −4 | Hazard çarpanı (§2.4.1); `healthCritical`; hastalık zarı eşiği (< 40) |
 | **Keyif / Joy** | 45–65 (55) | 5 / 100 (asla 0: "hiçbir şey işe yaramaz" durumu yok) | Türev: hedefe %30 yaklaşır (2.2.2) | lowJoy protokolü (< 25); Kafa tavanı; sosyal olay ağırlığı |
@@ -161,14 +216,39 @@ Welcome-back çevrimi (gerçek 1–3 gün → 1–3 ay; 14–29 gün → 1–2 y
 
 İlk hayat (FTUE) **elle yazılmıştır ve deterministiktir**: 70 / 55 / 60 / 50, Para 2 Birim (dayının parası). Sonraki hayatlarda aralık içinden `rng('names')` kanalıyla çekilir; Kondisyon perk'leri bu aralıkları **değiştirmez** (D-042).
 
+**Günlük ve gösterilen gün formülleri (v1.1).** Tablodaki her yıllık sabit `Y` için:
+
+- **Takvim günü başına:** `Y_gün = Y / 365`; boşlukta `Δ = Y × gap / 365` (`applyGap`, §2.1.4). Örnek: 50 yaş, Stres ≤ 70 → Sağlık −0,7/yıl → 36 günlük boşlukta −0,069.
+- **Gösterilen gün başına** (bant medyanıyla; yalnızca sezgi, dev dashboard ve koç satırı kalibrasyonu için — motor bunu **kullanmaz**): `Y_gösterilen = Y / N_bant`, N = 15 / 10 / 6,5 / 4. Örnek: 70+ Sağlık −1,2/yıl ÷ 4 = **−0,3 / gösterilen gün**; 30–44 bandı −0,4 ÷ 10 = −0,04.
+- **Yıl toplamı değişmez:** doğum günü arası `Σ gap = 365|366` olduğundan toplam drift tam `Y`'dir (artık yılda 366/365 sapması kabul; AC-02-33).
+- Taban/tavan `applyGap` içinde her boşlukta uygulanır (Sağlık drift'le < 5 olmaz; Keyif ≥ 5; Keyif < 30 iken Kafa ≤ 70). Olay efektleri gösterilen günde anında biner, drift'e karışmaz.
+
+| Sabit | Yıl | Takvim günü | Gösterilen gün (18–25 / 26–40 / 41–60 / 61+) |
+|---|---|---|---|
+| Sağlık 30–44 | −0,4 | −0,0011 | — / −0,04 / — / — |
+| Sağlık 45–59 | −0,7 | −0,0019 | — / — / −0,11 / — |
+| Sağlık 60–69 | −1,0 | −0,0027 | — / — / −0,15 (60) / −0,25 |
+| Sağlık 70+ | −1,2 | −0,0033 | — / — / — / −0,30 |
+| Stres > 70 → Sağlık | −2 | −0,0055 | −0,13 / −0,20 / −0,31 / −0,50 |
+| Stres > 85 → Sağlık | −4 | −0,011 | −0,27 / −0,40 / −0,62 / −1,00 |
+| Kafa 60–69 / 70+ | −0,3 / −0,6 | −0,0008 / −0,0016 | — / — / −0,05 (60) / −0,08 · −0,15 |
+| Çekicilik 30–39 / 40+ | −0,3 / −1,0 | −0,0008 / −0,0027 | — / −0,03 · −0,10 (40) / −0,15 / −0,25 |
+| `sporcu` Sağlık / Çekicilik | +0,5 / +0,3 | +0,0014 / +0,0008 | yıl ÷ N_bant |
+| `sigara` Sağlık | −0,3 | −0,0008 | yıl ÷ N_bant |
+| Öğrenci Kafa (doc 04) | +1,5 | +0,0041 | +0,10 (18–25) |
+
+
 #### 2.2.2 Keyif türevi
 
 Sims modeli: Keyif bir hedefe doğru çekilir, olaylar üstüne biner.
 
 ```
 keyifHedef = 50 + 0,15·(Sağlık − 50) + 8·tanh(Para / 24) + 0,10·(ilişkiOrt − 50) − 0,25·max(0, Stres − 50)
-Keyif(yıl başı) = Keyif + 0,30·(keyifHedef − Keyif)
+Keyif(yıl)       = Keyif + 0,30·(keyifHedef − Keyif)                   // yıllık eşdeğer (v1.0; harness kıyası için)
+Keyif(gap gün)   = Keyif + (1 − 0,70^(gap/365))·(keyifHedef − Keyif)   // v1.1: her boşlukta; 1 gün ≈ %0,10 · 24 gün ≈ %2,3 · 36 gün ≈ %3,5 · 91 gün ≈ %8,5 · 365 gün = %30
 ```
+
+`keyifHedef` her boşlukta güncel statlarla yeniden hesaplanır (Para akışla değiştiği için hedef ay içinde oynar: maaş günü sonrası yukarı, kira günü sonrası aşağı — "ayın 1'i ile 5'i arasındaki mutluluk" mekaniktir, replik değil).
 
 `Para` Birim cinsinden; `tanh` doygunluğu sayesinde 24 Birim (iki yıllık giriş maaşı) birikim +6 verir, 200 Birim +8'de kalır — **zenginlik mutluluğu satın almaz, borç satın alır** (Borç −24 → −6). `ilişkiOrt` doc 04'ün hayattaki NPC affinity ortalaması. Pozitif geri besleme (Sims): Keyif ≥ 70 iken sosyal/absürt olayların director ağırlığı ×1,2; Keyif < 30 iken ×0,6 ve "bugün tek şey" havuzu açılır.
 
@@ -182,15 +262,15 @@ Keyif(yıl başı) = Keyif + 0,30·(keyifHedef − Keyif)
 
 | Metre (TR / EN) | Aralık, başlangıç | Nasıl yükselir | Nasıl düşer | Eşikler ve kapıladığı şeyler |
 |---|---|---|---|---|
-| **Ego** | 0–100, 40–60 (50) | Risk başarısı +4..+10; terfi +6; "pazarlık" kazanımı +5; iltifat olayları +3; Kripto kazancı +20 (tek seferlik tavan) | Yılda 2 puan 50'ye doğru geri çekilir; ret/başarısızlık −3..−8; "sus" seçenekleri −4 | **< 15 "Görünmez"**: fırsat olayları (iş teklifi, flört açılışı) director'de ×0,3; **15–30**: işbirliği seçeneklerinde başarı +%5; **70–85 "Parlak"**: risk seçeneklerinde +%5, ilişki decay ×1,5; **> 85 "Narsist"**: ilişki decay ×2, "patronla kavga" ailesi açılır, roast ekseni Ego; **100**: ölüm **yok** (D-ÖNERİ-02-02); 2 yıl "Narsist Sezon" + tek seferlik komik olay (kendi heykeli; Para −6 Birim, Cringe +15) |
-| **Cringe** | 0–100, 0–10 | Olay sonuçları +3..+20 (tek sonuç tavanı 20) | **−10/yıl** sabit decay | **≥ 60**: "utanç callback" olayları açılır (eski olay anıya referans); **≥ 90**: "Şehir değiştir" olayı zorunlu beat (taşınma; Cringe −50, Para −3 Birim); hayatın **en yüksek Cringe olayı** ölümde Fazla Bagaj olur (D-018) |
-| **Anne Baskısı / Mom Pressure** | 0–100, 0 ("doğdu" ilk aile kartında) | Yıl başı pulse (anne hayattayken): 24+ ve bekâr +3 · işsiz +3 · anne evinde +4 · o yıl "Görüldü, cevap yok" +2 · toplam yıllık tavan **+12** | Ev (kira/sahip) −30 · iş −10 · evlilik/çocuk −30 (doc 04 olayları) · "annenle 1 saat konuş" seçenekleri −5..−10 · bayram ziyareti −8 | **≥ 50**: Aile Grubu kartı salience ×1,5; **≥ 80**: "görücü" zinciri zorunlu beat (TR) / "the setup dinner" (EN); **100**: "Annen yanına taşındı" komik olay (−40, Keyif −5, Para +1 Birim: yemek); **anne ölürse metre dondurulur ve gizlenir**, bir daha değişmez (D-ÖNERİ-02-04) |
+| **Ego** | 0–100, 40–60 (50) | Risk başarısı +4..+10; terfi +6; "pazarlık" kazanımı +5; iltifat olayları +3; Kripto kazancı +20 (tek seferlik tavan) | Yılda 2 puan 50'ye doğru geri çekilir (boşlukta 2·gap/365); ret/başarısızlık −3..−8; "sus" seçenekleri −4 | **< 15 "Görünmez"**: fırsat olayları (iş teklifi, flört açılışı) director'de ×0,3; **15–30**: işbirliği seçeneklerinde başarı +%5; **70–85 "Parlak"**: risk seçeneklerinde +%5, ilişki decay ×1,5; **> 85 "Narsist"**: ilişki decay ×2, "patronla kavga" ailesi açılır, roast ekseni Ego; **100**: ölüm **yok** (D-ÖNERİ-02-02); 2 yıl "Narsist Sezon" + tek seferlik komik olay (kendi heykeli; Para −6 Birim, Cringe +15) |
+| **Cringe** | 0–100, 0–10 | Olay sonuçları +3..+20 (tek sonuç tavanı 20) | **−10/yıl** sabit decay (boşlukta −10·gap/365; gösterilen gün başına ≈ −0,7 / −1,0 / −1,5 / −2,5) | **≥ 60**: "utanç callback" olayları açılır (eski olay anıya referans); **≥ 90**: "Şehir değiştir" olayı zorunlu gün (taşınma; Cringe −50, Para −3 Birim; `status.home` değişir); hayatın **en yüksek Cringe olayı** ölümde Fazla Bagaj olur (D-018) |
+| **Anne Baskısı / Mom Pressure** | 0–100, 0 ("doğdu" ilk aile kartında) | **Günlük tahakkuk** (anne hayattayken; `applyGap`, `status`'tan okunur): yıllık +3 (24+ ve bekâr) · +3 (işsiz) · +4 (anne evinde) × gap/365; her "Görüldü, cevap yok" günü anında +2; doğum günü arası toplam tavan **+12** (`yearStats.momAccrued`) | Ev (kira/sahip) −30 · iş −10 · evlilik/çocuk −30 (doc 04 olayları) · "annenle 1 saat konuş" seçenekleri −5..−10 · bayram ziyareti −8 | **≥ 50**: Aile Grubu kartı salience ×1,5; **≥ 75 ANNE ARIYOR**: tam ekran çağrı günü, bütçe dışı, ertesi gün (D-063; doc 03 §2.3.8); **≥ 80**: "görücü" zinciri zorunlu gün (TR) / "the setup dinner" (EN); **100**: "Annen yanına taşındı" komik olay (−40, Keyif −5, Para +1 Birim: yemek); **anne ölürse metre dondurulur ve gizlenir**, bir daha değişmez (D-ÖNERİ-02-04) |
 
 Ego uçlarında ölüm olmaması bilinçli bir sapmadır (T4 açık soru 2): 60 dakikalık bir hayatı 2 dakikalık Reigns saltanatı gibi bitirmek adaletsiz okunur; uç, ölüm değil **içerik** üretir.
 
 #### 2.2.5 Gizli statlar: Şans ve Stres
 
-**Şans (−50..+50; UI'da hiç yok; motor ve içerikte adı yalnızca "Şans/luck").** Başlangıç `rng('names')` ile −10..+10. Değişim: doc 03'ün `luck` efektleri (Cömertlik seçimleri +2, Kısa Yol −3, kediyi kabul +3, kapıyı kapat −5 gibi; tek efekt tavanı ±8). Her yıl %15 sıfıra geri çekilir. Etkisi:
+**Şans (−50..+50; UI'da hiç yok; motor ve içerikte adı yalnızca "Şans/luck").** Başlangıç `rng('names')` ile −10..+10. Değişim: doc 03'ün `luck` efektleri (Cömertlik seçimleri +2, Kısa Yol −3, kediyi kabul +3, kapıyı kapat −5 gibi; tek efekt tavanı ±8). Her yıl %15 sıfıra geri çekilir (boşlukta ×0,85^(gap/365); gösterilen gün başına ≈ %1,1 / %1,6 / %2,5 / %4). Etkisi:
 
 ```
 pEtkin = clamp(p · (1 + Şans/500), 0,02, 0,98)          // ±%10 çarpan, yalnızca luckScaled sonuçlarda
@@ -199,7 +279,7 @@ M_şans(hazard) = 1 − Şans/1000                             // ±%5
 
 **Dürüstlük kuralı (D-009):** İddia fişinde ve "Oranı göster"de gösterilen oran `pEtkin`'dir, `p` değil. Koç Şans'ı adıyla asla anmaz; nadir ifşa satırı (ömürde ≤ 1): TR *"Şans değil bu. Sayılar. Ama sayılar da bugün senden yana."* / EN *"That wasn't luck. That was math. Math happened to like you today."* "Karma", "evren", "kader", "nazar" sözcükleri Şans bağlamında lint BLOK.
 
-**Stres (0–100; ipuçlarıyla görünür, sayı olarak asla).** Başlangıç 25. Yükselme: iş olayları +3..+12; Para < 0 yıl başı +8; Anne Baskısı ≥ 70 yıl başı +3; hastalık arkı +10; "Görüldü, cevap yok" +2. Düşme: yıl başı doğal decay −4; Keyif ≥ 70 ek −3; tatil/spor/terapi seçimleri −6..−15; kedi +0 (kedi stres düşürmez, kedi stres **yönetir**: Keyif +). Etkiler: > 70 → Sağlık −2/yıl ve hazard ×1,25 ve beat bütçesi +1; > 85 → Sağlık −4/yıl ve "uyuyamıyorsun" olay ailesi açılır; Keyif hedefi §2.2.2'deki terimle baskılanır. Oyuncuya yüzeyi: olay metni ve koç ipucu (TR *"Uyku: dört saat. Bu bir sayı değil, bir itiraf."* / EN *"Sleep: four hours. That's not a number, that's a confession."*).
+**Stres (0–100; ipuçlarıyla görünür, sayı olarak asla).** Başlangıç 25. Yükselme: iş olayları +3..+12; **kira gününde bakiye < kira** +8 (ayda ≤ 1; §2.3.3 — v1.0'ın "Para < 0 yıl başı +8"inin akış karşılığı); Anne Baskısı ≥ 70 iken doğum günü +3; hastalık arkı +10; "Görüldü, cevap yok" +2. Düşme: doğal decay **−4/yıl** (boşlukta −4·gap/365; gösterilen gün başına ≈ −0,27 / −0,4 / −0,6 / −1,0); Keyif ≥ 70 ek −3/yıl aynı oranla; tatil/spor/terapi seçimleri −6..−15 (gösterilen günde anında); kedi +0 (kedi stres düşürmez, kedi stres **yönetir**: Keyif +). Etkiler: > 70 → Sağlık −2/yıl (boşlukta gap/365 ile) ve hazard ×1,25 ve gün bütçesi +1; > 85 → Sağlık −4/yıl ve "uyuyamıyorsun" olay ailesi açılır; Keyif hedefi §2.2.2'deki terimle baskılanır. Oyuncuya yüzeyi: olay metni ve koç ipucu (TR *"Uyku: dört saat. Bu bir sayı değil, bir itiraf."* / EN *"Sleep: four hours. That's not a number, that's a confession."*).
 
 #### 2.2.6 Karne türevleri: Cesaret ve Davranış (D-021)
 
@@ -208,13 +288,14 @@ Karne 6 not alır; ilk dördü stat deltasından, ikisi davranış sayaçlarınd
 ```ts
 export type Grade = 0|1|2|3|4;   // TR Zayıf/Geçer/Orta/İyi/Pekiyi · EN F/D/C/B/A
 export const gradeForDelta = (d: number): Grade => d >= 10 ? 4 : d >= 3 ? 3 : d >= -2 ? 2 : d >= -9 ? 1 : 0;
-// Para: yıllık net değişim / yıllık toplam gider (gelire değil gidere oranlı: zengin de kötü yıl geçirebilir)
+// Para: doğum günü arası net değişim / aynı dönem toplam gider — ikisi de AKIŞTAN sayılır (Σ maaş günleri − Σ kira/kedi/sağlık günleri − 365×günlük gider ± olay efektleri; §2.3)
+// (gelire değil gidere oranlı: zengin de kötü yıl geçirebilir)
 export const gradeForMoney = (netDelta: number, yearlyCost: number): Grade => {
   const r = netDelta / Math.max(yearlyCost, 1);
   return r >= 0.5 ? 4 : r >= 0.15 ? 3 : r >= -0.15 ? 2 : r >= -0.5 ? 1 : 0;
 };
 // İlişkiler: hayattaki NPC affinity ortalamasının yıllık deltası (doc 04 verir) → gradeForDelta
-// Cesaret: o yıl `pattern: 'risk'` etiketli seçim sayısı
+// Cesaret: o yıl (doğum günü arası, `yearStats`) `pattern: 'risk'` etiketli seçim sayısı
 export const gradeForCourage = (riskChoices: number): Grade => Math.min(4, riskChoices) as Grade;
 // Davranış: 2'den başla; her Cringe sıçraması (tek sonuçta ≥ 8) −1; Ego bu yıl 85'i geçtiyse −1;
 // ≥ 2 Cömertlik/Sabır seçimi +1; hiç Cringe sıçraması yoksa +1; clamp 0..4
@@ -224,7 +305,7 @@ export function gradeForConduct(y: YearStats): Grade {
 }
 ```
 
-Davranış notunun koç cümlesi daima **olaya** bağlanır, sıfata değil: TR *"Davranış: Orta. Düğünde mikrofon aldın."* / EN *"Conduct: C. You took the mic at a wedding."*
+`yearStats` doğum günü pulse'ında sıfırlanır (§2.4.2); Karne daima doğum günü kartında gelir, başka hiçbir günde gelmez (D-061). Davranış notunun koç cümlesi daima **olaya** bağlanır, sıfata değil: TR *"Davranış: Orta. Düğünde mikrofon aldın."* / EN *"Conduct: C. You took the mic at a wedding."*
 
 #### 2.2.7 Tipler
 
@@ -233,12 +314,20 @@ export interface CoreStats { health: number; joy: number; smarts: number; looks:
 export interface Meters   { ego: number; cringe: number; momPressure: number | null; }        // null = anne öldü, donduruldu
 export interface Hidden   { luck: number; stress: number; }                                   // −50..50 · 0–100
 export interface Money    { balance: number; debt: { card: number; bank: number; cosign: number }; } // Birim
+export interface Status   {                                   // D-067: kalıcı Durum şeridi; olaylar bunu DEĞİŞTİRİR, akış bundan TÜRER
+  job: { title: string; tier: IncomeTier; monthly: number; since: number } | null;   // since = calendarDay; monthly Birim (kademe × performans)
+  home: { kind: HousingTier; rent: number; since: number };    // rent Birim/ay (kira günü); kredili evde taksit; anne evinde 0,10 "katkı"
+  relationship: { npcId: string; since: number } | null;      // doc 04 yazar; "bekâr / kiminle, kaç yıldır"
+  assets: AssetId[];                                           // 'kedi' | 'telefon' | 'araba' | 'bisiklet' | … (doc 04 listesi); kedi ayda 0,05 Birim yer
+}
 export interface LifeState {
-  clock: GameClock; stats: CoreStats; meters: Meters; hidden: Hidden; money: Money;
-  flags: Set<string>;                 // 'sporcu','sigara','kiraci','anne_evinde','bailoutUsed','physioUsed',...
-  housing: HousingTier; incomeTier: IncomeTier; yearsWorked: number;
+  clock: GameClock; stats: CoreStats; meters: Meters; hidden: Hidden; money: Money; status: Status;
+  flags: Set<string>;                 // 'sporcu','sigara','anne_evinde','bailoutUsed','physioUsed',...  ('kiraci' artık status.home.kind'dan türer)
+  incomeTier: IncomeTier; yearsWorked: number;   // incomeTier = status.job?.tier ?? 'T0'; yearsWorked doğum gününde status.job doluysa +1
   spiralYears: number; lowJoy: boolean; healthCritical: boolean;
-  yearStats: YearStats;               // karne türevleri için yıl içi sayaçlar
+  pendingDeathRisk?: { cause: CauseKey };        // yalnızca advanceTime sonrası (§2.1.7)
+  yearStats: YearStats;               // doğum gününde sıfırlanır: karne sayaçları + momAccrued + paydays + rentDays + rentEvents
+  settings: { fastLife: boolean };    // Hızlı Yaşa (bant minimumu); akış hızı (▶/▶▶) motorda YOK, UI'da
 }
 ```
 
