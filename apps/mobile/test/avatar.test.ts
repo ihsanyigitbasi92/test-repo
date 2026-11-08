@@ -4,7 +4,9 @@ import {
   SKIN_TONES, FACE_SHAPES, HAIR_COLORS, EYES, BROWS, NOSES, FACIAL_HAIR, GLASSES,
 } from '../src/avatar/look';
 import { npcFace, npcLook, npcMood } from '../src/avatar/npcs';
-import { lifeChange, momentAllowed, outcomeMood, pickMoment, MOMENT_GAP_DAYS } from '../src/avatar/moments';
+import {
+  emptyMomentHistory, lifeChange, momentAllowed, momentCandidates, outcomeMood, pickMoment, recordMoment, MOMENT_COOLDOWN_YEARS, MOMENT_GAP_DAYS,
+} from '../src/avatar/moments';
 import { pickLookRoast } from '../src/avatar/roast';
 import { tr } from '../src/i18n/tr';
 import { en } from '../src/i18n/en';
@@ -116,14 +118,47 @@ describe('NPC faces', () => {
   });
 });
 
+describe('family resemblance', () => {
+  it('kin follow the player skin (±1) and natural hair colour; non-kin stay seeded by id', () => {
+    const fair = { ...generateLook('p1'), skin: 0, hairColor: 4 };
+    const deep = { ...generateLook('p1'), skin: 5, hairColor: 5 };
+    for (const id of ['mom', 'uncle', 'sibling', 'child']) {
+      expect(npcLook(id, fair).skin).toBeLessThanOrEqual(1);
+      expect(partValue(npcLook(id, fair), 'hairColor')).toBe('blonde');
+      expect(npcLook(id, deep).skin).toBeGreaterThanOrEqual(4);
+      expect(partValue(npcLook(id, deep), 'hairColor')).toBe('darkBrown');   // teal dye → dark brown
+      expect(partValue(npcLook(id, deep), 'facial')).toBe(partValue(npcLook(id), 'facial'));   // pinned traits kept
+    }
+    expect(npcLook('boss', fair)).toEqual(npcLook('boss', deep));
+    expect(npcFace('mom', 30, fair).look.skin).toBeLessThanOrEqual(1);
+  });
+});
+
 describe('moments', () => {
-  it('cadence ≤ 1 per 8 shown days, death exempt', () => {
-    expect(momentAllowed('birthday', 10, 5)).toBe(false);
-    expect(momentAllowed('birthday', 5 + MOMENT_GAP_DAYS, 5)).toBe(true);
-    expect(momentAllowed('death', 6, 5)).toBe(true);
-    expect(pickMoment(['wagerWin', 'birthday'], 100, -999)).toBe('birthday');
-    expect(pickMoment(['wagerWin', 'death'], 3, 1)).toBe('death');
-    expect(pickMoment(['wagerWin'], 3, 1)).toBeNull();
+  it('global gap + per-kind cooldowns, death and legendary exempt', () => {
+    const h = recordMoment(emptyMomentHistory(), 'promotion', { shownDays: 5, age: 20 });
+    expect(momentAllowed('birthday', { shownDays: 10, age: 21 }, h)).toBe(false);
+    expect(momentAllowed('birthday', { shownDays: 5 + MOMENT_GAP_DAYS, age: 23 }, h)).toBe(true);
+    expect(momentAllowed('death', { shownDays: 6, age: 20 }, h)).toBe(true);
+    expect(momentAllowed('legendary', { shownDays: 6, age: 20 }, h)).toBe(true);
+    // same kind again: blocked by its own cooldown even after the global gap
+    expect(momentAllowed('promotion', { shownDays: 5 + MOMENT_GAP_DAYS, age: 21 }, h)).toBe(false);
+    expect(momentAllowed('promotion', { shownDays: 5 + MOMENT_GAP_DAYS, age: 20 + MOMENT_COOLDOWN_YEARS.promotion }, h)).toBe(true);
+    const fresh = emptyMomentHistory();
+    expect(pickMoment(['wagerWin', 'birthday'], { shownDays: 100, age: 30 }, fresh)).toBe('birthday');
+    expect(pickMoment(['wagerWin', 'death'], { shownDays: 6, age: 20 }, h)).toBe('death');
+    expect(pickMoment(['wagerWin'], { shownDays: 6, age: 20 }, h)).toBeNull();
+  });
+  it('per-life caps on the life-event kinds', () => {
+    const h = emptyMomentHistory();
+    let day = 0, age = 18;
+    for (let i = 0; i < 6; i++) { day += 100; age += 15; if (momentAllowed('wagerWin', { shownDays: day, age }, h)) recordMoment(h, 'wagerWin', { shownDays: day, age }); }
+    expect(h.count.wagerWin).toBe(2);
+  });
+  it('only milestone birthdays become a candidate', () => {
+    const sig = { death: false, legendary: false, career: null, wagerWin: false };
+    expect(momentCandidates({ ...sig, birthdayAge: 31 })).toEqual([]);
+    expect(momentCandidates({ ...sig, birthdayAge: 40 })).toEqual(['birthday']);
   });
   it('detects career / love transitions', () => {
     const base = { job: null, partner: null };

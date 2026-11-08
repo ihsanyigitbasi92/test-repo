@@ -8,7 +8,7 @@ import { Animated, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
 import type { FeedItemOf } from '../state/feed';
-import { useAppear, useSlam, useTypewriter } from './anim';
+import { useAppear, useReducedMotion, useSlam, useTypewriter } from './anim';
 
 const ORDER = ['health', 'money', 'relationships', 'brain', 'courage', 'spectacle'] as const;
 
@@ -28,7 +28,7 @@ function Grade({ name, grade, i }: { name: string; grade: number; i: number }) {
 export function ReportCard({ item, typeMs }: { item: FeedItemOf<'report'>; typeMs: number }) {
   const { s } = useI18n();
   const anim = useAppear('pop', 320);
-  const filed = useSlam(true, '-6deg', 2.6);
+  const filed = useSlam(true, '-6deg', 2.6, useReducedMotion());
   const d = item.data;
   const motto = useTypewriter(s.motto[item.motto] ?? s.motto.none!, typeMs * 3);
   const teaser = d.envelopeTeaser ? s.envTeaser[d.envelopeTeaser] ?? s.envTeaserDefault : null;

@@ -30,13 +30,17 @@ export function useAppear(kind: AppearKind, duration = 260) {
 }
 
 /** Stamp slam: scale 3.2 → 0.9 → 1 with the stamp's fixed tilt (mock `stampIn`). */
-export function useSlam(active: boolean, tilt = '-12deg', from = 3.2) {
+export function useSlam(active: boolean, tilt = '-12deg', from = 3.2, reduced = false) {
   const v = useRef(new Animated.Value(active ? 0 : 1)).current;
   useEffect(() => {
     if (!active) return;
     v.setValue(0);
-    Animated.timing(v, { toValue: 1, duration: 380, easing: Easing.out(Easing.back(2.2)), useNativeDriver: nativeDriver }).start();
-  }, [active, v]);
+    Animated.timing(v, reduced
+      ? { toValue: 1, duration: 150, easing: Easing.linear, useNativeDriver: nativeDriver }
+      : { toValue: 1, duration: 380, easing: Easing.out(Easing.back(2.2)), useNativeDriver: nativeDriver }).start();
+  }, [active, reduced, v]);
+  // Reduced motion (07 §747): no press / slam — the stamp keeps its rotation and only fades in over 150 ms.
+  if (reduced) return { opacity: v.interpolate({ inputRange: [0, 1], outputRange: [0, 0.95] }), transform: [{ rotate: tilt }, { scale: 1 }] };
   return {
     opacity: v.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0, 1, 0.95] }),
     transform: [{ rotate: tilt }, { scale: v.interpolate({ inputRange: [0, 1], outputRange: [from, 1] }) }],
@@ -78,8 +82,16 @@ export function useCountUp(target: number, run: boolean, steps = 18, ms = 60): n
 }
 
 /** System "reduce motion" (iOS / Android setting, web `prefers-reduced-motion`). Starts false; updates live. */
+/** Web: read the media query synchronously so the very first frames already honour it (no async flash of motion). */
+function initialReducedMotion(): boolean {
+  try {
+    const mm = (globalThis as { matchMedia?: (q: string) => { matches: boolean } }).matchMedia;
+    return typeof mm === 'function' ? !!mm('(prefers-reduced-motion: reduce)').matches : false;
+  } catch { return false; }
+}
+
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
+  const [reduced, setReduced] = useState(initialReducedMotion);
   useEffect(() => {
     let alive = true;
     AccessibilityInfo.isReduceMotionEnabled?.().then((v) => { if (alive) setReduced(v); }).catch(() => undefined);

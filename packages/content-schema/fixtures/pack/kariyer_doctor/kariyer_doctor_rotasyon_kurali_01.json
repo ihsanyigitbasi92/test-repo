@@ -1,0 +1,156 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_rotasyon_kurali_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "İlk rotasyonun bende. Kurallarım basit: geç kalma, erken gelme, tam gel.",
+      "en": "Your first rotation is with me. My rules are simple: don't be late, don't be early, be exactly on time."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Yedi dediysem yedi. Altıyı elli dokuz geçe gelirsen beni bekletirsin.",
+      "en": "Seven means seven. If you show up at 6:59, you're making me wait.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tam",
+      "tr": "Kapıda saati bekle",
+      "en": "Wait outside until exactly seven",
+      "pattern": "patience"
+    },
+    {
+      "id": "erken",
+      "tr": "Yine erken git, dosya hazırla",
+      "en": "Come early anyway, prep the charts",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sor",
+      "tr": "Kuralın mantığını sor",
+      "en": "Ask what the rule is for",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "tam": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "flags": {
+          "add": [
+            "rotasyon_saat_kurali"
+          ]
+        }
+      },
+      "tr": "Kapıyı tam yedide çaldın. Hoca başını bir kez salladı; rotasyon sorunsuz başladı.",
+      "en": "You knocked at seven sharp and the attending nodded once. The rotation started without incident.",
+      "coach": [
+        {
+          "tr": "Bir baş sallama. Bu servisin para birimi bu.",
+          "en": "One nod. That is the currency on this ward.",
+          "roast": false
+        }
+      ]
+    },
+    "erken": {
+      "effects": {
+        "meters": {
+          "ego": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Yediden önce altı dosya hazırladın. Hoca dosyaları aldı, \"erken gelmişsin\" dedi ve not etti.",
+      "en": "You prepped six charts before seven. The attending took them, said \"you came early,\" and wrote it down.",
+      "coach": [
+        {
+          "tr": "Altı dosya hazır, bir not düşüldü. Çalışkanlık kural ihlali sayıldı.",
+          "en": "Six charts ready, one infraction logged. Diligence counted as a violation.",
+          "roast": true
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "meters": {
+          "ego": -2
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Hoca kuralı yirmi iki dakika anlattı. Rotasyon yirmi iki dakika geç başladı ve sana yazıldı.",
+      "en": "The attending explained the rule for twenty-two minutes. The rotation started twenty-two minutes late, on your record.",
+      "coach": [
+        {
+          "tr": "Dakiklik konferansı yirmi iki dakika sürdü. Gecikme sende kaldı.",
+          "en": "The punctuality lecture ran twenty-two minutes. The delay was charged to you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "ilk rotasyonda dakikliğe takıntılı kıdemli hekim",
+    "mechanism": "kural tek doğru saati tarif ediyor",
+    "mechanismId": "deadpan_report",
+    "punch": "altıyı elli dokuz geçe gelirsen beni bekletirsin",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "nobet_notu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

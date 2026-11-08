@@ -9,7 +9,7 @@
  */
 import { memo } from 'react';
 import Svg, { Circle, Ellipse, G, Line, Path, Rect } from 'react-native-svg';
-import { agingFor, desatHex, FACIAL_HAIR, FACE_SHAPES, GLASSES, HAIR_STYLES, hairHex, BROWS, EYES, NOSES, shadeHex, SKIN_TONES, TOP_COLORS } from './look';
+import { agingFor, desatHex, FACIAL_HAIR, FACE_SHAPES, GLASSES, HAIR_STYLES, hairHex, BROWS, EYES, mixHex, NOSES, shadeHex, SKIN_TONES, TOP_COLORS } from './look';
 import type { Look, Mood, TopStyle } from './look';
 
 export interface AvatarProps {
@@ -282,12 +282,12 @@ function Mouth({ mood }: { mood: Mood }) {
   }
 }
 
-function FacialHair({ kind, color, g }: { kind: string; color: string; g: Geo }) {
+function FacialHair({ kind, color, stubble, g }: { kind: string; color: string; stubble: string; g: Geo }) {
   const L = 50 - g.w, R = 50 + g.w;
   const jaw = `M${L + 0.5},46 C${L + 0.5},57 ${50 - g.jw},${g.chin - 1} 50,${g.chin} C${50 + g.jw},${g.chin - 1} ${R - 0.5},57 ${R - 0.5},46 `;
   const mustache = <Path d="M43,56.3 Q46.5,52.6 50,54.4 Q53.5,52.6 57,56.3 Q50,55.2 43,56.3 Z" fill={color} />;
   switch (kind) {
-    case 'stubble': return <Path d={`${jaw}L${R - 3.5},50 Q56,63.5 50,63.5 Q44,63.5 ${L + 3.5},50 Z`} fill={color} opacity={0.28} />;
+    case 'stubble': return <Path d={`${jaw}L${R - 3.5},50 Q56,63.5 50,63.5 Q44,63.5 ${L + 3.5},50 Z`} fill={stubble} opacity={0.22} />;
     case 'mustache': return mustache;
     case 'beard':
       return (
@@ -363,6 +363,10 @@ function AvatarImpl({ look, age, mood = 'neutral', size = 52, outfit = 'tee', de
   const nose = NOSES[look.nose] ?? 'button';
   const facial = FACIAL_HAIR[look.facial] ?? 'none';
   const glasses = GLASSES[look.glasses] ?? 'none';
+  // Facial hair never takes the dyed teal (→ dark brown); stubble is a skin-derived shadow, not a hair-colour wash.
+  const beardBase = look.hairColor === 5 ? hairHex({ ...look, hairColor: 1 }, age) : hairHex(look, age);
+  const beard = c(beardBase);
+  const stubble = c(mixHex(shadeHex(SKIN_TONES[look.skin] ?? SKIN_TONES[0], 0.55), beardBase, 0.35));
   const browColor = hairStyle === 'bald' || hairStyle === 'buzz' ? c(shadeHex(hairHex(look, age), 0.85)) : hair;
   const head = `translate(0 ${(aging.sag * 2.6).toFixed(2)})`;
   const sk = c(shadeHex(SKIN_TONES[look.skin] ?? SKIN_TONES[0], 0.88));
@@ -382,7 +386,7 @@ function AvatarImpl({ look, age, mood = 'neutral', size = 52, outfit = 'tee', de
         <Eyes kind={eyes} mood={mood} skin={skin} />
         <Brows kind={brows} mood={mood} color={browColor} />
         <Nose kind={nose} skin={skin} />
-        <FacialHair kind={facial} color={hair} g={geo} />
+        <FacialHair kind={facial} color={beard} stubble={stubble} g={geo} />
         <Mouth mood={mood} />
         <FrontHair style={hairStyle} color={hair} w={geo.w} accent={c(shadeHex(TOP_COLORS[(look.top + 3) % TOP_COLORS.length]!, 1))} />
         <Glasses kind={glasses} />

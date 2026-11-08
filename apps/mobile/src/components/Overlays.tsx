@@ -5,6 +5,7 @@ import { colors, fonts, nativeDriver } from '../theme';
 import { useI18n } from '../i18n';
 import type { StampResult } from '../state/feed';
 import { PrimaryButton } from './ActionZone';
+import { CalendarLeaf } from './AvatarMoment';
 
 export function FlashLayer({ flash }: { flash: { key: number; color: 'red' | 'lime' | 'gold' } | null }) {
   const v = useRef(new Animated.Value(0)).current;
@@ -89,7 +90,7 @@ export function AgeUp({ ageUp }: { ageUp: { from: number; to: number } | null })
     <View style={[StyleSheet.absoluteFill, st.ageup]} testID="age-up">
       <Text style={st.ageLbl}>{s.agingLbl}</Text>
       <Animated.Text style={[st.ageNum, { transform: [{ scale: bump }] }]}>{shown}</Animated.Text>
-      <View style={st.pages}>{[0, 1, 2, 3].map((i) => <View key={i} style={st.page} />)}</View>
+      <View style={st.pages} testID="calendar">{[0, 1, 2, 3].map((i) => <CalendarLeaf key={i} turned={shown === ageUp.to} />)}</View>
     </View>
   );
 }
@@ -129,8 +130,7 @@ const st = StyleSheet.create({
   ageup: { backgroundColor: colors.paper, alignItems: 'center', justifyContent: 'center', gap: 6, zIndex: 19 },
   ageLbl: { fontSize: 11, letterSpacing: 3.3, color: colors.ink2, fontWeight: '700' },
   ageNum: { fontFamily: fonts.stamp, fontSize: 120, lineHeight: 130, color: colors.lime },
-  pages: { flexDirection: 'row', gap: 4 },
-  page: { width: 14, height: 20, backgroundColor: colors.paper3, borderWidth: 1, borderColor: colors.line },
+  pages: { flexDirection: 'row', gap: 5 },
   scrim: { backgroundColor: colors.scrim, alignItems: 'center', justifyContent: 'center', padding: 16, zIndex: 20 },
   sheet: { backgroundColor: colors.paper, borderRadius: 12, borderWidth: 1, borderColor: colors.line, padding: 16, gap: 12, width: '100%', maxWidth: 360 },
   sheetTitle: { fontFamily: fonts.stamp, letterSpacing: 1.4, fontSize: 14, color: colors.lime },

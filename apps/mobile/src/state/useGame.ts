@@ -22,8 +22,8 @@ import { haptic } from './haptics';
 import type { CardVariant, Delta, FeedItem, StampResult } from './feed';
 import { cyclePart, generateLook, outfitFor } from '../avatar/look';
 import type { Look, LookPart, Mood as FaceMood } from '../avatar/look';
-import { lifeChange, outcomeMood, pickMoment } from '../avatar/moments';
-import type { MomentKind, MomentReason, MomentView } from '../avatar/moments';
+import { emptyMomentHistory, lifeChange, momentCandidates, outcomeMood, pickMoment, recordMoment } from '../avatar/moments';
+import type { MomentHistory, MomentKind, MomentReason, MomentView } from '../avatar/moments';
 
 export type Mood = 'neutral' | 'smirk' | 'shock' | 'sad';
 export type Stage = 'file' | 'play' | 'death';
@@ -33,6 +33,9 @@ export interface DeathView {
   roast: RoastReport; name: string; birthYear: number; deathYear: number; epitaph: string | null; autoDays: number;
   /** Last birthday report card of this life (share card). */
   report: ReportCardData | null;
+  /** The player's face for the tombstone and the share card (desaturated there); null if the life had no look. */
+  look: Look | null;
+  outfit: ReturnType<typeof outfitFor>;
 }
 export interface Snapshot {
   stage: Stage;
@@ -126,8 +129,8 @@ export class GameController {
   private lastReport: ReportCardData | null = null;
   /** The beat queue is paused on a `hold` beat until the moment closes. */
   private held = false;
-  /** shownDays at the last avatar moment (cadence ≤ 1 / 8 shown days). */
-  private lastMomentDay = -999;
+  /** Shown avatar moments this life (global gap + per-kind cooldowns, see moments.ts). */
+  private momentHist: MomentHistory = emptyMomentHistory();
   /** A career / love change seen while a choice was pending: played after the answer. */
   private deferred: { kind: 'promotion' | 'sad'; reason: MomentReason; outfitFrom: ReturnType<typeof outfitFor> } | null = null;
   /** Look per life (engine `lifeSeed` → look). In-memory, like the rest of the session. */
@@ -214,7 +217,7 @@ export class GameController {
     const id = this.id();
     const outfit = outfitFor({ job: st.status.job, age: st.calendar.age });
     const ms = kind === 'death' ? Math.max(1400, this.t().moment) : this.t().moment;
-    this.lastMomentDay = st.counters.shownDays;
+    recordMoment(this.momentHist, kind, { shownDays: st.counters.shownDays, age: st.calendar.age });
     this.set({
       moment: { id, kind, age: st.calendar.age, fromAge: st.calendar.age, outfitFrom: outfit, outfitTo: outfit,
         cat: st.status.assets.includes('kedi'), ms, ...extra },
@@ -242,13 +245,15 @@ export class GameController {
     const prevOutfit = prev ? outfitFor({ job: prev.status.job, age: prev.calendar.age }) : outfitFor({ job: st.status.job, age: st.calendar.age });
     if (change && pending) this.deferred ??= { ...change, outfitFrom: prevOutfit };
     const career = !pending ? (change ? { ...change, outfitFrom: prevOutfit } : this.deferred) : null;
-    const cands: MomentKind[] = [];
-    if (fx.some((e) => e.kind === 'DEATH')) cands.push('death');
-    if (fx.some((e) => e.kind === 'SHOW_DAY' && e.card.legendary)) cands.push('legendary');
-    if (fx.some((e) => e.kind === 'REPORT_CARD')) cands.push('birthday');
-    if (career) cands.push(career.kind);
-    if (fx.some((e) => e.kind === 'STAMP' && e.result === 'iWasWrong')) cands.push('wagerWin');
-    const pick = pickMoment(cands, st.counters.shownDays, this.lastMomentDay);
+    const report = fx.find((e): e is Extract<Effect, { kind: 'REPORT_CARD' }> => e.kind === 'REPORT_CARD');
+    const cands: MomentKind[] = momentCandidates({
+      death: fx.some((e) => e.kind === 'DEATH'),
+      legendary: fx.some((e) => e.kind === 'SHOW_DAY' && !!e.card.legendary),
+      birthdayAge: report ? report.data.age : null,            // milestone ages only; other birthdays keep AgeUp
+      career: career ? career.kind : null,
+      wagerWin: fx.some((e) => e.kind === 'STAMP' && e.result === 'iWasWrong'),
+    });
+    const pick = pickMoment(cands, { shownDays: st.counters.shownDays, age: st.calendar.age }, this.momentHist);
     if (career && !pending) this.deferred = null;
     for (let i = 0; i < fx.length; i++) {
       const e = fx[i]!;
@@ -422,6 +427,7 @@ export class GameController {
       death: {
         roast: buildRoast(st), name: st.name, birthYear, deathYear: birthYear + (st.death?.age ?? st.calendar.age),
         epitaph: this.lastMotto ? s.motto[this.lastMotto] ?? null : null, autoDays: this.autoDays, report: this.lastReport,
+        look: this.looks.get(st.lifeSeed) ?? this.snap.look, outfit: outfitFor({ job: st.status.job, age: st.calendar.age }),
       },
     });
     haptic.heavy();
@@ -512,7 +518,7 @@ export class GameController {
     this.dispatch({ type: 'RESUME', localDay: localDay() });                 // Günün Günü seed only (D-050)
     if (this.snap.speed !== 'play') this.dispatch({ type: 'SET_SPEED', speed: this.snap.speed });
     this.autoDays = 0; this.lowJoyShown = false; this.lastMotto = null; this.lastReport = null;
-    this.lastMomentDay = -999; this.deferred = null;
+    this.momentHist = emptyMomentHistory(); this.deferred = null;
     const look = this.snap.draftLook;
     this.looks.set(r.state.lifeSeed, look);
     this.set({ stage: 'play', view: this.state, progress: 0, unread: 9, lifeNo: this.meta.legacy.livesCompleted + 1, look, playerMood: 'neutral', moment: null });

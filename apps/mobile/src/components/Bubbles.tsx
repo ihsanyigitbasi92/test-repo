@@ -3,6 +3,7 @@
  * (outcome + delta tags), CoachLine (Fraunces italic, typewriter; roast red / lift green edge), Sys / Mundane lines.
  * The coach never speaks inside an NPC bubble.
  */
+import { createContext, useContext } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, speakerColor, speakerFallback } from '../theme';
 import { upper, useI18n } from '../i18n';
@@ -12,11 +13,16 @@ import { useAppear, useTypewriter } from './anim';
 import { Avatar, CatSprite } from '../avatar/Avatar';
 import { npcFace, npcMood } from '../avatar/npcs';
 import { CoachAvatar } from './CoachAvatar';
+import type { Look } from '../avatar/look';
+
+/** The current player's look, so family NPCs resemble them (provided by LifeScreen). */
+export const PlayerLookContext = createContext<Look | null>(null);
 
 /** NPC face disc: same generator as the player, seeded by the speaker id; Pamuk is the cat sprite. */
 export function NpcFace({ speaker, avatar, age, size = 34 }: { speaker: string; avatar?: string; age?: number; size?: number }) {
   const bg = speakerColor[speaker] ?? speakerFallback;
-  const f = npcFace(speaker, age ?? 18);
+  const player = useContext(PlayerLookContext);
+  const f = npcFace(speaker, age ?? 18, player);
   const inner = size - 4;
   return (
     <View style={[st.av, { width: size, height: size, borderRadius: size / 2, backgroundColor: bg }]} testID="npc-face">

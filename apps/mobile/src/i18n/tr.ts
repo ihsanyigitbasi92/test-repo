@@ -108,6 +108,16 @@ export const tr = {
     nameShuffle: 'İsmi karıştır',
     prev: 'önceki', next: 'sonraki',
     parts: { hair: 'Saç', hairColor: 'Saç rengi', skin: 'Ten', face: 'Yüz', glasses: 'Gözlük', facial: 'Sakal' } as Record<string, string>,
+    values: {
+      'hair.bald': 'Saçsız', 'hair.buzz': 'Kazıma', 'hair.short': 'Kısa', 'hair.sidePart': 'Yandan ayrık', 'hair.curly': 'Kıvırcık',
+      'hair.long': 'Uzun', 'hair.bob': 'Küt', 'hair.bun': 'Topuz', 'hair.spiky': 'Diken', 'hair.beanie': 'Bere',
+      'hairColor.black': 'Siyah', 'hairColor.darkBrown': 'Koyu kahve', 'hairColor.chestnut': 'Kestane', 'hairColor.auburn': 'Kızıl',
+      'hairColor.blonde': 'Sarı', 'hairColor.teal': 'Turkuaz',
+      'face.oval': 'Oval', 'face.round': 'Yuvarlak', 'face.square': 'Köşeli', 'face.heart': 'Kalp',
+      'glasses.none': 'Yok', 'glasses.round': 'Yuvarlak', 'glasses.square': 'Köşeli',
+      'facial.none': 'Yok', 'facial.stubble': 'Kirli sakal', 'facial.mustache': 'Bıyık', 'facial.beard': 'Sakal',
+    } as Record<string, string>,
+    tone: (i: number, n: number) => `Ton ${i}/${n}`,
     a11y: (name: string) => `${name} — müşterinin portresi`,
   },
   lookRoast: {
@@ -143,7 +153,7 @@ export const tr = {
   ],
   moment: {
     promotion: 'TERFİ', newJob: 'YENİ İŞ', retired: 'EMEKLİ', breakup: 'AYRILIK', fired: 'İŞSİZ KALDIN', legendary: 'EFSANE GÜN',
-    wagerWin: 'HAKSIZ ÇIKTIM', death: 'SON SAYFA',
+    wagerWin: 'HAKSIZ ÇIKTIM', wagerLbl: 'MOTTO YANILDI', death: 'SON SAYFA',
     skip: 'dokun: geç',
   },
   names: [

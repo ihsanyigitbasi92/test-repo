@@ -8,11 +8,11 @@ import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
 import { eventById } from '../content/bundle';
 import type { FeedItemOf } from '../state/feed';
-import { useAppear, useSlam } from './anim';
+import { useAppear, useReducedMotion, useSlam } from './anim';
 
 function Stamp({ result }: { result: 'calledIt' | 'iWasWrong' }) {
   const { s } = useI18n();
-  const anim = useSlam(true);
+  const anim = useSlam(true, '-12deg', 3.2, useReducedMotion());
   const c = result === 'iWasWrong' ? colors.wrong : colors.called;
   return (
     <Animated.View pointerEvents="none" style={[st.stamp, { borderColor: c }, anim]} testID={`stamp-${result}`}>

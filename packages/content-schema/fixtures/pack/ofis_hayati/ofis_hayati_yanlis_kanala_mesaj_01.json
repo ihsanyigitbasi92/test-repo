@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_yanlis_kanala_mesaj_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Dur. 'Bu toplantı neden hâlâ sürüyor' mesajın genel kanala mı gitti?",
+      "en": "Wait. Did your 'why is this meeting still going' just go to the main channel?"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Silersen 'mesaj silindi' yazıyor. O daha kötü olabilir.",
+      "en": "If you delete it, it says 'message deleted.' That might be worse.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sil",
+      "tr": "Hemen sil",
+      "en": "Delete it now",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sahiplen",
+      "tr": "Sahiplen, gündem iste",
+      "en": "Own it, ask for an agenda",
+      "pattern": "pride"
+    },
+    {
+      "id": "bekle",
+      "tr": "Hiçbir şey yapma",
+      "en": "Do nothing",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sil": [
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          },
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Mesajı dört saniyede sildin. Kanalda yalnızca 'mesaj silindi' kaldı, kimse sormadı.",
+        "en": "You deleted it in four seconds. Only 'message deleted' remains. Nobody asked.",
+        "coach": [
+          {
+            "tr": "Dört saniye. Kanıt yok, yalnızca iz.",
+            "en": "Four seconds. No evidence, just a trace.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "kanal_mesaji"
+            }
+          ]
+        },
+        "tr": "Silmeden önce Nevin Hanım okudu. Toplantıya 'Neden hâlâ sürüyor' başlıklı yeni bir madde eklendi.",
+        "en": "Ms. Carver read it before you could delete it. The meeting gained a new agenda item: 'Why are we still going?'",
+        "coach": [
+          {
+            "tr": "Soru gündem maddesi oldu. Toplantı on beş dakika uzadı.",
+            "en": "Your question became an agenda item. The meeting grew fifteen minutes.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sahiplen": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "'Evet, ben yazdım, gündem rica ediyorum' dedin. Toplantı on dakika erken bitti.",
+      "en": "'Yes, that was me. Could we have an agenda?' The meeting ended ten minutes early.",
+      "coach": [
+        {
+          "tr": "Kazayla sorulan soru herkese on dakika kazandırdı.",
+          "en": "An accidental question bought everyone ten minutes.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Hiçbir şey yapmadın. Mesaja üç kişi başparmak bıraktı, biri 'aynen' yazdı.",
+      "en": "You did nothing. Three people gave it a thumbs-up. One replied 'same.'",
+      "coach": [
+        {
+          "tr": "Üç onay, bir 'aynen'. Sessiz çoğunluk konuştu.",
+          "en": "Three thumbs, one 'same.' The silent majority has spoken.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sil",
+    "slip": {
+      "tr": "İDDİA: Mesaj silinmeden okunur. — M.",
+      "en": "WAGER: Someone reads it before it's gone. — M."
+    }
+  },
+  "intent": {
+    "setup": "toplantı şikâyeti yanlışlıkla genel kanala gitti",
+    "mechanism": "kazara soru toplantıyı kısaltıyor",
+    "mechanismId": "reversal",
+    "punch": "sessiz çoğunluk konuştu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "aynen"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

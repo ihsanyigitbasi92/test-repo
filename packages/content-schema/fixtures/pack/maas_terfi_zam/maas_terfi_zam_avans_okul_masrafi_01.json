@@ -1,0 +1,170 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_avans_okul_masrafi_01",
+  "tags": [
+    "is",
+    "maas",
+    "avans",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 43,
+      "max": 56
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "child": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Avans talebi için form 3B'yi doldurun. Gerekçe kısmı en az iki satır olmalı.",
+      "en": "For a salary advance, fill in form 3B. The reason field needs at least two lines."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Tek satırlıklar geri dönüyor. Ne yazdığınıza bakmıyoruz, satır sayıyoruz.",
+      "en": "One-liners get bounced. We don't read them. We count the lines.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iki",
+      "tr": "İki satır gerekçe yaz",
+      "en": "Write a two-line reason",
+      "pattern": "patience"
+    },
+    {
+      "id": "kredi",
+      "tr": "Bankadan ihtiyaç kredisi çek",
+      "en": "Take a personal loan",
+      "pattern": "risk"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayından borç iste",
+      "en": "Ask your uncle for a loan",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "uncle": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "iki": {
+      "effects": {
+        "money": 3000,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "maas_avansi"
+          ]
+        }
+      },
+      "tr": "İki satır yazdın; okul masrafı için 3.000 Para avans onaylandı. Önümüzdeki üç maaştan kesilecek.",
+      "en": "Two lines, and 3,000 was approved for the school fees. It comes out of the next three paychecks.",
+      "coach": [
+        {
+          "tr": "Gerekçe iki satır, taksit üç ay.",
+          "en": "Reason: two lines. Repayment: three months.",
+          "roast": false
+        }
+      ]
+    },
+    "kredi": {
+      "effects": {
+        "money": 3000,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "ihtiyac_kredisi"
+          ]
+        }
+      },
+      "tr": "Kredi aynı gün yattı. Geri ödeme planı on bir sayfa, imzan dokuz yerde.",
+      "en": "The loan landed the same day. Repayment schedule: eleven pages, your signature in nine places.",
+      "coach": [
+        {
+          "tr": "Dokuz imza, on bir sayfa. Form 3B daha kısaydı.",
+          "en": "Nine signatures, eleven pages. Form 3B was shorter.",
+          "roast": true
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "money": 2000,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2,
+            "memory": "okul_borcu"
+          }
+        ]
+      },
+      "tr": "Dayın parayı verdi, önce kendi okul yıllarını anlattı. Hikâye kırk dakika sürdü, faiz istemedi.",
+      "en": "Your uncle handed over the money after a forty-minute story about his own school days. No interest.",
+      "coach": [
+        {
+          "tr": "Kırk dakika hikâye, sıfır faiz.",
+          "en": "Forty minutes of story. Zero interest.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "çocuğun okul masrafı için maaş avansı istemek",
+    "mechanism": "İK gerekçeyi okumuyor, satır sayıyor",
+    "mechanismId": "literalism",
+    "punch": "ne yazdığınıza bakmıyoruz, satır sayıyoruz",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "satir",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

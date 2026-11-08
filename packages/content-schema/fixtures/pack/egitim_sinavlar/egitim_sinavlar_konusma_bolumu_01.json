@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_konusma_bolumu_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "dil",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Konuşma bölümü. Bana memleketinizi anlatın. İki dakikanız var.",
+      "en": "Speaking section. Describe your hometown. You have two minutes."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kırk saniye oldu. Devam edebilirsiniz.",
+      "en": "That was forty seconds. You may continue.",
+      "delayMs": 2500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Fırını anlatmaya başla",
+      "en": "Start on the bakery",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "exam"
+      }
+    },
+    {
+      "id": "hava",
+      "tr": "Ezber hava durumuna geç",
+      "en": "Pivot to rehearsed weather",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "tekrar",
+      "tr": "Soruyu tekrar iste",
+      "en": "Ask to repeat the question",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "anlat": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "brain": 3
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "dil_konusma_iyi"
+            ]
+          }
+        },
+        "tr": "Mahalle fırınını seksen saniye anlattın: saatleri, kuyruğu, ikinci tepsiyi. Konuşma puanın 7,5.",
+        "en": "You talked about the corner bakery for eighty seconds: hours, line, the second tray. Speaking score: 7.5.",
+        "coach": [
+          {
+            "tr": "Seksen saniye ekmek. Puan 7,5.",
+            "en": "Eighty seconds of bread. Score: 7.5.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "dil_tekrar"
+            ]
+          }
+        },
+        "tr": "Fırını anlattın, sonra fırının adını hatırlayamadın. Kalan elli saniye sessiz geçti.",
+        "en": "You started on the bakery, then forgot its name. The remaining fifty seconds were silent.",
+        "nearMiss": {
+          "tr": "Puanın 6,5. Sınır 7’ydi.",
+          "en": "Your score: 6.5. The cutoff was 7."
+        },
+        "coach": [
+          {
+            "tr": "Elli saniye sessizlik. Kayıt cihazı hepsini aldı.",
+            "en": "Fifty seconds of silence. The recorder got all of it.",
+            "roast": true
+          },
+          {
+            "tr": "Sınır 7. Fark yarım puan.",
+            "en": "Cutoff: 7. Gap: half a point.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "hava": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Memleketinin iklimini anlattın. Görevli \"Soruya dönelim\" dedi.",
+      "en": "You described your hometown’s climate. The examiner said, \"Back to the question.\"",
+      "coach": [
+        {
+          "tr": "İklim akıcıydı. Memleket eksik kaldı.",
+          "en": "Climate: fluent. Hometown: missing.",
+          "roast": true
+        }
+      ]
+    },
+    "tekrar": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Soru tekrarlandı. Tekrar süreden düşüldü; kalan otuz saniyede iki cümle kurdun.",
+      "en": "The question was repeated. The repeat came out of your time. Two sentences in the last thirty seconds.",
+      "coach": [
+        {
+          "tr": "İki cümle, otuz saniye. Saat kimseyi beklemedi.",
+          "en": "Two sentences, thirty seconds. The clock waited for no one.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlat",
+    "slip": {
+      "tr": "İDDİA: Kırkıncı saniyeden sonrası sessiz. — M.",
+      "en": "WAGER: After forty seconds, silence. — M."
+    }
+  },
+  "intent": {
+    "setup": "dil sınavı konuşma bölümü, iki dakika",
+    "mechanism": "koç saniyeleri sayıyor",
+    "mechanismId": "count",
+    "punch": "elli saniye sessizlik",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "saniye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

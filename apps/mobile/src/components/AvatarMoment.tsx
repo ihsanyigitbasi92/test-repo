@@ -4,7 +4,7 @@
  *  - promotion  outfit swap behind a flash + confetti (new job / promotion / retired)
  *  - sad        desaturate + rain streaks (breakup / out of work)
  *  - legendary  gold glow + spin-in
- *  - wagerWin   the player's smug face + the coach's I WAS WRONG stamp
+ *  - wagerWin   the player's smug face + the shocked coach, MOTTO YANILDI + the I WAS WRONG stamp under the disc
  *  - death      the face fades to grayscale 'dead' before the ECG
  * RN Animated with the native driver where the platform has it (opacity / transform only). Reduced motion: an
  * instant cross-fade, no spin / confetti / rain / flip (durations stay the same, AC-07-17). Tap anywhere skips.
@@ -12,6 +12,7 @@
  */
 import { useEffect, useMemo, useRef } from 'react';
 import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
 import { Avatar, CatSprite } from '../avatar/Avatar';
@@ -123,10 +124,28 @@ function GoldGlow({ still }: { still: boolean }) {
   );
 }
 
-function WrongStamp() {
+/** Reduced motion (07 §747): no slam — the stamp keeps its −12° tilt and fades in over 150 ms. */
+function WrongStamp({ reduced }: { reduced: boolean }) {
   const { s } = useI18n();
-  const anim = useSlam(true, '-12deg', 3.2);
+  const anim = useSlam(true, '-12deg', 3.2, reduced);
   return <Animated.View style={[st.stamp, anim]} testID="moment-stamp"><Text style={st.stampTxt}>{s.stampWrong}</Text></Animated.View>;
+}
+
+/** One calendar leaf (own vector art): rounded page, binding with two rings, folded corner. `turned` = lime leaf. */
+export function CalendarLeaf({ turned }: { turned: boolean }) {
+  const body = turned ? colors.lime : colors.paper3;
+  const bind = turned ? colors.limeInk : colors.lime;
+  const edge = turned ? colors.limeInk : colors.line;
+  return (
+    <Svg width={18} height={22} viewBox="0 0 18 22">
+      <Path d="M2.5,3 H15.5 Q17,3 17,4.5 V15.5 L12.5,21 H2.5 Q1,21 1,19.5 V4.5 Q1,3 2.5,3 Z" fill={body} stroke={edge} strokeWidth={1} />
+      <Path d="M2.5,3 H15.5 Q17,3 17,4.5 V7.5 H1 V4.5 Q1,3 2.5,3 Z" fill={bind} />
+      <Circle cx={5.5} cy={3} r={1.3} fill={colors.ink} /><Circle cx={12.5} cy={3} r={1.3} fill={colors.ink} />
+      <Path d="M17,15.5 L12.5,15.5 L12.5,21 Z" fill={turned ? '#a6d62c' : colors.line} />
+      <Rect x={4} y={10.5} width={7} height={1.4} rx={0.7} fill={edge} opacity={0.7} />
+      <Rect x={4} y={13.5} width={5} height={1.4} rx={0.7} fill={edge} opacity={0.7} />
+    </Svg>
+  );
 }
 
 export function AvatarMoment({ moment: m, look, onSkip }: Props) {
@@ -145,6 +164,10 @@ export function AvatarMoment({ moment: m, look, onSkip }: Props) {
   let stage: React.ReactNode = null;
   let fx: React.ReactNode = null;
   let bg = 'rgba(10,13,10,0.96)';
+  // Pamuk sits on the disc's bottom-right edge (anchored to the stage, not floating off-screen).
+  const cat = m.cat && m.kind !== 'death' && m.kind !== 'wagerWin'
+    ? <View style={st.cat} pointerEvents="none" testID="moment-cat"><CatSprite size={44} mood={m.kind === 'promotion' ? 'happy' : 'neutral'} /></View>
+    : null;
 
   switch (m.kind) {
     case 'birthday': {
@@ -153,17 +176,28 @@ export function AvatarMoment({ moment: m, look, onSkip }: Props) {
       const flip = reduced ? [] : [{ perspective: 800 }, { rotateY: v.interpolate({ inputRange: [0, 0.5, 0.5001, 1], outputRange: ['0deg', '90deg', '-90deg', '0deg'] }) }];
       stage = (
         <>
-          <Animated.View style={{ transform: flip }}>
-            <Animated.View style={{ opacity: old }}><Face look={look} age={m.fromAge} mood="neutral" outfit={m.outfitFrom} /></Animated.View>
-            <Animated.View style={[StyleSheet.absoluteFill, { opacity: next }]}><Face look={look} age={m.age} mood="neutral" outfit={m.outfitTo} /></Animated.View>
-          </Animated.View>
+          <View>
+            <Animated.View style={{ transform: flip }}>
+              <Animated.View style={{ opacity: old }}><Face look={look} age={m.fromAge} mood="neutral" outfit={m.outfitFrom} /></Animated.View>
+              <Animated.View style={[StyleSheet.absoluteFill, { opacity: next }]}><Face look={look} age={m.age} mood="neutral" outfit={m.outfitTo} /></Animated.View>
+            </Animated.View>
+            {cat}
+          </View>
           <View style={st.ages}>
             <Animated.Text style={[st.ageNum, { opacity: old }]}>{m.fromAge}</Animated.Text>
             <Animated.Text style={[st.ageNum, st.ageNext, { opacity: next }]}>{m.age}</Animated.Text>
           </View>
-          <View style={st.pages}>{[0, 1, 2, 3].map((i) => (
-            <Animated.View key={i} style={[st.page, !reduced && { transform: [{ perspective: 400 }, { rotateY: v.interpolate({ inputRange: [0, 0.15 + i * 0.15, 0.3 + i * 0.15, 1], outputRange: ['0deg', '0deg', '-180deg', '-180deg'] }) }] }]} />
-          ))}</View>
+          <View style={st.pages} testID="calendar">{[0, 1, 2, 3].map((i) => {
+            const a = reduced ? 0.4 : 0.15 + i * 0.15, b = reduced ? 0.42 : 0.3 + i * 0.15;
+            const lime = v.interpolate({ inputRange: [0, a + (b - a) / 2, Math.min(1, a + (b - a) / 2 + 0.001), 1], outputRange: [0, 0, 1, 1] });
+            const turn = reduced ? [] : [{ perspective: 400 }, { rotateY: v.interpolate({ inputRange: [0, a, b, 1], outputRange: ['0deg', '0deg', '-180deg', '-360deg'] }) }];
+            return (
+              <Animated.View key={i} style={{ transform: turn }}>
+                <CalendarLeaf turned={false} />
+                <Animated.View style={[StyleSheet.absoluteFill, { opacity: lime }]}><CalendarLeaf turned /></Animated.View>
+              </Animated.View>
+            );
+          })}</View>
         </>
       );
       break;
@@ -178,6 +212,7 @@ export function AvatarMoment({ moment: m, look, onSkip }: Props) {
           <Animated.View style={{ opacity: old }}><Face look={look} age={m.age} mood="neutral" outfit={m.outfitFrom} /></Animated.View>
           <Animated.View style={[StyleSheet.absoluteFill, { opacity: next }]}><Face look={look} age={m.age} mood="happy" outfit={m.outfitTo} /></Animated.View>
           {!reduced && <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, st.flashDisc, { opacity: flash }]} />}
+          {cat}
         </View>
       );
       fx = reduced ? <View style={st.badge}><Text style={st.badgeTxt}>✦</Text></View> : <Confetti seed={m.id} />;
@@ -191,6 +226,7 @@ export function AvatarMoment({ moment: m, look, onSkip }: Props) {
         <View>
           <Animated.View style={{ opacity: old }}><Face look={look} age={m.age} mood="sad" outfit={m.outfitFrom} /></Animated.View>
           <Animated.View style={[StyleSheet.absoluteFill, { opacity: next }]}><Face look={look} age={m.age} mood="sad" outfit={m.outfitTo} desaturate={0.75} /></Animated.View>
+          {cat}
         </View>
       );
       fx = <Rain seed={m.id} still={reduced} />;
@@ -206,19 +242,23 @@ export function AvatarMoment({ moment: m, look, onSkip }: Props) {
         <View style={st.center}>
           <GoldGlow still={reduced} />
           <Animated.View style={{ transform: spin }}><Face look={look} age={m.age} mood="shock" outfit={m.outfitTo} /></Animated.View>
+          {cat}
         </View>
       );
       break;
     }
     case 'wagerWin': {
-      label = '';
+      label = s.moment.wagerLbl;
+      // Laid out under the stage (not an overlay), so neither face is covered; the coach sits at the disc's top-left.
       stage = (
-        <View>
-          <Face look={look} age={m.age} mood="smug" outfit={m.outfitTo} />
-          <View style={st.coachBadge}><CoachAvatar mood="shock" size={56} /></View>
-        </View>
+        <>
+          <View>
+            <Face look={look} age={m.age} mood="smug" outfit={m.outfitTo} />
+            <View style={st.coachBadge}><CoachAvatar mood="shock" size={56} /></View>
+          </View>
+          <WrongStamp reduced={reduced} />
+        </>
       );
-      fx = <View pointerEvents="none" style={[StyleSheet.absoluteFill, st.center]}><WrongStamp /></View>;
       break;
     }
     case 'death': {
@@ -244,7 +284,6 @@ export function AvatarMoment({ moment: m, look, onSkip }: Props) {
         {!!label && <Text style={[st.label, m.kind === 'legendary' && { color: colors.gold }, m.kind === 'death' && { color: colors.ink2 }]}>{upper(locale, label)}</Text>}
         {stage}
         {!!sub && <Text style={st.sub}>{sub}</Text>}
-        {m.cat && m.kind !== 'death' && m.kind !== 'wagerWin' && <View style={st.cat}><CatSprite size={44} mood={m.kind === 'promotion' ? 'happy' : 'neutral'} /></View>}
       </Animated.View>
       <Text style={st.skip}>{upper(locale, s.moment.skip)}</Text>
     </Pressable>
@@ -260,15 +299,14 @@ const st = StyleSheet.create({
   ages: { height: 60, width: 160, alignItems: 'center', justifyContent: 'center' },
   ageNum: { fontFamily: fonts.stamp, fontSize: 52, lineHeight: 60, color: colors.ink2, position: 'absolute' },
   ageNext: { color: colors.lime },
-  pages: { flexDirection: 'row', gap: 4 },
-  page: { width: 14, height: 20, backgroundColor: colors.paper3, borderWidth: 1, borderColor: colors.line },
+  pages: { flexDirection: 'row', gap: 5 },
   flashDisc: { backgroundColor: '#fffbe6', borderRadius: FACE / 2 },
   glow: { position: 'absolute', width: FACE + 40, height: FACE + 40, borderRadius: (FACE + 40) / 2, backgroundColor: 'rgba(255,207,74,0.35)', borderWidth: 4, borderColor: colors.gold },
-  coachBadge: { position: 'absolute', right: -18, bottom: -6 },
-  stamp: { borderWidth: 5, borderColor: colors.wrong, borderRadius: 6, paddingVertical: 6, paddingHorizontal: 14, backgroundColor: 'rgba(0,0,0,0.3)', marginTop: 150 },
+  coachBadge: { position: 'absolute', left: -22, top: -10 },
+  stamp: { borderWidth: 5, borderColor: colors.wrong, borderRadius: 6, paddingVertical: 6, paddingHorizontal: 14, backgroundColor: 'rgba(0,0,0,0.3)', marginTop: 24 },
   stampTxt: { fontFamily: fonts.stamp, fontSize: 30, letterSpacing: 2, color: colors.wrong, textAlign: 'center' },
   badge: { position: 'absolute', top: 70, right: 40, width: 46, height: 46, borderRadius: 23, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '-10deg' }] },
   badgeTxt: { fontSize: 22, color: colors.noteInk },
-  cat: { position: 'absolute', right: -34, bottom: 30 },
+  cat: { position: 'absolute', right: -8, bottom: FACE * 0.1 },
   skip: { position: 'absolute', bottom: 28, fontSize: 10, letterSpacing: 1.4, color: colors.ink2 },
 });

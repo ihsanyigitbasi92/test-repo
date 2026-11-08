@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_ic_ilan_mulakat_01",
+  "tags": [
+    "is",
+    "terfi",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Panelde üç kişi var. Birini tanıyorsunuz sanırım.",
+      "en": "There are three people on the panel. I believe you know one of them."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Merhaba. İlk gün bana fotokopi makinesini siz öğretmiştiniz. Hâlâ kâğıt sıkıştırıyorum.",
+      "en": "Hello. You taught me the copier on my first day. I still jam it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "deneyim",
+      "tr": "Yirmi yılını anlat",
+      "en": "Walk them through twenty years",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "vizyon",
+      "tr": "Sadece gelecek planını anlat",
+      "en": "Pitch only the future plan",
+      "pattern": "risk"
+    },
+    {
+      "id": "cekil",
+      "tr": "Başvuruyu geri çek",
+      "en": "Withdraw your application",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "deneyim": [
+      {
+        "p": 4500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "money": 800,
+          "meters": {
+            "ego": 5
+          }
+        },
+        "tr": "Panel yirmi yılı dinledi, eski stajyerin not aldı. Ertesi hafta yeni birim müdürü duyuruldu: sen.",
+        "en": "The panel heard all twenty years while your former intern took notes. Next week the new department head was announced: you.",
+        "coach": [
+          {
+            "tr": "Bir zamanlar sen öğretmiştin. Bugün o not aldı.",
+            "en": "Back then you did the teaching. Today they took the notes.",
+            "roast": false
+          },
+          {
+            "tr": "Kariyer basamağı: bir yukarı.",
+            "en": "Career ladder: one rung up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "ic_ilan_kaybedildi"
+            ]
+          }
+        },
+        "tr": "Panel teşekkür etti. Pozisyon dışarıdan biriyle dolduruldu; sana \"çok değerli bir aday\" e-postası geldi.",
+        "en": "The panel thanked you. The role went to an outside hire. You got a \"highly valued candidate\" email.",
+        "coach": [
+          {
+            "tr": "Yirmi yıl anlattın, iki satır geldi.",
+            "en": "Twenty years told. Two lines back.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vizyon": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "vizyon_sunumu"
+          ]
+        }
+      },
+      "tr": "Sadece üç yıllık planı anlattın. Panel planı beğendi, pozisyonu erteledi ve planı uygulamaya başladı.",
+      "en": "You pitched only a three-year plan. The panel liked it, postponed the role, and started using the plan.",
+      "coach": [
+        {
+          "tr": "Plan işe alındı. Sen beklemedesin.",
+          "en": "The plan got hired. You're on hold.",
+          "roast": true
+        }
+      ]
+    },
+    "cekil": {
+      "effects": {
+        "meters": {
+          "ego": -2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "basvuru_geri_cekildi"
+          ]
+        }
+      },
+      "tr": "Başvuruyu geri çektin. Eski stajyerin koridorda \"keşke\" dedi ve fotokopi makinesine yürüdü.",
+      "en": "You withdrew. Your former intern said \"shame\" in the hallway and headed for the copier.",
+      "coach": [
+        {
+          "tr": "Bir başvuru eksildi, bir koridor sohbeti eklendi.",
+          "en": "One application fewer. One hallway chat more.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "deneyim",
+    "slip": {
+      "tr": "İDDİA: E-posta \"çok değerli aday\" diye başlar. — M.",
+      "en": "WAGER: The email opens with \"highly valued candidate.\" — M."
+    }
+  },
+  "intent": {
+    "setup": "iç ilanla müdürlük mülakatında eski stajyerin panelde olması",
+    "mechanism": "stajyer artık değerlendiren; hâlâ kâğıt sıkıştırıyor",
+    "mechanismId": "reversal",
+    "punch": "hâlâ kâğıt sıkıştırıyorum",
+    "lift": "kariyer basamağı",
+    "target": "situation",
+    "closer": "panel",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -10,6 +10,7 @@ import { useGame } from '../state/useGame';
 import { TopBar } from '../components/TopBar';
 import { Hud } from '../components/Hud';
 import { Feed } from '../components/Feed';
+import { PlayerLookContext } from '../components/Bubbles';
 import { ChoiceButtons, GhostRow, PrimaryButton, zone } from '../components/ActionZone';
 import { ClientFile } from '../components/ClientFile';
 import { AgeUp, BigStamp, FlashLayer, SessionSheet, Shake } from '../components/Overlays';
@@ -48,7 +49,7 @@ export function LifeScreen() {
             {snap.stage === 'play' && v && snap.look && (
               <Hud view={v} look={snap.look} mood={snap.playerMood} lifeNo={snap.lifeNo} floats={snap.floats} progress={snap.progress} speed={snap.speed} unread={snap.unread} />
             )}
-            <Feed items={snap.feed} typeMs={snap.typeMs} />
+            <PlayerLookContext.Provider value={snap.look}><Feed items={snap.feed} typeMs={snap.typeMs} /></PlayerLookContext.Provider>
             <View style={zone.wrap}>
               {decision}
               {snap.stage === 'play' && (

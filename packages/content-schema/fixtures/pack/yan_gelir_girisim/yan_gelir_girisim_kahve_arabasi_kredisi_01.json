@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_kahve_arabasi_kredisi_01",
+  "tags": [
+    "is",
+    "girisim",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yan_gelir_girisim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Kahve arabası için kredi, harika. İş planınız var mı?",
+      "en": "A loan for a coffee cart, wonderful. Do you have a business plan?"
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "\"Kahve satacağım\" bir cümle. Plan en az bir sayfa olmalı.",
+      "en": "\"I'll sell coffee\" is a sentence. A plan has to be at least a page.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kredi",
+      "tr": "Bir sayfa yaz, başvur",
+      "en": "Write a page, apply",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "birikim",
+      "tr": "Birikimle ikinci el araba al",
+      "en": "Buy a used cart with savings",
+      "pattern": "patience"
+    },
+    {
+      "id": "ertele",
+      "tr": "Fikri bir yıl ertele",
+      "en": "Shelve the idea for a year",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kredi": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "kahve_arabasi"
+              ]
+            }
+          },
+          "flags": {
+            "add": [
+              "kahve_arabasi",
+              "kredi_borcu"
+            ]
+          }
+        },
+        "tr": "Kredi onaylandı, araba park yerinde. İlk hafta kırk iki kahve sattın; aylık taksit 350 Para.",
+        "en": "Loan approved; the cart is parked and ready. Week one: forty-two coffees. Monthly installment: 350.",
+        "coach": [
+          {
+            "tr": "Plan bir sayfa, taksit yirmi dört ay.",
+            "en": "Plan: one page. Installments: twenty-four months.",
+            "roast": false
+          },
+          {
+            "tr": "Girişim hedefi: araba park etti.",
+            "en": "Venture goal: cart parked.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": -4
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "kredi_reddi"
+            ]
+          }
+        },
+        "tr": "Banka planı \"ümit verici ama erken\" buldu. Ret yazısı planından uzun.",
+        "en": "The bank found the plan \"promising but early.\" The rejection letter is longer than your plan.",
+        "coach": [
+          {
+            "tr": "Plan bir sayfa, ret bir buçuk.",
+            "en": "Your plan: one page. Their no: a page and a half.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birikim": {
+      "effects": {
+        "money": -6000,
+        "stats": {
+          "joy": 3
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "kahve_arabasi"
+            ]
+          }
+        },
+        "flags": {
+          "add": [
+            "kahve_arabasi"
+          ]
+        }
+      },
+      "tr": "Birikimle ikinci el bir araba aldın. Süt köpürtücü ilk gün tısladı, ikinci gün çalıştı.",
+      "en": "You bought a used cart with savings. The milk frother hissed on day one and worked on day two.",
+      "coach": [
+        {
+          "tr": "6.000 Para, bir köpürtücü, bir günlük gecikme.",
+          "en": "6,000. One frother. One day's delay.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "kahve_fikri_ertelendi"
+          ]
+        }
+      },
+      "tr": "Fikri bir yıl erteledin. Planın tek sayfası buzdolabının kapağında.",
+      "en": "You shelved it for a year. The one-page plan lives on the fridge door.",
+      "coach": [
+        {
+          "tr": "Plan buzdolabında, serin bir yerde bekliyor.",
+          "en": "The plan's on the fridge, kept cool.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kredi",
+    "slip": {
+      "tr": "İDDİA: Banka \"erken\" der. — M.",
+      "en": "WAGER: The bank says \"too early.\" — M."
+    }
+  },
+  "intent": {
+    "setup": "kahve arabası için bankadan girişim kredisi istemek",
+    "mechanism": "bankacı planı sayfa ölçüsüyle tartıyor",
+    "mechanismId": "literalism",
+    "punch": "\"kahve satacağım\" bir cümle",
+    "lift": "girişim hedefi",
+    "target": "npc",
+    "closer": "sayfa",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uzaktan_calisma_ofise_donus_karari_01",
+  "tags": [
+    "is",
+    "hibrit",
+    "uzaktan_calisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "uzaktan_calisma": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 56
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Haftada üç gün ofise dönüyoruz. Kültür için.",
+      "en": "We're going back to the office three days a week. For the culture."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Kültür dediği, mutfaktaki yeni kahve makinesi. Bir de turnike.",
+      "en": "By culture she means the new coffee machine. And a turnstile.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "uy",
+      "tr": "Kabul et, yola çık",
+      "en": "Accept and commute",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "İki güne pazarlık et",
+      "en": "Negotiate it down to two days",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ara",
+      "tr": "Sessizce uzaktan iş ara",
+      "en": "Quietly look for remote jobs",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "uy": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Haftada üç gün, günde iki saat yol. İlk gün turnikeye kart okutmayı iki kez unuttun.",
+      "en": "Three days a week, two hours of commute each. On day one you forgot to tap the turnstile twice.",
+      "coach": [
+        {
+          "tr": "Haftada altı saat yol. Kültür epey uzakta.",
+          "en": "Six hours a week on the road. Culture is a long way off.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "hibrit_iki_gun"
+            ]
+          }
+        },
+        "tr": "Patron iki güne razı oldu, şartı: salı ve perşembe, kamera açık.",
+        "en": "The boss agreed to two days on one condition: Tuesdays and Thursdays, camera on.",
+        "coach": [
+          {
+            "tr": "Bir gün geri geldi. Haftada iki saat.",
+            "en": "One day won back. Two hours a week.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: haftada bir gün.",
+            "en": "Goal counter: one day a week.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Patron \"herkese aynı kural\" dedi ve ekibe bir hatırlatma e-postası attı. E-postanın ilk alıcısı sendin.",
+        "en": "The boss said \"same rule for everyone\" and sent the team a reminder. You were the first recipient.",
+        "coach": [
+          {
+            "tr": "Pazarlık bir e-postayla bitti. Kime gittiği belli.",
+            "en": "The negotiation ended in an email. Addressed to you first.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "uzaktan_is_ariyor"
+          ]
+        }
+      },
+      "tr": "Akşamları uzaktan ilanlara baktın, iki başvuru gönderdin. Gündüzleri turnikeden geçmeye devam.",
+      "en": "Evenings, you browsed remote listings and sent two applications. Days, you kept tapping the turnstile.",
+      "coach": [
+        {
+          "tr": "Gündüz turnike, gece ilan.",
+          "en": "Turnstile by day. Listings by night.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: \"Herkese aynı kural\" cümlesi gelir. — M.",
+      "en": "WAGER: You'll hear \"same rule for everyone.\" — M."
+    }
+  },
+  "intent": {
+    "setup": "şirketin haftada üç gün ofise dönüş kararı",
+    "mechanism": "kültür = kahve makinesi ve turnike; koç saatleri sayıyor",
+    "mechanismId": "count",
+    "punch": "haftada altı saat yol, kültür epey uzakta",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "closer": "turnike",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

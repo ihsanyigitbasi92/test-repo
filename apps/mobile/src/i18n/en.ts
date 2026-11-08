@@ -99,6 +99,16 @@ export const en: Strings = {
     nameShuffle: 'Shuffle name',
     prev: 'previous', next: 'next',
     parts: { hair: 'Hair', hairColor: 'Hair colour', skin: 'Skin', face: 'Face', glasses: 'Glasses', facial: 'Facial hair' } as Record<string, string>,
+    values: {
+      'hair.bald': 'Bald', 'hair.buzz': 'Buzz cut', 'hair.short': 'Short', 'hair.sidePart': 'Side part', 'hair.curly': 'Curly',
+      'hair.long': 'Long', 'hair.bob': 'Bob', 'hair.bun': 'Bun', 'hair.spiky': 'Spiky', 'hair.beanie': 'Beanie',
+      'hairColor.black': 'Black', 'hairColor.darkBrown': 'Dark brown', 'hairColor.chestnut': 'Chestnut', 'hairColor.auburn': 'Auburn',
+      'hairColor.blonde': 'Blonde', 'hairColor.teal': 'Teal',
+      'face.oval': 'Oval', 'face.round': 'Round', 'face.square': 'Square', 'face.heart': 'Heart',
+      'glasses.none': 'None', 'glasses.round': 'Round', 'glasses.square': 'Square',
+      'facial.none': 'None', 'facial.stubble': 'Stubble', 'facial.mustache': 'Moustache', 'facial.beard': 'Beard',
+    } as Record<string, string>,
+    tone: (i: number, n: number) => `Tone ${i}/${n}`,
     a11y: (name: string) => `${name} — client portrait`,
   },
   lookRoast: {
@@ -134,7 +144,7 @@ export const en: Strings = {
   ],
   moment: {
     promotion: 'PROMOTED', newJob: 'NEW JOB', retired: 'RETIRED', breakup: 'BREAKUP', fired: 'OUT OF WORK', legendary: 'LEGENDARY DAY',
-    wagerWin: 'I WAS WRONG', death: 'LAST PAGE',
+    wagerWin: 'I WAS WRONG', wagerLbl: 'MOTTO WAS WRONG', death: 'LAST PAGE',
     skip: 'tap: skip',
   },
   names: [

@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_corba_devrildi_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Poşet neden ıslak? Çorba mı bu, yoksa çorbanın anısı mı?",
+      "en": "Why is the bag wet? Is this soup, or the memory of soup?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ekmek de çorbayı içmiş. En azından biri doymuş.",
+      "en": "The bread drank the soup. At least someone ate.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ozur",
+      "tr": "Özür dile, ikna et",
+      "en": "Apologize, win them over",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Çorbayı cebinden öde",
+      "en": "Pay for the soup yourself",
+      "pattern": "generosity"
+    },
+    {
+      "id": "restoran",
+      "tr": "Restoranı suçla",
+      "en": "Blame the restaurant",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ozur": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 1
+          }
+        },
+        "tr": "Müşteri güldü, \"yol uzun\" dedi. Puan düşmedi, kayıt temiz kaldı.",
+        "en": "The customer laughed and said, \"Long road.\" No rating drop, record stays clean.",
+        "coach": [
+          {
+            "tr": "Bir özür, bir gülümseme, sıfır kesinti.",
+            "en": "One apology, one smile, zero deductions.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -160,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Müşteri fotoğraf çekip şikâyet yazdı. Çorba bedeli olan 160 Para hakedişten düşüldü.",
+        "en": "The customer took a photo and filed a complaint. The soup, 160, came out of your pay.",
+        "coach": [
+          {
+            "tr": "Fotoğrafta çorba net çıkmış. Senin özrün çıkmamış.",
+            "en": "The soup came out sharp in the photo. Your apology did not.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -160,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Çorbanın 160 Para'sını kendin ödedin. Müşteri teşekkür etti, kayıt temiz.",
+      "en": "You covered the 160 for the soup, and the customer said thanks. Clean record.",
+      "coach": [
+        {
+          "tr": "160 Para, temiz sicil. Çorbanın en pahalı hâli.",
+          "en": "160 for a clean record. The priciest soup in town.",
+          "roast": false
+        }
+      ]
+    },
+    "restoran": {
+      "effects": {
+        "meters": {
+          "ego": -2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kurye_sikayet_dosyasi"
+          ]
+        }
+      },
+      "tr": "Restoran poşetin kapalı teslim edildiğini kayda geçirmiş. Şikâyet senin adına açıldı.",
+      "en": "The restaurant had logged the bag as sealed at pickup. The complaint opened under your name.",
+      "coach": [
+        {
+          "tr": "Restoranın kaydı vardı. Senin teorin vardı.",
+          "en": "The restaurant had a log. You had a theory.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ozur",
+    "slip": {
+      "tr": "İDDİA: Çorba bugün affedilmez. — M.",
+      "en": "WAGER: The soup doesn't get forgiven today. — M."
+    }
+  },
+  "intent": {
+    "setup": "çorba kutuda devrildi, müşteri ıslak poşeti açtı",
+    "mechanism": "müşteri ıslak ekmeği teselli olarak sunuyor",
+    "mechanismId": "understatement",
+    "punch": "en azından biri doymuş",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "fotograf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_teorik_altmis_sekiz_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "ehliyet",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Puanınız 68. Geçme notu 70.",
+      "en": "Your score is 68. Passing is 70."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "İki soruya itiraz edebilirsiniz. İtiraz ücreti, sınav ücretinden biraz fazla.",
+      "en": "You may appeal two questions. The appeal fee is slightly more than the exam fee.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "İki soruya itiraz et",
+      "en": "Appeal two questions",
+      "pattern": "pride",
+      "check": {
+        "base": 2500,
+        "stat": "brain",
+        "goal": "license"
+      }
+    },
+    {
+      "id": "tekrar",
+      "tr": "İki hafta sonra tekrar gir",
+      "en": "Retake in two weeks",
+      "pattern": "patience"
+    },
+    {
+      "id": "mola",
+      "tr": "Bir ay ara ver",
+      "en": "Take a month off",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 2500,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "ehliyet_teorik_gecti"
+            ]
+          }
+        },
+        "tr": "İki itirazın da kabul edildi. Puanın 70 oldu; teorik bölüm geçti.",
+        "en": "Both appeals upheld. Your score is now 70. Theory passed.",
+        "coach": [
+          {
+            "tr": "İki soru, iki puan, tam sınır.",
+            "en": "Two questions, two points, right on the line.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ehliyet_tekrar"
+            ]
+          }
+        },
+        "tr": "İtirazlar reddedildi. Puan 68’de kaldı, ücret iade edilmedi.",
+        "en": "Appeals denied. Still 68. No refund.",
+        "nearMiss": {
+          "tr": "Bir itiraz kabul edildi: 69.",
+          "en": "One appeal upheld: 69."
+        },
+        "coach": [
+          {
+            "tr": "İtiraz pahalıya geldi. Tekrar sınavı daha ucuzdu.",
+            "en": "The appeal cost more. The retake was cheaper.",
+            "roast": true
+          },
+          {
+            "tr": "Teorik sayaç: iki puan eksik.",
+            "en": "Theory counter: two points short.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "tekrar": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ehliyet_tekrar"
+          ]
+        }
+      },
+      "tr": "İki hafta sonrasına randevu aldın. Soru bankası yeniden masada.",
+      "en": "You booked a retake in two weeks. The question bank is back on the desk.",
+      "coach": [
+        {
+          "tr": "İki puan eksik, on dört gün var.",
+          "en": "Two points short, fourteen days to go.",
+          "roast": false
+        }
+      ]
+    },
+    "mola": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "ehliyet_tekrar"
+          ]
+        }
+      },
+      "tr": "Bir ay soru bankasını açmadın. Sonra açtığında 68 hâlâ kapağın içindeydi.",
+      "en": "You did not open the question bank for a month. When you did, the 68 was still tucked inside the cover.",
+      "coach": [
+        {
+          "tr": "Bir ay dinlendin. Sınav yerinde duruyor.",
+          "en": "One month rested. The exam is right where you left it.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: İtiraz 68’i kurtarmaz. — M.",
+      "en": "WAGER: Appeals won’t rescue the 68. — M."
+    }
+  },
+  "intent": {
+    "setup": "ehliyet teorik sınavında 68 puan",
+    "mechanism": "görevli itirazı ücretiyle caydırıyor",
+    "mechanismId": "count",
+    "punch": "itiraz ücreti sınavdan fazla",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sinir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

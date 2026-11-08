@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_hafta_sonu_kitabi_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Ekibe hafif bir hafta sonu okuması: 'Çevik Liderliğin 9 Katmanı'. Pazartesi dördüncü bölümü hizalarız.",
+      "en": "A light weekend read for the team: 'The 9 Layers of Agile Leadership.' Monday we align on chapter four."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Kitap 380 sayfa. Dördüncü bölüm 140. sayfada başlıyor. Ben arka kapağı okudum.",
+      "en": "It's 380 pages. Chapter four starts on page 140. I've read the back cover.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "oku",
+      "tr": "Hafta sonu oku",
+      "en": "Read it over the weekend",
+      "pattern": "overwork"
+    },
+    {
+      "id": "arka",
+      "tr": "Arka kapaktan yorum yap",
+      "en": "Wing it from the back cover",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "itiraf",
+      "tr": "Okuyamadığını söyle",
+      "en": "Admit you didn't get to it",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "oku": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Cumartesi ve pazar okudun. Pazartesi dördüncü bölümü anlatan tek kişi sendin, Nevin Hanım beşinciyi de sana verdi.",
+      "en": "You read all weekend. On Monday you were the only one who could talk about chapter four. Ms. Carver assigned you chapter five.",
+      "coach": [
+        {
+          "tr": "Okumanın ödülü daha çok okuma. Dokuz katmanın beşi kaldı.",
+          "en": "The reward for reading is more reading. Five layers to go.",
+          "roast": true
+        }
+      ]
+    },
+    "arka": [
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "'Katmanlar birbirini besliyor' dedin. Nevin Hanım 'çok iyi yakalamışsın' diye not aldı.",
+        "en": "You said 'the layers feed into each other.' Ms. Carver wrote down 'great catch.'",
+        "coach": [
+          {
+            "tr": "Arka kapaktan bir cümle, iki sayfa not. Getirisi yüksek.",
+            "en": "One sentence off the back cover, two pages of notes. High yield.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": -4
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "kitabi_okumadi"
+            }
+          ]
+        },
+        "tr": "'Dördüncü bölümde katmanlar...' diye başladın. Nevin Hanım 'dördüncü bölüm katmanlarla ilgili değil' dedi.",
+        "en": "You opened with 'In chapter four, the layers...' Ms. Carver said, 'Chapter four isn't about layers.'",
+        "coach": [
+          {
+            "tr": "Dokuz katmanlı kitabın katmansız bölümü. Tek o varmış.",
+            "en": "A nine-layer book with one layerless chapter. You found it.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "itiraf": {
+      "effects": {
+        "meters": {
+          "ego": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Okuyamadığını söyledin. Nevin Hanım 'okuma bandını birlikte genişletelim' dedi ve sesli kitabı yolladı.",
+      "en": "You said you didn't get to it. Ms. Carver said 'let's expand your reading band together' and sent the audiobook.",
+      "coach": [
+        {
+          "tr": "Okunmadı, dinlenecek. Format değişti, sayfa sayısı aynı.",
+          "en": "Not read, so now it's audio. New format, same page count.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "arka",
+    "slip": {
+      "tr": "İDDİA: Dördüncü bölüm başka bir şey anlatır. — M.",
+      "en": "WAGER: Chapter four is about something else. — M."
+    }
+  },
+  "intent": {
+    "setup": "patron ekibe hafta sonu okuması olarak yönetim kitabı veriyor",
+    "mechanism": "okumanın ödülü daha çok okuma",
+    "mechanismId": "reversal",
+    "punch": "dördüncü bölüm katmanlarla ilgili değil",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "katman"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

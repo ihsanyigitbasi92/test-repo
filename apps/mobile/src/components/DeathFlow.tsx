@@ -10,8 +10,9 @@ import type { ScrollViewInstance } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
 import type { DeathView } from '../state/useGame';
-import { useCountUp, useSlam } from './anim';
+import { useCountUp, useReducedMotion, useSlam } from './anim';
 import { PrimaryButton } from './ActionZone';
+import { Avatar } from '../avatar/Avatar';
 
 const ECG_W = 300, ECG_H = 90;
 const ECG_PTS: [number, number][] = [[0, 45], [50, 45], [60, 18], [70, 74], [80, 45], [120, 45], [130, 18], [140, 74], [150, 45], [190, 45], [200, 18], [210, 74], [220, 45], [300, 45]];
@@ -35,12 +36,29 @@ function Ecg() {
   );
 }
 
+/** The player's last face, in grayscale (tombstone portrait / share card). */
+function DeadFace({ d, size, bg }: { d: DeathView; size: number; bg: string }) {
+  if (!d.look) return null;
+  return (
+    <View style={[st.deadFace, { width: size, height: size, borderRadius: size / 2, backgroundColor: bg }]} testID="death-avatar">
+      <View style={{ marginTop: size * 0.12 }}><Avatar look={d.look} age={d.roast.ageAtDeath} mood="neutral" outfit={d.outfit} size={size - 4} desaturate={1} /></View>
+    </View>
+  );
+}
+
 function Grave({ d }: { d: DeathView }) {
   const { s } = useI18n();
+  const reduced = useReducedMotion();
   const v = useRef(new Animated.Value(0)).current;
-  useEffect(() => { Animated.timing(v, { toValue: 1, duration: 1000, easing: Easing.out(Easing.back(1.4)), useNativeDriver: nativeDriver }).start(); }, [v]);
+  useEffect(() => {
+    Animated.timing(v, reduced
+      ? { toValue: 1, duration: 300, easing: Easing.linear, useNativeDriver: nativeDriver }
+      : { toValue: 1, duration: 1000, easing: Easing.out(Easing.back(1.4)), useNativeDriver: nativeDriver }).start();
+  }, [reduced, v]);
+  const rise = reduced ? [] : [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [120, 0] }) }];
   return (
-    <Animated.View style={[st.grave, { opacity: v, transform: [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [120, 0] }) }] }]} testID="grave">
+    <Animated.View style={[st.grave, { opacity: v, transform: rise }]} testID="grave">
+      <DeadFace d={d} size={64} bg="#6f746c" />
       <Text style={st.graveName}>{d.name}</Text>
       <Text style={st.graveYears}>{d.birthYear}–{d.deathYear}</Text>
       <Text style={st.graveEp}>“{d.epitaph ?? s.epitaphDefault}”</Text>
@@ -55,7 +73,7 @@ function Num({ value, label, run }: { value: number; label: string; run: boolean
 
 function WrongStamp() {
   const { s } = useI18n();
-  const anim = useSlam(true, '-8deg', 3);
+  const anim = useSlam(true, '-8deg', 3, useReducedMotion());
   return <Animated.View style={[st.wStamp, anim]}><Text style={st.wStampTxt}>{s.stampWrong}</Text></Animated.View>;
 }
 
@@ -72,7 +90,10 @@ function ShareCard({ d }: { d: DeathView }) {
     <View style={st.shareWrap} testID="share-card">
       <View style={st.share}>
         <View>
-          <Text style={st.shareK}>{upper(locale, s.reportTitle)} · {d.report ? d.report.age : age}</Text>
+          <View style={st.shareHead}>
+            <DeadFace d={d} size={44} bg="#3a3d38" />
+            <Text style={[st.shareK, { flex: 1 }]}>{upper(locale, s.reportTitle)} · {d.report ? d.report.age : age}</Text>
+          </View>
           {d.report && (
             <View style={st.shareG}>
               {GRADE_ORDER.map((k) => (
@@ -180,6 +201,8 @@ const st = StyleSheet.create({
   ecgBox: { width: ECG_W, height: ECG_H },
   grave: { width: 160, minHeight: 170, backgroundColor: colors.grave, borderTopLeftRadius: 75, borderTopRightRadius: 75, borderBottomLeftRadius: 6, borderBottomRightRadius: 6,
     borderWidth: 3, borderColor: colors.graveEdge, alignItems: 'center', justifyContent: 'center', padding: 14, gap: 4 },
+  deadFace: { overflow: 'hidden', alignItems: 'center', borderWidth: 2, borderColor: colors.graveEdge, marginBottom: 4 },
+  shareHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   graveName: { fontFamily: fonts.stamp, fontSize: 13, letterSpacing: 0.6, color: '#e8e6dc', textAlign: 'center' },
   graveYears: { fontSize: 11, color: '#b9bdb4', fontVariant: ['tabular-nums'] },
   graveEp: { fontFamily: fonts.coach, fontStyle: 'italic', fontSize: 12, color: '#d7dbd0', textAlign: 'center', marginTop: 6 },

@@ -10,7 +10,7 @@ import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
 import { useAppear, useReducedMotion } from './anim';
 import { Avatar } from '../avatar/Avatar';
-import { EDITABLE_PARTS } from '../avatar/look';
+import { EDITABLE_PARTS, partCount, partValue } from '../avatar/look';
 import type { Look, LookPart } from '../avatar/look';
 import { pickLookRoast } from '../avatar/roast';
 import { CoachAvatar } from './CoachAvatar';
@@ -32,20 +32,24 @@ function Portrait({ look, nonce }: { look: Look; nonce: number }) {
   }, [nonce, reduced, v]);
   return (
     <Animated.View style={[st.portrait, { transform: [{ scale: v }] }]} testID="look-preview">
-      <View style={{ marginTop: 14 }}><Avatar look={look} age={18} mood="neutral" outfit="hoodie" size={112} /></View>
+      <View style={{ marginTop: 15 }}><Avatar look={look} age={18} mood="neutral" outfit="hoodie" size={124} /></View>
     </Animated.View>
   );
 }
 
-function PartPicker({ part, label, onCycle, prev, next }: { part: LookPart; label: string; onCycle: Props['onCycle']; prev: string; next: string }) {
+function PartPicker({ part, label, value, pos, onCycle, prev, next }: { part: LookPart; label: string; value: string; pos: string; onCycle: Props['onCycle']; prev: string; next: string }) {
+  const a11yValue = { text: `${value} (${pos})` };
   return (
     <View style={st.part}>
-      <Pressable onPress={() => onCycle(part, -1)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`${label} ${prev}`} testID={`look-${part}-prev`}
+      <Pressable onPress={() => onCycle(part, -1)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`${label} ${prev}`} accessibilityValue={a11yValue} testID={`look-${part}-prev`}
         style={({ pressed }) => [st.arrow, pressed && st.pressed]}>
         <Text style={st.arrowTxt}>‹</Text>
       </Pressable>
-      <Text style={st.partLbl} numberOfLines={1}>{label}</Text>
-      <Pressable onPress={() => onCycle(part, 1)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`${label} ${next}`} testID={`look-${part}-next`}
+      <View style={st.partMid}>
+        <Text style={st.partLbl} numberOfLines={1}>{label}</Text>
+        <Text style={st.partVal} numberOfLines={1} testID={`look-${part}-value`}>{value}</Text>
+      </View>
+      <Pressable onPress={() => onCycle(part, 1)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`${label} ${next}`} accessibilityValue={a11yValue} testID={`look-${part}-next`}
         style={({ pressed }) => [st.arrow, pressed && st.pressed]}>
         <Text style={st.arrowTxt}>›</Text>
       </Pressable>
@@ -70,7 +74,11 @@ export function ClientFile({ name, city, lifeNo, fastLife, look, lookChanged, lo
           </Pressable>
         </View>
         <View style={st.parts}>
-          {EDITABLE_PARTS.map((p) => <PartPicker key={p} part={p} label={s.look.parts[p] ?? p} onCycle={onCycle} prev={s.look.prev} next={s.look.next} />)}
+          {EDITABLE_PARTS.map((p) => {
+            const n = partCount(p), i = look[p] + 1;
+            const value = p === 'skin' ? s.look.tone(i, n) : s.look.values[`${p}.${partValue(look, p)}`] ?? partValue(look, p);
+            return <PartPicker key={p} part={p} label={s.look.parts[p] ?? p} value={value} pos={`${i}/${n}`} onCycle={onCycle} prev={s.look.prev} next={s.look.next} />;
+          })}
         </View>
       </View>
 
@@ -107,14 +115,16 @@ const st = StyleSheet.create({
   no: { fontSize: 11, color: colors.ink2, fontVariant: ['tabular-nums'] },
   lookRow: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
   lookLeft: { alignItems: 'center', gap: 6 },
-  portrait: { width: 116, height: 116, borderRadius: 58, backgroundColor: colors.paper3, borderWidth: 2, borderColor: colors.lime, alignItems: 'center', overflow: 'hidden' },
+  portrait: { width: 128, height: 128, borderRadius: 64, backgroundColor: colors.paper3, borderWidth: 2, borderColor: colors.lime, alignItems: 'center', overflow: 'hidden' },
   lookBtn: { borderWidth: 1, borderColor: colors.line, borderRadius: 999, paddingVertical: 4, paddingHorizontal: 10, minHeight: 30, justifyContent: 'center' },
   lookBtnTxt: { fontSize: 11.5, fontWeight: '700', color: colors.ink },
   parts: { flex: 1, gap: 5 },
   part: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: 8, backgroundColor: colors.paper, minHeight: 30 },
   arrow: { width: 34, minHeight: 30, alignItems: 'center', justifyContent: 'center' },
   arrowTxt: { fontSize: 20, lineHeight: 22, color: colors.lime, fontWeight: '700' },
-  partLbl: { flex: 1, textAlign: 'center', fontSize: 11, fontWeight: '700', letterSpacing: 0.6, color: colors.ink },
+  partMid: { flex: 1, alignItems: 'center', paddingVertical: 2 },
+  partLbl: { textAlign: 'center', fontSize: 9.5, fontWeight: '700', letterSpacing: 0.8, color: colors.ink2 },
+  partVal: { textAlign: 'center', fontSize: 12, fontWeight: '700', color: colors.ink },
   roast: { flexDirection: 'row', alignItems: 'center', gap: 8, borderLeftWidth: 3, borderLeftColor: colors.wrong, paddingLeft: 8, paddingVertical: 2 },
   roastTxt: { flex: 1, fontFamily: fonts.coach, fontStyle: 'italic', fontSize: 15, lineHeight: 20, color: colors.ink },
   row: { flexDirection: 'row', alignItems: 'baseline', gap: 10 },

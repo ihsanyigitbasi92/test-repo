@@ -15,6 +15,7 @@ import { Avatar, CatSprite } from '../avatar/Avatar';
 import { outfitFor } from '../avatar/look';
 import type { Look, Mood } from '../avatar/look';
 import { FloatNum } from './FloatNum';
+import { useReducedMotion } from './anim';
 
 interface Props { view: LifeState; look: Look; mood: Mood; lifeNo: number; floats: FloatItem[]; progress: number; speed: Speed; unread: number }
 
@@ -62,11 +63,12 @@ export function PlayerAvatar({ view, look, mood, size = 52 }: { view: LifeState;
   const { s } = useI18n();
   const hasCat = view.status.assets.includes('kedi') && view.npcs.find((n) => n.role === 'cat')?.alive !== false;
   const bump = useRef(new Animated.Value(1)).current;
+  const reduced = useReducedMotion();
   useEffect(() => {
-    if (mood === 'neutral') return;
+    if (mood === 'neutral' || reduced) return;
     bump.setValue(1.12);
     Animated.spring(bump, { toValue: 1, friction: 4, useNativeDriver: nativeDriver }).start();
-  }, [mood, bump]);
+  }, [mood, bump, reduced]);
   return (
     <View style={{ width: size, height: size }} accessibilityLabel={s.look.a11y(view.name)} testID="player-avatar">
       <Animated.View style={[st.ring, { width: size, height: size, borderRadius: size / 2, transform: [{ scale: bump }] }]}>

@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_yazicidaki_bordro_01",
+  "tags": [
+    "is",
+    "maas",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Yazıcıda biri bordrosunu unutmuş. Yeni gelenin.",
+      "en": "Someone left a payslip on the printer. The new hire's."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Okumadım tabii. Sadece rakama baktım. Seninkinden bir tık fazla.",
+      "en": "I didn't read it, obviously. Just the number. It's a notch above yours.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "patron",
+      "tr": "Patrona konuyu aç",
+      "en": "Raise it with the boss",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yerine",
+      "tr": "Kâğıdı yerine koy",
+      "en": "Put it back",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "kahve",
+      "tr": "Yeni geleni kahveye çıkar",
+      "en": "Take the new hire for coffee",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "patron": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 650,
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "maas_esitlendi"
+            ]
+          }
+        },
+        "tr": "Patron bordroya baktı, sonra sana. Fark gelecek aydan itibaren kapanıyor; ilk ay 650 Para eklendi.",
+        "en": "The boss looked at the payslip, then at you. The gap closes from next month; first top-up: 650.",
+        "coach": [
+          {
+            "tr": "Bir kâğıt, bir kapı, 650 Para. Yazıcıya bir teşekkür borcun var.",
+            "en": "One sheet, one door, 650. You owe the printer a thank-you.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": -4
+          },
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "maas_sorusu_soruldu"
+            ]
+          }
+        },
+        "tr": "Patron \"bütçe dönemini\" beklemeyi önerdi. Bütçe dönemi sekiz ay sonra.",
+        "en": "The boss suggested waiting for \"the budget cycle.\" The budget cycle is eight months away.",
+        "coach": [
+          {
+            "tr": "Sekiz ay. Yazıcı o zamana kadar üç bordro daha unutur.",
+            "en": "Eight months. The printer will leak three more payslips by then.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yerine": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "flags": {
+          "add": [
+            "bordroyu_gordun"
+          ]
+        }
+      },
+      "tr": "Kâğıdı yazıcıya geri koydun. Kâğıt orada kaldı, rakam seninle eve geldi.",
+      "en": "You put the sheet back on the printer. The paper stayed. The number came home with you.",
+      "coach": [
+        {
+          "tr": "Kâğıdı bıraktın, rakamı aldın. Eşit bir takas sayılmaz.",
+          "en": "You left the sheet and took the number. Uneven swap.",
+          "roast": true
+        }
+      ]
+    },
+    "kahve": {
+      "effects": {
+        "money": -45,
+        "stats": {
+          "brain": 2
+        },
+        "flags": {
+          "add": [
+            "pazarlik_dersi"
+          ]
+        }
+      },
+      "tr": "Yeni gelen, ilk teklifi iki kez geri çevirdiğini anlattı. Kahveleri sen ödedin: 45 Para.",
+      "en": "The new hire explained they'd turned down the first offer twice. You paid for the coffees: forty-five.",
+      "coach": [
+        {
+          "tr": "Kırk beş Paraya bir pazarlık dersi. Kursu daha pahalı.",
+          "en": "A negotiation lesson for forty-five. The course costs more.",
+          "roast": false
+        },
+        {
+          "tr": "Pazarlık sayacı: bir ders.",
+          "en": "Haggle counter: one lesson.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "patron",
+    "slip": {
+      "tr": "İDDİA: Patron \"bütçe dönemi\" der. — M.",
+      "en": "WAGER: The boss says \"budget cycle.\" — M."
+    }
+  },
+  "intent": {
+    "setup": "yazıcıda yeni gelenin daha yüksek bordrosunu bulmak",
+    "mechanism": "iş arkadaşı okumadım diyip rakamı söylüyor",
+    "mechanismId": "reversal",
+    "punch": "okumadım, sadece rakama baktım",
+    "lift": "pazarlık sayacı",
+    "target": "situation",
+    "closer": "yazici",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
