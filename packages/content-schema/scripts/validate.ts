@@ -1,25 +1,20 @@
 /**
- * validate — CLI: `pnpm --filter @motto/content-schema validate [dir-or-file...]` (Node type stripping + scripts/ts-register.mjs)
+ * validate — CLI: `pnpm --filter @motto/content-schema validate [dir-or-file...] [-q]` (Node type stripping + scripts/ts-register.mjs)
+ * Walks directories recursively (fixtures/, fixtures/demo/, fixtures/pack/<domain>/…).
  * Parses every *.json as a GameEvent (or a *.skip.json as SkipLine[]), then runs pool-level checks:
  * duplicate ids, dangling followUp/envelope/chain references (warnings), document share (L03-03).
  * Exit code 1 on any schema error.
  */
-import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, basename } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { basename } from 'node:path';
 import { GameEventSchema, SkipLine } from '../src/index';
 import type { GameEvent } from '../src/index';
-
-function collect(paths: string[]): string[] {
-  const out: string[] = [];
-  for (const p of paths) {
-    if (statSync(p).isDirectory()) out.push(...readdirSync(p).filter((f) => f.endsWith('.json')).map((f) => join(p, f)));
-    else out.push(p);
-  }
-  return out.sort();
-}
+import { collectJson, parseArgs } from './lib';
 
 function main(argv: string[]): number {
-  const files = collect(argv.length ? argv : ['fixtures']);
+  const { pos, opt } = parseArgs(argv);
+  const quiet = Boolean(opt.q || opt.quiet);
+  const files = collectJson(pos.length ? pos : ['fixtures']);
   const events: GameEvent[] = [];
   let errors = 0;
   for (const f of files) {
@@ -32,10 +27,15 @@ function main(argv: string[]): number {
       continue;
     }
     if (!basename(f).endsWith('.skip.json')) events.push(r.data as GameEvent);
-    console.log(`✓ ${f}`);
+    if (!quiet) console.log(`✓ ${f}`);
   }
   const ids = new Set(events.map((e) => e.id));
-  if (ids.size !== events.length) { errors++; console.error('✗ duplicate event ids'); }
+  if (ids.size !== events.length) {
+    errors++;
+    const seen = new Set<string>();
+    const dup = events.map((e) => e.id).filter((id) => (seen.has(id) ? true : (seen.add(id), false)));
+    console.error(`✗ duplicate event ids: ${[...new Set(dup)].slice(0, 20).join(', ')}`);
+  }
   const refs = new Set<string>();
   for (const e of events) for (const o of Object.values(e.outcomes)) for (const b of Array.isArray(o) ? o : [o]) {
     for (const fu of b.effects?.followUp ?? []) refs.add(fu.eventId);
@@ -44,7 +44,7 @@ function main(argv: string[]): number {
   for (const r of refs) if (!ids.has(r)) console.warn(`! dangling reference: ${r} (not in this set)`);
   const docs = events.filter((e) => e.type === 'document').length;
   if (events.length >= 20 && docs * 100 > events.length * 15) { errors++; console.error(`✗ document share ${docs}/${events.length} > 15% (L03-03)`); }
-  console.log(`${events.length} events, ${errors} error(s)`);
+  console.log(`${files.length} files, ${events.length} events, ${errors} error(s)`);
   return errors ? 1 : 0;
 }
 

@@ -8,6 +8,10 @@
  *   playing, an overlay is up, or the speed is ⏸ (manual: the Next Day button appears instead).
  * - D-067: the HUD shows the engine's persistent life state (job, home, partner, cat) as synced at each beat.
  * - "Auto" (D-066/D-092): the UI picks a random open choice with `via: 'auto'`; outcomes are still the engine's dice.
+ * - Avatar: the player's look is UI state (the engine has no look field and its rules stay untouched); it is chosen
+ *   on the Client File and kept per life, keyed by `lifeSeed`. The face mood and the full-screen "avatar moments"
+ *   (birthday aging, new job, breakup, legendary, I WAS WRONG, death) are read from effects + state transitions,
+ *   ≤ 1 per 8 shown days, never over a pending choice except as the intro of a legendary day.
  */
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
 import { buildRoast, emptyMeta, step } from '@motto/engine';
@@ -16,6 +20,10 @@ import { BUNDLE, eventById } from '../content/bundle';
 import { CATALOG } from '../i18n';
 import { haptic } from './haptics';
 import type { CardVariant, Delta, FeedItem, StampResult } from './feed';
+import { cyclePart, generateLook, outfitFor } from '../avatar/look';
+import type { Look, LookPart, Mood as FaceMood } from '../avatar/look';
+import { lifeChange, outcomeMood, pickMoment } from '../avatar/moments';
+import type { MomentKind, MomentReason, MomentView } from '../avatar/moments';
 
 export type Mood = 'neutral' | 'smirk' | 'shock' | 'sad';
 export type Stage = 'file' | 'play' | 'death';
@@ -53,10 +61,21 @@ export interface Snapshot {
   unread: number;
   /** Ms a coach line takes to type per character at the current speed (0 = instant). */
   typeMs: number;
+  /** Client File: the look being edited, the part changed last (null = whole shuffle) and a roast salt. */
+  draftLook: Look;
+  lookChanged: LookPart | null;
+  lookNonce: number;
+  /** Look of the current life (kept per life id). */
+  look: Look | null;
+  /** Player face in the HUD: reacts to the last outcome / wager. */
+  playerMood: FaceMood;
+  /** Full-screen avatar moment ("arada bir efektli an"). Time stops while it is up; tap skips. */
+  moment: MomentView | null;
 }
 
-interface Beat { wait: number; run: () => void }
-interface Timing { typing: number; line: number; bubble: number; outcome: number; stamp: number; coach: number; resume: number; dayFlow: number; autoPick: number; report: number; ageUp: number; typeMs: number; delayScale: number; bigStamp: number }
+/** `hold`: after `run`, the beat queue waits until the moment it opened is dismissed (timer or tap). */
+interface Beat { wait: number; run: () => void; hold?: boolean }
+interface Timing { typing: number; line: number; bubble: number; outcome: number; stamp: number; coach: number; resume: number; dayFlow: number; autoPick: number; report: number; ageUp: number; typeMs: number; delayScale: number; bigStamp: number; moment: number }
 
 const TICK = 100;
 const MAX_FEED = 90;
@@ -65,9 +84,9 @@ const FLOAT_STATS = new Set<string>(['health', 'joy', 'brain', 'charm', 'money',
 /** Unread counter: +1..3 per shown day depending on the skipped gap (pressure feedback, not a raw day count). */
 const unreadGain = (gap: number) => Math.min(3, 1 + Math.floor(gap / 10));
 /** ▶ 1 day ≈ 6 s all-in, ▶▶ ≈ 2 s (D-066); auto + ▶▶ runs a whole life in a few minutes. */
-const PLAY: Timing = { typing: 380, line: 260, bubble: 420, outcome: 380, stamp: 420, coach: 520, resume: 600, dayFlow: 2600, autoPick: 1500, report: 3200, ageUp: 1100, typeMs: 14, delayScale: 1, bigStamp: 1700 };
-const FAST: Timing = { typing: 140, line: 90, bubble: 150, outcome: 160, stamp: 260, coach: 220, resume: 250, dayFlow: 900, autoPick: 450, report: 1200, ageUp: 700, typeMs: 4, delayScale: 0.3, bigStamp: 1100 };
-const TURBO: Timing = { typing: 0, line: 20, bubble: 35, outcome: 40, stamp: 120, coach: 50, resume: 60, dayFlow: 140, autoPick: 120, report: 2800, ageUp: 380, typeMs: 0, delayScale: 0, bigStamp: 650 };
+const PLAY: Timing = { typing: 380, line: 260, bubble: 420, outcome: 380, stamp: 420, coach: 520, resume: 600, dayFlow: 2600, autoPick: 1500, report: 3200, ageUp: 1100, typeMs: 14, delayScale: 1, bigStamp: 1700, moment: 2600 };
+const FAST: Timing = { typing: 140, line: 90, bubble: 150, outcome: 160, stamp: 260, coach: 220, resume: 250, dayFlow: 900, autoPick: 450, report: 1200, ageUp: 700, typeMs: 4, delayScale: 0.3, bigStamp: 1100, moment: 1800 };
+const TURBO: Timing = { typing: 0, line: 20, bubble: 35, outcome: 40, stamp: 120, coach: 50, resume: 60, dayFlow: 140, autoPick: 120, report: 2800, ageUp: 380, typeMs: 0, delayScale: 0, bigStamp: 650, moment: 1100 };
 
 const PHASES_FLOW = new Set(['idle', 'answered']);
 const FAMILY_TAGS = ['aile', 'anne', 'telefon'];
@@ -105,6 +124,14 @@ export class GameController {
   private lowJoyShown = false;
   private lastMotto: string | null = null;
   private lastReport: ReportCardData | null = null;
+  /** The beat queue is paused on a `hold` beat until the moment closes. */
+  private held = false;
+  /** shownDays at the last avatar moment (cadence ≤ 1 / 8 shown days). */
+  private lastMomentDay = -999;
+  /** A career / love change seen while a choice was pending: played after the answer. */
+  private deferred: { kind: 'promotion' | 'sad'; reason: MomentReason; outfitFrom: ReturnType<typeof outfitFor> } | null = null;
+  /** Look per life (engine `lifeSeed` → look). In-memory, like the rest of the session. */
+  private looks = new Map<string, Look>();
 
   constructor() {
     const locale: Locale = 'tr';
@@ -112,6 +139,7 @@ export class GameController {
       stage: 'file', locale, speed: 'play', auto: false, fastLife: false, view: null, lifeNo: 1, feed: [], floats: [], busy: false,
       progress: 0, candidate: this.pickName(locale, -1), mood: 'neutral', bigStamp: null, shake: { key: 0, hard: false }, flash: null,
       ageUp: null, death: null, session: null, suggestEnd: false, unread: 9, typeMs: PLAY.typeMs,
+      draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: 0, look: null, playerMood: 'neutral', moment: null,
     };
   }
 
@@ -163,23 +191,65 @@ export class GameController {
   private enqueue(beats: Beat[]): void {
     this.queue.push(...beats);
     if (!this.snap.busy) this.set({ busy: true });
-    if (!this.beatTimer) this.pump();
+    if (!this.beatTimer && !this.held) this.pump();
   }
   private pump(): void {
     const b = this.queue.shift();
     if (!b) { this.beatTimer = null; this.set({ busy: false }); this.scheduleAuto(); return; }
-    this.beatTimer = setTimeout(() => { b.run(); this.pump(); }, b.wait);
+    this.beatTimer = setTimeout(() => {
+      b.run();
+      if (b.hold && this.snap.moment) { this.beatTimer = null; this.held = true; return; }
+      this.pump();
+    }, b.wait);
   }
   private flushBeats(): void {
     if (this.beatTimer) clearTimeout(this.beatTimer);
     this.beatTimer = null;
     this.queue = [];
+    this.held = false;
   }
 
+  // ── avatar moments ────────────────────────────────────────────────────────
+  private openMoment(st: LifeState, kind: MomentKind, extra: Partial<MomentView> = {}): void {
+    const id = this.id();
+    const outfit = outfitFor({ job: st.status.job, age: st.calendar.age });
+    const ms = kind === 'death' ? Math.max(1400, this.t().moment) : this.t().moment;
+    this.lastMomentDay = st.counters.shownDays;
+    this.set({
+      moment: { id, kind, age: st.calendar.age, fromAge: st.calendar.age, outfitFrom: outfit, outfitTo: outfit,
+        cat: st.status.assets.includes('kedi'), ms, ...extra },
+    });
+    this.later(ms, () => this.closeMoment(id));
+  }
+
+  private closeMoment(id?: number): void {
+    const m = this.snap.moment;
+    if (!m || (id !== undefined && m.id !== id)) return;
+    this.set({ moment: null });
+    if (this.held) { this.held = false; this.pump(); }
+  }
+
+  /** Tap on a moment: skip to its end (07 §2.5.1 b — no juice blocks input). */
+  skipMoment = (): void => { this.closeMoment(); };
+
   /** Effects → feed beats, in engine order (D-088: DateLine → skip → flow → card → bubbles → reply → outcome → stamp → coach). */
-  private play(fx: Effect[], st: LifeState): void {
+  private play(fx: Effect[], st: LifeState, prev: LifeState | null = null): void {
     const t = this.t();
     const beats: Beat[] = [];
+    // ── which avatar moment (if any) this step earns: observed from effects / state, never rolled here.
+    const pending = st.phase === 'day';
+    const change = lifeChange(prev?.status, st.status);
+    const prevOutfit = prev ? outfitFor({ job: prev.status.job, age: prev.calendar.age }) : outfitFor({ job: st.status.job, age: st.calendar.age });
+    if (change && pending) this.deferred ??= { ...change, outfitFrom: prevOutfit };
+    const career = !pending ? (change ? { ...change, outfitFrom: prevOutfit } : this.deferred) : null;
+    const cands: MomentKind[] = [];
+    if (fx.some((e) => e.kind === 'DEATH')) cands.push('death');
+    if (fx.some((e) => e.kind === 'SHOW_DAY' && e.card.legendary)) cands.push('legendary');
+    if (fx.some((e) => e.kind === 'REPORT_CARD')) cands.push('birthday');
+    if (career) cands.push(career.kind);
+    if (fx.some((e) => e.kind === 'STAMP' && e.result === 'iWasWrong')) cands.push('wagerWin');
+    const pick = pickMoment(cands, st.counters.shownDays, this.lastMomentDay);
+    if (career && !pending) this.deferred = null;
     for (let i = 0; i < fx.length; i++) {
       const e = fx[i]!;
       switch (e.kind) {
@@ -189,9 +259,11 @@ export class GameController {
           beats.push({ wait: 0, run: () => {
             const gap = st.calendar.skippedSinceLast;
             const unread = c.dayIndex <= 1 ? this.snap.unread : Math.min(99, this.snap.unread + unreadGain(gap));
-            this.set({ view: st, mood: 'neutral', progress: 0, unread });
+            this.set({ view: st, mood: 'neutral', playerMood: c.legendary ? 'shock' : 'neutral', progress: 0, unread });
             this.push({ id: this.id(), kind: 'date', dayIndex: c.dayIndex, dateISO: c.dateISO, birthday });
           } });
+          // Legendary day: the one moment allowed over a pending choice — as the intro, before the card.
+          if (pick === 'legendary') beats.push({ wait: t.line, run: () => this.openMoment(st, 'legendary'), hold: true });
           if (c.skip && c.dayIndex > 1) { const sk = c.skip; beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'skip', key: sk.key, params: sk.params }) }); }
           const momsHouse = st.status.home.kind === 'momsHouse';
           if (c.flowLog.length) beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'flow', lines: c.flowLog, momsHouse }) });
@@ -220,7 +292,7 @@ export class GameController {
               }
               beats.push({ wait: t.typing > 0 ? t.typing : wait, run: () => {
                 this.set({ feed: this.snap.feed.filter((f) => f.id !== typingId) });
-                this.push({ id: this.id(), kind: 'npc', speaker: b.speaker, avatar: b.avatar, key: b.textKey, params: b.params });
+                this.push({ id: this.id(), kind: 'npc', speaker: b.speaker, avatar: b.avatar, key: b.textKey, params: b.params, age: st.calendar.age });
               } });
             }
           } else if (e.layer === 'reply') {
@@ -234,8 +306,9 @@ export class GameController {
               deltas.push({ stat: f.stat, delta: f.delta });
             }
             const b = e.bubbles[0]!;
+            const face = outcomeMood(deltas);
             beats.push({ wait: t.outcome, run: () => {
-              this.set({ view: st });
+              this.set(face ? { view: st, playerMood: face } : { view: st });
               this.push({ id: this.id(), kind: 'outcome', key: b.textKey, params: b.params, deltas });
               this.spawnFloats(deltas);
               if (deltas.length) haptic.light();
@@ -256,13 +329,21 @@ export class GameController {
         }
         case 'STAMP': {
           const res = e.result, variant = e.variant;
-          beats.push({ wait: t.stamp, run: () => this.slam(res, variant) });
+          const moment = pick === 'wagerWin' && res === 'iWasWrong';
+          beats.push({ wait: t.stamp, run: () => {
+            this.slam(res, variant, !moment);
+            this.set({ playerMood: res === 'iWasWrong' ? 'smug' : 'sad' });
+            if (moment) this.openMoment(st, 'wagerWin');
+          }, hold: moment });
           break;
         }
         case 'REPORT_CARD': {
           const data = e.data;
-          beats.push({ wait: t.line, run: () => this.set({ ageUp: { from: data.age - 1, to: data.age } }) });
-          beats.push({ wait: t.ageUp, run: () => {
+          if (pick === 'birthday') {
+            // Aging morph replaces the plain AgeUp overlay: old face → new age, page flip, YAŞLANIYORSUN.
+            beats.push({ wait: t.line, run: () => { this.set({ playerMood: 'neutral' }); this.openMoment(st, 'birthday', { fromAge: data.age - 1, age: data.age }); }, hold: true });
+          } else beats.push({ wait: t.line, run: () => this.set({ ageUp: { from: data.age - 1, to: data.age } }) });
+          beats.push({ wait: pick === 'birthday' ? 0 : t.ageUp, run: () => {
             this.lastMotto = mottoKey(data);
             this.lastReport = data;
             this.set({ ageUp: null });
@@ -272,7 +353,9 @@ export class GameController {
           break;
         }
         case 'DEATH':
-          beats.push({ wait: t.coach + 400, run: () => this.die(st) });
+          // The face fades to gray ('dead') before the ECG takes over.
+          beats.push({ wait: t.coach + 400, run: () => { this.set({ playerMood: 'dead', view: st }); this.openMoment(st, 'death'); }, hold: true });
+          beats.push({ wait: 0, run: () => this.die(st) });
           break;
         case 'SESSION_END_SUGGESTED':
           beats.push({ wait: 0, run: () => {
@@ -289,6 +372,13 @@ export class GameController {
           break;
       }
     }
+    if (career && (pick === 'promotion' || pick === 'sad')) {
+      const outfitTo = outfitFor({ job: st.status.job, age: st.calendar.age });
+      beats.push({ wait: t.line, run: () => {
+        this.set({ view: st, playerMood: pick === 'sad' ? 'sad' : 'happy' });
+        this.openMoment(st, pick, { reason: career.reason, outfitFrom: career.outfitFrom, outfitTo, jobTitle: st.status.job?.title });
+      }, hold: true });
+    }
     if (st.phase === 'answered') beats.push({ wait: t.resume, run: () => undefined });   // clock resumes 600 ms after the coach line
     this.enqueue(beats);
   }
@@ -302,7 +392,7 @@ export class GameController {
     this.later(1300, () => this.set({ floats: this.snap.floats.filter((f) => !ids.has(f.id)) }));
   }
 
-  private slam(result: StampResult, variant: number): void {
+  private slam(result: StampResult, variant: number, big = true): void {
     const feed = this.snap.feed;
     let k = feed.length - 1;
     while (k >= 0 && feed[k]!.kind !== 'card') k--;
@@ -315,7 +405,7 @@ export class GameController {
     const wrong = result === 'iWasWrong';
     const id = this.id();
     this.set({
-      bigStamp: { id, result }, shake: { key: this.snap.shake.key + 1, hard: wrong },
+      bigStamp: big ? { id, result } : this.snap.bigStamp, shake: { key: this.snap.shake.key + 1, hard: wrong },
       flash: { key: id, color: wrong ? 'red' : 'lime' }, mood: wrong ? 'shock' : 'smirk',
     });
     if (wrong) haptic.heavy(); else haptic.medium();
@@ -328,7 +418,7 @@ export class GameController {
     const s = CATALOG[this.snap.locale];
     // Auto never carries into the next life: the player picks the next client's name themselves.
     this.set({
-      stage: 'death', mood: 'sad', auto: false, typeMs: (this.snap.speed === 'fast' ? FAST : PLAY).typeMs, progress: 0, suggestEnd: false, session: null, bigStamp: null,
+      stage: 'death', mood: 'sad', playerMood: 'dead', moment: null, auto: false, typeMs: (this.snap.speed === 'fast' ? FAST : PLAY).typeMs, progress: 0, suggestEnd: false, session: null, bigStamp: null,
       death: {
         roast: buildRoast(st), name: st.name, birthYear, deathYear: birthYear + (st.death?.age ?? st.calendar.age),
         epitaph: this.lastMotto ? s.motto[this.lastMotto] ?? null : null, autoDays: this.autoDays, report: this.lastReport,
@@ -340,7 +430,7 @@ export class GameController {
   // ── clock (D-066) ─────────────────────────────────────────────────────────
   private tick(): void {
     const s = this.snap, st = this.state;
-    if (s.stage !== 'play' || s.busy || !st || s.ageUp || s.session || s.speed === 'pause') return;
+    if (s.stage !== 'play' || s.busy || !st || s.ageUp || s.moment || s.session || s.speed === 'pause') return;
     if (!PHASES_FLOW.has(st.phase)) return;
     const p = s.progress + TICK / this.t().dayFlow;
     if (p >= 1) { this.set({ progress: 1 }); this.nextDay(); } else this.set({ progress: p });
@@ -351,7 +441,7 @@ export class GameController {
     if (!st || this.snap.busy || !(PHASES_FLOW.has(st.phase) || st.phase === 'birthday')) return;
     this.clearAuto();
     const r = this.dispatch({ type: 'NEXT_DAY' });
-    if (r) this.play(r.effects, r.state);
+    if (r) this.play(r.effects, r.state, st);
   }
 
   // ── auto mode ─────────────────────────────────────────────────────────────
@@ -386,6 +476,23 @@ export class GameController {
 
   shuffle = (): void => { haptic.selection(); this.set({ candidate: this.pickName(this.snap.locale, this.snap.candidate.i) }); };
 
+  /** Client File: new random look (whole face). */
+  shuffleLook = (): void => {
+    if (this.snap.stage !== 'file') return;
+    haptic.selection();
+    this.set({ draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: this.snap.lookNonce + 1 });
+  };
+
+  /** Client File: ‹ › on one part. */
+  cycleLook = (part: LookPart, dir: 1 | -1): void => {
+    if (this.snap.stage !== 'file') return;
+    haptic.selection();
+    this.set({ draftLook: cyclePart(this.snap.draftLook, part, dir), lookChanged: part, lookNonce: this.snap.lookNonce + 1 });
+  };
+
+  /** Look of a life by engine life id (lifeSeed); null when the life was not started from this UI. */
+  lookOf = (lifeSeed: string): Look | null => this.looks.get(lifeSeed) ?? null;
+
   setLocale = (locale: Locale): void => {
     if (locale === this.snap.locale) return;
     haptic.selection();
@@ -405,7 +512,10 @@ export class GameController {
     this.dispatch({ type: 'RESUME', localDay: localDay() });                 // Günün Günü seed only (D-050)
     if (this.snap.speed !== 'play') this.dispatch({ type: 'SET_SPEED', speed: this.snap.speed });
     this.autoDays = 0; this.lowJoyShown = false; this.lastMotto = null; this.lastReport = null;
-    this.set({ stage: 'play', view: this.state, progress: 0, unread: 9, lifeNo: this.meta.legacy.livesCompleted + 1 });
+    this.lastMomentDay = -999; this.deferred = null;
+    const look = this.snap.draftLook;
+    this.looks.set(r.state.lifeSeed, look);
+    this.set({ stage: 'play', view: this.state, progress: 0, unread: 9, lifeNo: this.meta.legacy.livesCompleted + 1, look, playerMood: 'neutral', moment: null });
     const t = this.t();
     this.enqueue([
       { wait: 0, run: () => this.push({ id: this.id(), kind: 'reply', raw: name, auto: false }) },
@@ -423,7 +533,7 @@ export class GameController {
     const r = this.dispatch({ type: 'ANSWER', eventId, choiceId, via });
     if (!r || r.effects.every((e) => e.kind === 'HAPTIC')) return;
     if (eventById(eventId)?.tags.some((tg) => FAMILY_TAGS.includes(tg))) this.set({ unread: 0 });
-    this.play(r.effects, r.state);
+    this.play(r.effects, r.state, st);
   };
 
   oneMoreYear = (): void => { if (this.state?.phase === 'birthday') { haptic.medium(); this.nextDay(); } };
@@ -469,6 +579,7 @@ export class GameController {
       stage: 'file', view: null, death: null, feed: [], floats: [], busy: false, progress: 0, mood: 'neutral', bigStamp: null, flash: null,
       ageUp: null, suggestEnd: false, session: null, auto: false, candidate: this.pickName(this.snap.locale, this.snap.candidate.i),
       lifeNo: this.meta.legacy.livesCompleted + 1,
+      draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: this.snap.lookNonce + 1, look: null, playerMood: 'neutral', moment: null,
     });
     haptic.success();
     this.enqueue([{ wait: 200, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro1' }, roast: true }) }]);

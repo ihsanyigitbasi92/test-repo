@@ -3,6 +3,8 @@
  * Generates src/content/fixtures.gen.ts: static imports of every content fixture (top-level + demo pack) so Metro
  * can bundle them for iOS / Android / web. Run after adding or removing a fixture file:
  *   node apps/mobile/scripts/gen-content.mjs
+ * Only top-level + demo/ are bundled. fixtures/pack/<domain>/ (the 10.000-event production pool, D-155) is
+ * deliberately NOT imported here: it ships as lazily-loaded per-domain packs built by a later step (D-156).
  */
 import { readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
@@ -11,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const fixtures = join(here, '..', '..', '..', 'packages', 'content-schema', 'fixtures');
 const outFile = join(here, '..', 'src', 'content', 'fixtures.gen.ts');
-const dirs = [fixtures, join(fixtures, 'demo')];
+const dirs = [fixtures, join(fixtures, 'demo')];   // non-recursive on purpose: never fixtures/pack (D-156)
 
 const events = [], skips = [];
 for (const dir of dirs) {

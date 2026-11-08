@@ -27,7 +27,7 @@ export type FeedItem =
   | { id: number; kind: 'typing'; speaker: string }
   | { id: number; kind: 'card'; eventId: string; variant: CardVariant; age: number; narration: { key: string; params?: Params } | null;
       wager: WagerOffer | null; stamp: { result: StampResult; variant: number } | null }
-  | { id: number; kind: 'npc'; speaker: string; avatar?: string; key: string; params?: Params }
+  | { id: number; kind: 'npc'; speaker: string; avatar?: string; key: string; params?: Params; /** player age when said (NPC faces age along) */ age?: number }
   | { id: number; kind: 'reply'; key?: string; raw?: string; auto: boolean }
   | { id: number; kind: 'outcome'; key: string; params?: Params; deltas: Delta[] }
   | { id: number; kind: 'coach'; key?: string; params?: Params; ui?: UiLine; roast?: boolean; lift?: boolean }

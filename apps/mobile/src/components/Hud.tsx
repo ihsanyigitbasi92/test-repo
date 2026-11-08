@@ -1,19 +1,22 @@
 /**
- * HUD (07 §2.2.1): CoachAvatar · age · life/name; StatBar (4 stats + floats); MetaRow (money · unread · mom
+ * HUD (07 §2.2.1): PlayerAvatar (the client's own face, mood from the last outcome; Pamuk peeks in while the cat
+ * is in the engine's assets) · age · life/name; StatBar (4 stats + floats); MetaRow (money · unread · mom
  * pressure · cringe); GameClock + DayProgress (D-066, D-109 "Gün N · Perşembe · Mart · 14:00"); StatusStrip
  * (D-067: job · home · love · cat). Everything shown is read from the engine's LifeState.
  */
 import { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import type { LifeState, Speed } from '@motto/engine';
-import { colors, fonts } from '../theme';
+import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
 import type { Strings } from '../i18n';
-import type { FloatItem, Mood } from '../state/useGame';
-import { CoachAvatar } from './CoachAvatar';
+import type { FloatItem } from '../state/useGame';
+import { Avatar, CatSprite } from '../avatar/Avatar';
+import { outfitFor } from '../avatar/look';
+import type { Look, Mood } from '../avatar/look';
 import { FloatNum } from './FloatNum';
 
-interface Props { view: LifeState; mood: Mood; lifeNo: number; floats: FloatItem[]; progress: number; speed: Speed; unread: number }
+interface Props { view: LifeState; look: Look; mood: Mood; lifeNo: number; floats: FloatItem[]; progress: number; speed: Speed; unread: number }
 
 const STATS = ['health', 'joy', 'brain', 'charm'] as const;
 const pts = (bp: number) => Math.round(bp / 100);
@@ -54,7 +57,29 @@ function Bar({ pct }: { pct: number }) {
   );
 }
 
-export function Hud({ view, mood, lifeNo, floats, progress, speed, unread }: Props) {
+/** HUD face: 52 dp disc, outfit from the engine job, aging from the engine age; the cat badge follows `assets`. */
+export function PlayerAvatar({ view, look, mood, size = 52 }: { view: LifeState; look: Look; mood: Mood; size?: number }) {
+  const { s } = useI18n();
+  const hasCat = view.status.assets.includes('kedi') && view.npcs.find((n) => n.role === 'cat')?.alive !== false;
+  const bump = useRef(new Animated.Value(1)).current;
+  useEffect(() => {
+    if (mood === 'neutral') return;
+    bump.setValue(1.12);
+    Animated.spring(bump, { toValue: 1, friction: 4, useNativeDriver: nativeDriver }).start();
+  }, [mood, bump]);
+  return (
+    <View style={{ width: size, height: size }} accessibilityLabel={s.look.a11y(view.name)} testID="player-avatar">
+      <Animated.View style={[st.ring, { width: size, height: size, borderRadius: size / 2, transform: [{ scale: bump }] }]}>
+        <View style={{ marginTop: size * 0.14 }}>
+          <Avatar look={look} age={view.calendar.age} mood={mood} outfit={outfitFor({ job: view.status.job, age: view.calendar.age })} size={size - 4} />
+        </View>
+      </Animated.View>
+      {hasCat && <View style={st.cat} testID="hud-cat"><CatSprite size={22} /></View>}
+    </View>
+  );
+}
+
+export function Hud({ view, look, mood, lifeNo, floats, progress, speed, unread }: Props) {
   const { s, locale } = useI18n();
   const floatsFor = (k: string) => floats.filter((f) => f.stat === k);
   const job = view.status.job;
@@ -70,7 +95,7 @@ export function Hud({ view, mood, lifeNo, floats, progress, speed, unread }: Pro
   return (
     <View style={st.hud} testID="hud">
       <View style={st.top}>
-        <CoachAvatar mood={mood} />
+        <PlayerAvatar view={view} look={look} mood={mood} />
         <View>
           <Text style={st.age} testID="hud-age">{view.calendar.age}</Text>
           <Text style={st.ageLbl}>{upper(locale, s.ageUnit)}</Text>
@@ -127,6 +152,8 @@ export function Hud({ view, mood, lifeNo, floats, progress, speed, unread }: Pro
 const st = StyleSheet.create({
   hud: { paddingHorizontal: 14, paddingTop: 4, paddingBottom: 8, borderBottomWidth: 1, borderBottomColor: colors.line, gap: 7 },
   top: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  ring: { backgroundColor: colors.paper3, borderWidth: 2, borderColor: colors.line, alignItems: 'center', overflow: 'hidden' },
+  cat: { position: 'absolute', right: -8, bottom: -4 },
   age: { fontFamily: fonts.stamp, fontSize: 30, lineHeight: 32, color: colors.ink },
   ageLbl: { fontSize: 10, fontWeight: '700', letterSpacing: 1, color: colors.ink2 },
   who: { flex: 1, alignItems: 'flex-end' },

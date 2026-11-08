@@ -1,6 +1,6 @@
 /**
  * Hayat Akışı — the root screen (07 §2.2.1): TopBar · HUD · dated feed · decision zone, plus the juice layers
- * (flash, big stamp, age-up, session sheet) and the death → Roast Report takeover. Pure view over useGame().
+ * (flash, big stamp, age-up, avatar moments, session sheet) and the death → Roast Report takeover. Pure view over useGame().
  */
 import { useEffect, useMemo } from 'react';
 import { Platform, StatusBar as RNStatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
@@ -14,6 +14,7 @@ import { ChoiceButtons, GhostRow, PrimaryButton, zone } from '../components/Acti
 import { ClientFile } from '../components/ClientFile';
 import { AgeUp, BigStamp, FlashLayer, SessionSheet, Shake } from '../components/Overlays';
 import { DeathFlow } from '../components/DeathFlow';
+import { AvatarMoment } from '../components/AvatarMoment';
 
 export function LifeScreen() {
   const { snap, game } = useGame();
@@ -30,7 +31,8 @@ export function LifeScreen() {
   let decision: React.ReactNode = null;
   if (snap.stage === 'file' && ready) {
     decision = <ClientFile name={snap.candidate.name} city={snap.candidate.city} lifeNo={snap.lifeNo} fastLife={snap.fastLife}
-      onShuffle={game.shuffle} onKeep={game.keepName} onFastLife={game.toggleFastLife} />;
+      look={snap.draftLook} lookChanged={snap.lookChanged} lookNonce={snap.lookNonce}
+      onShuffle={game.shuffle} onKeep={game.keepName} onFastLife={game.toggleFastLife} onShuffleLook={game.shuffleLook} onCycle={game.cycleLook} />;
   } else if (snap.stage === 'play' && ready && v) {
     if (phase === 'day' && v.card) decision = <ChoiceButtons card={v.card} onPick={(id) => game.answer(id)} />;
     else if (phase === 'birthday') decision = <PrimaryButton label={s.cta.oneMoreYear} onPress={game.oneMoreYear} pulse testID="one-more-year" />;
@@ -43,8 +45,8 @@ export function LifeScreen() {
         <View style={[st.phone, framed && st.framed]}>
           <Shake shake={snap.shake}>
             <TopBar speed={snap.speed} locale={snap.locale} showSpeed={snap.stage === 'play'} onSpeed={game.setSpeed} onLocale={game.setLocale} />
-            {snap.stage === 'play' && v && (
-              <Hud view={v} mood={snap.mood} lifeNo={snap.lifeNo} floats={snap.floats} progress={snap.progress} speed={snap.speed} unread={snap.unread} />
+            {snap.stage === 'play' && v && snap.look && (
+              <Hud view={v} look={snap.look} mood={snap.playerMood} lifeNo={snap.lifeNo} floats={snap.floats} progress={snap.progress} speed={snap.speed} unread={snap.unread} />
             )}
             <Feed items={snap.feed} typeMs={snap.typeMs} />
             <View style={zone.wrap}>
@@ -60,6 +62,7 @@ export function LifeScreen() {
           <FlashLayer flash={snap.flash} />
           <BigStamp stamp={snap.bigStamp} />
           <AgeUp ageUp={snap.ageUp} />
+          {snap.moment && snap.look && <AvatarMoment key={snap.moment.id} moment={snap.moment} look={snap.look} onSkip={game.skipMoment} />}
           <SessionSheet session={snap.session} onContinue={game.closeSession} />
           {snap.stage === 'death' && snap.death && <DeathFlow death={snap.death} onNewClient={game.newClient} />}
         </View>

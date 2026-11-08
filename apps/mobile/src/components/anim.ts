@@ -1,6 +1,6 @@
 /** Small Animated-API helpers shared by feed items and overlays (no reanimated; works on iOS/Android/web). */
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Easing } from 'react-native';
+import { AccessibilityInfo, Animated, Easing } from 'react-native';
 import { nativeDriver } from '../theme';
 
 export type AppearKind = 'slide' | 'pop' | 'fade' | 'rise' | 'pin';
@@ -75,4 +75,16 @@ export function useCountUp(target: number, run: boolean, steps = 18, ms = 60): n
     return () => clearInterval(id);
   }, [target, run, steps, ms]);
   return run ? v : 0;
+}
+
+/** System "reduce motion" (iOS / Android setting, web `prefers-reduced-motion`). Starts false; updates live. */
+export function useReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    AccessibilityInfo.isReduceMotionEnabled?.().then((v) => { if (alive) setReduced(v); }).catch(() => undefined);
+    const sub = AccessibilityInfo.addEventListener?.('reduceMotionChanged', (v: boolean) => setReduced(v));
+    return () => { alive = false; sub?.remove?.(); };
+  }, []);
+  return reduced;
 }
