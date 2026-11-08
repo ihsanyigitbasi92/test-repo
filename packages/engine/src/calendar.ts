@@ -67,3 +67,15 @@ export function countDueDays(fromDay: number, toDay: number, dom: number): numbe
   }
   return n;
 }
+
+const absCache = new Map<string, number>();
+/** Absolute day number of an ISO date, memoised (start dates are few and immutable). */
+export function absOfISO(iso: string): number {
+  let v = absCache.get(iso);
+  if (v === undefined) {
+    if (absCache.size > 4096) absCache.clear();
+    v = daysFromCivil(parseISO(iso));
+    absCache.set(iso, v);
+  }
+  return v;
+}

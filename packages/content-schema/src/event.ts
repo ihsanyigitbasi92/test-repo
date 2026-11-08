@@ -8,8 +8,8 @@ import { z } from 'zod';
 import {
   AgeBand, Avatar, Bp, CheckBp, EventType, Housing, L, NpcSpeaker, PatternId, Rarity, Universality, Valence,
   CHECK_STATS, HIDDEN_IDS, METER_IDS, STAT_IDS, MECHANISMS, PUNCH_OWNERS, REVIEW_STATUSES, VOICE_LEVELS,
-} from './primitives.ts';
-import { Pre } from './pre.ts';
+} from './primitives';
+import { Pre } from './pre';
 
 const intDelta = (lim: number) => z.number().int().min(-lim).max(lim);
 const partialInts = <K extends string>(keys: readonly K[], lim: number) =>

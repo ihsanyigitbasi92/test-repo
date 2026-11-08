@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { GameEventSchema, parseEvent, specificity2, SkipLine } from '../src/index.ts';
+import { GameEventSchema, parseEvent, specificity2, SkipLine } from '../src/index';
 
 const dir = join(import.meta.dirname, '..', 'fixtures');
 const files = readdirSync(dir).filter((f) => f.endsWith('.json') && !f.endsWith('.skip.json'));

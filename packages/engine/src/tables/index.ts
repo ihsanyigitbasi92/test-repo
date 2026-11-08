@@ -1,10 +1,10 @@
 /**
- * Integer lookup helpers over the generated tables (D-098: no Math.exp/pow/log/tanh in the engine).
+ * Integer lookup helpers over the generated tables (D-098: no transcendental math in the engine runtime).
  */
-import { HAZARD_PPM, HAZARD_MIN_AGE } from './hazard.ts';
-import { GAP_QUANTILE_PM } from './gapQuantile.ts';
-import { DECAY_MAX_GAP, JOY_PULL_PM, LUCK_KEEP_BP, DEBT_GROW_PPM } from './decay.ts';
-import { TANH_PM, TANH_STEP_INV } from './tanh.ts';
+import { HAZARD_PPM, HAZARD_MIN_AGE } from './hazard';
+import { GAP_QUANTILE_PM } from './gapQuantile';
+import { DECAY_MAX_GAP, JOY_PULL_PM, LUCK_KEEP_BP, DEBT_GROW_PPM } from './decay';
+import { TANH_PM, TANH_STEP_INV } from './tanh';
 
 export { HAZARD_PPM, GAP_QUANTILE_PM, JOY_PULL_PM, LUCK_KEEP_BP, DEBT_GROW_PPM, TANH_PM };
 

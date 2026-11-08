@@ -2,7 +2,7 @@
  * tuning.json loader (D-100). Validates at import time that every leaf number is an integer (D-098) and
  * exposes typed accessors. No runtime schema library: a small recursive walk is enough and keeps the engine dep-free.
  */
-import raw from './tuning.json' with { type: 'json' };
+import raw from './tuning.json';
 
 export type Tuning = typeof raw;
 export type BandDef = Tuning['dayBudget']['bands'][number];

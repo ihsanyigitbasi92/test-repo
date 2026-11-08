@@ -2,7 +2,7 @@
  * Day-level content around events: skip-summary lines (03 §2.3.3 / §3.12) and the bundle the engine loads.
  */
 import { z } from 'zod';
-import { GameEvent } from './refine.ts';
+import { GameEvent } from './refine';
 
 const wordCount = (s: string) => s.trim().split(/\s+/).length;
 

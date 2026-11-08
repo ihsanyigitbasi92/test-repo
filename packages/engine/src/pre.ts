@@ -3,19 +3,26 @@
  * Points in content (0..100) are compared against bp/100; money bounds are Para.
  */
 import type { Pre, PatternId } from '@motto/content-schema';
-import { seasonOf, civilFromDays, daysFromCivil, parseISO } from './calendar.ts';
-import type { LifeState, MetaState, StatId, MeterId, HiddenId } from './types.ts';
+import { seasonOf, civilFromDays, absOfISO } from './calendar';
+import type { LifeState, MetaState, StatId, MeterId, HiddenId } from './types';
 
 const inRange = (v: number, r: { min?: number; max?: number } | undefined): boolean =>
   r === undefined || ((r.min === undefined || v >= r.min) && (r.max === undefined || v <= r.max));
 const pts = (bp: number) => Math.floor(bp / 100);
 
 export function currentCivil(st: LifeState) {
-  return civilFromDays(daysFromCivil(parseISO(st.calendar.startDateISO)) + st.calendar.calendarDay);
+  return civilFromDays(absOfISO(st.calendar.startDateISO) + st.calendar.calendarDay);
 }
 
+const emptyCache = new WeakMap<object, boolean>();
+const isEmpty = (pre: Pre): boolean => {
+  let v = emptyCache.get(pre);
+  if (v === undefined) { v = Object.keys(pre).length === 0; emptyCache.set(pre, v); }
+  return v;
+};
+
 export function evalPre(pre: Pre | undefined, st: LifeState, meta: MetaState): boolean {
-  if (!pre) return true;
+  if (!pre || isEmpty(pre)) return true;
   if (pre.all && !pre.all.every((p) => evalPre(p, st, meta))) return false;
   if (pre.any && !pre.any.some((p) => evalPre(p, st, meta))) return false;
   if (pre.none && pre.none.some((p) => evalPre(p, st, meta))) return false;
@@ -69,4 +76,17 @@ export function evalPre(pre: Pre | undefined, st: LifeState, meta: MetaState): b
   }
   if (pre.expr !== undefined) return false;                     // jsep expressions are not evaluated by the engine (lint warns)
   return true;
+}
+
+/** Specificity = leaf count, `any` leaves count 0.5 (03 §2.2.2); returned ×2 to stay integer (mirrors content-schema). */
+export function specificity2(pre: Pre | undefined): number {
+  if (!pre) return 0;
+  let n = 0;
+  for (const [k, v] of Object.entries(pre)) {
+    if (v === undefined) continue;
+    if (k === 'all' || k === 'none') for (const p of v as Pre[]) n += specificity2(p);
+    else if (k === 'any') for (const p of v as Pre[]) n += specificity2(p) >> 1;
+    else n += 2;
+  }
+  return n;
 }

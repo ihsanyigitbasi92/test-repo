@@ -3,7 +3,7 @@
  * Numeric bounds are integer points (0–100 scale) or Para for `money`; `luck` is -50..50.
  */
 import { z } from 'zod';
-import { HOUSING, PATTERN_IDS, STAT_IDS, METER_IDS, HIDDEN_IDS, NpcSpeaker, Season } from './primitives.ts';
+import { HOUSING, PATTERN_IDS, STAT_IDS, METER_IDS, HIDDEN_IDS, NpcSpeaker, Season } from './primitives';
 
 const range = z.object({ min: z.number().int().optional(), max: z.number().int().optional() }).strict();
 const partialRanges = <K extends string>(keys: readonly K[]) =>

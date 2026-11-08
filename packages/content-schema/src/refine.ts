@@ -3,7 +3,7 @@
  * single event can verify alone (pool-level rules such as L03-03 document share belong to the CLI).
  */
 import { z } from 'zod';
-import { GameEventBase, type GameEvent as GameEventT, type Outcome } from './event.ts';
+import { GameEventBase, type GameEvent as GameEventT, type Outcome } from './event';
 
 type Ctx = z.RefinementCtx;
 const issue = (ctx: Ctx, path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });

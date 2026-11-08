@@ -3,12 +3,14 @@
  * (`evt.<id>.dialog.<i>`, `evt.<id>.c.<choice>`, `evt.<id>.o.<choice>.<branch>.text|coach.<j>`) the UI resolves (10 §3.3).
  */
 import type { GameEvent, OutcomeT, ChoiceT, SkipLineT } from '@motto/content-schema';
-import type { ContentBundle } from './types.ts';
+import type { ContentBundle } from './types';
 
 export interface ContentIndex {
   bundle: ContentBundle;
   byId: Map<string, GameEvent>;
-  pool: GameEvent[];            // selectable by the director (not report_card)
+  pool: GameEvent[];            // selectable by the director (not report_card, not legendary)
+  free: GameEvent[];            // pool minus calls (calls arrive only through the mom-call trigger)
+  surprise: { nice: GameEvent[]; great: GameEvent[] };
   legendary: GameEvent[];
   skipLines: SkipLineT[];
 }
@@ -20,9 +22,11 @@ export function indexContent(bundle: ContentBundle): ContentIndex {
   if (hit) return hit;
   const byId = new Map<string, GameEvent>();
   for (const e of bundle.events) byId.set(e.id, e);
+  const pool = bundle.events.filter((e) => e.type !== 'report_card' && e.rarity !== 'legendary');
+  const free = pool.filter((e) => e.type !== 'call');
   const idx: ContentIndex = {
-    bundle, byId,
-    pool: bundle.events.filter((e) => e.type !== 'report_card' && e.rarity !== 'legendary'),
+    bundle, byId, pool, free,
+    surprise: { nice: free.filter((e) => e.tags.includes('surprise.nice')), great: free.filter((e) => e.tags.includes('surprise.great')) },
     legendary: bundle.events.filter((e) => e.rarity === 'legendary'),
     skipLines: bundle.skipLines,
   };

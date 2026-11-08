@@ -1,13 +1,13 @@
 /**
- * validate — CLI: `node --experimental-strip-types scripts/validate.ts <dir-or-file>...`
+ * validate — CLI: `pnpm --filter @motto/content-schema validate [dir-or-file...]` (Node type stripping + scripts/ts-register.mjs)
  * Parses every *.json as a GameEvent (or a *.skip.json as SkipLine[]), then runs pool-level checks:
  * duplicate ids, dangling followUp/envelope/chain references (warnings), document share (L03-03).
  * Exit code 1 on any schema error.
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, basename } from 'node:path';
-import { GameEventSchema, SkipLine } from '../src/index.ts';
-import type { GameEvent } from '../src/index.ts';
+import { GameEventSchema, SkipLine } from '../src/index';
+import type { GameEvent } from '../src/index';
 
 function collect(paths: string[]): string[] {
   const out: string[] = [];
