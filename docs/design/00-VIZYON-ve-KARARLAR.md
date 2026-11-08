@@ -586,3 +586,10 @@ Kaynak: `docs/design/13-ELESTIRI-ve-REVIZYON-NOTLARI.md` (altı lens: Publisher,
 - **İki dil native yazım + Tier A punch-up şartı** (§9) korunur; D-114 onu G1 kapısına bağlar.
 - **Motor/UI ayrımı, kayıt dayanıklılığı, imzalı içerik dağıtımı, rıza öncesi SDK yasağı** (10): mühendislik lensi güçlü yan olarak işaretledi; D-098–101 ve D-117 bunları değiştirmez, tamamlar.
 - **Publisher hedefi** iş hedefi olarak kalır; ama **BATNA (self-publish + ad-network büyüme) artık ana plan**, publisher görüşmesi Faz 2 verisiyle (D-087).
+
+## 15. İçerik hacmi kararı (2026-11-08, sahip direktifi)
+
+| # | Karar | Gerekçe | Geçersiz kıldığı |
+|---|---|---|---|
+| **D-155** | **1.0 hedefi: en az 10.000 benzersiz, gerçek hayata benzeyen olay (TR+EN).** Taksonomi `docs/content/taxonomy.json` (~100 yaşam alanı, alan başına kota, yaş bandı, konuşmacılar). Üretim dalgalar hâlinde: her alan için önce benzersiz durum tohumları, sonra 40'lık partiler hâlinde yazım + şema doğrulama + kırmızı çizgi taraması + yakın-kopya ayıklama. Her dalga sonunda sayım raporu ve demo güncellemesi. | Sahip: "en az 10000 olay çeşidi olsun, gerçek hayata benzer." | D-112 / 00 §14 içerik hacmi tablosu (900 + 40 zincir) |
+| **D-156** | **İçerik paketleme:** 10.000 olay JS paketine statik gömülmez. Build adımı yazım metadatasını (`intent`, `review`) atar, alan başına sıkıştırılmış paket üretir; uygulama yaş bandına göre paketleri tembel yükler (web: fetch, native: asset). Bellek bütçesi düşük segment Android'de ≤ 40 MB içerik. | 10.000 × ~3,5 KB ≈ 35 MB ham JSON; JS paketine sığmaz. | 10 §2.3 içerik yükleme |
