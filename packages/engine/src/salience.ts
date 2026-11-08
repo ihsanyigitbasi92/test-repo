@@ -6,6 +6,7 @@
  */
 import { TUNING, bandFor } from './tuning';
 import { evalPre, specificity2 } from './pre';
+import { FACES } from './types';
 import type { GameEvent, LifeState, MetaState } from './types';
 
 const SAL = TUNING.salience;
@@ -30,11 +31,27 @@ export function targetIntensityPm(tPm: number): number {
   return 450;
 }
 
-/** Hard gates: preconditions, age band, per-life cap. */
+const FACE_SET: ReadonlySet<string> = new Set(FACES);
+const speakerCache = new WeakMap<GameEvent, readonly string[]>();
+/** Familiar Faces voicing an unconditional dialog line (D-062 / 03 §2.2.3 implicit precondition), memoised. */
+export function requiredSpeakers(ev: GameEvent): readonly string[] {
+  let v = speakerCache.get(ev);
+  if (v === undefined) {
+    v = [...new Set((ev.dialog ?? []).filter((d) => !d.when && FACE_SET.has(d.speaker)).map((d) => d.speaker))];
+    speakerCache.set(ev, v);
+  }
+  return v;
+}
+
+/** Hard gates: per-life cap, age band, implicit speaker precondition (NPC exists ∧ alive), preconditions. */
 export function eligible(ev: GameEvent, st: LifeState, meta: MetaState): boolean {
   if (ev.maxPerLife !== undefined && (st.seen[ev.id] ?? 0) >= ev.maxPerLife) return false;
   if (ev.ageBand && !ev.ageBand.includes(bandFor(st.calendar.age).name as never)) return false;
-  return evalPre(ev.pre, st, meta);
+  for (const role of requiredSpeakers(ev)) {
+    const n = st.npcs.find((x) => x.role === role);
+    if (!n || !n.exists || !n.alive) return false;
+  }
+  return evalPre(ev.pre, st, meta, ev.id);
 }
 
 /** Recency (cooldowns) in per-mille: 0 while on cooldown, ramps over `recencyRampDays` per tag. */

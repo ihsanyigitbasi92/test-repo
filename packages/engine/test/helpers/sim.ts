@@ -35,7 +35,7 @@ export function runLife(seed: string, content: ContentBundle, persona: Persona =
     if (st.phase === 'day' && st.card) {
       const open = st.card.choices.filter((c) => !c.locked);
       const c = persona === 'first' ? open[0]! : persona === 'last' ? open[open.length - 1]! : open[pick.int(0, open.length - 1)]!;
-      st = go(st, { type: 'ANSWER', choiceId: c.id, via: 'auto' });
+      st = go(st, { type: 'ANSWER', eventId: st.card.eventId, choiceId: c.id, via: 'auto' });
     }
     if (shownInSession >= (opts.sessionDays ?? 20)) { st = go(st, { type: 'END_SESSION' }); shownInSession = 0; }
   }

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import fc from 'fast-check';
-import { TUNING, PATTERNS } from '../src/index';
+import { TUNING, PATTERNS, BANKRUPTCY_PENDING } from '../src/index';
 import type { LifeState } from '../src/index';
 import { BUNDLE } from './helpers/content';
 import { runLife, type Persona } from './helpers/sim';
@@ -17,7 +17,9 @@ function checkInvariants(st: LifeState): void {
   for (const v of [...Object.values(st.stats), ...Object.values(st.meters), st.hidden.stress]) { expect(v).toBeGreaterThanOrEqual(0); expect(v).toBeLessThanOrEqual(10000); }
   expect(st.stats.joy).toBeGreaterThanOrEqual(TUNING.stats.floors.joy);                    // joy never 0 (02 §2.2.1)
   expect(Math.abs(st.hidden.luck)).toBeLessThanOrEqual(5000);
-  expect(st.money.balance).toBeGreaterThanOrEqual(TUNING.economy.bankruptcyAtPara);         // floor holds (bankruptcy reset)
+  // floor holds: below it only while the İcra card is pending (02 §2.3.4: the reset happens on that day card)
+  if (!st.flags.includes(BANKRUPTCY_PENDING)) expect(st.money.balance).toBeGreaterThanOrEqual(TUNING.economy.bankruptcyAtPara);
+  if (st.card) expect(st.card.flowLog.length).toBeLessThanOrEqual(3);                     // D-088
   if (st.death) expect(st.death.age).toBeGreaterThanOrEqual(TUNING.hazard.minAge);
   expect(st.calendar.age).toBeLessThanOrEqual(TUNING.hazard.ageHardCap);
 }
@@ -25,20 +27,24 @@ function checkInvariants(st: LifeState): void {
 describe('engine properties (fast-check)', () => {
   it('no NaN / floats, stats in bounds, money floor, no death before 28 — any seed, any persona', () => {
     fc.assert(fc.property(fc.string({ minLength: 1, maxLength: 12 }), fc.constantFrom<Persona>('first', 'chaotic', 'last'), (seed, persona) => {
-      let loans = 0;
+      let bailouts = 0, pendingSince = -1;
       const r = runLife(seed, BUNDLE, persona, {
         onStep: (st, a, fx) => {
           checkInvariants(st);
-          if (a.type === 'NEXT_DAY' && st.card?.flowLog.some((l) => l.kind === 'momLoan')) {
-            loans++;
-            expect(st.calendar.age).toBeLessThanOrEqual(TUNING.economy.bailout.maxAge);   // mom loan only in the window
+          if (a.type === 'NEXT_DAY' && st.card && (TUNING.economy.bailout.events as string[]).includes(st.card.eventId)) {
+            bailouts++;                                                                       // a bailout is always a day card
+            expect(st.calendar.age).toBeLessThanOrEqual(TUNING.economy.bailout.maxAge);       // only in the window
           }
+          if (st.flags.includes(BANKRUPTCY_PENDING)) {                                        // İcra plays within 3 shown days
+            if (pendingSince < 0) pendingSince = st.counters.shownDays;
+            expect(st.counters.shownDays - pendingSince).toBeLessThanOrEqual(3);
+          } else pendingSince = -1;
           if (a.type !== 'ANSWER') expect(fx.some((e) => e.kind === 'STAMP')).toBe(false);
         },
       });
       expect(r.state.phase).toBe('dead');
-      expect(r.state.counters.momLoans).toBe(loans);
-      expect(loans).toBeLessThanOrEqual(1);                                                   // once per life
+      expect(bailouts).toBeLessThanOrEqual(1);                                                // once per life
+      expect(r.state.counters.bailouts).toBeLessThanOrEqual(1);
     }), { numRuns: 12 });
   }, 60_000);
 

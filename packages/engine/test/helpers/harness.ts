@@ -44,7 +44,7 @@ export function harness(from: number, to: number): void {
   expect(quantile(legs, 0.5)).toBeLessThanOrEqual(8);
   expect(nm / Math.max(1, fails)).toBeLessThanOrEqual(0.30);                    // near-miss ≤ 30 % of fails
   expect(bonus).toBeLessThanOrEqual(nm);                                        // every promise applied at most once
-  expect(maxNeg).toBeLessThanOrEqual(3);                                        // spec ≤ 2 (+1 forced item after one deferral)
+  expect(maxNeg).toBeLessThanOrEqual(2);                                        // 03 §2.3.6 valence guard (forced items included)
   expect(maxCalls).toBeLessThanOrEqual(TUNING.momCall.maxPerLife);              // D-108
   expect(quiet).toBe(0);                                                        // AC-03-01 with a sufficient pool
 }

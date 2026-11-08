@@ -61,7 +61,8 @@ export interface Envelope {
 
 /** 03 §2.3.5 priority classes: 3 mom-call · 4 envelope · 5 chain · 6 forced follow-up · 7 rent/bailout · 9 lucky follow-up. */
 export type DuePriority = 3 | 4 | 5 | 6 | 7 | 9;
-export interface DueItem { day: number; eventId: string; priority: DuePriority; valence: number; deferredOnce: boolean; source: string }
+/** `envelopeId` ties a priority-4 resolver to its exact envelope; `source` is 'rent' | 'bailout' | 'bankruptcy' | 'chain:<id>' | … */
+export interface DueItem { day: number; eventId: string; priority: DuePriority; valence: number; deferredOnce: boolean; source: string; envelopeId?: string }
 
 export interface ChainState { node: string; startedDay: number; done: string[] }
 
@@ -77,6 +78,12 @@ export interface DirectorState {
   yearBudget: number; shownThisYear: number; sessionDayIndex: number; expectedSessionDays: number;
   momCall: { pending: boolean; lastDay: number; count: number; highSince: number };
   lastValence: number;
+  /** Last ≤ 5 session lengths (shown days); expectedSessionDays = their median (03 §2.3.4). */
+  recentSessions: number[];
+  /** SESSION_END_SUGGESTED already emitted this session (t ≥ 0.85). */
+  endSuggested: boolean;
+  /** Günün Günü (03 §2.3.7): wall-clock local date from RESUME (seed only) and whether today's shared day played. */
+  daily: { localDay: string; played: boolean } | null;
 }
 
 export interface YearStats {
@@ -85,25 +92,42 @@ export interface YearStats {
   momAccruedBp: number; rentShortfalls: number; paydays: number; valenceSum: number; shownDays: number;
   wagers: number; wagerHits: number;
   patterns: Partial<Record<PatternId, number>>;
+  /** Lifestyle spend share (per-mille of income) snapshotted at the birthday (02 §2.3.3). */
+  lifestylePm: number;
 }
 
 /** Lifetime counters for the Roast Report and the harness (02 §2.5.2 "numbers are never invented"). */
 export interface LifeCounters {
   shownDays: number; yearsWorked: number; peakMoney: number; rentEvents: number; momCalls: number;
-  surprises: number; legendaries: number; maxNegStreak: number; quietDays: number; momLoans: number; bankruptcies: number;
+  surprises: number; legendaries: number; maxNegStreak: number; quietDays: number; bailouts: number; bankruptcies: number;
 }
 
-export type GapKind = 'payday' | 'allowance' | 'rent' | 'cat' | 'health' | 'daily' | 'debt' | 'momLoan' | 'bankruptcy';
-export interface GapLine { kind: GapKind; para: number }
+/** Detailed money movement kinds of a gap (CashflowResult.detail). */
+export type GapKind = 'payday' | 'allowance' | 'rent' | 'cat' | 'health' | 'daily' | 'debt';
+/**
+ * D-088 flowLog line (≤ 3 per shown day): income (payday | allowance), rent, and one folded `daily` total
+ * (living cost + cat + health cost + card-debt growth).
+ */
+export type FlowKind = 'payday' | 'allowance' | 'rent' | 'daily';
+export interface GapLine { kind: FlowKind; para: number }
 export interface SkipSummary { days: number; key: string; params: Record<string, number> }
 
 export interface CardChoice { id: string; textKey: string; locked: boolean; pattern?: PatternId; swipe?: 'left' | 'right' }
-export interface Bubble { speaker: string; textKey: string; avatar?: string; roast?: boolean; lift?: boolean; delayMs: number }
+/**
+ * One chat bubble. `textKey` resolves through `resolveText(bundle, key, locale)`; `params` fills the
+ * `{name}`, `{n}`, `{ego}`, `{cringe}`, `{momPressure}`, `{money}` placeholders (points / Para, integers).
+ */
+export interface Bubble {
+  speaker: string; textKey: string; avatar?: string; roast?: boolean; lift?: boolean; delayMs: number;
+  params?: Record<string, number | string>;
+}
 export interface WagerOffer { choiceId: string; prediction: 'fail'; pOddsBp: number; slipKey: string }
 export interface DayCard {
   eventId: string; dayIndex: number; dateISO: string; hour: number;
   skip: SkipSummary | null; flowLog: GapLine[];
   legendary: boolean; momCall: boolean; forced: boolean; surpriseTier: 'nice' | 'great' | null;
+  /** Günün Günü: shared event whose outcome die is seeded by the local date (03 §2.3.7). */
+  daily?: { localDay: string };
   bubbles: Bubble[]; choices: CardChoice[]; wager: WagerOffer | null;
   answered?: { choiceId: string; branch: number; nearMiss: boolean };
 }
@@ -153,11 +177,19 @@ export interface MetaState {
 export type Action =
   | { type: 'START_LIFE'; seed: string; name: string; locale?: Locale; voice?: VoiceLevel; fastLife?: boolean }
   | { type: 'NEXT_DAY' }
-  | { type: 'ANSWER'; choiceId: string; via?: 'tap' | 'swipe' | 'tactic' | 'auto' }
+  /** `eventId` guards against a stale / double tap answering a newer card (10 §3.1). */
+  | { type: 'ANSWER'; eventId: string; choiceId: string; via?: 'tap' | 'swipe' | 'tactic' | 'auto' }
   | { type: 'SET_SPEED'; speed: Speed }
   | { type: 'PAUSE' }
-  | { type: 'RESUME' }
-  | { type: 'END_SESSION' };
+  /** `localDay` ('YYYY-MM-DD', device-local) seeds Günün Günü only; the engine never reads the clock (D-050). */
+  | { type: 'RESUME'; localDay?: string; nowWall?: number }
+  | { type: 'SESSION_END'; reason?: 'enough' | 'halfTime' | 'background' }
+  /** Alias of SESSION_END kept for older callers. */
+  | { type: 'END_SESSION' }
+  /** TODO(goals): goals are not modelled in the MVP engine; accepted as a no-op. */
+  | { type: 'PICK_GOAL'; goalId: string | null }
+  /** Marks an envelope opened (not resolved). */
+  | { type: 'OPEN_ENVELOPE'; envelopeId: string };
 
 export type Effect =
   | { kind: 'SHOW_DAY'; card: DayCard }
@@ -166,7 +198,10 @@ export type Effect =
   | { kind: 'FLOAT_NUM'; stat: StatId | MeterId | 'money'; delta: number }
   | { kind: 'REPORT_CARD'; data: ReportCardData }
   | { kind: 'DEATH'; age: number; cause: string; channel: 'hazard' | 'scripted' }
-  | { kind: 'NOTIFY_PLAN'; teaserKeys: string[] };
+  | { kind: 'NOTIFY_PLAN'; teaserKeys: string[] }
+  | { kind: 'HAPTIC'; pattern: 'error' }
+  /** t = sessionDayIndex / expectedSessionDays ≥ 0.85 (03 §2.3.4): the UI may offer "Bugünlük yeter". */
+  | { kind: 'SESSION_END_SUGGESTED' };
 
 export interface StepResult { state: LifeState; meta: MetaState; effects: Effect[] }
 

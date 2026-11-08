@@ -21,11 +21,23 @@ const isEmpty = (pre: Pre): boolean => {
   return v;
 };
 
-export function evalPre(pre: Pre | undefined, st: LifeState, meta: MetaState): boolean {
+/**
+ * `envelopeOpen` for a candidate event (`evId`): an unresolved envelope names it as resolver AND is either opened
+ * (session end / OPEN_ENVELOPE) or already due — so a resolver cannot jump its envelope's due date through a free
+ * pick, while the forced resolver (which marks its envelope opened first) always passes. Without `evId`
+ * (no candidate in scope) any opened-or-due unresolved envelope counts.
+ */
+export function envelopeOpenFor(st: LifeState, evId: string | undefined): boolean {
+  const now = st.calendar.calendarDay;
+  return st.envelopes.some((e) => !e.resolved && (evId === undefined || e.resolverEventId === evId) && (e.opened || e.dueDay <= now));
+}
+
+/** Evaluate a precondition tree. `evId` is the event the tree belongs to (used by the `envelopeOpen` leaf). */
+export function evalPre(pre: Pre | undefined, st: LifeState, meta: MetaState, evId?: string): boolean {
   if (!pre || isEmpty(pre)) return true;
-  if (pre.all && !pre.all.every((p) => evalPre(p, st, meta))) return false;
-  if (pre.any && !pre.any.some((p) => evalPre(p, st, meta))) return false;
-  if (pre.none && pre.none.some((p) => evalPre(p, st, meta))) return false;
+  if (pre.all && !pre.all.every((p) => evalPre(p, st, meta, evId))) return false;
+  if (pre.any && !pre.any.some((p) => evalPre(p, st, meta, evId))) return false;
+  if (pre.none && pre.none.some((p) => evalPre(p, st, meta, evId))) return false;
   if (!inRange(st.calendar.age, pre.age)) return false;
   if (pre.stats) for (const k of Object.keys(pre.stats) as StatId[]) if (!inRange(pts(st.stats[k]), pre.stats[k])) return false;
   if (pre.meters) for (const k of Object.keys(pre.meters) as MeterId[]) if (!inRange(pts(st.meters[k]), pre.meters[k])) return false;
@@ -66,7 +78,7 @@ export function evalPre(pre: Pre | undefined, st: LifeState, meta: MetaState): b
   }
   if (pre.pattern) for (const k of Object.keys(pre.pattern) as PatternId[]) if (!inRange(st.patterns[k], pre.pattern[k])) return false;
   if (pre.wagerOpen !== undefined && (st.card?.wager !== null && st.card?.wager !== undefined) !== pre.wagerOpen) return false;
-  if (pre.envelopeOpen !== undefined && st.envelopes.some((e) => e.opened && !e.resolved) !== pre.envelopeOpen) return false;
+  if (pre.envelopeOpen !== undefined && envelopeOpenFor(st, evId) !== pre.envelopeOpen) return false;
   if (pre.dayOfMonth && !inRange(currentCivil(st).d, pre.dayOfMonth)) return false;
   if (pre.rentShortfall !== undefined && (st.yearStats.rentShortfalls > 0) !== pre.rentShortfall) return false;
   if (pre.meta) {

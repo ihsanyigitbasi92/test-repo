@@ -27,6 +27,7 @@ describe('DayDirector (D-061, D-101, 03 §2.3)', () => {
     runLife('GAP-1', BUNDLE, 'chaotic', {
       onStep: (st, a, fx) => {
         if (a.type !== 'NEXT_DAY' || !st.card) return;
+        expect(st.card.flowLog.length).toBeLessThanOrEqual(3);                       // D-088
         expect(st.calendar.skippedSinceLast).toBeGreaterThanOrEqual(1);
         expect(st.calendar.skippedSinceLast).toBeLessThanOrEqual(bandFor(st.calendar.age).maxGap + 366);
         if (fx.some((e) => e.kind === 'REPORT_CARD')) {

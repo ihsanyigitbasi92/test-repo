@@ -12,13 +12,15 @@ describe('cash flow (02 §2.3, D-067)', () => {
     st.status.home = { kind: 'flat', rent: 500, since: 0 };
     const before = st.money.balance;
     const r = applyCashflow(st, 0, 365);
-    const get = (k: string) => r.lines.find((l) => l.kind === k)?.para ?? 0;
+    const get = (k: keyof typeof r.detail) => r.detail[k] ?? 0;
     expect(get('payday')).toBe(12_000);
     expect(get('rent')).toBe(-6_000);
     expect(get('cat')).toBe(-600);
     const lifestyle = Math.floor((1000 * TUNING.economy.lifestylePm.base * 365 + 15000) / 30000);
     expect(get('daily')).toBe(-(TUNING.economy.housing.flat.daily * 365 + lifestyle));
     expect(st.money.balance - before).toBe(r.lines.reduce((s, l) => s + l.para, 0));
+    expect(r.lines.map((l) => l.kind)).toEqual(['payday', 'rent', 'daily']);              // D-088: ≤ 3 lines, cat folded
+    expect(r.lines[2]!.para).toBe(get('daily') + get('cat'));
     expect(st.yearStats.paydays).toBe(12);
   });
 

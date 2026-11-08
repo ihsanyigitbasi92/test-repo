@@ -41,7 +41,7 @@ describe('determinism (D-044, D-098, AC-03-18)', () => {
     expect(loaded.effects).toEqual(direct.effects);
   });
 
-  it('step() never mutates its inputs; PAUSE/RESUME are engine no-ops', () => {
+  it('step() never mutates its inputs; PAUSE is a no-op, RESUME only records localDay', () => {
     const { state, meta } = replay(run.actions.slice(0, 30));
     const before = JSON.stringify([state, meta]);
     step(state, meta, { type: 'NEXT_DAY' }, BUNDLE);
@@ -50,7 +50,10 @@ describe('determinism (D-044, D-098, AC-03-18)', () => {
     const p = step(state, meta, { type: 'PAUSE' }, BUNDLE);
     expect(p.state).toBe(state);
     expect(p.effects).toEqual([]);
-    expect(step(state, meta, { type: 'RESUME' }, BUNDLE).effects).toEqual([]);
+    const res = step(state, meta, { type: 'RESUME', localDay: '2026-11-08', nowWall: 0 }, BUNDLE);
+    expect(res.effects).toEqual([]);
+    expect(res.state.director.daily).toEqual({ localDay: '2026-11-08', played: false });
+    expect(JSON.stringify([state, meta])).toBe(before);
   });
 
   it('a whole life replays identically (1 full life)', () => {

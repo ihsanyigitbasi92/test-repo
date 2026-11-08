@@ -88,7 +88,26 @@ function synthetic(): Raw[] {
   ev.push(base('evt_kira_gunu', {
     tags: ['ev', 'kira'], valence: -1, intensity: 6000, cooldownDays: { self: 25 },
     choices: [choice('yarisi', 'patience'), choice('anne', 'leanOnFamily'), choice('gormezden', 'avoidance')],
-    outcomes: { yarisi: out({ stats: { joy: 0 } }), anne: out({ money: 400, meters: { momPressure: 10 } }), gormezden: out({ hidden: { stress: 6 }, meters: { cringe: 6 } }) },
+    outcomes: { yarisi: out({ stats: { joy: 0 } }), anne: out({ money: 400, meters: { momPressure: 10 }, bailoutCheck: true }), gormezden: out({ hidden: { stress: 6 }, meters: { cringe: 6 } }) },
+  }));
+  ev.push(base('evt_anne_borc_verdi', {                                   // 02 §2.3.6 bailout (one of three)
+    tags: ['para', 'aile', 'bailout'], rarity: 'uncommon', intensity: 6000, maxPerLife: 1,
+    pre: { age: { max: 27 }, money: { max: -1 }, flags: { none: ['bailoutUsed'] }, npc: { mom: { alive: true } } },
+    choices: [choice('al', 'leanOnFamily'), choice('plan', 'patience'), choice('alma', 'pride')],
+    outcomes: {
+      al: out({ money: 3000, meters: { momPressure: 15 }, flags: { add: ['bailoutUsed'] } }),
+      plan: out({ money: 3000, meters: { momPressure: 6 }, flags: { add: ['bailoutUsed', 'anne_odeme_plani'] } }),
+      alma: out({ meters: { ego: 4, momPressure: -4 }, hidden: { stress: 6 }, flags: { add: ['bailoutUsed'] } }),
+    },
+  }));
+  ev.push(base('doc_icra', {                                              // 02 §2.3.4 İcra/İflas document day
+    type: 'document', tags: ['para', 'evrak', 'icra'], valence: -1, intensity: 8000, pre: { flags: { all: ['bankruptcyPending'] } },
+    document: {
+      letterhead: { tr: 'İCRA MÜDÜRLÜĞÜ (kurgusal)', en: 'COLLECTIONS OFFICE (fictional)' }, body: { tr: 'Ödeme emri.', en: 'Payment order.' },
+      translate: { tr: { from: 'ödeme emri', to: 'borcun var' }, en: { from: 'payment order', to: 'you owe' } }, glossaryKey: 'icra',
+    },
+    choices: [choice('oku', 'patience'), choice('imzala', 'avoidance'), choice('itiraz', 'pride')],
+    outcomes: { oku: out({ stats: { joy: 0 }, glossary: 'icra' }), imzala: out({ hidden: { stress: 4 } }), itiraz: out({ meters: { ego: 3 } }) },
   }));
   for (let i = 0; i < 3; i++) ev.push(base(`call_syn_anne_${i}`, {        // mom-call variants (D-108 ≥ 6 in MVP)
     type: 'call', tags: ['aile', 'anne', 'call'], valence: -1, intensity: 7000, maxPerLife: 3, call: { speaker: 'mom', takeover: true },
@@ -104,8 +123,8 @@ function synthetic(): Raw[] {
       sor: out({ meters: { ego: 2 } }), unut: out({ hidden: { stress: 1 } }),
     },
   }));
-  ev.push(base('evt_syn_env_resolve', {
-    tags: ['is', 'zarf'], intensity: 6000, cooldownDays: { self: 30 },
+  ev.push(base('evt_syn_env_resolve', {                                  // L03-11: resolver pre carries envelopeOpen:true
+    tags: ['is', 'zarf'], intensity: 6000, cooldownDays: { self: 30 }, pre: { envelopeOpen: true },
     choices: [choice('dinle', 'patience'), choice('itiraz', 'pride'), choice('gul', 'shortcut')],
     outcomes: { dinle: out({ stats: { joy: 1 } }), itiraz: out({ meters: { ego: 3 } }), gul: out({ meters: { cringe: 3 } }) },
   }));
@@ -136,5 +155,7 @@ function load(): ContentBundle {
 }
 
 export const BUNDLE: ContentBundle = load();
+/** Synthetic stand-ins for system days the MVP content will provide (rent, bailout, İcra). */
+export const SYNTHETIC_SYSTEM = ['evt_kira_gunu', 'evt_anne_borc_verdi', 'doc_icra'];
 /** Only the six 03 §3 fixture days (tiny pool → exercises the quiet-day fallback). */
-export const FIXTURE_ONLY: ContentBundle = { ...BUNDLE, contentHash: 'fixtures-only', events: BUNDLE.events.filter((e) => !e.id.includes('_syn') && e.id !== 'evt_kira_gunu') };
+export const FIXTURE_ONLY: ContentBundle = { ...BUNDLE, contentHash: 'fixtures-only', events: BUNDLE.events.filter((e) => !e.id.includes('_syn') && !SYNTHETIC_SYSTEM.includes(e.id)) };

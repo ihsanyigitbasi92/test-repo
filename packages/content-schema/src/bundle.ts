@@ -3,6 +3,8 @@
  */
 import { z } from 'zod';
 import { GameEvent } from './refine';
+import type { GameEvent as GameEventT } from './event';
+import type { Pre } from './pre';
 
 const wordCount = (s: string) => s.trim().split(/\s+/).length;
 
@@ -20,6 +22,39 @@ export const SkipLine = z.object({
   if (digits(l.tr) > 1 || digits(l.en) > 1) ctx.addIssue({ code: 'custom', path: ['tr'], message: 'at most one literal number' });
 });
 
+const hasEnvelopeOpen = (pre: Pre | undefined): boolean =>
+  !!pre && (pre.envelopeOpen === true || (pre.all ?? []).some(hasEnvelopeOpen));
+
+/**
+ * Bundle-level reference checks (L03-10, L03-11, chains): every followUp, envelope resolver, chainNext and
+ * chain.next node must exist — the engine would otherwise skip the target silently and lose the arc.
+ */
+function refineRefs(events: readonly GameEventT[], ctx: z.RefinementCtx): void {
+  const byId = new Map(events.map((e) => [e.id, e]));
+  const nodes = new Set(events.filter((e) => e.chain).map((e) => `${e.chain!.id}\u0000${e.chain!.node}`));
+  const add = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });
+  events.forEach((e, i) => {
+    e.chain?.next?.forEach((n, k) => {
+      if (!nodes.has(`${e.chain!.id}\u0000${n.node}`)) add(['events', i, 'chain', 'next', k, 'node'], `${e.id}: chain ${e.chain!.id} has no node "${n.node}"`);
+    });
+    for (const [cid, out] of Object.entries(e.outcomes)) {
+      (Array.isArray(out) ? out : [out]).forEach((b, bi) => {
+        const fx = b.effects;
+        if (!fx) return;
+        const at = ['events', i, 'outcomes', cid, bi, 'effects'];
+        fx.followUp?.forEach((f, k) => { if (!byId.has(f.eventId)) add([...at, 'followUp', k, 'eventId'], `${e.id}: followUp target ${f.eventId} does not exist (L03-10)`); });
+        if (fx.envelope) {
+          const r = byId.get(fx.envelope.resolverEventId);
+          if (!r) add([...at, 'envelope', 'resolverEventId'], `${e.id}: envelope resolver ${fx.envelope.resolverEventId} does not exist (L03-11)`);
+          else if (!hasEnvelopeOpen(r.pre)) add([...at, 'envelope', 'resolverEventId'], `${r.id}: envelope resolver pre must contain envelopeOpen:true (L03-11)`);
+        }
+        if (fx.chainNext !== undefined && (!e.chain || !nodes.has(`${e.chain.id}\u0000${fx.chainNext}`)))
+          add([...at, 'chainNext'], `${e.id}: chainNext "${fx.chainNext}" has no node in ${e.chain ? `chain ${e.chain.id}` : 'a chain (event has no chain)'}`);
+      });
+    }
+  });
+}
+
 export const ContentBundle = z.object({
   contentHash: z.string().min(1),
   events: z.array(GameEvent).min(1),
@@ -30,6 +65,7 @@ export const ContentBundle = z.object({
     if (ids.has(e.id)) ctx.addIssue({ code: 'custom', path: ['events', i, 'id'], message: `duplicate event id ${e.id}` });
     ids.add(e.id);
   }
+  refineRefs(b.events, ctx);
   const docs = b.events.filter((e) => e.type === 'document').length;
   if (docs * 100 > b.events.length * 15 && b.events.length >= 20) ctx.addIssue({ code: 'custom', path: ['events'], message: 'document share must be ≤ 15% (L03-03)' });
 });

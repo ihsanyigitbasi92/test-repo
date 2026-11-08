@@ -1,31 +1,33 @@
 /**
  * NEXT_DAY reducer body (10 §3.1 contract, 03 §2.3.11 planNextDay, D-088 single gap rule):
- * dayIndex+1 → re-derive channels → gap → applyGap (drift + cash flow) → birthday pulse | today's event card.
+ * dayIndex+1 → re-derive channels → gap → applyGap (drift + cash flow, ≤ 3 flowLog lines) → obligations
+ * (rent card, İcra card) → birthday pulse | today's event card.
  */
-import { TUNING } from './tuning';
+import { TUNING, bandFor } from './tuning';
 import { birthdayAfterYears, civilFromDays, parseISO, toISO, daysFromCivil } from './calendar';
 import { applyDrift } from './drift';
-import { applyCashflow, maybeMomLoan, startAbs } from './cashflow';
-import { drawGap, drawYearBudget, dropDue, pickDay, skipSummary } from './director';
+import { applyBankruptcy, applyCashflow, BANKRUPTCY_PENDING, startAbs } from './cashflow';
+import { drawGap, drawYearBudget, dropDue, pickDay, settleFreePlay, skipSummary } from './director';
 import { notePlayed } from './pity';
 import { rollHazard } from './hazard';
 import { buildReportCard, rankPatterns } from './report';
 import { freshYearStats } from './life';
-import { evalPre } from './pre';
-import { indexContent, keyChoice, keyDialog } from './content';
-import { screenWager } from './wager';
+import { indexContent } from './content';
 import { openEnvelope } from './apply';
+import { bailoutCheck } from './bailout';
+import { buildEventCard } from './card';
 import { drawInt } from './util';
-import type { Bubble, CardChoice, ContentBundle, DayCard, Effect, GameEvent, GapLine, LifeState, MetaState, SkipSummary } from './types';
+import type { ContentBundle, DayCard, Effect, GapLine, LifeState, MetaState, SkipSummary } from './types';
 
 const RENT_EVENT = 'evt_kira_gunu';
+const E = TUNING.economy;
 
 /** Death bookkeeping shared by hazard and scripted channels; writes the meta legacy (02 §2.5.3). */
 export function die(st: LifeState, meta: MetaState, cause: string, channel: 'hazard' | 'scripted', out: Effect[]): void {
   st.death = { cause, channel, age: st.calendar.age };
   st.phase = 'dead';
   const lifeNo = meta.legacy.livesCompleted;
-  for (const id of Object.keys(st.seen)) if (!id.startsWith('skip.')) meta.legacy.seenLives[id] = lifeNo;
+  for (const id of Object.keys(st.seen)) if (!id.includes('.')) meta.legacy.seenLives[id] = lifeNo;   // event ids only
   const top = rankPatterns(st).slice(0, 3).map((p) => p.id);
   meta.legacy.patternRanks.push(top);
   meta.legacy.metaLog.push({ lifeSeed: st.lifeSeed, ageAtDeath: st.calendar.age, cause, shownDays: st.counters.shownDays, topPatterns: top });
@@ -43,20 +45,25 @@ export function ensureEnvelope(st: LifeState, content: ContentBundle): void {
   openEnvelope(st, 'sys', { teaserKey: TUNING.envelope.systemTeasers[0]!, dueDays: TUNING.envelope.dueDays, weight: TUNING.envelope.weightDefault, resolverEventId: resolver });
 }
 
+/** Pension (02 §2.3): 0.9 × last salary after ≥ 20 working years, else 0.5 ×. */
+function retire(st: LifeState): void {
+  const job = st.status.job;
+  if (!job || st.calendar.age < E.retirementAge || job.title === 'emekli') return;
+  const pm = st.counters.yearsWorked >= E.pensionFullYears ? E.pensionPm.full : E.pensionPm.short;
+  st.status.job = { title: 'emekli', tier: job.tier, monthly: Math.trunc((job.monthly * pm) / 1000), since: st.calendar.calendarDay };
+}
+
 function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: Omit<DayCard, 'eventId'>, out: Effect[]): void {
   st.calendar.age++;
-  if (st.status.job) {
-    st.counters.yearsWorked++;
-    if (st.calendar.age >= TUNING.economy.retirementAge && st.status.job.title !== 'emekli')
-      st.status.job = { title: 'emekli', tier: st.status.job.tier, monthly: Math.trunc((st.status.job.monthly * TUNING.economy.pensionPm) / 1000), since: st.calendar.calendarDay };
-  }
+  if (st.status.job) { st.counters.yearsWorked++; retire(st); }
   const cause = rollHazard(st);                                   // hazard before the report card: the dead get no card
   if (cause) { st.card = { ...base, eventId: 'sys_death', choices: [] }; die(st, meta, cause, 'hazard', out); return; }
+  bailoutCheck(st, content);                                      // 02 §2.3.6: the pulse may queue tomorrow's offer
   const report = buildReportCard(st);
   st.lastReport = report;
   ensureEnvelope(st, content);
   st.envelopes = st.envelopes.filter((e) => !e.resolved);
-  st.yearStats = freshYearStats(st);
+  st.yearStats = freshYearStats(st);                              // snapshots lifestylePm for the new year
   st.wagerLog.thisYear = 0;
   st.director.shownThisYear = 0;
   st.director.yearBudget = drawYearBudget(st);
@@ -65,20 +72,6 @@ function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: 
   st.card = { ...base, eventId: 'sys_report_card', choices: [] };
   st.phase = 'birthday';
   out.push({ kind: 'SHOW_DAY', card: st.card }, { kind: 'REPORT_CARD', data: report });
-}
-
-function buildEventCard(st: LifeState, meta: MetaState, ev: GameEvent, base: Omit<DayCard, 'eventId'>): DayCard {
-  const bubbles: Bubble[] = [];
-  (ev.dialog ?? []).forEach((d, i) => {
-    if (d.when && !evalPre(d.when, st, meta)) return;
-    bubbles.push({ speaker: d.speaker, textKey: keyDialog(ev, i), avatar: d.avatar, delayMs: d.delayMs ?? 0 });
-  });
-  let choices: CardChoice[] = ev.choices.map((c) => ({
-    id: c.id, textKey: keyChoice(ev, c.id), locked: c.requires ? !evalPre(c.requires, st, meta) : false, pattern: c.pattern, swipe: c.swipe,
-  }));
-  if (choices.every((c) => c.locked)) choices = choices.map((c) => ({ ...c, locked: false }));
-  const wager = screenWager(ev, st);
-  return { ...base, eventId: ev.id, bubbles, choices, wager: wager && !choices.find((c) => c.id === wager.choiceId)?.locked ? wager : null };
 }
 
 function eventDay(st: LifeState, meta: MetaState, content: ContentBundle, base: Omit<DayCard, 'eventId'>, out: Effect[]): void {
@@ -93,23 +86,40 @@ function eventDay(st: LifeState, meta: MetaState, content: ContentBundle, base: 
     out.push({ kind: 'SHOW_DAY', card: st.card });
     return;
   }
+  if (!pick.forced) settleFreePlay(st, ev.id);
   const day = st.calendar.calendarDay;
   st.seen[ev.id] = (st.seen[ev.id] ?? 0) + 1;
   st.cooldowns.self[ev.id] = day;
   for (const t of ev.tags) st.cooldowns.tags[t] = day;
-  if (pick.momCall) { const mc = st.director.momCall; mc.count++; mc.lastDay = st.calendar.dayIndex; st.counters.momCalls++; }
+  if (pick.momCall) {                                             // 03 §2.3.1: a call day is outside the yearly budget
+    const mc = st.director.momCall, d = st.director;
+    mc.count++; mc.lastDay = st.calendar.dayIndex; st.counters.momCalls++;
+    d.yearBudget = Math.min(d.yearBudget + 1, bandFor(st.calendar.age).max + TUNING.dayBudget.capAboveMax);
+  }
   if (ev.id === RENT_EVENT) st.counters.rentEvents++;
   st.yearStats.valenceSum += ev.valence;
   notePlayed(st, ev, pick.legendary);
-  st.card = { ...buildEventCard(st, meta, ev, { ...base, legendary: pick.legendary, momCall: pick.momCall, forced: !!pick.forced, surpriseTier: pick.surpriseTier }) };
+  const daily = pick.daily && st.director.daily ? { localDay: st.director.daily.localDay } : undefined;
+  st.card = buildEventCard(st, meta, ev, { ...base, legendary: pick.legendary, momCall: pick.momCall, forced: !!pick.forced, surpriseTier: pick.surpriseTier, ...(daily ? { daily } : {}) });
   st.phase = 'day';
   out.push({ kind: 'SHOW_DAY', card: st.card });
   if (st.card.bubbles.length) out.push({ kind: 'SHOW_DIALOG', bubbles: st.card.bubbles, layer: 'dialog' });
 }
 
+/** Rent shortfall and İcra become forced day cards for today (02 §2.3.2 / §2.3.4); never silent gap effects. */
+function queueObligations(st: LifeState, content: ContentBundle, rentShortfall: boolean): void {
+  const idx = indexContent(content), day = st.calendar.calendarDay;
+  if (rentShortfall && idx.byId.has(RENT_EVENT) && !st.dueQueue.some((d) => d.eventId === RENT_EVENT))
+    st.dueQueue.push({ day, eventId: RENT_EVENT, priority: 7, valence: idx.byId.get(RENT_EVENT)!.valence, deferredOnce: false, source: 'rent' });
+  if (!st.flags.includes(BANKRUPTCY_PENDING) || st.dueQueue.some((d) => d.source === 'bankruptcy')) return;
+  const icra = idx.byId.get(E.bankruptcy.eventId);
+  if (icra) st.dueQueue.push({ day, eventId: icra.id, priority: 7, valence: icra.valence, deferredOnce: false, source: 'bankruptcy' });
+  else applyBankruptcy(st);                                       // no İcra card in this bundle → immediate reset
+}
+
 /** The NEXT_DAY transition; caller guarantees phase ∈ {idle, answered, birthday}. */
 export function nextDay(st: LifeState, meta: MetaState, content: ContentBundle, out: Effect[]): void {
-  const c = st.calendar;
+  const c = st.calendar, d = st.director;
   c.dayIndex++;
   st.rng = {};                                                    // D-101: every channel re-derived for the new dayIndex
   const gap = drawGap(st);
@@ -120,14 +130,11 @@ export function nextDay(st: LifeState, meta: MetaState, content: ContentBundle, 
   c.skippedSinceLast = gap;
   c.dateISO = toISO(civilFromDays(startAbs(st) + c.calendarDay));
   c.hour = drawInt(st, 'director', TUNING.calendar.eventHourMin, TUNING.calendar.eventHourMax);
-  const flowLog: GapLine[] = [...cash.lines];
-  const loan = new Map();
-  if (maybeMomLoan(st, loan)) flowLog.push({ kind: 'momLoan', para: loan.get('momLoan') ?? 0 });
-  if (cash.rentShortfall && indexContent(content).byId.has(RENT_EVENT) && !st.dueQueue.some((d) => d.eventId === RENT_EVENT))
-    st.dueQueue.push({ day: c.calendarDay, eventId: RENT_EVENT, priority: 7, valence: -1, deferredOnce: false, source: 'rent' });
+  const flowLog: GapLine[] = cash.lines;                          // ≤ 3 lines (D-088)
+  queueObligations(st, content, cash.rentShortfall);
   st.counters.shownDays++;
-  st.director.shownThisYear++;
-  st.director.sessionDayIndex++;
+  d.shownThisYear++;
+  d.sessionDayIndex++;
   st.yearStats.shownDays++;
   const skip: SkipSummary | null = skipSummary(st, gap, indexContent(content).skipLines);
   const base: Omit<DayCard, 'eventId'> = {
@@ -136,4 +143,8 @@ export function nextDay(st: LifeState, meta: MetaState, content: ContentBundle, 
   };
   if (c.calendarDay >= c.nextBirthdayDay) birthday(st, meta, content, base, out);
   else eventDay(st, meta, content, base, out);
+  if (!d.endSuggested && st.phase !== 'dead' && d.sessionDayIndex * 1000 >= 850 * Math.max(1, d.expectedSessionDays)) {
+    d.endSuggested = true;                                        // 03 §2.3.4 session-end heuristic t ≥ 0.85
+    out.push({ kind: 'SESSION_END_SUGGESTED' });
+  }
 }

@@ -29,6 +29,10 @@ export function refineEvent(ev: GameEventT, ctx: Ctx): void {
     } else {
       const sum = br.reduce((s, b) => s + (b.p ?? (br.length === 1 ? 10000 : 0)), 0);
       if (Math.abs(sum - 10000) > 10) issue(ctx, ['outcomes', ch.id], `branch probabilities must sum to 10000 bp (got ${sum})`);
+      // Honesty rule (03 §2.6): the success branch's p IS the dice threshold the engine uses (check.base, before
+      // stat / luck / near-miss adjustments). Fail branches (index ≥ 1) split the rest by their p as weights.
+      if (br.length > 1 && br[0]!.p !== ch.check.base) issue(ctx, ['outcomes', ch.id, 0, 'p'], `success branch p must equal check.base (${ch.check.base}) — shown odds = dice threshold`);
+      if (br[0]?.nearMiss) issue(ctx, ['outcomes', ch.id, 0, 'nearMiss'], 'nearMiss only on fail branches (index ≥ 1) (L03-05)');
       if (br.some((b) => b.nearMiss && (b.p ?? 10000) >= 10000)) issue(ctx, ['outcomes', ch.id], 'nearMiss only on a fail branch with p < 1 (L03-05)');
       if (br.some((b) => b.nearMiss) && !ch.check.goal) issue(ctx, ['choices'], 'check.goal is required when nearMiss is used (L03-05)');
     }

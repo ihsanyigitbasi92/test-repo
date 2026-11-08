@@ -1,19 +1,27 @@
 /**
  * The single DayDirector (D-101; 03 §2.3): yearly shown-day budget by age band, gap sampling from the
- * log-normal quantile table, skip summary, and today's event pick:
- *   forced dueQueue (valence-guarded, ≤ 1 deferral) → mom call → legendary → pity surprise → salience.
- * Channels: `director` (budget, gap, hour, skip line), `beats` (event pick), `surprise` (pity/legendary).
+ * log-normal quantile table, skip summary, and today's event pick in 03 §2.3.5 priority order:
+ *   (3) mom call → (4) envelope resolver → (5) chain → (6) forced follow-up → (7) rent / bailout / İcra
+ *   → (9) lucky follow-up → Günün Günü (session day ≥ 2) → legendary → pity surprise → salience.
+ * Valence guard (03 §2.3.6): while negStreak ≥ 2 no negative event plays — free picks score 0, the mom call
+ * waits, and a due negative forced item is postponed by that one shown day (`deferredOnce` records it). The
+ * postponing day is never negative, so the streak resets and the item plays next: a forced item is never held
+ * back two shown days in a row, and the negative streak stays ≤ 2.
+ * Channels: `director` (budget, gap, hour, skip line), `beats` (event pick), `surprise` (pity/legendary),
+ * `daily` = the date-seeded stream cyrb128('day:'+localDay+':'+locale+':'+contentHash) (03 §2.3.7).
  */
 import type { SkipLineT } from '@motto/content-schema';
 import { TUNING, bandFor } from './tuning';
 import { gapMultiplierPm } from './tables/index';
 import { clamp, drawInt, weightedIndex } from './util';
+import { sfc32, type Rng } from './rng';
+import { applyBankruptcy, BANKRUPTCY_PENDING } from './cashflow';
 import { indexContent } from './content';
 import { currentCivil } from './pre';
 import { seasonOf } from './calendar';
 import { eligible, noveltyPm, salience, salienceCtx } from './salience';
 import { rollLegendary, rollSurprise } from './pity';
-import type { ContentBundle, DueItem, GameEvent, LifeState, MetaState, SkipSummary } from './types';
+import type { ContentBundle, DueItem, Envelope, GameEvent, LifeState, MetaState, SkipSummary } from './types';
 
 const DB = TUNING.dayBudget;
 
@@ -73,7 +81,9 @@ export function skipSummary(st: LifeState, gap: number, lines: readonly SkipLine
   return { days: gap, key: `skip.${line.id}`, params };
 }
 
-export interface DayPick { event: GameEvent | null; forced: DueItem | null; momCall: boolean; legendary: boolean; surpriseTier: 'nice' | 'great' | null }
+export interface DayPick {
+  event: GameEvent | null; forced: DueItem | null; momCall: boolean; legendary: boolean; surpriseTier: 'nice' | 'great' | null; daily: boolean;
+}
 
 function weighted(st: LifeState, events: GameEvent[], score: (e: GameEvent) => number): GameEvent | null {
   const w = events.map((e) => { const s = score(e); return s > 0 ? Math.max(1, Math.floor(s / 1000)) : 0; });
@@ -81,28 +91,44 @@ function weighted(st: LifeState, events: GameEvent[], score: (e: GameEvent) => n
   return i < 0 ? null : events[i]!;
 }
 
-/** Take the first playable forced item; drops items whose event vanished or whose preconditions fail. */
+/** The envelope a priority-4 item resolves (exact id; legacy items fall back to the resolver id). */
+function envelopeOf(st: LifeState, item: DueItem): Envelope | undefined {
+  return item.envelopeId !== undefined
+    ? st.envelopes.find((e) => e.id === item.envelopeId)
+    : st.envelopes.find((e) => !e.resolved && e.resolverEventId === item.eventId);
+}
+
+/**
+ * Take the first playable forced item (priority, then due day). A due envelope is opened before its resolver's
+ * preconditions are checked (L03-11 `envelopeOpen:true`); items whose event vanished or fails are dropped.
+ */
 function takeForced(st: LifeState, meta: MetaState, content: ContentBundle): { item: DueItem; event: GameEvent } | null {
   const idx = indexContent(content);
   const due = st.dueQueue.filter((d) => d.day <= st.calendar.calendarDay).sort((a, b) => a.priority - b.priority || a.day - b.day);
   for (const item of due) {
+    if (item.priority === 4) { const env = envelopeOf(st, item); if (env) env.opened = true; }
     const ev = idx.byId.get(item.eventId);
-    if (!ev || !evalForced(ev, st, meta)) { dropDue(st, item); continue; }
-    if (st.reward.negStreak >= 2 && ev.valence < 0) {
-      if (!item.deferredOnce) { item.deferredOnce = true; return null; }     // one deferral, then it plays
-    }
+    if (!ev || !eligible(ev, st, meta)) { dropDue(st, item); continue; }
+    if (ev.valence < 0 && st.reward.negStreak >= 2) { item.deferredOnce = true; continue; }   // try the next item
     return { item, event: ev };
   }
   return null;
 }
 
-/** Forced items ignore cooldowns and salience but still honour preconditions and per-life caps. */
-const evalForced = (ev: GameEvent, st: LifeState, meta: MetaState): boolean => eligible(ev, st, meta);
-
+/**
+ * Remove a due item (played or dropped) and settle what it stands for: a priority-4 item resolves exactly its
+ * envelope; a `bankruptcy` item applies the İcra reset (on its card — or immediately when it cannot play).
+ */
 export function dropDue(st: LifeState, item: DueItem): void {
   const i = st.dueQueue.indexOf(item);
   if (i >= 0) st.dueQueue.splice(i, 1);
-  if (item.priority === 4) for (const e of st.envelopes) if (e.resolverEventId === item.eventId && !e.resolved) { e.resolved = true; break; }
+  if (item.priority === 4) { const env = envelopeOf(st, item); if (env) env.resolved = true; }
+  if (item.source === 'bankruptcy' && st.flags.includes(BANKRUPTCY_PENDING)) applyBankruptcy(st);
+}
+
+/** An event picked freely also settles its own envelope / İcra / bailout due items (no second showing). */
+export function settleFreePlay(st: LifeState, eventId: string): void {
+  for (const d of st.dueQueue.filter((x) => x.eventId === eventId && (x.priority === 4 || x.priority === 7))) dropDue(st, d);
 }
 
 function pickMomCall(st: LifeState, meta: MetaState, content: ContentBundle): GameEvent | null {
@@ -110,16 +136,35 @@ function pickMomCall(st: LifeState, meta: MetaState, content: ContentBundle): Ga
   return calls.length ? weighted(st, calls, (e) => noveltyPm(e, st, meta) * 1000) : null;
 }
 
+/** Günün Günü stream: identical for everyone on the same local date, locale and content (03 §2.3.7). */
+export function dailyRng(st: LifeState, localDay: string, salt = ''): Rng {
+  return sfc32(`day:${localDay}:${st.locale}:${st.contentHash}${salt}`);
+}
+
+/** Today's shared event, if one is pending: session day ≥ 2, not yet played for this local date, eligible. */
+function pickDaily(st: LifeState, meta: MetaState, content: ContentBundle): GameEvent | null {
+  const d = st.director.daily;
+  if (!d || d.played || st.director.sessionDayIndex < 2) return null;
+  const pool = indexContent(content).shared;
+  if (!pool.length) return null;
+  const ev = pool[dailyRng(st, d.localDay).int(0, pool.length - 1)]!;
+  if (!eligible(ev, st, meta) || (ev.valence < 0 && st.reward.negStreak >= 2)) return null;
+  d.played = true;
+  return ev;
+}
+
 /** Today's event (non-birthday day). */
 export function pickDay(st: LifeState, meta: MetaState, content: ContentBundle): DayPick {
-  const none: DayPick = { event: null, forced: null, momCall: false, legendary: false, surpriseTier: null };
-  const forced = takeForced(st, meta, content);
-  if (forced) return { ...none, event: forced.event, forced: forced.item };
-  if (st.director.momCall.pending && st.reward.negStreak < 2) {        // valence guard binds the call too (03 §2.3.5)
+  const none: DayPick = { event: null, forced: null, momCall: false, legendary: false, surpriseTier: null, daily: false };
+  if (st.director.momCall.pending && st.reward.negStreak < 2) {        // (3) mom call; the valence guard binds it too
     st.director.momCall.pending = false;
     const call = pickMomCall(st, meta, content);
     if (call) return { ...none, event: call, momCall: true };
   }
+  const forced = takeForced(st, meta, content);                         // (4)–(9)
+  if (forced) return { ...none, event: forced.event, forced: forced.item };
+  const daily = pickDaily(st, meta, content);
+  if (daily) return { ...none, event: daily, daily: true };
   const idx = indexContent(content);
   if (rollLegendary(st)) {
     const leg = weighted(st, idx.legendary.filter((e) => eligible(e, st, meta)), (e) => noveltyPm(e, st, meta) * 1000);

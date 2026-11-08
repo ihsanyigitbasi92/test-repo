@@ -9,6 +9,7 @@ import { addFlag, clamp, drawChanceBp, drawInt, mulDiv, removeFlag } from './uti
 import { moneyDelta, protectionMultPm } from './cashflow';
 import { evalPre } from './pre';
 import { indexContent } from './content';
+import { bailoutCheck } from './bailout';
 import type { ContentBundle, Effect, GameEvent, Housing, LifeState, MetaState, MeterId, StatId } from './types';
 
 const ST = TUNING.stats;
@@ -19,6 +20,9 @@ function npc(st: LifeState, role: string) {
   if (!n) { n = { role, exists: false, alive: true, affinity: 20, memories: [] }; st.npcs.push(n); }
   return n;
 }
+
+/** A job brings a boss (D-062 speaker gate: `boss` exists only while employed). */
+function setJobNpc(st: LifeState, employed: boolean): void { npc(st, 'boss').exists = employed; }
 
 function setHome(st: LifeState, kind: Housing, rent?: number): void {
   st.status.home = { kind, rent: rent ?? TUNING.economy.housing[kind].rent, since: st.calendar.calendarDay };
@@ -74,8 +78,8 @@ export function applyEffects(
   }
   if (fx.career) {
     const tiers = TUNING.economy.tiersMonthlyPara;
-    if (fx.career.fire && st.status.job) { st.status.job = null; addFlag(st, 'is_ariyor'); }
-    if (fx.career.set) st.status.job = { title: fx.career.set, tier: st.status.job?.tier ?? 1, monthly: st.status.job?.monthly ?? tiers[1]!, since: st.calendar.calendarDay };
+    if (fx.career.fire && st.status.job) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); }
+    if (fx.career.set) { st.status.job = { title: fx.career.set, tier: st.status.job?.tier ?? 1, monthly: st.status.job?.monthly ?? tiers[1]!, since: st.calendar.calendarDay }; setJobNpc(st, true); }
     if (fx.career.rungDelta && st.status.job) {
       const tier = clamp(st.status.job.tier + fx.career.rungDelta, 0, tiers.length - 1);
       st.status.job = { ...st.status.job, tier, monthly: tiers[tier]! };
@@ -84,8 +88,8 @@ export function applyEffects(
   if (fx.housing) setHome(st, fx.housing);
   const s = fx.status;
   if (s) {
-    if (s.job === null) { st.status.job = null; addFlag(st, 'is_ariyor'); }
-    else if (s.job) { st.status.job = { ...s.job, since: st.calendar.calendarDay }; removeFlag(st, 'is_ariyor'); }
+    if (s.job === null) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); }
+    else if (s.job) { st.status.job = { ...s.job, since: st.calendar.calendarDay }; removeFlag(st, 'is_ariyor'); setJobNpc(st, true); }
     if (s.home) setHome(st, s.home.kind, s.home.rent);
     if (s.rentDelta) st.status.home.rent = Math.max(0, st.status.home.rent + s.rentDelta);
     if (s.partner === null) st.status.partner = null;
@@ -107,8 +111,9 @@ export function applyEffects(
     ch.node = ev.chain.node;
     if (!ch.done.includes(ev.chain.node)) ch.done.push(ev.chain.node);
     if (fx.chainNext) enqueueChain(st, content, ev, fx.chainNext);
-    else { const nx = ev.chain.next?.find((n) => evalPre(n.when, st, meta)); if (nx) enqueueChain(st, content, ev, nx.node); }
+    else { const nx = ev.chain.next?.find((n) => evalPre(n.when, st, meta, ev.id)); if (nx) enqueueChain(st, content, ev, nx.node); }
   } else if (fx.chainNext) enqueueChain(st, content, ev, fx.chainNext);
+  if (fx.bailoutCheck) bailoutCheck(st, content);                // 02 §2.3.6: offered as tomorrow's day card
   if (fx.diagnosis && !st.diagnoses.includes(fx.diagnosis)) st.diagnoses.push(fx.diagnosis);
   if (fx.glossary && !st.glossary.includes(fx.glossary)) st.glossary.push(fx.glossary);
   if (fx.notebook) st.notebook.push({ kind: 'note', key: fx.notebook.key, dayIndex: st.calendar.dayIndex });
@@ -120,12 +125,13 @@ export function applyEffects(
 export function openEnvelope(st: LifeState, sourceEventId: string, e: { teaserKey: string; dueDays: readonly [number, number] | number[]; weight: number; resolverEventId: string }): void {
   const lo = e.dueDays[0] ?? 7, hi = Math.max(lo, e.dueDays[1] ?? lo);
   const dueDay = st.calendar.calendarDay + drawInt(st, 'beats', lo, hi);
-  st.envelopes.push({ id: `env_${st.calendar.dayIndex}_${st.envelopes.length}`, createdDay: st.calendar.calendarDay, dueDay, teaserKey: e.teaserKey, weight: e.weight, sourceEventId, resolverEventId: e.resolverEventId, opened: false, resolved: false });
-  st.dueQueue.push({ day: dueDay, eventId: e.resolverEventId, priority: 4, valence: 0, deferredOnce: false, source: `envelope:${sourceEventId}` });
+  const id = `env_${st.calendar.dayIndex}_${st.envelopes.length}`;
+  st.envelopes.push({ id, createdDay: st.calendar.calendarDay, dueDay, teaserKey: e.teaserKey, weight: e.weight, sourceEventId, resolverEventId: e.resolverEventId, opened: false, resolved: false });
+  st.dueQueue.push({ day: dueDay, eventId: e.resolverEventId, priority: 4, valence: 0, deferredOnce: false, source: `envelope:${sourceEventId}`, envelopeId: id });
   const open = st.envelopes.filter((x) => !x.resolved).sort((a, b) => b.weight - a.weight || a.createdDay - b.createdDay);
   for (const drop of open.slice(TUNING.envelope.maxOpen)) {
     drop.resolved = true;
-    const i = st.dueQueue.findIndex((d) => d.priority === 4 && d.eventId === drop.resolverEventId && d.day === drop.dueDay);
+    const i = st.dueQueue.findIndex((d) => d.priority === 4 && d.envelopeId === drop.id);
     if (i >= 0) st.dueQueue.splice(i, 1);
   }
 }

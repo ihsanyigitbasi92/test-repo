@@ -5,6 +5,7 @@
 import { TUNING } from './tuning';
 import { birthdayAfterYears, civilFromDays, daysFromCivil, toISO } from './calendar';
 import { channelRng } from './rng';
+import { lifestylePm } from './cashflow';
 import { FACES, PATTERNS } from './types';
 import type { LifeState, MetaState, YearStats, PatternId, Locale, VoiceLevel, StatId, LifeCounters, Npc } from './types';
 
@@ -19,17 +20,18 @@ export function meanAffinity(npcs: readonly Npc[]): number {
   return n ? Math.floor(s / n) : 0;
 }
 
-export function freshYearStats(st: Pick<LifeState, 'stats' | 'money' | 'npcs'>): YearStats {
+/** New year's counters; snapshots the lifestyle spend share from the patterns so far (02 §2.3.3). */
+export function freshYearStats(st: Pick<LifeState, 'stats' | 'money' | 'npcs' | 'patterns'>): YearStats {
   return {
     startStats: { ...st.stats }, startMoney: st.money.balance, startAffinity: meanAffinity(st.npcs), income: 0, spend: 0,
     riskChoices: 0, cringeSpikes: 0, egoCrossed85: false,
-    momAccruedBp: 0, rentShortfalls: 0, paydays: 0, valenceSum: 0, shownDays: 0, wagers: 0, wagerHits: 0, patterns: {},
+    momAccruedBp: 0, rentShortfalls: 0, paydays: 0, valenceSum: 0, shownDays: 0, wagers: 0, wagerHits: 0, patterns: {}, lifestylePm: lifestylePm(st),
   };
 }
 
 const zeroCounters = (): LifeCounters => ({
   shownDays: 0, yearsWorked: 0, peakMoney: TUNING.economy.startMoneyPara, rentEvents: 0, momCalls: 0,
-  surprises: 0, legendaries: 0, maxNegStreak: 0, quietDays: 0, momLoans: 0, bankruptcies: 0,
+  surprises: 0, legendaries: 0, maxNegStreak: 0, quietDays: 0, bailouts: 0, bankruptcies: 0,
 });
 
 const pity = () => ({ sinceLast: 0, sessionCount: 0, total: 0, lastDay: -999 });
@@ -65,8 +67,9 @@ export function createLife(seed: string, name: string, contentHash: string, opts
     director: {
       yearBudget: 0, shownThisYear: 0, sessionDayIndex: 0, expectedSessionDays: TUNING.session.expectedDays,
       momCall: { pending: false, lastDay: -999, count: 0, highSince: -1 }, lastValence: 0,
+      recentSessions: [], endSuggested: false, daily: null,
     },
-    yearStats: freshYearStats({ stats, money, npcs }),
+    yearStats: freshYearStats({ stats, money, npcs, patterns }),
     counters: zeroCounters(),
     card: null, lastReport: null, notebook: [], diagnoses: [], glossary: [], death: null,
     rng: {},
