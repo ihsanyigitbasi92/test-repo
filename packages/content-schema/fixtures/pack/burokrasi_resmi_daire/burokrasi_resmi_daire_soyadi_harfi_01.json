@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_soyadi_harfi_01",
+  "tags": [
+    "burokrasi",
+    "diploma",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Diplomanızda soyadınız \"Karadağ\", kimlikte \"Karadag\". Hangisi sizsiniz?",
+      "en": "Your diploma says \"Whitmore.\" Your ID says \"Whitmoore.\" Which one is you?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Bir harf için iki kurum yazışacak. Siz de arada olacaksınız.",
+      "en": "Two offices will now correspond about one letter. You'll be in between.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dilekce",
+      "tr": "Düzeltme dilekçesi ver",
+      "en": "File a correction request",
+      "pattern": "patience"
+    },
+    {
+      "id": "okul",
+      "tr": "Okuldan yeni diploma iste",
+      "en": "Get a new diploma from school",
+      "pattern": "overwork"
+    },
+    {
+      "id": "ikna",
+      "tr": "Aynı kişi olduğunu anlat",
+      "en": "Explain you're the same person",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "dilekce": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "harf_duzeltme_bekliyor"
+          ]
+        },
+        "glossary": "harf_duzeltme"
+      },
+      "tr": "Dilekçe alındı. Yanıt süresi otuz iş günü olarak bildirildi.",
+      "en": "Request received. Response time: thirty business days.",
+      "coach": [
+        {
+          "tr": "Bir harf, otuz gün.",
+          "en": "One letter, thirty days.",
+          "roast": false
+        }
+      ]
+    },
+    "okul": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "yeni_diploma"
+          ]
+        }
+      },
+      "tr": "Okul yeni diplomayı bastı, soyadın doğru. Bu kez bölüm adı yanlış.",
+      "en": "The school printed a new diploma with your name right. This time the department is wrong.",
+      "coach": [
+        {
+          "tr": "Hata yer değiştirdi. Gitmedi.",
+          "en": "The typo moved. It didn't leave.",
+          "roast": true
+        }
+      ]
+    },
+    "ikna": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "harf_kabul"
+            ]
+          }
+        },
+        "tr": "Görevli fotoğraflara baktı, kenara \"aynı kişi\" yazıp evrakı kabul etti.",
+        "en": "The clerk compared the photos, wrote \"same person\" in the margin, and accepted the file.",
+        "coach": [
+          {
+            "tr": "Bir kenar notu iki kurumu geçti.",
+            "en": "A margin note outran two institutions.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Görevli \"ben inanıyorum ama sistem inanmıyor\" dedi. Dosya iade edildi.",
+        "en": "The clerk said, \"I believe you. The system doesn't.\" File returned.",
+        "coach": [
+          {
+            "tr": "Odanın yarısı ikna oldu. Bürokrasi aşağı yuvarlar.",
+            "en": "Half the room believed you. Bureaucracy rounds down.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "diploma ile kimlikte soyadının tek harf farklı yazılması",
+    "mechanism": "görevli hangi belgenin sen olduğunu soruyor",
+    "mechanismId": "literalism",
+    "punch": "hangisi sizsiniz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "harf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

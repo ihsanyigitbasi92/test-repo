@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_ortak_siparis_karari_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "ev_arkadasi",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Sen ne istersen. Ama pizza olmasın. Hamburger de olmasın. Dün çorba içtik, o da olmasın.",
+      "en": "Whatever you want. Just not pizza. Or burgers. We had soup yesterday, so not that either."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Kırk dakikadır menüdeyiz. Yerlerin yarısı kapandı.",
+      "en": "We've been scrolling for forty minutes. Half the places have closed.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sec",
+      "tr": "Tek başına karar ver",
+      "en": "Make the call yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yumurta",
+      "tr": "Evde yumurta kır",
+      "en": "Just fry some eggs",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "birak",
+      "tr": "Kararı ona bırak",
+      "en": "Hand the decision back",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sec": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -190,
+          "flags": {
+            "add": [
+              "siparis_karar_sende"
+            ]
+          }
+        },
+        "tr": "Mantı söyledin. Ev arkadaşın ilk lokmadan sonra \"Tam bunu istiyordum\" dedi.",
+        "en": "You ordered dumplings. After the first bite your roommate said, \"This is exactly what I wanted.\"",
+        "coach": [
+          {
+            "tr": "Kırk dakikalık toplantı tek kararla kapandı.",
+            "en": "A forty-minute meeting, closed by one decision.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -190,
+          "flags": {
+            "add": [
+              "siparis_karar_reddedildi"
+            ]
+          }
+        },
+        "tr": "Lahmacun söyledin. Ev arkadaşın \"Lahmacun olmasın demiştim\" dedi; demediği hâlde.",
+        "en": "You ordered flatbread pizzas. Your roommate said, \"I said no flatbread.\" They had not.",
+        "coach": [
+          {
+            "tr": "Yasak listesi geriye dönük güncellendi.",
+            "en": "The banned list was updated retroactively.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yumurta": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": 1
+        },
+        "money": -25,
+        "flags": {
+          "add": [
+            "siparis_yumurta_aksami"
+          ]
+        }
+      },
+      "tr": "Sipariş yerine dört yumurta kırdın. Ev arkadaşın menüyü kapatıp ekmek dilimledi.",
+      "en": "Instead of ordering, you cracked four eggs. Your roommate closed the menu and started slicing bread.",
+      "coach": [
+        {
+          "tr": "Menü kapandı. Tava açıldı.",
+          "en": "Menu closed. Pan out.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -240,
+        "flags": {
+          "add": [
+            "siparis_karar_onda"
+          ]
+        }
+      },
+      "tr": "Karar ev arkadaşına kaldı ve kapıya pizza geldi, 240 Para. \"Pizza olmasın\" diyen de oydu.",
+      "en": "The call went to your roommate, and a pizza arrived: 240. They were the one who said no pizza.",
+      "coach": [
+        {
+          "tr": "Pizzayı yasaklayan, pizzayı söyledi.",
+          "en": "The person who banned pizza ordered pizza.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sec",
+    "slip": {
+      "tr": "İDDİA: Ne söylersen yanlış olur. — M.",
+      "en": "WAGER: Whatever you order will be wrong. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşıyla ortak siparişte bir türlü karar verilememesi",
+    "mechanism": "yasak listesi uzadıkça seçenek kalmıyor",
+    "mechanismId": "escalation",
+    "punch": "dün çorba içtik o da olmasın",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "yasak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Mantı ve lahmacun TR yemekleri; EN'de \"dumplings\" ve \"flatbread pizzas\" olarak verildi."
+  }
+}

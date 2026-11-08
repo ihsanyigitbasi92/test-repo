@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "alisveris_kiyafet_online_fiyat_dustu_01",
+  "tags": [
+    "gundelik",
+    "alisveris",
+    "alisveris_kiyafet_online"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "alisveris_kiyafet_online": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Geçen hafta aldığın montu gördüm. Şimdi indirimde, 300 Para daha ucuz.",
+      "en": "That coat you bought last week? It's on sale now. 300 cheaper."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Söylemesem mi daha iyiydi, bilemedim.",
+      "en": "Not sure telling you was the kind thing.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "fark",
+      "tr": "Fiyat farkı iste",
+      "en": "Ask for a price adjustment",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "iade",
+      "tr": "İade et, yeniden al",
+      "en": "Return it and rebuy",
+      "pattern": "overwork"
+    },
+    {
+      "id": "unut",
+      "tr": "Görmemiş say",
+      "en": "Pretend you never saw",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "fark": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 300,
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Müşteri hizmetleri farkı iade etti. 300 Para hesabına döndü.",
+        "en": "Customer service refunded the difference. 300 back in your account.",
+        "coach": [
+          {
+            "tr": "Mont aynı mont. Üç yüz Para daha hafif.",
+            "en": "Same coat. Three hundred lighter.",
+            "roast": false
+          },
+          {
+            "tr": "Üç yüz Para hedef kumbarasına.",
+            "en": "Three hundred into the goal jar.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "Fark iadesi yalnızca kampanya dışı ürünler için geçerliymiş. Mont kampanyada.",
+        "en": "Price adjustments only apply to non-sale items. The coat is on sale.",
+        "coach": [
+          {
+            "tr": "Mont indirimde. Sen değilsin.",
+            "en": "The coat's on sale. You're not.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "iade": {
+      "effects": {
+        "money": 300,
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "mont_iade_yeniden"
+          ]
+        }
+      },
+      "tr": "Montu iade edip yeniden aldın. İki kargo, dokuz gün, aynı mont.",
+      "en": "You returned the coat and bought it again. Two shipments, nine days, same coat.",
+      "coach": [
+        {
+          "tr": "Aynı mont eve iki kez geldi. İkincisinde daha ucuzdu.",
+          "en": "The same coat came home twice. Cheaper the second time.",
+          "roast": false
+        }
+      ]
+    },
+    "unut": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Konuyu kapattın. Mont dolapta, fiyat etiketi hâlâ cebinde.",
+      "en": "Topic closed. Coat in the closet, price tag still in the pocket.",
+      "coach": [
+        {
+          "tr": "Etiket cepte duruyor. Okunmadan.",
+          "en": "The tag stays in the pocket. Unread.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "fark",
+    "slip": {
+      "tr": "İDDİA: Fark iadesi çıkmaz. — M.",
+      "en": "WAGER: No refund on the difference. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni alınan montun ertesi hafta indirime girmesi",
+    "mechanism": "iyi haber kötü zamanlama ile gelir",
+    "mechanismId": "reversal",
+    "punch": "mont indirimde sen değilsin",
+    "lift": "hedef kumbarası",
+    "target": "decision",
+    "antithesis": true,
+    "closer": "indirim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "orta_yas_annenin_tapusu_01",
+  "tags": [
+    "yaslilik",
+    "anne",
+    "ev",
+    "para",
+    "orta_yas"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "orta_yas": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Evi senin üstüne yapalım. Ben yine burada otururum, sadece kâğıtta senin olur.",
+      "en": "Let's put the house in your name. I'll still live here. It's just yours on paper."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Ama perdeleri ben seçerim. Kâğıtta yazmıyor ama öyle.",
+      "en": "But I pick the curtains. That's not on the paper, but that's how it is.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Tapu işlemine git",
+      "en": "Go ahead with the transfer",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kardes",
+      "tr": "Önce kardeşinle konuş",
+      "en": "Talk to your sibling first",
+      "pattern": "patience",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "ertele",
+      "tr": "\"Sonra konuşuruz\" de",
+      "en": "Say \"let's talk later\"",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": -1500,
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "tapu_devri"
+          ]
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "annenin_evi_tapusu"
+            ]
+          }
+        }
+      },
+      "tr": "Tapu işlemi bir öğleden sonra sürdü, harçlar 1.500 Para. Çıkışta annen perde ölçüsü aldı.",
+      "en": "The transfer took one afternoon and 1,500 in fees. On the way out, your mom measured for curtains.",
+      "coach": [
+        {
+          "tr": "Kâğıt el değiştirdi. Perde yetkisi değiştirmedi.",
+          "en": "The deed changed hands. Curtain authority did not.",
+          "roast": true
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "tapu_ortak"
+          ]
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "annenin_evi_hissesi"
+            ]
+          }
+        }
+      },
+      "tr": "Kardeşinle üç saat konuştunuz ve ortak isme karar verdiniz. Annen \"ben de öyle diyecektim\" dedi.",
+      "en": "You and your sibling talked for three hours and settled on joint names. Your mom said, \"That's what I was going to say.\"",
+      "coach": [
+        {
+          "tr": "Üç saatlik toplantı, tek cümlelik onay.",
+          "en": "A three-hour meeting, a one-line approval.",
+          "roast": false
+        },
+        {
+          "tr": "Zarf kapandı. İki imza.",
+          "en": "Envelope closed. Two signatures.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "tapu_ertelendi"
+          ]
+        }
+      },
+      "tr": "Konu kapandı. Bir hafta sonra annen telefonda \"kâğıtları hazırladım bile\" dedi.",
+      "en": "Topic closed. A week later your mom said on the phone, \"I've already got the papers ready.\"",
+      "coach": [
+        {
+          "tr": "Konu kapandı, dosya açıldı.",
+          "en": "The topic closed. The file opened.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "annenin oturduğu evi kâğıt üstünde sana devretmek istemesi",
+    "mechanism": "tapu devrediliyor, perde yetkisi kâğıtta yazmadığı için annede kalıyor",
+    "mechanismId": "literalism",
+    "punch": "kâğıtta yazmıyor ama öyle",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "perde"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

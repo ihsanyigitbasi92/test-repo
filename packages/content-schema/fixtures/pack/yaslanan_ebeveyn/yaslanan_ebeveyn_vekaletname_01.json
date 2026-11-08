@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "yaslanan_ebeveyn_vekaletname_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "evrak",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 70
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "vekalet_sende"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "DÖRTYOL NOTERLİĞİ — ÖZEL VEKÂLETNAME (kurgusal)",
+      "en": "CROSSROADS NOTARY — LIMITED POWER OF ATTORNEY (fictional)"
+    },
+    "body": {
+      "tr": "Vekil; fatura ödeme, banka işlemleri ve yazışmalarda müvekkil adına tam yetkilidir.",
+      "en": "The agent has full authority to pay bills, handle banking and conduct correspondence on the principal's behalf."
+    },
+    "translate": {
+      "tr": {
+        "from": "tam yetkilidir",
+        "to": "her işlemden önce annene telefonla danışır"
+      },
+      "en": {
+        "from": "full authority",
+        "to": "authority, pending a phone call to Mom"
+      }
+    },
+    "glossaryKey": "tam_yetki"
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "İmzalarım. Ama şartım var: faturaları ödemeden önce bana okuyacaksın.",
+      "en": "I'll sign. One condition: you read me every bill before you pay it."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Bir de şunu yazdır: \"Kazak almaz.\" Geçen sefer bana kazak aldın.",
+      "en": "And have them add: 'Buys no sweaters.' Last time you bought me a sweater.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "imza",
+      "tr": "Şartlarıyla imzalat",
+      "en": "Sign it with her conditions",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Kazak maddesine itiraz et",
+      "en": "Contest the sweater clause",
+      "pattern": "pride"
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşini de vekil ekle",
+      "en": "Add your sibling as co-agent",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "imza": {
+      "effects": {
+        "money": -400,
+        "meters": {
+          "momPressure": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "vekalet_sende"
+          ]
+        },
+        "glossary": "tam_yetki"
+      },
+      "tr": "Vekâlet çıktı, noter 400 Para. Her ay başı annene faturaları sesli okuyorsun; en sevdiği su faturası.",
+      "en": "Power of attorney granted; the notary charged 400. Each month you read Mom her bills aloud. Her favorite is the water bill.",
+      "coach": [
+        {
+          "tr": "Aylık okuma saati. Dinleyici memnun.",
+          "en": "Monthly reading hour. The audience is pleased.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "vekalet_sende"
+          ]
+        },
+        "glossary": "tam_yetki"
+      },
+      "tr": "Noter kişisel tercihleri metne yazmadı. Annen eve dönünce aynı maddeyi buzdolabına yazdı.",
+      "en": "The notary wouldn't include personal preferences. Mom went home and wrote the clause on the fridge.",
+      "coach": [
+        {
+          "tr": "Resmî metinde yok. Buzdolabında var.",
+          "en": "Not in the official copy. On the fridge.",
+          "roast": true
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "money": -400,
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "vekalet_sende"
+          ]
+        },
+        "glossary": "tam_yetki"
+      },
+      "tr": "İkiniz de vekil oldunuz. Annen faturayı ikinize ayrı ayrı okutup okumaları karşılaştırıyor.",
+      "en": "You're both agents now. Mom has each of you read the bill separately, then compares readings.",
+      "coach": [
+        {
+          "tr": "İki okuma, tek fatura.",
+          "en": "Two readings. One bill.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "annenin sana banka ve fatura vekâleti vermesi, kendi şartlarıyla",
+    "mechanism": "'tam yetki' tercümesi: her işlemden önce anneye haber",
+    "mechanismId": "translation",
+    "punch": "kazak almaz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "okuma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

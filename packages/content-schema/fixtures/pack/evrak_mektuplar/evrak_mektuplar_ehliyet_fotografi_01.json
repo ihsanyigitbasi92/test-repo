@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_ehliyet_fotografi_01",
+  "tags": [
+    "burokrasi",
+    "ehliyet",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇINARLI İLÇE SÜRÜCÜ BELGESİ BİRİMİ (kurgusal)",
+      "en": "PLANETREE DISTRICT LICENSING OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "Eski tip sürücü belgenizin değişim süresi dolmak üzeredir. Sağlık raporu ve son altı ayda çekilmiş biyometrik fotoğraf ile başvurunuz.",
+      "en": "Your old-format driving license must be exchanged soon. Apply with a medical report and a biometric photo taken within six months."
+    },
+    "translate": {
+      "tr": {
+        "from": "biyometrik fotoğraf",
+        "to": "gülümsemek yasak"
+      },
+      "en": {
+        "from": "biometric photo",
+        "to": "smiling is not permitted"
+      }
+    },
+    "glossaryKey": "biyometrik_fotograf"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Fotoğrafta gülümsüyorsunuz. Biyometrik yüz gülümsemez.",
+      "en": "You are smiling in this photo. A biometric face does not smile."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Ciddi ama doğal. Pasaport bakışı yani.",
+      "en": "Serious but natural. Passport face.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yeniden",
+      "tr": "Fotoğrafçıda yeniden çektir",
+      "en": "Get it retaken at a studio",
+      "pattern": "patience"
+    },
+    {
+      "id": "ciddi",
+      "tr": "Kabinde ciddi yüzü dene",
+      "en": "Try the serious face in the booth",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ertele",
+      "tr": "Son haftaya bırak",
+      "en": "Leave it for the last week",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yeniden": {
+      "effects": {
+        "money": -90,
+        "flags": {
+          "add": [
+            "ehliyet_yenilendi"
+          ]
+        },
+        "glossary": "biyometrik_fotograf"
+      },
+      "tr": "Fotoğrafçı üç kez çekip 90 Para aldı. Yeni belgedeki kişi sana benziyor, biraz kırgın.",
+      "en": "The photographer took three shots and charged 90. The person on your new license looks like you, slightly offended.",
+      "coach": [
+        {
+          "tr": "Belge yenilendi. Yüz ifadesi de.",
+          "en": "License renewed. So was your expression.",
+          "roast": false
+        }
+      ]
+    },
+    "ciddi": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "ehliyet_yenilendi"
+            ]
+          },
+          "glossary": "biyometrik_fotograf"
+        },
+        "tr": "Ciddi yüzü tek seferde tutturdun. Memur onayladı, arkandaki kişi gülmeye başladı.",
+        "en": "You nailed the serious face in one take. The clerk approved. The person behind you started laughing.",
+        "coach": [
+          {
+            "tr": "Ciddiyetin artık resmî onaylı.",
+            "en": "Your seriousness is now officially approved.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -40,
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Ciddi yüz denemesi şaşkın çıktı. Kabin 40 Para’yı aldı, memur fotoğrafı reddetti.",
+        "en": "Your serious face came out startled. The booth kept the 40. The clerk rejected the photo.",
+        "coach": [
+          {
+            "tr": "Kabin kırk Para kazandı. Sen bir şaşkın fotoğraf.",
+            "en": "The booth made forty. You made one startled photo.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ertele": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ehliyet_son_hafta"
+          ]
+        }
+      },
+      "tr": "Son haftaya bıraktın. Randevu sistemi o haftayı \"kontenjan dolu\" gösteriyor.",
+      "en": "You left it for the last week. The booking system shows that week as fully booked.",
+      "coach": [
+        {
+          "tr": "Son hafta herkesin son haftasıymış.",
+          "en": "Turns out the last week is everyone's last week.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "eski tip ehliyet değişimi için gülümsemeyen biyometrik fotoğraf istenmesi",
+    "mechanism": "memur gülümsemeyi kural ihlali olarak okuyor",
+    "mechanismId": "deadpan_report",
+    "punch": "biyometrik yüz gülümsemez",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kirgin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

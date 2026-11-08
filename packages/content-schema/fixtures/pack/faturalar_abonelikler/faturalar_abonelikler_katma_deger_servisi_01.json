@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "faturalar_abonelikler_katma_deger_servisi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "telefon",
+    "evrak",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 38
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "EKSEN İLETİŞİM (kurgusal)",
+      "en": "AXIS TELECOM (fictional)"
+    },
+    "body": {
+      "tr": "Fatura detayınızda yer alan 'Günlük Tarif Servisi' bedeli, üçüncü taraf hizmet sağlayıcı tarafından tahakkuk ettirilmiştir.",
+      "en": "The 'Daily Recipe Service' charge on your itemized bill was issued by a third-party service provider."
+    },
+    "translate": {
+      "tr": {
+        "from": "üçüncü taraf hizmet sağlayıcı",
+        "to": "kim olduğunu biz de bilmiyoruz"
+      },
+      "en": {
+        "from": "third-party service provider",
+        "to": "someone we also can't name"
+      }
+    },
+    "glossaryKey": "katma_deger_servisi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bu servis sizin hattan onaylanmış görünüyor. Bir SMS'e 'EVET' yazmışsınız.",
+      "en": "This service was approved from your line. Looks like you texted 'YES' to something."
+    }
+  ],
+  "choices": [
+    {
+      "id": "iade",
+      "tr": "Dört aylık iade iste",
+      "en": "Demand four months back",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "iptal",
+      "tr": "Sadece servisi iptal et",
+      "en": "Just cancel the service",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "engel",
+      "tr": "Tüm ek servisleri engellet",
+      "en": "Block all premium services",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "iade": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 160,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "ek_servis_iadesi"
+            ]
+          }
+        },
+        "tr": "İtiraz kabul edildi. Dört ayın 160 Parası sonraki faturadan düşülecek.",
+        "en": "Dispute accepted. Four months' worth, 160, comes off the next bill.",
+        "coach": [
+          {
+            "tr": "Dört ay tarif geldi, bir yemek yapılmadı.",
+            "en": "Four months of recipes. Zero meals cooked.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": 40,
+          "stats": {
+            "joy": 0
+          },
+          "glossary": "katma_deger_servisi"
+        },
+        "tr": "Yalnızca son ayın 40 Parası iade edildi. Önceki aylar \"zaman aşımına\" girmiş.",
+        "en": "Only last month's forty came back. The earlier months had \"expired.\"",
+        "coach": [
+          {
+            "tr": "Tarifler bozulmuyor. İtiraz süresi bozuluyor.",
+            "en": "Recipes keep. Dispute windows don't.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "iptal": {
+      "effects": {
+        "money": -40,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "tarif_servisi_iptal"
+          ]
+        }
+      },
+      "tr": "Servis iptal edildi. Son gelen SMS: \"Bugünün tarifi: veda çorbası.\"",
+      "en": "Service cancelled. The final text: \"Today's recipe: farewell soup.\"",
+      "coach": [
+        {
+          "tr": "Kırk Para, bir çorba tarifi.",
+          "en": "Forty, for one soup recipe.",
+          "roast": false
+        }
+      ]
+    },
+    "engel": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "brain": 1
+        },
+        "glossary": "katma_deger_servisi",
+        "flags": {
+          "add": [
+            "ek_servis_engeli"
+          ]
+        }
+      },
+      "tr": "Hattaki tüm üçüncü taraf servisler kapatıldı. Artık hiçbir SMS'e \"EVET\" yazmak para etmiyor.",
+      "en": "All third-party services are blocked on your line. Texting \"YES\" now costs nothing.",
+      "coach": [
+        {
+          "tr": "Kapı kapandı. Tarif yok, ücret yok.",
+          "en": "Door shut. No recipes, no charges.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "telefon faturasında habersiz açılmış günlük tarif SMS servisi bedeli",
+    "mechanism": "\"üçüncü taraf hizmet sağlayıcı\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "kim olduğunu biz de bilmiyoruz",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "corba",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

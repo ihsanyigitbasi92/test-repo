@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_accountant_mutabakat_mektubu_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "TURNA BANKASI TİCARİ ŞUBE — BAKİYE MUTABAKAT MEKTUBU (kurgusal)",
+      "en": "HERON BANK BUSINESS BRANCH — BALANCE CONFIRMATION LETTER (fictional)"
+    },
+    "body": {
+      "tr": "15 gün içinde itiraz edilmediği takdirde belirtilen bakiye mutabık kabul edilecektir.",
+      "en": "If no objection is received within 15 days, the stated balance will be deemed agreed."
+    },
+    "translate": {
+      "tr": {
+        "from": "mutabık kabul edilecektir",
+        "to": "susarsan haklıyız"
+      },
+      "en": {
+        "from": "will be deemed agreed",
+        "to": "your silence is our yes"
+      }
+    },
+    "glossaryKey": "mutabik_kabul"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Mektup on dört gün önce gönderildi. Bugün son gün, haberiniz olsun.",
+      "en": "The letter went out fourteen days ago. Today's the last day, just so you know."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Bankanın bakiyesi bizimkinden 2.600 Para farklı. Fark kimde, bilmiyorum.",
+      "en": "The bank's balance is 2,600 off from ours. I don't know whose side the gap is on.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Bugün yazılı itiraz et",
+      "en": "Object in writing today",
+      "pattern": "pride"
+    },
+    {
+      "id": "bul",
+      "tr": "Önce farkı bul",
+      "en": "Find the gap first",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Bakiyeyi kabul et",
+      "en": "Accept the balance",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "itiraz": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:clerk",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_mutabakat_itiraz"
+          ]
+        },
+        "glossary": "mutabik_kabul"
+      },
+      "tr": "İtirazı mesai bitimine on dakika kala gönderdin. Banka 'inceleme başlatıldı' diye döndü, süre belirtmedi.",
+      "en": "You filed the objection ten minutes before closing. The bank replied: 'Review initiated.' No timeline given.",
+      "coach": [
+        {
+          "tr": "Sessizlik zamanında bozuldu.",
+          "en": "Silence broken, on time.",
+          "roast": false
+        }
+      ]
+    },
+    "bul": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "glossary": "mutabik_kabul"
+        },
+        "tr": "Fark, bankanın iki kez işlediği bir masraf kaydıymış. Banka düzeltti; 2.600 Para hesaba döndü.",
+        "en": "The gap was a fee the bank had booked twice. They corrected it, and 2,600 went back into the account.",
+        "coach": [
+          {
+            "tr": "Banka iki kez yazmış. Sen bir kez okudun.",
+            "en": "The bank wrote it twice. You read it once.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "acc_aciklanamayan_kalem"
+            ]
+          },
+          "glossary": "mutabik_kabul"
+        },
+        "tr": "Farkı bulamadan süre doldu. Bakiye mutabık sayıldı; fark artık 'açıklanamayan kalem'.",
+        "en": "The deadline passed before you found it. Balance deemed agreed; the gap is now an 'unexplained item.'",
+        "coach": [
+          {
+            "tr": "Sessizlik kayda geçti.",
+            "en": "The silence is now on record.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "acc_aciklanamayan_kalem"
+          ]
+        },
+        "glossary": "mutabik_kabul"
+      },
+      "tr": "Kabul ettin. Fark yıl sonu raporunda tek satır oldu: 'diğer düzeltmeler'.",
+      "en": "You accepted. The gap shows up in the year-end report as one line: 'other adjustments.'",
+      "coach": [
+        {
+          "tr": "Fark bir satıra sığdı.",
+          "en": "The gap fit on one line.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "banka bakiye mutabakat mektubunda son gün ve 2.600 Para açıklanamayan fark",
+    "mechanism": "\"mutabık kabul edilecektir\" susarsan haklıyız demek",
+    "mechanismId": "translation",
+    "punch": "fark kimde bilmiyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sessizlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_petek_tartismasi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "isinma",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "season": [
+      "winter",
+      "autumn"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Peteğini kapatıyorsun, benim ısım duvardan sana geçiyor. Fatura bende, sıcak sende.",
+      "en": "You keep your radiators off, so my heat seeps through to you. I pay, you get warm."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Dün duvara elimi koydum. Benim taraf soğuk, senin taraf sıcaktı.",
+      "en": "I put my hand on the wall yesterday. My side cold. Your side warm.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ac",
+      "tr": "Peteklerini aç",
+      "en": "Turn your radiators on",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "olc",
+      "tr": "Termometreyle ölç",
+      "en": "Measure with a thermometer",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "battaniye",
+      "tr": "Ona kalın battaniye götür",
+      "en": "Bring her a thick blanket",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ac": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "petek_acik"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Petekler açıldı, fatura 400 Para arttı. Şükran Teyze duvara elini koyup onayladı.",
+      "en": "Radiators on. The bill went up 400. Mrs. Dale put her hand on the wall and approved.",
+      "coach": [
+        {
+          "tr": "Duvar artık iki taraftan da ılık.",
+          "en": "The wall is now warm from both sides.",
+          "roast": false
+        }
+      ]
+    },
+    "olc": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "isi_olcumu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "İki tarafı ölçtün: fark yarım derece. Şükran Teyze termometreyi ödünç istedi.",
+        "en": "You measured both sides: half a degree apart. Mrs. Dale asked to borrow the thermometer.",
+        "coach": [
+          {
+            "tr": "Yarım derece. İddia soğudu.",
+            "en": "Half a degree. The wager went cold.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "money": -400,
+          "flags": {
+            "add": [
+              "petek_acik",
+              "toplanti_gundemi_isi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Termometre iki derece fark gösterdi. Petekler açıldı, olay apartman toplantısına taşındı.",
+        "en": "The thermometer showed two degrees. Radiators on, and it's on the agenda at the building meeting.",
+        "coach": [
+          {
+            "tr": "Termometre karşı tarafa geçti.",
+            "en": "The thermometer switched sides.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "battaniye": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -180,
+        "flags": {
+          "add": [
+            "sukran_battaniye"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "180 Paralık bir battaniye götürdün. Tartışma 'ne gerek vardı canım'a döndü.",
+      "en": "You brought a 180 blanket. The dispute became 'Oh, you shouldn't have, dear.'",
+      "coach": [
+        {
+          "tr": "Isı meselesi yünle çözüldü.",
+          "en": "The heat issue was resolved in wool.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "olc",
+    "slip": {
+      "tr": "İDDİA: Termometre senden yana çıkmaz. — M.",
+      "en": "WAGER: The thermometer won't take your side. — M."
+    }
+  },
+  "intent": {
+    "setup": "komşu peteklerini kapattığın için ısısının duvardan sana geçtiğini söylüyor",
+    "mechanism": "ısı faturasının duvar üzerinden ispatı",
+    "mechanismId": "literalism",
+    "punch": "benim taraf soğuk, senin taraf sıcak",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "petek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

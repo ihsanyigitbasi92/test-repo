@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_ilk_rakam_01",
+  "tags": [
+    "is",
+    "maas",
+    "zam",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Zam konusunu açtın, güzel. Aklında bir rakam var mı?",
+      "en": "You brought up a raise. Good. Do you have a number in mind?"
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Rakamı ilk söyleyen kaybeder derler. Ben beklerim.",
+      "en": "They say whoever names a number first loses. I can wait.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yuksek",
+      "tr": "Yüksek bir rakam söyle",
+      "en": "Name a high number",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "uygun",
+      "tr": "\"Siz ne uygun görürseniz\" de",
+      "en": "Say \"whatever you think is fair\"",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "hafta",
+      "tr": "Bir hafta düşünme süresi iste",
+      "en": "Ask for a week to think",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "yuksek": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 300,
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "zam_alindi"
+            ]
+          }
+        },
+        "tr": "Rakamı söyledin. Nevin Hanım kaşını kaldırdı, sonra yarısına razı oldu: ay sonundan itibaren 300 Para fazla.",
+        "en": "You named it. Ms. Carver raised an eyebrow, then settled on half: 300 more a month, starting next month.",
+        "coach": [
+          {
+            "tr": "Sessizlik dokuz saniye sürdü. Senin lehine bitti.",
+            "en": "The silence lasted nine seconds. It ended in your favor.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": -3,
+            "cringe": 3
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Nevin Hanım rakamı bir kâğıda yazıp \"bütçe dönemini\" bekleyeceğini söyledi. Bütçe dönemi dokuz ay sonra.",
+        "en": "Ms. Carver wrote the number on a sticky note and said she'd wait for \"budget season.\" Budget season is nine months away.",
+        "coach": [
+          {
+            "tr": "Rakam kâğıtta. Kâğıt çekmecede.",
+            "en": "The number is on paper. The paper is in a drawer.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uygun": {
+      "effects": {
+        "money": 100,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "zam_alindi"
+          ]
+        }
+      },
+      "tr": "Uygun görülen rakam 100 Para çıktı. Nevin Hanım elini sıktı.",
+      "en": "Fair turned out to be 100. Ms. Carver shook your hand.",
+      "coach": [
+        {
+          "tr": "Kuralı o koydu, ilk rakamı da o söyledi. Yine o kazandı.",
+          "en": "Her rule: first number loses. She went first. She still won.",
+          "roast": true
+        }
+      ]
+    },
+    "hafta": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "zam_gorusmesi_bekliyor"
+          ]
+        }
+      },
+      "tr": "Bir hafta istedin. Nevin Hanım takvimine adı \"Rakam\" olan bir toplantı koydu.",
+      "en": "You asked for a week. Ms. Carver put a meeting in your calendar titled \"Number.\"",
+      "coach": [
+        {
+          "tr": "Toplantının adı tek kelime. Hazırlık süresi yedi gün.",
+          "en": "The meeting has a one-word title. Seven days to prepare.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef: tek rakam, yedi gün.",
+          "en": "Goal: one number, seven days.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yuksek",
+    "slip": {
+      "tr": "İDDİA: Rakamın yarısı bile kâğıttan çıkamaz. — M.",
+      "en": "WAGER: Not even half your number makes it off the note. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk zam görüşmesinde rakamı kimin önce söyleyeceği",
+    "mechanism": "patronun kendi kuralı ona işliyor",
+    "mechanismId": "reversal",
+    "punch": "rakamı ilk söyleyen kaybeder",
+    "lift": "hedef: tek rakam",
+    "target": "decision",
+    "closer": "rakam",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

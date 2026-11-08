@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "burokrasi_resmi_daire_su_aboneligi_devri_01",
+  "tags": [
+    "burokrasi",
+    "evrak",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KENT SU VE KANALİZASYON İŞLETMESİ (kurgusal)",
+      "en": "CITY WATER & SEWER AUTHORITY (fictional)"
+    },
+    "body": {
+      "tr": "Abonelik devri için önceki abonenin imzalı feragatnamesi ile şahsen başvurulması gerekmektedir.",
+      "en": "To transfer the account, please apply in person with a signed waiver from the previous subscriber."
+    },
+    "translate": {
+      "tr": {
+        "from": "önceki abonenin imzalı feragatnamesi",
+        "to": "çoktan uzak bir şehre taşınmış eski kiracının imzası"
+      },
+      "en": {
+        "from": "a signed waiver from the previous subscriber",
+        "to": "the signature of a tenant who moved far away"
+      }
+    },
+    "glossaryKey": "feragatname"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Eski kiracıya ulaşamıyorsanız ev sahibinden yazı getirin. Ev sahibine de ulaşamıyorsanız...",
+      "en": "If you can't reach the old tenant, bring a letter from the landlord. If you can't reach the landlord either..."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "...o zaman su sizin değil. Ama faturası sizde.",
+      "en": "...then the water isn't yours. The bill is, though.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "ev_sahibi",
+      "tr": "Ev sahibinden yazı al",
+      "en": "Get a letter from the landlord",
+      "pattern": "patience"
+    },
+    {
+      "id": "eski",
+      "tr": "Eski kiracının izini sür",
+      "en": "Track down the old tenant",
+      "pattern": "overwork",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "boyle",
+      "tr": "Devretme, eski adla öde",
+      "en": "Skip it, pay under the old name",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ev_sahibi": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "su_devredildi"
+          ]
+        },
+        "glossary": "feragatname"
+      },
+      "tr": "Ev sahibi yazıyı üç gün sonra el yazısıyla gönderdi. Kabul edildi, abonelik devredildi.",
+      "en": "Three days later the landlord sent a handwritten letter. Accepted. The account is yours.",
+      "coach": [
+        {
+          "tr": "Su artık senin adına akıyor.",
+          "en": "The water now runs in your name.",
+          "roast": false
+        }
+      ]
+    },
+    "eski": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "su_devredildi",
+              "lavabo_uyarisi"
+            ]
+          },
+          "glossary": "feragatname"
+        },
+        "tr": "Eski kiracıyı ortak bir tanıdık üzerinden buldun. İmzalı feragatnameyi gönderdi, yanına banyo lavabosu uyarısı ekledi.",
+        "en": "You found the old tenant through a mutual friend. They sent the signed waiver, plus a warning about the bathroom sink.",
+        "coach": [
+          {
+            "tr": "Feragatname ve lavabo raporu, tek ekte.",
+            "en": "Waiver and sink report, one attachment.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "su_eski_adla"
+            ]
+          },
+          "glossary": "feragatname"
+        },
+        "tr": "İz bir sosyal ağ hesabında kayboldu; son paylaşım bir sahil fotoğrafı. Fatura hâlâ onun adına geliyor.",
+        "en": "The trail went cold online. Last post: a beach. The bill still comes in their name.",
+        "coach": [
+          {
+            "tr": "Onlar sahilde. Fatura kapında.",
+            "en": "They posted a beach. You inherited a bill.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "boyle": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "su_eski_adla"
+          ]
+        }
+      },
+      "tr": "Faturayı eski kiracı adına ödemeye başladın. Ödeme ekranı her ay ona teşekkür ediyor.",
+      "en": "You started paying under the old tenant's name. Every month, the payment screen thanks them.",
+      "coach": [
+        {
+          "tr": "Teşekkür onlara, fatura sana.",
+          "en": "They get the thanks. You get the bill.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "su aboneliği devri için ulaşılamayan eski kiracının imzasının istenmesi",
+    "mechanism": "\"önceki abonenin feragatnamesi\" tercümesi: taşınıp giden birinin imzası",
+    "mechanismId": "translation",
+    "punch": "su sizin değil ama faturası sizde",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "lavabo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

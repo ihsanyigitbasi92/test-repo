@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aliskanliklar_birakma_ufleme_testi_01",
+  "tags": [
+    "saglik",
+    "substance:tobacco",
+    "birakma",
+    "aliskanliklar_birakma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "aliskanliklar_birakma": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 35
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Derin nefes alın ve bu tüpe bütün gücünüzle üfleyin. Durmayın, durmayın, durmayın.",
+      "en": "Deep breath, then blow into this tube as hard as you can. Keep going, keep going, keep going."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "worried",
+      "tr": "Sonuç yaşınızdan biraz büyük çıktı. Ciğerleriniz kırkı sizden önce görmüş.",
+      "en": "The reading came out a little older than you. Your lungs hit forty before you did.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "tekrar",
+      "tr": "Bir daha üflemek iste",
+      "en": "Ask for a second try",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "program",
+      "tr": "Bırakma programına yazıl",
+      "en": "Sign up for the quit program",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "erte",
+      "tr": "Önce bu ay bitsin de",
+      "en": "Say you'll start next month",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "tekrar": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "birakma_ufleme_ikinci"
+            ]
+          }
+        },
+        "tr": "İkinci üflemede sonuç iki yıl gençleşti. Doktor yine de broşürü eline tutuşturdu.",
+        "en": "Second blow, the reading got two years younger. The doctor handed you the pamphlet anyway.",
+        "coach": [
+          {
+            "tr": "İki yıl geri geldi. Kalanı broşürde.",
+            "en": "Two years clawed back. The rest is in the pamphlet.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "birakma_ufleme_ikinci"
+            ]
+          }
+        },
+        "tr": "İkinci denemede öksürük krizine girdin. Bekleme salonundaki herkes tüpün sesini duydu.",
+        "en": "The second try turned into a coughing fit. The whole waiting room heard the tube.",
+        "coach": [
+          {
+            "tr": "Tüp iki kez öttü. İkincisi daha yüksekti.",
+            "en": "The tube went off twice. The second time was louder.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "program": {
+      "effects": {
+        "stats": {
+          "health": 3,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -200,
+        "flags": {
+          "add": [
+            "birakma_program_kayit"
+          ]
+        }
+      },
+      "tr": "Altı haftalık bırakma programına yazıldın, ilk görüşme salı. Katılım payı 200 Para.",
+      "en": "You signed up for a six-week quit program. First session Tuesday. Fee: 200.",
+      "coach": [
+        {
+          "tr": "Altı hafta, altı salı. Takvim doldu.",
+          "en": "Six weeks, six Tuesdays. The calendar is spoken for.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "birakma_ufleme_ertelendi"
+          ]
+        }
+      },
+      "tr": "Ayın bitmesini bekleyeceğini söyledin. Doktor dosyanın kenarına küçük bir tarih yazdı.",
+      "en": "You said you'd wait for the month to end. The doctor wrote a small date in the margin of your file.",
+      "coach": [
+        {
+          "tr": "Ay biter. Dosyadaki tarih bitmez.",
+          "en": "The month will end. The date in the file will not.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tekrar",
+    "slip": {
+      "tr": "İDDİA: İkinci üfleme ilkini geçmez. — M.",
+      "en": "WAGER: Round two won't beat round one. — M."
+    }
+  },
+  "intent": {
+    "setup": "doktor kontrolünde akciğer üfleme testinin yaştan büyük çıkması",
+    "mechanism": "doktorun durmayın tekrarı, ciğerlerin yaşı",
+    "mechanismId": "escalation",
+    "punch": "ciğerleriniz kırkı sizden önce görmüş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tarih"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

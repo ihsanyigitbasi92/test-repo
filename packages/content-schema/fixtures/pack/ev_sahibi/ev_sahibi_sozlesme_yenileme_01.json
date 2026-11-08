@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "ev_sahibi_sozlesme_yenileme_01",
+  "tags": [
+    "ev",
+    "evrak",
+    "kira",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KİRA SÖZLEŞMESİ YENİLEME BİLDİRİMİ (kurgusal)",
+      "en": "LEASE RENEWAL NOTICE (fictional)"
+    },
+    "body": {
+      "tr": "Sözleşmenizin süresi dolmaktadır. Yeni dönem kira bedeli, güncel piyasa koşulları ve mülkün değeri gözetilerek makul bir oranda güncellenmiştir. Ekteki sözleşmeyi imzalayarak iade ediniz.",
+      "en": "Your lease term is ending. The new rent has been adjusted by a reasonable amount in light of current market conditions and the property's value. Please sign and return the enclosed lease."
+    },
+    "translate": {
+      "tr": {
+        "from": "makul bir oranda güncellenmiştir",
+        "to": "yan dairenin ilanına baktık"
+      },
+      "en": {
+        "from": "adjusted by a reasonable amount",
+        "to": "we saw what next door listed for"
+      }
+    },
+    "glossaryKey": "kira_yenileme"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Kâğıt resmi ama ben resmi değilim. İmzala, bir çay içelim.",
+      "en": "The paper's formal. I'm not. Sign it and we'll have tea."
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzala",
+      "tr": "İmzala, çayı iç",
+      "en": "Sign it, drink the tea",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Yan dairenin ilanını göster",
+      "en": "Show them next door's listing",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ilan",
+      "tr": "İlanlara bakmaya başla",
+      "en": "Start browsing listings",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "imzala": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sozlesme_yenilendi"
+          ]
+        },
+        "status": {
+          "rentDelta": 180
+        }
+      },
+      "tr": "İmzaladın. Kira ayda 180 Para arttı; çay demliydi.",
+      "en": "You signed. Rent went up 180 a month. The tea was excellent.",
+      "coach": [
+        {
+          "tr": "Çay ikram edildi. Zam da servis edildi.",
+          "en": "Tea was served. So was the raise.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "sozlesme_yenilendi"
+            ]
+          },
+          "status": {
+            "rentDelta": 80
+          },
+          "glossary": "kira_yenileme"
+        },
+        "tr": "Yan dairenin ilanı aslında daha ucuz çıktı. Artış 80 Para'da kaldı.",
+        "en": "Next door's listing turned out to be cheaper. The raise stopped at 80.",
+        "coach": [
+          {
+            "tr": "Yüz Para fark, on iki ay. Yılın bir kalemi kapandı.",
+            "en": "A hundred a month, twelve months. One line item closed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "sozlesme_yenilendi"
+            ]
+          },
+          "status": {
+            "rentDelta": 180
+          },
+          "glossary": "kira_yenileme"
+        },
+        "tr": "İlanın kaldırıldığı ortaya çıktı: daire o fiyata kiralanmış. Artış aynen kaldı.",
+        "en": "Turns out the listing was gone. It rented at that price. The full raise stands.",
+        "coach": [
+          {
+            "tr": "Kanıt sundun. Kanıt karşı tarafa geçti.",
+            "en": "You brought evidence. The evidence switched sides.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ilan": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ev_ariyor"
+          ]
+        }
+      },
+      "tr": "Akşam on dört ilan açtın, ikisini kaydettin. Sözleşme imzasız masada bekliyor.",
+      "en": "You opened fourteen listings and saved two. The lease waits unsigned on the table.",
+      "coach": [
+        {
+          "tr": "Sekmeler açık. Süre işliyor.",
+          "en": "Tabs open. Clock running.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef dosyasına iki ilan girdi.",
+          "en": "Two listings filed under goal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "kira sözleşmesi yenileme yazısında makul oranda güncelleme",
+    "mechanism": "\"makul oran\" tercümesi: yan dairenin ilanı",
+    "mechanismId": "translation",
+    "punch": "kanıt karşı tarafa geçti",
+    "lift": "aktif hedefe bağlı tek satır",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

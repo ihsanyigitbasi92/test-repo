@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_dolandirici_aramasi_01",
+  "tags": [
+    "yaslilik",
+    "telefon",
+    "guvenlik",
+    "komsu_cocugu",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 72,
+      "max": 94
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "worried",
+      "tr": "Kim o? \"Banka güvenlik\" diyor ama numara gizli.",
+      "en": "Who is it? Says \"bank security,\" but the number is hidden."
+    },
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "smug",
+      "tr": "Kod sorarlarsa kapatın. Bankalar kod sormaz.",
+      "en": "If they ask for a code, hang up. Banks never ask for codes.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Kapat",
+      "en": "Hang up",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "oyala",
+      "tr": "Lafa tut, vakit kaybettir",
+      "en": "Keep them talking, waste their time",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cocuk",
+      "tr": "Çocuğunu ara, sor",
+      "en": "Call your kid and check",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "dolandirici_atlatildi"
+          ]
+        }
+      },
+      "tr": "Kapattın. Aynı numara akşam iki kez daha aradı, açmadın.",
+      "en": "You hung up. Same number called twice more that evening. You let it ring.",
+      "coach": [
+        {
+          "tr": "Üç arama, sıfır cevap.",
+          "en": "Three calls. Zero answered.",
+          "roast": false
+        }
+      ]
+    },
+    "oyala": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "dolandirici_oyalandi"
+            ]
+          }
+        },
+        "tr": "Adama kırk dakika eski banka şubeni, oradaki veznedarı ve veznedarın yeğenini anlattın. Adam kapattı.",
+        "en": "You spent forty minutes telling him about your old bank branch, its teller, and the teller's nephew. He hung up.",
+        "coach": [
+          {
+            "tr": "Kırk dakika. Karşı taraf pes etti.",
+            "en": "Forty minutes. The other side folded.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "kart_yenilendi"
+            ]
+          }
+        },
+        "tr": "Adamın sesi değişti, kartının son dört hanesini okudu. Çocuğun kartı aynı gün kapattırdı.",
+        "en": "His tone changed and he read out the last four digits of your card. Your kid had it cancelled that afternoon.",
+        "coach": [
+          {
+            "tr": "Kart kapandı. Para yerinde.",
+            "en": "Card cancelled. Money intact.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cocuk": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "dolandirici_atlatildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Çocuğun telefonu senden aldı, adamı bir dakikada susturdu. Akşam yemeğe gelip kartını da kontrol etti.",
+      "en": "Your kid took the phone and silenced the man in a minute. Then came over for dinner and checked your card too.",
+      "coach": [
+        {
+          "tr": "Müdahale süresi: bir dakika.",
+          "en": "Response time: one minute.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "oyala",
+    "slip": {
+      "tr": "İDDİA: Lafa tutamazsın. — M.",
+      "en": "WAGER: You can't outtalk a scammer. — M."
+    }
+  },
+  "intent": {
+    "setup": "gizli numaradan \"banka güvenlik\" araması, yanında komşu çocuğu",
+    "mechanism": "dolandırıcıyı anılarla yormak",
+    "mechanismId": "understatement",
+    "punch": "bankalar kod sormaz",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "pes",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

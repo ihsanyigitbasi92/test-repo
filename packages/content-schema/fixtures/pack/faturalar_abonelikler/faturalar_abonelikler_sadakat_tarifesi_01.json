@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_sadakat_tarifesi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "telefon",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Yedi yıldır bizimlesiniz, teşekkür ederiz. Tarifenizde bir değişiklik yok.",
+      "en": "Seven years with us, thank you. No changes to your plan."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Aynı paket yeni müşterilere yarı fiyatına. Siz yeni müşteri değilsiniz.",
+      "en": "New customers get the same plan at half price. You are not a new customer.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tehdit",
+      "tr": "\"Numaramı taşıyorum\" de",
+      "en": "Say you're switching carriers",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Teşekkür et, kapat",
+      "en": "Say thanks, hang up",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tasi",
+      "tr": "Gerçekten numarayı taşı",
+      "en": "Actually port your number",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "tehdit": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "tarife_pazarligi"
+            ]
+          }
+        },
+        "tr": "Hat \"iptal ekibine\" aktarıldı. Ekip on dakikada aynı paketi yarı fiyatına buldu.",
+        "en": "You got transferred to the \"cancellations team.\" In ten minutes, they found the same plan at half price.",
+        "coach": [
+          {
+            "tr": "Yedi yıl sadakat, on dakika tehdit.",
+            "en": "Seven years of loyalty, ten minutes of threats.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "İptal ekibi \"tabii, işlemi başlatıyorum\" dedi. Telefonu sen kapattın, tarife aynı kaldı.",
+        "en": "The cancellations team said, \"Sure, starting the process.\" You hung up. The plan stayed put.",
+        "coach": [
+          {
+            "tr": "Blöf karşı tarafta da çalışıyor.",
+            "en": "Bluffing works both ways.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "money": -250,
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Görüşme \"başka bir konuda yardımcı olabilir miyim\" ile bitti. Tarife ayda 250 Para fazla kaldı.",
+      "en": "The call ended with \"Anything else I can help with?\" Your plan still costs 250 more a month.",
+      "coach": [
+        {
+          "tr": "Yedi yıl. Kırmızı halı yok.",
+          "en": "Seven years. No red carpet.",
+          "roast": false
+        }
+      ]
+    },
+    "tasi": {
+      "effects": {
+        "money": -50,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 1
+        },
+        "flags": {
+          "add": [
+            "yeni_operator"
+          ]
+        }
+      },
+      "tr": "Numara üç günde taşındı. Yeni operatörün hoş geldin mesajı \"değerli müşterimiz\" diye başlıyordu.",
+      "en": "The number moved in three days. The new carrier's welcome text began, \"Dear valued customer.\"",
+      "coach": [
+        {
+          "tr": "Yeni tarife, sıfır günlük sadakat.",
+          "en": "New plan. Zero days of loyalty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tehdit",
+    "slip": {
+      "tr": "İDDİA: İptal ekibi blöfünü görür. — M.",
+      "en": "WAGER: The cancellations team calls your bluff. — M."
+    }
+  },
+  "intent": {
+    "setup": "yedi yıllık müşterinin yeni müşteriden pahalı tarifede kalması ve ayrılma tehdidiyle pazarlık",
+    "mechanism": "sadakat ödül yerine fark faturası getiriyor",
+    "mechanismId": "reversal",
+    "punch": "siz yeni müşteri değilsiniz",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "sadakat",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

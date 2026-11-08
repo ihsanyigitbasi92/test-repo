@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_butce_tablosu_01",
+  "tags": [
+    "iliski",
+    "para",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "ortak_butce"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Ortak bütçe tablosu yaptım. Renkli. Kahveye ayrı sütun açtım.",
+      "en": "I made us a joint budget spreadsheet. Color-coded. Coffee gets its own column."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Kahve sütunu kırmızı. Kırmızı olan tek sütun o, tesadüf değil.",
+      "en": "The coffee column is red. It's the only red column. Not a coincidence.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Tabloyu kabul et",
+      "en": "Accept the spreadsheet",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Kahve sütununa itiraz et",
+      "en": "Dispute the coffee column",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sutun",
+      "tr": "Kendi sütununu ekle",
+      "en": "Add a column of your own",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "money": 400,
+        "flags": {
+          "add": [
+            "ortak_butce"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Ay sonunda tablo 400 Para tasarruf gösterdi. Kahve sütunu yarıya indi.",
+      "en": "At month's end the spreadsheet showed 400 saved. The coffee column halved.",
+      "coach": [
+        {
+          "tr": "Kırmızı sütun küçüldü. Sabahlar sessizleşti.",
+          "en": "The red column shrank. Mornings got quieter.",
+          "roast": false
+        },
+        {
+          "tr": "Birikim çubuğu bir çentik doldu.",
+          "en": "Savings bar: one notch up.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "ortak_butce",
+              "kahve_sari"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Partnerin \"kitap\" sütununu gösterdin. Kahve sarıya yükseltildi.",
+        "en": "You pointed out their \"books\" column. Coffee got upgraded to yellow.",
+        "coach": [
+          {
+            "tr": "Kırmızıdan sarıya. Müzakere bitti.",
+            "en": "Red to yellow. Negotiations concluded.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "money": 200,
+          "flags": {
+            "add": [
+              "ortak_butce"
+            ]
+          }
+        },
+        "tr": "Kitap sütunu \"eğitim\" başlığındaymış. Kahve kırmızı kaldı, yanına bir de yorum eklendi.",
+        "en": "Turns out the books column is filed under \"education.\" Coffee stayed red, now with a comment attached.",
+        "coach": [
+          {
+            "tr": "Kahvenin artık yorumları var. Tablo unutmuyor.",
+            "en": "Coffee has comments now. The spreadsheet remembers.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sutun": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "ortak_butce",
+            "keyif_sutunu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "\"Keyif\" diye bir sütun açtın. Partner onu da kırmızıya boyadı.",
+      "en": "You added a column called \"fun.\" Your partner made that one red too.",
+      "coach": [
+        {
+          "tr": "Keyif sütunu açıldı. Rengi baştan belliydi.",
+          "en": "The fun column launched. Its color was never in doubt.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Kahve kırmızı kalır. — M.",
+      "en": "WAGER: Coffee stays red. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni evli partnerin ortak bütçe tablosunda kahveyi kırmızıya boyaması",
+    "mechanism": "renk kodu suçlama diline dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "kırmızı olan tek sütun",
+    "lift": "hedef açıksa tek satır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "renk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

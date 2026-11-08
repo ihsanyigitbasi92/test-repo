@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kisisel_bakim_berber_masaj_ekstra_01",
+  "tags": [
+    "gundelik",
+    "bakim",
+    "kisisel_bakim_berber"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kisisel_bakim_berber": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:barber",
+      "avatar": "happy",
+      "tr": "Kesim bitti. Bir de kafa masajı yaptım, kolonya da sıktım.",
+      "en": "All done. Threw in a head massage, and a splash of cologne."
+    },
+    {
+      "speaker": "npc:barber",
+      "avatar": "neutral",
+      "tr": "Kesim 200, masaj 80, kolonya ikram. Toplam 280.",
+      "en": "Cut's two hundred, massage eighty, cologne's on the house. Two-eighty.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Masaja itiraz et",
+      "en": "Dispute the massage",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Öde, sesini çıkarma",
+      "en": "Pay and say nothing",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kural",
+      "tr": "Öde, bir dahakine masajsız",
+      "en": "Pay, but no massage next time",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -200,
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Berber masajı \"açılış hediyesi\" saydı. 200 Para ödedin.",
+        "en": "The barber reclassified the massage as an \"opening gift.\" You paid two hundred.",
+        "coach": [
+          {
+            "tr": "Masaj bir anda hediyeye dönüştü. Seksen Para'lık sihir.",
+            "en": "The massage turned into a gift on the spot. Eighty worth of magic.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -280,
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Berber masajı fiyat listesinde gösterdi: en altta, küçük puntoyla.",
+        "en": "The barber pointed to the massage on the price list. Bottom line, small print.",
+        "coach": [
+          {
+            "tr": "Liste vardı. Okunmamıştı.",
+            "en": "The list existed. It hadn't been read.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -280,
+        "stats": {
+          "joy": 0,
+          "charm": 1
+        }
+      },
+      "tr": "Ödedin. Ensen rahat, cüzdanın seksen Para hafif.",
+      "en": "You paid. Neck relaxed. Wallet eighty lighter.",
+      "coach": [
+        {
+          "tr": "Seksen Para'lık rahatlık. İstenmedi ama hissedildi.",
+          "en": "Eighty worth of relaxation. Unrequested, but felt.",
+          "roast": false
+        }
+      ]
+    },
+    "kural": {
+      "effects": {
+        "money": -280,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Ödedin ve bir dahakine masaj istemediğini söyledin. Berber not aldı: \"kolonya var, masaj yok.\"",
+      "en": "You paid and asked for no massage next time. The barber jotted it down: \"cologne yes, massage no.\"",
+      "coach": [
+        {
+          "tr": "Sipariş güncellendi. Kolonya korundu.",
+          "en": "Order updated. Cologne retained.",
+          "roast": false
+        },
+        {
+          "tr": "Bütçe çizelgesi güncellendi.",
+          "en": "Budget sheet updated.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Masaj faturada kalır. — M.",
+      "en": "WAGER: The massage stays on the bill. — M."
+    }
+  },
+  "intent": {
+    "setup": "berberin istenmeden kafa masajı yapıp ücrete eklemesi",
+    "mechanism": "ikramlar tek tek faturaya dizilir",
+    "mechanismId": "escalation",
+    "punch": "kolonya ikram",
+    "lift": "bütçe çizelgesi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ikram"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

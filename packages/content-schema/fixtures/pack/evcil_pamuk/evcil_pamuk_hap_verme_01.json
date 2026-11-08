@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evcil_pamuk_hap_verme_01",
+  "tags": [
+    "tanidik_yuzler",
+    "kedi",
+    "veteriner",
+    "saglik",
+    "evcil_pamuk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "evcil_pamuk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 55
+    },
+    "npc": {
+      "cat": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Günde bir hap, on gün. Ağzını açın, dilin arkasına bırakın, hepsi bu.",
+      "en": "One pill a day for ten days. Open her mouth, place it behind the tongue. That's all."
+    },
+    {
+      "speaker": "cat",
+      "avatar": "neutral",
+      "tr": "(hapın kokusunu iki oda öteden alır, gardırobun arkasına geçer)",
+      "en": "(smells the pill from two rooms away and relocates behind the wardrobe)",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tarif",
+      "tr": "Tarif edildiği gibi ver",
+      "en": "Do it as instructed",
+      "pattern": "patience",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "macun",
+      "tr": "Hapı ödül macununa sakla",
+      "en": "Hide it in treat paste",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "klinik",
+      "tr": "Klinikte versinler",
+      "en": "Let the clinic do it",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "tarif": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "pamuk_hap_tamam"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cat",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Hap dilin arkasına gitti, Pamuk yuttu. On günün dokuzu böyle geçti, biri koltuğun altından çıktı.",
+        "en": "Pill behind the tongue, swallowed. Nine of ten days went like that. The tenth turned up under the couch.",
+        "coach": [
+          {
+            "tr": "Dokuz tamam. Biri kayıp, sonra bulundu.",
+            "en": "Nine done. One missing, then found.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "pamuk_hap_kaciyor"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cat",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Hap üç kez geri geldi. Dördüncüde Pamuk yatağın altındaydı, kolunda iki ince çizik vardı.",
+        "en": "The pill came back three times. By the fourth, Biscuit was under the bed and your arm had two thin scratches.",
+        "coach": [
+          {
+            "tr": "Hap üç kez iade edildi. Teslimat başarısız.",
+            "en": "Pill returned to sender three times. Delivery failed.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "macun": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -110,
+        "flags": {
+          "add": [
+            "pamuk_hap_macun"
+          ]
+        }
+      },
+      "tr": "Macun 110 Para, iki gün işe yaradı. Üçüncü gün Pamuk macunu yaladı, hapı tabağın ortasına bıraktı.",
+      "en": "Treat paste: 110. It worked for two days. On day three Biscuit licked off the paste and left the pill in the middle of the plate.",
+      "coach": [
+        {
+          "tr": "Pamuk tarifi iki günde çözdü.",
+          "en": "Biscuit reverse-engineered the recipe in two days.",
+          "roast": true
+        }
+      ]
+    },
+    "klinik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -600,
+        "flags": {
+          "add": [
+            "pamuk_hap_tamam"
+          ]
+        },
+        "npc": [
+          {
+            "role": "cat",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "On gün kliniğe gidip geldiniz: 600 Para. Pamuk taşıma çantasını artık görmezden geliyor.",
+      "en": "Ten days of clinic trips: 600. Biscuit no longer acknowledges the carrier.",
+      "coach": [
+        {
+          "tr": "Hap içeride. Kedi küs.",
+          "en": "Pill in. Cat offended.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tarif",
+    "slip": {
+      "tr": "İDDİA: İlk hap aynen geri gelir. — M.",
+      "en": "WAGER: The first pill comes straight back. — M."
+    }
+  },
+  "intent": {
+    "setup": "Pamuk'a on gün boyunca günlük hap vermek",
+    "mechanism": "her yöntemin kedi tarafından çözülmesi",
+    "mechanismId": "escalation",
+    "punch": "hap üç kez geri geldi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

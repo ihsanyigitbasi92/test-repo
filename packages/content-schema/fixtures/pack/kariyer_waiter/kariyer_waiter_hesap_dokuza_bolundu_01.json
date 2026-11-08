@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_waiter_hesap_dokuza_bolundu_01",
+  "tags": [
+    "kariyer",
+    "garson",
+    "kariyer_waiter"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_waiter": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "waiter"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Hesabı ayıralım. Ben çorbanın yarısını içtim, yarısını yazın.",
+      "en": "Let's split it. I only had half the soup, so just put down half."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ben ekmeğe dokunmadım. Kokladım ama dokunmadım.",
+      "en": "I didn't touch the bread. Smelled it. Didn't touch it.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "tired",
+      "tr": "Kasa dokuz ayrı fiş basınca donuyor. Bilgin olsun.",
+      "en": "The register freezes around receipt nine. Just so you know.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ayir",
+      "tr": "Kalem kalem ayır",
+      "en": "Split it item by item",
+      "pattern": "patience"
+    },
+    {
+      "id": "esit",
+      "tr": "Eşit bölmeyi öner",
+      "en": "Suggest an even split",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tek",
+      "tr": "Tek fiş ver, kendileri bölsün",
+      "en": "One bill, let them sort it",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ayir": {
+      "effects": {
+        "money": 30,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Dokuz fişi tek tek bastın; kasa sekizincide dondu, baştan başladın. Masa toplam 30 Para bahşiş bıraktı.",
+      "en": "You printed nine receipts one by one. The register froze on the eighth and you started over. The table left 30 in tips.",
+      "coach": [
+        {
+          "tr": "Yarım çorba kayıtlara geçti.",
+          "en": "Half a soup is now on record.",
+          "roast": false
+        }
+      ]
+    },
+    "esit": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 60,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Eşit bölmeyi önerdin, kimse itiraz etmedi. Tek fiş, dokuz kart, 60 Para bahşiş.",
+        "en": "You proposed an even split. No objections. One receipt, nine cards, 60 in tips.",
+        "coach": [
+          {
+            "tr": "Dokuza bölündü. Hesabı kimse yapmadı.",
+            "en": "Split nine ways. Nobody did the math.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": 10,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Ekmeği koklayan itiraz etti. Hesap kalem kalem ayrıldı; bahşiş 10 Para.",
+        "en": "The bread-smeller objected. Item by item it was. Tip: 10.",
+        "coach": [
+          {
+            "tr": "Ekmek kokusu bugün pahalıya geldi.",
+            "en": "The smell of bread came at a price today.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tek": {
+      "effects": {
+        "money": 20,
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Tek fişi masaya bıraktın. Masa hesabı yirmi dakika tartıştı; sen bu arada üç masaya baktın.",
+      "en": "You left one bill on the table. They argued for twenty minutes while you served three other tables.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika tartışma. Üç masa servis.",
+          "en": "Twenty minutes of debate. Three tables served.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "esit",
+    "slip": {
+      "tr": "İDDİA: Ekmeği koklayan itiraz eder. — M.",
+      "en": "WAGER: The bread-smeller objects. — M."
+    }
+  },
+  "intent": {
+    "setup": "dokuz kişilik masanın hesabı kalem kalem ayrı ödemek istemesi",
+    "mechanism": "yarım çorba, koklanan ama dokunulmayan ekmek",
+    "mechanismId": "escalation",
+    "punch": "kokladım ama dokunmadım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "corba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

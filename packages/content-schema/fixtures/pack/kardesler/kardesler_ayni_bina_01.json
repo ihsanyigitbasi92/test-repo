@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_ayni_bina_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "ev",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Sürpriz. Üst kattaki daireyi tuttum. Yedek anahtarın bende dursun, acil durumlar için.",
+      "en": "Surprise. I rented the unit upstairs. I'll hold your spare key. For emergencies."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Acil durum mesela: şeker bitti. Ya da internet.",
+      "en": "Emergency, like: out of sugar. Or Wi-Fi."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Ne güzel, ikinizi tek ziyarette görürüm. Pazar geliyorum, iki kata da.",
+      "en": "How nice, I'll see you both in one trip. Coming Sunday. Both floors.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Anahtarı ver",
+      "en": "Hand over the key",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kural",
+      "tr": "Anahtar ver, kural koy",
+      "en": "Key, with house rules",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "verme",
+      "tr": "Anahtarı verme",
+      "en": "Keep the key",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "flags": {
+          "add": [
+            "kardes_yedek_anahtar"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Anahtarı verdin. Üç gün içinde şekerin, çaydanlığın ve şarj aletin üst kata taşındı.",
+      "en": "You handed it over. Within three days, your sugar, kettle and phone charger had moved upstairs.",
+      "coach": [
+        {
+          "tr": "Eşyalar bir kat terfi etti.",
+          "en": "Your stuff got promoted. One floor.",
+          "roast": false
+        }
+      ]
+    },
+    "kural": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kardes_yedek_anahtar"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Anahtara bir kâğıt iliştirdin: \"Yalnızca acil durum. Şeker acil durum sayılmaz.\"",
+        "en": "You attached a note to the key: 'Emergencies only. Sugar is not an emergency.'",
+        "coach": [
+          {
+            "tr": "Tanım yazıldı.",
+            "en": "Terms defined.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "kardes_yedek_anahtar"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Kardeşin notu okudu, altına ekledi: \"Kahve acil durumdur.\" Kahven gitti.",
+        "en": "Your sibling read the note and added a line: 'Coffee is an emergency.' Your coffee is gone.",
+        "coach": [
+          {
+            "tr": "Sözleşmeye ek madde. Karşı taraftan.",
+            "en": "An amendment. From the other party.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "verme": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Anahtarı vermedin. Pazar günü kardeşin üst kattan annene seslendi: \"Anahtarı vermiyor.\"",
+      "en": "You kept it. On Sunday, your sibling called down the stairs to Mom: 'They won't give me the key.'",
+      "coach": [
+        {
+          "tr": "Bir kat mesafe. Ses iletimi kusursuz.",
+          "en": "One floor apart. Flawless acoustics.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia payı başka olaylarda"
+  },
+  "intent": {
+    "setup": "kardeşin senin binana taşınıp yedek anahtarını istemesi",
+    "mechanism": "acil durumun tanımı genişliyor",
+    "mechanismId": "escalation",
+    "punch": "Acil durum mesela: şeker bitti",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "anahtar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

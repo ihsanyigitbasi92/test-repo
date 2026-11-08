@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_bilet_ekran_goruntusu_01",
+  "tags": [
+    "para",
+    "dolandiricilik",
+    "bilet",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Bilet ekran görüntüsünü attım. Ön sıra, yarı fiyatına. Arkadaşım dizini incitti, gelemiyor.",
+      "en": "Sent you a screenshot of the ticket. Front row, half price. My friend hurt their knee and can't go."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Hemen gönderirsen senin. Üç kişi daha soruyor.",
+      "en": "Send it now and it's yours. Three other people are asking.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Hemen 350 Para gönder",
+      "en": "Send 350 right now",
+      "pattern": "risk"
+    },
+    {
+      "id": "elden",
+      "tr": "Kapıda elden teslim iste",
+      "en": "Ask to swap at the venue door",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Konseri sokaktan dinle",
+      "en": "Listen from the street",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -350,
+        "hidden": {
+          "stress": 4
+        },
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "bilet_dolandirildi"
+          ]
+        }
+      },
+      "tr": "350 Para gitti. Kapıda okuttuğun kod, o akşam dokuzuncu kez okutuluyordu.",
+      "en": "Three hundred fifty, gone. At the gate, your code was the ninth one that night to try that seat.",
+      "coach": [
+        {
+          "tr": "Dokuz kişi, tek koltuk. Ön sıra bayağı kalabalık.",
+          "en": "Nine people, one seat. Front row was packed.",
+          "roast": true
+        }
+      ]
+    },
+    "elden": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "glossary": "ekran_goruntusu_bilet",
+          "flags": {
+            "add": [
+              "dolandirici_tanidi"
+            ]
+          }
+        },
+        "tr": "Elden dedin. Satıcı \"güven yoksa olmaz\" yazıp seni engelledi. 350 Para cebinde.",
+        "en": "You suggested meeting at the door. The seller wrote \"no trust, no deal\" and blocked you. The 350 stays put.",
+        "coach": [
+          {
+            "tr": "Para cepte. Engel listesinde bir isim fazla.",
+            "en": "Cash in pocket. One more name on someone's block list.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "bilet_beklendi"
+            ]
+          }
+        },
+        "tr": "Satıcı kapıda buluşmayı kabul etti, gelmedi. Sen kırk dakika bekledin; içeride ilk şarkı bitti.",
+        "en": "The seller agreed to meet at the door, then didn't show. You waited forty minutes while the opener played inside.",
+        "coach": [
+          {
+            "tr": "Para kaldı. İlk şarkı gitti.",
+            "en": "Kept the money. Lost the opener.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "konser_disaridan"
+          ]
+        }
+      },
+      "tr": "Mekânın arka sokağında durdun. Bas sesi duvardan geçiyordu, sözler geçmiyordu.",
+      "en": "You stood in the alley behind the venue. The bass came through the wall. The lyrics didn't.",
+      "coach": [
+        {
+          "tr": "Arka sokak bileti: ücretsiz, ayakta, sözsüz.",
+          "en": "Alley seating: free, standing, instrumental.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "elden",
+    "slip": {
+      "tr": "İDDİA: Kapıda boşuna beklersin. — M.",
+      "en": "WAGER: You'll wait at the door for nobody. — M."
+    }
+  },
+  "intent": {
+    "setup": "ikinci elden konser bileti ekran görüntüsüyle satılıyor",
+    "mechanism": "aynı kodun çok kişiye satılması",
+    "mechanismId": "count",
+    "punch": "kod dokuzuncu kez okutuluyordu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sozsuz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

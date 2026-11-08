@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_ortak_araba_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "araba",
+    "para",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Yarı yarıya araba alalım. Hafta içi sen, hafta sonu ben. Bayramlar ortak.",
+      "en": "Let's split a car. Weekdays are yours, weekends are mine. Holidays shared."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Araba mı alıyorsunuz? Bana da bir gün verin, pazara giderim. Sorun değil, diyorum sadece.",
+      "en": "You're buying a car? Give me one day too, for the market. Not a problem. Just saying.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Yarısını öde, imzala",
+      "en": "Pay your half, sign",
+      "pattern": "risk"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Galeride pazarlığı sen yap",
+      "en": "You handle the haggling",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Ortaklığa girme",
+      "en": "Stay out of it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "money": -4500,
+        "flags": {
+          "add": [
+            "kardes_ortak_araba"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Arabayı aldınız, payın 4.500 Para. İlk hafta sonunun ardından depo boş, koltuk sonuna kadar yatık.",
+      "en": "You bought it. Your share: 4,500. After the first weekend: empty tank, driver's seat fully reclined.",
+      "coach": [
+        {
+          "tr": "Depo cumartesi boşaldı. Pazartesi sen doldurdun.",
+          "en": "The tank emptied Saturday. You filled it Monday.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "money": -3900,
+          "flags": {
+            "add": [
+              "kardes_ortak_araba"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Galerici 1.200 Para indirdi, payın 3.900'e düştü. İndirimi annene kardeşin anlattı.",
+        "en": "The dealer came down 1,200. Your share fell to 3,900. Your sibling told Mom about the discount.",
+        "coach": [
+          {
+            "tr": "İndirim senin. Hikâye onun.",
+            "en": "The discount was yours. The story is theirs.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "money": -4500,
+          "flags": {
+            "add": [
+              "kardes_ortak_araba"
+            ]
+          }
+        },
+        "tr": "Galerici indirim yerine paspas verdi. Kardeşin paspasları hafta sonlarına ayırdı.",
+        "en": "Instead of a discount, the dealer threw in floor mats. Your sibling reserved the mats for weekends.",
+        "coach": [
+          {
+            "tr": "Pazarlık sonucu: dört paspas, iki sahip.",
+            "en": "Negotiation outcome: four mats, two owners.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Ortaklığa girmedin. Kardeşin arabayı tek başına aldı ve hafta içi seni işe bırakmayı teklif etti, ücretli.",
+      "en": "You passed. Your sibling bought the car alone and offered you weekday rides to work. For a fee.",
+      "coach": [
+        {
+          "tr": "Ortak olmadın. Müşteri oldun.",
+          "en": "Not a co-owner. A customer.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: O galeriden indirim çıkmaz. — M.",
+      "en": "WAGER: No discount leaves that lot. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşinle yarı yarıya ikinci el araba alıp günleri paylaşmak",
+    "mechanism": "eşit pay, eşit olmayan depo",
+    "mechanismId": "count",
+    "punch": "dört paspas, iki sahip",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "paspas"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

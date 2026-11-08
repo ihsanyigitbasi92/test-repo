@@ -1,0 +1,172 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_maas_hafta_sonu_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "dayOfMonth": {
+      "min": 28
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Kira yarın. Senin payın? Maaş yine cumartesiye mi denk geldi?",
+      "en": "Rent's due tomorrow. Your half? Did payday land on a Saturday again?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Ev sahibi hafta sonu tanımıyor. Ben de bu ay tanımıyorum.",
+      "en": "The landlord doesn't believe in weekends. This month, neither do I.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "odunc",
+      "tr": "Pazartesiye kadar ödünç iste",
+      "en": "Borrow till Monday",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "anne",
+      "tr": "Annemden iste",
+      "en": "Ask Mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "gec",
+      "tr": "Ev sahibine bir gün geç öde",
+      "en": "Pay the landlord a day late",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "odunc": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "butce_ev_arkadasina_borc"
+          ]
+        }
+      },
+      "tr": "Ev arkadaşın senin payını da ödedi. Buzdolabına \"Pazartesi: 1.400\" yazan bir not yapıştırdı.",
+      "en": "Your roommate covered your share and stuck a note on the fridge: 'Monday: 1,400.'",
+      "coach": [
+        {
+          "tr": "Not pazartesiye kadar orada.",
+          "en": "The note stays up till Monday.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": 6
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "butce_anne_maas_takvimi"
+          ]
+        }
+      },
+      "tr": "Annen parayı gönderdi ve maaş gününü takvimine kaydetti. Artık her ay bir gün önceden arıyor.",
+      "en": "Mom sent the money and put your payday in her calendar. Now she calls the day before, every month.",
+      "coach": [
+        {
+          "tr": "Annenin takviminde yeni bir hatırlatıcı var. Süresiz.",
+          "en": "Mom has a new recurring reminder. It never expires.",
+          "roast": true
+        }
+      ]
+    },
+    "gec": {
+      "effects": {
+        "money": -100,
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Kirayı pazartesi ödedin. Ev sahibi gecikme için yüz Para ekledi, mesajına \"hafta sonu da gündür\" yazdı.",
+      "en": "You paid on Monday. The landlord added a hundred for the delay, with a message: 'Weekends are days too.'",
+      "coach": [
+        {
+          "tr": "Yüz Para, iki gün.",
+          "en": "A hundred for two days.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager kotası dolu / check yok"
+  },
+  "intent": {
+    "setup": "maaş gününün hafta sonuna denk gelip kira payının pazartesiye kalması",
+    "mechanism": "ev sahibi de ev arkadaşı da hafta sonunu tanımıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "bu ay ben de tanımıyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pazartesi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

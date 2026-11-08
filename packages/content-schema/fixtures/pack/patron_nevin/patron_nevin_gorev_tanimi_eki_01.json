@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_gorev_tanimi_eki_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "{name}, görev tanımını güncelledik. Küçük eklemeler, zaten yaptığın şeyler.",
+      "en": "{name}, we've updated your job description. Small additions. Things you already do."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bitkilerin sulanması, kırtasiye siparişi ve doğum günü takvimi. Hepsi 'ekip ruhu' başlığı altında.",
+      "en": "Watering the plants, ordering supplies, and the birthday calendar. All under 'team spirit.'",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "unvan",
+      "tr": "Karşılığında unvan iste",
+      "en": "Ask for a title in return",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "imzala",
+      "tr": "İmzala, sulamaya başla",
+      "en": "Sign it, grab the watering can",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "rotasyon",
+      "tr": "Görevler dönsün öner",
+      "en": "Propose rotating the tasks",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "unvan": [
+      {
+        "p": 3500,
+        "effects": {
+          "meters": {
+            "ego": 5
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Unvan istedin. Kartvizitine 'Ekip Operasyonları Sorumlusu' yazıldı, bitkiler de takvim de yerinde.",
+        "en": "You asked for a title. Your card now reads 'Team Operations Lead.' The plants and the calendar remain.",
+        "coach": [
+          {
+            "tr": "Aynı bitkiler, yeni unvan. Kartvizit terfi etti.",
+            "en": "Same plants, new title. The business card got promoted.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "unvan_istedi"
+            }
+          ]
+        },
+        "tr": "Nevin Hanım 'unvanlar yıl sonunda değerlendirilir' dedi. Bitkiler bu arada sende.",
+        "en": "Ms. Carver said titles are reviewed at year-end. Meanwhile, the plants are yours.",
+        "coach": [
+          {
+            "tr": "Unvan yıl sonunu bekliyor. Bitkiler beklemiyor.",
+            "en": "The title can wait for year-end. The plants are thirsty now.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "imzala": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "bitki_sorumlusu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "İmzaladın. İlk hafta üç bitki, on üç kırtasiye siparişi ve dokuz doğum günü yönettin.",
+      "en": "You signed. Week one: three plants, thirteen supply orders, nine birthdays.",
+      "coach": [
+        {
+          "tr": "Dokuz doğum günü. Hiçbiri senin değil.",
+          "en": "Nine birthdays. None of them yours.",
+          "roast": true
+        }
+      ]
+    },
+    "rotasyon": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "gorev_rotasyonu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Rotasyon önerdin, Nevin Hanım çok beğendi. Rotasyon tablosunu hazırlama görevi sana verildi.",
+      "en": "You proposed a rotation. Ms. Carver loved it. Building the rotation chart was assigned to you.",
+      "coach": [
+        {
+          "tr": "Çark bir tur döndü. Sende durdu.",
+          "en": "The wheel spun once. It stopped on you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "unvan",
+    "slip": {
+      "tr": "İDDİA: Unvan yıl sonuna kalır. — M.",
+      "en": "WAGER: The title waits until year-end. — M."
+    }
+  },
+  "intent": {
+    "setup": "patronun görev tanımına bitki, kırtasiye ve doğum günü takvimi eklemesi",
+    "mechanism": "küçük eklemeler listesi uzuyor",
+    "mechanismId": "escalation",
+    "punch": "zaten yaptığın şeyler",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "bitki"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

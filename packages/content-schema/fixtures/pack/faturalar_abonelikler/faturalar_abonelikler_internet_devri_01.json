@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_internet_devri_01",
+  "tags": [
+    "para",
+    "fatura",
+    "internet",
+    "ev_arkadasi",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Ben cuma taşınıyorum. İnternet benim adıma, onu da biliyorsun.",
+      "en": "I'm out Friday. The internet's in my name, you know that."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Devir için iki tarafın da imzası gerekir. Yoksa taahhüt cezası işler.",
+      "en": "A transfer needs both signatures. Otherwise the early-exit fee applies.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "devir",
+      "tr": "Cuma sabahı bayiye birlikte git",
+      "en": "Hit the store together Friday",
+      "pattern": "patience"
+    },
+    {
+      "id": "yeni",
+      "tr": "Kendi adına yeni hat aç",
+      "en": "Open a new line in your name",
+      "pattern": "pride"
+    },
+    {
+      "id": "ceza",
+      "tr": "Cezayı bölüşmeyi teklif et",
+      "en": "Offer to split the exit fee",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "devir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "internet_senin_adina"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Cuma sabahı bayide 40 dakika geçti. Hat senin adına geçti, kalan taahhüt de.",
+      "en": "Forty minutes at the store Friday morning. The line is yours now. So is the rest of the contract.",
+      "coach": [
+        {
+          "tr": "İmza iki kişilik, taahhüt tek kişilik.",
+          "en": "Two signatures. One contract holder.",
+          "roast": false
+        }
+      ]
+    },
+    "yeni": {
+      "effects": {
+        "money": -350,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "internet_kurulum_bekliyor"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Yeni hat açıldı, kurulum on gün sonra. Eski hat kesilince ev arkadaşına 600 Para ceza yazıldı.",
+      "en": "New line ordered; install in ten days. Your roommate got a 600 exit fee when the old one was cut.",
+      "coach": [
+        {
+          "tr": "On gün internetsiz bir ev.",
+          "en": "Ten days in an offline flat.",
+          "roast": false
+        }
+      ]
+    },
+    "ceza": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "internetsiz_ev"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Ceza ikiye bölündü: 300 Para senden. Hat kapandı, modem iade kutusuna girdi.",
+      "en": "The fee got split: 300 from you. The line was cut and the router went in a return box.",
+      "coach": [
+        {
+          "tr": "Modem gitti. Şarj aleti kaldı.",
+          "en": "The router left. Its charger stayed.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "taşınan ev arkadaşının adına kayıtlı internet aboneliğinin devri",
+    "mechanism": "abonelik sahibi gidiyor, taahhüt evde kalıyor",
+    "mechanismId": "reversal",
+    "punch": "hat senin adına geçti, kalan taahhüt de",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "taahhut",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

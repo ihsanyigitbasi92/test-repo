@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "sosyal_medya_kosu_paylasimi_01",
+  "tags": [
+    "teknoloji",
+    "akis",
+    "sosyal_medya"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "sosyal_medya": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Bugün yine on kilometre. Disiplin bir yaşam biçimidir. #sabah",
+      "en": "Another 10K this morning. Discipline is a lifestyle. #dawn"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Yarın on iki. Kim benimle?",
+      "en": "12K tomorrow. Who's with me?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sessiz",
+      "tr": "Sessize al, takipte kal",
+      "en": "Mute, but keep following",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "begen",
+      "tr": "Her zamanki gibi beğen",
+      "en": "Like it, as always",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "katil",
+      "tr": "\"Ben varım\" yaz",
+      "en": "Comment \"I'm in\"",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "health"
+      }
+    }
+  ],
+  "outcomes": {
+    "sessiz": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kosucu_sessizde"
+          ]
+        }
+      },
+      "tr": "Sessize aldın. Akış sakinleşti, sabahların da.",
+      "en": "Muted. Your feed calmed down. So did your mornings.",
+      "coach": [
+        {
+          "tr": "Takipte ama duymuyorsun. İyi komşuluk.",
+          "en": "Following, not listening. Very neighborly.",
+          "roast": false
+        }
+      ]
+    },
+    "begen": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Beğendin. Ertesi gün on iki kilometre paylaşımı geldi, onu da beğendin.",
+      "en": "You liked it. The next day came the 12K post. You liked that too.",
+      "coach": [
+        {
+          "tr": "Başparmağın her sabah antrenmanda.",
+          "en": "Your thumb never skips a morning workout.",
+          "roast": true
+        }
+      ]
+    },
+    "katil": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "sabah_kosusu"
+            ]
+          }
+        },
+        "tr": "Sabah altıda parktaydın. On ikinin dördünü koştun, kalanını yürüyüp sohbet ettiniz.",
+        "en": "Six a.m., in the park. You ran four of the twelve and walked the rest, talking the whole way.",
+        "coach": [
+          {
+            "tr": "Dört kilometre. Paylaşımda on iki yazacak.",
+            "en": "Four kilometers. The post will say twelve.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef sayacına bir sabah.",
+            "en": "One morning on the goal tracker.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Alarm çaldı, kapattın. \"Ben varım\" yorumu altta hâlâ duruyor.",
+        "en": "The alarm rang. You turned it off. \"I'm in\" is still sitting under the post.",
+        "coach": [
+          {
+            "tr": "Yorum gitti. Sen yataktaydın.",
+            "en": "Your comment showed up. You stayed in bed.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "katil",
+    "slip": {
+      "tr": "İDDİA: Sabah altıda parkta olmazsın. — M.",
+      "en": "WAGER: You won't be in that park at six. — M."
+    }
+  },
+  "intent": {
+    "setup": "her sabah koşu paylaşan tanıdığı sessize alıp almamak",
+    "mechanism": "mesafe her gün büyüyor, davet açık",
+    "mechanismId": "escalation",
+    "punch": "yarın on iki, kim benimle",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kilometre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

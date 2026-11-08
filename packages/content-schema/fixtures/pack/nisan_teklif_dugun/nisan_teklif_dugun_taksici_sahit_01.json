@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_taksici_sahit_01",
+  "tags": [
+    "iliski",
+    "dugun",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 2,
+  "intensity": 7000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Şahidim trafiğe takılmış. Nikâh on dakika sonra başlıyor.",
+      "en": "My witness is stuck in traffic. The ceremony starts in ten minutes."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Kimliğim yanımda. Otuz yıldır her düğüne geç kalırım, ilk kez erkenim.",
+      "en": "I've got my ID on me. Thirty years I've been late to every wedding. First time I'm early.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "taksici",
+      "tr": "Taksiciyi şahit yap",
+      "en": "Make the cabbie your witness",
+      "pattern": "risk"
+    },
+    {
+      "id": "bekle",
+      "tr": "Şahidi bekle",
+      "en": "Wait for the witness",
+      "pattern": "patience"
+    },
+    {
+      "id": "misafir",
+      "tr": "Ön sıradan birini seç",
+      "en": "Grab someone from the front row",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "taksici": {
+      "effects": {
+        "stats": {
+          "joy": 12
+        },
+        "money": -200,
+        "flags": {
+          "add": [
+            "evli",
+            "dugun_yapildi",
+            "taksici_sahit"
+          ],
+          "remove": [
+            "nisanli"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 4
+          },
+          {
+            "role": "cabbie",
+            "affinity": 6,
+            "memory": "sahit_oldu"
+          }
+        ]
+      },
+      "tr": "Taksici imzayı attı. Dışarıda taksimetre çalışmaya devam etti: 200 Para.",
+      "en": "The cabbie signed as witness. Outside, the meter kept running: 200.",
+      "coach": [
+        {
+          "tr": "İmza tamam. Taksimetre hâlâ sayıyor.",
+          "en": "Signed. The meter's still counting.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 8
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "evli",
+            "dugun_yapildi",
+            "nikah_gecikti"
+          ],
+          "remove": [
+            "nisanli"
+          ]
+        }
+      },
+      "tr": "Şahit yirmi dakika geç geldi, sıradaki çift sizden önce girdi. İkinci seansta evlendiniz.",
+      "en": "The witness arrived twenty minutes late. The next couple went ahead. You got married in the second slot.",
+      "coach": [
+        {
+          "tr": "İkinci seans. Aynı evlilik.",
+          "en": "Second slot. Same marriage.",
+          "roast": false
+        }
+      ]
+    },
+    "misafir": {
+      "effects": {
+        "stats": {
+          "joy": 9
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "evli",
+            "dugun_yapildi",
+            "rastgele_sahit"
+          ],
+          "remove": [
+            "nisanli"
+          ]
+        }
+      },
+      "tr": "Ön sıradaki ilk kişiyi şahit yaptınız. Kim olduğunu sonradan öğrendiniz: annenin kuaförü.",
+      "en": "You drafted the first person in the front row. Later you found out who it was: your mom's hairdresser.",
+      "coach": [
+        {
+          "tr": "Evlilik belgende annenin kuaförünün imzası var. Kalıcı olarak.",
+          "en": "Your marriage certificate bears your mom's hairdresser's signature. Permanently.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "nikâh günü şahit trafikte kalınca taksicinin şahit olmayı önermesi",
+    "mechanism": "her düğüne geç kalan taksici ilk kez erken",
+    "mechanismId": "reversal",
+    "punch": "ilk kez erkenim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "taksimetre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_otopark_hasari_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "araba",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Hasar dosyası için görgü tanığı ya da kamera kaydı gerekiyor. Var mı?",
+      "en": "For the claim, we need a witness or camera footage. Do you have either?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Camdaki notta 'pardon' yazıyor ama imza yok. Pardon tanık sayılmıyor.",
+      "en": "The note on the windshield says 'sorry' but isn't signed. 'Sorry' doesn't count as a witness.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kendi",
+      "tr": "Kendi sigortandan karşıla",
+      "en": "Claim it on your own policy",
+      "pattern": "patience"
+    },
+    {
+      "id": "kamera",
+      "tr": "Otoparktan kayıt iste",
+      "en": "Ask the lot for footage",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Göçükle yaşa",
+      "en": "Live with the dent",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kendi": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "hasarsizlik_indirimi_gitti"
+          ]
+        }
+      },
+      "tr": "Muafiyet 400 Para. Hasarsızlık indirimin de gitti; gelecek yıl prim artacak.",
+      "en": "Deductible: 400. Your no-claims discount went with it. Next year's premium goes up.",
+      "coach": [
+        {
+          "tr": "Kapı düzeldi. Prim kıpırdadı.",
+          "en": "The door's fixed. The premium has plans.",
+          "roast": false
+        }
+      ]
+    },
+    "kamera": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "hasar_karsi_tarafa"
+            ]
+          }
+        },
+        "tr": "Güvenlik görevlisi kaydı buldu. Plaka net; hasar karşı tarafın sigortasından.",
+        "en": "The security guard found the footage. The plate is crystal clear. Their insurance pays.",
+        "coach": [
+          {
+            "tr": "Kamera her şeyi görmüş. Pardon dahil.",
+            "en": "The camera saw everything. Including the apology.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "hasarsizlik_indirimi_gitti"
+            ]
+          }
+        },
+        "tr": "Kamera sistemi o gün bakımdaymış. Muafiyet 400 Para, indirim de gitti.",
+        "en": "The camera system was down for maintenance that day. Deductible: 400. Discount: gone.",
+        "coach": [
+          {
+            "tr": "Kamera tam o gün izindeymiş.",
+            "en": "The camera picked that day for a day off.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 1
+        },
+        "flags": {
+          "add": [
+            "kapi_gocuk"
+          ]
+        }
+      },
+      "tr": "Göçükle yaşamaya karar verdin. Üç hafta sonra sen görmez oldun; arabaya binenler görmeye devam etti.",
+      "en": "You decided to live with the dent. After three weeks you stopped seeing it. Your passengers didn't.",
+      "coach": [
+        {
+          "tr": "Göçük artık arabanın karakteri.",
+          "en": "The dent is part of the car's personality now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "otoparkta arabaya çarpılıp imzasız 'pardon' notu bırakılması",
+    "mechanism": "pardon kelimesi tanık sayılmıyor",
+    "mechanismId": "literalism",
+    "punch": "pardon tanık sayılmıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "karakter"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

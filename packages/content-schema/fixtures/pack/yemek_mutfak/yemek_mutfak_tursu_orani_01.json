@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_tursu_orani_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "komsu",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 75
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Turşuya bir bardak sirke dedim, sen iki koymuşsun. Kavanozdan anladım, rengi kaçmış.",
+      "en": "I said one glass of vinegar for the pickles. You used two. I can tell from the jar. The color's off."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Yıllardır kurarım, bir kere bile kavanoz patlamadı. Bir kere patladı ama o sayılmaz.",
+      "en": "Decades of pickling and not one jar has burst. Well, once. That one doesn't count.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Kendi oranına güven",
+      "en": "Trust your ratio and wait",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yenile",
+      "tr": "Komşunun oranıyla yeniden kur",
+      "en": "Redo it the neighbor's way",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ikisi",
+      "tr": "İki kavanoz kur, kıyasla",
+      "en": "Make one of each and compare",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "health": 1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_tursu_kendi_oran"
+            ]
+          }
+        },
+        "tr": "Üç hafta sonra turşu çıtır çıktı. Komşu bir tane tadıp oranını kendi tarif defterine yazdı.",
+        "en": "Three weeks later the pickles came out crisp. The neighbor tried one and copied your ratio into their own recipe book.",
+        "coach": [
+          {
+            "tr": "Yılların tarif defterine yeni bir satır.",
+            "en": "A new line in a decades-old recipe book.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -60,
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_tursu_eksi"
+            ]
+          }
+        },
+        "tr": "Turşu fazla ekşi çıktı, ancak salataya katılabiliyor. Komşu \"O da sayılmaz\" deyip kavanozu sana geri verdi.",
+        "en": "The pickles came out too sour to eat alone; they're salad-only now. The neighbor said \"That one doesn't count either\" and handed it back.",
+        "coach": [
+          {
+            "tr": "Sayılmayanlar listesine bir kavanoz eklendi.",
+            "en": "One more jar on the doesn't-count list.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yenile": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -90,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_tursu_komsu_orani"
+          ]
+        }
+      },
+      "tr": "Turşuyu komşunun oranıyla baştan kurdun, yeni malzeme 90 Para. Etikete komşu kendi adını yazdı.",
+      "en": "You started over with the neighbor's ratio: 90 for new produce. The neighbor wrote their own name on the label.",
+      "coach": [
+        {
+          "tr": "Etikette başka bir isim. Balkon yine senin.",
+          "en": "Someone else's name on the label. Your balcony, though.",
+          "roast": false
+        }
+      ]
+    },
+    "ikisi": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -50,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_tursu_tadim"
+          ]
+        }
+      },
+      "tr": "İki kavanoz kurup apartmana tattırdın. Sonuç berabere çıktı, komşu bir tadım daha istedi.",
+      "en": "You made one of each and had the building taste-test. It came out a tie, and the neighbor demanded a second tasting.",
+      "coach": [
+        {
+          "tr": "Apartman ikiye bölündü.",
+          "en": "The building is split down the middle.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Kavanoz komşuyu haklı çıkarır. — M.",
+      "en": "WAGER: The jar proves the neighbor right. — M."
+    }
+  },
+  "intent": {
+    "setup": "turşu kurarken sirke oranı yüzünden komşuyla anlaşmazlık",
+    "mechanism": "\"o sayılmaz\" istisnası sonuçta geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "bir kere patladı ama o sayılmaz",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "liste"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

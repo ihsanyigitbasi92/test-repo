@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_beden_ehliyet_raporu_01",
+  "tags": [
+    "saglik",
+    "yaslilik",
+    "araba",
+    "rapor",
+    "yaslanan_beden"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yaslanan_beden": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 80
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Sürücü raporu için göz ve refleks bakacağız. Işık yanınca pedala basın.",
+      "en": "For the driving medical we check eyes and reflexes. Press the pedal when the light comes on."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "smug",
+      "tr": "Işık daha yanmadı. Siz yine de bastınız.",
+      "en": "The light hasn't come on yet. You pressed anyway.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "odaklan",
+      "tr": "Işığa odaklan, tekrar dene",
+      "en": "Focus on the light, try again",
+      "pattern": "patience",
+      "check": {
+        "base": 6500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "anlat",
+      "tr": "Reflekslerinin hızlı olduğunu anlat",
+      "en": "Explain your reflexes are just fast",
+      "pattern": "pride"
+    },
+    {
+      "id": "ertele",
+      "tr": "Testi haftaya ertele",
+      "en": "Reschedule for next week",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "odaklan": [
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "yb_ehliyet_yenilendi"
+            ]
+          }
+        },
+        "tr": "İkinci denemede ışığı bekledin. Rapor imzalandı: beş yıl daha direksiyon senin.",
+        "en": "Second try, you waited for the light. Report signed: five more years behind the wheel.",
+        "coach": [
+          {
+            "tr": "Beş yıl. Bir ışığı bekleyerek.",
+            "en": "Five years. Earned by waiting for a light.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "yb_ehliyet_tekrar"
+            ]
+          }
+        },
+        "tr": "İkinci denemede de erken bastın. Doktor bir hafta sonrasına yeni test yazdı.",
+        "en": "Early again on the second try. The doctor booked a retest for next week.",
+        "coach": [
+          {
+            "tr": "Pedal ışıktan hevesli.",
+            "en": "The pedal is keener than the light.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anlat": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "yb_ehliyet_tekrar"
+          ]
+        }
+      },
+      "tr": "Reflekslerini anlattın. Doktor dinledi, sonra testi baştan başlattı.",
+      "en": "You explained your reflexes. The doctor listened, then restarted the test.",
+      "coach": [
+        {
+          "tr": "Anlatım puanlanmıyor.",
+          "en": "Narration is not scored.",
+          "roast": true
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yb_ehliyet_ertelendi"
+          ]
+        }
+      },
+      "tr": "Test haftaya kaldı. O hafta direksiyon partnerinde.",
+      "en": "Test moved to next week. Until then, your partner drives.",
+      "coach": [
+        {
+          "tr": "Bir hafta yolcu koltuğu.",
+          "en": "One week in the passenger seat.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "odaklan",
+    "slip": {
+      "tr": "İDDİA: Ayağın ışıktan önce davranır. — M.",
+      "en": "WAGER: Your foot beats the light again. — M."
+    }
+  },
+  "intent": {
+    "setup": "altmışlarda sürücü sağlık raporu için refleks testi",
+    "mechanism": "ışık yanmadan pedala basmak",
+    "mechanismId": "literalism",
+    "punch": "siz yine de bastınız",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pedal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

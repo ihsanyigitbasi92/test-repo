@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aile_grubu_dayinin_bisikleti_01",
+  "tags": [
+    "aile",
+    "telefon",
+    "dayi",
+    "para",
+    "aile_grubu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "aile_grubu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Kondisyon bisikleti satılık. Az kullanılmış. Çok az. Aileye 900.",
+      "en": "Exercise bike for sale. Lightly used. Very lightly. Family price: 900."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Al, dayın sevinir. Salonun da boş duruyor zaten.",
+      "en": "Buy it, it'll make your uncle happy. Your living room's empty anyway.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "900'e al",
+      "en": "Buy it at 900",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Pazarlık et",
+      "en": "Haggle",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "gec",
+      "tr": "Teşekkür et, geç",
+      "en": "Thank him, pass",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -900,
+        "flags": {
+          "add": [
+            "dayi_bisikleti_sende"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Bisikleti 900 Para'ya aldın. Teslimatta dayın \"pedal sesi normal\" dedi. Normal değil.",
+      "en": "You bought the bike for 900. On delivery your uncle said 'that pedal noise is normal.' It is not normal.",
+      "coach": [
+        {
+          "tr": "Pedal konuşuyor. Dayının sesiyle.",
+          "en": "The pedal talks. In your uncle's voice.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -500,
+          "flags": {
+            "add": [
+              "dayi_bisikleti_sende"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "500'e anlaştınız. Dayın gruba \"zararına sattım\" yazdı; yedi kişi üzgün surat bıraktı.",
+        "en": "You settled on 500. Your uncle posted 'sold at a loss.' Seven people left sad faces.",
+        "coach": [
+          {
+            "tr": "Dört yüz indirim, yedi teselli.",
+            "en": "Four hundred off. Seven consolations.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "money": -900,
+          "flags": {
+            "add": [
+              "dayi_bisikleti_sende"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Pazarlığı açtın; dayın \"aile içinde fiyat konuşulmaz\" diyerek kapattı. 900'e aldın, kask hediye.",
+        "en": "You opened talks. Your uncle closed them: 'Family doesn't haggle.' You paid 900. Helmet included.",
+        "coach": [
+          {
+            "tr": "Kask var. İndirim yok.",
+            "en": "Helmet: yes. Discount: no.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Teşekkür edip geçtin. Bisikleti kardeşin aldı; şimdi her hafta üstünde fotoğraf atıyor.",
+      "en": "You thanked him and passed. Your sibling bought it. Now they post a photo on it every week.",
+      "coach": [
+        {
+          "tr": "Bisiklet kardeşine yaradı. Fotoğraflarına da.",
+          "en": "The bike works for your sibling. And for their photos.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Dayın fiyattan inmez. — M.",
+      "en": "WAGER: Your uncle won't budge on price. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının gruba satılık kondisyon bisikleti ilanı atıp seni hedef müşteri seçmesi",
+    "mechanism": "aile içi ikinci el pazarı",
+    "mechanismId": "reversal",
+    "punch": "Pedal konuşuyor, dayının sesiyle",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pedal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

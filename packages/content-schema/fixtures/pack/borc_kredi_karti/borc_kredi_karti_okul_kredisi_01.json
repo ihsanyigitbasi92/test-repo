@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_okul_kredisi_01",
+  "tags": [
+    "para",
+    "borc",
+    "ihtiyac_kredisi",
+    "cocuk",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 55
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Eğitim amaçlı ihtiyaç kredisi, 18 ay vade. Laptop, yurt depozitosu ve kitaplar dahil mi?",
+      "en": "An education loan, eighteen months. Laptop, dorm deposit, and books included?"
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "tired",
+      "tr": "Kitaplar listede yok. Hep listede olmayan bir kalem çıkar.",
+      "en": "Books aren't on the list. There's always one line that isn't on the list.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tam",
+      "tr": "Hepsini krediyle karşıla",
+      "en": "Cover it all with the loan",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ikinci",
+      "tr": "İkinci el laptop al, krediyi küçült",
+      "en": "Buy a used laptop, borrow less",
+      "pattern": "patience"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden destek iste",
+      "en": "Ask your mom to chip in",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "tam": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ihtiyac_kredisi",
+            "egitim_kredisi"
+          ]
+        }
+      },
+      "tr": "Kredi 8.000 Para. Yurt, laptop ve ilk dönem kitapları ödendi; 18 taksitlik bir takvim başladı.",
+      "en": "Loan: 8,000. Dorm, laptop, and first-term books paid for. An eighteen-month calendar has begun.",
+      "coach": [
+        {
+          "tr": "On sekiz ay. Mezuniyetten önce biter.",
+          "en": "Eighteen months. Done before graduation.",
+          "roast": false
+        }
+      ]
+    },
+    "ikinci": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 1,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ihtiyac_kredisi",
+            "egitim_kredisi"
+          ]
+        }
+      },
+      "tr": "İkinci el laptop, pil değişimiyle 300 Para. Kredi 6.500 Para'ya indi.",
+      "en": "A used laptop, new battery included, for 300. The loan came down to 6,500.",
+      "coach": [
+        {
+          "tr": "1.500 eksik borç, bir yeni pil.",
+          "en": "1,500 less debt. One new battery.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "ihtiyac_kredisi",
+            "egitim_kredisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annen 2.000 Para gönderdi, açıklamaya \"torunuma kitap\" yazdı. Kredi 6.000 Para'ya indi.",
+      "en": "Your mom sent 2,000 with the memo \"books for my grandkid.\" The loan dropped to 6,000.",
+      "coach": [
+        {
+          "tr": "Açıklama net. Kitap alınacak.",
+          "en": "The memo is clear. Books it is.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "çocuğun üniversite ilk yılı için yurt, laptop ve kitap kredisi çekmek",
+    "mechanism": "kalemler sayılıyor ve hep bir tane eksik çıkıyor",
+    "mechanismId": "count",
+    "punch": "hep listede olmayan bir kalem çıkar",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "kalem",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

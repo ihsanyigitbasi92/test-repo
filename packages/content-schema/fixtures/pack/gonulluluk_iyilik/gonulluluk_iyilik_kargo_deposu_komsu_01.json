@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gonulluluk_iyilik_kargo_deposu_komsu_01",
+  "tags": [
+    "sosyal",
+    "komsu",
+    "kargo",
+    "gonulluluk_iyilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "gonulluluk_iyilik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Kurye benim kargoyu yine size bırakmış. Karşı dairenin ve üst katın da. Siz hep evdesiniz ya.",
+      "en": "The courier left my parcel with you again. And 4B's. And upstairs'. You're always home, after all."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Akşam alırım. Bu arada yarın bir tane daha gelecek, büyük.",
+      "en": "I'll grab it tonight. By the way, another one's coming tomorrow. A big one.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et, rafa diz",
+      "en": "Accept and stack them",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sinir",
+      "tr": "Sadece seninkini alırım de",
+      "en": "Say: only yours from now on",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "not",
+      "tr": "Kapıya 'Evde yokum' yaz",
+      "en": "Tape 'Not home' to the door",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kargo_deposu"
+          ]
+        }
+      },
+      "tr": "Holde altı kutu birikti. Komşu birinin üstüne 'dünyanın en iyi komşusu' etiketi yapıştırdı.",
+      "en": "Six boxes now stand in your hall. The neighbor stuck a 'Best Neighbor Ever' label on one of them.",
+      "coach": [
+        {
+          "tr": "Etiket kutuda. Kutu sende.",
+          "en": "The label is on the box. The box is in your hall.",
+          "roast": true
+        }
+      ]
+    },
+    "sinir": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "kargo_siniri"
+            ]
+          }
+        },
+        "tr": "Komşu anladı, kuryeye not bıraktı: 'Sadece 3A'nınkini bırakın.'",
+        "en": "The neighbor understood and left the courier a note: 'Only 3A's parcels, please.'",
+        "coach": [
+          {
+            "tr": "Sınır çizildi. Yazılı olarak.",
+            "en": "Boundary drawn. In writing.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "komsu_selam_kesik"
+            ]
+          }
+        },
+        "tr": "Komşu kırıldı. Kargoları alt kattaki aileye yönlendirdi, sana selamı kesti.",
+        "en": "The neighbor took offense, rerouted the parcels downstairs, and stopped saying hello.",
+        "coach": [
+          {
+            "tr": "Kutular gitti. Selam da paketlendi.",
+            "en": "The boxes left. The hellos got packed too.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "not": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kapida_not"
+          ]
+        }
+      },
+      "tr": "Kapıya 'Evde yokum' yazdın. Kurye notu okudu, zili yine de çaldı, kutuyu paspasa bıraktı.",
+      "en": "You taped 'Not home' to your door. The courier read it, rang anyway, and left the box on your mat.",
+      "coach": [
+        {
+          "tr": "Not okundu. Paspas teslim aldı.",
+          "en": "Note read. The doormat signed for it.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "bir kez komşunun kargosunu teslim alınca apartmanın emanet deposu olmak",
+    "mechanism": "kargo sayısı her cümlede büyüyor",
+    "mechanismId": "escalation",
+    "punch": "yarın bir tane daha, büyük",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "paspas"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_ekstre_kesimi_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 50
+    },
+    "dayOfMonth": {
+      "min": 24,
+      "max": 26
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hesap kesim tarihiniz ayın yirmi beşi. Yirmi altısında yapılan harcama bir sonraki ekstreye kalır.",
+      "en": "Your statement closes on the twenty-fifth. Anything bought on the twenty-sixth goes on the next one."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Yani buzdolabını yarın alırsak kırk gün sonra ödüyoruz. Bu gece dayanır bence.",
+      "en": "So if we buy the fridge tomorrow, we pay in forty days. It can hang on one more night.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Yarına kadar bekle",
+      "en": "Wait until tomorrow",
+      "pattern": "patience",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "bugun",
+      "tr": "Bugün al",
+      "en": "Buy it today",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "tamir",
+      "tr": "Eskisini bir ay daha tamir ettir",
+      "en": "Patch the old one for a month",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "butce_kesim_sonrasi"
+            ]
+          }
+        },
+        "tr": "Buzdolabı geceyi çıkardı, yenisi kesimin ertesi sabahı alındı. Ödeme kırk gün sonraya düştü.",
+        "en": "The fridge made it through the night. The new one was bought the morning after the cutoff. Payment: forty days out.",
+        "coach": [
+          {
+            "tr": "Tek gecede kırk gün.",
+            "en": "Forty days, earned overnight.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -180,
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Buzdolabı gece yarısı sustu. Sabah dondurucudaki her şeyi aynı gün pişirdiniz, akşam yemeği dokuz çeşit oldu.",
+        "en": "The fridge went quiet at midnight. Next morning you cooked the entire freezer at once. Dinner was nine courses.",
+        "coach": [
+          {
+            "tr": "Kırk günlük plan. Dokuz çeşit sonuç.",
+            "en": "A forty-day plan. A nine-course result.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bugun": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "butce_buzdolabi_bugun"
+          ]
+        }
+      },
+      "tr": "Yeni buzdolabı bugün geldi. Ödemesi on gün sonraki ekstrede, ay başının hemen ardında.",
+      "en": "The new fridge arrived today. The bill lands on the statement in ten days, right after the first.",
+      "coach": [
+        {
+          "tr": "Soğuk zincir korundu. Ekstre ısınıyor.",
+          "en": "Cold chain intact. Statement warming up.",
+          "roast": false
+        }
+      ]
+    },
+    "tamir": {
+      "effects": {
+        "money": -350,
+        "hidden": {
+          "stress": 1
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "butce_buzdolabi_tamir"
+          ]
+        }
+      },
+      "tr": "Usta 350'ye bir parça değiştirdi ve \"bir ay daha gider\" dedi. Kesin tarih vermedi.",
+      "en": "The repair tech swapped a part for 350 and said it would 'go another month.' No firm date.",
+      "coach": [
+        {
+          "tr": "Bir ay daha. Muhtemelen.",
+          "en": "Another month. Probably.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Buzdolabı yarını görmez. — M.",
+      "en": "WAGER: The fridge won't make it to tomorrow. — M."
+    }
+  },
+  "intent": {
+    "setup": "bozulmak üzere olan buzdolabını kart ekstre kesim tarihinden sonraya bırakmak",
+    "mechanism": "kırk günlük vade için buzdolabından bir gece daha dayanması bekleniyor",
+    "mechanismId": "understatement",
+    "punch": "yarına kadar dayanabilir",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ziyafet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

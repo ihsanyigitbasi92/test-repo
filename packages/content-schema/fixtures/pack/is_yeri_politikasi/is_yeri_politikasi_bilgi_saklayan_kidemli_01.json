@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_bilgi_saklayan_kidemli_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Ay sonu raporunu sadece ben biliyorum, otuz yıldır. Emekliliğime üç ay var.",
+      "en": "I'm the only one who knows the month-end report. Thirty years. I retire in three months."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Öğretirim tabii. Ama bazı şeyler öğretilmez, hissedilir.",
+      "en": "Of course I'll teach you. But some things can't be taught. You feel them.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yaninda",
+      "tr": "Üç ay yanında otur",
+      "en": "Shadow them for three months",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "devir",
+      "tr": "İK'dan resmî devir süreci iste",
+      "en": "Ask HR for a formal handover",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "birak",
+      "tr": "Başkası öğrensin",
+      "en": "Let someone else learn it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "yaninda": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ay_sonu_raporu_bende"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "ay_sonu_raporu"
+            }
+          ]
+        },
+        "tr": "Üç ay yanında oturup her adımı yazdın. Emeklilik günü rapor ilk kez iki kişinin elinden çıktı.",
+        "en": "You sat beside them for three months and wrote down every step. On their last day, the report was done by two people for the first time.",
+        "coach": [
+          {
+            "tr": "Hissedilen kısım bir tablo sekmesi çıktı. Artık yazılı.",
+            "en": "The part you 'feel' turned out to be a spreadsheet tab. It's written down now.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef çubuğu bir kare doldu.",
+            "en": "The goal bar filled one square.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Üç ay oturdun, adımlar her ay değişti. Emeklilikten sonraki ilk ay sonu raporu telefonla ona sordun.",
+        "en": "You sat in for three months, and the steps changed every month. At the first month-end after they left, you phoned them for help.",
+        "coach": [
+          {
+            "tr": "Emekli oldu. Destek hattına dönüştü.",
+            "en": "They retired into a help line.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "devir": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "devir_sureci"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:hr",
+            "affinity": 2
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "İK resmî devir formu başlattı. Form sekiz sayfa, 'hissedilen kısımlar' diye bir bölümü yok.",
+      "en": "HR launched a formal handover form. Eight pages, and no section for 'things you feel.'",
+      "coach": [
+        {
+          "tr": "Sekiz sayfa. His kutusu yok.",
+          "en": "Eight pages. No box for feelings.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "ay_sonu_boslugu"
+          ]
+        }
+      },
+      "tr": "Kimse öğrenmedi. Emeklilikten sonraki ilk ay sonu raporu dokuz gün gecikti.",
+      "en": "Nobody learned it. After the retirement, the first month-end report came in nine days late.",
+      "coach": [
+        {
+          "tr": "Dokuz gün. Rapor sahipsiz kaldı.",
+          "en": "Nine days. The report had no owner.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yaninda",
+    "slip": {
+      "tr": "İDDİA: Hissedilen kısım öğrenilmez. — M.",
+      "en": "WAGER: The 'feel' part can't be learned. — M."
+    }
+  },
+  "intent": {
+    "setup": "emekliliğe üç ay kala ay sonu raporunu tek bilen kıdemli iş arkadaşı",
+    "mechanism": "hissedilen kısım bir tablo sekmesi",
+    "mechanismId": "literalism",
+    "punch": "bazı şeyler öğretilmez, hissedilir",
+    "lift": "Hedef çubuğu bir kare doldu.",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "his"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

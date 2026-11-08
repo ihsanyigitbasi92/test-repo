@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_yari_maraton_01",
+  "tags": [
+    "sosyal",
+    "spor",
+    "kosu",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Arkadaşın üç ay önce ikinizi yarı maratona yazdırdı. Bugün yarış günü. Sen iki kez antrenman yaptın.",
+      "en": "Three months ago your friend signed you both up for a half marathon. Today's the race. You trained twice."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Numarayı göğsünüze takın, sırtınıza değil. Geçen yıl biri sırtına taktı, ters koşuyor sandık.",
+      "en": "Chest, not back. Last year someone pinned it on their back. We thought they were running backwards."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Su istasyonu yedinci kilometrede. Ondan önce su yok, sadece umut var.",
+      "en": "Water station's at kilometer seven. Before that, no water. Just hope.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Sonuna kadar koş",
+      "en": "Run the whole thing",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "yuru",
+      "tr": "Koş-yürü yap",
+      "en": "Run-walk it",
+      "pattern": "patience"
+    },
+    {
+      "id": "destek",
+      "tr": "Kenarda tezahürat yap",
+      "en": "Cheer from the sidelines",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 5,
+            "health": 3
+          },
+          "flags": {
+            "add": [
+              "yari_maraton_bitti"
+            ]
+          }
+        },
+        "tr": "Bitirdin. Sonuç listesinde 2 saat 38 dakika; arkadaşın senden dört dakika sonra geldi.",
+        "en": "You finished. 2:38 on the results list. Your friend came in four minutes behind you.",
+        "coach": [
+          {
+            "tr": "İki antrenman, bir madalya. Verim tablosu şaşkın.",
+            "en": "Two training runs, one medal. The efficiency chart is confused.",
+            "roast": false
+          },
+          {
+            "tr": "Hedefe yirmi bir kilometre yakın.",
+            "en": "Twenty-one kilometers closer to goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1,
+            "health": -3
+          },
+          "flags": {
+            "add": [
+              "yari_maraton_yarim"
+            ]
+          }
+        },
+        "tr": "On üçüncü kilometrede bıraktın. Toplama otobüsünde arkadaşınla yan yana oturdunuz.",
+        "en": "You stopped at kilometer thirteen. Ended up next to your friend on the sweep bus.",
+        "coach": [
+          {
+            "tr": "Otobüs de bitiş çizgisinden geçti. Teknik olarak.",
+            "en": "The bus also crossed the finish line. Technically.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yuru": {
+      "effects": {
+        "stats": {
+          "joy": 3,
+          "health": 2
+        },
+        "flags": {
+          "add": [
+            "yari_maraton_yuruyus"
+          ]
+        }
+      },
+      "tr": "Koşup yürüyerek üç saatte bitirdin. Madalyalar bitmişti; sana anahtarlık verdiler.",
+      "en": "You run-walked it in three hours. They'd run out of medals. You got a keychain.",
+      "coach": [
+        {
+          "tr": "Madalya kalmamıştı. Anahtarlık da metal.",
+          "en": "No medals left. The keychain is also metal.",
+          "roast": false
+        }
+      ]
+    },
+    "destek": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "tezahuratci"
+          ]
+        }
+      },
+      "tr": "Kenarda kalıp pankart yaptın. Arkadaşının yarış fotoğraflarının çoğunda sen varsın.",
+      "en": "You stayed on the sidelines with a sign. Most of your friend's race photos are of you.",
+      "coach": [
+        {
+          "tr": "Koşmadan fotoğraflara girdin.",
+          "en": "Made the photos without running a step.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: İki antrenmanla yirmi bir kilometre bitmez. — M.",
+      "en": "WAGER: Two practice runs won't carry you twenty-one kilometers. — M."
+    }
+  },
+  "intent": {
+    "setup": "arkadaşının üç ay önce ikinizi yazdırdığı yarı maratonun günü gelmesi",
+    "mechanism": "görevli numarayı sırta takanın geri koştuğunu sanmış",
+    "mechanismId": "literalism",
+    "punch": "ters koştu sandık",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "metal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

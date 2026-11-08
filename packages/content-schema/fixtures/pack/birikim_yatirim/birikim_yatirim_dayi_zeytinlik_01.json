@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_dayi_zeytinlik_01",
+  "tags": [
+    "para",
+    "birikim",
+    "dayi",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 32,
+      "max": 40
+    },
+    "money": {
+      "min": 3000
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Benim zamanımda zeytin ağacı emekli maaşı gibiydi. Arkadaşımın bahçesine ortak olalım.",
+      "en": "In my day, an olive tree was as good as a pension. Let's buy into my buddy's grove."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Kâr payı her yıl teneke teneke yağ. Para lazım olursa yağı satarsın.",
+      "en": "Profits come by the tin. Every year. Need cash? Sell the oil.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ortak",
+      "tr": "1.500 Para ile ortak ol",
+      "en": "Buy in with 1,500",
+      "pattern": "risk",
+      "check": {
+        "base": 4000
+      }
+    },
+    {
+      "id": "agac",
+      "tr": "Tek ağaçlık pay al",
+      "en": "Buy a single tree's share",
+      "pattern": "patience"
+    },
+    {
+      "id": "reddet",
+      "tr": "Teşekkür et, reddet",
+      "en": "Thank him, pass",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ortak": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1100,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "luck": 1
+          },
+          "flags": {
+            "add": [
+              "zeytinlik_ortagi"
+            ]
+          }
+        },
+        "tr": "Ortak oldun. İlk hasatta kapına dört teneke yağ geldi; ikisini komşulara 400 Para'ya sattın.",
+        "en": "You bought in. First harvest: four tins of oil at your door. You sold two to the neighbors for 400.",
+        "coach": [
+          {
+            "tr": "Getiri kapıya teneke olarak geliyor.",
+            "en": "Your returns arrive by the tin.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -1500,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "zeytinlik_ortagi"
+            ]
+          }
+        },
+        "tr": "Ortak oldun. O yıl ağaçların dinlenme yılıymış; elinde bir şişe yağ ve bir tapu fotokopisi var.",
+        "en": "You bought in. Turns out it was the trees' year off. You have one bottle of oil and a photocopy of a deed.",
+        "coach": [
+          {
+            "tr": "Bir şişe yağ, bin beş yüz Para. Şehrin en pahalı salatası.",
+            "en": "One bottle of oil, fifteen hundred. The priciest salad dressing in town.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "agac": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "zeytin_agaci"
+          ]
+        }
+      },
+      "tr": "Tek ağaçlık pay aldın: 250 Para. Dayın ağacın fotoğrafını aile grubuna 'bizimki' diye attı.",
+      "en": "You bought one tree's share: 250. Your uncle posted its photo to the family chat: 'Ours.'",
+      "coach": [
+        {
+          "tr": "Bir ağacın oldu. Fotoğrafı da.",
+          "en": "You own a tree. And its headshot.",
+          "roast": false
+        }
+      ]
+    },
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "zeytinlik_reddi"
+          ]
+        }
+      },
+      "tr": "Reddettin. Dayın 'sen bilirsin' dedi. Bu, hikâyenin ileride anlatılacağı demek.",
+      "en": "You passed. Your uncle said, 'Suit yourself.' Which means this story will be retold.",
+      "coach": [
+        {
+          "tr": "Bu karar dayının arşivine girdi.",
+          "en": "This decision is now in your uncle's archive.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ortak",
+    "slip": {
+      "tr": "İDDİA: Zeytinlik ilk yıl yağ vermez. — M.",
+      "en": "WAGER: The grove won't pay out in year one. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının arkadaşının zeytinliğine ortaklık teklifi",
+    "mechanism": "kâr payı kelimenin tam anlamıyla teneke teneke geliyor",
+    "mechanismId": "literalism",
+    "punch": "kâr payı teneke teneke yağ",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "teneke"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

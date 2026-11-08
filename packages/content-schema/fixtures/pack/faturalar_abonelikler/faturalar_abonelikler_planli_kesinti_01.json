@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_planli_kesinti_01",
+  "tags": [
+    "para",
+    "fatura",
+    "elektrik",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "YILDIRIM ŞEBEKE A.Ş.: \"Şebeke iyileştirme çalışması nedeniyle bölgenizde yarın 09.00–17.00 saatleri arasında planlı kesinti uygulanacaktır.\"",
+      "en": "BOLTGRID UTILITIES: \"Due to grid improvement work, a planned outage will take place in your area tomorrow from 9 a.m. to 5 p.m.\""
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Yarın elektrik yok. Senin yarın bir teslimin vardı, değil mi?",
+      "en": "Power's out tomorrow. Don't you have a deadline tomorrow?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "gece",
+      "tr": "Bu gece bitir",
+      "en": "Finish it tonight",
+      "pattern": "overwork"
+    },
+    {
+      "id": "kafe",
+      "tr": "Yarın kafede çalış",
+      "en": "Work from a café tomorrow",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sarj",
+      "tr": "Her şeyi şarj et, idare et",
+      "en": "Charge everything, wing it",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "gece": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "erken_teslim"
+          ]
+        }
+      },
+      "tr": "Dosya gece 02.40'ta bitti. Elektrik ertesi gün 17.00'de geldi, sen uyurken.",
+      "en": "The file was done at 2:40 a.m. The power came back at five the next day, while you slept.",
+      "coach": [
+        {
+          "tr": "Kesinti sekiz saat sürdü. Uykun da.",
+          "en": "The outage lasted eight hours. So did your nap.",
+          "roast": false
+        }
+      ]
+    },
+    "kafe": {
+      "effects": {
+        "money": -160,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Kafede altı saat, üç çay, bir tost: 160 Para. Prizin yanındaki masa kapışıldı.",
+      "en": "Six hours at a café, three teas, one toastie: 160. The table by the outlet was contested.",
+      "coach": [
+        {
+          "tr": "Elektrik bedavaydı. Masası değil.",
+          "en": "The electricity was free. The table wasn't.",
+          "roast": true
+        }
+      ]
+    },
+    "sarj": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "kesinti_atlatildi"
+            ]
+          }
+        },
+        "tr": "Laptop yüzde sekizde dayandı. Dosya 16.52'de gönderildi.",
+        "en": "The laptop held on at 8%. The file went out at 4:52 p.m.",
+        "coach": [
+          {
+            "tr": "Yüzde sekiz yetti.",
+            "en": "Eight percent was enough.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Laptop 14.10'da kapandı. İş, telefonla çekilmiş fotoğraflar olarak gönderildi.",
+        "en": "The laptop died at 2:10 p.m. The work went in as phone photos.",
+        "coach": [
+          {
+            "tr": "Fotoğraflar net. Gerisi karşı tarafta.",
+            "en": "The photos are sharp. The rest is up to them.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "teslim gününe denk gelen planlı elektrik kesintisi duyurusu",
+    "mechanism": "resmî duyurunun ağırlığı, sonra prizin yanındaki masa",
+    "mechanismId": "bathos",
+    "punch": "elektrik bedavaydı, masası değil",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "priz",
+    "antithesis": true
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

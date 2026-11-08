@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_evde_oldugun_icin_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "ev_arkadasi",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Sen nasılsa evdesin, kargo gelirse alır mısın? Bir de kombici on ile dört arası gelecek.",
+      "en": "Since you're home anyway, can you grab a package? Also the boiler guy's coming between ten and four."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Bir de su faturası. Bir de bitkiler. Bir de annem uğrayabilir.",
+      "en": "Also the water bill. And the plants. And my mom might drop by.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "hepsi",
+      "tr": "Hepsini üstlen",
+      "en": "Take it all on",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kargo",
+      "tr": "Sadece kargoyu al",
+      "en": "Just the package",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "indirim",
+      "tr": "Ev işine kira indirimi iste",
+      "en": "Trade chores for rent",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "hepsi": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "evin_sekreteri"
+          ]
+        }
+      },
+      "tr": "Kargo öğlen, kombici dörde beş kala geldi. Ev arkadaşının annesi çay içip iş arama planını sordu.",
+      "en": "The package came at noon, the boiler guy at five to four. Your roommate's mom stayed for tea and asked about your job search plan.",
+      "coach": [
+        {
+          "tr": "İş aramaya ayırdığın gün başkasının ajandasına girdi.",
+          "en": "The day you set aside for job hunting ended up in someone else's planner.",
+          "roast": true
+        }
+      ]
+    },
+    "kargo": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "gunduz_siniri"
+          ]
+        }
+      },
+      "tr": "Kargoyu aldın, kombiciyi ev arkadaşına bıraktın. Kombici altıda geldi; ev arkadaşın izin almak zorunda kaldı.",
+      "en": "You took the package and left the boiler guy to your roommate. He showed up at six, and your roommate had to take time off.",
+      "coach": [
+        {
+          "tr": "Bir iş kabul, bir iş iade.",
+          "en": "One errand accepted. One returned.",
+          "roast": false
+        }
+      ]
+    },
+    "indirim": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 300,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "kira_indirimi"
+            ]
+          }
+        },
+        "tr": "Ev arkadaşın ev işlerine karşılık kiradan 300 Para düşmeyi kabul etti. Liste buzdolabına asıldı.",
+        "en": "Your roommate agreed to knock 300 off your rent in exchange for chores. The list went up on the fridge.",
+        "coach": [
+          {
+            "tr": "Evde olmanın bir tarifesi oldu.",
+            "en": "Being home now has a rate card.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Ev arkadaşın \"ama sen zaten evdesin\" dedi ve kargonun takip numarasını gönderdi.",
+        "en": "Your roommate said, \"But you're home anyway,\" and texted you the tracking number.",
+        "coach": [
+          {
+            "tr": "Teklif reddedildi. Takip numarası teslim edildi.",
+            "en": "Offer declined. Tracking number delivered.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "işsizken evde olduğun için ev arkadaşının günlük işleri sana yığması",
+    "mechanism": "rica listesi her cümlede uzuyor",
+    "mechanismId": "escalation",
+    "punch": "bir de annem uğrayabilir",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "ajanda",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

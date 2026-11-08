@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_nakliye_yardimi_01",
+  "tags": [
+    "is",
+    "yan_gelir",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yan_gelir_girisim": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Arabam var, kolun var. Hafta sonu öğrenci taşıyoruz. Tek şart: piyano yok.",
+      "en": "I've got a car, you've got arms. Weekend student moves. One rule: no pianos."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Sadece birkaç koli. Bir de anneannemin sandığı. Bir de sandığın içindekiler.",
+      "en": "Just a few boxes. And my grandma's chest. And what's inside the chest.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasi",
+      "tr": "Sandığı da taşı",
+      "en": "Move the chest too",
+      "pattern": "overwork"
+    },
+    {
+      "id": "fiyat",
+      "tr": "Sandık için ek ücret iste",
+      "en": "Charge extra for the chest",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "koli",
+      "tr": "Sadece kolileri taşı",
+      "en": "Boxes only",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "tasi": {
+      "effects": {
+        "money": 250,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "nakliye_isi"
+          ]
+        }
+      },
+      "tr": "Sandığı dördüncü kata dört molada çıkardınız; kişi başı 250 Para. Sandığın içinden on iki ütü çıktı.",
+      "en": "Four floors, four breaks, one chest. 250 each. Inside the chest: irons. Twelve of them.",
+      "coach": [
+        {
+          "tr": "Sandık sırrını dördüncü katta verdi.",
+          "en": "The chest gave up its secret on the fourth floor.",
+          "roast": false
+        }
+      ]
+    },
+    "fiyat": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 400,
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "nakliye_isi"
+            ]
+          }
+        },
+        "tr": "Sandık için ek ücret söyledin, itiraz gelmedi. Kişi başı 400 Para; ev arkadaşın fiyat listesine \"sandık\" satırı ekledi.",
+        "en": "You quoted extra for the chest. No pushback. 400 each, and your roommate added a \"chest\" line to the price list.",
+        "coach": [
+          {
+            "tr": "Fiyat listesi bir satır büyüdü.",
+            "en": "The price list grew a line.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": 150,
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "nakliye_isi"
+            ]
+          }
+        },
+        "tr": "\"Ek ücret\" lafını duyan müşteri sandığı kendi taşımaya kalktı. Sonunda üçünüz taşıdınız, ücret aynı: 150 Para.",
+        "en": "At the word \"extra,\" the customer tried to carry the chest alone. In the end all three of you carried it. Same fee: 150.",
+        "coach": [
+          {
+            "tr": "Pazarlık bir taşıyıcı kazandırdı. Para kazandırmadı.",
+            "en": "The haggle gained you a mover. Not money.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "koli": {
+      "effects": {
+        "money": 100,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Sadece kolileri taşıdın. Sandık kapının önünde kaldı; ev arkadaşın sonraki iş için başka birini çağırdı.",
+      "en": "You moved the boxes only. The chest stayed by the door, and your roommate called someone else for the next job.",
+      "coach": [
+        {
+          "tr": "Sandık seni bekledi. Ev arkadaşın beklemedi.",
+          "en": "The chest waited for you. Your roommate didn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "fiyat",
+    "slip": {
+      "tr": "İDDİA: Ek ücret sandığı hafifletmez. — M.",
+      "en": "WAGER: The surcharge won't make the chest any lighter. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşıyla hafta sonu öğrenci taşıma işi",
+    "mechanism": "birkaç koli, bir sandık, sandığın içindekiler",
+    "mechanismId": "escalation",
+    "punch": "bir de sandığın içindekiler",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sandik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

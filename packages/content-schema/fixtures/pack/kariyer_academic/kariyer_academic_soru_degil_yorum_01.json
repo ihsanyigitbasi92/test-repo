@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_soru_degil_yorum_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bu aslında bir soru değil, daha çok bir yorum.",
+      "en": "This is less a question and more of a comment, really."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Yirmi yıl önce ben de benzer bir çalışma yapmıştım. Biraz anlatayım.",
+      "en": "Twenty years ago I did something very similar. Let me walk you through it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dinle",
+      "tr": "Sonuna kadar dinle",
+      "en": "Hear it out",
+      "pattern": "patience"
+    },
+    {
+      "id": "kes",
+      "tr": "Kibarca sözünü kes",
+      "en": "Politely cut in",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "atif",
+      "tr": "Atıf yapacağını söyle",
+      "en": "Promise to cite their work",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "dinle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Yorum sekiz dakika sürdü ve oturum süresi doldu. Kimse sana soru soramadı, oturum başkanı \"verimli tartışma\" için teşekkür etti.",
+      "en": "The comment ran eight minutes and used up the session. Nobody got to ask you anything, and the chair thanked everyone for \"a productive discussion.\"",
+      "coach": [
+        {
+          "tr": "Verimli bir tartışma. Senin cümlelerin hariç.",
+          "en": "A productive discussion. Your sentences excluded.",
+          "roast": true
+        }
+      ]
+    },
+    "kes": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "\"Çok değerli, kahvede sürdürelim\" dedin ve iki soru daha alındı. Kahve arasında yirmi dakika dinledin.",
+        "en": "\"Fascinating, let's continue over coffee,\" you said, and took two more questions. At coffee, you listened for twenty minutes.",
+        "coach": [
+          {
+            "tr": "Oturum kurtuldu. Kahve arası gitti.",
+            "en": "You saved the session. You lost the coffee break.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Araya girdin, mikrofon onda kaldı. Yorum dokuz dakikaya çıktı, iki dakikası sözünün kesilmesi üzerineydi.",
+        "en": "You cut in, but they kept the mic. The comment grew to nine minutes, two of them about being interrupted.",
+        "coach": [
+          {
+            "tr": "Araya girdin. Yorum bunu da kapsadı.",
+            "en": "You interrupted. The comment expanded to cover it.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "atif": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "yorumcuya_atif"
+          ]
+        }
+      },
+      "tr": "Atıf sözü verdin. Ertesi sabah e-postana yirmi yıllık makalenin altı farklı sürümü düştü.",
+      "en": "You promised to cite them. The next morning, six versions of the twenty-year-old paper landed in your inbox.",
+      "coach": [
+        {
+          "tr": "Altı sürüm, bir söz.",
+          "en": "Six versions. One promise.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti iddia payı doldu"
+  },
+  "intent": {
+    "setup": "kongre sunumunun soru cevabında biri soru değil yorum diyerek uzun konuşuyor",
+    "mechanism": "yorum her müdahalede uzuyor",
+    "mechanismId": "escalation",
+    "punch": "soru değil, daha çok bir yorum",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kahve_arasi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

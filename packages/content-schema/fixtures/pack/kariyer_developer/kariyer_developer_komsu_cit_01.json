@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_developer_komsu_cit_01",
+  "tags": [
+    "kariyer",
+    "muteahhit",
+    "kariyer_developer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_developer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "developer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Kepçeniz bahçe çitimi yamulttu. Çit önemli değil. Arkasındaki incir otuz yaşında.",
+      "en": "Your digger bent my garden fence. The fence doesn't matter. The fig tree behind it is thirty years old."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "O incirden her yaz reçel yapılır. Bu yaz reçeli kim yapacak, onu konuşalım.",
+      "en": "That fig makes jam every summer. Let's talk about who's making this summer's jam.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "onar",
+      "tr": "Çiti onar, ağaca baktır",
+      "en": "Fix the fence, get the tree tended",
+      "pattern": "generosity"
+    },
+    {
+      "id": "uzlas",
+      "tr": "Komşuyla uzlaş",
+      "en": "Negotiate with the neighbor",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sigorta",
+      "tr": "Konuyu sigortaya bırak",
+      "en": "Leave it to the insurer",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "onar": {
+      "effects": {
+        "money": -1800,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Çit yenilendi, ağaca bahçıvan baktı. Komşu yaz sonunda şantiyeye iki kavanoz reçel gönderdi.",
+      "en": "New fence, and a gardener for the tree. At the end of summer the neighbor sent two jars of jam to the site office.",
+      "coach": [
+        {
+          "tr": "Reçel geldi. Fatura daha önce gelmişti.",
+          "en": "The jam arrived. The invoice got there first.",
+          "roast": false
+        }
+      ]
+    },
+    "uzlas": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -600,
+          "meters": {
+            "ego": 2
+          },
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "dev_incir_bakimi"
+            ]
+          }
+        },
+        "tr": "Çiti senin ekibin onardı, ağaç bir yıl ekibin bakımına verildi. Yazılı anlaşmada \"reçel\" kelimesi iki kez geçiyor.",
+        "en": "Your crew fixed the fence and the tree went into their care for a year. The written agreement mentions jam twice.",
+        "coach": [
+          {
+            "tr": "Sözleşmede reçel maddesi var. Bağlayıcı.",
+            "en": "There's a jam clause. Binding.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -2200,
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Uzlaşma olmadı. Komşu çit, ağaç ve \"yaz kaybı\" için ayrı ayrı fatura çıkardı.",
+        "en": "No deal. The neighbor billed you separately for the fence, the tree, and 'loss of summer.'",
+        "coach": [
+          {
+            "tr": "Yaz kaybı da kalem oldu.",
+            "en": "Lost summer is now a line item.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sigorta": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dev_cit_sigortada"
+          ]
+        }
+      },
+      "tr": "Dosya sigortaya gitti. Eksper üç ay sonra geldi, incir mevsimi bitmişti.",
+      "en": "The claim went to the insurer. The adjuster came three months later. Fig season was over.",
+      "coach": [
+        {
+          "tr": "Eksper geldi. İncir gitmişti.",
+          "en": "The adjuster arrived. The figs had left.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "uzlas",
+    "slip": {
+      "tr": "İDDİA: Komşu reçelden vazgeçmez. — M.",
+      "en": "WAGER: The neighbor won't budge on the jam. — M."
+    }
+  },
+  "intent": {
+    "setup": "kepçenin komşu bahçe çitini yamultması ve arkadaki otuz yıllık incir ağacı",
+    "mechanism": "büyük hasar tartışması reçele iniyor",
+    "mechanismId": "bathos",
+    "punch": "reçeli kim yapacak, onu konuşalım",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "eksper"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

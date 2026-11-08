@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_kimin_adina_01",
+  "tags": [
+    "para",
+    "fatura",
+    "partner",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Elektrik senin adına, su benim. Doğalgaz kimin olsun?",
+      "en": "Electricity's in your name, water's in mine. Who gets gas?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Doğalgazı kim alırsa kombi arızası da onun olur. Kural bu.",
+      "en": "Whoever takes gas also takes the boiler breaking. That's the rule.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Doğalgazı sen al",
+      "en": "Take the gas",
+      "pattern": "generosity"
+    },
+    {
+      "id": "tkm",
+      "tr": "Taş kâğıt makas yap",
+      "en": "Rock, paper, scissors",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "ortak",
+      "tr": "Hepsini ortak karta bağla",
+      "en": "Put it all on a joint card",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "money": -90,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "dogalgaz_senin_adina"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Doğalgaz aboneliği senin adına açıldı, 90 Para açılış bedeli ödendi. Kombi servisinin numarası telefonuna kaydedildi.",
+      "en": "The gas account opened in your name; 90 setup fee paid. The boiler repair number is now in your phone.",
+      "coach": [
+        {
+          "tr": "Yeni rehber kişisi: kombi.",
+          "en": "New contact: boiler.",
+          "roast": false
+        }
+      ]
+    },
+    "tkm": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "dogalgaz_partnerde"
+            ]
+          }
+        },
+        "tr": "Makas kâğıdı kesti. Doğalgaz ve kombi partnerinin adına geçti.",
+        "en": "Scissors cut paper. Gas and boiler went to your partner.",
+        "coach": [
+          {
+            "tr": "Bir el, bir kombi.",
+            "en": "One hand, one boiler.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -90,
+          "meters": {
+            "cringe": 1
+          },
+          "flags": {
+            "add": [
+              "dogalgaz_senin_adina"
+            ]
+          }
+        },
+        "tr": "Taş makası kırdı. Doğalgaz senin adına açıldı, 90 Para ödendi.",
+        "en": "Rock crushed scissors. The gas account opened in your name. 90 paid.",
+        "coach": [
+          {
+            "tr": "Kombi seni seçti.",
+            "en": "The boiler chose you.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ortak": {
+      "effects": {
+        "money": -90,
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "ortak_fatura_karti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Bütün faturalar tek karta bağlandı. Ekstre, kimin duşunun uzun sürdüğünü göstermiyor.",
+      "en": "Every bill now runs through one card. The statement doesn't show whose showers run long.",
+      "coach": [
+        {
+          "tr": "Tek kart, tek ekstre, iki ayrı teori.",
+          "en": "One card, one statement, two theories.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "partnerle yeni eve çıkınca faturaların kimin adına açılacağını paylaşmak",
+    "mechanism": "kural düz bir sesle konuyor: gaz kimdeyse kombi de onda",
+    "mechanismId": "deadpan_report",
+    "punch": "kombi arızası da onun olur",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "kombi",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

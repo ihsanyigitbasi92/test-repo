@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "emeklilik_gecis_saglik_sigortasi_bitisi_01",
+  "tags": [
+    "yaslilik",
+    "evrak",
+    "saglik",
+    "emeklilik_gecis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "emeklilik_gecis": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 66
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "MERCAN YAPI A.Ş. — PERSONEL İŞLERİ (kurgusal)",
+      "en": "CORAL BUILD INC. — PERSONNEL OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "İş akdinizin sona ermesiyle grup sağlık sigortanız ay sonunda kapsam dışı kalacaktır. Avantajlı bireysel devam seçeneği için 30 gün içinde başvurabilirsiniz.",
+      "en": "With the end of your employment, your group health coverage will lapse at month's end. You may apply within 30 days for our advantageous individual plan."
+    },
+    "translate": {
+      "tr": {
+        "from": "kapsam dışı kalacaktır",
+        "to": "faturayı artık sen ödüyorsun"
+      },
+      "en": {
+        "from": "will lapse",
+        "to": "is now your bill"
+      }
+    },
+    "glossaryKey": "bireysel_devam"
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bireysel devam, maaşından kesilenin dört katı. Kâğıtta \"avantajlı\" yazıyor.",
+      "en": "The individual plan costs four times what came out of your paycheck. The letter calls it \"advantageous.\""
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Bireysel plana geç",
+      "en": "Switch to the individual plan",
+      "pattern": "patience"
+    },
+    {
+      "id": "partner",
+      "tr": "Partnerinin planına geç",
+      "en": "Join your partner's plan",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "partner": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Sigortasız devam et",
+      "en": "Go without coverage",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "devam": {
+      "effects": {
+        "money": -2400,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "emekli",
+            "bireysel_sigorta"
+          ]
+        },
+        "status": {
+          "job": null
+        },
+        "glossary": "bireysel_devam"
+      },
+      "tr": "Bireysel poliçe ilk yıl 2.400 Para. Kart aynı, rengi farklı.",
+      "en": "Individual plan: 2,400 the first year. Same card, different color.",
+      "coach": [
+        {
+          "tr": "Aynı kart. Fatura artık sende.",
+          "en": "Same card. New payer.",
+          "roast": false
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "emekli",
+            "partner_sigortasi"
+          ]
+        },
+        "status": {
+          "job": null
+        }
+      },
+      "tr": "Partnerinin iş yerindeki plana aile üyesi olarak eklendin. Ek prim 800 Para.",
+      "en": "You were added to your partner's workplace plan as a family member. Extra premium: 800.",
+      "coach": [
+        {
+          "tr": "Kapsam devredildi. Ev içi transfer.",
+          "en": "Coverage transferred. An in-house deal.",
+          "roast": true
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "emekli",
+            "sigortasiz_emekli"
+          ]
+        },
+        "status": {
+          "job": null
+        }
+      },
+      "tr": "Mektubu klasöre kaldırdın. Otuz günlük süre sessizce doldu.",
+      "en": "You filed the letter away. The thirty-day window closed quietly.",
+      "coach": [
+        {
+          "tr": "Süre doldu. Mektup da klasörde emekli oldu.",
+          "en": "The window closed. The letter retired to a folder.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "işten ayrılışla grup sağlık sigortasının biteceğini ve bireysel devam seçeneğini bildiren yazı",
+    "mechanism": "'kapsam dışı kalacaktır' = 'artık faturayı sen ödüyorsun' tercümesi",
+    "mechanismId": "translation",
+    "punch": "kâğıtta 'avantajlı' yazıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "klasor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

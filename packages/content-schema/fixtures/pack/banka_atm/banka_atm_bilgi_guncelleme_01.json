@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "banka_atm_bilgi_guncelleme_01",
+  "tags": [
+    "para",
+    "banka",
+    "evrak",
+    "burokrasi",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "SAKA BANKASI · MÜŞTERİ BİLGİ GÜNCELLEME (kurgusal)",
+      "en": "FINCH BANK · CUSTOMER INFORMATION UPDATE (fictional)"
+    },
+    "body": {
+      "tr": "Bilgilerinizi 30 gün içinde güncellemezseniz hesabınızda kısıtlama uygulanabilir. Adres belgesi ve kimlikle şubemize başvurunuz.",
+      "en": "If you do not update your details within 30 days, restrictions may apply to your account. Please visit a branch with ID and proof of address."
+    },
+    "translate": {
+      "tr": {
+        "from": "kısıtlama uygulanabilir",
+        "to": "paran içeride, sen dışarıda"
+      },
+      "en": {
+        "from": "restrictions may apply",
+        "to": "your money stays in, you stay out"
+      }
+    },
+    "glossaryKey": "kisitlama"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Belgeler tamam. Yalnız adres belgesi son üç aydan olmalı. Bu dördüncü ay.",
+      "en": "Papers look fine. Only the proof of address has to be from the last three months. This is month four."
+    }
+  ],
+  "choices": [
+    {
+      "id": "yarin",
+      "tr": "Yeni belgeyle yarın gel",
+      "en": "Come back tomorrow with a new bill",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikna",
+      "tr": "Bankacıyı ikna et",
+      "en": "Talk the banker around",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "erte",
+      "tr": "Otuzuncu güne bırak",
+      "en": "Leave it till day thirty",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "bilgi_guncel"
+          ]
+        },
+        "glossary": "kisitlama"
+      },
+      "tr": "Ertesi gün yeni bir fatura çıktısıyla geldin. Güncelleme sekiz dakika sürdü, sıra kırk.",
+      "en": "Next day you came back with a fresh bill. The update took eight minutes. The line took forty.",
+      "coach": [
+        {
+          "tr": "İşlemin kendisi sıradan kısaydı.",
+          "en": "The update was shorter than the line.",
+          "roast": false
+        }
+      ]
+    },
+    "ikna": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "bilgi_guncel"
+            ]
+          }
+        },
+        "tr": "Bankacı dördüncü ayı 'üçüncü ayın uzantısı' saydı. Güncelleme tamam.",
+        "en": "The banker ruled month four 'an extension of month three.' Done.",
+        "coach": [
+          {
+            "tr": "Takvim bir günlüğüne esnedi.",
+            "en": "The calendar stretched, just this once.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "hesap_kisitli"
+            ]
+          }
+        },
+        "tr": "Bankacı kuralı iki kez okudu, sonra sana okudu. Hesaba kısıtlama notu düşüldü.",
+        "en": "The banker read the rule twice, then read it to you. A restriction note went on the account.",
+        "coach": [
+          {
+            "tr": "Kurallar sesli okununca uzuyor.",
+            "en": "Rules get longer when read aloud.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "erte": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "hesap_kisitli"
+          ]
+        }
+      },
+      "tr": "Otuzuncu gün geldi ve geçti. Kartın markette 'işlem kısıtlı' uyarısıyla reddedildi.",
+      "en": "Day thirty came and went. At the grocery store, your card came back 'transaction restricted.'",
+      "coach": [
+        {
+          "tr": "Otuz günlük süre, otuzuncu günde bitti. Şaşırtıcı biçimde.",
+          "en": "The thirty-day deadline ended on day thirty. Shockingly.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "bankanın bilgi güncelleme mektubu ve adres belgesinin dördüncü aydan olması",
+    "mechanism": "'kısıtlama uygulanabilir' tercümesi",
+    "mechanismId": "translation",
+    "punch": "üç aydan olmalı, bu dördüncü ay",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sasirtici"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

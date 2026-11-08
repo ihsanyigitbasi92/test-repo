@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_komisyon_kesintisi_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Komisyon paylaşımını değiştiriyoruz. Yüzde ellinin yerine kırk.",
+      "en": "We're changing the commission split. Forty instead of fifty."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Ofis giderleri arttı. Kapsül kahve makinesi aldık, herkes kullanabilir.",
+      "en": "Overhead's gone up. We got a pod coffee machine. Everyone can use it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et",
+      "en": "Accept it",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Kendi rakamlarınla itiraz et",
+      "en": "Push back with your numbers",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ayril",
+      "tr": "Karşıdaki ofise geç",
+      "en": "Move to the agency across the street",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_yuzde_kirk"
+          ]
+        }
+      },
+      "tr": "Yeni oran pazartesi başladı. Makineden ilk kahveni aldın; kapsüller ücretliymiş.",
+      "en": "The new split starts Monday. You made your first coffee from the machine. The pods cost extra.",
+      "coach": [
+        {
+          "tr": "Yüzde kırk, pazartesiden itibaren.",
+          "en": "Forty percent, effective Monday.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "realtor_oran_korundu"
+            ]
+          }
+        },
+        "tr": "Son yılın satış tablosunu masaya koydun. Senin oranın ellide kaldı, kahve makinesi tartışmaya açıldı.",
+        "en": "You put last year's sales sheet on the table. Your split stays at fifty. The coffee machine is now under review.",
+        "coach": [
+          {
+            "tr": "Tablo konuştu. Oran yerinde.",
+            "en": "The spreadsheet did the talking. Split intact.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Patron tabloyu inceledi, 'çok güzel' deyip dosyaya kaldırdı. Oran kırk.",
+        "en": "The boss studied your sheet, called it 'lovely,' and filed it. Forty it is.",
+        "coach": [
+          {
+            "tr": "Tablo dosyada. Oran kırkta.",
+            "en": "Sheet: filed. Split: forty.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ayril": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -5
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_ofis_degisti"
+          ]
+        },
+        "status": {
+          "job": {
+            "title": "Emlak danışmanı",
+            "tier": 2,
+            "monthly": 1800
+          }
+        }
+      },
+      "tr": "Karşı sokaktaki ofise ellilik oranla geçtin. Eski patron vitrindeki fotoğrafını aynı gün indirdi.",
+      "en": "You moved to the agency across the street at fifty-fifty. Your old boss took your photo out of the window that same day.",
+      "coach": [
+        {
+          "tr": "Yeni vitrin, eski oran.",
+          "en": "New window, old split.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Tablo dosyaya kalkar. — M.",
+      "en": "WAGER: Your spreadsheet ends up in a drawer. — M."
+    }
+  },
+  "intent": {
+    "setup": "patron komisyon paylaşımını düşürüyor, gerekçe yeni kahve makinesi",
+    "mechanism": "büyük kesinti küçük bir kahve makinesiyle açıklanıyor",
+    "mechanismId": "bathos",
+    "punch": "kapsüller ücretliymiş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kapsul"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

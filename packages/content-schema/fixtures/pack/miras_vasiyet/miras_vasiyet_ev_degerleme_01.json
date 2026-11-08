@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "miras_vasiyet_ev_degerleme_01",
+  "tags": [
+    "yaslilik",
+    "ev",
+    "tapu",
+    "duzen",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 82
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "owned",
+      "mortgage"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Değerleme bitti. Balkondaki eklenti tapuda yok, onu saymadım.",
+      "en": "Appraisal's done. The balcony extension isn't on the deed, so I didn't count it."
+    },
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "O balkonda ben büyüdüm ama.",
+      "en": "I grew up on that balcony, though.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Değeri kabul et",
+      "en": "Accept the figure",
+      "pattern": "patience"
+    },
+    {
+      "id": "yasal",
+      "tr": "Eklentiyi tapuya işlet",
+      "en": "Get the extension registered",
+      "pattern": "overwork",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ikinci",
+      "tr": "İkinci değerleme iste",
+      "en": "Ask for a second appraisal",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "flags": {
+          "add": [
+            "ev_degerlendi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Değer dosyaya girdi. Çocuğun balkona bir not yapıştırdı: \"Tapuda yok ama bizim.\"",
+      "en": "The figure is on file. Your kid taped a note to the balcony: \"Not on the deed. Still ours.\"",
+      "coach": [
+        {
+          "tr": "Resmî değer: bir rakam. Gayriresmî değer: bir not kâğıdı.",
+          "en": "Official value: a number. Unofficial value: a sticky note.",
+          "roast": false
+        }
+      ]
+    },
+    "yasal": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1500,
+          "flags": {
+            "add": [
+              "balkon_tapulu"
+            ]
+          },
+          "glossary": "cins_tashihi"
+        },
+        "tr": "Dört ay, altı form, 1.500 Para. Balkon artık resmen var.",
+        "en": "Four months, six forms, 1,500. The balcony now officially exists.",
+        "coach": [
+          {
+            "tr": "Balkon resmîleşti. Aynı balkon.",
+            "en": "The balcony is official. Same balcony.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -900,
+          "flags": {
+            "add": [
+              "balkon_dosyada"
+            ]
+          },
+          "glossary": "cins_tashihi"
+        },
+        "tr": "Dosya \"eksik ölçü\" notuyla geri döndü. Ölçüyü 1987'de sen almıştın.",
+        "en": "The file came back: \"incomplete measurements.\" You took those measurements, in 1987.",
+        "coach": [
+          {
+            "tr": "1987 ölçüleri yeniden istendi.",
+            "en": "Your 1987 measurements, requested again.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ikinci": {
+      "effects": {
+        "money": -200,
+        "flags": {
+          "add": [
+            "ev_degerlendi"
+          ]
+        }
+      },
+      "tr": "İkinci uzman da balkonu saymadı. Saksıları ama tek tek saydı.",
+      "en": "The second appraiser didn't count the balcony either. The flowerpots, though, were counted one by one.",
+      "coach": [
+        {
+          "tr": "Saksılar değerlendi. Balkon hâlâ görünmez.",
+          "en": "Flowerpots: appraised. Balcony: still invisible.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "domain wager payı dolu"
+  },
+  "intent": {
+    "setup": "ev değerlemesinde tapuda olmayan balkon eklentisinin sayılmaması",
+    "mechanism": "resmî olarak yok sayılan balkon",
+    "mechanismId": "literalism",
+    "punch": "o balkonda ben büyüdüm ama",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "saksi",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

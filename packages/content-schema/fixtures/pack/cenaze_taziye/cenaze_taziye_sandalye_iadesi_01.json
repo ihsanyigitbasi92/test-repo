@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cenaze_taziye_sandalye_iadesi_01",
+  "tags": [
+    "sosyal",
+    "taziye",
+    "komsu",
+    "cenaze_taziye"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "cenaze_taziye": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    }
+  },
+  "text": [
+    {
+      "id": "giris",
+      "tr": "Komşunun annesi vefat etti. Kalabalık için kiralanan sandalyelerin iadesini sen üstlendin.",
+      "en": "Your neighbor's mother has passed. You volunteered to return the chairs rented for the visitors."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Altmış sandalye verdik, elli yedi geldi. Üçü nerede?",
+      "en": "We dropped off sixty chairs. Fifty-seven came back. Where are the other three?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bulunmazsa tanesi 220. Fatura aileye mi, size mi?",
+      "en": "If they don't turn up, it's 220 each. Bill the family, or you?",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Farkı kendin öde",
+      "en": "Pay the difference yourself",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ara",
+      "tr": "Apartmanı kapı kapı sor",
+      "en": "Ask door to door",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "aile",
+      "tr": "Faturayı aileye yönlendir",
+      "en": "Send the bill to the family",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -660,
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 5,
+            "memory": "sandalye_odedi"
+          }
+        ],
+        "flags": {
+          "add": [
+            "sandalye_borcu_kapandi"
+          ]
+        }
+      },
+      "tr": "660 Para ödedin. Komşun haftalar sonra duydu ve kapına bir kavanoz reçel bıraktı.",
+      "en": "You paid 660. Weeks later your neighbor heard about it and left a jar of jam at your door.",
+      "coach": [
+        {
+          "tr": "Üç sandalye 660 Para. Reçel fiyat listesinde yok.",
+          "en": "Three chairs: 660. The jam isn't on any price list.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "sandalye_borcu_kapandi"
+            ]
+          }
+        },
+        "tr": "İkisi dördüncü katın balkonunda, biri kapıcı odasında çıktı. Firma faturayı iptal etti.",
+        "en": "Two turned up on a fourth-floor balcony, one in the caretaker's room. The company cancelled the bill.",
+        "coach": [
+          {
+            "tr": "Üç sandalye, üç kapı ötede.",
+            "en": "Three chairs, three doors away.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -220,
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "sandalye_borcu_kapandi"
+            ]
+          }
+        },
+        "tr": "İkisini buldun, üçüncüsü hiç çıkmadı. 220 Para ödedin.",
+        "en": "You found two. The third never surfaced. You paid 220.",
+        "coach": [
+          {
+            "tr": "Biri hâlâ bir balkonda oturuyor.",
+            "en": "One of them is still sitting on a balcony somewhere.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "aile": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Fatura aileye gitti. Komşun ödedi ve bir şey demedi; merdivendeki selamı kısaldı.",
+      "en": "The bill went to the family. Your neighbor paid and said nothing. The hallway hellos got shorter.",
+      "coach": [
+        {
+          "tr": "Fatura gitti. Selam kısaldı.",
+          "en": "The bill went out. The hellos got shorter.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "taziye günü, wager yok"
+  },
+  "intent": {
+    "setup": "taziye için kiralanan sandalyeleri iade ederken üç eksik çıkması",
+    "mechanism": "mizah bürokrasiye: sayım ve birim fiyat",
+    "mechanismId": "count",
+    "punch": "altmış verdik, elli yedi geldi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "selam"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

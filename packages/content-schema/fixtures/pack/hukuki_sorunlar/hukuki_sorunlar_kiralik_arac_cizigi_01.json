@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_kiralik_arac_cizigi_01",
+  "tags": [
+    "burokrasi",
+    "arac_kiralama",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sağ arka kapıda çizik var. Teslim formunda yok.",
+      "en": "There's a scratch on the rear right door. It's not on the pickup form."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Bir de paspasta kum var. Kum ayrı tarife.",
+      "en": "There is also sand on the floor mats. Sand is billed separately.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "foto",
+      "tr": "Teslim fotoğraflarını aç",
+      "en": "Pull up your pickup photos",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kum",
+      "tr": "Kum için öde, çiziğe itiraz et",
+      "en": "Pay for the sand, dispute the scratch",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ode",
+      "tr": "Depozitodan kesilsin",
+      "en": "Let them take it from the deposit",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "foto": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -60,
+          "stats": {
+            "joy": 3
+          },
+          "glossary": "hasar_tespit_formu",
+          "flags": {
+            "add": [
+              "arac_iade_temiz"
+            ]
+          }
+        },
+        "tr": "Teslim günü fotoğrafında çizik zaten var. Görevli hasar formunu iptal etti; kum ücreti kaldı: 60 Para.",
+        "en": "Your pickup photo shows the scratch already there. The clerk voided the damage form. The sand fee stayed: 60.",
+        "coach": [
+          {
+            "tr": "Çizik eskiymiş. Kum yeni.",
+            "en": "The scratch was old. The sand is new.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Fotoğraflar gece çekilmiş, kapı karanlıkta kalmış. Depozitodan 900 Para kesildi.",
+        "en": "Your photos were taken at night and the door's in shadow. 900 came out of your deposit.",
+        "coach": [
+          {
+            "tr": "Fotoğraf var, ışık yok. Delil uyumuş.",
+            "en": "Photos, yes. Light, no. The evidence was asleep.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kum": {
+      "effects": {
+        "money": -60,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "arac_cizik_inceleme"
+          ]
+        }
+      },
+      "tr": "Kum için 60 Para ödedin. Çizik \"inceleme\" klasörüne gitti; sonuç 30 gün içinde e-postayla gelecek.",
+      "en": "You paid 60 for the sand. The scratch went into a \"review\" folder; results by email within thirty days.",
+      "coach": [
+        {
+          "tr": "Kum kapandı. Çizik beklemede.",
+          "en": "Sand: settled. Scratch: pending.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "glossary": "hasar_tespit_formu"
+      },
+      "tr": "Depozitodan 900 Para kesildi. Tatilin en pahalı hatırası o çizik oldu.",
+      "en": "900 came out of your deposit. The priciest souvenir from the trip was that scratch.",
+      "coach": [
+        {
+          "tr": "Tatilin en pahalı fotoğrafı çekilmeyen fotoğrafmış.",
+          "en": "The most expensive photo of the trip was the one nobody took.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "tatil dönüşü kiralık arabada teslimde yazılmamış bir çizik ve paspasta kum",
+    "mechanism": "görevlinin kumu ayrı tarifeye koyması",
+    "mechanismId": "deadpan_report",
+    "punch": "kum ayrı tarife",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kum"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

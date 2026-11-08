@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_uyelik_iptali_01",
+  "tags": [
+    "burokrasi",
+    "spor_kulubu",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ZİRVE FORM SPOR KULÜBÜ (kurgusal)",
+      "en": "PEAK SHAPE FITNESS CLUB (fictional)"
+    },
+    "body": {
+      "tr": "Üyelik iptal talepleri yalnızca şahsen, şube müdürüne ve ıslak imzalı dilekçeyle iletilebilir. Müdürümüz salı günleri 10.00–10.30 arası görüşme kabul eder.",
+      "en": "Cancellations must be made in person, to the branch manager, on a signed paper form. Our manager receives members Tuesdays, 10:00 to 10:30."
+    },
+    "translate": {
+      "tr": {
+        "from": "salı günleri 10.00–10.30 arası",
+        "to": "haftada yarım saatlik çıkış kapısı"
+      },
+      "en": {
+        "from": "Tuesdays, 10:00 to 10:30",
+        "to": "one thirty-minute exit per week"
+      }
+    },
+    "glossaryKey": "uyelik_iptali"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "İptal mi? Önce size yeni dondurma paketimizi anlatayım.",
+      "en": "Cancel? Let me first tell you about our new freeze package."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Müdürümüz bu salı toplantıda. Gelecek salı da muhtemelen.",
+      "en": "The manager's in a meeting this Tuesday. Probably next Tuesday too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "izin",
+      "tr": "Salı sabahı izin al, git",
+      "en": "Take Tuesday morning off and go",
+      "pattern": "patience"
+    },
+    {
+      "id": "dondur",
+      "tr": "Dondurma paketini kabul et",
+      "en": "Accept the freeze package",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "banka",
+      "tr": "Otomatik ödemeyi bankadan durdur",
+      "en": "Stop the direct debit at the bank",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "izin": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "spor_uyelik_iptal"
+          ]
+        },
+        "glossary": "uyelik_iptali"
+      },
+      "tr": "Yarım gün izin aldın, 10.12’de müdürle görüştün. İptal onaylandı, son ayın 180 Para’sı yine kesildi.",
+      "en": "You took half a day off and saw the manager at 10:12. Cancelled. The final month, 180, was still charged.",
+      "coach": [
+        {
+          "tr": "Yarım gün izin, sekiz dakikalık görüşme. Bitti.",
+          "en": "Half a day off for an eight-minute meeting. Done.",
+          "roast": false
+        }
+      ]
+    },
+    "dondur": {
+      "effects": {
+        "money": -60,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "spor_uyelik_dondurulmus"
+          ]
+        }
+      },
+      "tr": "Üç aylığına dondurdun, aylık 20 Para. Üyelik buzda, ödemeler sıcak.",
+      "en": "You froze it for three months at 20 a month. The membership is on ice. The payments are not.",
+      "coach": [
+        {
+          "tr": "Buzluğa koydun. Fatura tezgâhta kaldı.",
+          "en": "You put it in the freezer. The bill stayed on the counter.",
+          "roast": true
+        }
+      ]
+    },
+    "banka": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "spor_uyelik_iptal"
+            ]
+          },
+          "glossary": "uyelik_iptali"
+        },
+        "tr": "Banka talimatı kaldırdı. Kulüp bir ay sonra \"aramıza geri dönün\" indirimi yolladı.",
+        "en": "The bank stopped the debit. A month later the club sent a \"come back to us\" discount.",
+        "coach": [
+          {
+            "tr": "Kulüp seni salıdan önce özledi.",
+            "en": "The club missed you before Tuesday did.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -360,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "spor_uyelik_borcu"
+            ]
+          }
+        },
+        "tr": "Talimat kalktı, sözleşme kalkmadı. Kulüp iki aylık ücreti \"gecikmiş\" notuyla yolladı.",
+        "en": "The debit stopped. The contract didn't. The club sent two months' fees marked \"overdue.\"",
+        "coach": [
+          {
+            "tr": "Kestirme yol salıya çıktı.",
+            "en": "The shortcut led straight back to Tuesday.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "spor kulübü üyeliğinin yalnızca salı yarım saat müdüre şahsen iptal edilebilmesi",
+    "mechanism": "iptal penceresi daralıyor; müdür hiç yok",
+    "mechanismId": "escalation",
+    "punch": "gelecek salı da muhtemelen",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sali"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

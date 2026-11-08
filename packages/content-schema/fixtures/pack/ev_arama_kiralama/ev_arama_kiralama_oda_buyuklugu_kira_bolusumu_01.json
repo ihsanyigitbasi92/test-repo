@@ -1,0 +1,235 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_oda_buyuklugu_kira_bolusumu_01",
+  "tags": [
+    "ev",
+    "ilan",
+    "ev_arkadasi",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse",
+      "room"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Büyük oda on dört metrekare, küçük dokuz. Kirayı yarı yarıya bölelim, adil olsun.",
+      "en": "The big room's 150 square feet, the small one's 95. Let's split the rent fifty-fifty. Keeps it fair."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Büyüğü ben alayım, benim eşyam çok. Senin eşyan az, sen şanslısın.",
+      "en": "I'll take the big one, I've got more stuff. You've got less stuff. Lucky you.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "metre",
+      "tr": "Metrekareye göre bölmeyi öner",
+      "en": "Propose splitting by square footage",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Yarı yarıya kabul et",
+      "en": "Accept fifty-fifty",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "buyuk",
+      "tr": "Büyük odayı sen iste",
+      "en": "Claim the big room yourself",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "metre": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -900,
+          "housing": "room",
+          "status": {
+            "home": {
+              "kind": "room",
+              "rent": 900
+            }
+          },
+          "flags": {
+            "add": [
+              "kira_metrekareyle"
+            ]
+          }
+        },
+        "tr": "Hesabı ekrana döktün: sen 900, o 1.400. Ev arkadaşın uzun uzun baktı ve kabul etti.",
+        "en": "You put the math on screen: you 900, them 1,400. Your roommate stared at it for a long time and agreed.",
+        "coach": [
+          {
+            "tr": "Dokuz metrekare, dokuz yüz Para.",
+            "en": "Ninety-five square feet. Nine hundred a month.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1150,
+          "hidden": {
+            "stress": 2
+          },
+          "housing": "room",
+          "status": {
+            "home": {
+              "kind": "room",
+              "rent": 1150
+            }
+          },
+          "flags": {
+            "add": [
+              "kira_esit_bolundu"
+            ]
+          }
+        },
+        "tr": "Ev arkadaşın \"koridoru da sayarsak eşit\" dedi. Koridoru saydınız; eşit çıktı.",
+        "en": "Your roommate said \"if you count the hallway, it's equal.\" You counted the hallway. It was equal.",
+        "coach": [
+          {
+            "tr": "Koridor oda sayıldı. Hesap tuttu.",
+            "en": "The hallway counts as a room now. The math works.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "money": -1150,
+        "stats": {
+          "joy": 1
+        },
+        "housing": "room",
+        "status": {
+          "home": {
+            "kind": "room",
+            "rent": 1150
+          }
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kira_esit_bolundu"
+          ]
+        }
+      },
+      "tr": "Yarı yarıya dedin. Küçük odada yatak kapıyı yarıda durduruyor; odaya yan giriliyor.",
+      "en": "You agreed to fifty-fifty. In the small room, the bed stops the door halfway. You enter sideways.",
+      "coach": [
+        {
+          "tr": "Kira yarı. Kapı da.",
+          "en": "Half the rent. Half the door.",
+          "roast": false
+        }
+      ]
+    },
+    "buyuk": {
+      "effects": {
+        "money": -1150,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "housing": "room",
+        "status": {
+          "home": {
+            "kind": "room",
+            "rent": 1150
+          }
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "buyuk_oda_sende"
+          ]
+        }
+      },
+      "tr": "Büyük odayı istedin, aldın. Ev arkadaşının eşyaları koridora yayıldı; koridor artık onun.",
+      "en": "You asked for the big room and got it. Your roommate's stuff spilled into the hallway. The hallway is theirs now.",
+      "coach": [
+        {
+          "tr": "Oda senin. Koridor el değiştirdi.",
+          "en": "The room is yours. The hallway changed hands.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "metre",
+    "slip": {
+      "tr": "İDDİA: Metrekare hesabı tutmaz. — M.",
+      "en": "WAGER: The square-footage pitch won't fly. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşıyla farklı büyüklükteki odalar için kira bölüşümü",
+    "mechanism": "koridorun oda sayılması",
+    "mechanismId": "count",
+    "punch": "senin eşyan az, sen şanslısın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koridor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

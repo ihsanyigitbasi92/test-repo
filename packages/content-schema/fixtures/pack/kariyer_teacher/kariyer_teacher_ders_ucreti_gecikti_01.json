@@ -1,0 +1,162 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_teacher_ders_ucreti_gecikti_01",
+  "tags": [
+    "kariyer",
+    "ogretmen",
+    "kariyer_teacher"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_teacher": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "teacher"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Maaşın yattı mı? Ay bitti diye sordum. Yemek var, gel.",
+      "en": "Did your pay come in? Just asking, the month is over. There's food, come over."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Kuzenin bankada çalışıyor, onunkiler hep zamanında yatıyor.",
+      "en": "Your cousin works at a bank. Theirs always comes in on time.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "muhasebe",
+      "tr": "Okul muhasebesine sor",
+      "en": "Ask the school office",
+      "pattern": "patience"
+    },
+    {
+      "id": "annen",
+      "tr": "Akşam annene git",
+      "en": "Go to Mom's for dinner",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "bekle",
+      "tr": "Haftaya yatar, bekle",
+      "en": "Wait, it'll come next week",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "muhasebe": {
+      "effects": {
+        "money": 2100,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Muhasebe ders saati çizelgende bir eksik imza buldu. İmzaladın, ücret iki gün sonra 2.100 Para olarak yattı.",
+      "en": "The office found one missing signature on your hours sheet. You signed, and two days later 2,100 came in.",
+      "coach": [
+        {
+          "tr": "Bir imza, iki gün.",
+          "en": "One signature. Two days.",
+          "roast": false
+        }
+      ]
+    },
+    "annen": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Annen üç kap yemek hazırladı, biri dondurucu için. Kuzeninin terfisini de tatlıdan önce öğrendin.",
+      "en": "Your mom packed three containers, one for the freezer. You also heard about your cousin's promotion before dessert.",
+      "coach": [
+        {
+          "tr": "Üç kap yemek, bir terfi hikâyesi. Fiyatı bu.",
+          "en": "Three containers and one promotion story. That is the price.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ucret_eksik_imza"
+          ]
+        }
+      },
+      "tr": "Haftaya da yatmadı. Eksik imza çizelgende bekliyordu, sen de onu.",
+      "en": "It didn't come the next week either. The missing signature was waiting on your sheet. So were you.",
+      "coach": [
+        {
+          "tr": "İmza bekledi, sen bekledin. İkiniz de çok sabırlı.",
+          "en": "The signature waited. You waited. Very patient, both of you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti iddia payı doldu"
+  },
+  "intent": {
+    "setup": "ders ücreti ay sonunda yatmadı, annen her gün soruyor",
+    "mechanism": "gecikmenin sebebi bir eksik imza",
+    "mechanismId": "deadpan_report",
+    "punch": "kuzenin bankada, onunkiler hep yatıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

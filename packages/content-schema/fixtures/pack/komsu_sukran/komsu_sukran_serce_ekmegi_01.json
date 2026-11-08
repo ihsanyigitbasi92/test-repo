@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_serce_ekmegi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "balkon",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 38
+    },
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Serçelere ekmek atıyorum canım. Rüzgâr senin balkona taşıyor, ben ne yapayım.",
+      "en": "I toss bread to the sparrows, dear. The wind carries it to your balcony. What can I do."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Hem kuş sesiyle uyanıyorsun. Ben öyle uyanmak isterdim.",
+      "en": "Besides, you wake up to birdsong. I'd love to wake up like that.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Ekmeği kendi balkonuna koymasını iste",
+      "en": "Ask her to feed them on her side",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "file",
+      "tr": "Balkonuna file ger",
+      "en": "Put a net over your balcony",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yemlik",
+      "tr": "Birlikte bahçeye yemlik as",
+      "en": "Hang a feeder in the yard together",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kus_yemligi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Şükran Teyze ekmeği kendi balkonundaki kaba koymaya başladı. Serçeler bir kat yukarı taşındı.",
+        "en": "Mrs. Dale now feeds them from a dish on her balcony. The sparrows moved up a floor.",
+        "coach": [
+          {
+            "tr": "Kuşlar yer değiştirdi. İddia kaybedildi.",
+            "en": "The birds relocated. Wager lost.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "balkon_kus_alani"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Şükran Teyze kırıldı. Ekmeği artık 'ortaya' atıyor; orta da senin balkonun.",
+        "en": "Mrs. Dale was hurt. She now throws the bread 'down the middle.' The middle is your balcony.",
+        "coach": [
+          {
+            "tr": "Orta yol bulundu. Senin balkonundan geçiyor.",
+            "en": "A middle ground was found. It runs through your balcony.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "file": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "balkon_filesi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "150 Paralık file gerdin. Serçeler fileye konuyor, kırıntı aşağı düşüyor.",
+      "en": "You put up a 150 net. The sparrows perch on it. The crumbs fall through.",
+      "coach": [
+        {
+          "tr": "File kuşu tuttu, ekmeği tutmadı.",
+          "en": "The net stopped birds. Not bread.",
+          "roast": true
+        }
+      ]
+    },
+    "yemlik": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -90,
+        "flags": {
+          "add": [
+            "ortak_yemlik"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 4,
+            "memory": "kus_yemligi"
+          }
+        ]
+      },
+      "tr": "Bahçe ağacına birlikte yemlik astınız. Şükran Teyze serçelere isim verdi; birine seninkini.",
+      "en": "You hung a feeder in the yard together. Mrs. Dale named the sparrows. One of them after you.",
+      "coach": [
+        {
+          "tr": "Bahçede adını taşıyan bir serçe var.",
+          "en": "There is a sparrow in the yard with your name.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: Ekmek senin balkona düşmeye devam eder. — M.",
+      "en": "WAGER: The crumbs keep landing on your balcony. — M."
+    }
+  },
+  "intent": {
+    "setup": "üst kattaki komşu serçelere ekmek atıyor, kırıntılar senin balkonuna düşüyor",
+    "mechanism": "rahatsızlığın hediye olarak sunulması",
+    "mechanismId": "bathos",
+    "punch": "ben öyle uyanmak isterdim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "serçe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

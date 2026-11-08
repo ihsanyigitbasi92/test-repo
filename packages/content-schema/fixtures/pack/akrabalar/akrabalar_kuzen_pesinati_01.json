@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "akrabalar_kuzen_pesinati_01",
+  "tags": [
+    "aile",
+    "kuzen",
+    "para",
+    "borc",
+    "akrabalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "akrabalar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kuzenin ev alıyor, peşinata biraz eksik. Seni sordu, ben de \"var\" dedim. Varsa.",
+      "en": "Your cousin's buying a place. Short on the down payment. They asked about you. I said you had it. Do you?"
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "annoyed",
+      "tr": "Akrabaya borç yazılı verilir. Benim zamanımda kâğıda yazardık, yine de geri gelmezdi.",
+      "en": "You lend to family in writing. In my day we wrote it all down. It still never came back.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "4.000 Para gönder",
+      "en": "Send 4,000",
+      "pattern": "generosity"
+    },
+    {
+      "id": "yazili",
+      "tr": "Yazılı ver, tarih at",
+      "en": "Lend it in writing, dated",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "hayir",
+      "tr": "Veremem de",
+      "en": "Say you can't",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "momPressure": -5
+        },
+        "money": -4000,
+        "flags": {
+          "add": [
+            "kuzen_borc_acik"
+          ]
+        }
+      },
+      "tr": "4.000 Para'yı gönderdin. Kuzenin yeni evin fotoğrafını attı; balkonda yepyeni bir hamak var.",
+      "en": "You sent 4,000. Your cousin sent a photo of the new place. There is a brand-new hammock on the balcony.",
+      "coach": [
+        {
+          "tr": "Hamak yeni. Vade belirsiz.",
+          "en": "The hammock is new. The due date is not.",
+          "roast": true
+        }
+      ]
+    },
+    "yazili": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 1
+          },
+          "money": -4000,
+          "flags": {
+            "add": [
+              "kuzen_borc_yazili"
+            ]
+          }
+        },
+        "tr": "Kâğıda yazıp tarih attınız. Kuzenin kâğıdın fotoğrafını çekip telefonuna \"ÖNEMLİ\" diye kaydetti.",
+        "en": "You wrote it down and dated it. Your cousin photographed the paper and saved it as 'IMPORTANT.'",
+        "coach": [
+          {
+            "tr": "Kâğıt var. Tarih var.",
+            "en": "There's paper. There's a date.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "momPressure": 2,
+            "cringe": 2
+          },
+          "money": -4000,
+          "flags": {
+            "add": [
+              "kuzen_borc_acik"
+            ]
+          }
+        },
+        "tr": "\"Kâğıt\" lafına kuzenin alındı. Parayı yine aldı, kâğıdı almadı.",
+        "en": "Your cousin took offense at the word 'paper.' They still took the money. Not the paper.",
+        "coach": [
+          {
+            "tr": "Para gitti. Kâğıt masada.",
+            "en": "The money left. The paper stayed on the table.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "flags": {
+          "add": [
+            "kuzen_borc_reddedildi"
+          ]
+        }
+      },
+      "tr": "Veremem dedin. Kuzenin parayı dayından aldı; dayın bunu üç aile yemeğinde anlattı.",
+      "en": "You said no. Your cousin borrowed it from your uncle. Your uncle has brought this up at three family dinners.",
+      "coach": [
+        {
+          "tr": "Borç çıkmadı. Hikâye çıktı.",
+          "en": "No loan. One recurring story.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yazili",
+    "slip": {
+      "tr": "İDDİA: Kuzen o kâğıda imza atmaz. — M.",
+      "en": "WAGER: Your cousin won't sign that paper. — M."
+    }
+  },
+  "intent": {
+    "setup": "kuzenin ev peşinatı için \"iki aylığına\" borç istemesi",
+    "mechanism": "yazılı borç önerisi kuzeni kırıyor",
+    "mechanismId": "reversal",
+    "punch": "Kâğıda yazardık, yine de geri gelmezdi",
+    "lift": "Kâğıt var. Tarih var",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kagit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

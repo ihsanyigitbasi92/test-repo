@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_silinen_dosya_avi_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "worried",
+      "tr": "Ortak klasördeki müşteri dosyası silinmiş. Saat 14.00'te herkesin katılımıyla kısa bir toplantı yapılacak.",
+      "en": "The client file in the shared folder has been deleted. Brief all-hands meeting at 2 p.m."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Bence stajyer. Ama dün akşam klasöre en son sen girmiştin, değil mi?",
+      "en": "I'm guessing the intern. But you were the last one in that folder last night, right?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "geri",
+      "tr": "Çöp kutusundan geri getir",
+      "en": "Restore it from the trash",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "itiraf",
+      "tr": "'Galiba bendim' de",
+      "en": "Say 'it might have been me'",
+      "pattern": "risk"
+    },
+    {
+      "id": "stajyer",
+      "tr": "Stajyeri işaret et",
+      "en": "Point at the intern",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "geri": [
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            },
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Klasörün çöp kutusunu açtın, dosya oradaydı. Toplantı başlamadan bitti.",
+        "en": "You opened the folder's trash bin. The file was right there. The meeting ended before it started.",
+        "coach": [
+          {
+            "tr": "Çöp kutusu açıldı. Toplantı iptal.",
+            "en": "Trash bin opened. Meeting canceled.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:hr",
+              "memory": "dosya_toplantisi"
+            }
+          ]
+        },
+        "tr": "Çöp kutusu otuz günde kendini boşaltıyormuş, dosya otuz birinci gündeydi. Toplantı bir saat sürdü.",
+        "en": "Turns out the trash empties itself every thirty days. The file was on day thirty-one. The meeting ran an hour.",
+        "coach": [
+          {
+            "tr": "Otuz birinci gün. Takvim acımadı.",
+            "en": "Day thirty-one. The calendar showed no mercy.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2,
+            "memory": "durust_itiraf"
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "'Galiba bendim' dedin. Kayıtlara bakıldı, dosyayı yedekleme programı silmiş.",
+      "en": "You said it might have been you. The logs said otherwise: the backup software deleted it.",
+      "coach": [
+        {
+          "tr": "Suçlu bir yazılım çıktı. Tutanakta adın iyi tarafta.",
+          "en": "The culprit was software. Your name landed on the good side of the minutes.",
+          "roast": false
+        }
+      ]
+    },
+    "stajyer": {
+      "effects": {
+        "meters": {
+          "ego": 1,
+          "cringe": 3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "stajyeri_suclama"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:hr",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Stajyeri işaret ettin. Toplantının üçüncü dakikasında stajyerin dün izinli olduğu ortaya çıktı.",
+      "en": "You pointed at the intern. Three minutes into the meeting, it came out the intern had been off yesterday.",
+      "coach": [
+        {
+          "tr": "Üç dakika. Bir izin formunu bulmak bu kadar sürüyor.",
+          "en": "Three minutes. That's how long it takes to find a leave form.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "geri",
+    "slip": {
+      "tr": "İDDİA: Çöp kutusu çoktan boşalmış. — M.",
+      "en": "WAGER: The trash bin's already been emptied. — M."
+    }
+  },
+  "intent": {
+    "setup": "ortak klasörden silinen müşteri dosyası için suçlu avı toplantısı",
+    "mechanism": "en son sen girmiştin",
+    "mechanismId": "deadpan_report",
+    "punch": "en son sen girmiştin, değil mi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "iptal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

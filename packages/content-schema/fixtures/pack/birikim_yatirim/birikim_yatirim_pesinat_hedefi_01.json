@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_pesinat_hedefi_01",
+  "tags": [
+    "para",
+    "birikim",
+    "iliski",
+    "ev",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "money": {
+      "min": 4000
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Ev peşinatı fonundan bir koltuk alsak? Koltuk da evin parçası sonuçta.",
+      "en": "What if we take a couch out of the down-payment fund? A couch is part of a home."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Hatta önce koltuğu alalım, evi ona göre seçeriz.",
+      "en": "Actually, couch first. Then we pick a place that fits it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "koltuk",
+      "tr": "Koltuğu al",
+      "en": "Buy the couch",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sadik",
+      "tr": "Hedefe dokunma",
+      "en": "Leave the fund alone",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikinci",
+      "tr": "İkinci el bak",
+      "en": "Look for a used one",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "koltuk": {
+      "effects": {
+        "money": -2200,
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "pesinat_koltuk"
+          ]
+        }
+      },
+      "tr": "Koltuk 2.200 Para. Peşinat hedefi dört ay geri kaydı; koltuk kiralık daireye zor sığdı.",
+      "en": "The couch: 2,200. The down payment slid four months. The couch barely fits the rental.",
+      "coach": [
+        {
+          "tr": "Ev henüz yok. Oturma yeri var.",
+          "en": "No house yet. Excellent seating.",
+          "roast": false
+        }
+      ]
+    },
+    "sadik": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "luck": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "pesinat_sadik"
+          ]
+        }
+      },
+      "tr": "Fon olduğu gibi kaldı. Partnerin akşam yere minderleri dizip 'koltuk bu artık' dedi.",
+      "en": "The fund stayed put. That night your partner lined up floor cushions and announced, 'This is the couch now.'",
+      "coach": [
+        {
+          "tr": "Minder de mobilyadır. Teknik olarak.",
+          "en": "Floor cushions are furniture. Technically.",
+          "roast": true
+        }
+      ]
+    },
+    "ikinci": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -700,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "pesinat_ikinci_el"
+            ]
+          }
+        },
+        "tr": "İkinci el ilanda 700 Para'ya bir koltuk buldunuz. Satıcı yanında bir sehpa da verdi.",
+        "en": "You found a used couch for 700. The seller threw in a coffee table.",
+        "coach": [
+          {
+            "tr": "Fon yerinde. Sehpa bedava.",
+            "en": "The fund's intact. The coffee table was free.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -700,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "pesinat_ikinci_el"
+            ]
+          }
+        },
+        "tr": "700 Paralık koltuk kapıdan girmedi. Şu an apartman girişinde duruyor, komşular üstünde oturuyor.",
+        "en": "The 700 couch wouldn't fit through the door. It's in the lobby now. The neighbors love it.",
+        "coach": [
+          {
+            "tr": "Koltuk senin. Kullanıcısı komşular.",
+            "en": "The couch is yours. The neighbors have the user rights.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "partnerin ev peşinatı fonundan koltuk almak istemesi",
+    "mechanism": "önce koltuk, sonra ona uyan ev: sıra ters dönüyor",
+    "mechanismId": "reversal",
+    "punch": "önce koltuğu alalım, evi ona göre seçeriz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "teknik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

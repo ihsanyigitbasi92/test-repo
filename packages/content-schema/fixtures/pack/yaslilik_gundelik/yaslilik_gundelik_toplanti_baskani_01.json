@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_toplanti_baskani_01",
+  "tags": [
+    "yaslilik",
+    "apartman",
+    "komsu",
+    "toplanti",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 72,
+      "max": 92
+    },
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Toplantıyı sen yönet. En eski sakin sensin.",
+      "en": "You chair the meeting. You've lived here longest."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Ben yönetsem kavga çıkar. Herkes beni tanıyor.",
+      "en": "If I chair it, there'll be a fight. Everyone knows me.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et, gündemi oku",
+      "en": "Accept, read the agenda",
+      "pattern": "patience"
+    },
+    {
+      "id": "kisa",
+      "tr": "Toplantıyı on dakikada bitir",
+      "en": "Run it in ten minutes",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Teşekkür et, reddet",
+      "en": "Thank them, decline",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "yonetici_sensin"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Toplantı iki saat sürdü. Sonunda seni oy birliğiyle yönetici seçtiler; hiç aday olmamıştın.",
+      "en": "Two hours. At the end, they unanimously elected you building manager. You never ran.",
+      "coach": [
+        {
+          "tr": "İki saatlik toplantı, bir yeni unvan.",
+          "en": "Two-hour meeting. One new job title.",
+          "roast": false
+        }
+      ]
+    },
+    "kisa": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "toplanti_kisa"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Gündem dört madde, toplantı on bir dakika. Biri çayını bitiremedi.",
+        "en": "Four items, eleven minutes. Someone didn't finish their tea.",
+        "coach": [
+          {
+            "tr": "On bir dakika. Apartman rekoru.",
+            "en": "Eleven minutes. A building record.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "toplanti_otopark"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Üçüncü maddede otopark konusu açıldı. Toplantı ertesi akşama sarktı.",
+        "en": "Item three was parking. The meeting spilled into the next evening.",
+        "coach": [
+          {
+            "tr": "Otopark maddesi saat tanımaz.",
+            "en": "The parking item owns no watch.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "flags": {
+          "add": [
+            "toplanti_reddedildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Komşun yönetti. Kavga çıktı, ama tutanağa \"verimli\" yazıldı.",
+      "en": "Your neighbor chaired. A fight broke out. The minutes say \"productive.\"",
+      "coach": [
+        {
+          "tr": "Tutanak iyimser.",
+          "en": "The minutes are optimistic.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "domain wager payı dolu"
+  },
+  "intent": {
+    "setup": "en eski sakin olarak apartman toplantısını yönetme ricası",
+    "mechanism": "yöneten komşu kavga çıkacağını kendisi söylüyor",
+    "mechanismId": "reversal",
+    "punch": "ben yönetsem kavga çıkar",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "tutanak",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

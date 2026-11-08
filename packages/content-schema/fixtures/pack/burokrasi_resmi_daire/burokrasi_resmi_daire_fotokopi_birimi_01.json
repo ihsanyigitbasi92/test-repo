@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_fotokopi_birimi_01",
+  "tags": [
+    "burokrasi",
+    "gise",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kimliğinizin ön ve arka yüzünün fotokopisi lazım. Aslını görmem yetmiyor.",
+      "en": "I need a photocopy of your ID, front and back. Seeing the original isn't enough."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Fotokopi alt katta. Alt kattaki arkadaş bugün izinli.",
+      "en": "The copier is downstairs. The person downstairs is off today.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Karşıdaki kırtasiyeye koş",
+      "en": "Run to the copy shop across the street",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "telefon",
+      "tr": "Telefondaki fotoğrafı göster",
+      "en": "Show the photo on your phone",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yarin",
+      "tr": "Ertesi gün kopyayla gel",
+      "en": "Come back tomorrow with copies",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          },
+          "money": -20,
+          "flags": {
+            "add": [
+              "basvuru_teslim"
+            ]
+          }
+        },
+        "tr": "İki kopya alıp döndün, gişe hâlâ açıktı. Başvurun alındı.",
+        "en": "You got two copies and made it back while the window was still open. Application accepted.",
+        "coach": [
+          {
+            "tr": "İki kopya, iki yüz metre. Başvuru içeride.",
+            "en": "Two copies, two hundred meters. You're in.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -20,
+          "flags": {
+            "add": [
+              "basvuru_yarim"
+            ]
+          }
+        },
+        "tr": "Kırtasiyede sıra vardı. Döndüğünde gişede \"öğle arası\" tabelası asılıydı.",
+        "en": "There was a line at the copy shop. When you got back, the window had a \"Lunch Break\" sign.",
+        "coach": [
+          {
+            "tr": "Kopyalar hazır. Gişe değil.",
+            "en": "The copies were ready. The window wasn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "telefon": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "glossary": "aslinin_fotokopisi"
+      },
+      "tr": "Görevli telefona baktı ve \"bu fotoğraf, fotokopi değil\" dedi. Farkı açıklamadı.",
+      "en": "The clerk looked at your phone and said, \"That's a photo, not a photocopy.\" The difference was not explained.",
+      "coach": [
+        {
+          "tr": "Kâğıdı olmayan belge, resim sayılıyor.",
+          "en": "A document without paper is just a picture.",
+          "roast": false
+        }
+      ]
+    },
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "basvuru_teslim"
+          ]
+        }
+      },
+      "tr": "Ertesi gün iki kopyayla geldin. Alt kattaki arkadaş da gelmişti, her ihtimale karşı bir kopya daha çekti.",
+      "en": "You came back with two copies. The downstairs person was in, and made a third, just in case.",
+      "coach": [
+        {
+          "tr": "Üç kopya, tek kimlik. Arşiv memnun.",
+          "en": "Three copies of one ID. The archive is thrilled.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: Dönene kadar gişe kapanır. — M.",
+      "en": "WAGER: The window closes before you're back. — M."
+    }
+  },
+  "intent": {
+    "setup": "başvuruda kimlik fotokopisi istenmesi ve fotokopi biriminin o gün kapalı olması",
+    "mechanism": "aslı yetmiyor, kopyası lazım, kopyacı izinli",
+    "mechanismId": "count",
+    "punch": "alt kattaki arkadaş bugün izinli",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kopya"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

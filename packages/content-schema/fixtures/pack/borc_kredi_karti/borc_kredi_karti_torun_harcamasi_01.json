@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_torun_harcamasi_01",
+  "tags": [
+    "para",
+    "borc",
+    "kredi_karti",
+    "torun",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 78
+    },
+    "flags": {
+      "any": [
+        "ilk_kredi_karti",
+        "kredi_karti_borcu",
+        "debt"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Ekstrede 14 küçük harcama var. Hepsi aynı oyundan: 'Kostüm Paketi.'",
+      "en": "There are fourteen small charges on your statement. All from one game: 'Costume Pack.'"
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Tutarlar küçük ama sık. Son ikisi bu sabah.",
+      "en": "Small amounts, but frequent. The last two were this morning.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Torununla konuş",
+      "en": "Talk to your grandkid",
+      "pattern": "patience"
+    },
+    {
+      "id": "iade",
+      "tr": "Oyundan iade iste",
+      "en": "Request a refund from the game",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "limit",
+      "tr": "Karta günlük sınır koy",
+      "en": "Put a daily limit on the card",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "konus": {
+      "effects": {
+        "money": -520,
+        "stats": {
+          "joy": 1
+        },
+        "glossary": "uygulama_ici_harcama",
+        "flags": {
+          "add": [
+            "torun_kostum"
+          ]
+        }
+      },
+      "tr": "Torunun 14 kostümü tek tek gösterdi. 520 Para'lık gardırop şimdi tek bir şövalyenin üstünde.",
+      "en": "Your grandkid showed you all fourteen costumes. A 520 wardrobe, now worn by one knight.",
+      "coach": [
+        {
+          "tr": "On dört kostüm, bir şövalye.",
+          "en": "Fourteen costumes. One very well-dressed knight.",
+          "roast": false
+        }
+      ]
+    },
+    "iade": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "oyun_iadesi"
+            ]
+          }
+        },
+        "tr": "İade talebi kabul edildi, 520 Para karta geri yüklendi. Şövalye eski zırhına döndü.",
+        "en": "Refund accepted: 520 back on the card. The knight is back in the old armor.",
+        "coach": [
+          {
+            "tr": "Zırh eski. Ekstre temiz.",
+            "en": "Old armor. Clean statement.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -520,
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Form üç sayfa küçük yazı çıktı. Yarıda bırakıldı; 520 Para ekstrede.",
+        "en": "The form was three pages of fine print. You gave up halfway. The 520 stays.",
+        "coach": [
+          {
+            "tr": "Form üç sayfa. Kostüm tek dokunuş.",
+            "en": "The form: three pages. The costume: one tap.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "limit": {
+      "effects": {
+        "money": -520,
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "kart_gunluk_sinir"
+          ]
+        }
+      },
+      "tr": "Karta günlük 50 Para sınır kondu. Ertesi sabah bir harcama \"limit aşıldı\" diye geri döndü.",
+      "en": "A daily limit of fifty went on the card. Next morning, one charge bounced: \"limit exceeded.\"",
+      "coach": [
+        {
+          "tr": "Şövalye sabah 07.30'da kaleye dayandı. Kapı kapalıydı.",
+          "en": "The knight stormed the gate at 7:30 a.m. The gate held.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "torunun oyunda kartınla yaptığı on dört küçük kostüm harcaması",
+    "mechanism": "harcamalar sıklaşıyor: on dört kalem, son ikisi bu sabah",
+    "mechanismId": "escalation",
+    "punch": "son ikisi bu sabah",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "sovalye",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

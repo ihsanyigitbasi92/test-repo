@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_lavabo_yuzugu_01",
+  "tags": [
+    "iliski",
+    "nisan",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 2000,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 35
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli",
+        "yuzuk_kurtarildi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Elimi yıkarken çıkarmıştım. Lavabonun kenarındaydı. Şimdi değil.",
+      "en": "I took it off to wash my hands. It was on the edge of the sink. Now it isn't."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Sifon mu? Bizimki geçen yıl tıkandı, içinden bir küpe, iki düğme çıktı.",
+      "en": "The drain? Ours clogged last year. One earring and two buttons came out.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sok",
+      "tr": "Sifonu kendin sök",
+      "en": "Take the drain apart yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Tesisatçı çağır",
+      "en": "Call a plumber",
+      "pattern": "patience"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşunun aletlerini ödünç al",
+      "en": "Borrow the neighbor's tools",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "sok": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "yuzuk_kurtarildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "Sifonu söktün. Yüzük, bir saç tokası ve eski bir anahtarla birlikte çıktı.",
+        "en": "You took the trap apart. Out came the ring, a hair clip, and an old key.",
+        "coach": [
+          {
+            "tr": "Yüzük döndü. Anahtar ayrı dosya.",
+            "en": "Ring recovered. The key is a separate case.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -4
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "money": -650,
+          "flags": {
+            "add": [
+              "yuzuk_kurtarildi",
+              "banyo_su_basti"
+            ]
+          }
+        },
+        "tr": "Conta yerinden fırladı, banyo su aldı. Yüzüğü sonunda tesisatçı buldu: 650 Para.",
+        "en": "The washer popped and the bathroom flooded. In the end a plumber found the ring: 650.",
+        "coach": [
+          {
+            "tr": "Tesisatçı yüzüğü buldu. Sen suyu buldun.",
+            "en": "The plumber found the ring. You found the water.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "yuzuk_kurtarildi"
+          ]
+        }
+      },
+      "tr": "Tesisatçı yüzüğü yirmi dakikada çıkardı, 400 Para aldı. Giderken \"bu ayın üçüncüsü\" dedi.",
+      "en": "The plumber had the ring out in twenty minutes. 400. On the way out: \"Third one this month.\"",
+      "coach": [
+        {
+          "tr": "Ayın üçüncüsü. Tesisatçı istatistik tutuyor.",
+          "en": "Third this month. Plumbers keep stats.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "yuzuk_kurtarildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Komşunun alet çantasıyla yüzüğü çıkardın. Komşu, çantayı geri verene kadar iki kez sordu.",
+      "en": "With the neighbor's toolbox you got the ring out. The neighbor asked about the toolbox twice before you returned it.",
+      "coach": [
+        {
+          "tr": "Yüzük parmakta. Çanta teslim edildi.",
+          "en": "Ring on the finger. Toolbox returned.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sok",
+    "slip": {
+      "tr": "İDDİA: Sifonu söken banyoyu da siler. — M.",
+      "en": "WAGER: Whoever opens that drain mops the floor. — M."
+    }
+  },
+  "intent": {
+    "setup": "nişan yüzüğünün lavabo giderine düşmesi",
+    "mechanism": "komşu sifondan çıkanları envanter gibi sayıyor",
+    "mechanismId": "count",
+    "punch": "bir küpe, iki düğme",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dosya"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

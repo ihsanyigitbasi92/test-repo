@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_bozuk_taksimetre_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "worried",
+      "tr": "Taksimetre bayıldı. Sabahtan beri ara ara bayılıyor.",
+      "en": "The meter passed out. It's been fainting on and off all morning."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Ben bir rakam söyleyeyim: 380. Ya da siz söyleyin, ben itiraz ederim.",
+      "en": "I'll name a number: 380. Or you name one and I'll object.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "380'e tamam de",
+      "en": "Agree to 380",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "teklif",
+      "tr": "Karşı teklif ver",
+      "en": "Make a counteroffer",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hesap",
+      "tr": "Mesafeyi telefondan hesapla",
+      "en": "Work it out on your phone",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": -380,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "380'e anlaştınız. İnerken taksimetre kendine geldi ve 290 gösterdi.",
+      "en": "You agreed to 380. As you got out, the meter came to and showed 290.",
+      "coach": [
+        {
+          "tr": "Taksimetrenin zamanlaması kusursuz.",
+          "en": "The meter has impeccable timing.",
+          "roast": true
+        }
+      ]
+    },
+    "teklif": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "taksimetre_pazarligi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "300 dedin. Taksici itiraz etti, sonra 300'de anlaştınız; itiraz etmekten keyif aldığını söyledi.",
+        "en": "You said 300. He objected, then settled at 300 and said he had enjoyed objecting.",
+        "coach": [
+          {
+            "tr": "İtiraz sözleşmede vardı.",
+            "en": "The objection was in the contract.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "280 dedin. Taksici o kadar uzun itiraz etti ki fiyat yolda 400'e çıktı.",
+        "en": "You said 280. He objected for so long the price climbed to 400 on the way.",
+        "coach": [
+          {
+            "tr": "Teklif 280, sonuç 400. Pazarlık geri vitesteydi.",
+            "en": "Offered 280, paid 400. The haggle ran in reverse.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hesap": {
+      "effects": {
+        "money": -330,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Telefondan hesapladın: 330. Taksici ekrana bakıp \"Bu da bayılır\" dedi ve 330 aldı.",
+      "en": "You did the math on your phone: 330. He squinted at the screen, said \"That one faints too,\" and took 330.",
+      "coach": [
+        {
+          "tr": "İki cihaz, tek fiyat.",
+          "en": "Two devices. One fare.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "teklif",
+    "slip": {
+      "tr": "İDDİA: İtiraz kazanır. — M.",
+      "en": "WAGER: The objection wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "taksimetre bozulunca taksicinin sabit fiyat söylemesi",
+    "mechanism": "taksimetre bir insan gibi bayılıp ayılıyor",
+    "mechanismId": "literalism",
+    "punch": "taksimetre bayıldı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "itiraz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

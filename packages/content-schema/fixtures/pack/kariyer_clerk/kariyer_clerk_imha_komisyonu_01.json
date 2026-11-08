@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_clerk_imha_komisyonu_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "evrak",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "GÖREVLENDİRME YAZISI · ARŞİV VE DOKÜMANTASYON ŞUBESİ (kurgusal)",
+      "en": "ASSIGNMENT NOTICE · RECORDS AND ARCHIVES UNIT (fictional)"
+    },
+    "body": {
+      "tr": "Saklama süresi dolan evrakın ayıklanması ve imhası işlerini yürütmek üzere oluşturulan komisyona üye olarak görevlendirilmiş bulunmaktasınız. Çalışmalar mesai saatleri içinde yürütülecektir.",
+      "en": "You have been appointed a member of the committee responsible for the review and disposal of records whose retention period has expired. Work will be carried out during regular office hours."
+    },
+    "translate": {
+      "tr": {
+        "from": "ayıklanması ve imhası",
+        "to": "üç hafta kâğıt yırtmak"
+      },
+      "en": {
+        "from": "review and disposal",
+        "to": "three weeks with a shredder"
+      }
+    },
+    "glossaryKey": "imha_komisyonu"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "İmha listesi kırk sayfa. İmha listesinin de saklama süresi var, onu da sen tutacaksın.",
+      "en": "The disposal list is forty pages. The disposal list has a retention period too. You keep it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "oku",
+      "tr": "Her dosyayı tek tek oku",
+      "en": "Read every single file",
+      "pattern": "overwork"
+    },
+    {
+      "id": "liste",
+      "tr": "Listeye bak, imha et",
+      "en": "Go by the list, shred",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "makine",
+      "tr": "Yeni kâğıt öğütücü talep et",
+      "en": "Request a new shredder first",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "oku": {
+      "effects": {
+        "glossary": "imha_komisyonu",
+        "hidden": {
+          "stress": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "eski_rehber"
+          ]
+        }
+      },
+      "tr": "Üç haftada her dosyayı okudun. Birinden dairenin ilk dahili telefon rehberi çıktı, numaraların hepsi hâlâ çalışıyor.",
+      "en": "Three weeks, every file. In one: the office's first internal phone directory. Every extension still works.",
+      "coach": [
+        {
+          "tr": "Arşiv kendi imhasına direndi.",
+          "en": "The archive resisted its own disposal.",
+          "roast": false
+        }
+      ]
+    },
+    "liste": [
+      {
+        "p": 6000,
+        "effects": {
+          "glossary": "imha_komisyonu",
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Komisyon iki haftada bitti. Tutanağa \"en verimli üye\" notuyla geçtin.",
+        "en": "The committee wrapped in two weeks. The minutes list you as \"most efficient member.\"",
+        "coach": [
+          {
+            "tr": "Verimlilik tutanağa, tutanak arşive girdi.",
+            "en": "Efficiency went into the minutes. The minutes went into the archive.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yanlis_imha"
+            ]
+          }
+        },
+        "tr": "Listede saklama süresi dolmamış bir klasör vardı. Klasör şube müdürüne aitti.",
+        "en": "The list included one folder whose retention period hadn't expired. It belonged to the branch director.",
+        "coach": [
+          {
+            "tr": "Bir klasör erken emekli oldu.",
+            "en": "One folder took early retirement.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "makine": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "ogutucu_talebi"
+          ]
+        }
+      },
+      "tr": "Talep yazıldı, onaya gitti. Makine gelene kadar komisyon kâğıtları elle yırtıyor.",
+      "en": "Request filed, sent for approval. Until the shredder arrives, the committee tears by hand.",
+      "coach": [
+        {
+          "tr": "Talep yazısı da imha listesine girmek üzere.",
+          "en": "The request itself is now eligible for disposal.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "arşiv imha komisyonuna üye olarak görevlendirme yazısı",
+    "mechanism": "ayıklama ve imha tercümesi",
+    "mechanismId": "translation",
+    "punch": "üç hafta kâğıt yırtmak",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "klasor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

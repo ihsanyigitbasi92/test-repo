@@ -1,0 +1,164 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_beyaz_onluk_01",
+  "tags": [
+    "saglik",
+    "doktor",
+    "tansiyon",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Tansiyon biraz yüksek. Evde ölçtünüz mü? Evde normal mi? Herkes evde normal.",
+      "en": "Blood pressure's a bit high. Did you check at home? Normal at home? Everyone's normal at home."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Beş dakika oturun, tekrar ölçelim. Konuşmayın. Düşünmeyin de.",
+      "en": "Sit for five minutes and we'll measure again. Don't talk. Don't think, either.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "otur",
+      "tr": "Beş dakika sessiz otur",
+      "en": "Sit quietly for five minutes",
+      "pattern": "patience"
+    },
+    {
+      "id": "kayit",
+      "tr": "Telefondaki kayıtları göster",
+      "en": "Show the readings on your phone",
+      "pattern": "pride"
+    },
+    {
+      "id": "cihaz",
+      "tr": "Yarın kendi cihazınla gel",
+      "en": "Bring your own monitor tomorrow",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "otur": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "money": -200,
+        "diagnosis": "beyaz_onluk_etkisi"
+      },
+      "tr": "Beş dakika sonra tansiyon düştü. Doktor dosyaya \"önlük etkisi\" yazdı.",
+      "en": "Five minutes later, the numbers dropped. The doctor wrote \"white-coat effect\" in your file.",
+      "coach": [
+        {
+          "tr": "Beş dakika sessizlik. Önlük suçlu bulundu.",
+          "en": "Five minutes of silence. The coat was found guilty.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef dosyası: ölçüm normal.",
+          "en": "Goal file: reading normal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kayit": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -200,
+        "flags": {
+          "add": [
+            "tansiyon_kaydi"
+          ]
+        }
+      },
+      "tr": "Otuz günlük kaydı gösterdin. Doktor kaydı kendi cihazından güvenilir buldu.",
+      "en": "You showed thirty days of readings. The doctor trusted them more than the office machine.",
+      "coach": [
+        {
+          "tr": "Otuz günlük kayıt. Muayenehaneyi geçti.",
+          "en": "Thirty days of records outranked the exam room.",
+          "roast": false
+        }
+      ]
+    },
+    "cihaz": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "money": -200,
+        "flags": {
+          "add": [
+            "tansiyon_kaydi"
+          ]
+        }
+      },
+      "tr": "İki cihaz dört puan farklı ölçtü. Doktor ikisini de dosyaya yazdı.",
+      "en": "The two monitors disagreed by four points. The doctor wrote down both.",
+      "coach": [
+        {
+          "tr": "İki cihaz, iki sonuç. Dosya kalınlaştı.",
+          "en": "Two monitors, two answers. The file got thicker.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "doktorda tansiyonun yüksek, evde normal çıkması",
+    "mechanism": "doktorun \"düşünmeyin\" talimatı",
+    "mechanismId": "escalation",
+    "punch": "konuşmayın. düşünmeyin de",
+    "lift": "Hedef dosyası: ölçüm normal",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "onluk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

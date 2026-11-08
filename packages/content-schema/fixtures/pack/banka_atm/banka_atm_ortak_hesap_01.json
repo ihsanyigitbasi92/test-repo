@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_ortak_hesap_01",
+  "tags": [
+    "para",
+    "banka",
+    "iliski",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Ortak hesapta tek imza ya da çift imza seçebilirsiniz. Çift imzada her çekime ikiniz gelirsiniz.",
+      "en": "Joint accounts come single-signature or dual. With dual, you both show up for every withdrawal."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Her çekime mi? Ekmek almaya da mı?",
+      "en": "Every withdrawal? Even for bread?",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Çift imzalı müşterilerimiz ekmeği genelde birlikte alıyor.",
+      "en": "Our dual-signature customers tend to buy bread together.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tek",
+      "tr": "Tek imza",
+      "en": "Single signature",
+      "pattern": "generosity"
+    },
+    {
+      "id": "cift",
+      "tr": "Çift imza",
+      "en": "Dual signature",
+      "pattern": "patience"
+    },
+    {
+      "id": "ayri",
+      "tr": "Hesaplar ayrı kalsın",
+      "en": "Keep the accounts separate",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "tek": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ortak_hesap"
+          ]
+        }
+      },
+      "tr": "Tek imzalı ortak hesap açıldı. Partnerin ilk gün iki ekmek alıp birini sana bıraktı.",
+      "en": "Single-signature joint account: open. Day one, your partner bought two loaves and left you one.",
+      "coach": [
+        {
+          "tr": "Hesap ortak. Ekmek de.",
+          "en": "Joint account. Joint bread.",
+          "roast": false
+        }
+      ]
+    },
+    "cift": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "ortak_hesap",
+            "ortak_hesap_cift_imza"
+          ]
+        }
+      },
+      "tr": "Çift imzalı hesap açıldı. İlk çekim için ikinizin de boş olduğu tek gün cumartesiydi.",
+      "en": "Dual-signature account: open. The only day you were both free to withdraw was Saturday.",
+      "coach": [
+        {
+          "tr": "Para artık randevuyla çıkıyor.",
+          "en": "Your money now leaves by appointment.",
+          "roast": true
+        }
+      ]
+    },
+    "ayri": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ayri_hesap"
+          ]
+        }
+      },
+      "tr": "Ortak hesap açılmadı. Bankacı formu buruşturmadan çekmeceye koydu ve 'dönersiniz' dedi.",
+      "en": "No joint account. The banker slid the form into a drawer, unwrinkled. 'You'll be back.'",
+      "coach": [
+        {
+          "tr": "Form çekmecede bekliyor. Bankacı da.",
+          "en": "The form is waiting in the drawer. So is the banker.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "partnerle ortak hesap açarken tek imza mı çift imza mı kararı",
+    "mechanism": "çift imza her ekmeği ortak işe çeviriyor",
+    "mechanismId": "understatement",
+    "punch": "çift imzalı müşteriler ekmeği birlikte alıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ekmek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

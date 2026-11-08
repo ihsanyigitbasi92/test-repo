@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_bolum_baskanligi_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Bölüm başkanlığına seni önerdik. Toplantılar biraz artar, ameliyatlar biraz azalır.",
+      "en": "We've nominated you to head the department. A few more meetings, a few fewer surgeries."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "smug",
+      "tr": "Ben de adayım. Ama sen geç, ben toplantı sevmem. Sadece kazanmayı severim.",
+      "en": "I'm running too. You go ahead, I hate meetings. I just love winning.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "aday",
+      "tr": "Adaylığı kabul et",
+      "en": "Accept the nomination",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "cekil",
+      "tr": "Çekil, rakibe bırak",
+      "en": "Withdraw, let them have it",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "ortak",
+      "tr": "Ortak başkanlık öner",
+      "en": "Propose co-chairs",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "aday": [
+      {
+        "p": 5500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "status": {
+            "job": {
+              "title": "Bölüm başkanı",
+              "tier": 5,
+              "monthly": 6500
+            }
+          },
+          "meters": {
+            "ego": 5
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Kurul seni seçti. İlk haftanda dokuz toplantı, bir ameliyat yaptın.",
+        "en": "The board picked you. First week: nine meetings, one surgery.",
+        "coach": [
+          {
+            "tr": "Dokuz toplantının sekizi e-posta olabilirdi.",
+            "en": "Eight of the nine meetings could have been emails.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:doctor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kurul rakibini seçti. Rakip ilk iş toplantıları ikiye katladı ve seni hepsine davet etti.",
+        "en": "The board picked your rival, who immediately doubled the meetings and invited you to all of them.",
+        "coach": [
+          {
+            "tr": "Oylama kaybedildi. Toplantılar kazanıldı.",
+            "en": "Lost the vote. Won the meetings.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cekil": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Çekildin, rakip seçildi. Ameliyat listende iki günlük boşluk açıldı.",
+      "en": "You withdrew. Your rival won. Two more days opened up on your surgery schedule.",
+      "coach": [
+        {
+          "tr": "Ameliyathane seni bekliyordu.",
+          "en": "The OR saved your spot.",
+          "roast": true
+        }
+      ]
+    },
+    "ortak": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "status": {
+          "job": {
+            "title": "Eş bölüm başkanı",
+            "tier": 5,
+            "monthly": 5500
+          }
+        },
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Kurul ortak başkanlığı kabul etti. Toplantıları ikiye böldünüz, ikiniz de hepsine katıldınız.",
+      "en": "The board approved co-chairs. You split the meetings in half. Both of you attended all of them.",
+      "coach": [
+        {
+          "tr": "Yarıya bölünen iş bir şekilde ikiye katlandı.",
+          "en": "Divided in half. Somehow doubled.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia payı başka olayda"
+  },
+  "intent": {
+    "setup": "bölüm başkanlığı adaylığı, rakip meslektaş da aday",
+    "mechanism": "toplantı ve ameliyat sayımı",
+    "mechanismId": "count",
+    "punch": "dokuz toplantı, bir ameliyat",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "toplanti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

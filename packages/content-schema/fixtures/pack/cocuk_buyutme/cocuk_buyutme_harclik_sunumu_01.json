@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cocuk_buyutme_harclik_sunumu_01",
+  "tags": [
+    "ebeveynlik",
+    "para",
+    "harclik",
+    "cocuk_buyutme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "cocuk_buyutme": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 32,
+      "max": 40
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "smug",
+      "tr": "Sunumum hazır. Slayt bir: harçlığım üç yıldır aynı.",
+      "en": "My presentation's ready. Slide one: my allowance hasn't changed in three years."
+    },
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Slayt iki: dondurma aynı değil. Slayt üç: sorular.",
+      "en": "Slide two: ice cream has. Slide three: questions.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Zammı onayla",
+      "en": "Approve the raise",
+      "pattern": "generosity"
+    },
+    {
+      "id": "karsi",
+      "tr": "Karşı teklif sun",
+      "en": "Make a counteroffer",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gorev",
+      "tr": "Görev karşılığı harçlık öner",
+      "en": "Offer pay for chores",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "harclik_zam"
+          ]
+        }
+      },
+      "tr": "Harçlık yarı yarıya arttı. Çocuğun sunum dosyasını gelecek yıl için kaydetti.",
+      "en": "The allowance went up by half. Your kid saved the slideshow for next year.",
+      "coach": [
+        {
+          "tr": "Dosya kaydedildi. Gelecek yılın toplantısı belli.",
+          "en": "File saved. Next year's meeting is already booked.",
+          "roast": false
+        }
+      ]
+    },
+    "karsi": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -100,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "harclik_zam"
+            ]
+          }
+        },
+        "tr": "Karşı teklifin kabul gördü: dörtte bir zam, temmuzda yeniden değerlendirme.",
+        "en": "Your counteroffer passed: a quarter more, with a review in July.",
+        "coach": [
+          {
+            "tr": "Temmuzda değerlendirme var. Sunum da gelecek.",
+            "en": "Review in July. So is the next slideshow.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -250,
+          "hidden": {
+            "stress": 1
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "harclik_zam"
+            ]
+          }
+        },
+        "tr": "Çocuğun karşı teklife slayt dörtle cevap verdi: dondurma grafiği. Zam ilk istekten de yüksek çıktı.",
+        "en": "Your kid answered with slide four: an ice cream chart. The raise ended up higher than the original ask.",
+        "coach": [
+          {
+            "tr": "Masaya karşı teklif götürdün. Karşı taraf grafik getirdi.",
+            "en": "You brought a counteroffer. The other side brought a chart.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gorev": {
+      "effects": {
+        "money": -150,
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "harclik_gorev"
+          ]
+        }
+      },
+      "tr": "Bitki sulama ve ayakkabı rafı karşılığında anlaşıldı. Bitkiler hayatlarının en sulak dönemini yaşıyor.",
+      "en": "Deal: watering the plants and the shoe rack. The plants are having the wettest year of their lives.",
+      "coach": [
+        {
+          "tr": "Bitkiler memnun. Raf sırada.",
+          "en": "The plants are thrilled. The rack is next in line.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "karsi",
+    "slip": {
+      "tr": "İDDİA: Karşı teklif bu odadan sağ çıkmaz. — M.",
+      "en": "WAGER: Your counteroffer won't survive the room. — M."
+    }
+  },
+  "intent": {
+    "setup": "çocuğun harçlık zammı için slaytlı sunum yapması",
+    "mechanism": "pazarlığı çocuk yönetiyor, ebeveyn savunmada",
+    "mechanismId": "reversal",
+    "punch": "dondurma aynı değil",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "grafik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

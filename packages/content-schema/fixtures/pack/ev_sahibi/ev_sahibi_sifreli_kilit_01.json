@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_sifreli_kilit_01",
+  "tags": [
+    "ev",
+    "guvenlik",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Kapına şifreli kilit taktırdım. Çok güvenli, kodu bir sen bir ben biliyoruz.",
+      "en": "I had a keypad lock put on your door. Very secure. Only you and I know the code."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Bir de kilitçi biliyor. Bir de yeğenim, ama o sayılmaz.",
+      "en": "And the locksmith. And my nephew, but he doesn't count.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "degistir",
+      "tr": "Kodu kendin değiştir",
+      "en": "Change the code yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "konus",
+      "tr": "Haber vermeden girmesin de",
+      "en": "Ask for notice before visits",
+      "pattern": "patience"
+    },
+    {
+      "id": "zincir",
+      "tr": "İçeriden zincir tak",
+      "en": "Add a chain on the inside",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "degistir": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kendi_sifren"
+            ]
+          }
+        },
+        "tr": "Kılavuzu buldun, kodu değiştirdin. Ertesi gün ev sahibi kapıda dört kez yanlış kod girdi.",
+        "en": "You found the manual and changed the code. Next day the landlord punched in the wrong code four times.",
+        "coach": [
+          {
+            "tr": "Dört deneme, kapalı kapı. İddia kaybedildi.",
+            "en": "Four tries, door shut. Wager lost.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kilit_alarm"
+            ]
+          }
+        },
+        "tr": "Kod değişirken kilit alarm moduna geçti. Kilitçiyi ev sahibi çağırdı; kod yine iki kişide.",
+        "en": "Mid-change, the lock went into alarm mode. The landlord called the locksmith. The code's shared again.",
+        "coach": [
+          {
+            "tr": "Kilit ev sahibinin tarafını tuttu.",
+            "en": "The lock sided with the landlord.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "konus": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kod_paylasimli"
+          ]
+        }
+      },
+      "tr": "Ev sahibi 'gelmeden haber veririm' dedi ve bunu mesajla da yazdı.",
+      "en": "The landlord promised to give notice, and even put it in a text.",
+      "coach": [
+        {
+          "tr": "Söz yazıya geçti. Kod hâlâ kalabalık.",
+          "en": "The promise is in writing. The code is still crowded.",
+          "roast": true
+        }
+      ]
+    },
+    "zincir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -90,
+        "flags": {
+          "add": [
+            "kapi_zinciri"
+          ]
+        }
+      },
+      "tr": "İçeriden 90 Paralık zincir taktın. Kilit dijital, zincir eski usul.",
+      "en": "You added a 90 chain on the inside. Digital lock, analog backup.",
+      "coach": [
+        {
+          "tr": "Doksan Para'lık bir yüzyıl farkı.",
+          "en": "Ninety buys you a century of difference.",
+          "roast": false
+        },
+        {
+          "tr": "Tek Hedef 90 Para uzaklaştı.",
+          "en": "The goal moved 90 away.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "degistir",
+    "slip": {
+      "tr": "İDDİA: Kod sende kalmaz. — M.",
+      "en": "WAGER: The code won't stay yours. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi kiracının kapısına şifreli kilit taktırıp kodu kendinde tutuyor",
+    "mechanism": "\"bir sen bir ben\" listesinin uzaması",
+    "mechanismId": "escalation",
+    "punch": "yeğenim ama o sayılmaz",
+    "lift": "aktif hedefe bağlı tek satır",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kod"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

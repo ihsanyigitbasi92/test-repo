@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kucuk_rahatsizliklar_tirnak_batmasi_01",
+  "tags": [
+    "saglik",
+    "kucuk_hastalik",
+    "ayak",
+    "kucuk_rahatsizliklar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kucuk_rahatsizliklar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Tırnak batmış. Ne zamandır? Üç hafta mı? Üç hafta ne yaptınız?",
+      "en": "Ingrown nail. How long? Three weeks? What did you do for three weeks?"
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Ayakkabı numaranız? Bir küçük alıyorsunuz. Herkes bir küçük alıyor.",
+      "en": "Shoe size? You buy a half size small. Everyone buys a half size small.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "mudahale",
+      "tr": "Küçük müdahaleyi kabul et",
+      "en": "Accept the quick procedure",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "genis",
+      "tr": "Büyük ayakkabıyla idare et",
+      "en": "Get bigger shoes and cope",
+      "pattern": "patience"
+    },
+    {
+      "id": "kendin",
+      "tr": "Tırnağı kendin kes",
+      "en": "Trim it yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    }
+  ],
+  "outcomes": {
+    "mudahale": {
+      "effects": {
+        "stats": {
+          "health": 4,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "diagnosis": "tirnak_batmasi"
+      },
+      "tr": "Beş dakikalık işlem. İki gün topalladın, üçüncü gün unuttun.",
+      "en": "A five-minute procedure. You limped for two days and forgot about it on the third.",
+      "coach": [
+        {
+          "tr": "Üç hafta erteleme, beş dakika iş.",
+          "en": "Three weeks of waiting. Five minutes of work.",
+          "roast": true
+        },
+        {
+          "tr": "Sağlık hedefi: bir kalem kapandı.",
+          "en": "Health goal: one item closed.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "genis": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "buyuk_ayakkabi"
+          ]
+        }
+      },
+      "tr": "Bir numara büyük ayakkabı aldın. Tırnak rahatladı; ayakkabı her adımda topuktan çıkıyor.",
+      "en": "You bought shoes a size up. The toe is happy. The heel slips out with every step.",
+      "coach": [
+        {
+          "tr": "Tırnak memnun. Topuk ikna olmadı.",
+          "en": "Toe satisfied. Heel unconvinced.",
+          "roast": false
+        }
+      ]
+    },
+    "kendin": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 1
+          }
+        },
+        "tr": "İşe yaradı: banyoda yirmi dakika, bir bükülmüş makas.",
+        "en": "It worked: twenty minutes in the bathroom, one bent pair of scissors.",
+        "coach": [
+          {
+            "tr": "İşlem başarılı. Makas emekli.",
+            "en": "Procedure successful. Scissors retired.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": -2,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Batan köşeyi kaçırdın. Ertesi gün aynı doktor, aynı soru: \"Ne yaptınız?\"",
+        "en": "You missed the corner. Next day, same doctor, same question: \"What did you do?\"",
+        "coach": [
+          {
+            "tr": "Soru aynı. Cevap uzadı.",
+            "en": "Same question. Longer answer.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "üç haftalık ayak tırnağı batması için doktora gitmek",
+    "mechanism": "doktorun herkesin aynı hatayı yaptığını söylemesi",
+    "mechanismId": "understatement",
+    "punch": "herkes bir küçük alıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "makas"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

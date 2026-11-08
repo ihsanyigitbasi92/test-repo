@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_rotar_kapisi_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "İki saattir bekliyoruz. Siz pilotsunuz, bir şey yapın.",
+      "en": "We've been waiting two hours. You're the pilot. Do something."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Teknik ekip parçayı getiriyor. Parça yolda, trafiğe takılmış.",
+      "en": "Maintenance is bringing the part. The part is stuck in traffic.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Kapıda yolculara anlat",
+      "en": "Brief passengers at the gate",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kokpit",
+      "tr": "Kokpitte bekle",
+      "en": "Wait in the cockpit",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "ikram",
+      "tr": "Kendi kartınla ikram al",
+      "en": "Buy snacks on your own card",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "anlat": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "pilot_kapi_anonsu"
+            ]
+          }
+        },
+        "tr": "Parçanın trafiğe takıldığını dürüstçe anlattın. Bir yolcu aracın konumunu sordu, bütün kapı haritadan takip etmeye başladı.",
+        "en": "You told them straight: the part was stuck in traffic. Someone asked where the van was, and the whole gate started tracking it on a map.",
+        "coach": [
+          {
+            "tr": "Kapı sakinleşti. Harita kalabalıklaştı.",
+            "en": "The gate calmed down. The map got crowded.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Anlatmaya başladın, biri 'pilot da bilmiyor' dedi. Sonraki yarım saat herkes soruyu sana sordu.",
+        "en": "You started explaining and someone said, 'Even the pilot doesn't know.' For the next half hour, every question came to you.",
+        "coach": [
+          {
+            "tr": "Bilgi verdin. Soru aldın.",
+            "en": "You gave updates. You got questions.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kokpit": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kokpitte bekledin. Uçağa binen yolcular camdan sana el salladı; biri pek dostça değildi.",
+      "en": "You waited in the cockpit. Boarding passengers spotted you through the window and waved. One wave was less friendly.",
+      "coach": [
+        {
+          "tr": "Cam iki yönlü.",
+          "en": "Windows work both ways.",
+          "roast": false
+        }
+      ]
+    },
+    "ikram": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -600,
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          },
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kendi kartınla elli poğaça aldın. Masraf formun ertesi gün 'bütçe dışı' notuyla geri döndü.",
+      "en": "You bought fifty pastries on your own card. The next day your expense claim came back marked 'out of budget.'",
+      "coach": [
+        {
+          "tr": "Poğaçalar yendi. Form iade.",
+          "en": "Pastries: eaten. Claim: returned.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlat",
+    "slip": {
+      "tr": "İDDİA: Her bilgi iki soru doğurur. — M.",
+      "en": "WAGER: Every update spawns two questions. — M."
+    }
+  },
+  "intent": {
+    "setup": "iki saatlik rötarda kapıdaki yolcular pilottan çözüm bekliyor",
+    "mechanism": "yedek parça trafiğe takılıyor, kapı haritayı izliyor",
+    "mechanismId": "escalation",
+    "punch": "parça yolda, trafiğe takılmış",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "harita"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

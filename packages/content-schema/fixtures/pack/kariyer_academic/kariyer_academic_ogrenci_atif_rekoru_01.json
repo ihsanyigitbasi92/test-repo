@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_ogrenci_atif_rekoru_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Eski doktora öğrencin bu yıl senden fazla atıf almış. Tebrikler, sanırım.",
+      "en": "Your former PhD student got more citations than you this year. Congratulations, I suppose."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Seni ortak projeye çağırıyormuş. Bu kez yürütücü o.",
+      "en": "And they want you on a joint project. This time, they're the lead.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ortak",
+      "tr": "İkinci isim olarak katıl",
+      "en": "Join as second name",
+      "pattern": "patience"
+    },
+    {
+      "id": "lider",
+      "tr": "Yürütücülüğü sen iste",
+      "en": "Ask to be the lead",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "tebrik",
+      "tr": "Sadece tebrik et",
+      "en": "Just send congratulations",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ortak": {
+      "effects": {
+        "money": 2500,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": -1
+        },
+        "flags": {
+          "add": [
+            "ogrenci_ortak_proje"
+          ]
+        }
+      },
+      "tr": "Proje kabul edildi, payına 2.500 Para düştü. Toplantıları eski öğrencin yönetiyor, tutanağı sen tutuyorsun.",
+      "en": "The grant came through, and your share was 2,500. Your former student chairs the meetings. You take the minutes.",
+      "coach": [
+        {
+          "tr": "Çember tamamlandı. Tutanak sırası sende.",
+          "en": "The circle is complete. You are on minutes duty.",
+          "roast": true
+        }
+      ]
+    },
+    "lider": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": 3500,
+          "meters": {
+            "ego": 5
+          },
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Eski öğrencin kabul etti, başvuruyu sen yönettin. Proje onaylandı, yazışmalarda sana hâlâ \"hocam\" diyor.",
+        "en": "Your former student agreed, and you led the application. Funded. In every email, they still call you \"Professor.\"",
+        "coach": [
+          {
+            "tr": "Unvan sende. Atıflar onda.",
+            "en": "You hold the title. They hold the citations.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "danisma_kurulu"
+            ]
+          }
+        },
+        "tr": "Eski öğrencin kibarca hayır dedi ve seni danışma kuruluna yazdı. Kurul yılda bir kez toplanıyor.",
+        "en": "Your former student politely declined and put you on the advisory board. The board meets once a year.",
+        "coach": [
+          {
+            "tr": "Danışma kurulu: yılda bir gün onurlu bekleyiş.",
+            "en": "Advisory board. One day a year of dignified waiting.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tebrik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Tebrik mesajın üç satırdı. Cevap on dakikada geldi, içinde yine proje teklifi vardı.",
+      "en": "Your congratulations ran three lines. The reply came in ten minutes, with the project offer attached again.",
+      "coach": [
+        {
+          "tr": "Teklif ısrarlı. Öğrencin seni tanıyor.",
+          "en": "The offer is persistent. Your student knows you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "lider",
+    "slip": {
+      "tr": "İDDİA: Yürütücülük öğrencide kalır. — M.",
+      "en": "WAGER: The lead stays with the student. — M."
+    }
+  },
+  "intent": {
+    "setup": "eski doktora öğrencin senden fazla atıf alıyor ve seni kendi projesine çağırıyor",
+    "mechanism": "danışman ile öğrenci hiyerarşisi tersine dönüyor",
+    "mechanismId": "reversal",
+    "punch": "bu kez yürütücü o",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cember"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

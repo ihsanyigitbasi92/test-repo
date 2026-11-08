@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yeni_ebeveyn_yorgunluk_yarisi_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "partner",
+    "uyku",
+    "yeni_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yeni_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 48
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Kim daha yorgun, konuşalım. Ben dün gece beş kez kalktım.",
+      "en": "Let's settle who's more tired. I got up five times last night."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Sen dört diyeceksin, biliyorum. Biri sayılmaz, o sırada uyuyordun.",
+      "en": "You'll say four, I know. One doesn't count. You were asleep for it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tablo",
+      "tr": "Sen de saymaya başla",
+      "en": "Start your own tally",
+      "pattern": "pride"
+    },
+    {
+      "id": "birak",
+      "tr": "Partnerin kazansın, uyusun",
+      "en": "Concede and let your partner nap",
+      "pattern": "generosity"
+    },
+    {
+      "id": "anne",
+      "tr": "Anneni bir haftalığına çağır",
+      "en": "Call in Mom for a week",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "tablo": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yorgunluk_tablosu"
+          ]
+        }
+      },
+      "tr": "Buzdolabına bir puan tablosu asıldı. Üçüncü gün tablo, kimin daha az uyuduğu kavgasına döndü.",
+      "en": "A tally sheet went up on the fridge. By day three, it had become a fight over who slept least.",
+      "coach": [
+        {
+          "tr": "Tabloda iki kazanan, sıfır uyku.",
+          "en": "Two winners on the sheet. Zero sleep.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Partnerin dört saat uyudu, uyanınca sana \"Sen de yat\" dedi. İkiniz de bebekten önce uyuyakaldınız.",
+      "en": "Your partner slept four hours, woke up, and told you to lie down. You both fell asleep before the baby did.",
+      "coach": [
+        {
+          "tr": "Yarış berabere bitti.",
+          "en": "The race ended in a tie.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "health": 4,
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Annen bir haftalığına geldi; ikiniz de her gece yedi saat uyudunuz. Annen giderken kendi talimat listesini bıraktı.",
+      "en": "Mom came for a week, and you both slept seven hours a night. When she left, she taped up her own instruction sheet.",
+      "coach": [
+        {
+          "tr": "Yedi saat uyku. Talimat ekte.",
+          "en": "Seven hours of sleep. Instructions enclosed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "partnerle kimin daha yorgun olduğu tartışması",
+    "mechanism": "gece kalkışlarının pazarlıklı sayımı",
+    "mechanismId": "count",
+    "punch": "biri sayılmaz, o sırada uyuyordun",
+    "lift": "yarış berabere",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "berabere"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

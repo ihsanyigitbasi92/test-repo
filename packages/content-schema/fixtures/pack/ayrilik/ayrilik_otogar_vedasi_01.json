@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ayrilik_otogar_vedasi_01",
+  "tags": [
+    "iliski",
+    "ayrilik_gunu",
+    "ayrilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -2,
+  "intensity": 8500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "ayrilik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 21
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "evli"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Otobüsüm yirmi dakika sonra kalkıyor. Bir şey söylemem lazım.",
+      "en": "My bus leaves in twenty minutes. I have to tell you something."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Uzaktan yürütemem. Kafamda denedim, olmadı.",
+      "en": "I can't do long distance. I tried it in my head. It didn't work.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Otobüs kalkana kadar bekle",
+      "en": "Stay until the bus leaves",
+      "pattern": "patience"
+    },
+    {
+      "id": "donem",
+      "tr": "Bir dönem deneyelim de",
+      "en": "Ask for one semester",
+      "pattern": "risk"
+    },
+    {
+      "id": "eve",
+      "tr": "Hemen eve dön",
+      "en": "Go straight home",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -15
+        },
+        "flags": {
+          "add": [
+            "ayrildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "memory": "otogar_veda",
+            "create": true
+          }
+        ],
+        "status": {
+          "partner": null
+        }
+      },
+      "tr": "Otobüs zamanında kalktı. Dört numaralı peronda bir süre daha durdun.",
+      "en": "The bus left on time. You stayed at platform four a while longer.",
+      "coach": [
+        {
+          "tr": "Otobüsler zamanında kalkar. Bugün de.",
+          "en": "Buses leave on time. Today too.",
+          "roast": false
+        }
+      ]
+    },
+    "donem": {
+      "effects": {
+        "stats": {
+          "joy": -12
+        },
+        "flags": {
+          "add": [
+            "ayrildi",
+            "uzak_teklif_reddedildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "memory": "donem_teklifi",
+            "create": true
+          }
+        ],
+        "status": {
+          "partner": null
+        }
+      },
+      "tr": "\"Bir dönem\" dedin. Partner gözlerini kapadı, sonra hayır dedi.",
+      "en": "You said \"one semester.\" They closed their eyes, then said no.",
+      "coach": [
+        {
+          "tr": "Soruldu. Cevap geldi.",
+          "en": "Asked. Answered.",
+          "roast": false
+        }
+      ]
+    },
+    "eve": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "ayrildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "memory": "vedasiz",
+            "create": true
+          },
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "status": {
+          "partner": null
+        },
+        "glossary": "ayrilik_gunu"
+      },
+      "tr": "Otobüsü beklemeden eve döndün. Annen kapıyı açtı, mutfağa geçip çaydanlığı koydu.",
+      "en": "You went home before the bus left. Mom opened the door, went to the kitchen, and put the kettle on.",
+      "coach": [
+        {
+          "tr": "Çay demleniyor.",
+          "en": "The tea is brewing.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "sessizlik protokolü: ayrılık günü"
+  },
+  "intent": {
+    "setup": "üniversite için başka şehre giden partnerin otogarda ayrılması",
+    "mechanism": "otobüs saati ayrılığa süre koyuyor",
+    "mechanismId": "deadpan_report",
+    "punch": "otobüsüm yirmi dakika sonra",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "zamaninda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_bulut_depolama_01",
+  "tags": [
+    "para",
+    "fatura",
+    "abonelik",
+    "partner",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Telefon \"depolama alanı doldu\" diyor. Yeni fotoğraf çekemiyorum.",
+      "en": "My phone says storage is full. I can't take new photos."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "İçinde sadece kahvaltı fotoğrafları var. Biraz fazla kahvaltı yapmışız.",
+      "en": "It's just breakfast photos. We've had a lot of breakfasts.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yukselt",
+      "tr": "Paketi büyüt",
+      "en": "Upgrade the plan",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "ayikla",
+      "tr": "Akşamı fotoğraf ayıklayarak geçir",
+      "en": "Spend the evening deleting photos",
+      "pattern": "patience"
+    },
+    {
+      "id": "aile",
+      "tr": "Aile paketine geç, bölüş",
+      "en": "Switch to a family plan, split it",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "yukselt": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "bulut_buyuk_paket"
+          ]
+        }
+      },
+      "tr": "Depolama 2 TB'a çıktı, ayda 60 Para. Kahvaltı arşivi güvende.",
+      "en": "Storage is now 2 TB, sixty a month. The breakfast archive is safe.",
+      "coach": [
+        {
+          "tr": "2 TB. Bir ömürlük kahvaltı sığar.",
+          "en": "Two terabytes. Room for a lifetime of breakfasts.",
+          "roast": true
+        }
+      ]
+    },
+    "ayikla": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "foto_ayiklandi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Üç saatte 3.180 fotoğraf silindi. Aynı menemen tavasının 61 farklı açısı varmış.",
+      "en": "Three hours, 3,180 photos deleted. The same skillet of eggs had been shot from sixty-one angles.",
+      "coach": [
+        {
+          "tr": "3.180 eksik fotoğraf, bir dolu akşam.",
+          "en": "3,180 fewer photos. One full evening.",
+          "roast": false
+        }
+      ]
+    },
+    "aile": {
+      "effects": {
+        "money": -35,
+        "flags": {
+          "add": [
+            "aile_bulut_paketi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Aile paketine geçildi, kişi başı 35 Para. Partnerinin klasörü artık senin kotanda yaşıyor.",
+      "en": "Family plan it is: thirty-five each. Your partner's folder now lives in your quota.",
+      "coach": [
+        {
+          "tr": "Ortak alan. Çoğu kahvaltı.",
+          "en": "Shared space. Mostly breakfasts.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "partnerin telefonunda bulut depolama dolunca abonelik yükseltme kararı",
+    "mechanism": "fotoğraflar sayılıyor: kahvaltı, açı, terabayt",
+    "mechanismId": "count",
+    "punch": "biraz fazla kahvaltı yapmışız",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "kahvalti",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

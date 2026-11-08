@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_odul_izin_gunu_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "{name}, çeyreği sen kurtardın. Ödül olarak bir gün ek izin, istediğin gün.",
+      "en": "{name}, you saved the quarter. As a reward, one extra day off. Any day you like."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Yalnız çarşamba olmasın, perşembe de olmasın. Pazartesi zaten yoğun.",
+      "en": "Just not a Wednesday. Or a Thursday. And Mondays are busy, of course.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cuma",
+      "tr": "Cumayı seç",
+      "en": "Pick Friday",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "sakla",
+      "tr": "İleriye sakla",
+      "en": "Save it for later",
+      "pattern": "patience"
+    },
+    {
+      "id": "ekip",
+      "tr": "Ekipçe yarım güne çevir",
+      "en": "Turn it into a team half-day",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "cuma": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "flags": {
+          "add": [
+            "uzun_hafta_sonu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Cumayı seçtin, üç günlük bir hafta sonu oldu. Cuma sabahı tek bir mesaj geldi: 'İyi dinlenmeler, cevap verme.'",
+      "en": "You picked Friday: a three-day weekend. Friday morning, one message: 'Enjoy. Don't reply.'",
+      "coach": [
+        {
+          "tr": "Üç gün, tek mesaj. Fena oran değil.",
+          "en": "Three days, one message. Decent odds.",
+          "roast": false
+        }
+      ]
+    },
+    "sakla": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "ek_izin_saklandi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "memory": "izin_borcu"
+          }
+        ]
+      },
+      "tr": "İzni sakladın. İK sistemine 'Nevin Hanım onaylı ek gün' olarak işlendi, son kullanma tarihi yıl sonu.",
+      "en": "You saved it. HR logged it as 'extra day, approved by Ms. Carver,' expiring at year-end.",
+      "coach": [
+        {
+          "tr": "İzin gününün son kullanma tarihi var. Süt ürünü gibi.",
+          "en": "Your day off has an expiration date. Like dairy.",
+          "roast": true
+        }
+      ]
+    },
+    "ekip": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kolektif_odul"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 4
+          },
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Bir günlük izni ekipçe bir yarım güne çevirdin. Nevin Hanım bunu 'kolektif ödül' adıyla yeni bir uygulama yaptı.",
+      "en": "You turned your day into a half-day for the whole team. Ms. Carver made it a new policy called 'collective reward.'",
+      "coach": [
+        {
+          "tr": "Tek kişilik ödül, ekip uygulaması oldu.",
+          "en": "A one-person reward became a team policy.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddiasız gün"
+  },
+  "intent": {
+    "setup": "patronun ödül olarak istediğin gün ek izin verip günleri tek tek elemesi",
+    "mechanism": "istediğin gün listesi daralıyor",
+    "mechanismId": "escalation",
+    "punch": "pazartesi zaten yoğun",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "son_kullanma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

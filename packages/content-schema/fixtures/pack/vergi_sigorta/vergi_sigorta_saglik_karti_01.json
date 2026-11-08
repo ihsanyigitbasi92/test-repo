@@ -1,0 +1,133 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_saglik_karti_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "saglik",
+    "ilk_is",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Kartınız aktif. Katkı payı yok. Doktor sizi on dakikaya alır.",
+      "en": "Your card is active. No copay. The doctor will see you in ten minutes."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sigortalılar bu koridordan. Diğerleri şu koridordan, uzun olandan.",
+      "en": "Insured patients, this hallway. Everyone else, that one. The long one.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kontrol",
+      "tr": "Tam kontrol yaptır",
+      "en": "Get the full checkup",
+      "pattern": "selfCare",
+      "swipe": "right"
+    },
+    {
+      "id": "sakla",
+      "tr": "Kartı acil duruma sakla",
+      "en": "Save the card for emergencies",
+      "pattern": "procrastination",
+      "swipe": "left"
+    }
+  ],
+  "outcomes": {
+    "kontrol": {
+      "effects": {
+        "stats": {
+          "health": 3,
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "saglik_sigortasi"
+          ]
+        }
+      },
+      "tr": "Kan tahlili, göz, diş, tansiyon. Hepsi normal çıktı; kart bir kez bile itiraz etmedi.",
+      "en": "Blood work, eyes, teeth, blood pressure. All normal. The card didn't make a peep.",
+      "coach": [
+        {
+          "tr": "İlk bedava kontrol. Hayatında ilk.",
+          "en": "Your first free checkup. Ever.",
+          "roast": false
+        }
+      ]
+    },
+    "sakla": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "saglik_sigortasi",
+            "saglik_karti_sakli"
+          ]
+        }
+      },
+      "tr": "Kartı cüzdanın gizli gözüne koydun. Bir yıl sonra süresi doldu; hiç kullanılmamıştı.",
+      "en": "You tucked the card into a secret wallet pocket. A year later it expired. Never used.",
+      "coach": [
+        {
+          "tr": "Kart bir yıl güvende kaldı. Dokunulmadan.",
+          "en": "The card spent a year perfectly safe. Untouched.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "işverenin özel sağlık sigortasına ekleyince ilk kez kartla muayeneye gitmek",
+    "mechanism": "sigortalı ve sigortasız koridorların uzunluğu",
+    "mechanismId": "understatement",
+    "punch": "diğerleri şu koridordan, uzun olandan",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "guvende"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

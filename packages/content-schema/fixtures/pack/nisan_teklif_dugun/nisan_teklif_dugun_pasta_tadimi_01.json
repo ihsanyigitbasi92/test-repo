@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_pasta_tadimi_01",
+  "tags": [
+    "iliski",
+    "dugun",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 2000,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli",
+        "dugun_pastasi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Altı tadım tabağı var. Hepsini bitirirsek karar kendiliğinden çıkar.",
+      "en": "Six tasting plates. If we finish them all, the decision makes itself."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Bir de beş katlıyı göstersinler. Bakmak bedava.",
+      "en": "And let's see the five-tier. Looking is free.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "uc",
+      "tr": "Üç katlıda anlaş",
+      "en": "Settle on three tiers",
+      "pattern": "patience"
+    },
+    {
+      "id": "bes",
+      "tr": "Beş katlıyı al",
+      "en": "Order the five-tier",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Fiyatta pazarlık et",
+      "en": "Haggle the price",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "uc": {
+      "effects": {
+        "money": -1200,
+        "flags": {
+          "add": [
+            "dugun_pastasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Üç katlı, fıstıklı: 1.200 Para. Altı tabağın dördü bitti.",
+      "en": "Three tiers, pistachio: 1,200. Four of the six plates got finished.",
+      "coach": [
+        {
+          "tr": "İki tabak yarım kaldı. Karar tamam.",
+          "en": "Two plates unfinished. Decision complete.",
+          "roast": false
+        },
+        {
+          "tr": "Zarf kapandı, bütçe ayakta.",
+          "en": "Envelope closed. Budget still standing.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "bes": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "money": -2600,
+        "flags": {
+          "add": [
+            "dugun_pastasi",
+            "bes_katli_pasta"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Beş katlı pasta 2.600 Para. Pastacı salonun tavan yüksekliğini sordu.",
+      "en": "The five-tier cake: 2,600. The baker asked how high the venue ceiling is.",
+      "coach": [
+        {
+          "tr": "Pasta tavana göre ölçüldü. Bütçe ölçülmedi.",
+          "en": "The cake was measured against the ceiling. The budget wasn't.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "money": -900,
+          "flags": {
+            "add": [
+              "dugun_pastasi"
+            ]
+          }
+        },
+        "tr": "Pastacı 900 Para'ya indi, tadım tabaklarını da paketledi.",
+        "en": "The baker came down to 900 and boxed up the tasting plates.",
+        "coach": [
+          {
+            "tr": "900 Para, yanında altı tabak.",
+            "en": "900, with six plates to go.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "money": -1400,
+          "flags": {
+            "add": [
+              "dugun_pastasi"
+            ]
+          }
+        },
+        "tr": "Pastacı indirim yapmadı, \"kişiye özel süsleme\" ekledi. Yeni fiyat 1.400.",
+        "en": "No discount. The baker added \"custom decoration\" instead. New price: 1,400.",
+        "coach": [
+          {
+            "tr": "İndirim istedin, krema geldi. Pastacı dinliyordu.",
+            "en": "You asked for a discount. You got frosting. The baker was listening.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Pastacı fiyatı indirmez. — M.",
+      "en": "WAGER: The baker won't budge. — M."
+    }
+  },
+  "intent": {
+    "setup": "düğün pastası tadımında altı tabak ve beş katlı pasta",
+    "mechanism": "pasta tavan yüksekliğiyle ölçülüyor",
+    "mechanismId": "escalation",
+    "punch": "salonun tavan yüksekliği",
+    "lift": "hedef açıksa tek satır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pastaci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

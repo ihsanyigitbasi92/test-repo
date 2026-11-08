@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "emeklilik_gecis_cikis_tarihi_secimi_01",
+  "tags": [
+    "yaslilik",
+    "is",
+    "para",
+    "pazarlik",
+    "emeklilik_gecis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "emeklilik_gecis": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 56,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Emeklilik tarihini sen seç. Yalnız Mart'ta çıkarsan yıl sonu primini kaçırırsın.",
+      "en": "Pick your retirement date. But leave in March and you miss the year-end bonus."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Aralık'ta çıkarsan da yıl sonu envanter sayımını kaçırmazsın.",
+      "en": "Leave in December and you won't miss the year-end inventory count.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "mart",
+      "tr": "Mart'ta çık",
+      "en": "Leave in March",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "aralik",
+      "tr": "Aralık'ı bekle",
+      "en": "Hold out until December",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Primi Mart'ta iste",
+      "en": "Ask for the bonus in March",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "mart": {
+      "effects": {
+        "stats": {
+          "joy": 5
+        },
+        "flags": {
+          "add": [
+            "emekli",
+            "mart_emeklisi"
+          ]
+        },
+        "status": {
+          "job": null
+        }
+      },
+      "tr": "Mart'ta çıktın. İlk kez bir yazı baştan sona izledin.",
+      "en": "You left in March. For the first time, you watched a whole summer from start to finish.",
+      "coach": [
+        {
+          "tr": "Bir mevsim. Tamamı.",
+          "en": "One season. All of it.",
+          "roast": false
+        }
+      ]
+    },
+    "aralik": {
+      "effects": {
+        "money": 3500,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "emekli"
+          ]
+        },
+        "status": {
+          "job": null
+        }
+      },
+      "tr": "Aralık'ta prim yattı: 3.500 Para. Son iş günün depoda, sayım listesinin başında geçti.",
+      "en": "The December bonus landed: 3,500. Your last day was spent in the warehouse, clipboard in hand.",
+      "coach": [
+        {
+          "tr": "Son gün de sayıldı. Sen de sayıldın.",
+          "en": "Last day, still counting. You were counted too.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": 3000,
+          "stats": {
+            "joy": 6
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "emekli",
+              "mart_emeklisi"
+            ]
+          },
+          "status": {
+            "job": null
+          }
+        },
+        "tr": "Patron primin orantılı kısmını Mart'ta ödemeyi kabul etti: 3.000 Para. Sayım listesi başkasına geçti.",
+        "en": "Your boss agreed to a prorated bonus in March: 3,000. Someone else got the clipboard.",
+        "coach": [
+          {
+            "tr": "Prim ve bahar aynı ay geldi.",
+            "en": "Bonus and spring arrived the same month.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef bütçesi: artı 3.000.",
+            "en": "Goal budget: plus 3,000.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "aralik_emeklisi"
+            ]
+          }
+        },
+        "tr": "Patron \"kural kuraldır\" dedi ve tarihini Aralık'a yazdı. Sayım listesinin en üstünde senin adın var.",
+        "en": "\"Rules are rules,\" said your boss, and wrote you down for December. Your name tops the inventory list.",
+        "coach": [
+          {
+            "tr": "Pazarlık sayım listesinde bitti.",
+            "en": "The negotiation ended on a clipboard.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Patron \"kural kuraldır\" der. — M.",
+      "en": "WAGER: The boss says \"rules are rules.\" — M."
+    }
+  },
+  "intent": {
+    "setup": "patronun emeklilik tarihini sana bırakması: Mart'ta çıkarsan prim yok, Aralık'ta çıkarsan envanter sayımı var",
+    "mechanism": "her tarih seçeneği bir öncekinden daha pahalı bir şart taşıyor",
+    "mechanismId": "escalation",
+    "punch": "yıl sonu sayımını kaçırmazsın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sayim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

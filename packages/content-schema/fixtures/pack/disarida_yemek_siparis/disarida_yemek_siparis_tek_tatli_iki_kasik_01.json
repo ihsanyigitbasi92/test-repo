@@ -1,0 +1,157 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_tek_tatli_iki_kasik_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "restoran",
+    "partner",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 33,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Tatlı istemiyorum. Ama sen alırsan bir kaşık alırım. Belki iki.",
+      "en": "I don't want dessert. But if you get one, I'll have a bite. Maybe two."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Tek tatlı, iki kaşık mı getireyim?",
+      "en": "One dessert, two spoons?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iki",
+      "tr": "İki tatlı söyle",
+      "en": "Order two desserts",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "tek",
+      "tr": "Tek tatlı, iki kaşık",
+      "en": "One dessert, two spoons",
+      "pattern": "generosity"
+    },
+    {
+      "id": "yok",
+      "tr": "Tatlı söyleme",
+      "en": "Skip dessert",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "iki": {
+      "effects": {
+        "stats": {
+          "joy": 3,
+          "health": -1
+        },
+        "money": -260,
+        "flags": {
+          "add": [
+            "siparis_iki_tatli"
+          ]
+        }
+      },
+      "tr": "İki tatlı geldi. Partnerin kendininkini bitirip senin tabağından üç kaşık aldı.",
+      "en": "Two desserts came. Your partner finished theirs and then took three spoonfuls of yours.",
+      "coach": [
+        {
+          "tr": "İki tabak, tek havuz.",
+          "en": "Two plates. One shared pool.",
+          "roast": true
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "money": -130,
+        "flags": {
+          "add": [
+            "siparis_tek_tatli"
+          ]
+        }
+      },
+      "tr": "Tek tatlıyı iki kaşıkla bitirdiniz. Son lokmaya kimse dokunmadı, garson tabağı öyle kaldırdı.",
+      "en": "You split one dessert, two spoons. Nobody touched the last bite, and the waiter cleared it like that.",
+      "coach": [
+        {
+          "tr": "Son lokma masada kaldı. Nezaket kazandı.",
+          "en": "The last bite stayed. Politeness won.",
+          "roast": false
+        }
+      ]
+    },
+    "yok": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": 1
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "siparis_pastane_donusu"
+          ]
+        }
+      },
+      "tr": "Tatlı söylemedin. Çıkışta partnerin pastaneye girip iki dilim aldı, ikisini de sen taşıdın.",
+      "en": "No dessert. On the way out your partner ducked into a bakery for two slices. You carried both.",
+      "coach": [
+        {
+          "tr": "Tatlı yine geldi. Güzergâh değişti.",
+          "en": "Dessert happened anyway. Different route.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "restoranda partnerin tatlı istemeyip senin tatlından pay istemesi",
+    "mechanism": "\"belki iki\" ile istek büyüyor",
+    "mechanismId": "escalation",
+    "punch": "bir kaşık alırım belki iki",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "guzergah"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

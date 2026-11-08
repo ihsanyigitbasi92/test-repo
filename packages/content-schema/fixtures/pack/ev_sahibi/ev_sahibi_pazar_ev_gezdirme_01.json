@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_pazar_ev_gezdirme_01",
+  "tags": [
+    "ev",
+    "kira",
+    "para",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Pazar günleri karşı daireyi benim yerime gezdir, kirandan iki yüz düşeyim.",
+      "en": "Show the flat across the hall on Sundays for me and I'll take two hundred off your rent."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Kolay. Gülümse, 'ferah' de, mutfağı kısa göster.",
+      "en": "Easy. Smile, say 'airy,' keep the kitchen part short.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et",
+      "en": "Take the deal",
+      "pattern": "overwork"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Üç yüz iste",
+      "en": "Ask for three hundred",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Pazarını sakla",
+      "en": "Keep your Sundays",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "pazar_ev_gezdirme"
+          ]
+        },
+        "status": {
+          "rentDelta": -200
+        }
+      },
+      "tr": "Kira 200 Para düştü. Pazarların artık 'ferah' kelimesiyle geçiyor.",
+      "en": "Rent's down 200. Your Sundays are now spent saying 'airy.'",
+      "coach": [
+        {
+          "tr": "İki yüz Para, kırk 'ferah'.",
+          "en": "Two hundred off. Forty 'airy's.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef bütçesi ayda iki yüz rahat.",
+          "en": "Goal budget: two hundred looser.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "pazar_ev_gezdirme"
+            ]
+          },
+          "status": {
+            "rentDelta": -300
+          }
+        },
+        "tr": "Üç yüze anlaştınız. İlk ziyaretçi daireyi tuttu; ev sahibi seni 'emlak müdürüm' diye tanıtıyor.",
+        "en": "You settled on three hundred. The first visitor signed. The landlord now introduces you as 'my property manager.'",
+        "coach": [
+          {
+            "tr": "Unvan geldi, iddia gitti.",
+            "en": "You got a title. The wager didn't.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "pazar_ev_gezdirme"
+            ]
+          },
+          "status": {
+            "rentDelta": -200
+          }
+        },
+        "tr": "Ev sahibi 'iki yüz zaten cömert' dedi. Anlaşma ilk teklifte kaldı.",
+        "en": "The landlord said two hundred was 'already generous.' The first offer stands.",
+        "coach": [
+          {
+            "tr": "Pazarlık yapıldı. Rakam yerinden kıpırdamadı.",
+            "en": "Negotiations held. The number did not move.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "pazar_bos"
+          ]
+        }
+      },
+      "tr": "Pazarların sende kaldı. Ev sahibi gezdirmeye yeğenini yolladı.",
+      "en": "Your Sundays stay yours. The landlord sent the nephew to do showings.",
+      "coach": [
+        {
+          "tr": "Pazar kiradan pahalıya geldi.",
+          "en": "Sunday cost more than the discount.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Pazarlık iki yüzü geçmez. — M.",
+      "en": "WAGER: Haggling won't beat two hundred. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi pazarları karşı daireyi gezdirmen karşılığında kira indirimi öneriyor",
+    "mechanism": "\"kolay\" işin talimat listesi",
+    "mechanismId": "literalism",
+    "punch": "gülümse, ferah de, mutfağı kısa göster",
+    "lift": "aktif hedefe bağlı tek satır",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "ferah"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

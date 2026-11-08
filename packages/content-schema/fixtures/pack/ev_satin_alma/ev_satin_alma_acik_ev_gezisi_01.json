@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_acik_ev_gezisi_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1200,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 34
+    },
+    "money": {
+      "min": 9000
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat",
+      "wide"
+    ],
+    "flags": {
+      "none": [
+        "ev_satin_alindi",
+        "ev_teklif_kabul"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Bugün dokuz aile gezdi. Akşama kadar teklif gelmezse ilanı yenileyeceğim.",
+      "en": "Nine families have toured today. If there's no offer by tonight, I'm relisting."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Mutfakta biri dolapları ölçüyor. Şerit metreyle. Ciddi insanlar.",
+      "en": "Someone in the kitchen is measuring the cabinets. With a tape measure. Serious people.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "teklif",
+      "tr": "Hemen teklif ver, biraz altından",
+      "en": "Offer now, a bit under asking",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Acele etme, ikinci geziye gel",
+      "en": "Don't rush, book a second visit",
+      "pattern": "patience"
+    },
+    {
+      "id": "olc",
+      "tr": "Sen de şerit metre çıkar",
+      "en": "Pull out your own tape measure",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "teklif": [
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "money": -2000,
+          "flags": {
+            "add": [
+              "ev_teklif_kabul"
+            ]
+          }
+        },
+        "tr": "Satıcı teklifini kabul etti. Kaparo olarak 2.000 Para yatırdın, ilan akşam kalktı.",
+        "en": "The seller took your offer. You put down a 2,000 deposit and the listing came down that evening.",
+        "coach": [
+          {
+            "tr": "Kaparo yattı. Gerisi kâğıt işi.",
+            "en": "Deposit down. The rest is paperwork.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_arama_devam"
+            ]
+          }
+        },
+        "tr": "Satıcı teklifini dinledi, sonra şerit metreli aileye döndü. Ev aynı akşam onlara satıldı.",
+        "en": "The seller heard your offer, then turned to the family with the tape measure. It sold to them that night.",
+        "coach": [
+          {
+            "tr": "Şerit metre kazandı. Ölçen alıyor.",
+            "en": "The tape measure won. Whoever measures, buys.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ev_arama_devam"
+          ]
+        }
+      },
+      "tr": "İkinci geziye geldiğinde kapıda 'satıldı' yazıyordu. Yeni ilan alarmı kurdun.",
+      "en": "When you came back, the door said 'sold.' You set up a new listing alert.",
+      "coach": [
+        {
+          "tr": "Ev gitti. İlan alarmı kaldı.",
+          "en": "The flat's gone. The listing alert remains.",
+          "roast": false
+        }
+      ]
+    },
+    "olc": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "ev_arama_devam"
+          ]
+        }
+      },
+      "tr": "Sen de ölçtün. Satıcı seni ciddi alıcı sanıp kahve ikram etti; teklif vermedin.",
+      "en": "You measured too. The seller took you for serious buyers and made you coffee. You didn't make an offer.",
+      "coach": [
+        {
+          "tr": "Bir kahve kazandın. Ev başkasının oldu.",
+          "en": "You won a coffee. The flat went to someone else.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "teklif",
+    "slip": {
+      "tr": "İDDİA: Satıcı şerit metreyi seçer. — M.",
+      "en": "WAGER: The seller picks the tape measure. — M."
+    }
+  },
+  "intent": {
+    "setup": "aynı gün dokuz ailenin gezdiği açık ev gezisinde teklif baskısı",
+    "mechanism": "rakip aileler ve şerit metreyle tırmanan baskı",
+    "mechanismId": "escalation",
+    "punch": "ciddi insanlar, şerit metreyle",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "metre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

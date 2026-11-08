@@ -1,0 +1,165 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_odeme_tatili_01",
+  "tags": [
+    "para",
+    "borc",
+    "kredi_karti",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Size özel: üç ay hiç ödeme yapmayın. Dinlenin.",
+      "en": "Just for you: make no payments for three months. Take a break."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Dördüncü ay her şey kaldığı yerden devam eder. Biraz büyümüş olarak.",
+      "en": "In month four, everything picks up where it left off. Slightly larger.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Üç ay tatile çık",
+      "en": "Take the three-month break",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "ret",
+      "tr": "Normal ödemeye devam et",
+      "en": "Keep paying as usual",
+      "pattern": "patience"
+    },
+    {
+      "id": "sor",
+      "tr": "\"Biraz\" ne kadar, sor",
+      "en": "Ask how much \"slightly\" is",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "odeme_tatili"
+          ]
+        }
+      },
+      "tr": "Erteleme onaylandı. Dördüncü ayın tahmini tutarı ekranda: bugünkünden 1.340 Para fazla.",
+      "en": "Deferral approved. Month four's estimate is on screen: 1,340 more than today.",
+      "coach": [
+        {
+          "tr": "Üç ay tatil. Dönüş bileti 1.340.",
+          "en": "A three-month break. Return ticket: 1,340.",
+          "roast": true
+        }
+      ]
+    },
+    "ret": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 0,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "odeme_tatili_ret"
+          ]
+        }
+      },
+      "tr": "Bu ay da 800 Para ödendi. Bankacı \"kampanya ay sonuna kadar geçerli\" notunu düştü.",
+      "en": "Another 800 paid this month. The banker added a note: \"Offer valid until month's end.\"",
+      "coach": [
+        {
+          "tr": "Kampanya bekliyor. Borç azalıyor.",
+          "en": "The offer waits. The debt shrinks.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "glossary": "odeme_ertelemesi",
+        "flags": {
+          "add": [
+            "odeme_tatili_ret"
+          ]
+        }
+      },
+      "tr": "\"Biraz\" hesaplandı: 1.340 Para. Bankacı hesap makinesini çekmeceye geri koydu.",
+      "en": "\"Slightly\" got calculated: 1,340. The banker put the calculator back in the drawer.",
+      "coach": [
+        {
+          "tr": "\"Biraz\" artık bir sayı.",
+          "en": "\"Slightly\" now has a number.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "kart borcu için \"üç ay ödeme yok\" erteleme kampanyası teklifi",
+    "mechanism": "\"dinlenin\" ve \"biraz\" kelimeleri harfiyen hesaplanıyor",
+    "mechanismId": "literalism",
+    "punch": "biraz büyümüş olarak",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "biraz",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_evinde_yasam_online_mulakat_supurge_01",
+  "tags": [
+    "ev",
+    "anne",
+    "is_arama",
+    "anne_evinde_yasam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "anne_evinde_yasam": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 32
+    },
+    "housing": [
+      "momsHouse"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "neighbor": {
+        "alive": true
+      }
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Bilgisayarda kiminle konuşuyorsun? Ben şuraları bir süpüreyim, hiç ses yapmam.",
+      "en": "Who are you talking to on the computer? I'll just vacuum around you. I won't make a sound."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Sonra kameraya bir el sallarım, ayıp olmasın.",
+      "en": "Then I'll wave at the camera. It's only polite.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Süpürgeye rağmen devam et",
+      "en": "Keep going over the vacuum",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tanit",
+      "tr": "Anneni kameraya tanıt",
+      "en": "Introduce Mom to the camera",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "balkon",
+      "tr": "Görüşmeyi balkondan yap",
+      "en": "Take the call on the balcony",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "devam": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "mulakat_ikinci_tur"
+            ]
+          }
+        },
+        "tr": "Süpürge sesinin altında üç soruyu yanıtladın. Görüşmeci \"sesiniz çok net\" dedi; ikinci tura çağrıldın.",
+        "en": "You answered three questions over the vacuum. The interviewer said you were coming through clearly. Second round.",
+        "coach": [
+          {
+            "tr": "Süpürgeye rağmen ikinci tur.",
+            "en": "Second round, vacuum included.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: bir tur ileri.",
+            "en": "Goal counter: one round closer.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "mulakat_koptu"
+            ]
+          }
+        },
+        "tr": "Görüşmeci üç kez \"sizi duyamıyoruz\" dedi. Dördüncüde bağlantı koptu.",
+        "en": "The interviewer said \"we can't hear you\" three times. On the fourth, the call dropped.",
+        "coach": [
+          {
+            "tr": "Dört deneme. Süpürge dördünü de aldı.",
+            "en": "Four attempts. The vacuum took all four.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tanit": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_kamerada"
+          ]
+        }
+      },
+      "tr": "Annen kameraya el salladı, görüşmeciye \"çok çalışkandır\" dedi. Görüşme on dakika kısaldı.",
+      "en": "Mom waved at the camera and told the interviewer you work very hard. The interview ended ten minutes early.",
+      "coach": [
+        {
+          "tr": "Referans mektubu, canlı yayında.",
+          "en": "A reference letter, live.",
+          "roast": false
+        }
+      ]
+    },
+    "balkon": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "notlar_komsuda"
+          ]
+        }
+      },
+      "tr": "Rüzgâr notlarını sayfa sayfa aşağı attı. Alt kattaki komşu hepsini toplayıp kapına bıraktı.",
+      "en": "The wind took your notes down one page at a time. The downstairs neighbor collected them and left them at your door.",
+      "coach": [
+        {
+          "tr": "Notlar geri geldi. Komşu artık pozisyonu biliyor.",
+          "en": "The notes came back. The neighbor now knows the job description.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "devam",
+    "slip": {
+      "tr": "İDDİA: Bu görüşmeyi süpürge kazanır. — M.",
+      "en": "WAGER: The vacuum wins this interview. — M."
+    }
+  },
+  "intent": {
+    "setup": "annenin evinde online iş görüşmesi sırasında süpürge",
+    "mechanism": "\"hiç ses yapmam\" sözü",
+    "mechanismId": "understatement",
+    "punch": "hiç ses yapmam",
+    "lift": "hedef sayacı bir tur ileri",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tur"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

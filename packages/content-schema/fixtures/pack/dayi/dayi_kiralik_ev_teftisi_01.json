@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_kiralik_ev_teftisi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "ev",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "momsHouse",
+      "room"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "İmzalamadan önce ben bir bakayım. Duvara vurursun, duvar konuşur.",
+      "en": "Before you sign, let me take a look. You knock on a wall, the wall talks."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "annoyed",
+      "tr": "Bu köşe 'nem' diyor. Şu dolap 'beni taşımayın' diyor. Ev sahibi nerede?",
+      "en": "This corner says 'damp.' That cabinet says 'don't move me.' Where's the landlord?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Pazarlığı dayın yapsın",
+      "en": "Let your uncle negotiate",
+      "pattern": "leanOnFamily",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "imzala",
+      "tr": "Yine de imzala",
+      "en": "Sign anyway",
+      "pattern": "risk"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Başka ev bak",
+      "en": "Keep looking",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": 500,
+          "flags": {
+            "add": [
+              "dayi_kira_pazarligi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Dayın ev sahibiyle kırk dakika konuştu. İlk ayın kirası 500 Para düştü, nem yerinde kaldı.",
+        "en": "Your uncle talked with the landlord for forty minutes. First month's rent dropped by 500. The damp stayed put.",
+        "coach": [
+          {
+            "tr": "İndirim alındı. Nem pazarlığa dahil değildi.",
+            "en": "Discount secured. The damp wasn't on the table.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "flags": {
+            "add": [
+              "ev_sahibi_soguk"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Dayın ev sahibine nemin tarihçesini anlattı. Ev sahibi 'Başka talip var' dedi; kira aynı kaldı, selam soğudu.",
+        "en": "Your uncle lectured the landlord on the history of damp. The landlord mentioned other applicants. Same rent. Cooler welcome.",
+        "coach": [
+          {
+            "tr": "Kira sabit. İndirime giren, ev sahibinin selamı oldu.",
+            "en": "Rent unchanged. The landlord's warmth got the discount.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "imzala": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "nemli_ev"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "İmzaladın. Dayın çıkarken köşeye bir kez daha vurdu ve 'Ben söyledim' dedi.",
+      "en": "You signed. On the way out your uncle knocked the corner once more. 'I said so.'",
+      "coach": [
+        {
+          "tr": "Duvar ifade verdi.",
+          "en": "The wall testified.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2,
+            "memory": "ev_vazgecti"
+          }
+        ]
+      },
+      "tr": "Vazgeçtin. Bir hafta daha ev baktınız; dayın her evde aynı köşeye vurdu.",
+      "en": "You walked away. One more week of viewings. Your uncle knocked the same corner in every flat.",
+      "coach": [
+        {
+          "tr": "Altı ev, altı köşe, bir yöntem.",
+          "en": "Six flats. Six corners. One method.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Dayın kirayı düşüremez. — M.",
+      "en": "WAGER: The rent won't budge. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk kiralık evi imzalamadan önce dayının duvarlara vurarak teftiş etmesi",
+    "mechanism": "duvar konuşur; nesneler kendini ihbar ediyor",
+    "mechanismId": "literalism",
+    "punch": "duvara vurursun, duvar konuşur",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "duvar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

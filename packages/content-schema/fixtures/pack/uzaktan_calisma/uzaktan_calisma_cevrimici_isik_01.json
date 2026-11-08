@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uzaktan_calisma_cevrimici_isik_01",
+  "tags": [
+    "is",
+    "uzaktan",
+    "takip",
+    "uzaktan_calisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "uzaktan_calisma": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Şirket yeni bir program kurmuş. Fare beş dakika oynamazsa adının yanındaki ışık sarıya dönüyor.",
+      "en": "The company installed new software. If your mouse sits still five minutes, the dot by your name turns yellow."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bu bir takip değil, görünürlük aracı. Herkes için.",
+      "en": "It's not tracking. It's a visibility tool. For everyone.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "aldirma",
+      "tr": "Işığa aldırma, çalış",
+      "en": "Ignore the dot, just work",
+      "pattern": "patience"
+    },
+    {
+      "id": "fare",
+      "tr": "Fareyi sık sık oynat",
+      "en": "Nudge the mouse constantly",
+      "pattern": "overwork"
+    },
+    {
+      "id": "konus",
+      "tr": "Patrona konuyu aç",
+      "en": "Raise it with the boss",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "aldirma": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "sari_isik"
+          ]
+        }
+      },
+      "tr": "Rapor yazarken ışığın üç kez sarıya döndü. Nevin Hanım öğleden sonra \"her şey yolunda mı\" diye yazdı.",
+      "en": "While you wrote a report, your dot went yellow three times. That afternoon Ms. Carver messaged: \"Everything okay?\"",
+      "coach": [
+        {
+          "tr": "Rapor bitti. Işık üç kez merak etti.",
+          "en": "The report got done. The dot got curious three times.",
+          "roast": false
+        }
+      ]
+    },
+    "fare": {
+      "effects": {
+        "hidden": {
+          "stress": 5
+        },
+        "stats": {
+          "health": -1,
+          "joy": -2
+        }
+      },
+      "tr": "Gün boyu dört dakikada bir fareyi oynattın. Akşam yapılacaklar listesinin yarısı duruyordu; ışık hep yeşildi.",
+      "en": "All day you nudged the mouse every four minutes. By evening half your to-do list remained. The dot stayed green.",
+      "coach": [
+        {
+          "tr": "Yeşil ışık, yarım liste. Fare verimli bir gün geçirdi.",
+          "en": "Green dot, half a list. The mouse had a productive day.",
+          "roast": true
+        }
+      ]
+    },
+    "konus": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "odak_modu"
+            ]
+          }
+        },
+        "tr": "Nevin Hanım bir \"odak modu\" ekletti. İki saatlik bloklarda ışık gri kalıyor.",
+        "en": "Ms. Carver had a \"focus mode\" added: two-hour blocks where the dot stays gray.",
+        "coach": [
+          {
+            "tr": "İki saat gri. Kimse sormuyor.",
+            "en": "Two hours of gray. No questions asked.",
+            "roast": false
+          },
+          {
+            "tr": "Hedefe iki saat gri.",
+            "en": "Two gray hours for the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Nevin Hanım aracın \"herkes için\" olduğunu yineledi ve ekip toplantısına \"görünürlük\" maddesi ekledi.",
+        "en": "Ms. Carver repeated that the tool was \"for everyone\" and added \"visibility\" to the team meeting agenda.",
+        "coach": [
+          {
+            "tr": "Konu görünür oldu. Sen de.",
+            "en": "The issue became visible. So did you.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: Işık \"herkes için\" kalır. — M.",
+      "en": "WAGER: The dot stays \"for everyone.\" — M."
+    }
+  },
+  "intent": {
+    "setup": "evden çalışırken çevrim içi durum ışığının fare hareketine bağlanması",
+    "mechanism": "ışığın rengi işin kendisinin yerine geçiyor",
+    "mechanismId": "deadpan_report",
+    "punch": "fare verimli bir gün geçirdi",
+    "lift": "hedefe iki saat gri",
+    "target": "decision",
+    "closer": "isik",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

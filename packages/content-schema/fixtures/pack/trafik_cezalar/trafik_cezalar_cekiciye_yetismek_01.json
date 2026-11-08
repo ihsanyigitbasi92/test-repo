@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "trafik_cezalar_cekiciye_yetismek_01",
+  "tags": [
+    "ulasim",
+    "trafik",
+    "trafik_cezalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "trafik_cezalar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Halat bağlandı. Halat bağlandıysa sistem açılmıştır.",
+      "en": "The strap's on. If the strap's on, the system is open."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Sistem açıldıysa ben kapatamam. Ben sadece halatım.",
+      "en": "If the system is open, I can't close it. I'm just the strap guy.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "rica",
+      "tr": "Rica edip indirtmeye çalış",
+      "en": "Plead to have it lowered",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "takip",
+      "tr": "Otoparka kadar takip et",
+      "en": "Follow it to the impound lot",
+      "pattern": "patience"
+    },
+    {
+      "id": "fotograf",
+      "tr": "Tabelanın fotoğrafını çek",
+      "en": "Photograph the signage",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "rica": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Görevli halatı gevşetti, \"yerinde ceza\" yazdı: 300 Para. Arabanın ön tekerleği yere değdi, sen de.",
+        "en": "The operator loosened the strap and wrote an on-the-spot ticket: 300. The front wheels touched down. So did you.",
+        "coach": [
+          {
+            "tr": "Ön tekerlek yere değdi. Ceza değmedi, uçtu.",
+            "en": "The wheels came down. The ticket did not.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "cekilmis_arac"
+            ]
+          }
+        },
+        "tr": "Görevli \"sistem açıldı, kapanmaz\" dedi. Araba sokağın sonunda dönüp gözden kayboldu.",
+        "en": "The operator said \"once it's in the system, it stays in.\" The car turned the corner and was gone.",
+        "coach": [
+          {
+            "tr": "Araba gitti. Sistem kaldı.",
+            "en": "The car left. The system stayed.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "takip": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "cekilmis_arac"
+          ]
+        }
+      },
+      "tr": "Otoparkta çekme 600, günlük 300 Para. Gişe saat beşte kapanınca yarın yine geldin.",
+      "en": "Tow fee 600, storage 300 a day. The window closed at five, so you came back tomorrow.",
+      "coach": [
+        {
+          "tr": "Araban otelde bir gece kaldı. Sen kalmadın, ödedin.",
+          "en": "Your car spent a night in a hotel. You paid; you stayed home.",
+          "roast": true
+        }
+      ]
+    },
+    "fotograf": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "cekme_itiraz_dosyasi"
+          ]
+        },
+        "glossary": "cekme_yasagi"
+      },
+      "tr": "Tabela ağacın arkasında, yarı yarıya yapraktı. İtiraz dosyana ekledin; araba yine de çekildi.",
+      "en": "The sign was half hidden behind a tree. You added the photo to a dispute file; the car got towed anyway.",
+      "coach": [
+        {
+          "tr": "Dosya kalınlaştı. Cüzdan inceldi.",
+          "en": "Thicker file. Thinner wallet.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rica",
+    "slip": {
+      "tr": "İDDİA: Halat çözülmez. — M.",
+      "en": "WAGER: That strap isn't coming off. — M."
+    }
+  },
+  "intent": {
+    "setup": "dönüşte arabanın çekiciye yüklenirken yakalanması",
+    "mechanism": "çekici görevlisi her şeyi sisteme bağlıyor",
+    "mechanismId": "escalation",
+    "punch": "halat bağlandıysa sistem açılmıştır",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sistem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

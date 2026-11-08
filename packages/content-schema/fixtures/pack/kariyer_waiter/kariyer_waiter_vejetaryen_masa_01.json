@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_waiter_vejetaryen_masa_01",
+  "tags": [
+    "kariyer",
+    "garson",
+    "kariyer_waiter"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_waiter": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "waiter"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Bunun içinde et mi var? Ben sebzeli istemiştim.",
+      "en": "Is there meat in this? I ordered the vegetable one."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "annoyed",
+      "tr": "Fişte \"sebzeli\" yazıyor ama üstü çizilmiş. Kim çizdi bilmiyorum.",
+      "en": "The ticket says \"vegetable,\" but it's crossed out. No idea who did that.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ozur",
+      "tr": "Özür dile, yenisini getir",
+      "en": "Apologize, bring a new one",
+      "pattern": "patience"
+    },
+    {
+      "id": "tatli",
+      "tr": "İkram tatlı götür",
+      "en": "Bring a free dessert",
+      "pattern": "generosity"
+    },
+    {
+      "id": "fis",
+      "tr": "Fişi göster",
+      "en": "Show them the ticket",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "ozur": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Yeni tabağı on iki dakikada getirdin. Masa yemeği sıcak yedi, bahşiş bırakmadı.",
+      "en": "The new plate came out in twelve minutes. They ate it hot. They didn't tip.",
+      "coach": [
+        {
+          "tr": "Tabak doğru çıktı. Bahşiş çıkmadı.",
+          "en": "Right plate this time. No tip, though.",
+          "roast": false
+        }
+      ]
+    },
+    "tatli": {
+      "effects": {
+        "money": 25,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "İkram tatlıyı patrona sormadan götürdün. Masa 25 Para bahşiş bıraktı, patron ikram listesine bir çizik attı.",
+      "en": "You brought a comped dessert without asking. The table tipped 25; the boss made a tally mark on the comp list.",
+      "coach": [
+        {
+          "tr": "Bahşiş yazıldı. Çizik de.",
+          "en": "The tip went in. So did the tally mark.",
+          "roast": false
+        }
+      ]
+    },
+    "fis": [
+      {
+        "p": 3000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Fişi gösterdin. Üstünü çizen masanın kendisiydi; siparişi değiştirip unutmuşlar.",
+        "en": "You showed the ticket. The person who crossed it out was at the table: they had changed the order and forgotten.",
+        "coach": [
+          {
+            "tr": "Suçlu bulundu. Peçetesiyle oturuyordu.",
+            "en": "Culprit found. Seated, with a napkin.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Fişi gösterdin; üstünü mutfak çizmişti. Masa müdürü çağırdı.",
+        "en": "You showed the ticket. The kitchen had crossed it out. The table asked for the manager.",
+        "coach": [
+          {
+            "tr": "Kanıt mutfağı gösterdi. Müdür seni.",
+            "en": "The evidence pointed at the kitchen. The manager pointed at you.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "fis",
+    "slip": {
+      "tr": "İDDİA: Fiş seni kurtarmaz. — M.",
+      "en": "WAGER: The ticket won't save you. — M."
+    }
+  },
+  "intent": {
+    "setup": "vejetaryen masaya yanlışlıkla etli yemek götürmek",
+    "mechanism": "fişteki \"sebzeli\" kelimesinin üstü çizilmiş",
+    "mechanismId": "deadpan_report",
+    "punch": "kim çizdi bilmiyorum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "cizik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

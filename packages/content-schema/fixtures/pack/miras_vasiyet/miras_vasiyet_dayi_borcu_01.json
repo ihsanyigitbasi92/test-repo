@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "miras_vasiyet_dayi_borcu_01",
+  "tags": [
+    "yaslilik",
+    "dayi",
+    "borc",
+    "miras",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 52,
+      "max": 60
+    },
+    "npc": {
+      "uncle": {
+        "alive": false
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Dayınızdan kalan: bir arsa payı, bir borç dosyası. Borç, arsadan büyük.",
+      "en": "From your uncle: a share of a plot, and a debt file. The debt is bigger than the plot."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Reddetmek için üç ay süreniz var. Sessiz kalırsanız kabul sayılırsınız.",
+      "en": "You have three months to refuse. Silence counts as yes.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "reddet",
+      "tr": "Mirası reddet",
+      "en": "Refuse the inheritance",
+      "pattern": "patience"
+    },
+    {
+      "id": "kabul",
+      "tr": "Kabul et, borcu öde",
+      "en": "Accept, pay the debt",
+      "pattern": "generosity"
+    },
+    {
+      "id": "incele",
+      "tr": "Dosyayı satır satır incele",
+      "en": "Audit the file line by line",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "dayi_mirasi_red"
+          ]
+        },
+        "glossary": "mirasin_reddi"
+      },
+      "tr": "Ret dilekçesi verildi. Arsa da borç da başkasına geçti; sana dayının cep takvimi kaldı.",
+      "en": "Refusal filed. The plot and the debt went elsewhere. You kept his pocket diary.",
+      "coach": [
+        {
+          "tr": "Miras: bir cep takvimi. Borç: yok.",
+          "en": "Inherited: one pocket diary. Debt: none.",
+          "roast": false
+        }
+      ]
+    },
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "money": -4000,
+        "flags": {
+          "add": [
+            "dayi_borcu_odendi"
+          ]
+        }
+      },
+      "tr": "Borcu kapattın: 4.000 Para. Arsa payının bir köy yolunun altında kaldığı ertesi hafta anlaşıldı.",
+      "en": "You cleared the debt: 4,000. The following week, it emerged that the plot share lies under a village road.",
+      "coach": [
+        {
+          "tr": "4.000 Para'ya bir yol parçası. Trafiğe açık.",
+          "en": "4,000 for a stretch of road. Open to traffic.",
+          "roast": true
+        }
+      ]
+    },
+    "incele": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": 800,
+          "flags": {
+            "add": [
+              "dayi_borcu_hatali"
+            ]
+          }
+        },
+        "tr": "Dosyada aynı borç iki kez yazılmış. Düzeltilince arsa borçtan 800 Para büyük çıktı.",
+        "en": "The same debt was listed twice. Once corrected, the plot came out 800 ahead.",
+        "coach": [
+          {
+            "tr": "Bir mükerrer kayıt. Dayın son anda yine kurtardı.",
+            "en": "One duplicate entry. Your uncle, saving the day one last time.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "dayi_mirasi_red"
+            ]
+          },
+          "glossary": "mirasin_reddi"
+        },
+        "tr": "Rakamlar doğru çıktı. Üç hafta inceledin, sonra yine reddettin.",
+        "en": "The numbers checked out. Three weeks of auditing, then you refused anyway.",
+        "coach": [
+          {
+            "tr": "Üç hafta denetim, aynı sonuç.",
+            "en": "Three weeks of auditing. Same answer.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "incele",
+    "slip": {
+      "tr": "İDDİA: Dosyada hata yok. — M.",
+      "en": "WAGER: The file is clean. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayıdan arsa payıyla birlikte daha büyük bir borç dosyası kalması",
+    "mechanism": "sessizlik kabul sayılıyor",
+    "mechanismId": "bathos",
+    "punch": "borç arsadan büyük",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "takvim",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

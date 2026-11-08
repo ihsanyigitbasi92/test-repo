@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_sigorta_paketi_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1200,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 33,
+      "max": 40
+    },
+    "money": {
+      "min": 8000
+    },
+    "flags": {
+      "any": [
+        "ev_teklif_kabul",
+        "pesinat_tamam",
+        "konut_kredisi_basvuru"
+      ],
+      "none": [
+        "kredi_onay"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Krediniz hazır. Yanında küçük bir paket var: konut, hayat ve eşya sigortası.",
+      "en": "Your loan's ready. It comes with a small bundle: home, life and contents insurance."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Paket zorunlu değil. Almazsanız dosyanız biraz daha düşünülür.",
+      "en": "The bundle isn't mandatory. Without it, your file just gets thought about a bit longer.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Paketi al",
+      "en": "Take the bundle",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "zorunlu",
+      "tr": "Yalnızca zorunlu olanı al",
+      "en": "Only the required policy",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "baska",
+      "tr": "Başka bankaya git",
+      "en": "Try another bank",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "money": -1200,
+        "flags": {
+          "add": [
+            "kredi_paketi",
+            "kredi_onay"
+          ]
+        },
+        "glossary": "sigorta_paketi"
+      },
+      "tr": "Paketi imzaladın. İlk yıl primi 1.200 Para; eşya sigortası henüz eşyası olmayan bir eve yapıldı.",
+      "en": "You signed the bundle. First-year premium: 1,200. The contents policy covers a home with no contents yet.",
+      "coach": [
+        {
+          "tr": "Boş ev, dolu poliçe.",
+          "en": "Empty home, full policy.",
+          "roast": false
+        }
+      ]
+    },
+    "zorunlu": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "money": -300,
+          "flags": {
+            "add": [
+              "kredi_onay"
+            ]
+          }
+        },
+        "tr": "Zorunlu konut sigortasını aldın, gerisini geri çevirdin. Kredi aynı gün onaylandı.",
+        "en": "You took the mandatory home policy and declined the rest. Loan approved the same day.",
+        "coach": [
+          {
+            "tr": "Paket açıldı. İçinden bir parça seçildi.",
+            "en": "The bundle got unbundled.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -1200,
+          "flags": {
+            "add": [
+              "kredi_paketi",
+              "kredi_onay"
+            ]
+          }
+        },
+        "tr": "Geri çevirdin. Dosyan 'ek değerlendirmeye' alındı; üç hafta sonra paketle birlikte onaylandı.",
+        "en": "You declined. Your file went to 'further review' and came back three weeks later, approved, bundle included.",
+        "coach": [
+          {
+            "tr": "Biraz daha düşünüldü. Üç hafta kadar.",
+            "en": "It got thought about. For three weeks.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "baska": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kredi_bankasi_degisti"
+          ]
+        }
+      },
+      "tr": "Başka bankaya gittin. Orada da bir paket vardı, adı farklıydı.",
+      "en": "You tried another bank. They had a bundle too. Different name.",
+      "coach": [
+        {
+          "tr": "Aynı paket. Başka antet.",
+          "en": "Same bundle. Different letterhead.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "konut kredisiyle birlikte dayatılan sigorta paketi",
+    "mechanism": "zorunlu değil ama dosya düşünülür; tehdit hafif dille",
+    "mechanismId": "understatement",
+    "punch": "dosyanız biraz daha düşünülür",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "paket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

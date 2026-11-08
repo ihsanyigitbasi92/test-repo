@@ -1,0 +1,229 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "emeklilik_gecis_kademeli_gecis_01",
+  "tags": [
+    "yaslilik",
+    "is",
+    "pazarlik",
+    "emeklilik_gecis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "emeklilik_gecis": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 58,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Haftada üç gün çalışıp kalanında emekli mi olacaksın? Formda böyle bir kutu yok.",
+      "en": "Three days a week and retired the rest? There's no box for that on the form."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Ama Çarşamba toplantılarına gelirsen bir kutu çizeriz.",
+      "en": "But come to the Wednesday meetings and we'll draw one.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Çarşambasız üç gün iste",
+      "en": "Ask for three days, no Wednesdays",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Çarşamba dahil kabul et",
+      "en": "Accept, Wednesdays included",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tam",
+      "tr": "Tam emekliliğe geç",
+      "en": "Retire fully instead",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "kademeli_emeklilik"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "yarı zamanlı uzman",
+              "tier": 2,
+              "monthly": 2200
+            }
+          }
+        },
+        "tr": "Pazartesi, Salı, Perşembe. Çarşamba toplantı notlarını artık başkası tutuyor.",
+        "en": "Monday, Tuesday, Thursday. Someone else takes the Wednesday meeting notes now.",
+        "coach": [
+          {
+            "tr": "Çarşamba geri alındı. Otuz yıl sonra.",
+            "en": "Wednesday, reclaimed. After thirty years.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: bir gün kazanıldı.",
+            "en": "Goal counter: one day won.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "kademeli_emeklilik"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "yarı zamanlı uzman",
+              "tier": 2,
+              "monthly": 2200
+            }
+          }
+        },
+        "tr": "Üç gün onaylandı, Çarşamba dahil. İlk Çarşamba toplantısı iki saat sürdü.",
+        "en": "Three days approved, Wednesday included. The first Wednesday meeting ran two hours.",
+        "coach": [
+          {
+            "tr": "Kutu çizildi. Toplantının ortasına.",
+            "en": "They drew the box. Right in the middle of a meeting.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kademeli_emeklilik"
+          ]
+        },
+        "status": {
+          "job": {
+            "title": "yarı zamanlı uzman",
+            "tier": 2,
+            "monthly": 2300
+          }
+        }
+      },
+      "tr": "Pazartesi, Çarşamba, Cuma. Patron yeni takvimini herkese \"esnek model\" diye duyurdu.",
+      "en": "Monday, Wednesday, Friday. Your boss announced your schedule to everyone as \"the flexible model.\"",
+      "coach": [
+        {
+          "tr": "Yeni modelin ilk kullanıcısı. Patentsiz.",
+          "en": "First user of the new model. No patent.",
+          "roast": true
+        }
+      ]
+    },
+    "tam": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "emekli"
+          ]
+        },
+        "status": {
+          "job": null
+        }
+      },
+      "tr": "Emeklilik dilekçeni o gün verdin. Patron okurken \"üç gün de olabilirdi\" dedi.",
+      "en": "You handed in your retirement letter that day. Reading it, your boss said, \"Could've been three days.\"",
+      "coach": [
+        {
+          "tr": "Yedi gün, hepsi senin.",
+          "en": "Seven days, all yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Çarşamba pazarlıktan sağ çıkar. — M.",
+      "en": "WAGER: Wednesday survives the negotiation. — M."
+    }
+  },
+  "intent": {
+    "setup": "tam emeklilik yerine haftada üç gün çalışmayı patrondan istemek",
+    "mechanism": "patron formda kutu olmadığını söylüyor, sonra toplantı karşılığında kutu çiziyor",
+    "mechanismId": "reversal",
+    "punch": "Çarşamba toplantısına gelirsen bir kutu çizeriz",
+    "lift": "hedef sayacı",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "carsamba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

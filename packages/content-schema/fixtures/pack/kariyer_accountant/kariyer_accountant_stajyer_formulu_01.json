@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_stajyer_formulu_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Stajyere mutabakatı öğret. Sana üç gün sürüyor, ona bir hafta verelim.",
+      "en": "Teach the intern the reconciliation. It takes you three days. Give them a week."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Bitti. Bir formül yazdım, yirmi dakika sürdü. Yanlış bir şey mi yaptım?",
+      "en": "Done. I wrote a formula. Took twenty minutes. Did I do something wrong?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ogren",
+      "tr": "Formülü stajyerden öğren",
+      "en": "Have the intern teach you",
+      "pattern": "patience"
+    },
+    {
+      "id": "kontrol",
+      "tr": "Satır satır kontrol et",
+      "en": "Check it line by line",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sahiplen",
+      "tr": "Formülü kendi raporuna koy",
+      "en": "Put the formula in your report",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ogren": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "brain": 3
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_formul"
+          ]
+        }
+      },
+      "tr": "Stajyer formülü anlattı, sen de kendi defterine yazdın. Üç günlük iş artık yirmi dakika.",
+      "en": "The intern walked you through it and you copied it into your own notes. Three days of work is now twenty minutes.",
+      "coach": [
+        {
+          "tr": "Üç gün geri geldi.",
+          "en": "You got three days back.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef takvimine üç gün.",
+          "en": "Goal calendar: three days freed.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kontrol": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "İki gün kontrol ettin; formül her satırda doğruydu. Stajyer bu arada iki raporu daha otomatikleştirdi.",
+      "en": "You spent two days checking. The formula was right on every line. Meanwhile, the intern automated two more reports.",
+      "coach": [
+        {
+          "tr": "Kontrol iki gün sürdü. Formül hâlâ yirmi dakika.",
+          "en": "The check took two days. The formula still takes twenty minutes.",
+          "roast": true
+        }
+      ]
+    },
+    "sahiplen": {
+      "effects": {
+        "meters": {
+          "ego": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -4
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_formul_sahiplenildi"
+          ]
+        }
+      },
+      "tr": "Raporda formülün altında senin adın var. Stajyer toplantıda sesini çıkarmadı, dosyaya şifre koydu.",
+      "en": "Your name sits under the formula in the report. The intern said nothing in the meeting, then password-protected the file.",
+      "coach": [
+        {
+          "tr": "Formül senin. Şifre stajyerin.",
+          "en": "The formula is yours. The password is theirs.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "stajyere üç günlük mutabakatı öğretirken stajyer yirmi dakikalık formül yazıyor",
+    "mechanism": "öğretmen öğrenci oluyor",
+    "mechanismId": "reversal",
+    "punch": "yanlış bir şey mi yaptım",
+    "lift": "hedef takvimi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "formul"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

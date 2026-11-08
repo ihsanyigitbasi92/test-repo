@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_ticari_hesap_01",
+  "tags": [
+    "is",
+    "yan_gelir",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yan_gelir_girisim": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Hesabınızı açtık. Bir de kart, bir de sigorta, bir de kart okuyucu. Hepsi paket.",
+      "en": "Your account is open. Plus a card, insurance, and a card reader. All bundled."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Paketi bölersek fiyat artar. Paketi böldüğümüzü kimse sevmez.",
+      "en": "If we unbundle, the price goes up. Nobody likes it when we unbundle.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "paket",
+      "tr": "Paketi al",
+      "en": "Take the bundle",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sade",
+      "tr": "Sadece hesabı iste",
+      "en": "Just the account, please",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ertele",
+      "tr": "Düşünüp döneceğini söyle",
+      "en": "Say you'll think it over",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "paket": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": -1
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "kart_okuyucu"
+            ]
+          }
+        },
+        "flags": {
+          "add": [
+            "ticari_hesap"
+          ]
+        }
+      },
+      "tr": "Paketi aldın: aylık 450 Para. Kart okuyucu ilk ay sekiz işlem yaptı.",
+      "en": "You took the bundle: 450 a month. The card reader handled eight transactions in month one.",
+      "coach": [
+        {
+          "tr": "Sekiz işlem, bir aidat. Cihaz kendini ödemedi.",
+          "en": "Eight transactions, one monthly fee. The reader didn't cover itself.",
+          "roast": true
+        }
+      ]
+    },
+    "sade": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -60,
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "ticari_hesap"
+            ]
+          }
+        },
+        "tr": "Sadece hesap istedin. Bankacı üç kez \"emin misiniz\" diye sordu, dördüncüde açtı: aylık 60 Para.",
+        "en": "Just the account. The banker asked \"Are you sure?\" three times and opened it on the fourth: 60 a month.",
+        "coach": [
+          {
+            "tr": "Dört kez \"emin misiniz\". Dört kez aynı cevap.",
+            "en": "Four \"Are you sure\"s. Four identical answers.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -1
+          },
+          "flags": {
+            "add": [
+              "ticari_hesap"
+            ]
+          }
+        },
+        "tr": "Sistem paketsiz hesap açmadı. Orta paket verildi: aylık 300 Para, sigorta dahil.",
+        "en": "The system wouldn't open an account without a bundle. You got the mid-tier: 300 a month, insurance included.",
+        "coach": [
+          {
+            "tr": "Artık sigortalısın. Neye karşı, yazmıyor.",
+            "en": "You're insured now. Against what, it doesn't say.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "hesap_bekliyor"
+          ]
+        }
+      },
+      "tr": "Düşünüp döneceğini söyledin. Akşama kadar bankadan üç arama geldi; paket hâlâ geçerliymiş.",
+      "en": "You said you'd think it over. By evening the bank had called three times. The bundle is still available.",
+      "coach": [
+        {
+          "tr": "Paket seni arıyor. Sen düşünüyorsun.",
+          "en": "The bundle keeps calling. You keep thinking.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sade",
+    "slip": {
+      "tr": "İDDİA: Sistem paketsiz hesap açmaz. — M.",
+      "en": "WAGER: The system won't open a plain account. — M."
+    }
+  },
+  "intent": {
+    "setup": "yan iş için ticari hesap açarken bankacının ek ürün paketi satması",
+    "mechanism": "bir de kart, bir de sigorta, bir de cihaz",
+    "mechanismId": "count",
+    "punch": "paketi böldüğümüzü kimse sevmez",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "paket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

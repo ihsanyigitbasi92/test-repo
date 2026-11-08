@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_havalimani_yetisme_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Sabah beşte trafik olmaz. Teorim var: herkes ya uyuyor ya havalimanında.",
+      "en": "No traffic at 5 a.m. My theory: everyone's either asleep or already at the airport."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "worried",
+      "tr": "...Hepsi havalimanına gidiyormuş. Bu yoldan.",
+      "en": "...Turns out they're all heading there. On this road.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "yanyol",
+      "tr": "Yan yoldan gidelim de",
+      "en": "Ask for the back roads",
+      "pattern": "risk",
+      "check": {
+        "base": 4500
+      }
+    },
+    {
+      "id": "sakin",
+      "tr": "Ana yolda sabırla bekle",
+      "en": "Sit tight on the main road",
+      "pattern": "patience"
+    },
+    {
+      "id": "checkin",
+      "tr": "Yolda telefondan check-in yap",
+      "en": "Check in on your phone",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "yanyol": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -520,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "taksici_yan_yol"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Yan yoldan gittiniz. Biniş kapanmadan dokuz dakika önce kontrol noktasındaydın.",
+        "en": "Back roads it was. You reached security nine minutes before boarding closed.",
+        "coach": [
+          {
+            "tr": "Dokuz dakikalık pay.",
+            "en": "Nine minutes to spare.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -1860,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kacan_ucus"
+            ]
+          }
+        },
+        "tr": "Yan yolda bir çöp kamyonunun arkasında kaldınız. Uçağı kaçırdın; bilet değişikliği 1.300 Para.",
+        "en": "The back road had a garbage truck on it. You missed the flight. Rebooking: 1,300.",
+        "coach": [
+          {
+            "tr": "Teori sağlamdı. Kamyon da.",
+            "en": "Solid theory. Solid truck.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sakin": {
+      "effects": {
+        "money": -540,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Ana yolda bekledin. Son çağrıya ayakkabıların elinde yetiştin.",
+      "en": "You stayed on the main road and made the final call with your shoes in your hand.",
+      "coach": [
+        {
+          "tr": "Uçaktasın. Ayakkabılar sonra.",
+          "en": "On board. Shoes to follow.",
+          "roast": false
+        }
+      ]
+    },
+    "checkin": {
+      "effects": {
+        "money": -540,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "erken_checkin"
+          ]
+        }
+      },
+      "tr": "Yolda telefondan check-in yaptın ve doğrudan kapıya koştun. Valiz kabin ölçüsüne bir parmakla sığdı.",
+      "en": "You checked in from the back seat and ran straight to the gate. Your bag passed the size check by a finger.",
+      "coach": [
+        {
+          "tr": "Bir parmak fark.",
+          "en": "A finger's width.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yanyol",
+    "slip": {
+      "tr": "İDDİA: Yan yol da dolu. — M.",
+      "en": "WAGER: The back road's full too. — M."
+    }
+  },
+  "intent": {
+    "setup": "sabah erken uçağa yetişmek için taksiye binip havalimanı trafiğine takılmak",
+    "mechanism": "taksicinin trafik teorisi kendi kanıtıyla çöküyor",
+    "mechanismId": "reversal",
+    "punch": "hepsi havalimanına gidiyormuş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "parmak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

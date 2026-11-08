@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_imza_karti_kilit_01",
+  "tags": [
+    "burokrasi",
+    "imza",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Şifreyi üç kez yanlış girmişsiniz. İmza kartı kendini kilitledi.",
+      "en": "You entered the PIN wrong three times. The signature card has locked itself."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Yenisi on iş günü. Bugünkü sözleşmeniz bekleyebilir mi?",
+      "en": "A new one takes ten business days. Can today's contract wait?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "islak",
+      "tr": "Kâğıda imzala, elden götür",
+      "en": "Sign on paper, deliver by hand",
+      "pattern": "overwork"
+    },
+    {
+      "id": "erte",
+      "tr": "Sözleşmeyi on gün ertele",
+      "en": "Push the contract ten days",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "kod",
+      "tr": "Kilit açma kodunu ara",
+      "en": "Hunt for the unlock code",
+      "pattern": "patience",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "islak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "money": -120,
+        "flags": {
+          "add": [
+            "islak_imza_teslim"
+          ]
+        }
+      },
+      "tr": "Sözleşmeyi taksiyle şehrin öbür ucuna götürdün, 120 Para. İmza 17.55'te teslim edildi.",
+      "en": "You took a cab across town with the contract: 120. Signed and delivered at 5:55 p.m.",
+      "coach": [
+        {
+          "tr": "Kart kilitlendi, ayakların değil.",
+          "en": "The card locked. Your legs didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sozlesme_ertelendi"
+          ]
+        }
+      },
+      "tr": "Sözleşme on gün ertelendi. Karşı taraf \"sorun değil...\" yazdı, üç noktayla.",
+      "en": "The contract slipped ten days. The other side wrote, \"No problem...\" with three dots.",
+      "coach": [
+        {
+          "tr": "Üç nokta çok yük taşıyor.",
+          "en": "Three dots carry a lot of weight.",
+          "roast": true
+        }
+      ]
+    },
+    "kod": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "imza_kurtarildi"
+            ]
+          }
+        },
+        "tr": "Kod, kartın ilk kutusundaki zarfın içinde katlanmış duruyordu. Kart açıldı, sözleşme imzalandı.",
+        "en": "The code was folded inside an envelope in the card's original box. Unlocked. Contract signed.",
+        "coach": [
+          {
+            "tr": "Kutuyu atmamışsın. Günü kutu kurtardı.",
+            "en": "You kept the box. The box saved the day.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef takvimi kaymadı.",
+            "en": "The goal calendar holds.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "yeni_imza_karti"
+            ]
+          },
+          "glossary": "imza_karti"
+        },
+        "tr": "Zarf boştu. Kod bulunamadı; yeni kart başvurusu alındı.",
+        "en": "The envelope was empty. No code. New card requested.",
+        "coach": [
+          {
+            "tr": "Zarf da kendini kilitlemiş.",
+            "en": "Even the envelope had locked itself.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "elektronik imza kartının yanlış şifreyle kilitlenmesi ve aynı gün sözleşme imzalanacak olması",
+    "mechanism": "kilit, on gün, sözleşme; her şey üst üste",
+    "mechanismId": "escalation",
+    "punch": "yenisi on iş günü",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": true,
+    "closer": "kutu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

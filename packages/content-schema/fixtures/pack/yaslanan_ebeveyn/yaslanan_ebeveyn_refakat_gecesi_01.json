@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_refakat_gecesi_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "hastane",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 68
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "tired",
+      "tr": "Sen o koltukta uyuyamazsın. Gel, yatağın yarısı senin.",
+      "en": "You can't sleep in that chair. Come here, half the bed is yours."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Hemşire gelirse refakatçi değil, misafir olduğunu söylersin.",
+      "en": "If the nurse comes, tell her you're a guest, not a companion.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "koltuk",
+      "tr": "Koltukta kal",
+      "en": "Stay in the chair",
+      "pattern": "patience"
+    },
+    {
+      "id": "nobet",
+      "tr": "Kardeşinle geceleri bölüş",
+      "en": "Split the nights with your sibling",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "eve",
+      "tr": "Eve git, sabah erken gel",
+      "en": "Go home, come back early",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "koltuk": {
+      "effects": {
+        "stats": {
+          "health": -3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "momPressure": -4
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "refakat_gecesi"
+          ]
+        }
+      },
+      "tr": "Sabaha kadar koltukta kaldın. Annen gece üç kez kalkıp üstünü örttü.",
+      "en": "You spent the night in the chair. Mom got up three times to tuck a blanket around you.",
+      "coach": [
+        {
+          "tr": "Refakat edilen sendin.",
+          "en": "You were the one being looked after.",
+          "roast": false
+        }
+      ]
+    },
+    "nobet": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "refakat_nobet"
+          ]
+        }
+      },
+      "tr": "Geceleri kardeşinle bölüştünüz. Annen ikinize de aynı battaniyeyi örtmeyi sürdürdü.",
+      "en": "You and your sibling split the nights. Mom kept tucking the same blanket around whoever was there.",
+      "coach": [
+        {
+          "tr": "Tek battaniye. İki vardiya.",
+          "en": "One blanket. Two shifts.",
+          "roast": false
+        }
+      ]
+    },
+    "eve": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "meters": {
+          "momPressure": 3
+        }
+      },
+      "tr": "Eve gittin ama uyuyamadın. Sabah yedide oradaydın; annen kahvaltını çoktan istetmişti.",
+      "en": "You went home and didn't sleep. You were back by seven. Mom had already ordered your breakfast.",
+      "coach": [
+        {
+          "tr": "Uyku yok. Kahvaltı hazır.",
+          "en": "No sleep. Breakfast ready.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "hastanede annene refakat ettiğin gece",
+    "mechanism": "bakılan ve bakan yer değiştiriyor",
+    "mechanismId": "reversal",
+    "punch": "yatağın yarısı senin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "battaniye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_ogrenci_karti_01",
+  "tags": [
+    "para",
+    "borc",
+    "kredi_karti",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    },
+    "flags": {
+      "none": [
+        "ilk_kredi_karti"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Öğrenci kartı: limit 500 Para. Limitiniz gelirinizle birlikte büyür.",
+      "en": "Student card: 500 limit. Your limit grows with your income."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Gelir hanesine 'harçlık' yazmışsınız. Sistem bunu da kabul ediyor.",
+      "en": "You wrote 'allowance' under income. The system accepts that too.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Kartı al",
+      "en": "Take the card",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "hayir",
+      "tr": "Teşekkür et, alma",
+      "en": "Thanks, but no",
+      "pattern": "patience"
+    },
+    {
+      "id": "anne",
+      "tr": "Önce anneni ara",
+      "en": "Call your mom first",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 1
+        },
+        "flags": {
+          "add": [
+            "ilk_kredi_karti",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Kart bir haftada geldi. İlk harcama: 500'lük limitten 38 Para, bir dürüm.",
+      "en": "The card arrived in a week. First purchase: thirty-eight of the 500 limit. A wrap.",
+      "coach": [
+        {
+          "tr": "Limit 500. Kalan 462.",
+          "en": "Limit: 500. Remaining: 462.",
+          "roast": false
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kartsiz_ogrenci"
+          ]
+        }
+      },
+      "tr": "Bankadan kartsız çıktın. Kapıda eline kantin indirimi broşürü tutuşturuldu.",
+      "en": "You left the bank without a card. At the door, someone handed you a campus cafeteria coupon.",
+      "coach": [
+        {
+          "tr": "Kartsız çıkış. Broşürlü.",
+          "en": "Left card-free. With a coupon.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "ilk_kredi_karti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annen \"kartı al ama kullanma\" dedi. Kart alındı, çekmecede duruyor.",
+      "en": "Your mom said, \"Get the card, but don't use it.\" Card acquired. It lives in a drawer.",
+      "coach": [
+        {
+          "tr": "Çekmecede bir kart. Annenin tarifine uygun.",
+          "en": "A card in a drawer. Made to your mom's recipe.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "üniversitede harçlıkla başvurulan ilk öğrenci kredi kartı",
+    "mechanism": "\"limit gelirle büyür\" sözü harçlığa uygulanıyor",
+    "mechanismId": "literalism",
+    "punch": "gelir hanesine 'harçlık' yazmışsınız",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "limit",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

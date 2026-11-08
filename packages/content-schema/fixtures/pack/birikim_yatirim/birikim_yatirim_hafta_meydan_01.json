@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_hafta_meydan_01",
+  "tags": [
+    "para",
+    "birikim",
+    "ev_arkadasi",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "money": {
+      "min": 300
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Buzdolabındaki kâğıt ne? Her hafta on Para fazla mı yatırıyorsun?",
+      "en": "What's the chart on the fridge? Ten more every week?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Bende de vardı o tablodan. Şu an buzdolabının arkasında, üçüncü haftada.",
+      "en": "I had one of those. It's behind the fridge now. Stuck on week three.",
+      "delayMs": 500
+    }
+  ],
+  "text": [
+    {
+      "id": "dokuz",
+      "tr": "Tabloda dokuzuncu hafta boş. Bu hafta onuncu.",
+      "en": "Week nine on the chart is blank. This is week ten."
+    }
+  ],
+  "choices": [
+    {
+      "id": "iki",
+      "tr": "İki haftayı birden yatır",
+      "en": "Pay both weeks at once",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "sifirla",
+      "tr": "Tabloyu baştan başlat",
+      "en": "Restart the chart",
+      "pattern": "patience"
+    },
+    {
+      "id": "birak",
+      "tr": "Tabloyu arkaya kaydır",
+      "en": "Slide it behind the fridge",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "iki": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "birikim_52_hafta"
+            ]
+          }
+        },
+        "tr": "Dokuzuncu ve onuncu haftayı aynı akşam yatırdın: 190 Para. Tabloda boşluk kalmadı.",
+        "en": "You paid weeks nine and ten the same night: 190. No gaps left on the chart.",
+        "coach": [
+          {
+            "tr": "Sayaç yeniden işliyor.",
+            "en": "The counter's running again.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "birikim_52_yarim"
+            ]
+          }
+        },
+        "tr": "Ay sonu senden önce geldi; 190 Para kiraya gitti. Tablo dokuzuncu haftada asılı kaldı.",
+        "en": "Month-end got there first. The 190 went to rent. The chart is stuck on week nine.",
+        "coach": [
+          {
+            "tr": "Buzdolabının arkasında yer var.",
+            "en": "There's room behind the fridge.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sifirla": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "birikim_52_hafta"
+          ]
+        }
+      },
+      "tr": "Tabloyu bu haftadan yeniden başlattın: birinci hafta, 10 Para. Bitiş çizgisi on hafta ileri kaydı.",
+      "en": "You restarted from this week: week one, ten. The finish line moved ten weeks out.",
+      "coach": [
+        {
+          "tr": "Bitiş uzadı. Yol aynı.",
+          "en": "The finish moved. The road didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "birikim_52_birakti"
+          ]
+        }
+      },
+      "tr": "Tablo buzdolabının arkasına, ev arkadaşınınkinin yanına kaydı.",
+      "en": "The chart slid behind the fridge, right next to your roommate's.",
+      "coach": [
+        {
+          "tr": "Arkada artık bir arşiv var.",
+          "en": "There's an archive back there now.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iki",
+    "slip": {
+      "tr": "İDDİA: İki hafta birden yatmaz. — M.",
+      "en": "WAGER: Two weeks at once won't happen. — M."
+    }
+  },
+  "intent": {
+    "setup": "52 haftalık birikim tablosunda dokuzuncu haftayı atlamak",
+    "mechanism": "ev arkadaşının tablosu buzdolabının arkasında; yerin geri çağrılması",
+    "mechanismId": "callback",
+    "punch": "şu an buzdolabının arkasında, üçüncü haftada",
+    "lift": "sayaç yeniden işliyor",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "buzdolabi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

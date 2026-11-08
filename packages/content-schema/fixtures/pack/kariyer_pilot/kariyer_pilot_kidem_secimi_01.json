@@ -1,0 +1,171 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_kidem_secimi_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Kıdem sırası sende. Bu ay rotaları ilk sen seçiyorsun.",
+      "en": "Seniority says you're first. You pick routes before anyone this month."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Haziranın ikinci haftasını bana bırak, çocuğumun mezuniyeti var. Kahveni de aldım bak.",
+      "en": "Leave me the second week of June. My kid's graduation. Look, I already got you a coffee.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kisa",
+      "tr": "Kısa gündüz uçuşları seç",
+      "en": "Pick short daytime hops",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "uzun",
+      "tr": "Uzun okyanus uçuşlarını seç",
+      "en": "Pick the long ocean crossings",
+      "pattern": "overwork"
+    },
+    {
+      "id": "birak",
+      "tr": "Haziran haftasını bırak",
+      "en": "Give up the June week",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kisa": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "money": -500,
+        "flags": {
+          "add": [
+            "pilot_kisa_rota"
+          ]
+        }
+      },
+      "tr": "Her akşam evdesin. Ay sonunda bordro biraz incelmiş, uykun uzamıştı.",
+      "en": "Home every night. By month's end, your payslip was a little thinner and your sleep a little longer.",
+      "coach": [
+        {
+          "tr": "Bordro ince, yastık kalın.",
+          "en": "Thin payslip. Thick pillow.",
+          "roast": true
+        }
+      ]
+    },
+    "uzun": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "money": 2000,
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Okyanus aşırı rotaları aldın. Bordro dolgun; üç farklı saat diliminde aynı kahvaltıyı yaptın.",
+      "en": "You took the ocean crossings. A fat payslip, and the same breakfast in three time zones.",
+      "coach": [
+        {
+          "tr": "Üç saat dilimi, tek omlet.",
+          "en": "Three time zones. One omelet.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacına 2.000 Para.",
+          "en": "Goal counter: plus 2,000.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 5
+          }
+        ]
+      },
+      "tr": "Haziran haftasını meslektaşına bıraktın. Mezuniyet fotoğrafı geldi; arkasına bir kahve kuponu iliştirilmişti.",
+      "en": "You gave up the June week. A graduation photo arrived with a coffee voucher taped to the back.",
+      "coach": [
+        {
+          "tr": "Bir hafta verdin. Bir kahve kazandın.",
+          "en": "You gave a week. You gained a coffee.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kıdem sırası gelince aylık rotaları ilk sen seçiyorsun, meslektaşın bir hafta istiyor",
+    "mechanism": "meslektaş kahveyle ricada bulunuyor",
+    "mechanismId": "deadpan_report",
+    "punch": "kahveni de aldım",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mezuniyet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

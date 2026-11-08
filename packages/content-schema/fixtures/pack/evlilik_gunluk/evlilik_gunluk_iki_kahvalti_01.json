@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_iki_kahvalti_01",
+  "tags": [
+    "iliski",
+    "aile",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 34
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "kahvalti_sirasi",
+        "aileler_tek_sofra"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Pazar kahvaltıya gelin. Kayınvaliden de mi çağırdı? Benimki dokuzda, söyleyeyim.",
+      "en": "Come for Sunday breakfast. Your in-laws invited you too? Mine's at nine, just so you know."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Onlarınki onda mı? O zaman benimkinden sonra aç gitmezsiniz zaten.",
+      "en": "Theirs is at ten? Well, you won't be hungry after mine anyway.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikisi",
+      "tr": "İki kahvaltıya da git",
+      "en": "Do both breakfasts",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sira",
+      "tr": "Haftalara böl",
+      "en": "Alternate weekends",
+      "pattern": "patience"
+    },
+    {
+      "id": "birlestir",
+      "tr": "İki aileyi tek sofrada topla",
+      "en": "Merge both families at one table",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "ikisi": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -4
+        },
+        "flags": {
+          "add": [
+            "cift_kahvalti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Dokuzda bir kahvaltı, onda bir kahvaltı. Öğleden sonra ikiniz de kanepede konuşmadan yattınız.",
+      "en": "Breakfast at nine, breakfast at ten. By afternoon you were both horizontal on the sofa, not speaking.",
+      "coach": [
+        {
+          "tr": "İki aile memnun. Bir mide şikâyetçi.",
+          "en": "Two families pleased. One stomach filed a complaint.",
+          "roast": true
+        }
+      ]
+    },
+    "sira": {
+      "effects": {
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "kahvalti_sirasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Tek haftalar annen, çift haftalar onlar. Annen takvimdeki tek haftaları saymaya başladı.",
+      "en": "Odd weeks are your mom's, even weeks theirs. Mom has started counting the odd weeks on her calendar.",
+      "coach": [
+        {
+          "tr": "Takvim bölüşüldü. Annen kendi yarısını sayıyor.",
+          "en": "The calendar's been split. Mom's counting her half.",
+          "roast": false
+        }
+      ]
+    },
+    "birlestir": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "meters": {
+            "momPressure": -5
+          },
+          "flags": {
+            "add": [
+              "aileler_tek_sofra"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 3
+            },
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "İki aile aynı sofrada buluştu, iki ayrı börek yarıştı. Kimse kaybetmedi.",
+        "en": "Both families at one table. Two kinds of pastry went head to head. Nobody lost.",
+        "coach": [
+          {
+            "tr": "Börek yarışı berabere.",
+            "en": "The pastry contest ended in a draw.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "momPressure": 4
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "aileler_tek_sofra"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "İki aile aynı sofraya oturdu. Çayın demi üzerine kırk dakikalık sessiz bir anlaşmazlık çıktı.",
+        "en": "Both families at one table. A silent forty-minute dispute broke out over how strong the tea should be.",
+        "coach": [
+          {
+            "tr": "Sofra birleşti. Demlik bölündü.",
+            "en": "The table merged. The teapot split.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "pazar sabahı iki ailenin çakışan kahvaltı davetleri",
+    "mechanism": "anne saati yarışa çeviriyor",
+    "mechanismId": "reversal",
+    "punch": "benimkinden sonra aç gitmezsiniz",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "mide"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

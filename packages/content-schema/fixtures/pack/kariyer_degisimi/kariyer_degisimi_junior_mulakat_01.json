@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_degisimi_junior_mulakat_01",
+  "tags": [
+    "is",
+    "kariyer_degisimi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_degisimi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 55
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Pozisyon başlangıç seviyesi. Maaş beklentinizi duyalım, sonra ikimiz de biraz susalım.",
+      "en": "It's an entry-level role. Tell us your number, and then we'll both sit quietly for a bit."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Bu arada önceki unvanınız buradaki müdürümüzün unvanıyla aynı.",
+      "en": "By the way, your old title is the same as our manager's.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yari",
+      "tr": "Yarı maaşı kabul et",
+      "en": "Accept half your old pay",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Tecrübeni masaya koy",
+      "en": "Put your experience on the table",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Eski işte kal",
+      "en": "Stay in the old job",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "yari": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "junior analist",
+            "tier": 1,
+            "monthly": 1400
+          }
+        },
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": -3
+        },
+        "flags": {
+          "add": [
+            "kariyer_degisti"
+          ]
+        }
+      },
+      "tr": "Teklifi kabul ettin. Yeni maaş eskisinin yarısı; ilk gün masanda bir hoş geldin kupası duruyordu.",
+      "en": "You took the offer. Half your old salary. On day one there was a welcome mug on your desk.",
+      "coach": [
+        {
+          "tr": "Unvan küçüldü. Kupa büyük.",
+          "en": "Smaller title. Big mug.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "junior analist",
+              "tier": 2,
+              "monthly": 1900
+            }
+          },
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "kariyer_degisti"
+            ]
+          }
+        },
+        "tr": "Eski işteki üç projeni anlattın. Teklif bir basamak yukarıdan geldi; unvan yine \"junior\", maaş bandı değil.",
+        "en": "You walked them through three old projects. The offer came one rung higher. The title still says junior. The pay band does not.",
+        "coach": [
+          {
+            "tr": "Binanın en kıdemli juniorısın. Kartta yazmıyor.",
+            "en": "Most senior junior in the building. Not on the badge.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -3
+          },
+          "flags": {
+            "add": [
+              "junior_teklif_masada"
+            ]
+          }
+        },
+        "tr": "Tecrübeni anlattın, İK başını salladı. Teklif değişmedi, görüşme on beş dakika uzadı.",
+        "en": "You laid out your experience and HR nodded along. Same offer, fifteen extra minutes.",
+        "coach": [
+          {
+            "tr": "Tecrübe masaya kondu. Masa küçük çıktı.",
+            "en": "The experience went on the table. The table was small.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "ego": 1
+        },
+        "flags": {
+          "add": [
+            "kariyer_degisimi_ertelendi"
+          ]
+        }
+      },
+      "tr": "Görüşmeden çıkıp eski işine döndün. Kimse bir şey sormadı; yeni meslek kitabı çantada kaldı.",
+      "en": "You walked out and went back to the old job. Nobody asked. The new-career book stayed in your bag.",
+      "coach": [
+        {
+          "tr": "Kitap çantada. Ayraç otuz ikinci sayfada.",
+          "en": "The book is in your bag. Bookmark on page thirty-two.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Tecrübe teklifi kıpırdatmaz. — M.",
+      "en": "WAGER: Experience won't move the offer. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni meslekte junior pozisyon mülakatında maaş beklentisi sorusu",
+    "mechanism": "İK maaşı sorup susmayı öneriyor; eski unvan müdürün unvanı",
+    "mechanismId": "reversal",
+    "punch": "önceki unvanınız müdürümüzün unvanıyla aynı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kupa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

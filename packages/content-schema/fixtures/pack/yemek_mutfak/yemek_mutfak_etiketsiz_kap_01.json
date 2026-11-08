@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_etiketsiz_kap_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 30
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Dondurucudan bir kap çıktı. Etiket yok. Kırmızı. Sos mu, çorba mı, bilmiyorum.",
+      "en": "Found a container in the freezer. No label. It's red. Sauce or soup, I can't tell."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Çözdürmeden anlamanın yolu yok. Çözdürdükten sonra da dönüşü yok.",
+      "en": "No way to know without thawing it. And once it's thawed, there's no going back.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "coz",
+      "tr": "Çözdür, akşam yemeği olsun",
+      "en": "Thaw it. Let dinner decide.",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "at",
+      "tr": "Riske girme, at",
+      "en": "Not worth it. Bin it.",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "etiket",
+      "tr": "Bütün dondurucuyu etiketle",
+      "en": "Label the whole freezer",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "coz": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "health": 1
+          },
+          "flags": {
+            "add": [
+              "yemek_dondurucu_corba"
+            ]
+          }
+        },
+        "tr": "Kap mercimek çorbası çıktı, üstelik iyi bir günden kalma. O akşam yemek parası cepte kaldı.",
+        "en": "It was lentil soup, and from a good day too. Dinner money stayed in the wallet.",
+        "coach": [
+          {
+            "tr": "Geçmişteki sen, bu akşamki seni doyurdu.",
+            "en": "Past you fed present you.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "money": -180,
+          "flags": {
+            "add": [
+              "yemek_dondurucu_karpuz"
+            ]
+          }
+        },
+        "tr": "Kap geçen yazdan kalma karpuz suyu çıktı. Akşam yemeğini dışarıdan söylediniz, 180 Para.",
+        "en": "It was watermelon juice from last summer. You ordered in: 180.",
+        "coach": [
+          {
+            "tr": "Kırmızıydı, o doğru. Gerisi tahmindi.",
+            "en": "It was red. That part was right.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "at": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "yemek_dondurucu_cop"
+          ]
+        }
+      },
+      "tr": "Kabı açmadan attın. Bir saat sonra partnerin \"O annenin domates sosuydu galiba\" dedi.",
+      "en": "You tossed it unopened. An hour later your partner said, \"I think that was your mom's tomato sauce.\"",
+      "coach": [
+        {
+          "tr": "Bilgi her zaman bir saat geç gelir.",
+          "en": "The key information always arrives an hour late.",
+          "roast": true
+        }
+      ]
+    },
+    "etiket": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -35,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_dondurucu_etiketli"
+          ]
+        }
+      },
+      "tr": "Dondurucudaki on bir kabın hepsini etiketledin, 35 Paralık bant bitti. Üçünün üzerine \"bilinmiyor\" yazdın.",
+      "en": "You labeled all eleven containers and went through 35 worth of tape. Three of them now say \"unknown.\"",
+      "coach": [
+        {
+          "tr": "Sekiz kimlikli, üç meçhul.",
+          "en": "Eight identified. Three unknowns.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "dondurucudan çıkan etiketsiz kırmızı kap",
+    "mechanism": "çözdürmeden anlamanın yolu yok",
+    "mechanismId": "deadpan_report",
+    "punch": "sos mu çorba mı bilmiyorum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "meçhul"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

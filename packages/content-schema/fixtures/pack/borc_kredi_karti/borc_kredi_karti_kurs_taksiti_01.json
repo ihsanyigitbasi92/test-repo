@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_kurs_taksiti_01",
+  "tags": [
+    "para",
+    "borc",
+    "taksit",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Laptopunda bir e-posta açık kalmış: 'Kursunu özledik.' Altında da kart ekstren.",
+      "en": "Your laptop was left open on an email: 'We miss you at the course.' Your card statement's under it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Kursa geri dön",
+      "en": "Go back to the course",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "iade",
+      "tr": "İade için yaz",
+      "en": "Write in for a refund",
+      "pattern": "pride"
+    },
+    {
+      "id": "birak",
+      "tr": "Taksitleri öde, kursu bırak",
+      "en": "Pay it off, drop the course",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "devam": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -350,
+          "stats": {
+            "brain": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kurs_devam"
+            ]
+          }
+        },
+        "tr": "İki haftada dört modül bitti. Ayda 350 Para'lık taksitin artık bir karşılığı var.",
+        "en": "Four modules in two weeks. The 350 a month finally buys something.",
+        "coach": [
+          {
+            "tr": "Dört modül. Taksitlerin artık bir işi var.",
+            "en": "Four modules. The installments have a job now.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -350,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "kurs_taksiti"
+            ]
+          }
+        },
+        "tr": "Dördüncü modülün videosu bir saat on iki dakika çıktı. Sekme yine açık kaldı.",
+        "en": "Module four's video ran an hour and twelve minutes. The tab stayed open again.",
+        "coach": [
+          {
+            "tr": "Sekme sadık. Taksit de.",
+            "en": "The tab is loyal. So are the installments.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "iade": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 0
+        },
+        "glossary": "cayma_hakki",
+        "flags": {
+          "add": [
+            "kurs_taksiti"
+          ]
+        }
+      },
+      "tr": "Cevap geldi: cayma süresi on dört gündü, sen yirmi birinci gündesin.",
+      "en": "Reply came: the cancellation window was fourteen days. You're on day twenty-one.",
+      "coach": [
+        {
+          "tr": "Yedi gün geç. Dokuz taksit erken.",
+          "en": "Seven days late. Nine installments early.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kurs_taksiti"
+          ]
+        }
+      },
+      "tr": "Kalan dokuz taksit ekstrede duruyor: ayda 350 Para. Kurs ekranı \"yüzde 20 tamamlandı\" yazıyor.",
+      "en": "Nine installments left on the statement: 350 a month. The course page reads '20% complete.'",
+      "coach": [
+        {
+          "tr": "Yüzde yirmi kurs, yüzde yüz taksit.",
+          "en": "Twenty percent of a course. A hundred percent of the bill.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "on iki taksitle alınan online kursun üçüncü haftada bırakılması, taksitlerin sürmesi",
+    "mechanism": "büyük hedef, yüzde yirmide asılı kalmış sekme",
+    "mechanismId": "bathos",
+    "punch": "yüzde yirmi kurs, yüzde yüz taksit",
+    "lift": "dört modül, taksitlerin işi var",
+    "target": "decision",
+    "closer": "sekme",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

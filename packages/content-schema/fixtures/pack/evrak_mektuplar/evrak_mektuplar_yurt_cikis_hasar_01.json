@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_yurt_cikis_hasar_01",
+  "tags": [
+    "burokrasi",
+    "yurt",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "GÜNEYTEPE ÖĞRENCİ YURDU (kurgusal)",
+      "en": "SOUTHHILL STUDENT RESIDENCE (fictional)"
+    },
+    "body": {
+      "tr": "Oda çıkış kontrolünde duvarda 14 adet raptiye deliği tespit edilmiştir. Hasar bedeli depozitonuzdan düşülecektir.",
+      "en": "The move-out inspection found 14 pin holes in the wall. Repair costs will be deducted from your deposit."
+    },
+    "translate": {
+      "tr": {
+        "from": "14 adet raptiye deliği tespit edilmiştir",
+        "to": "posterlerin tek tek sayıldı"
+      },
+      "en": {
+        "from": "found 14 pin holes",
+        "to": "someone counted your posters"
+      }
+    },
+    "glossaryKey": "yurt_hasar_tespiti"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Delik başı 15 Para. Fiyatı ben koymadım, tablo öyle.",
+      "en": "Fifteen per hole. I didn't set the price. The chart did."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Macunla kapatırsanız gelip yeniden sayarım.",
+      "en": "Fill them in and I'll come back and count again.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Öde, anahtarı bırak",
+      "en": "Pay and hand in the key",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "macun",
+      "tr": "Macun al, kendin kapat",
+      "en": "Buy filler, patch it yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "foto",
+      "tr": "Giriş fotoğraflarını bul",
+      "en": "Dig up your move-in photos",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -210,
+        "glossary": "yurt_hasar_tespiti",
+        "flags": {
+          "add": [
+            "yurt_depozito_kesildi"
+          ]
+        }
+      },
+      "tr": "Depozitodan 210 Para kesildi. Kalanı üç iş günü içinde hesabında.",
+      "en": "210 came out of your deposit. The rest arrives in three business days.",
+      "coach": [
+        {
+          "tr": "On dört delik. Her biri bir poster, her poster bir dönem.",
+          "en": "Fourteen holes. Each one a poster, each poster a semester.",
+          "roast": false
+        }
+      ]
+    },
+    "macun": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -20,
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Macun 20 Para tuttu. Görevli yeniden saydı: sıfır. Depozito tam döndü.",
+        "en": "The filler cost 20. The inspector recounted: zero. Full deposit back.",
+        "coach": [
+          {
+            "tr": "Duvar yepyeni. Görevli biraz hayal kırıklığında.",
+            "en": "The wall looks brand new. The inspector seems almost disappointed.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -240,
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Macun kuruyunca sarardı. Görevli on dört deliği on dört lekeyle değiştirdi: 210 artı boya.",
+        "en": "The filler dried yellow. The inspector swapped fourteen holes for fourteen stains: 210, plus paint.",
+        "coach": [
+          {
+            "tr": "Delik gitti, leke geldi. Fatura ikisini de tanıdı.",
+            "en": "Holes out, stains in. The invoice recognized both.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "foto": {
+      "effects": {
+        "money": -120,
+        "stats": {
+          "brain": 1
+        },
+        "glossary": "yurt_hasar_tespiti",
+        "flags": {
+          "add": [
+            "yurt_depozito_kesildi"
+          ]
+        }
+      },
+      "tr": "Giriş günü çektiğin fotoğrafta altı delik zaten vardı. Kesinti sekiz deliğe düştü: 120 Para.",
+      "en": "Your move-in photos showed six holes already there. The charge dropped to eight holes: 120.",
+      "coach": [
+        {
+          "tr": "Altı delik mirasmış. Sekizi senin.",
+          "en": "Six of the holes were inherited. Eight are yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "yurt çıkışında duvardaki raptiye deliklerinin tek tek sayılıp depozitodan kesilmesi",
+    "mechanism": "görevli delik sayıyor ve yeniden saymakla tehdit ediyor",
+    "mechanismId": "count",
+    "punch": "gelip yeniden sayarım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "miras"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_kilometre_tarifesi_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 50
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Yeni sistemde paket başı değil, kilometre başı ödüyoruz. Kısa mesafesi çok olan için biraz farklı olacak.",
+      "en": "New system: we pay by distance, not by package. It'll be a bit different for anyone with lots of short runs."
+    },
+    {
+      "speaker": "npc:courier",
+      "avatar": "worried",
+      "tr": "Senin bölgen hep kısa mesafe. Biraz farklı derken çok farklı.",
+      "en": "Your zone is all short runs. 'A bit different' means very different.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Yeni tarifeyi kabul et",
+      "en": "Accept the new rate",
+      "pattern": "patience"
+    },
+    {
+      "id": "bolge",
+      "tr": "Uzun mesafeli bölge iste",
+      "en": "Ask for a long-haul zone",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "İşi bırak",
+      "en": "Quit",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "kurye",
+            "tier": 1,
+            "monthly": 750
+          }
+        },
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Yeni tarifeyi kabul ettin. İlk hafta aynı sayıda paket taşıdın; aylık kazancın 750 Para'ya geriledi.",
+      "en": "You accepted. First week, same number of packages. Monthly pay slid to 750.",
+      "coach": [
+        {
+          "tr": "Aynı paketler, yeni hesap. Sokaklar kısaldı.",
+          "en": "Same packages, new math. The streets got shorter.",
+          "roast": true
+        }
+      ]
+    },
+    "bolge": [
+      {
+        "p": 4500,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "kurye",
+              "tier": 1,
+              "monthly": 900
+            }
+          },
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "Şehrin kenarına uzanan bölgeyi istedin, verildi. Teslimat azaldı, aylık kazanç 900 Para'da kaldı.",
+        "en": "You asked for the long zone out at the edge of town and got it. Fewer drops; monthly pay held at 900.",
+        "coach": [
+          {
+            "tr": "Yollar uzadı. Kazanç yerinde.",
+            "en": "Longer roads. Pay held.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "kurye",
+              "tier": 1,
+              "monthly": 750
+            }
+          },
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Uzun bölge zaten doluydu. Kısa bölgede kaldın; aylık kazanç 750 Para.",
+        "en": "The long zone was already full. You stayed in the short one. Monthly: 750.",
+        "coach": [
+          {
+            "tr": "Talep sıraya alındı. Sıra da sıraya alındı.",
+            "en": "Request queued. The queue has been queued.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "status": {
+          "job": null
+        },
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "flags": {
+          "add": [
+            "kurye_birakti"
+          ]
+        }
+      },
+      "tr": "İşi bıraktın ve motoru satılığa çıkardın. Son hakedişin bir sonraki ayın beşinde yatacak.",
+      "en": "You quit and listed the scooter for sale. Your last paycheck lands on the fifth of next month.",
+      "coach": [
+        {
+          "tr": "Kilometre sayacı durdu. Senin sayacın başladı.",
+          "en": "The odometer stopped. Yours started.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bolge",
+    "slip": {
+      "tr": "İDDİA: Uzun bölge çoktan doludur. — M.",
+      "en": "WAGER: The long zone's already taken. — M."
+    }
+  },
+  "intent": {
+    "setup": "şirketin paket başı ödemeden kilometre başı ödemeye geçmesi",
+    "mechanism": "\"biraz farklı\" ifadesinin kısa mesafeli kuryeye çevirisi",
+    "mechanismId": "understatement",
+    "punch": "biraz farklı derken çok farklı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sayac"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

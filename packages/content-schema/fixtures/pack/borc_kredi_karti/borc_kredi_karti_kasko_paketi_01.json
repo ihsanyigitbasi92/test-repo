@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_kasko_paketi_01",
+  "tags": [
+    "para",
+    "borc",
+    "tasit_kredisi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Krediniz hazır. Yanına hayat sigortası ekledim; zorunlu değil ama herkes alıyor.",
+      "en": "Your loan's ready. I've added life insurance. Not mandatory, but everyone takes it."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Bir de kasko, bir de yeni kartımız. Hepsi tek imzada.",
+      "en": "Plus car insurance, plus our new card. All in one signature.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cikar",
+      "tr": "Ekleri tek tek çıkarttır",
+      "en": "Strip the extras one by one",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "imzala",
+      "tr": "Hepsini imzala, araba bekliyor",
+      "en": "Sign it all, the car's waiting",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "baska",
+      "tr": "Başka bankadan teklif al",
+      "en": "Get a quote from another bank",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "cikar": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "tasit_kredisi",
+              "ihtiyac_kredisi"
+            ]
+          }
+        },
+        "tr": "Kart ve sigorta çıkarıldı; kredi ve kasko kaldı. Aylık taksit 210 Para düştü.",
+        "en": "The card and the life insurance came off. Loan and car cover remain. Monthly payment down 210.",
+        "coach": [
+          {
+            "tr": "Üç ek. Biri kaldı.",
+            "en": "Three add-ons. One survived.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "tasit_kredisi",
+              "ihtiyac_kredisi",
+              "paket_kredi"
+            ]
+          }
+        },
+        "tr": "Bankacı \"sigortasız bu koşullar çıkmıyor\" dedi. Paket aynen imzalandı.",
+        "en": "The banker said, \"Without the insurance, these terms aren't available.\" The package was signed as is.",
+        "coach": [
+          {
+            "tr": "Zorunlu değil. Sadece başka yolu yok.",
+            "en": "Not mandatory. Just unavoidable.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "imzala": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "tasit_kredisi",
+            "ihtiyac_kredisi",
+            "paket_kredi"
+          ]
+        }
+      },
+      "tr": "Tek imza, dört ürün. İlk ay kartın 400 Para'lık yıllık ücreti ekstreye düştü.",
+      "en": "One signature, four products. In month one, the card's 400 annual fee hit the statement.",
+      "coach": [
+        {
+          "tr": "Araba geldi. Yanında üç yolcu.",
+          "en": "The car arrived. With three passengers.",
+          "roast": true
+        }
+      ]
+    },
+    "baska": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "tasit_kredisi",
+            "ihtiyac_kredisi"
+          ]
+        }
+      },
+      "tr": "İkinci banka aynı krediyi eksiz verdi. Teslimat bir hafta gecikti.",
+      "en": "The second bank offered the same loan with no extras. Delivery slipped a week.",
+      "coach": [
+        {
+          "tr": "Bir hafta bekleme, üç ürün eksik.",
+          "en": "A week of waiting. Three fewer products.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cikar",
+    "slip": {
+      "tr": "İDDİA: Paketten tek ek bile çıkmaz. — M.",
+      "en": "WAGER: Not one add-on comes off. — M."
+    }
+  },
+  "intent": {
+    "setup": "taşıt kredisi imzasında sigorta, kasko ve yeni kartın tek pakete eklenmesi",
+    "mechanism": "ekler birer birer büyüyor: sigorta, kasko, kart",
+    "mechanismId": "escalation",
+    "punch": "hepsi tek imzada",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "paket",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

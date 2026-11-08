@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_asansor_sorusu_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "neighbor": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Siz ne zaman evleniyorsunuz? Dördüncü kattakiler bir yılda evlendi.",
+      "en": "So when's the wedding? The fourth-floor couple did it in a year."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Ben sormuyorum. Herkes soruyor. Ben yalnızca dile getiriyorum.",
+      "en": "I'm not asking. Everyone's asking. I'm just saying it out loud.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "espri",
+      "tr": "Espriyle geçiştir",
+      "en": "Deflect with a joke",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "partner",
+      "tr": "Cevabı partnere bırak",
+      "en": "Let your partner answer",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "tarih",
+      "tr": "Uydurma bir tarih ver",
+      "en": "Make up a date",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "espri": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            },
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "'Asansör tamir olunca' dedin. Şükran Teyze güldü; asansör aynı öğleden sonra gerçekten bozuldu.",
+        "en": "'When the elevator's fixed,' you said. Mrs. Dale laughed. The elevator broke down that same afternoon.",
+        "coach": [
+          {
+            "tr": "Zamanlama kusursuz. Asansör de oyuna katıldı.",
+            "en": "Perfect timing. The elevator played along.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Espri yapmaya çalıştın; cümle üçüncü katta yarım kaldı. Şükran Teyze dördüncüde 'Anladım' deyip indi.",
+        "en": "You tried a joke. It died around the third floor. Mrs. Dale got off at four with an 'I see.'",
+        "coach": [
+          {
+            "tr": "Espri üçüncü katta indi.",
+            "en": "The joke got off at three.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "partner": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "memory": "asansor_cevabi"
+          }
+        ]
+      },
+      "tr": "Cevabı partnerine bıraktın. Partnerin 'Sizi davet ederiz' dedi; Şükran Teyze ertesi gün kapıya takvim bıraktı.",
+      "en": "You let your partner answer. They said, 'You'll be invited.' Next day Mrs. Dale left a calendar at your door.",
+      "coach": [
+        {
+          "tr": "Topu partnere attın. Takvim sana döndü.",
+          "en": "You passed the ball. The calendar came back to you.",
+          "roast": true
+        }
+      ]
+    },
+    "tarih": {
+      "effects": {
+        "meters": {
+          "cringe": 3
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "sukran_dugun_tarihi"
+          ]
+        }
+      },
+      "tr": "'Haziranda' dedin. Şükran Teyze apartman grubuna yazdı; akşama kadar üç komşu 'hayırlı olsun' dedi.",
+      "en": "'June,' you said. Mrs. Dale posted it to the building chat. By evening three neighbors had sent congratulations.",
+      "coach": [
+        {
+          "tr": "Uydurma tarih, resmî duyuru.",
+          "en": "Fake date. Official announcement.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "espri",
+    "slip": {
+      "tr": "İDDİA: Espri asansörde kalır. — M.",
+      "en": "WAGER: The joke dies in the elevator. — M."
+    }
+  },
+  "intent": {
+    "setup": "asansörde komşunun ikinize birden ne zaman evleneceğinizi sorması",
+    "mechanism": "'ben sormuyorum' diyerek soru büyütülür",
+    "mechanismId": "escalation",
+    "punch": "Ben yalnızca dile getiriyorum.",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

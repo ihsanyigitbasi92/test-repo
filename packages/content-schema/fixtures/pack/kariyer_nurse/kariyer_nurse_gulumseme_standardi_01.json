@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_nurse_gulumseme_standardi_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "evrak",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "DUYURU · HASTA DENEYİMİ KOORDİNASYON BİRİMİ (kurgusal)",
+      "en": "NOTICE · PATIENT EXPERIENCE COORDINATION OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "Hasta memnuniyetinin artırılması amacıyla tüm sağlık personelinin her hasta temasında güler yüzlü iletişim standardını uygulaması ve bunu vardiya sonu formuna işlemesi beklenmektedir.",
+      "en": "To improve patient satisfaction, all clinical staff are expected to apply the positive-engagement standard at every patient contact and record it on the end-of-shift form."
+    },
+    "translate": {
+      "tr": {
+        "from": "güler yüzlü iletişim standardı",
+        "to": "gülümse, sonra gülümsemeyi forma yaz"
+      },
+      "en": {
+        "from": "positive-engagement standard",
+        "to": "smile, then log the smile"
+      }
+    },
+    "glossaryKey": "guler_yuz_standardi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Gece üçte gülümsedim. Formda \"gülümseme sayısı\" kutusu var. Kaç yazayım?",
+      "en": "I smiled at 3 a.m. The form has a box for \"number of smiles.\" What do I put?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "say",
+      "tr": "Gülümsemeleri say, yaz",
+      "en": "Count the smiles, log them",
+      "pattern": "patience"
+    },
+    {
+      "id": "tahmin",
+      "tr": "Tahmini bir sayı yaz",
+      "en": "Write a ballpark number",
+      "pattern": "shortcut",
+      "check": {
+        "base": 7000
+      }
+    },
+    {
+      "id": "bos",
+      "tr": "Kutuyu boş bırak",
+      "en": "Leave the box blank",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "say": {
+      "effects": {
+        "glossary": "guler_yuz_standardi",
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Vardiya boyunca otuz sekiz gülümseme saydın. Saymaya başlayınca gülümsemek zorlaştı.",
+      "en": "You counted thirty-eight smiles over the shift. Once you started counting, smiling got harder.",
+      "coach": [
+        {
+          "tr": "Ölçülen şey değişti.",
+          "en": "What gets measured changes.",
+          "roast": false
+        }
+      ]
+    },
+    "tahmin": [
+      {
+        "p": 7000,
+        "effects": {
+          "glossary": "guler_yuz_standardi",
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Her forma \"yirmi\" yazdın, kimse sormadı. Birimin aylık raporu servisini \"istikrarlı\" buldu.",
+        "en": "You wrote 'twenty' on every form. Nobody asked. The office's monthly report called your unit 'remarkably consistent.'",
+        "coach": [
+          {
+            "tr": "Yirmi, istikrarlı bir duygu.",
+            "en": "Twenty is a very stable emotion.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "gulumseme_egitimi"
+            ]
+          }
+        },
+        "tr": "Denetimde bütün formlarda aynı sayı çıktı. Yarım günlük gülümseme eğitimine yazıldın.",
+        "en": "The audit found the same number on every form. You have been enrolled in a half-day smile training.",
+        "coach": [
+          {
+            "tr": "Konu: içten gülümseme. Süre: dört saat.",
+            "en": "Topic: authentic smiling. Duration: four hours.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bos": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Kutuyu boş bıraktın. Form \"eksik\" diye geri döndü, birisi kutunun yanına gülen surat çizmişti.",
+      "en": "You left it blank. The form came back marked \"incomplete,\" with a smiley face drawn next to the box.",
+      "coach": [
+        {
+          "tr": "Kutu gülümsemesini sonunda başkasından aldı.",
+          "en": "The box finally got its smile. From someone else.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "gülümsemeyi vardiya formuna işleme duyurusu",
+    "mechanism": "güler yüz standardı tercümesi",
+    "mechanismId": "translation",
+    "punch": "gülümse, sonra gülümsemeyi forma yaz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "form"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

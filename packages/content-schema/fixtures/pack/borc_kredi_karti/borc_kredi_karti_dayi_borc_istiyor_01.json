@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dayi_borc_istiyor_01",
+  "tags": [
+    "para",
+    "borc",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda aile, istenmeden verirdi. Ben yine de soruyorum.",
+      "en": "In my day, family gave before you asked. I'm asking anyway."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "3.000 Para. Üç ayda öderim, bu sefer elimde sağlam bir iş var.",
+      "en": "Three thousand. I'll pay it back in three months. This time I've got a solid deal.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "3.000'i ver",
+      "en": "Lend the 3,000",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kismen",
+      "tr": "1.000 ver, gerisi yok",
+      "en": "Lend 1,000, that's it",
+      "pattern": "patience"
+    },
+    {
+      "id": "anlat",
+      "tr": "Kendi kart borcunu anlat",
+      "en": "Tell him about your own debt",
+      "pattern": "selfCare",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "money": -3000,
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "dayiya_alacak"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "3.000 Para gönderildi. Dayın aile grubuna \"yeğenimle gurur duyuyorum\" yazdı, miktarı yazmadı.",
+      "en": "You sent the 3,000. Your uncle posted in the family chat, \"Proud of this one,\" and left out the amount.",
+      "coach": [
+        {
+          "tr": "Bir alacak, bir borç. İkisi de senin.",
+          "en": "One loan out, one debt in. Both yours.",
+          "roast": false
+        }
+      ]
+    },
+    "kismen": {
+      "effects": {
+        "money": -1000,
+        "flags": {
+          "add": [
+            "dayiya_alacak"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "1.000 Para gitti. Dayın \"kalanını başka yerden ayarlarım\" dedi, bunu da ayarlı bir tonla.",
+      "en": "You sent 1,000. Your uncle said he'd \"sort the rest out elsewhere,\" in a tone he'd clearly sorted out too.",
+      "coach": [
+        {
+          "tr": "Bin Para gitti, bir ton geldi.",
+          "en": "A thousand out. One tone in.",
+          "roast": true
+        }
+      ]
+    },
+    "anlat": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "dayi_borcu_biliyor"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Dayın kart borcunu dinledi, \"benim zamanımda kart yoktu\" dedi. Konu kapandı, çay demlendi.",
+        "en": "Your uncle heard about your card debt and said, \"In my day there were no cards.\" Subject closed. Tea brewed.",
+        "coach": [
+          {
+            "tr": "Borç anlatıldı, alacak doğmadı.",
+            "en": "The debt got told. No loan got made.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1500,
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "dayiya_alacak"
+            ]
+          }
+        },
+        "tr": "Dayın \"o zaman borcu borçla kapatırız\" dedi. 1.500 Para gitti, plan anlatılmadı.",
+        "en": "Your uncle said, \"Then we'll cover debt with debt.\" 1,500 went out. The plan went unexplained.",
+        "coach": [
+          {
+            "tr": "Bir borç, bir plan. Plan yok.",
+            "en": "One debt, one plan. No plan.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlat",
+    "slip": {
+      "tr": "İDDİA: Dayın dinler ama yine para çıkar. — M.",
+      "en": "WAGER: Your uncle listens, and money leaves anyway. — M."
+    }
+  },
+  "intent": {
+    "setup": "kendi kart borcu varken dayının senden borç istemesi",
+    "mechanism": "borçlu taraf bu kez alacaklı oluyor",
+    "mechanismId": "reversal",
+    "punch": "bu sefer elimde sağlam bir iş var",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "cay",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

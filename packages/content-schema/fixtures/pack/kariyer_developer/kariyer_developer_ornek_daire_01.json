@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_developer_ornek_daire_01",
+  "tags": [
+    "kariyer",
+    "muteahhit",
+    "kariyer_developer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_developer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 36
+    },
+    "career": {
+      "anyOf": [
+        "developer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Örnek dairedeki kanepe küçük. Yatak da küçük. Daire mi büyük, eşya mı oyuncak?",
+      "en": "The sofa in the show flat is small. So is the bed. Is the flat big, or is the furniture a toy?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Mimar \"ölçekli mobilya\" dedi. Ölçeği bilmiyorum, kanepeye ben de sığmıyorum.",
+      "en": "The architect called it 'scaled furniture.' I don't know the scale. I don't fit on the sofa either.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "gercek",
+      "tr": "Gerçek boy mobilya getir",
+      "en": "Bring in full-size furniture",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "itiraf",
+      "tr": "Ölçekli olduğunu söyle",
+      "en": "Admit it is scaled down",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "savun",
+      "tr": "Ölçeği savun",
+      "en": "Defend the scale",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "gercek": {
+      "effects": {
+        "money": -2500,
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dev_ornek_daire_gercek"
+          ]
+        }
+      },
+      "tr": "Gerçek boy mobilya geldi, daire on metrekare küçük göründü. Yatırımcı yine de üç daire ayırttı.",
+      "en": "Full-size furniture arrived and the flat looked ten square meters smaller. The investor reserved three units anyway.",
+      "coach": [
+        {
+          "tr": "Daire küçüldü. Satış büyüdü.",
+          "en": "The flat shrank. The deal grew.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraf": {
+      "effects": {
+        "money": 300,
+        "meters": {
+          "ego": -1
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Ölçekli olduğunu söyledin. Yatırımcı dürüstlüğe bir daire aldı, kanepeye ayrıca teklif verdi.",
+      "en": "You admitted it. The investor bought one unit for the honesty and made a separate offer on the sofa.",
+      "coach": [
+        {
+          "tr": "Bir daire, bir kanepe. Kanepe daha hızlı kapandı.",
+          "en": "One flat, one sofa. The sofa closed faster.",
+          "roast": false
+        }
+      ]
+    },
+    "savun": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Ölçeğin sektörde yaygın olduğunu anlattın. Yatırımcı iki daire aldı ve kiracıları için aynı kanepeden istedi.",
+        "en": "You explained scaled staging is standard practice. The investor bought two units and ordered the same sofas for the tenants.",
+        "coach": [
+          {
+            "tr": "Kiracılar da küçük kanepeye oturacak. Standart yayılıyor.",
+            "en": "The tenants get tiny sofas too. The standard spreads.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 4
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Yatırımcı kanepeye oturmayı denedi, vazgeçti. Toplantı ayakta sürdü, satış olmadı.",
+        "en": "The investor tried the sofa, then thought better of it. The meeting continued standing. No sale.",
+        "coach": [
+          {
+            "tr": "Ölçek savunuldu. Kanepe savunulamadı.",
+            "en": "The scale was defended. The sofa was not.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager kotası dolu / check yok"
+  },
+  "intent": {
+    "setup": "örnek dairede küçültülmüş mobilyanın yatırımcı tarafından fark edilmesi",
+    "mechanism": "ölçekli eşya daireyi büyütüyor; dürüstlük ya da gerçek boy satışı değiştiriyor",
+    "mechanismId": "reversal",
+    "punch": "kanepeye ben de sığmıyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kanepe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

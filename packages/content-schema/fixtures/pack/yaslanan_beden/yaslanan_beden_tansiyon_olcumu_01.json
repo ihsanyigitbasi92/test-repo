@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_beden_tansiyon_olcumu_01",
+  "tags": [
+    "saglik",
+    "yaslilik",
+    "olcum",
+    "yaslanan_beden"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yaslanan_beden": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 52,
+      "max": 60
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Evde kullanılan tansiyon aleti aldım. Kolunu ver.",
+      "en": "Got a home blood pressure monitor. Give me your arm."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bu altıncı ölçüm. Her seferinde yükseliyor, çünkü her seferinde daha çok geriliyorsun.",
+      "en": "That's reading six. It goes up every time because you tense up more every time.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dinlen",
+      "tr": "Beş dakika otur, bir kez ölç",
+      "en": "Sit five minutes, measure once",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "tekrar",
+      "tr": "Bir daha ölç",
+      "en": "Measure again",
+      "pattern": "risk"
+    },
+    {
+      "id": "kaldir",
+      "tr": "Aleti dolaba kaldır",
+      "en": "Put the monitor away",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dinlen": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "yb_tansiyon_defteri"
+            ]
+          }
+        },
+        "tr": "Beş dakika sessiz oturdun, tek ölçüm. Sonuç normal, deftere yazıldı.",
+        "en": "Five quiet minutes, one reading. Normal. Written in the log.",
+        "coach": [
+          {
+            "tr": "Bir ölçüm, bir satır. Kapandı.",
+            "en": "One reading, one line. Closed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "yb_tansiyon_takip"
+            ]
+          }
+        },
+        "tr": "Beş dakika oturdun ama aklın sayıdaydı. Biraz yüksek çıktı; doktora sorulacaklar listesine girdi.",
+        "en": "You sat five minutes thinking about the number. A bit high. It went on the list for the doctor.",
+        "coach": [
+          {
+            "tr": "Beş dakika oturmak, beş dakika düşünmekmiş.",
+            "en": "Five minutes of sitting turned into five minutes of thinking.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tekrar": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "yb_tansiyon_takintisi"
+          ]
+        }
+      },
+      "tr": "Yedinci, sekizinci, dokuzuncu ölçüm. Önce pil pes etti.",
+      "en": "Seventh, eighth, ninth reading. The batteries gave up first.",
+      "coach": [
+        {
+          "tr": "Alet pes etti. Kol hâlâ uzatılmış.",
+          "en": "The monitor quit. Your arm is still out.",
+          "roast": true
+        }
+      ]
+    },
+    "kaldir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yb_tansiyon_dolapta"
+          ]
+        }
+      },
+      "tr": "Alet kutusuyla dolaba girdi. Partnerin kutuyu üst rafa koydu.",
+      "en": "The monitor went back in the closet, box and all. Your partner put it on the top shelf.",
+      "coach": [
+        {
+          "tr": "Üst raf. Bakmamanın resmî adresi.",
+          "en": "Top shelf. The official address of not looking.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dinlen",
+    "slip": {
+      "tr": "İDDİA: Beş dakikayı sayıyı düşünerek geçirirsin. — M.",
+      "en": "WAGER: You'll spend the five minutes thinking about the number. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev tipi tansiyon aletiyle üst üste ölçüm",
+    "mechanism": "her ölçüm gerginliği, gerginlik ölçümü artırıyor",
+    "mechanismId": "reversal",
+    "punch": "her seferinde daha çok geriliyorsun",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "raf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

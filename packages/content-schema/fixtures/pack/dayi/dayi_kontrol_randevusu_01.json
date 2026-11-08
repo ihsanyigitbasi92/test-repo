@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_kontrol_randevusu_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "saglik",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "annoyed",
+      "tr": "Ben hasta değilim, sadece kontrol. Kontrol için hasta olmak gerekmez, değil mi?",
+      "en": "I'm not sick. It's just a checkup. You don't need to be sick to get checked, right?"
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Benim dayım da böyleydi. Doktoru görünce tansiyonu düşerdi, inadı yükselirdi.",
+      "en": "My uncle was the same. One look at a doctor, his pressure dropped and his stubbornness went up."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "annoyed",
+      "tr": "Sen yola bak.",
+      "en": "Eyes on the road.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Muayeneye girmesi için ikna et",
+      "en": "Talk him into the exam room",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birlikte",
+      "tr": "Seninle birlikte girsin",
+      "en": "Go in with him",
+      "pattern": "generosity"
+    },
+    {
+      "id": "bekle",
+      "tr": "Bekleme salonunda bekle",
+      "en": "Wait in the lobby",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "dayi_kontrol_tamam"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Dayın girdi, yirmi dakika sonra çıktı. Değerleri iyi; hemşireye de bir tarif vermiş.",
+        "en": "He went in and came out twenty minutes later. Good numbers. He'd also given the nurse a recipe.",
+        "coach": [
+          {
+            "tr": "Sonuçlar iyi. Tarif paylaşıldı.",
+            "en": "Results: good. Recipe: shared.",
+            "roast": false
+          },
+          {
+            "tr": "Sağlık hedefine bir kontrol.",
+            "en": "One checkup toward the health goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "dayi_kontrol_ertelendi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Sıra gelince dayın 'Arabaya bir bakayım' deyip çıktı. Randevu iki hafta sonraya kaldı.",
+        "en": "When his name was called, your uncle said he'd check on the car and left. The appointment moved two weeks out.",
+        "coach": [
+          {
+            "tr": "Kontrol yapıldı: arabaya.",
+            "en": "A checkup did happen. On the car.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birlikte": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2,
+            "memory": "kontrole_birlikte"
+          }
+        ]
+      },
+      "tr": "Birlikte girdiniz. Doktor bütün soruları dayına sordu, dayın bütün cevapları sana sordu.",
+      "en": "You went in together. The doctor asked your uncle every question. Your uncle asked you every answer.",
+      "coach": [
+        {
+          "tr": "Tercüman olarak kayda geçtin.",
+          "en": "You've been logged as interpreter.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "kontrol_sirasi_sende"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Bekleme salonunda oturdun. Dayın çıkınca 'Kontrol herkese lazım' dedi ve sana da randevu aldırdı.",
+      "en": "You waited in the lobby. Your uncle came out, announced that checkups are for everyone, and booked you one.",
+      "coach": [
+        {
+          "tr": "Sıra sana geçti.",
+          "en": "Your turn, apparently.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Dayın muayeneye girmez. — M.",
+      "en": "WAGER: He won't make it to the exam room. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayını taksiyle yıllık sağlık kontrolüne götürmek",
+    "mechanism": "hasta değilim sadece kontrol; kontrol sana dönüyor",
+    "mechanismId": "reversal",
+    "punch": "kontrol herkese lazım",
+    "lift": "sağlık hedefi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sira"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

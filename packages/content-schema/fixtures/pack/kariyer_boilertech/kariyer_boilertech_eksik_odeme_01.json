@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_boilertech_eksik_odeme_01",
+  "tags": [
+    "kariyer",
+    "kombi",
+    "kariyer_boilertech"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_boilertech": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "boilerTech"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Şu an 600 var. Kalan 450'yi ayın on beşinde gönderirim, söz.",
+      "en": "I've got 600 right now. I'll send the other 450 on the fifteenth. Promise."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "İsterseniz kimliğimin fotokopisini bırakayım. Ya da bir kavanoz turşu.",
+      "en": "I can leave you a copy of my ID. Or a jar of pickles.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "On beşini bekle",
+      "en": "Wait for the fifteenth",
+      "pattern": "patience",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "tursu",
+      "tr": "Turşuyu al, farkı sen kapat",
+      "en": "Take the pickles, cover the rest",
+      "pattern": "generosity"
+    },
+    {
+      "id": "patron",
+      "tr": "Patrona sor",
+      "en": "Ask the boss",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Ayın on beşinde 450 Para geldi, yanında bir teşekkür mesajı. Patrona eksiksiz teslim ettin.",
+        "en": "On the fifteenth, 450 arrived with a thank-you text. You handed the boss the full amount.",
+        "coach": [
+          {
+            "tr": "Söz tutuldu. Tarih de.",
+            "en": "Promise kept. Date kept.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -450,
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "eksik_odeme_alacak"
+            ]
+          }
+        },
+        "tr": "On beşi geçti, on altısı da. Patron farkı maaşından kesti: 450 Para.",
+        "en": "The fifteenth came and went. So did the sixteenth. The boss docked the 450 from your pay.",
+        "coach": [
+          {
+            "tr": "Sözünü tutan tek taraf takvim oldu.",
+            "en": "The calendar was the only one who kept its word.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tursu": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 1
+        }
+      },
+      "tr": "Kalanı sen kapattın. Turşu kavanozu servis aracının ön koltuğunda yerini aldı.",
+      "en": "You covered the rest yourself. The pickle jar now has its own seat in the van.",
+      "coach": [
+        {
+          "tr": "Bölgenin en pahalı turşusu.",
+          "en": "The most expensive pickles in the district.",
+          "roast": false
+        }
+      ]
+    },
+    "patron": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Patron telefonda müşteriye taksit planı yaptı. Sana da \"bir dahakine peşin\" dedi.",
+      "en": "The boss set up a payment plan over the phone. Then told you: \"Cash up front next time.\"",
+      "coach": [
+        {
+          "tr": "Müşteriye plan, sana ders.",
+          "en": "A plan for the customer. A lecture for you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Ayın on beşi gelir, para gelmez. — M.",
+      "en": "WAGER: The fifteenth shows up. The money doesn't. — M."
+    }
+  },
+  "intent": {
+    "setup": "müşteri faturanın bir kısmını ödeyemiyor, kalanı ayın on beşine",
+    "mechanism": "teminat teklifi kimlikten turşuya tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "ya da bir kavanoz turşu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tursu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

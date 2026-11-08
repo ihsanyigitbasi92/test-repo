@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "call",
+  "id": "cagri_anne_ehliyet_sonucu_01",
+  "tags": [
+    "cagrilar",
+    "anne",
+    "call",
+    "cagri_anne"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "cagri_anne": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "call": {
+    "speaker": "mom",
+    "takeover": true
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Bitti mi? Geçtin mi? Hoca nasıl biriydi, sert mi?",
+      "en": "Is it over? Did you pass? What was the examiner like? Strict?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Ben komşuya 'geçti' dedim bile. Börek de açtı.",
+      "en": "I already told the neighbor you passed. She's making pastry."
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "'Sonuç daha çıkmadı' de",
+      "en": "Say results aren't out yet",
+      "pattern": "patience"
+    },
+    {
+      "id": "gectim",
+      "tr": "'Geçtim' de, umarım öyledir",
+      "en": "Say 'I passed' and hope",
+      "pattern": "risk",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "Kapat, sonuçla geri ara",
+      "en": "Hang up, call back with the result",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "flags": {
+          "add": [
+            "ehliyet_gecti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annen sonucu beklerken iki kez daha aradı. Geçtin; börek henüz soğumamıştı.",
+      "en": "Mom called twice more while you waited. You passed. The pastry was still warm.",
+      "coach": [
+        {
+          "tr": "Börek sonuçtan önce hazırdı.",
+          "en": "The pastry was ready before the results.",
+          "roast": false
+        }
+      ]
+    },
+    "gectim": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "momPressure": -3
+          },
+          "flags": {
+            "add": [
+              "ehliyet_gecti"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Yarım saat sonra sonuç geldi: gerçekten geçmiştin. Böreğe komşunun bütün katı geldi.",
+        "en": "Half an hour later the result arrived: you really had passed. The neighbor's whole floor came for pastry.",
+        "coach": [
+          {
+            "tr": "Tahmin tuttu. Bütün kat doydu.",
+            "en": "The guess held. The whole floor ate.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "flags": {
+            "add": [
+              "ehliyet_kaldi"
+            ]
+          }
+        },
+        "tr": "Sonuç geldi: park kısmından kalmıştın. Annen börekleri 'gelecek sefere' diye dondurucuya koydu.",
+        "en": "The result came in: you'd failed the parking section. Mom froze the pastry 'for next time.'",
+        "coach": [
+          {
+            "tr": "Börek ikinci denemeyi bekliyor.",
+            "en": "The pastry is waiting for the retake.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "ehliyet_gecti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kapattın. Sonucu öğrenip aradığında hat meşguldü; annen komşuya 'Açmıyor, kaldı herhalde' diyordu.",
+      "en": "You hung up. When you called back with the news, the line was busy. Mom was telling the neighbor, 'No answer. Must have failed.'",
+      "coach": [
+        {
+          "tr": "Haber senden hızlı yayıldı. Yanlış hâliyle.",
+          "en": "The news traveled faster than you. The wrong version.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "çağrı günü"
+  },
+  "intent": {
+    "setup": "ehliyet sınavından çıkar çıkmaz annenin sonucu sorması, komşuya çoktan geçti demiş olması",
+    "mechanism": "sonuç yokken kutlama",
+    "mechanismId": "escalation",
+    "punch": "börek de açtı",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "borek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

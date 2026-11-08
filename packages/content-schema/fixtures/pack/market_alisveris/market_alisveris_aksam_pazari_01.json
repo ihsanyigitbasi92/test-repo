@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "market_alisveris_aksam_pazari_01",
+  "tags": [
+    "gundelik",
+    "market",
+    "market_alisveris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "market_alisveris": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Kapatıyoruz! Domates kilosu yarı fiyat, kasa alana bir kasa daha!",
+      "en": "Closing up. Tomatoes half price. Buy a crate, get a crate."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ben her hafta son yarım saatte gelirim. Taktik.",
+      "en": "I only ever come in the last half hour. Strategy.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kasa",
+      "tr": "İki kasa al",
+      "en": "Take two crates",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Bir kasaya pazarlık et",
+      "en": "Haggle on a single crate",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kilo",
+      "tr": "Bir kilo al, git",
+      "en": "Buy one kilo, go home",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kasa": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "komsulara_domates"
+          ]
+        }
+      },
+      "tr": "İki kasa domatesi eve taşıdın. Bütün hafta salça, sos ve komşulara dağıtım.",
+      "en": "You carried two crates home. The whole week: paste, sauce, and deliveries to the neighbors.",
+      "coach": [
+        {
+          "tr": "Domates kampanyası komşulara kadar ulaştı.",
+          "en": "The tomato campaign reached the neighbors.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -50,
+          "stats": {
+            "joy": 3
+          }
+        },
+        "tr": "Pazarcı kasayı yarısına verdi, üstüne iki demet maydanoz ekledi.",
+        "en": "The vendor knocked the crate down to half and threw in two bunches of parsley.",
+        "coach": [
+          {
+            "tr": "Maydanoz da anlaşmaya dahil.",
+            "en": "Even the parsley was part of the deal.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -80,
+          "stats": {
+            "joy": 0
+          }
+        },
+        "tr": "Pazarcı inmedi. \"Zaten yarı fiyat\" dedi ve haklıydı.",
+        "en": "The vendor wouldn't budge. \"It's already half price,\" they said, accurately.",
+        "coach": [
+          {
+            "tr": "Masa kısa sürdü. Domates yine eve geldi.",
+            "en": "Short negotiation. The tomatoes came home anyway.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kilo": {
+      "effects": {
+        "money": -15,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Bir kilo domatesle döndün. Akşam salatası tam ölçüsünde oldu.",
+      "en": "You came home with one kilo. Dinner salad: exactly the right size.",
+      "coach": [
+        {
+          "tr": "Bir kilo, bir salata, sıfır fire.",
+          "en": "One kilo, one salad, zero waste.",
+          "roast": false
+        },
+        {
+          "tr": "Sıfır fire. Hedef sayacı kıpırdadı.",
+          "en": "Zero waste. Goal counter ticks.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Pazarcı yarı fiyattan aşağı inmez. — M.",
+      "en": "WAGER: The vendor won't go below half. — M."
+    }
+  },
+  "intent": {
+    "setup": "akşam pazarı kapanışında toplu ucuzluk",
+    "mechanism": "kampanya kasa kasa büyür",
+    "mechanismId": "escalation",
+    "punch": "kasa alana bir kasa daha",
+    "lift": "sıfır fire",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fire"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

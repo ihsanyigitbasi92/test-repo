@@ -1,0 +1,178 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_kayip_pasta_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kayıp eşya bürosu gıda kabul etmiyor. Yönetmelik.",
+      "en": "Lost and found doesn't accept food. It's policy."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Mumlarıyla mı? Mumları alabilirim. Mum gıda değil.",
+      "en": "Does it have candles? I can take the candles. Candles aren't food.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sahibini durakta bekle",
+      "en": "Wait at the stop for the owner",
+      "pattern": "patience"
+    },
+    {
+      "id": "mum",
+      "tr": "Mumları teslim et",
+      "en": "Hand in the candles",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "pastane",
+      "tr": "Kutudaki pastaneyi ara",
+      "en": "Call the bakery on the box",
+      "pattern": "generosity",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Sahibi elli dakika sonra koşarak geldi. Pastada \"iyi ki doğdun Necdet\" yazıyordu, Necdet de yanındaydı.",
+      "en": "The owner came running fifty minutes later. The cake said \"Happy Birthday, Ray,\" and Ray was right behind them.",
+      "coach": [
+        {
+          "tr": "Elli dakika gecikme, bir doğum günü kurtarıldı.",
+          "en": "Fifty minutes late. One birthday rescued.",
+          "roast": false
+        }
+      ]
+    },
+    "mum": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kayip_mum_tutanagi"
+          ]
+        }
+      },
+      "tr": "Mumları teslim ettin, tutanağı imzaladın. Pasta \"bozulmasın\" diye durak çaycısı tarafından dağıtıldı.",
+      "en": "You handed in the candles and signed a report. The depot staff shared out the cake \"so it wouldn't go to waste.\"",
+      "coach": [
+        {
+          "tr": "Mumlar kayıtta. Pasta kayıp.",
+          "en": "The candles are on file. The cake is in the wind.",
+          "roast": false
+        }
+      ]
+    },
+    "pastane": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Pastane sipariş sahibine ulaştı. Sahibi sana bir dilim ayırdı.",
+        "en": "The bakery reached the customer, who saved you a slice.",
+        "coach": [
+          {
+            "tr": "Bir dilim, dedektiflik ücreti.",
+            "en": "One slice: your detective fee.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Pastane siparişi bulamadı. Pasta gün boyu ön koltukta, kemeri takılı seninle dolaştı.",
+        "en": "The bakery couldn't find the order. The cake rode up front for the rest of the day, buckled in.",
+        "coach": [
+          {
+            "tr": "Kemer takılı. Sahibi meçhul.",
+            "en": "Seatbelt on. Owner unknown.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia payı başka olayda"
+  },
+  "intent": {
+    "setup": "yolcu araçta doğum günü pastası unuttu, kayıp eşya gıda almıyor",
+    "mechanism": "yönetmeliğin harfiyen uygulanması: mum gıda değil",
+    "mechanismId": "literalism",
+    "punch": "mum gıda değil",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "mum"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuşta unutulan pasta ve kayıp eşya bürosu; EN rideshare aracında unutulan pasta ve depo kayıp eşya masası."
+  }
+}

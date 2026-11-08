@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_zarflar_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "dayOfMonth": {
+      "max": 3
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Maaşı zarflara böl. Ben öyle yapardım. Kira, mutfak, fatura. Bir de \"dokunma\" zarfı.",
+      "en": "Split your pay into envelopes. That's what I did. Rent, food, bills. And one marked 'Don't Touch.'"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Dokunma zarfına dokunulmaz. O zarf öyle çalışır.",
+      "en": "You don't touch the Don't Touch envelope. That's how it works.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "alti",
+      "tr": "Altı zarf yap, dayan",
+      "en": "Make six envelopes, stick to them",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "uc",
+      "tr": "Sadece üç zarf yap",
+      "en": "Just do three envelopes",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yok",
+      "tr": "Zarfsız, kafadan idare et",
+      "en": "Wing it, no envelopes",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "alti": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 300,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "momPressure": -3
+          },
+          "flags": {
+            "add": [
+              "butce_zarf_sistemi"
+            ]
+          }
+        },
+        "tr": "Ay sonunda \"dokunma\" zarfında 300 Para duruyordu. Annene söyledin, zarfın fotoğrafını istedi.",
+        "en": "At month's end, Don't Touch still held 300. You told Mom. She asked for a photo of the envelope.",
+        "coach": [
+          {
+            "tr": "Zarf bir ayı devirdi.",
+            "en": "The envelope made it through a month.",
+            "roast": false
+          },
+          {
+            "tr": "Zarf dolu. Hedef yaklaştı.",
+            "en": "Envelope full. Target closer.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -50,
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "butce_zarf_sistemi"
+            ]
+          }
+        },
+        "tr": "Eğlence zarfı ayın dokuzunda bitti. On üçünde \"dokunma\" zarfından ilk ödünç alındı, üstüne \"geçici\" yazıldı.",
+        "en": "The fun envelope was empty by the ninth. On the thirteenth, Don't Touch made its first loan, labeled 'temporary.'",
+        "coach": [
+          {
+            "tr": "Dokunma zarfı ilk temasını yaşadı.",
+            "en": "Don't Touch has been touched.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uc": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "meters": {
+          "momPressure": -1
+        }
+      },
+      "tr": "Üç zarf yaptın: kira, mutfak, diğer. Ay sonunda en kalın zarf, fişlerle dolu \"diğer\" oldu.",
+      "en": "Three envelopes: rent, food, other. By month's end the thickest one was 'other,' stuffed with receipts.",
+      "coach": [
+        {
+          "tr": "Ayı \"diğer\" aldı.",
+          "en": "'Other' took the month.",
+          "roast": false
+        }
+      ]
+    },
+    "yok": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "meters": {
+          "momPressure": 3
+        }
+      },
+      "tr": "Zarfsız bir ay geçirdin. Ayın yirmisinde annen zarfları görmek istedi, gösterecek zarf yoktu.",
+      "en": "A month without envelopes. On the twentieth Mom asked to see them. There was nothing to show.",
+      "coach": [
+        {
+          "tr": "Sistem yoktu. Sonuçlar tutarlı.",
+          "en": "No system. Consistent results.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "alti",
+    "slip": {
+      "tr": "İDDİA: \"Dokunma\" zarfına ayın ortasında dokunulur. — M.",
+      "en": "WAGER: Don't Touch gets touched by mid-month. — M."
+    }
+  },
+  "intent": {
+    "setup": "annenin önerisiyle maaşı ayın başında zarflara bölmek",
+    "mechanism": "\"dokunma\" zarfının kuralı kendini tanımlıyor",
+    "mechanismId": "count",
+    "punch": "o zarf öyle çalışır",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "temas"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

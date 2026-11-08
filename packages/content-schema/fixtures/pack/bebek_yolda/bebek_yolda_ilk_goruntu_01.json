@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bebek_yolda_ilk_goruntu_01",
+  "tags": [
+    "ebeveynlik",
+    "partner",
+    "bebek",
+    "doktor",
+    "bebek_yolda"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 2,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "bebek_yolda": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "bebek_yolda"
+      ],
+      "none": [
+        "ilk_goruntu_goruldu"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "İşte burada. Şu küçük nokta.",
+      "en": "There it is. That little dot."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Gördüm. Hangi nokta? Tamam, gördüm.",
+      "en": "I see it. Which dot? Okay, I see it.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "smug",
+      "tr": "O ekrandaki toz. Bebek sağ tarafta.",
+      "en": "That's dust on the screen. The baby's on the right.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "cerceve",
+      "tr": "Çıktıyı çerçevelet",
+      "en": "Frame the printout",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "annene",
+      "tr": "Fotoğrafı annene gönder",
+      "en": "Send the image to Mom",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sir",
+      "tr": "Şimdilik ikinizde kalsın",
+      "en": "Keep it between you two",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "cerceve": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 6
+        },
+        "flags": {
+          "add": [
+            "ilk_goruntu_goruldu",
+            "ilk_goruntu_cerceve"
+          ]
+        }
+      },
+      "tr": "Çıktı salona asıldı. Gelen herkes önce tozu gösteriyor.",
+      "en": "The printout now hangs in the living room. Every visitor points at the dust first.",
+      "coach": [
+        {
+          "tr": "Çerçeve 180 Para. Toz bedava.",
+          "en": "The frame cost 180. The dust was free.",
+          "roast": true
+        }
+      ]
+    },
+    "annene": {
+      "effects": {
+        "stats": {
+          "joy": 5
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ilk_goruntu_goruldu",
+            "bebek_haberi_verildi"
+          ]
+        }
+      },
+      "tr": "Annen görüntüyü on dakikada bütün akrabalara gönderdi. Teyzen \"Gözleri sana çekmiş\" yazdı.",
+      "en": "Within ten minutes, Mom had forwarded it to every relative. Your aunt replied: \"Has your eyes.\"",
+      "coach": [
+        {
+          "tr": "Bir nokta, bir aile zirvesi.",
+          "en": "One dot. One family summit.",
+          "roast": false
+        }
+      ]
+    },
+    "sir": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ilk_goruntu_goruldu",
+            "ilk_goruntu_sir"
+          ]
+        }
+      },
+      "tr": "Görüntü partnerinin cüzdanında duruyor. İkiniz de günde birkaç kez çıkarıp bakıyorsunuz.",
+      "en": "The image lives in your partner's wallet. You both sneak a look several times a day.",
+      "coach": [
+        {
+          "tr": "İki kişilik sır. Şimdilik.",
+          "en": "A secret for two. For now.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "doktorda bebeğin ilk görüntüsüne bakmak",
+    "mechanism": "gösterilen nokta tozmuş; gerçek bebek öbür tarafta",
+    "mechanismId": "reversal",
+    "punch": "o ekrandaki toz",
+    "lift": "iki kişilik sır",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "toz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

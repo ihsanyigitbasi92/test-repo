@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_uzun_yol_ehliyet_01",
+  "tags": [
+    "sosyal",
+    "yolculuk",
+    "tatil",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Dört arkadaş araba kiraladınız. Ehliyeti olan tek kişi sensin. Yol altı saat.",
+      "en": "Four friends, one rental car. You're the only one with a license. Six hours of road."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Ben müzikten sorumluyum. Bir de atıştırmalıklardan. Bir de uyumaktan.",
+      "en": "I'm on music. And snacks. And sleeping."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Arka koltuk zaten uyudu. Daha park yerinden çıkmadık.",
+      "en": "The back seat's already asleep. We're still in the parking lot.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sur",
+      "tr": "Altı saati tek başına sür",
+      "en": "Drive all six hours",
+      "pattern": "overwork"
+    },
+    {
+      "id": "mola",
+      "tr": "İki saatte bir mola ver",
+      "en": "Stop every two hours",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "gece",
+      "tr": "Gece çık, yol boş olur",
+      "en": "Leave at night, beat traffic",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    }
+  ],
+  "outcomes": {
+    "sur": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": -2
+        },
+        "flags": {
+          "add": [
+            "yol_soforu"
+          ]
+        }
+      },
+      "tr": "Altı saat aralıksız sürdün. Vardığınızda herkes dinçti, sen hariç.",
+      "en": "You drove six hours straight. Everyone arrived refreshed. Except you.",
+      "coach": [
+        {
+          "tr": "Dört kişilik tatil, tek kişilik mesai.",
+          "en": "A vacation for four. A shift for one.",
+          "roast": true
+        }
+      ]
+    },
+    "mola": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -320,
+        "flags": {
+          "add": [
+            "yol_molalari"
+          ]
+        }
+      },
+      "tr": "Üç mola verdiniz, yol sekiz saat sürdü. Molalarda 320 Para'lık tost yendi.",
+      "en": "Three stops, eight hours. The rest areas ran you 320 in toasted sandwiches.",
+      "coach": [
+        {
+          "tr": "İki saat fazla yol, sağlam bir bel.",
+          "en": "Two extra hours. One intact back.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe yolda bir adım.",
+          "en": "Goal meter: one step, roadside.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "gece": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "gece_yolculugu"
+            ]
+          }
+        },
+        "tr": "Gece yola çıktınız, yol bomboştu. Sabah deniz kenarında uyandınız.",
+        "en": "You left at night to empty roads. Woke up by the sea.",
+        "coach": [
+          {
+            "tr": "Boş yol, dolu bir sahil. Plan tuttu.",
+            "en": "Empty road, crowded beach. Plan held.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1,
+            "health": -3
+          },
+          "money": -250,
+          "flags": {
+            "add": [
+              "tesiste_uyudu"
+            ]
+          }
+        },
+        "tr": "Gece yarısı uykun bastırdı; bir dinlenme tesisinde arabada uyudunuz. Otopark 250 Para.",
+        "en": "Sleep hit at midnight. You all crashed in the car at a rest stop. Parking: 250.",
+        "coach": [
+          {
+            "tr": "Yolun yarısı, otoparkın tamamı.",
+            "en": "Half the road. All of the parking lot.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gece",
+    "slip": {
+      "tr": "İDDİA: Gece yolu sabaha çıkmaz. — M.",
+      "en": "WAGER: You won't make it through the night drive. — M."
+    }
+  },
+  "intent": {
+    "setup": "arkadaşlarla kiralık arabayla tatile giderken ehliyeti olan tek kişinin sen olması",
+    "mechanism": "ev arkadaşı görevlerini sayıyor: müzik, atıştırmalık, uyku",
+    "mechanismId": "count",
+    "punch": "arka koltuk kalkışta uyudu",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "mesai"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

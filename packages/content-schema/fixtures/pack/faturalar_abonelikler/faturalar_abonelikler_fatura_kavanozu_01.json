@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_fatura_kavanozu_01",
+  "tags": [
+    "para",
+    "fatura",
+    "ev_arkadasi",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Yeni sistem: herkes ayın birinde payını kavanoza atar. Kavanoz kitaplığın üstünde.",
+      "en": "New system: everyone drops their share in the jar on the first. The jar lives on the bookshelf."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Kavanozun adı Komite. Komite'ye borç olmaz.",
+      "en": "The jar's name is The Committee. Nobody owes The Committee.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "katil",
+      "tr": "Payını hemen at",
+      "en": "Drop your share in now",
+      "pattern": "generosity"
+    },
+    {
+      "id": "uygulama",
+      "tr": "Ortak hesap uygulaması öner",
+      "en": "Suggest a bill-split app",
+      "pattern": "pride"
+    },
+    {
+      "id": "sonra",
+      "tr": "Maaşı bekle, sonra atarsın",
+      "en": "Wait for payday",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "katil": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "kavanoz_sistemi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "700 Para kavanoza girdi. Ay sonunda üç fatura birden zamanında ödendi.",
+      "en": "700 went in the jar. All three bills got paid on time at month's end.",
+      "coach": [
+        {
+          "tr": "Üç fatura, sıfır mesaj. Komite memnun.",
+          "en": "Three bills, zero group texts. The Committee is pleased.",
+          "roast": false
+        }
+      ]
+    },
+    "uygulama": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "kavanoz_sistemi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Uygulama kuruldu, kimse bildirimleri açmadı. Kavanoz yine de doldu.",
+      "en": "The app got installed. Nobody turned on notifications. The jar filled up anyway.",
+      "coach": [
+        {
+          "tr": "Uygulama sıfır, Komite bir.",
+          "en": "App: zero. Committee: one.",
+          "roast": true
+        }
+      ]
+    },
+    "sonra": {
+      "effects": {
+        "money": -700,
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "kavanoz_sistemi",
+            "kavanoz_gecikme"
+          ]
+        }
+      },
+      "tr": "Payın ayın beşinde atıldı. Kavanozun yanına \"Komite gecikmeleri izliyor\" notu kondu.",
+      "en": "Your share went in on the fifth. A note appeared by the jar: \"The Committee is watching late payments.\"",
+      "coach": [
+        {
+          "tr": "Komite'nin hafızası var.",
+          "en": "The Committee remembers.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ev arkadaşlarıyla fatura paylarını her ay ortak kavanozda toplama sistemi",
+    "mechanism": "kavanoza verilen isim bütün sonuçlarda geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "Komite'ye borç olmaz",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "komite",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

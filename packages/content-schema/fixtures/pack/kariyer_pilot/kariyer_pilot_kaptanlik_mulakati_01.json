@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_kaptanlik_mulakati_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 7000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 33,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true,
+      "minRung": 1
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Kaptanlık mülakatı. Teknik kısmı geçtin. Şimdi bir senaryo.",
+      "en": "Captain's interview. You passed the technical part. Now a scenario."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Bir yolcu kokpit kapısını çalıyor, kahvesi soğukmuş. Kaptan olarak ne yaparsın?",
+      "en": "A passenger knocks on the cockpit door. Their coffee's cold. As captain, what do you do?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "prosedur",
+      "tr": "Prosedürü adım adım anlat",
+      "en": "Walk through the procedure",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "espri",
+      "tr": "Esprili cevap ver",
+      "en": "Answer with a joke",
+      "pattern": "risk"
+    },
+    {
+      "id": "kabin",
+      "tr": "Kabin ekibini öne çıkar",
+      "en": "Credit the cabin crew",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "prosedur": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "pilot_kaptan"
+            ]
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Kapının açılmadığını, kabin ekibinin çözdüğünü sırayla anlattın. Ay sonunda omzuna dördüncü çizgi geldi.",
+        "en": "Door stays shut, cabin crew handles it, step by step. By the end of the month, you had a fourth stripe.",
+        "coach": [
+          {
+            "tr": "Seni soğuk bir kahve kaptan yaptı.",
+            "en": "A cold coffee made you captain.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef: dördüncü çizgi takıldı.",
+            "en": "Goal: fourth stripe, sewn on.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Prosedürü anlatırken kahve makinesinin bakım takvimine daldın. Mülakat altı ay sonraya kaldı.",
+        "en": "Halfway through, you drifted into the coffee maker's maintenance schedule. Interview rescheduled for six months out.",
+        "coach": [
+          {
+            "tr": "Kahve makinesi için harika bir sunumdu.",
+            "en": "Excellent presentation. For the coffee maker.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "espri": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 2,
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "'Kahveyi ben ısıtmam, irtifa ısıtır' dedin. Kurul güldü; puanlama formunda gülme sütunu yoktu.",
+      "en": "'I don't reheat coffee. Altitude does,' you said. The panel laughed. The scoring sheet has no column for laughing.",
+      "coach": [
+        {
+          "tr": "Kurul güldü. Form sessiz kaldı.",
+          "en": "The panel laughed. The form did not.",
+          "roast": true
+        }
+      ]
+    },
+    "kabin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "pilot_ekip_odakli"
+          ]
+        }
+      },
+      "tr": "Kabin amirinin bunu senden iyi çözeceğini söyledin. Şef pilot 'ekip ruhu' yazdı, kararı haftaya bıraktı.",
+      "en": "You said the purser would handle it better than you. The chief pilot wrote 'team player' and deferred the decision a week.",
+      "coach": [
+        {
+          "tr": "Bir hafta daha. Ekip ruhu dosyada.",
+          "en": "One more week. 'Team player' is on file.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "prosedur",
+    "slip": {
+      "tr": "İDDİA: Soğuk kahve sorusu seni dördüncü çizgiden ayırır. — M.",
+      "en": "WAGER: The cold-coffee question costs you the fourth stripe. — M."
+    }
+  },
+  "intent": {
+    "setup": "kaptanlık mülakatında soğuk kahve şikâyeti senaryosu soruluyor",
+    "mechanism": "kariyerin en büyük sorusu soğuk kahve",
+    "mechanismId": "callback",
+    "punch": "kahvesi soğukmuş, kaptan olarak ne yaparsın",
+    "lift": "dördüncü çizgi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cizgi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_ortak_mektup_imzasi_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Fazla mesai için yönetime ortak bir mektup yazdık. Üçüncü imza sen olursan ağırlığı artar.",
+      "en": "We wrote management a joint letter about overtime. With you as the third signature, it carries weight."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "İlk iki imza sağlam. Gerçi ikimiz de ay sonunda ayrılıyoruz.",
+      "en": "The first two signatures are solid. Granted, we're both leaving at the end of the month.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzala",
+      "tr": "İmzala",
+      "en": "Sign it",
+      "pattern": "risk",
+      "check": {
+        "base": 4500
+      }
+    },
+    {
+      "id": "yumusat",
+      "tr": "Önce metni yumuşatalım de",
+      "en": "Offer to soften the wording",
+      "pattern": "patience"
+    },
+    {
+      "id": "cekil",
+      "tr": "İmza atma",
+      "en": "Don't sign",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "imzala": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "fazla_mesai_kurali"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 3
+            },
+            {
+              "role": "boss",
+              "memory": "ortak_mektup"
+            }
+          ]
+        },
+        "tr": "Mektup işe yaradı, fazla mesai haftada bir akşama indi. Ay sonunda diğer iki imza ayrıldı, kural sana kaldı.",
+        "en": "The letter worked: overtime dropped to one evening a week. At month's end the other two signers left. The rule stayed with you.",
+        "coach": [
+          {
+            "tr": "Üç imzadan biri kaldı. Kural da kaldı.",
+            "en": "One of three signatures remains. So does the rule.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -3,
+              "memory": "ortak_mektup"
+            }
+          ]
+        },
+        "tr": "Yönetim mektubu 'değerlendirmeye' aldı. Ay sonunda diğer ikisi ayrıldı, değerlendirme toplantısına tek sen çağrıldın.",
+        "en": "Management put the letter 'under review.' At month's end the other two left, and only you were invited to the review meeting.",
+        "coach": [
+          {
+            "tr": "Üç kişi imzaladı. Bir kişi açıklıyor.",
+            "en": "Three people signed. One person explains.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yumusat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Metni yumuşattın. Yönetim mektubu teşekkür notu sanıp duyuru panosuna astı.",
+      "en": "You softened the wording. Management mistook it for a thank-you note and pinned it to the board.",
+      "coach": [
+        {
+          "tr": "Mektup panoda. Fazla mesai yerinde.",
+          "en": "The letter's on the board. The overtime is right where it was.",
+          "roast": false
+        }
+      ]
+    },
+    "cekil": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "İmzalamadın. İki imzalı mektup cevapsız kaldı, veda yemeğine yine de çağrıldın.",
+      "en": "You didn't sign. The two-signature letter got no reply. They still invited you to their farewell lunch.",
+      "coach": [
+        {
+          "tr": "Mektup sessizlik aldı. Davet sağ kaldı.",
+          "en": "The letter got silence. The lunch invite survived.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "imzala",
+    "slip": {
+      "tr": "İDDİA: Toplantıya tek imza kalır. — M.",
+      "en": "WAGER: You'll be the last signer standing. — M."
+    }
+  },
+  "intent": {
+    "setup": "ayrılmak üzere olan iş arkadaşlarının fazla mesai mektubuna üçüncü imza",
+    "mechanism": "imzası sağlam olanlar gidiyor",
+    "mechanismId": "reversal",
+    "punch": "ikimiz de ay sonunda ayrılıyoruz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

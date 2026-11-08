@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cocuk_buyutme_neden_serisi_01",
+  "tags": [
+    "ebeveynlik",
+    "ev",
+    "kira",
+    "soru",
+    "cocuk_buyutme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "cocuk_buyutme": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 36
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Gökyüzü neden mavi?",
+      "en": "Why is the sky blue?"
+    },
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Peki ışık neden saçılıyor? Peki biz neden kira veriyoruz?",
+      "en": "Okay, why does light scatter? Okay, why do we pay rent?",
+      "delayMs": 400
+    },
+    {
+      "speaker": "child",
+      "avatar": "smug",
+      "tr": "Ev sahibinin neden iki evi var? Bizim neden sıfır?",
+      "en": "Why does the landlord have two houses? Why do we have zero?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Kira sistemini anlat",
+      "en": "Explain how renting works",
+      "pattern": "patience"
+    },
+    {
+      "id": "gecis",
+      "tr": "'Yemek soğuyor' de",
+      "en": "Say 'dinner's getting cold'",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "kavanoz",
+      "tr": "Birlikte bir ev kavanozu aç",
+      "en": "Start a house jar together",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "anlat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kira_dersi"
+          ]
+        }
+      },
+      "tr": "Yirmi dakika anlattın. Çocuğun 'yani ev sahibinin evini biz ödüyoruz' diye özetledi.",
+      "en": "You explained for twenty minutes. Your kid summed it up: 'So we pay for the landlord's house.'",
+      "coach": [
+        {
+          "tr": "Özet doğru. Ev sahibine iletilmeyecek.",
+          "en": "The summary is correct. It will not be forwarded to the landlord.",
+          "roast": false
+        }
+      ]
+    },
+    "gecis": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "neden_ertelendi"
+          ]
+        }
+      },
+      "tr": "Yemek soğumadı, konu kapandı. Ertesi sabah aynı soru kahvaltıda yeniden açıldı.",
+      "en": "Dinner stayed warm and the topic closed. It reopened at breakfast.",
+      "coach": [
+        {
+          "tr": "Soru ertelendi. Faiziyle döndü.",
+          "en": "The question was deferred. It came back with interest.",
+          "roast": true
+        }
+      ]
+    },
+    "kavanoz": {
+      "effects": {
+        "money": -100,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ev_kavanozu"
+          ]
+        }
+      },
+      "tr": "Mutfak rafına üstünde 'EV' yazan bir kavanoz kondu. İlk bozuklukları çocuğun attı.",
+      "en": "A jar labeled HOUSE went up on the kitchen shelf. Your kid dropped in the first coins.",
+      "coach": [
+        {
+          "tr": "Kavanoz açıldı. Ev sahibi henüz habersiz.",
+          "en": "The jar is open. The landlord has not been informed.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe ilk bozukluk düştü.",
+          "en": "First coins in the goal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddiaya uygun değil"
+  },
+  "intent": {
+    "setup": "çocuğun 'neden' zincirinin gökyüzünden kiraya varması",
+    "mechanism": "her cevap bir sonraki soruyu büyütüyor",
+    "mechanismId": "escalation",
+    "punch": "bizim neden sıfır",
+    "lift": "Hedefe ilk bozukluk düştü.",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ev_sahibi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_harc_borcu_01",
+  "tags": [
+    "burokrasi",
+    "universite",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 22
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇAYIRBAŞI ÜNİVERSİTESİ ÖĞRENCİ İŞLERİ (kurgusal)",
+      "en": "MEADOWHEAD UNIVERSITY REGISTRAR (fictional)"
+    },
+    "body": {
+      "tr": "Sistemimizde 3 Para tutarında ödenmemiş harç borcunuz bulunmaktadır. Borç kapatılmadan transkript düzenlenememektedir.",
+      "en": "Our records show an outstanding fee of 3. No transcript can be issued until it is settled."
+    },
+    "translate": {
+      "tr": {
+        "from": "düzenlenememektedir",
+        "to": "üç Para seni rehin aldı"
+      },
+      "en": {
+        "from": "cannot be issued",
+        "to": "a three is holding you hostage"
+      }
+    },
+    "glossaryKey": "harc_borcu"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Vezne yalnızca salı ve perşembe açık. Kart geçmiyor, bozuk para getirin.",
+      "en": "The cashier window opens Tuesdays and Thursdays. No cards. Bring coins."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bir de dilekçe yazın. Borcu ödemek istediğinize dair.",
+      "en": "Also write a petition. Stating that you wish to pay.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "vezne",
+      "tr": "Salıyı bekle, vezneye git",
+      "en": "Wait for Tuesday, go to the window",
+      "pattern": "patience"
+    },
+    {
+      "id": "mail",
+      "tr": "Öğrenci işlerine e-posta at",
+      "en": "Email the registrar",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bosver",
+      "tr": "Transkripti boş ver",
+      "en": "Forget the transcript",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "vezne": {
+      "effects": {
+        "money": -3,
+        "hidden": {
+          "stress": -1
+        },
+        "glossary": "harc_borcu",
+        "flags": {
+          "add": [
+            "transkript_alindi"
+          ]
+        }
+      },
+      "tr": "Salı günü kırk dakika sıra bekleyip 3 Para ödedin. Transkript aynı gün çıktı, yanında bir makbuz.",
+      "en": "On Tuesday you queued forty minutes and paid 3. The transcript came out the same day, with a receipt.",
+      "coach": [
+        {
+          "tr": "Kırk dakika sıra, bir sayfa kâğıt. Kâğıt ağır bastı.",
+          "en": "Forty minutes in line for one sheet of paper. The paper won.",
+          "roast": false
+        }
+      ]
+    },
+    "mail": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -3,
+          "stats": {
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "transkript_alindi"
+            ]
+          }
+        },
+        "tr": "Dört gün sonra cevap geldi: borç hesabından mahsup edildi. Transkript postada.",
+        "en": "A reply came four days later: the fee was deducted from your account. Transcript is in the mail.",
+        "coach": [
+          {
+            "tr": "Dilekçesiz çözüldü. Vezne bunu hiç duymayacak.",
+            "en": "Solved without a petition. The cashier window will never find out.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "harc_borcu_acik"
+            ]
+          }
+        },
+        "tr": "Otomatik yanıt geldi: \"Talepleriniz için şahsen başvurunuz.\" Salı da geçti.",
+        "en": "Auto-reply: \"Please apply in person.\" Tuesday came and went.",
+        "coach": [
+          {
+            "tr": "Makine seni vezneye geri yolladı.",
+            "en": "The machine sent you back to the window.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bosver": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "harc_borcu_acik"
+          ]
+        },
+        "glossary": "harc_borcu"
+      },
+      "tr": "Transkripti istemedin. 3 Para borç sistemde bekliyor.",
+      "en": "You skipped the transcript. The fee of 3 is still waiting in the system.",
+      "coach": [
+        {
+          "tr": "Üç Paralık bir alacaklı. Çok sabırlı.",
+          "en": "A creditor owed three. Extremely patient.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "üç Paralık harç borcu yüzünden transkriptin verilmemesi",
+    "mechanism": "minicik borç koca bürokrasiyi kilitliyor; bozuk para ve dilekçe şartı",
+    "mechanismId": "bathos",
+    "punch": "borcu ödemek istediğinize dair dilekçe",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "alacakli"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

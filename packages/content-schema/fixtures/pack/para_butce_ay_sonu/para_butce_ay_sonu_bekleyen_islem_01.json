@@ -1,0 +1,170 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_bekleyen_islem_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "dayOfMonth": {
+      "min": 24
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Görünen bakiyeniz 780. Kullanılabilir bakiyeniz ise ayrı bir kavramdır.",
+      "en": "Your displayed balance is 780. Your available balance is a separate concept."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Üç gün önceki yemek siparişiniz hâlâ yolda. Para olarak.",
+      "en": "The food order from three days ago is still on its way. As a charge.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "harca",
+      "tr": "780'e güven, alışverişe çık",
+      "en": "Trust the 780, go shopping",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "topla",
+      "tr": "Bekleyenleri tek tek topla",
+      "en": "Add up the pending charges",
+      "pattern": "patience"
+    },
+    {
+      "id": "bakma",
+      "tr": "Ay sonuna kadar uygulamayı açma",
+      "en": "Don't open the app till payday",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "harca": {
+      "effects": {
+        "money": -320,
+        "hidden": {
+          "stress": 4
+        },
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "butce_eksi_bakiye"
+          ]
+        }
+      },
+      "tr": "Alışveriş yaptın. İki gün sonra bekleyen işlemler düştü, bakiye eksi 140 oldu.",
+      "en": "You went shopping. Two days later the pending charges posted. Balance: minus 140.",
+      "coach": [
+        {
+          "tr": "780 bir tahmindi.",
+          "en": "The 780 was an estimate.",
+          "roast": true
+        }
+      ]
+    },
+    "topla": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "butce_bekleyen_listesi"
+          ]
+        }
+      },
+      "tr": "Bekleyen işlemleri topladın: dört kalem, 640. Gerçek bakiye 140, ayın bitmesine beş gün var.",
+      "en": "You totaled the pending charges: four items, 640. Real balance: 140, with five days to go.",
+      "coach": [
+        {
+          "tr": "Günde yirmi sekiz. Hesap net.",
+          "en": "Twenty-eight a day. Clean math.",
+          "roast": false
+        },
+        {
+          "tr": "Sayaç gerçek rakamı gösteriyor.",
+          "en": "The counter shows the real number.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "bakma": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "butce_uygulama_kapali"
+          ]
+        }
+      },
+      "tr": "Uygulamayı açmadın, beş gün sakin geçti. Maaş günü ekranda önce eksi, sonra artı gördün.",
+      "en": "You kept the app closed. Five calm days. On payday the screen showed a minus first, then a plus.",
+      "coach": [
+        {
+          "tr": "Huzur beş gün sürdü. Eksi bir saniye.",
+          "en": "The calm lasted five days. The minus lasted a second.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager kotası dolu / check yok"
+  },
+  "intent": {
+    "setup": "ay sonunda bakiyenin bekleyen işlemler yüzünden olduğundan fazla görünmesi",
+    "mechanism": "görünen bakiye ile kullanılabilir bakiye ayrı kavramlar",
+    "mechanismId": "understatement",
+    "punch": "780 bir tahmindi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tahmin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "iliski_gunluk_kira_eki_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 34
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide"
+    ],
+    "flags": {
+      "none": [
+        "partner_kirada"
+      ]
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "LALE APARTMANI KİRALAMA OFİSİ (kurgusal)",
+      "en": "TULIP COURT LEASING OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "Kira sözleşmenize ek kiracı eklenmesi talebiniz alınmıştır. Eklenen kişi müşterek ve müteselsil sorumluluğu kabul etmiş sayılır.",
+      "en": "Your request to add an occupant to the lease has been received. The added party is deemed to accept joint and several liability."
+    },
+    "translate": {
+      "tr": {
+        "from": "müşterek ve müteselsil sorumluluk",
+        "to": "o geç öderse sen ödersin"
+      },
+      "en": {
+        "from": "joint and several liability",
+        "to": "if they're late, you pay"
+      }
+    },
+    "glossaryKey": "musterek_sorumluluk"
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Formda 'Kiracı 2' yazıyor. Ben ikinci miyim?",
+      "en": "The form says 'Tenant 2.' Am I second?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Birinci olmak istemiyorum. İkinci olmak da istemiyorum.",
+      "en": "I don't want to be first. I don't want to be second either.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzala",
+      "tr": "İmzala, eklensin",
+      "en": "Sign, add them",
+      "pattern": "generosity"
+    },
+    {
+      "id": "oku",
+      "tr": "Sorumluluk maddesini birlikte okuyun",
+      "en": "Read the liability clause together",
+      "pattern": "patience"
+    },
+    {
+      "id": "cekmece",
+      "tr": "Formu çekmeceye koy",
+      "en": "Put the form in a drawer",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "imzala": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "partner_kirada"
+          ]
+        }
+      },
+      "tr": "İmzaladınız. Sözleşmede artık iki ad var; yer kalmadığı için partnerinin adı kenara dikine yazıldı.",
+      "en": "You both signed. The lease has two names now. There wasn't room, so your partner's went up the margin, sideways.",
+      "coach": [
+        {
+          "tr": "İki ad, bir sözleşme. Biri yan yatmış.",
+          "en": "Two names, one lease. One of them sideways.",
+          "roast": false
+        }
+      ]
+    },
+    "oku": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "glossary": "musterek_sorumluluk",
+        "flags": {
+          "add": [
+            "partner_kirada"
+          ]
+        }
+      },
+      "tr": "Maddeyi birlikte okudunuz. Partnerin 'Kira benden, faturalar senden' dedi; bölüşüm kâğıda geçti.",
+      "en": "You read the clause together. Your partner said, 'Rent's on me, bills are on you.' The split went on paper.",
+      "coach": [
+        {
+          "tr": "Sorumluluk müşterek. Faturalar senin.",
+          "en": "Liability: joint. Bills: yours.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef defterine bir madde.",
+          "en": "One clause in the goal book.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "cekmece": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Form iki ay çekmecede kaldı. Ev sahibi kapıda partnerine 'Misafir misiniz?' diye sordu.",
+      "en": "The form sat in a drawer for two months. At the door, the landlord asked your partner, 'Visiting?'",
+      "coach": [
+        {
+          "tr": "İki aydır burada. Kâğıtta misafir.",
+          "en": "Two months living here. On paper, a guest.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "kira sözleşmesine partneri ek kiracı olarak ekleme formu",
+    "mechanism": "'müşterek ve müteselsil' tercümesi",
+    "mechanismId": "translation",
+    "punch": "o geç öderse sen ödersin",
+    "lift": "hedef defteri",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

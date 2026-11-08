@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_ehliyet_yolculugu_01",
+  "tags": [
+    "tanidik_yuzler",
+    "anne"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "anne": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "anne_ilk_yolcu"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "İlk ben bineceğim. Kemerimi taktım. Sen yavaş git, ben fren yaparım.",
+      "en": "I'm riding first. Seatbelt on. Go slow, I'll do the braking."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Pazara mı? Ben de geleyim. Torunu da alalım, yolda.",
+      "en": "To the market? I'll come too. We'll grab my grandkid, it's on the way.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "park",
+      "tr": "Pazarın önüne paralel park et",
+      "en": "Parallel park at the market",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "uzak",
+      "tr": "Uzağa park et, yürüyün",
+      "en": "Park far, walk in",
+      "pattern": "patience"
+    },
+    {
+      "id": "tek",
+      "tr": "Komşuyu kibarca bırak",
+      "en": "Politely leave the neighbor",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "park": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 2
+            },
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "anne_ilk_yolcu"
+            ]
+          }
+        },
+        "tr": "Tek manevrada girdin. Komşu pazarda herkese anlattı, annen iki kere anlattı.",
+        "en": "In on the first try. The neighbor told the whole market. Mom told it twice.",
+        "coach": [
+          {
+            "tr": "Tek manevra, iki anlatıcı.",
+            "en": "One maneuver. Two narrators.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "anne_ilk_yolcu"
+            ]
+          }
+        },
+        "tr": "Beşinci denemede girdin. Arkada üç araba bekledi, annen her birine el salladı.",
+        "en": "In on the fifth try. Three cars waited behind you. Mom waved at each one.",
+        "coach": [
+          {
+            "tr": "Beş deneme. Üç seyirci. Annen tanıtım yaptı.",
+            "en": "Five attempts. Three cars watching. Mom handled the PR.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uzak": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "anne_ilk_yolcu"
+          ]
+        }
+      },
+      "tr": "İki sokak öteye park ettiniz. Torun yol boyunca neden yürüdüğünüzü sordu.",
+      "en": "You parked two streets away. The grandkid asked the whole walk why you weren't driving.",
+      "coach": [
+        {
+          "tr": "İki sokak, bir sorgu.",
+          "en": "Two blocks. One interrogation.",
+          "roast": false
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_ilk_yolcu"
+          ]
+        }
+      },
+      "tr": "Komşuya \"dönüşte alırım\" dedin. Annen yol boyunca komşunun ne düşündüğünü düşündü.",
+      "en": "You told the neighbor you'd pick her up on the way back. Mom spent the drive wondering what she thought.",
+      "coach": [
+        {
+          "tr": "Arka koltuk boş, annenin kafası dolu.",
+          "en": "Back seat empty. Mom's head full.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "park",
+    "slip": {
+      "tr": "İDDİA: İlk denemede giremezsin. — M.",
+      "en": "WAGER: You won't get in on the first try. — M."
+    }
+  },
+  "intent": {
+    "setup": "ehliyet aldıktan sonra annenin ilk yolcun olması",
+    "mechanism": "yolcu sayısı her durakta artıyor",
+    "mechanismId": "escalation",
+    "punch": "komşunun torunu da biniyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "park"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

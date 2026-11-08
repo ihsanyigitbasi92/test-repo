@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "akrabalar_isteme_konusmasi_01",
+  "tags": [
+    "aile",
+    "kuzen",
+    "gelenek",
+    "akrabalar"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "akrabalar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Konuşmayı ben yapacaktım ama sesim kısıldı. Sen yap. Kısa tut; ben olsam uzatırdım.",
+      "en": "I was supposed to give the speech, but my voice is gone. You do it. Keep it short. I'd have gone long."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kahveyi tuzlu getirirlerse yüzünü buruşturma. Teyzen izliyor. Herkes izliyor.",
+      "en": "If your coffee tastes like the sea, keep a straight face. Your aunt's watching. Everyone's watching.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kisa",
+      "tr": "Kısa ve resmi konuş",
+      "en": "Keep it short and formal",
+      "pattern": "patience"
+    },
+    {
+      "id": "hikaye",
+      "tr": "Çocukluk hikâyesi anlat",
+      "en": "Tell a childhood story",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Kâğıdı dayına ver",
+      "en": "Hand the notes to your uncle",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "kisa": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -4
+        },
+        "flags": {
+          "add": [
+            "isteme_konusmasi_yapildi"
+          ]
+        }
+      },
+      "tr": "İki dakika konuştun, karşı taraf kabul etti. Kahven gerçekten tuzluydu; yüzün kıpırdamadı.",
+      "en": "You spoke for two minutes. The other family said yes. Your coffee really was salty. Your face did not move.",
+      "coach": [
+        {
+          "tr": "İki dakika. Tek kas oynamadı.",
+          "en": "Two minutes. Not a twitch.",
+          "roast": false
+        }
+      ]
+    },
+    "hikaye": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "charm": 2
+          },
+          "meters": {
+            "momPressure": -3
+          },
+          "flags": {
+            "add": [
+              "isteme_konusmasi_yapildi"
+            ]
+          }
+        },
+        "tr": "Kuzeninle aynı bisikletten düştüğünüz yazı anlattın. İki aile birden güldü; teyzen peçete istedi.",
+        "en": "You told them about the summer you and your cousin crashed the same bike. Both families laughed. Your aunt needed a napkin.",
+        "coach": [
+          {
+            "tr": "Hikâye tuttu. Kahve ikinci tur.",
+            "en": "The story landed. Coffee, round two.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "momPressure": 4,
+            "cringe": 4
+          }
+        },
+        "tr": "Hikâyenin sonunu unuttun. Sessizliği karşı tarafın en yaşlısı doldurdu: \"Peki, verdik.\"",
+        "en": "You forgot how the story ended. The other family's eldest filled the silence: 'Well. We say yes.'",
+        "coach": [
+          {
+            "tr": "Sonu karşı taraf yazdı.",
+            "en": "The other side wrote your ending.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Kâğıdı dayına verdin. Kısık sesle yirmi dakika konuştu; karşı taraf yorgunluktan kabul etti.",
+      "en": "You passed the notes to your uncle. He croaked through twenty minutes. The other family said yes out of fatigue.",
+      "coach": [
+        {
+          "tr": "Kabul, yorgunlukla.",
+          "en": "Approved, by exhaustion.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia payı başka olaylarda"
+  },
+  "intent": {
+    "setup": "kuzenin isteme merasiminde aile adına konuşmanın sana kalması",
+    "mechanism": "dayının sesi kısılıyor, kahve tuzlu",
+    "mechanismId": "bathos",
+    "punch": "Kısa tut, ben olsam uzatırdım",
+    "lift": "Hikâye tuttu. Kahve ikinci tur",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kahve"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "İsteme merasimi ve tuzlu kahve geleneği TR'ye özgü. EN kabuğu: nişan yemeğinde aile adına konuşma; tuzlu kahve \"deniz tadında kahve\" olarak verildi. Kalıp dinî ifade kullanılmadı."
+  }
+}

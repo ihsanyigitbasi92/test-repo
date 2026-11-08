@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_terfi_soylentisi_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Duydum, takım liderliği sana çıkıyormuş. Şimdiden tebrikler.",
+      "en": "I heard the team-lead spot is going to you. Congrats, in advance."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Bu arada izin taleplerini artık sana mı yazıyoruz?",
+      "en": "Also, do we send vacation requests to you now?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yalanla",
+      "tr": "Söylentiyi yalanla",
+      "en": "Deny the rumor",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sus",
+      "tr": "Sessiz kal, tadını çıkar",
+      "en": "Stay quiet, enjoy it",
+      "pattern": "risk"
+    },
+    {
+      "id": "kaynak",
+      "tr": "Söylentinin kaynağını bul",
+      "en": "Track down the source",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "yalanla": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Herkese tek tek söylentinin yanlış olduğunu anlattın. İkinci gün inandılar, izin talepleri doğru adrese gitti.",
+        "en": "You told everyone, one by one, that it wasn't true. By day two they believed you, and vacation requests went to the right inbox.",
+        "coach": [
+          {
+            "tr": "Söylenti iki günde söndü.",
+            "en": "The rumor burned out in two days.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "terfi_soylentisi"
+            }
+          ]
+        },
+        "tr": "Yalanladıkça söylenti büyüdü. Nevin Hanım koridorda 'acele etme, sıran gelecek' dedi.",
+        "en": "The more you denied it, the bigger it got. In the hallway, Ms. Carver said, 'Don't rush. Your turn will come.'",
+        "coach": [
+          {
+            "tr": "Bu ofiste yalanlama, onay yerine geçiyor.",
+            "en": "In this office, a denial counts as confirmation.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sus": {
+      "effects": {
+        "meters": {
+          "ego": 5
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "terfi_soylentisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Sessiz kaldın. Bir hafta sonra takım liderliği dışarıdan gelen birine verildi, tebrik kartı hâlâ masanda.",
+      "en": "You stayed quiet. A week later the team-lead job went to an outside hire. The congratulations card is still on your desk.",
+      "coach": [
+        {
+          "tr": "Kart masanda. Terfi başka bir masada.",
+          "en": "The card is on your desk. The promotion is on someone else's.",
+          "roast": true
+        }
+      ]
+    },
+    "kaynak": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -2
+          },
+          {
+            "role": "npc:hr",
+            "memory": "soylenti_kaynagi"
+          }
+        ]
+      },
+      "tr": "Kaynağı buldun: yazıcıda unutulmuş bir organizasyon şeması taslağı. Adın kurşun kalemle yazılıp silinmişti.",
+      "en": "You found the source: a draft org chart left on the printer. Your name had been penciled in, then erased.",
+      "coach": [
+        {
+          "tr": "Kurşun kalemle yazılmışsın. Silgi de oradaymış.",
+          "en": "You were written in pencil. The eraser was right there.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yalanla",
+    "slip": {
+      "tr": "İDDİA: Yalanladıkça büyür. — M.",
+      "en": "WAGER: Denying it makes it bigger. — M."
+    }
+  },
+  "intent": {
+    "setup": "ofiste senin terfi edeceğine dair yanlış söylenti",
+    "mechanism": "söylenti yalanlandıkça büyüyor",
+    "mechanismId": "escalation",
+    "punch": "kurşun kalemle yazılmışsın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "silgi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

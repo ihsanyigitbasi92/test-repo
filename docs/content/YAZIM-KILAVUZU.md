@@ -294,3 +294,5 @@ Bir olay aşağıdakilerden **birini** içeriyorsa yazılmaz ya da `legal: revie
 - **Sayım üçlüsü kotası:** koç satırlarının "Sayı X, sayı Y, sayı Z." kalıbıyla açılması partide en fazla 6/40. Dalga 1'de havuzun %24'ü bu kalıba kaydı; yeni partilerde bu kalıp yerine geri dönüş (callback), kişileştirme, ters çevirme, sade tanıklık, tek kelime kapanış, soru, NPC'ye pas verme gibi mekanizmalar kullanılır.
 - **"Takas" kelimesi** koç ağzında partide en fazla 1 kez.
 - Koç her olayda konuşmak zorunda değil: partinin en az %25'inde koç satırı tek ve kısa olsun, şakayı NPC ya da sonuç metni taşısın.
+- (Dalga 2 QA) **"X. Y de." / "So did …" kapanışı** partide en fazla 3. "denetim", "kayda geçti" koç ağzında partide en fazla 1.
+- `punchOwner: dialog` olan olayda koç satırı roast olmaz; ya sade tanıklık ya da hiç.

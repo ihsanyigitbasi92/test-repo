@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_eski_eposta_01",
+  "tags": [
+    "para",
+    "fatura",
+    "e_fatura",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Faturalarınız e-postanıza gidiyor. Sistemdeki adres 2006'dan kalma.",
+      "en": "Your bills go to your email. The address on file dates from 2006."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Son üç fatura okunmamış görünüyor. Bir de kesinti ihbarı var.",
+      "en": "The last three bills show as unread. Oh, and there's a disconnection notice.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "guncelle",
+      "tr": "Adresi güncelle, borcu öde",
+      "en": "Update the email, pay up",
+      "pattern": "patience"
+    },
+    {
+      "id": "sifre",
+      "tr": "Eski hesaba girmeyi dene",
+      "en": "Try logging into the old account",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kagit",
+      "tr": "Kâğıt faturaya geri dön",
+      "en": "Go back to paper bills",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "guncelle": {
+      "effects": {
+        "money": -1150,
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "eposta_guncel"
+          ]
+        }
+      },
+      "tr": "Adres güncellendi, üç ayın 1.150 Parası ödendi. Kesinti ihbarı geri çekildi.",
+      "en": "Email updated, three months' worth paid: 1,150. Disconnection notice withdrawn.",
+      "coach": [
+        {
+          "tr": "Üç fatura ve bir ihbar, aynı adreste sırayla beklemiş.",
+          "en": "Three bills and a cut-off notice, waiting in line at one address.",
+          "roast": false
+        }
+      ]
+    },
+    "sifre": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": -1150,
+          "stats": {
+            "joy": 2,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "eposta_guncel"
+            ]
+          }
+        },
+        "tr": "Şifre üçüncü denemede tuttu. İçeride 2.300 okunmamış e-posta ve üç fatura vardı.",
+        "en": "The password worked on the third try. Inside: 2,300 unread emails and three bills.",
+        "coach": [
+          {
+            "tr": "2.300 okunmamış. Üçü önemliymiş.",
+            "en": "2,300 unread. Three mattered.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -1150,
+          "hidden": {
+            "stress": 2
+          },
+          "meters": {
+            "cringe": 1
+          }
+        },
+        "tr": "Hesap güvenlik sorusu sordu: ilk evcil hayvanının adı. Hatırlanmadı, borç gişeden ödendi.",
+        "en": "The account asked a security question: your first pet's name. Nobody remembered. You paid at the counter.",
+        "coach": [
+          {
+            "tr": "Güvenlik sorusu kazandı.",
+            "en": "The security question won.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kagit": {
+      "effects": {
+        "money": -1160,
+        "flags": {
+          "add": [
+            "kagit_fatura"
+          ]
+        }
+      },
+      "tr": "Kâğıt fatura geri geldi, ayda 10 Para posta bedeliyle. Birikmiş 1.150 Para da ödendi.",
+      "en": "Paper bills are back, for ten a month in postage. The overdue 1,150 got paid too.",
+      "coach": [
+        {
+          "tr": "Zarf geri döndü. Pul parasıyla.",
+          "en": "The envelope is back. Postage included.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "e-faturaya geçince faturaların yıllardır açılmayan eski e-posta adresine gitmesi",
+    "mechanism": "görevli kesinti ihbarını \"bir de\" diye ekliyor",
+    "mechanismId": "understatement",
+    "punch": "bir de kesinti ihbarı var",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "adres",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

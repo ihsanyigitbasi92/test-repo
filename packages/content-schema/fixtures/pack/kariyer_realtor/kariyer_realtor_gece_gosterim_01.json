@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_gece_gosterim_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "İyi akşamlar, ilandaki evin önündeyim. Şimdi bakabilir miyiz? Beş dakika.",
+      "en": "Evening. I'm outside the place from the listing. Can we look now? Five minutes."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Annemi de getirdim. Kuzenim de yolda, o da fikir söyleyecek.",
+      "en": "I brought my mother. My cousin's on the way too. They have opinions.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Saat on bir. Kiracı uyuyor. Ama sen bilirsin.",
+      "en": "It's eleven. The tenant's asleep. But your call."
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Montu giy, git",
+      "en": "Grab a coat and go",
+      "pattern": "overwork"
+    },
+    {
+      "id": "video",
+      "tr": "Görüntülü gezdir",
+      "en": "Give a video tour",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yarin",
+      "tr": "Sabah dokuza randevu ver",
+      "en": "Book them for 9 a.m.",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          },
+          {
+            "role": "npc:landlord",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_gece_musterisi"
+          ]
+        }
+      },
+      "tr": "Kiracı kapıyı pijamayla açtı, gezinti yedi kişiyle bitti. Müşteri 'bir düşünelim' dedi.",
+      "en": "The tenant answered the door in pajamas. The tour ended with seven people. The client said they'd 'think about it.'",
+      "coach": [
+        {
+          "tr": "Gezinti bitti. Düşünme süreci başladı.",
+          "en": "The tour is over. The thinking has begun.",
+          "roast": false
+        }
+      ]
+    },
+    "video": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "money": 1500
+        },
+        "tr": "Telefonla odaları gezdirdin, kiracı hiç uyanmadı. Ertesi sabah kapora geldi: komisyonun 1.500 Para.",
+        "en": "You toured the rooms by phone. The tenant never woke up. The deposit landed next morning: 1,500 commission.",
+        "coach": [
+          {
+            "tr": "Ekranda ev, hesapta 1.500.",
+            "en": "House on screen, 1,500 in the bank.",
+            "roast": false
+          },
+          {
+            "tr": "Hedefe 1.500 Para eklendi.",
+            "en": "Goal: plus 1,500.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kamera karanlıkta yalnızca senin yüzünü gösterdi. Müşteri 'ev güzel ama siz yorgunsunuz' deyip kapattı.",
+        "en": "In the dark, the camera only showed your face. The client said 'nice place, you look tired' and hung up.",
+        "coach": [
+          {
+            "tr": "Ev görünmedi. Sen göründün.",
+            "en": "The house didn't show. You did.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Sabah dokuza randevu verdin. Müşteri gece yarısından önce başka bir emlakçıyla anlaştı.",
+      "en": "You offered nine a.m. They signed with another agent before midnight.",
+      "coach": [
+        {
+          "tr": "Uyku sende kaldı. İmza başka ofise gitti.",
+          "en": "You kept the sleep. Another office kept the signature.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "video",
+    "slip": {
+      "tr": "İDDİA: Görüntülü gezinti eve değil sana odaklanır. — M.",
+      "en": "WAGER: The video tour turns into a close-up of you. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece on birde ilandaki evin önünden arayan müşteri hemen gezmek istiyor",
+    "mechanism": "beş dakikalık gezinti kalabalıklaşıyor",
+    "mechanismId": "escalation",
+    "punch": "beş dakika, yedi kişi",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pijama"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

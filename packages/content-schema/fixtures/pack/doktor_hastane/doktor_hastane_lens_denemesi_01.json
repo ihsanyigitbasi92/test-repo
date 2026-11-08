@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_lens_denemesi_01",
+  "tags": [
+    "saglik",
+    "doktor",
+    "goz",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Lensi parmak ucuna koyun. Göze yaklaştırın. Gözü kapatmayın.",
+      "en": "Lens on your fingertip. Bring it to your eye. Don't close your eye."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Kapattınız. Tekrar. Herkes ilk gün kırk kez kapatır.",
+      "en": "You closed it. Again. Everyone closes it forty times on day one.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Denemeye devam",
+      "en": "Keep trying",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "gozluk",
+      "tr": "Gözlükte kal",
+      "en": "Stick with glasses",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "tak",
+      "tr": "Hemşire taksın",
+      "en": "Let the nurse do it",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "devam": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": 1
+          },
+          "money": -600,
+          "flags": {
+            "add": [
+              "lens_kullanici"
+            ]
+          }
+        },
+        "tr": "On dokuzuncu denemede lens oturdu. Dünya ilk kez çerçevesiz göründü.",
+        "en": "On try nineteen, the lens settled in. For the first time, the world had no frame.",
+        "coach": [
+          {
+            "tr": "On dokuz deneme. Dünya çerçevesiz.",
+            "en": "Nineteen tries. Frameless world.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "money": -200,
+          "flags": {
+            "add": [
+              "lens_randevu"
+            ]
+          }
+        },
+        "tr": "Otuz denemeden sonra lens parmağında kurudu. Randevu ertesi haftaya kaldı.",
+        "en": "After thirty tries, the lens dried out on your finger. Rescheduled for next week.",
+        "coach": [
+          {
+            "tr": "Lens parmağı seçti. Göz bekliyor.",
+            "en": "The lens chose the finger. The eye is still waiting.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gozluk": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "money": -100
+      },
+      "tr": "Lensi iade ettin, gözlüğü sildin. Gözlük hiçbir şey olmamış gibi burnunda.",
+      "en": "You returned the lenses and cleaned your glasses. They sat on your nose like nothing happened.",
+      "coach": [
+        {
+          "tr": "Gözlük rakipsiz.",
+          "en": "Glasses: undefeated.",
+          "roast": false
+        }
+      ]
+    },
+    "tak": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "money": -600,
+        "flags": {
+          "add": [
+            "lens_kullanici"
+          ]
+        }
+      },
+      "tr": "Hemşire iki saniyede taktı. Akşam çıkarmak sana kaldı: kırk dakika.",
+      "en": "The nurse put them in in two seconds. Taking them out that night was on you: forty minutes.",
+      "coach": [
+        {
+          "tr": "Takmak iki saniye. Çıkarmak kırk dakika.",
+          "en": "Two seconds in. Forty minutes out.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "devam",
+    "slip": {
+      "tr": "İDDİA: Lens göze girmez. — M.",
+      "en": "WAGER: The lens never lands. — M."
+    }
+  },
+  "intent": {
+    "setup": "göz doktorunda ilk kez kontakt lens takmayı öğrenmek",
+    "mechanism": "herkesin kırk kez kapattığı göz",
+    "mechanismId": "understatement",
+    "punch": "herkes ilk gün kırk kez kapatır",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cerceve"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

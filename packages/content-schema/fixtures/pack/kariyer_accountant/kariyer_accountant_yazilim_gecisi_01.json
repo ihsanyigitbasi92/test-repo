@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_yazilim_gecisi_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Yeni muhasebe yazılımına geçtik. Daha hızlı, daha akıllı, bulut tabanlı.",
+      "en": "We've moved to new accounting software. Faster, smarter, cloud-based."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Aktarımda isimler değişmiş. 'Kasa' şimdi 'Hesap 1 (Kopya) (2)'.",
+      "en": "The import renamed everything. 'Cash' is now 'Account 1 (Copy) (2).'",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "elle",
+      "tr": "Hesapları elle adlandır",
+      "en": "Rename every account by hand",
+      "pattern": "overwork"
+    },
+    {
+      "id": "destek",
+      "tr": "Destek hattını ara",
+      "en": "Call vendor support",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "eski",
+      "tr": "Bu ayı eski sistemde kapat",
+      "en": "Close this month on the old system",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "elle": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_yeni_yazilim"
+          ]
+        }
+      },
+      "tr": "Üç yüz hesabı tek tek adlandırdın. Bitirdiğin anda yazılım güncellendi ve eski isimleri geri getirdi.",
+      "en": "You renamed three hundred accounts one by one. The moment you finished, the software updated and restored the original names.",
+      "coach": [
+        {
+          "tr": "Güncelleme senden hızlıydı. Bir saatle.",
+          "en": "The update beat you. By an hour.",
+          "roast": true
+        }
+      ]
+    },
+    "destek": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "acc_yeni_yazilim"
+            ]
+          }
+        },
+        "tr": "Destek ekibi aktarımı yeniden çalıştırdı, isimler düzeldi. Kaydına 'öncelikli müşteri' etiketi kondu.",
+        "en": "Support re-ran the import and the names came back. Your ticket got tagged 'priority customer.'",
+        "coach": [
+          {
+            "tr": "Tek arama, üç yüz isim.",
+            "en": "One call. Three hundred names.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Destek hattı seni dokuz dakika müzikte tuttu, sonra 'hesap planınızı silip yeniden yükleyin' dedi.",
+        "en": "Support kept you on hold for nine minutes, then advised: 'Delete your chart of accounts and upload it again.'",
+        "coach": [
+          {
+            "tr": "Çözüm: baştan.",
+            "en": "Solution: from the top.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "eski": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_eski_sistem"
+          ]
+        }
+      },
+      "tr": "Ayı eski sistemde kapattın. Patron toplantıda yeni yazılımın hızını övdü; rakamlar eskisinden geldi.",
+      "en": "You closed the month on the old system. In the meeting, the boss praised the new software's speed. The numbers came from the old one.",
+      "coach": [
+        {
+          "tr": "Övgü yeniye, rakamlar eskiden.",
+          "en": "The praise went to the new one. The numbers came from the old one.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "destek",
+    "slip": {
+      "tr": "İDDİA: Destek 'baştan yükleyin' der. — M.",
+      "en": "WAGER: Support says 'just start over.' — M."
+    }
+  },
+  "intent": {
+    "setup": "ofis yeni muhasebe yazılımına geçiyor, aktarımda hesap isimleri bozuluyor",
+    "mechanism": "kasa hesabı \"Hesap 1 (Kopya) (2)\" oluyor",
+    "mechanismId": "deadpan_report",
+    "punch": "kasa şimdi hesap 1 kopya 2",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kopya"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_kart_aidati_01",
+  "tags": [
+    "para",
+    "borc",
+    "kredi_karti",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "KUMRU BANKASI: \"Yıllık kart üyelik ücretiniz, sunduğumuz ayrıcalıkların karşılığı olarak hesap özetinize yansıtılmıştır.\"",
+      "en": "DOVETAIL BANK: \"Your card's annual membership fee has been added to your statement in return for the privileges we provide.\""
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Ücret iadesi için talep açabilirim. Ya da size yeni bir ayrıcalık tanımlayabilirim.",
+      "en": "I can file a refund request. Or I can add a new privilege for you."
+    }
+  ],
+  "choices": [
+    {
+      "id": "iade",
+      "tr": "İade talebi açtır",
+      "en": "File the refund request",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ayricalik",
+      "tr": "Yeni ayrıcalığı dinle",
+      "en": "Hear out the new privilege",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ode",
+      "tr": "Öde, ayrıcalıkları kullan",
+      "en": "Pay, start using the perks",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "iade": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": 650,
+          "stats": {
+            "joy": 2
+          },
+          "glossary": "kart_aidati",
+          "flags": {
+            "add": [
+              "aidat_iadesi"
+            ]
+          }
+        },
+        "tr": "650 Para üyelik ücreti iade edildi. Mektup \"ayrıcalıklarınız devam etmektedir\" diye bitiyordu.",
+        "en": "The 650 membership fee was refunded. The letter closed with \"your privileges remain active.\"",
+        "coach": [
+          {
+            "tr": "Ayrıcalıklar bu yıl ücretsiz.",
+            "en": "The privileges are free this year.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -650,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Talep reddedildi: \"Kartınız ayrıcalıklı segmenttedir.\" Ücret ekstrede kaldı.",
+        "en": "Request denied: \"Your card is in a premium segment.\" The fee stays.",
+        "coach": [
+          {
+            "tr": "Segment ayrıcalıklı. Bakiye o kadar değil.",
+            "en": "The segment is premium. The balance, less so.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ayricalik": {
+      "effects": {
+        "money": -650,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 1
+        },
+        "flags": {
+          "add": [
+            "kart_kayip_sigortasi"
+          ]
+        }
+      },
+      "tr": "Yeni ayrıcalık: kart kaybına sigorta, ayda 25 Para. Üyelik ücreti de yerinde.",
+      "en": "New privilege: lost-card insurance, twenty-five a month. The membership fee stays put.",
+      "coach": [
+        {
+          "tr": "Bir ücret iki oldu. Biri aylık.",
+          "en": "One fee became two. One of them monthly.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -650,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "havaalani_salonu"
+          ]
+        }
+      },
+      "tr": "Ücret ödendi. Yıl içinde havaalanı salonuna bir kez gidildi, iki poğaça yenildi.",
+      "en": "Fee paid. Over the year: one visit to the airport lounge, two pastries.",
+      "coach": [
+        {
+          "tr": "650 Para, iki poğaça.",
+          "en": "650 for two pastries.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "kredi kartının yıllık üyelik ücretinin ayrıcalık karşılığı diye ekstreye yansıması",
+    "mechanism": "ayrıcalık büyüdükçe karşılığı küçülüyor: iki poğaça",
+    "mechanismId": "bathos",
+    "punch": "650 Para, iki poğaça",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "pogaca",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

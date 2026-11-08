@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_iki_alici_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "İki alıcı var diyorsun. Hangisi çok veriyor?",
+      "en": "Two buyers, you say. Which one's paying more?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Biz peşin alırız. Ama biraz aşağıdan.",
+      "en": "We'll pay cash. A bit under asking, though."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Biz istenen fiyatı veririz. Krediyle, üç ay sonra, belki.",
+      "en": "We'll pay full price. With a loan. In three months. Probably.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pesin",
+      "tr": "Peşinciyi öner",
+      "en": "Recommend the cash buyers",
+      "pattern": "patience"
+    },
+    {
+      "id": "yuksek",
+      "tr": "Yüksek teklifi öner",
+      "en": "Push the higher offer",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "masa",
+      "tr": "İkisini aynı masaya oturt",
+      "en": "Sit both buyers at one table",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "pesin": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": 4000,
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_satis_kapandi"
+          ]
+        }
+      },
+      "tr": "Satış iki haftada kapandı. Komisyonun 4.000 Para hesabında.",
+      "en": "Closed in two weeks. Your 4,000 commission has landed.",
+      "coach": [
+        {
+          "tr": "Hızlı para, sessiz hafta.",
+          "en": "Fast money, quiet week.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacı: +4.000 Para.",
+          "en": "Goal counter: plus 4,000.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "yuksek": [
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "money": 5000,
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "realtor_satis_kapandi"
+            ]
+          }
+        },
+        "tr": "Kredi onaylandı, fiyat tam kapandı. Komisyonun 5.000 Para; ev sahibi seni yeğenine önerdi.",
+        "en": "The loan came through at full price. Commission: 5,000. The seller recommended you to their nephew.",
+        "coach": [
+          {
+            "tr": "Üç ay 'belki' dediler. Belki bu kez evetmiş.",
+            "en": "Three months of 'probably.' Probably meant yes this time.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Kredi reddedildi. Peşinci alıcılar bu arada başka bir ev almıştı.",
+        "en": "The loan was declined. The cash buyers had already bought elsewhere.",
+        "coach": [
+          {
+            "tr": "'Belki' sonunda hayır demekmiş.",
+            "en": "'Probably' turned out to mean no.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "masa": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "money": 4500,
+        "flags": {
+          "add": [
+            "realtor_satis_kapandi"
+          ]
+        }
+      },
+      "tr": "İki alıcıyı aynı masaya oturttun. Peşinciler teklifi yükseltti, ötekiler kahvelerini bitirmeden kalktı.",
+      "en": "You put both buyers at one table. The cash buyers raised their offer. The others left before finishing their coffee.",
+      "coach": [
+        {
+          "tr": "Masa işe yaradı. Kahveler yarım kaldı.",
+          "en": "The table worked. The coffees did not get finished.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "aynı daireye aynı gün biri peşin biri kredili iki alıcı çıkıyor",
+    "mechanism": "yüksek teklifin içi \"belki\" ile dolu",
+    "mechanismId": "reversal",
+    "punch": "krediyle, üç ay sonra, belki",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "masa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

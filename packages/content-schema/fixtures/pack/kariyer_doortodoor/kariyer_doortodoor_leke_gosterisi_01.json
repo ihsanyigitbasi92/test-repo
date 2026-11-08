@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doortodoor_leke_gosterisi_01",
+  "tags": [
+    "kariyer",
+    "kapidan_satis",
+    "kariyer_doortodoor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doortodoor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "doorToDoor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Göster bakalım. Halıda üç yıllık kahve lekesi var. Çıkarırsan alırım.",
+      "en": "Go on, show me. There's a three-year-old coffee stain on the rug. Get it out and I'll buy."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Annemden kalma halı. Bilginiz olsun.",
+      "en": "That rug was my mother's. Just so you know.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "goster",
+      "tr": "Gösteriyi yap",
+      "en": "Do the demo",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kose",
+      "tr": "Önce bir köşede dene",
+      "en": "Test a corner first",
+      "pattern": "patience"
+    },
+    {
+      "id": "dokunma",
+      "tr": "Halıya dokunma",
+      "en": "Don't touch the rug",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "goster": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 450,
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Leke çıktı. Müşteri iki set aldı, sonra halının geri kalanının daha kirli göründüğünü fark etti.",
+        "en": "The stain came out. The customer bought two kits, then noticed the rest of the rug now looked dirtier.",
+        "coach": [
+          {
+            "tr": "İki set satıldı. Halının tamamı sırada.",
+            "en": "Two kits sold. The rest of the rug is on the waitlist.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -300,
+          "meters": {
+            "cringe": 5
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Leke açıldı ama iki kat genişledi. Halının temizlik parasını sen ödedin.",
+        "en": "The stain got lighter and twice as wide. You paid for the rug cleaning.",
+        "coach": [
+          {
+            "tr": "Leke gitmedi. Yayıldı.",
+            "en": "The stain didn't leave. It expanded.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kose": {
+      "effects": {
+        "money": 150,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Halının bir köşesinde denedin, köşe tertemiz oldu. Müşteri tek set aldı, sadece köşeler için.",
+      "en": "You tested a corner. It came up spotless. The customer bought one kit. For corners.",
+      "coach": [
+        {
+          "tr": "Köşe pazarı açıldı.",
+          "en": "You've opened the corner market.",
+          "roast": true
+        }
+      ]
+    },
+    "dokunma": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "flags": {
+          "add": [
+            "d2d_hali_reddi"
+          ]
+        }
+      },
+      "tr": "Halıya dokunmadın. Müşteri nezaketin için sana kahve ikram etti, ürün almadı.",
+      "en": "You left the rug alone. The customer offered you a coffee for your manners. No sale.",
+      "coach": [
+        {
+          "tr": "Kahve içildi. Leke yerinde.",
+          "en": "Coffee consumed. Stain intact.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager kotası dolu / check yok"
+  },
+  "intent": {
+    "setup": "müşterinin anneden kalma halısındaki eski lekeyle canlı ürün gösterisi",
+    "mechanism": "leke çıkınca halının geri kalanı kirli görünüyor; başarı yeni sorun yaratıyor",
+    "mechanismId": "reversal",
+    "punch": "halının geri kalanı daha kirli göründü",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kose"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

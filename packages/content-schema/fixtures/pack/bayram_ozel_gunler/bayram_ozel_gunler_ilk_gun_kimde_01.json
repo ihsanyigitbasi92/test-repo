@@ -1,0 +1,229 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bayram_ozel_gunler_ilk_gun_kimde_01",
+  "tags": [
+    "mevsim",
+    "bayram",
+    "anne",
+    "partner",
+    "bayram_ozel_gunler"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "bayram_ozel_gunler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Bayramın ilk günü buradasınız, değil mi? Sormuyorum, söylüyorum. Ama soruyorum da.",
+      "en": "You're here on day one of the holidays, right? I'm not asking, I'm telling. But also asking."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Benimkiler de ilk gün bekliyor. Annem oturma planını gönderdi bile, sandalyelerde isim var.",
+      "en": "Mine expect us on day one too. My mom already sent the seating plan. The chairs have names.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "anne",
+      "tr": "İlk gün annene",
+      "en": "Day one at your mom's",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "partner",
+      "tr": "İlk gün partnerin ailesine",
+      "en": "Day one with your partner's family",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "bol",
+      "tr": "Günü ikiye böl",
+      "en": "Split the day in two",
+      "pattern": "overwork",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": -5
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ilk_gun_anne"
+          ]
+        }
+      },
+      "tr": "İlk gün annendeydiniz. Ertesi gün öbür sofrada isimli sandalyende 'misafir' yazıyordu.",
+      "en": "Day one at your mom's. Next day at the other table, your named chair now read 'Guest.'",
+      "coach": [
+        {
+          "tr": "Sandalyen rütbe düşürüldü.",
+          "en": "Your chair has been demoted.",
+          "roast": true
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ilk_gun_partner"
+          ]
+        }
+      },
+      "tr": "İlk gün isimli sandalyende oturdun. Annen akşam arayıp kırılmadığını dört kez söyledi.",
+      "en": "Day one in your named chair. Mom called that evening to say, four times, that she wasn't hurt.",
+      "coach": [
+        {
+          "tr": "Dört kez. Kayda geçti.",
+          "en": "Four times. On the record.",
+          "roast": false
+        }
+      ]
+    },
+    "bol": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "momPressure": -2
+          },
+          "money": -200,
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "bayram_cift_ziyaret"
+            ]
+          }
+        },
+        "tr": "Öğlene kadar annende, akşam öbür ailedeydiniz. İki sofrada da iki tabak yedin.",
+        "en": "Morning at your mom's, evening at your partner's family. Two tables, two plates each.",
+        "coach": [
+          {
+            "tr": "İki aile memnun. Mide arabulucu oldu.",
+            "en": "Both families satisfied. Your stomach mediated.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "momPressure": 3
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "bayram_cift_ziyaret"
+            ]
+          }
+        },
+        "tr": "Trafik planı bozdu. Annende çay soğudu, öbür sofraya ancak tatlıda yetiştiniz.",
+        "en": "Traffic wrecked the plan. Tea went cold at your mom's. You reached the other table in time for dessert.",
+        "coach": [
+          {
+            "tr": "İki yarım gün. Bir bütün yorgunluk.",
+            "en": "Two half days. One whole exhaustion.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bol",
+    "slip": {
+      "tr": "İDDİA: Trafik planı senin yerine böler. — M.",
+      "en": "WAGER: Traffic splits the day for you. — M."
+    }
+  },
+  "intent": {
+    "setup": "bayramın ilk gününün hangi aileye gideceği",
+    "mechanism": "iki aile aynı anda talep ediyor, sandalyelere isim yazılmış",
+    "mechanismId": "escalation",
+    "punch": "sandalyelerde isim var",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rutbe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR bayram; EN 'the holidays'. Dini terim/tören yok, bayramın adı verilmiyor. İlk gün hangi ailede, EN which family gets day one."
+  }
+}

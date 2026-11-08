@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_actor_at_binme_01",
+  "tags": [
+    "kariyer",
+    "oyuncu",
+    "kariyer_actor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_actor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    },
+    "career": {
+      "anyOf": [
+        "actor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Seçmede at biniyorum demişsin. Sahne yarın, at bugün geldi.",
+      "en": "You said at the audition you could ride. The scene's tomorrow. The horse arrived today."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Adı Bulut. İnsanları pek sevmez, havuç sever.",
+      "en": "His name's Cloud. Not big on people. Big on carrots.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bin",
+      "tr": "Bin, sahneyi çek",
+      "en": "Mount up and shoot it",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "dublor",
+      "tr": "Dublör iste",
+      "en": "Ask for a stunt double",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "itiraf",
+      "tr": "Binemediğini söyle, ders iste",
+      "en": "Admit it, ask for a lesson",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "bin": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "actor_at_biniyor"
+            ]
+          }
+        },
+        "tr": "Bulut bir kez dörtnala kalktı, sen üstünde kaldın. Sahne ilk çekimde bitti.",
+        "en": "Cloud broke into one gallop and you stayed on. First take, done.",
+        "coach": [
+          {
+            "tr": "Özgeçmişteki o satır artık doğru.",
+            "en": "That line on your résumé is now true.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Bulut çimene yürüdü, sen yere. Sahne dublörle çekildi, yüzün sonradan eklendi.",
+        "en": "Cloud headed for the grass. You headed for the ground. A double did the scene; your face was added later.",
+        "coach": [
+          {
+            "tr": "Yüz sende kaldı. Dörtnala dublöre gitti.",
+            "en": "You kept the face. The double got the gallop.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dublor": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": -2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Dublör iki saatte geldi. Afişte ata binen kişi yine sensin.",
+      "en": "The double showed up in two hours. On the poster, it's still you on the horse.",
+      "coach": [
+        {
+          "tr": "Afiş sana inanıyor.",
+          "en": "The poster believes in you.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -3
+        },
+        "flags": {
+          "add": [
+            "actor_at_dersi"
+          ]
+        }
+      },
+      "tr": "Ders için bir gün ek süre verildi. Sahne kısaltıldı; at artık sadece duruyor.",
+      "en": "You got one extra day for a lesson. The scene was cut down. Now the horse just stands there.",
+      "coach": [
+        {
+          "tr": "Bir gün ders, bir duran at.",
+          "en": "One day of lessons. One stationary horse.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bin",
+    "slip": {
+      "tr": "İDDİA: Bulut çimeni seçer. — M.",
+      "en": "WAGER: Cloud picks the grass over you. — M."
+    }
+  },
+  "intent": {
+    "setup": "seçmede at binebildiğini söylemiştin, sahne yarın ve at bugün geldi",
+    "mechanism": "özgeçmişteki satır sete geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "havuç sever",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bulut"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

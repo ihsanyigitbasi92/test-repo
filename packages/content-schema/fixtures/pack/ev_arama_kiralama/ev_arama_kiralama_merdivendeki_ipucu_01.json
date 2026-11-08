@@ -1,0 +1,178 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_merdivendeki_ipucu_01",
+  "tags": [
+    "ev",
+    "ilan",
+    "komsu",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 60
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Daireye mi bakıyorsunuz? Bu dördüncü kat. Üçüncü kat da boş, ilanı yok.",
+      "en": "Looking at the flat? This is the fourth floor. Third floor's empty too. Not listed."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ev sahibi aynı. Üçüncüyü daha ucuza verir, ilan parası vermek istemiyor.",
+      "en": "Same landlord. He'll let the third go cheaper. Doesn't want to pay for an ad.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ucuncu",
+      "tr": "Üçüncü katı sor",
+      "en": "Ask about the third floor",
+      "pattern": "patience"
+    },
+    {
+      "id": "dorduncu",
+      "tr": "Dördüncü katı tut",
+      "en": "Take the fourth floor",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "numara",
+      "tr": "Komşunun numarasını al",
+      "en": "Get the neighbor's number",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ucuncu": {
+      "effects": {
+        "money": -1500,
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1500
+          }
+        },
+        "flags": {
+          "add": [
+            "ilansiz_daire",
+            "komsu_ipucu"
+          ]
+        }
+      },
+      "tr": "Ev sahibine üçüncü katı sordun. Şaşırdı, sonra 1.500'e verdi; ilandakinden 300 eksik.",
+      "en": "You asked the landlord about the third floor. Surprised, he let it go for 1,500. Three hundred under the listed one.",
+      "coach": [
+        {
+          "tr": "Merdivende 300 Para bulundu.",
+          "en": "Found three hundred on the stairwell.",
+          "roast": false
+        }
+      ]
+    },
+    "dorduncu": {
+      "effects": {
+        "money": -1800,
+        "stats": {
+          "joy": 1
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1800
+          }
+        },
+        "flags": {
+          "add": [
+            "dorduncu_katta"
+          ]
+        }
+      },
+      "tr": "Dördüncü katı tuttun. Bir ay sonra üçüncü kata biri 1.500'e taşındı; merdivende selamlaşıyorsunuz.",
+      "en": "You took the fourth floor. A month later someone moved into the third for 1,500. You say hello on the stairs.",
+      "coach": [
+        {
+          "tr": "Selamlaşma günlük. Fark aylık 300.",
+          "en": "The hellos are daily. The gap is three hundred a month.",
+          "roast": true
+        }
+      ]
+    },
+    "numara": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "komsu_ipucu",
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Numarasını aldın. Ertesi hafta mesaj geldi: \"Beşinci kat da boşalıyor. Asansör yok, kira da yok gibi.\"",
+      "en": "You got their number. Next week, a text: \"Fifth floor's opening up. No elevator, practically no rent.\"",
+      "coach": [
+        {
+          "tr": "Binada bir muhbirin var.",
+          "en": "You have an informant in the building.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "ev gezisinde gelecekteki komşunun ilansız boş daireyi söylemesi",
+    "mechanism": "merdivende bulunan kira farkı",
+    "mechanismId": "deadpan_report",
+    "punch": "ilan parası vermek istemiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "muhbir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

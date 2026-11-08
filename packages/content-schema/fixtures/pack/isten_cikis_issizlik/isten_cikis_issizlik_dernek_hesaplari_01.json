@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_dernek_hesaplari_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "dayi",
+    "gonullu",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "employed": false
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Bizim mahalle derneğinin hesapları karıştı. Sen rakamdan anlarsın, bir bak.",
+      "en": "Our neighborhood association's books are a mess. You know numbers. Take a look."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda dernek hesabı tek defterdi. Şimdi tablo istiyorlar.",
+      "en": "Back in my day, association books were one ledger. Now they want spreadsheets.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "gonullu",
+      "tr": "Gönüllü bak",
+      "en": "Do it for free",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ucretli",
+      "tr": "Ücretli iş olarak teklif et",
+      "en": "Offer it as paid work",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Kibarca geri çevir",
+      "en": "Politely decline",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "gonullu": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dernek_gonullu"
+          ]
+        }
+      },
+      "tr": "Üç hafta sonra hesaplar denk geldi. Dernek seni yıllık toplantıda alkışladı ve sayman adayı gösterdi.",
+      "en": "Three weeks later the books balanced. The association applauded you at the annual meeting and nominated you for treasurer.",
+      "coach": [
+        {
+          "tr": "Hesap denk. Alkış fazladan.",
+          "en": "Books balanced. Applause, surplus.",
+          "roast": false
+        }
+      ]
+    },
+    "ucretli": [
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "Dernek muhasebecisi (yarı zamanlı)",
+              "tier": 1,
+              "monthly": 900
+            }
+          },
+          "money": 900,
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "yari_zamanli_is"
+            ]
+          }
+        },
+        "tr": "Dernek ayda 900 Para ile yarı zamanlı muhasebeci olmanı kabul etti. İlk gün dayın kapıda bekliyordu.",
+        "en": "The association hired you as part-time bookkeeper at 900 a month. Your uncle was waiting at the door on day one.",
+        "coach": [
+          {
+            "tr": "Ayda 900. Yeniden bordroda bir satır.",
+            "en": "900 a month. A line on a payslip again.",
+            "roast": false
+          },
+          {
+            "tr": "Gelir sayacı: 900.",
+            "en": "Income counter: 900.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "dernek_reddetti"
+            ]
+          }
+        },
+        "tr": "Dernek bütçesinin iki kalemden ibaret olduğu ortaya çıktı: çay ve kapı zili tamiri. Teklif rafa kalktı.",
+        "en": "The association's budget turned out to have two line items: tea, and doorbell repair. The offer was shelved.",
+        "coach": [
+          {
+            "tr": "Bütçede iki kalem var. Üçüncüsü açılmadı.",
+            "en": "Two line items in the budget. A third was not opened.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Kibarca geri çevirdin. Dayın derneğe \"bizimki bu ara çok meşgul\" dedi.",
+      "en": "You politely declined. Your uncle told the association, \"Mine's very busy these days.\"",
+      "coach": [
+        {
+          "tr": "Meşgul ilan edildin. Takvim boş.",
+          "en": "Declared busy. Calendar empty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "işsizken dayının mahalle derneği hesaplarını önermesi",
+    "mechanism": "iş teklifi çay ve kapı zili bütçesine iniyor",
+    "mechanismId": "bathos",
+    "punch": "bütçe: çay ve kapı zili",
+    "lift": "gelir sayacı",
+    "target": "situation",
+    "closer": "kalem",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
