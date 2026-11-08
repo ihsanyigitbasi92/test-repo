@@ -1,0 +1,167 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_fazla_odeme_iadesi_01",
+  "tags": [
+    "egitim",
+    "kredi",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_koli_paylasimi_01",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Kredi hesabınızda fazla ödeme tespit ettik. İade tutarınız 64 Para.",
+      "en": "We found an overpayment on your loan account. Your refund is sixty-four."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "İadeyi çek olarak postalıyoruz. Posta ücreti 9 Para, iadeden düşülür.",
+      "en": "We'll mail it as a check. Postage is nine, deducted from the refund.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "krediye",
+      "tr": "Krediye geri yatır",
+      "en": "Put it back on the loan",
+      "pattern": "patience"
+    },
+    {
+      "id": "harca",
+      "tr": "Kendine bir şey al",
+      "en": "Treat yourself",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşini yemeğe çıkar",
+      "en": "Take your sibling to lunch",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "krediye": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kredi_iade_yatirildi"
+          ]
+        }
+      },
+      "tr": "Elli beşi krediye yatırdın. Bakiye kıpırdamadı; ekstrede \"teşekkürler\" yazıyordu.",
+      "en": "You put the fifty-five back on the loan. The balance barely moved. The statement said \"Thank you.\"",
+      "coach": [
+        {
+          "tr": "Bakiye aynı. Teşekkür yeni.",
+          "en": "Same balance. New thank-you.",
+          "roast": false
+        }
+      ]
+    },
+    "harca": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": 55,
+        "flags": {
+          "add": [
+            "kredi_iade_harcandi"
+          ]
+        }
+      },
+      "tr": "Elli beşle bir kahve ve bir kitap aldın. Kitap kişisel finans üzerineydi.",
+      "en": "You spent the fifty-five on a coffee and a book. The book was about personal finance.",
+      "coach": [
+        {
+          "tr": "Kitap doğru seçim. Finansmanı tartışmalı.",
+          "en": "Right book. Debatable funding.",
+          "roast": true
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -9,
+        "flags": {
+          "add": [
+            "kardes_yemek"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Kardeşini öğle yemeğine çıkardın. Hesap altmış dört tuttu; aradaki dokuzu sen ekledin.",
+      "en": "You took your sibling to lunch. The bill came to sixty-four. You covered the nine.",
+      "coach": [
+        {
+          "tr": "İade tam kullanıldı. Posta dahil.",
+          "en": "Refund fully spent. Postage included.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "öğrenim kredisinde küçük fazla ödeme iadesi",
+    "mechanism": "iade posta ücretiyle eriyor",
+    "mechanismId": "deadpan_report",
+    "punch": "posta ücreti iadeden düşülür",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "posta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "EN-only ikiz (D-048): askerlik yerine öğrenim kredisi. Mekanik iskelet aynı (SC-24); TR bundle’ına girmez. Faiz oranı/kurum adı yok (K17)."
+  },
+  "l10n": {
+    "onlyLocale": "en",
+    "mechanismNote": "TR metni yalnızca inceleme içindir; TR oyuncu askerlik ikizini görür."
+  }
+}

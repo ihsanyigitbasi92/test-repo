@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "askerlik_ogrenim_kredisi_sevk_yazisi_01",
+  "tags": [
+    "egitim",
+    "askerlik",
+    "evrak",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_gelir_beyani_01",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 30
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ASKERLİK ŞUBESİ – SEVK BÜROSU (kurgusal)",
+      "en": "RECRUITMENT OFFICE – DISPATCH DESK (fictional)"
+    },
+    "body": {
+      "tr": "Yükümlünün sevk tarihi belirlenmiştir. Belirtilen gün, birlik katılış saatinden önce ekteki belgelerle hazır bulunulması gerekmektedir.",
+      "en": "The conscript's dispatch date has been set. On the stated day, report before the unit check-in time with the attached documents."
+    },
+    "translate": {
+      "tr": {
+        "from": "katılış saatinden önce",
+        "to": "sabah altıdan önce, yani gece"
+      },
+      "en": {
+        "from": "before the unit check-in time",
+        "to": "before 6 a.m., which is night"
+      }
+    },
+    "glossaryKey": "katilis_saati"
+  },
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda sevk yazısı elle yazılırdı. Bir de mühür basılırdı, iki kere.",
+      "en": "In my day dispatch letters were handwritten. And stamped. Twice."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Sabah altı mı? Dörtte kalkarız o zaman, ben kahvaltı hazırlarım.",
+      "en": "Six a.m.? Then we're up at four. I'll make breakfast.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "erken",
+      "tr": "Gece yola çık",
+      "en": "Leave the night before",
+      "pattern": "patience"
+    },
+    {
+      "id": "kahvalti",
+      "tr": "Annenin kahvaltısına kal",
+      "en": "Stay for Mom's 4 a.m. breakfast",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayın götürsün",
+      "en": "Let your uncle drive you",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "erken": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sevk_erken"
+          ]
+        },
+        "glossary": "katilis_saati"
+      },
+      "tr": "Gece otobüsüyle gittin, kapıda birinci sıradaydın. Kapı yedide açıldı.",
+      "en": "You took the night bus and were first at the gate. The gate opened at seven.",
+      "coach": [
+        {
+          "tr": "Birinci sıra. Kapı yedide.",
+          "en": "First in line. Gate at seven.",
+          "roast": false
+        }
+      ]
+    },
+    "kahvalti": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sevk_kahvalti"
+          ]
+        }
+      },
+      "tr": "Dörtte kahvaltı yaptınız. Annen yol için bir de termos çay koydu.",
+      "en": "Breakfast at four. Mom added a thermos of tea for the road.",
+      "coach": [
+        {
+          "tr": "Saat dört. Masada dokuz çeşit.",
+          "en": "Four a.m. Nine dishes on the table.",
+          "roast": false
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "dayi_sevk"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Dayın götürdü. Yolu kendi zamanındaki gibi gitti; kapıya altıya iki kala yetiştin.",
+      "en": "Your uncle drove, using the route from his day. You made the gate at two minutes to six.",
+      "coach": [
+        {
+          "tr": "Eski yol, iki dakika fark.",
+          "en": "Old route. Two minutes to spare.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "askerlik sevk yazısında katılış saati",
+    "mechanism": "\"katılış saatinden önce\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "sabah altıdan önce, yani gece",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Askerlik TR’ye özgüdür (localeOnly, D-048); EN tarafında yayınlanmaz, ikizi öğrenim kredisi olayıdır. K7: kaçma/erteleme hilesi seçeneği yok; kurum değil deneyim anlatılıyor."
+  },
+  "l10n": {
+    "onlyLocale": "tr",
+    "mechanismNote": "EN metni yalnızca inceleme içindir; EN oyuncu ikiz olayı (öğrenim kredisi) görür."
+  }
+}

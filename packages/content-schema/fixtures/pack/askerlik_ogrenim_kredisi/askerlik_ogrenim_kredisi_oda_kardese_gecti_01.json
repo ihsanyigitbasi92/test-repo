@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_oda_kardese_gecti_01",
+  "tags": [
+    "egitim",
+    "askerlik",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_kardesin_kredi_formu_01",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "momsHouse"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Hoş geldin. Odan artık benim. Annem dedi ki boş oda nem yapar.",
+      "en": "Welcome home. Your room is mine now. Mom says empty rooms get damp."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Senin yatağını salona kurdum. Kanepe değil, açılınca yatak oluyor.",
+      "en": "I made up your bed in the living room. It's not a couch. It turns into a bed.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "geri",
+      "tr": "Odanı geri iste",
+      "en": "Ask for your room back",
+      "pattern": "pride"
+    },
+    {
+      "id": "salon",
+      "tr": "Salonda idare et",
+      "en": "Make do in the living room",
+      "pattern": "patience"
+    },
+    {
+      "id": "ev",
+      "tr": "Ev aramaya başla",
+      "en": "Start looking for a place",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "geri": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "oda_geri"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Odanı geri aldın. Kardeşin posterleri indirdi ama yapışkan bantları duvarda bıraktı.",
+      "en": "You got your room back. Your sibling took down the posters but left the tape on the wall.",
+      "coach": [
+        {
+          "tr": "Oda senin. Bant kardeşinin.",
+          "en": "The room is yours. The tape stays.",
+          "roast": false
+        }
+      ]
+    },
+    "salon": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "salonda_yatak"
+          ]
+        }
+      },
+      "tr": "Salonda yatıyorsun. Sabah yedide çay demlenirken yatak yeniden kanepe oldu.",
+      "en": "You sleep in the living room. At seven, when the tea started brewing, the bed became a couch again.",
+      "coach": [
+        {
+          "tr": "Yatak yedide mesaiye başlıyor.",
+          "en": "The bed clocks in at seven.",
+          "roast": true
+        }
+      ]
+    },
+    "ev": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -300,
+        "flags": {
+          "add": [
+            "ev_ariyor"
+          ]
+        }
+      },
+      "tr": "İlanlara baktın, iki ev gezdin. Annen ikisinin de \"rutubetli\" olduğunu fotoğraftan anladı.",
+      "en": "You checked listings and toured two places. Mom diagnosed both as \"damp\" from the photos.",
+      "coach": [
+        {
+          "tr": "Rutubet her evde. Anneye göre.",
+          "en": "Every flat is damp. Per Mom.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "terhis dönüşü odanın kardeşe geçmiş olması",
+    "mechanism": "dönüş sevinci oda kaybına dönüyor",
+    "mechanismId": "reversal",
+    "punch": "boş oda nem yapar",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "bant"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Askerlik TR’ye özgüdür (localeOnly, D-048); EN tarafında yayınlanmaz, ikizi öğrenim kredisi olayıdır. K7: kaçma/erteleme hilesi seçeneği yok; kurum değil deneyim anlatılıyor."
+  },
+  "l10n": {
+    "onlyLocale": "tr",
+    "mechanismNote": "EN metni yalnızca inceleme içindir; EN oyuncu ikiz olayı (öğrenim kredisi) görür."
+  }
+}
