@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "faturalar_abonelikler_otomatik_odeme_01",
+  "tags": [
+    "para",
+    "fatura",
+    "dogalgaz",
+    "evrak",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KOR DOĞALGAZ DAĞITIM (kurgusal)",
+      "en": "EMBER GAS CO. (fictional)"
+    },
+    "body": {
+      "tr": "Otomatik ödeme talimatınız kart yenilemesi nedeniyle sonlanmıştır. İki dönem faturanız ödenmemiş görünmektedir.",
+      "en": "Your automatic payment instruction ended due to a card renewal. Two billing periods appear unpaid."
+    },
+    "translate": {
+      "tr": {
+        "from": "talimatınız sonlanmıştır",
+        "to": "iki aydır kimse ödemiyor"
+      },
+      "en": {
+        "from": "instruction ended",
+        "to": "nobody has paid in two months"
+      }
+    },
+    "glossaryKey": "otomatik_odeme_talimati"
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Kombi çalışıyor ama. Yani ödüyoruzdur.",
+      "en": "The boiler's running, though. So we must be paying."
+    }
+  ],
+  "choices": [
+    {
+      "id": "talimat",
+      "tr": "Talimatı yeni karta bağla",
+      "en": "Link autopay to the new card",
+      "pattern": "patience"
+    },
+    {
+      "id": "gise",
+      "tr": "Gişeye gidip nakit öde",
+      "en": "Pay cash at the counter",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Gecikme bedelini sildirmeyi dene",
+      "en": "Try to get the late fee waived",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "talimat": {
+      "effects": {
+        "money": -1680,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "otomatik_odeme"
+          ]
+        },
+        "glossary": "otomatik_odeme_talimati"
+      },
+      "tr": "Talimat yeni karta bağlandı. İki fatura ve 60 Para gecikme bedeli aynı gün çekildi: 1.680 Para.",
+      "en": "Autopay is linked to the new card. Two bills and a sixty late fee came out the same day: 1,680.",
+      "coach": [
+        {
+          "tr": "İki fatura, bir gecikme bedeli, yeni kart.",
+          "en": "Two bills, one late fee, new card.",
+          "roast": false
+        }
+      ]
+    },
+    "gise": {
+      "effects": {
+        "money": -1680,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "talimat_yok"
+          ]
+        }
+      },
+      "tr": "Gişede ödendi, makbuz iki karış. Talimat bağlanmadı; gelecek ay yine gişe.",
+      "en": "Paid at the counter. The receipt is a foot long. Autopay is still off, so next month it's the counter again.",
+      "coach": [
+        {
+          "tr": "Makbuz uzun. Gelecek ayınki daha uzun.",
+          "en": "Long receipt. Next month's will be longer.",
+          "roast": true
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1620,
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "otomatik_odeme"
+            ]
+          }
+        },
+        "tr": "Çağrı merkezi gecikme bedelini 'bir defaya mahsus' sildi. Ödenen 1.620 Para.",
+        "en": "The call center waived the late fee 'as a one-time courtesy.' Paid: 1,620.",
+        "coach": [
+          {
+            "tr": "Bir defaya mahsus. Bir defa kullanıldı.",
+            "en": "One-time courtesy. Used once.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -1680,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Temsilci kart yenileme mektubunu hatırlattı. Mektubun tarihi mart. Bedel yerinde kaldı.",
+        "en": "The rep mentioned the card-renewal letter. It was dated March. The fee stayed.",
+        "coach": [
+          {
+            "tr": "Mektup martta geldi. Okuması ekime kaldı.",
+            "en": "The letter came in March. The reading came in October.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "kart yenilenince otomatik ödeme talimatının sessizce düşmesi",
+    "mechanism": "kombi çalışıyor, demek ki ödüyoruz mantığı",
+    "mechanismId": "translation",
+    "punch": "talimatınız sonlanmıştır = iki aydır kimse ödemiyor",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "makbuz",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

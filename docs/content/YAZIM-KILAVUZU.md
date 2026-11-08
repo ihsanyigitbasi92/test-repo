@@ -289,3 +289,8 @@ Bir olay aşağıdakilerden **birini** içeriyorsa yazılmaz ya da `legal: revie
 - [ ] ≥ 6 farklı `mechanismId`, hiçbiri > 8; aynı closer ≤ 3.
 - [ ] Yaş bantları `ageBandQuota`'ya orantılı.
 - [ ] Parti notu: kullanılan bayraklar, planlanan devam olayları, başka domaine devredilen tohumlar.
+
+## Ek kural (Dalga 1 QA bulgusu, 2026-11-08)
+- **Sayım üçlüsü kotası:** koç satırlarının "Sayı X, sayı Y, sayı Z." kalıbıyla açılması partide en fazla 6/40. Dalga 1'de havuzun %24'ü bu kalıba kaydı; yeni partilerde bu kalıp yerine geri dönüş (callback), kişileştirme, ters çevirme, sade tanıklık, tek kelime kapanış, soru, NPC'ye pas verme gibi mekanizmalar kullanılır.
+- **"Takas" kelimesi** koç ağzında partide en fazla 1 kez.
+- Koç her olayda konuşmak zorunda değil: partinin en az %25'inde koç satırı tek ve kısa olsun, şakayı NPC ya da sonuç metni taşısın.

@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_isitici_bolusumu_01",
+  "tags": [
+    "para",
+    "fatura",
+    "elektrik",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Elektrik faturası geldi. İkiye bölersek kişi başı 640.",
+      "en": "Power bill's here. Split two ways, that's 640 each."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Isıtıcı benim odada ama sıcaklık koridora da gidiyor. Yani ortak.",
+      "en": "The heater's in my room, but the warmth drifts into the hall. So it's shared.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bol",
+      "tr": "İkiye böl, uzatma",
+      "en": "Split it, move on",
+      "pattern": "peoplePleasing",
+      "swipe": "left"
+    },
+    {
+      "id": "olc",
+      "tr": "Priz sayacı alıp ölç",
+      "en": "Buy a plug meter and measure",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      },
+      "swipe": "right"
+    }
+  ],
+  "outcomes": {
+    "bol": {
+      "effects": {
+        "money": -640,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Fatura ikiye bölündü, 640 Para senden çıktı. Isıtıcı mart sonuna kadar açık kaldı.",
+      "en": "You split it: 640 out of your pocket. The heater stayed on until the end of March.",
+      "coach": [
+        {
+          "tr": "Mart sonu. Koridor hâlâ ılık.",
+          "en": "End of March. The hallway is still lukewarm.",
+          "roast": false
+        }
+      ]
+    },
+    "olc": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -480,
+          "stats": {
+            "joy": 1,
+            "brain": 2
+          },
+          "flags": {
+            "add": [
+              "fatura_olcumlu_bolusum"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Sayaç bir haftada farkı gösterdi: ısıtıcı faturanın üçte ikisiymiş. Ev arkadaşın 860, sen 420 ödedin.",
+        "en": "One week of metering settled it: the heater was two-thirds of the bill. Your roommate paid 860, you paid 420.",
+        "coach": [
+          {
+            "tr": "Bir sayaç, bir hafta, 220 Para fark.",
+            "en": "One meter, one week, 220 back.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -700,
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Sayaç ısıtıcıyı değil buzdolabını ölçmüş; priz yanlışmış. Fatura yine ikiye bölündü, sayaç da 60 Para.",
+        "en": "The meter ended up measuring the fridge. Wrong outlet. The bill got split in half anyway, plus sixty for the meter.",
+        "coach": [
+          {
+            "tr": "Buzdolabı aklandı. Sen 60 Para eksiktesin.",
+            "en": "The fridge has been cleared. You're out sixty.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "olc",
+    "slip": {
+      "tr": "İDDİA: Sayaç yanlış şeyi ölçer. — M.",
+      "en": "WAGER: That meter measures the wrong thing. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının odasındaki ısıtıcı yüzünden elektrik faturası bölüşümü",
+    "mechanism": "ev arkadaşının mantığı koridora kadar genişliyor",
+    "mechanismId": "escalation",
+    "punch": "sıcaklık koridora da gidiyor, yani ortak",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "aklandi",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

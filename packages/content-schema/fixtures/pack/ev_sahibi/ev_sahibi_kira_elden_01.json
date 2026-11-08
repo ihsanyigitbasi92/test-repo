@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_kira_elden_01",
+  "tags": [
+    "ev",
+    "ev",
+    "kira",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Kirayı elden alırım. Ayın biri, dükkânda, öğleden önce.",
+      "en": "I take rent in person. First of the month, at the shop, before noon."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Makbuzu deftere yazarım. Defter kırk yıllık, hiç şaşmadı.",
+      "en": "I write the receipt in my ledger. Forty years, never off once.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Her ay dükkâna git",
+      "en": "Go to the shop every month",
+      "pattern": "patience"
+    },
+    {
+      "id": "havale",
+      "tr": "Havaleye geçmeyi iste",
+      "en": "Push for bank transfers",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "arkadas",
+      "tr": "Ev arkadaşın götürsün",
+      "en": "Send your roommate",
+      "pattern": "shortcut",
+      "requires": {
+        "npc": {
+          "roommate": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kira_elden"
+          ]
+        }
+      },
+      "tr": "Ayın birinde dükkâna gittin. Ev sahibi parayı iki kez saydı; sana bir çay ve bir makbuz verdi.",
+      "en": "On the first you went to the shop. The landlord counted the cash twice and handed you a tea and a receipt.",
+      "coach": [
+        {
+          "tr": "Kira ödendi, çay içildi. Ayda bir sabah.",
+          "en": "Rent paid, tea drunk. One morning a month.",
+          "roast": false
+        }
+      ]
+    },
+    "havale": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kira_havale"
+            ]
+          }
+        },
+        "tr": "Havaleye razı oldu, bir şartla: açıklamaya \"kira, teşekkürler\" yazacaksın.",
+        "en": "The landlord agreed to transfers on one condition: the memo must say 'rent, thank you.'",
+        "coach": [
+          {
+            "tr": "Nezaket artık açıklama satırında zorunlu.",
+            "en": "Mandatory politeness, now in the memo line.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "kira_elden"
+            ]
+          }
+        },
+        "tr": "\"Banka benim defterimi bilmez\" dedi. Ayın biri, dükkân, öğleden önce.",
+        "en": "'The bank doesn't know my ledger,' said the landlord. First of the month, the shop, before noon.",
+        "coach": [
+          {
+            "tr": "Kırk yıllık sistem. Sıfır güncelleme.",
+            "en": "Forty-year system. Zero updates.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "arkadas": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kira_elden"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Barış kirayı götürdü, iki saat sonra döndü; ev sahibinin torununa matematik anlatmış.",
+      "en": "Jordan took the rent and came back two hours later. They'd been tutoring the landlord's grandkid in math.",
+      "coach": [
+        {
+          "tr": "Kira teslim. Ek hizmet: bir saat ders.",
+          "en": "Rent delivered. Bonus service: one hour of tutoring.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "havale",
+    "slip": {
+      "tr": "İDDİA: Kırk yıllık defter havaleye geçmez. — M.",
+      "en": "WAGER: The ledger won't go digital. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi kirayı elden ve deftere yazarak istiyor",
+    "mechanism": "kırk yıllık sistemin düz tarifi",
+    "mechanismId": "deadpan_report",
+    "punch": "defter kırk yıllık, hiç şaşmadı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "guncelleme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

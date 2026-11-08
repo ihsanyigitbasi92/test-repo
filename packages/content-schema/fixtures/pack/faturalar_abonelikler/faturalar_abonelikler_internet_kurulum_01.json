@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_internet_kurulum_01",
+  "tags": [
+    "para",
+    "fatura",
+    "internet",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Teknik ekibimiz yarın 09.00 ile 18.00 arasında gelecek. Evde bir yetişkin bulunsun.",
+      "en": "Our technician will come tomorrow between 9 a.m. and 6 p.m. An adult must be present."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Ben yarın yokum. Yetişkin olarak sen kalıyorsun.",
+      "en": "I'm out tomorrow. You're the adult.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Bütün gün bekle",
+      "en": "Wait all day",
+      "pattern": "patience"
+    },
+    {
+      "id": "anahtar",
+      "tr": "Anahtarı alt kata bırak",
+      "en": "Leave the key downstairs",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ertele",
+      "tr": "Randevuyu ertele",
+      "en": "Reschedule",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "internet_kuruldu"
+          ]
+        }
+      },
+      "tr": "Teknisyen 17.52'de geldi, kurulum sekiz dakika sürdü. Modem salonda, sinyal en çok banyoyu seviyor.",
+      "en": "The technician showed up at 5:52 and was done in eight minutes. The modem's in the living room. The signal prefers the bathroom.",
+      "coach": [
+        {
+          "tr": "Dokuz saat bekleme, sekiz dakika iş.",
+          "en": "Nine hours of waiting. Eight minutes of work.",
+          "roast": false
+        }
+      ]
+    },
+    "anahtar": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "internet_kuruldu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Alt kattaki komşu teknisyeni içeri aldı, bir de çay verdi. İnternet akşama hazırdı.",
+        "en": "The downstairs neighbor let the technician in and made him tea. Internet was up by evening.",
+        "coach": [
+          {
+            "tr": "Kurulum tamam. Komşuya bir çay borcun var.",
+            "en": "Installed. You owe the neighbor one tea.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "internet_randevu_kacti"
+            ]
+          }
+        },
+        "tr": "Komşu evde yoktu. Teknisyen kapıya 'Sizi bulamadık' kartı bıraktı, yeni randevu dokuz gün sonra.",
+        "en": "The neighbor wasn't home. The technician left a 'Sorry we missed you' card. Next slot: nine days out.",
+        "coach": [
+          {
+            "tr": "Kart içeri girdi. İnternet giremedi.",
+            "en": "The card made it inside. The internet didn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "internet_randevu_kacti"
+          ]
+        }
+      },
+      "tr": "Randevu cumartesiye alındı. Aralık aynı: 09.00–18.00.",
+      "en": "Rescheduled for Saturday. Same window: nine to six.",
+      "coach": [
+        {
+          "tr": "Gün değişti, aralık yerinde.",
+          "en": "New day. Same nine hours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "internet kurulumu için bütün günlük randevu aralığında evde beklemek",
+    "mechanism": "dokuz saatlik aralık, sekiz dakikalık iş",
+    "mechanismId": "deadpan_report",
+    "punch": "sinyal en çok banyoyu seviyor",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "aralik",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

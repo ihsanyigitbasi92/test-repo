@@ -1,0 +1,242 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dayi_konsolidasyon_01",
+  "tags": [
+    "para",
+    "borc",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Kart borcunu ben kapatayım. Bana faizsiz ödersin.",
+      "en": "I'll pay off your card. You pay me back, no interest."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Tek şart: her pazar kahvaltıya gel. Bir de arabamı yıkarsın. Bir de bahçe var.",
+      "en": "One condition: Sunday breakfast, every week. And you wash my car. And there's the garden.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Şartlarla kabul et",
+      "en": "Accept, conditions and all",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Şartları pazarlık et",
+      "en": "Negotiate the conditions",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hayir",
+      "tr": "Teşekkür et, reddet",
+      "en": "Thank him and decline",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 4000,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "flags": {
+          "add": [
+            "dayiya_borc"
+          ],
+          "remove": [
+            "kredi_karti_borcu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3,
+            "memory": "kart_borcunu_kapatti"
+          }
+        ]
+      },
+      "tr": "Dayın 4.000 Para'yı kart borcuna yatırdı. İlk pazar kahvaltısı dört saat sürdü, araba iki kez yıkandı.",
+      "en": "Your uncle put 4,000 on your card balance. The first Sunday breakfast ran four hours. The car got washed twice.",
+      "coach": [
+        {
+          "tr": "Faiz sıfır. Pazarlar dolu.",
+          "en": "Zero interest. Sundays: booked.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 4000,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "dayiya_borc"
+            ],
+            "remove": [
+              "kredi_karti_borcu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 2,
+              "memory": "kart_borcunu_kapatti"
+            }
+          ]
+        },
+        "tr": "Ayda bir pazar, sadece araba. Dayın 'Benim zamanımda pazarlık yapılmazdı' dedi, el sıkıştınız.",
+        "en": "One Sunday a month, car only. Your uncle said 'In my day, nobody haggled,' and shook on it.",
+        "coach": [
+          {
+            "tr": "Dört pazardan bire. Bahçe masadan kalktı.",
+            "en": "Four Sundays down to one. The garden's off the table.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": 4000,
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "dayiya_borc",
+              "dayi_cit"
+            ],
+            "remove": [
+              "kredi_karti_borcu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1,
+              "memory": "kart_borcunu_kapatti"
+            }
+          ]
+        },
+        "tr": "Dayın 'pazarlık' sözünü duyunca bahçeye bir de çit ekledi. Kart borcu kapandı, pazarlar uzadı.",
+        "en": "Your uncle heard the word 'negotiate' and added a fence to the garden. The card's paid off. The Sundays got longer.",
+        "coach": [
+          {
+            "tr": "Pazarlık bir çit getirdi.",
+            "en": "Haggling earned you a fence.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hayir": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Teşekkür edip reddettin. Kart borcu yerinde, pazarların boş.",
+      "en": "You thanked him and passed. The card balance stays put. So do your free Sundays.",
+      "coach": [
+        {
+          "tr": "Borç sende. Pazar da.",
+          "en": "You keep the debt. And the Sundays.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Pazarlık bir şart daha getirir. — M.",
+      "en": "WAGER: Haggling adds a condition. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının kart borcunu kapatıp karşılığında şart koşması",
+    "mechanism": "tek şart üçe çıkıyor",
+    "mechanismId": "escalation",
+    "punch": "bir de araba, bir de bahçe",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "pazar",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

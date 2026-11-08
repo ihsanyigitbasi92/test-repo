@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aliskanliklar_birakma_balkon_molasi_01",
+  "tags": [
+    "saglik",
+    "substance:tobacco",
+    "birakma",
+    "aliskanliklar_birakma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "aliskanliklar_birakma": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Balkona çıkıyorum. Gelmek istersen kapı açık. İstemezsen de açık.",
+      "en": "Heading out to the balcony. Door's open if you want to come. Also open if you don't."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "On gün oldu, değil mi? Ben de bir kere on bir gün dayanmıştım. Sonra on ikinci gün geldi.",
+      "en": "It's been ten days, right? I made it to eleven once. Then day twelve showed up.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iceride",
+      "tr": "İçeride kal, çay demle",
+      "en": "Stay in, brew some tea",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "balkon",
+      "tr": "Sadece eşlik et",
+      "en": "Just keep them company",
+      "pattern": "risk"
+    },
+    {
+      "id": "yuruyus",
+      "tr": "Kısa bir yürüyüşe çık",
+      "en": "Go for a short walk",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "iceride": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "birakma_sigara_on_bir"
+            ]
+          }
+        },
+        "tr": "Çayı demleyip iki bardak içtin. Sayaç on bire çıktı, ev arkadaşının rekoruna yetiştin.",
+        "en": "You brewed tea and drank two glasses. The counter hit eleven, tying your roommate's record.",
+        "coach": [
+          {
+            "tr": "On bir gün. Rekor ortak.",
+            "en": "Eleven days. Shared record.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": -3,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -90,
+          "flags": {
+            "add": [
+              "birakma_sigara_sifirlandi"
+            ]
+          }
+        },
+        "tr": "Çay demlenene kadar dayandın. Sonra bardağı balkona götürdün ve sayaç sıfırlandı.",
+        "en": "You held out until the tea steeped. Then you carried the glass out to the balcony, and the counter reset.",
+        "coach": [
+          {
+            "tr": "Çay demlendi. Bir şey daha yandı.",
+            "en": "The tea steeped. Something else got lit.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "balkon": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "birakma_balkon_eslik"
+          ]
+        }
+      },
+      "tr": "Balkonda elinde boş bir çay bardağıyla durdun, hiç yakmadın. Montun yine de üç gün koktu.",
+      "en": "You stood on the balcony holding an empty tea glass and never lit one. Your jacket smelled for three days anyway.",
+      "coach": [
+        {
+          "tr": "Sıfır yakılan, üç günlük koku.",
+          "en": "Zero lit. Three days of smell.",
+          "roast": false
+        }
+      ]
+    },
+    "yuruyus": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "birakma_yuruyus_molasi"
+          ]
+        }
+      },
+      "tr": "Blok etrafında on beş dakika yürüdün. Döndüğünde balkon kapısı kapanmıştı.",
+      "en": "Fifteen minutes around the block. When you got back, the balcony door was closed.",
+      "coach": [
+        {
+          "tr": "On beş dakika. Kapı kendi kendine kapandı.",
+          "en": "Fifteen minutes. The door closed on its own.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iceride",
+    "slip": {
+      "tr": "İDDİA: Sayaç on biri görmez. — M.",
+      "en": "WAGER: The counter won't see eleven. — M."
+    }
+  },
+  "intent": {
+    "setup": "sigarayı bırakalı on gün olmuşken ev arkadaşının balkona davet etmesi",
+    "mechanism": "rekorlar on ikinci güne takılıyor",
+    "mechanismId": "reversal",
+    "punch": "sonra on ikinci gün geldi",
+    "lift": "rekor ortak",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rekor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

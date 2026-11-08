@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_ilk_misafir_sandalye_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Cumartesi dokuz kişi geliyor. Herkesi çağırdım.",
+      "en": "Nine people on Saturday. I invited everybody."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bu arada kaç sandalyemiz vardı? Dört mü?",
+      "en": "By the way, how many chairs do we have? Four?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kirala",
+      "tr": "Sandalye kirala",
+      "en": "Rent chairs",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşudan ödünç al",
+      "en": "Borrow from the neighbor",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "yer",
+      "tr": "Yer sofrası kur",
+      "en": "Floor picnic, cushions",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "joy"
+      }
+    }
+  ],
+  "outcomes": {
+    "kirala": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "ilk_davet"
+          ]
+        }
+      },
+      "tr": "Altı sandalye kiralandı, 350 Para. Teslimatçı yedinciyi de “hediye” diye bıraktı.",
+      "en": "Six chairs rented: 350. The delivery guy left a seventh, “on the house.”",
+      "coach": [
+        {
+          "tr": "On bir sandalye, dokuz misafir. Fazlalık var.",
+          "en": "Eleven chairs, nine guests. A surplus.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ilk_davet",
+            "komsu_sandalye"
+          ]
+        }
+      },
+      "tr": "Komşu beş sandalye verdi. Cumartesi akşamı sandalyelerle birlikte kendisi de geldi.",
+      "en": "The neighbor lent five chairs. On Saturday, the neighbor came along with them.",
+      "coach": [
+        {
+          "tr": "Beş sandalye, artı bir misafir.",
+          "en": "Five chairs. Plus one guest.",
+          "roast": true
+        }
+      ]
+    },
+    "yer": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "ilk_davet",
+              "yer_sofrasi"
+            ]
+          }
+        },
+        "tr": "Herkes minderlere oturdu. Gece yarısından önce kimse kalkmadı.",
+        "en": "Everyone sat on cushions. Nobody got up before midnight.",
+        "coach": [
+          {
+            "tr": "Dokuz misafir, hiç sandalye. Gece uzadı.",
+            "en": "Nine guests, no chairs. A long night.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "ilk_davet"
+            ]
+          }
+        },
+        "tr": "Yarım saat sonra misafirlerin dizleri itiraz etti. Yemek ayakta bitti.",
+        "en": "Half an hour in, everyone’s knees objected. Dinner finished standing up.",
+        "coach": [
+          {
+            "tr": "Dizler sofraya katılmadı. Sonuç ayakta açıklandı.",
+            "en": "The knees opted out. Results were announced standing.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yer",
+    "slip": {
+      "tr": "İDDİA: Yer sofrası yarım saat dayanır. — M.",
+      "en": "WAGER: The floor picnic lasts half an hour. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni evli çiftin ilk davetinde dokuz misafir, dört sandalye",
+    "mechanism": "misafir ve sandalye sayısı",
+    "mechanismId": "count",
+    "punch": "dört mü",
+    "closer": "fazlalik",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

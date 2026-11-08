@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "hukuki_sorunlar_servisteki_ceza_01",
+  "tags": [
+    "burokrasi",
+    "trafik",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 85
+    },
+    "flags": {
+      "any": [
+        "car",
+        "araba",
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "YAKA İLÇESİ TRAFİK DENETİM BİRİMİ (kurgusal)",
+      "en": "HARBORSIDE TRAFFIC ENFORCEMENT (fictional)"
+    },
+    "body": {
+      "tr": "Aracınız 14 Mart günü 11.20 saatinde park yasağı bulunan alanda tespit edilmiştir. 15 gün içinde itiraz hakkınız saklıdır.",
+      "en": "Your vehicle was observed in a no-parking zone on March 14 at 11:20 a.m. You may appeal within 15 days."
+    },
+    "translate": {
+      "tr": {
+        "from": "tespit edilmiştir",
+        "to": "araban serviste lift üstündeydi"
+      },
+      "en": {
+        "from": "was observed",
+        "to": "it was up on a lift at the garage"
+      }
+    },
+    "glossaryKey": "itiraz_suresi"
+  },
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Uğraşma, öde",
+      "en": "Just pay it",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Servis fişiyle itiraz et",
+      "en": "Appeal with the garage receipt",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cocuk",
+      "tr": "Çocuğuna itiraz ettir",
+      "en": "Have your kid handle the appeal",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "ceza_odendi"
+          ]
+        }
+      },
+      "tr": "250 Para ödedin. Ceza makbuzunu servis fişinin yanına zımbaladın.",
+      "en": "You paid 250. You stapled the receipt to the garage invoice.",
+      "coach": [
+        {
+          "tr": "Aynı gün, iki fiş. Biri yanlış.",
+          "en": "Same day, two receipts. One of them is wrong.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "glossary": "itiraz_suresi",
+          "flags": {
+            "add": [
+              "ceza_iptal"
+            ]
+          }
+        },
+        "tr": "Fiş kabul edildi, ceza iptal oldu. Araç plakası başka bir şehirdeki benzer bir arabaya çıktı.",
+        "en": "The receipt was accepted and the fine canceled. The plate turned out to match a similar car somewhere else.",
+        "coach": [
+          {
+            "tr": "Araban ikizini buldu. Ceza ona gitti.",
+            "en": "Your car has a twin. The fine went to it.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -310,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "itiraz_suresi"
+        },
+        "tr": "İtiraz süresi bir gün önce dolmuş. Ceza gecikmeyle 310 Para oldu.",
+        "en": "The appeal window had closed the day before. With the late fee, the fine is now 310.",
+        "coach": [
+          {
+            "tr": "Bir gün geç, 60 Para fark.",
+            "en": "One day late. Sixty more.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cocuk": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "ceza_iptal"
+          ]
+        }
+      },
+      "tr": "Çocuğun itirazı internetten yaptı ve kazandı. Sonra sana itiraz sistemini üç kez anlattı.",
+      "en": "Your kid filed it online and won. Then explained the appeals system to you three times.",
+      "coach": [
+        {
+          "tr": "Ceza gitti. Ders kaldı.",
+          "en": "Fine gone. Lesson remains.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "aracın serviste olduğu gün yazılmış park cezası tebligatı",
+    "mechanism": "araba yokken kural ihlali yapmış",
+    "mechanismId": "reversal",
+    "punch": "araban serviste ceza almış",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "fis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

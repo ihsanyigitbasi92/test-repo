@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_anahtar_destesi_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bugün Çınar Sokak'taki daireyi sen gösteriyorsun. Anahtar destede, etiketsiz.",
+      "en": "You're showing the Elm Street flat today. The key's on the ring. Unlabeled."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Biz geldik, kapının önündeyiz. Hava da epey soğuk.",
+      "en": "We're here, right at the door. It's quite cold, by the way."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Destede kırk bir anahtar var. Biri kesin o.",
+      "en": "There are forty-one keys on that ring. One of them is definitely it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "Tek tek dene",
+      "en": "Try them one by one",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ofis",
+      "tr": "Ofise koş, doğrusunu al",
+      "en": "Run back for the right key",
+      "pattern": "overwork"
+    },
+    {
+      "id": "gorevli",
+      "tr": "Apartman görevlisini çağır",
+      "en": "Call the building super",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "emlak_ikinci_gorusme"
+            ]
+          }
+        },
+        "tr": "On dördüncü anahtar açtı. Müşteriler daireyi gezdi, ikinci görüşme istedi.",
+        "en": "Key number fourteen worked. The clients toured the flat and asked for a second viewing.",
+        "coach": [
+          {
+            "tr": "On dört denemede açıldı. Destenin üçte biri.",
+            "en": "Fourteen tries. A third of the ring.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -250,
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Otuz dokuzuncu anahtar kilide girdi, çıkmadı. Çilingir 250 Para aldı; ofis bunu maaşından kesti.",
+        "en": "Key thirty-nine went in and stayed in. The locksmith charged 250. The office took it out of your pay.",
+        "coach": [
+          {
+            "tr": "Otuz dokuz anahtar denedin. Kırkıncısı çilingirdi.",
+            "en": "Thirty-nine keys. The fortieth was a locksmith.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ofis": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Yirmi beş dakikada gidip geldin. Müşteriler bu arada karşı binada başka bir ofisle daire gezmişti.",
+      "en": "Twenty-five minutes there and back. Meanwhile the clients had toured a flat across the street with another agency.",
+      "coach": [
+        {
+          "tr": "Doğru anahtarı buldun. Onlar doğru kapıyı buldu.",
+          "en": "You found the right key. They found the right door.",
+          "roast": true
+        }
+      ]
+    },
+    "gorevli": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Görevli yedek anahtarla gelip kapıyı açtı, ardından müşterilere aidatları uzun uzun anlattı.",
+      "en": "The super came with a spare, opened the door, then told the clients all about the building fees.",
+      "coach": [
+        {
+          "tr": "Kapı açıldı. Aidat konusu da.",
+          "en": "The door opened. So did the topic of fees.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dene",
+    "slip": {
+      "tr": "İDDİA: O deste o kapıyı açmaz. — M.",
+      "en": "WAGER: That ring won't open that door. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk gösterimde etiketsiz anahtar destesiyle kapıda kalmak",
+    "mechanism": "deste büyüdükçe umut küçülüyor",
+    "mechanismId": "count",
+    "punch": "kırk bir anahtar, biri kesin o",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "cilingir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

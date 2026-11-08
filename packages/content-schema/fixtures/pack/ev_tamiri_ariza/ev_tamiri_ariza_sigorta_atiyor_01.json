@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_tamiri_ariza_sigorta_atiyor_01",
+  "tags": [
+    "ev",
+    "tamir",
+    "ev_tamiri_ariza"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_tamiri_ariza": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Sigorta mı atıyor? Su ısıtıcısıyla ısıtıcıyı aynı anda açmayın.",
+      "en": "Breaker keeps tripping? Don't run the kettle and the heater at the same time."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Saç kurutma makinesi de tek başına. Eski bina. Alışırsınız.",
+      "en": "Hair dryer on its own, too. Old building. You'll get used to it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cizelge",
+      "tr": "Cihaz saatleri çizelgesi yap",
+      "en": "Make an appliance timetable",
+      "pattern": "patience"
+    },
+    {
+      "id": "elektrikci",
+      "tr": "Elektrikçi çağır, öde",
+      "en": "Call an electrician, pay",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "israr",
+      "tr": "Ev sahibine yaptırmakta ısrar et",
+      "en": "Push the landlord to fix it",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "cizelge": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "elektrik_cizelgesi"
+          ]
+        }
+      },
+      "tr": "Buzdolabına saatli bir çizelge astın. Sabah çayı ile saç kurutma aynı yarım saate denk gelince sigorta yine attı.",
+      "en": "You posted a timetable on the fridge. When morning tea and the hair dryer landed in the same half hour, it tripped anyway.",
+      "coach": [
+        {
+          "tr": "Çizelge yazıldı. Sigorta okumadı.",
+          "en": "The timetable was posted. The breaker didn't read it.",
+          "roast": true
+        }
+      ]
+    },
+    "elektrikci": {
+      "effects": {
+        "money": -850,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "pano_yenilendi"
+          ]
+        }
+      },
+      "tr": "Elektrikçi panoyu yeniledi, 850 Para. Su ısıtıcısı ile ısıtıcı artık aynı anda çalışıyor.",
+      "en": "An electrician replaced the panel: 850. The kettle and the heater now coexist.",
+      "coach": [
+        {
+          "tr": "850 Para, iki cihaz, sıra yok.",
+          "en": "850. Two appliances. No more taking turns.",
+          "roast": false
+        }
+      ]
+    },
+    "israr": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "pano_yenilendi"
+            ]
+          }
+        },
+        "tr": "Ev sahibi elektrikçiyi kendisi gönderdi. Faturayı \"bir dahakine siz\" notuyla ödedi.",
+        "en": "The landlord sent an electrician and paid, with a note: 'Next one's on you.'",
+        "coach": [
+          {
+            "tr": "Pano yenilendi. Bir sonraki arıza sende.",
+            "en": "Panel replaced. The next fault is yours.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "zam_sinyali"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"kirada bunlar olur\" dedi. Bir hafta sonra konu kira artışına geldi.",
+        "en": "The landlord said, 'These things happen in rentals.' A week later, a rent increase came up.",
+        "coach": [
+          {
+            "tr": "Sigortayı sordun. Zammı öğrendin.",
+            "en": "You asked about the breaker. You learned about the raise.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "eski binada su ısıtıcısı ile ısıtıcı aynı anda çalışınca sigorta atıyor",
+    "mechanism": "ev sahibinin yasak listesi uzuyor",
+    "mechanismId": "escalation",
+    "punch": "eski bina, alışırsınız",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "zam"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

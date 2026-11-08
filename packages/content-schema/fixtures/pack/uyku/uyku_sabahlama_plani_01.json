@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uyku_sabahlama_plani_01",
+  "tags": [
+    "saglik",
+    "sinav",
+    "ev_arkadasi",
+    "uyku"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "uyku": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Bu gece sabahlıyoruz. Kahve hazır, çekirdek hazır, ben hazırım.",
+      "en": "We're pulling an all-nighter. Coffee's ready, snacks are ready, I'm ready."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Beş dakika gözümü dinlendireceğim. Uyursam beni uyandırma.",
+      "en": "Gonna rest my eyes for five minutes. If I fall asleep, don't wake me.",
+      "delayMs": 1500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sabahla",
+      "tr": "Tek başına sabahla",
+      "en": "Pull the all-nighter alone",
+      "pattern": "overwork"
+    },
+    {
+      "id": "uyu",
+      "tr": "Altı saat uyu, sabah tekrar",
+      "en": "Sleep six hours, review at dawn",
+      "pattern": "selfCare",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "uyandir",
+      "tr": "Ev arkadaşını uyandır",
+      "en": "Wake your roommate",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "sabahla": {
+      "effects": {
+        "stats": {
+          "health": -4,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "sabahlama"
+          ]
+        }
+      },
+      "tr": "Sabaha kadar çalıştın. Sınavın üçüncü sorusunda gözlerin kapandı, kâğıtta uzun bir çizgi kaldı.",
+      "en": "You studied till dawn. At question three your eyes closed. The exam sheet now has a long pen line on it.",
+      "coach": [
+        {
+          "tr": "Sekiz saat çalışma, bir uzun çizgi.",
+          "en": "Eight hours of studying. One long pen line.",
+          "roast": true
+        }
+      ]
+    },
+    "uyu": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 2,
+            "brain": 2
+          },
+          "flags": {
+            "add": [
+              "sinava_dinc_girdi"
+            ]
+          }
+        },
+        "tr": "Altı saat uyudun, sabah notları bir kez geçtin. Sınavdan dinç çıktın.",
+        "en": "Six hours of sleep, one pass over the notes at dawn. You walked out of the exam awake.",
+        "coach": [
+          {
+            "tr": "Uyku altı saat. Sınav geçti.",
+            "en": "Sleep: six hours. Exam: passed.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Alarmı kurmuştun ama telefon sessizde kalmış. Sınava on beş dakika geç girdin.",
+        "en": "You set the alarm. The phone was on silent. You got to the exam fifteen minutes late.",
+        "coach": [
+          {
+            "tr": "Uyku tam, alarm sessiz. On beş dakika eksik.",
+            "en": "Full sleep, silent alarm. Fifteen minutes short.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "uyandir": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Ev arkadaşın uyandı, \"beş dakika oldu mu?\" dedi ve iki saat daha uyudu. Sen de koltukta.",
+      "en": "Your roommate woke up, asked, \"Has it been five minutes?\" and slept two more hours. So did you, on the couch.",
+      "coach": [
+        {
+          "tr": "İki kişilik plan, iki kişilik uyku.",
+          "en": "A plan for two. A nap for two.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "uyu",
+    "slip": {
+      "tr": "İDDİA: Alarm seni yarı yolda bırakır. — M.",
+      "en": "WAGER: The alarm lets you down. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınav öncesi ev arkadaşının sabahlama planı",
+    "mechanism": "planı kuran ilk uyuyor ve uyandırılmak istemiyor",
+    "mechanismId": "reversal",
+    "punch": "uyursam beni uyandırma",
+    "lift": "uyku altı saat",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "cizgi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_esya_sigortasi_01",
+  "tags": [
+    "para",
+    "vergi",
+    "sigorta",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat"
+    ],
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Eşya sigortası su baskınını kapsıyor. Yalnız üst kattan gelen suyu.",
+      "en": "Contents insurance covers water damage. Water from the unit above, that is."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Kendi musluğunuzdan gelen su ayrı paket. Komşunun musluğu bizden.",
+      "en": "Water from your own faucet is a separate package. Your neighbor's faucet is on us.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "temel",
+      "tr": "Temel paketi al",
+      "en": "Get the basic package",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "tam",
+      "tr": "Kendi musluk paketini de ekle",
+      "en": "Add the own-faucet package",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "hic",
+      "tr": "Sigorta yaptırma",
+      "en": "Skip insurance",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "temel": {
+      "effects": {
+        "money": -360,
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "esya_sigortasi"
+          ]
+        },
+        "glossary": "kapsam_disi"
+      },
+      "tr": "Yıllık 360 Para. Poliçede 'Sigortalının kendi musluğu' başlıklı bir istisna var.",
+      "en": "360 a year. The policy has an exclusion titled 'The insured's own faucet.'",
+      "coach": [
+        {
+          "tr": "Komşunun musluğu güvencede.",
+          "en": "Your neighbor's faucet is fully covered.",
+          "roast": true
+        }
+      ]
+    },
+    "tam": {
+      "effects": {
+        "money": -540,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "esya_sigortasi_tam"
+          ]
+        }
+      },
+      "tr": "Yıllık 540 Para. Artık iki musluk da kapsamda.",
+      "en": "540 a year. Both faucets are covered now.",
+      "coach": [
+        {
+          "tr": "İki musluk, tek poliçe.",
+          "en": "Two faucets. One policy.",
+          "roast": false
+        }
+      ]
+    },
+    "hic": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sigortasiz"
+          ]
+        }
+      },
+      "tr": "Sigorta yaptırılmadı. Banyodaki musluk o gece biraz damladı, sonra durdu.",
+      "en": "No insurance. The bathroom faucet dripped a little that night, then stopped.",
+      "coach": [
+        {
+          "tr": "Musluk bir uyardı, sonra sustu.",
+          "en": "The faucet made its point, then dropped it.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ilk kiralık evde eşya sigortası kapsamını konuşmak",
+    "mechanism": "kapsam musluk musluk ayrılıyor",
+    "mechanismId": "literalism",
+    "punch": "komşunun musluğu bizden",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "musluk",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

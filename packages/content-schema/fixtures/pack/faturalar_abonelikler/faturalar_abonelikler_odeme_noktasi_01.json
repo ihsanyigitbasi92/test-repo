@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_odeme_noktasi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "dijital",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66,
+      "max": 90
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Fatura ödeme noktamız ay sonunda kapanıyor. Artık uygulamadan ödeyebilirsiniz.",
+      "en": "Our bill-pay counter closes at the end of the month. You can pay in the app from now on."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Ben de otuz yıldır buraya geliyorum. Uygulama bana şifre sordu, ben de ona sordum.",
+      "en": "I've been coming here thirty years too. The app asked me for a password. I asked it back.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "uygulama",
+      "tr": "Uygulamayı öğren",
+      "en": "Learn the app",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "uzak",
+      "tr": "Uzaktaki gişeye geç",
+      "en": "Use the counter across town",
+      "pattern": "pride"
+    },
+    {
+      "id": "otomatik",
+      "tr": "Otomatik ödeme talimatı ver",
+      "en": "Set up autopay",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "uygulama": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "uygulama_ile_odeme"
+            ]
+          }
+        },
+        "tr": "İlk faturayı uygulamadan ödedin. Onay ekranının fotoğrafını çekip sakladın.",
+        "en": "You paid your first bill in the app, then took a photo of the confirmation screen to keep.",
+        "coach": [
+          {
+            "tr": "Bir ödeme, bir fotoğraf. Arşiv başladı.",
+            "en": "One payment, one photo. The archive begins.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "uygulama_kilitli"
+            ]
+          }
+        },
+        "tr": "Şifre üç kez yanlış girildi, uygulama kilitlendi. Kilidi açmak için gişeye gelin, diyor.",
+        "en": "Three wrong passwords locked the app. To unlock it, it says, visit a counter.",
+        "coach": [
+          {
+            "tr": "Uygulama seni gişeye yolladı.",
+            "en": "The app sent you back to the counter.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uzak": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "uzak_gise"
+          ]
+        }
+      },
+      "tr": "Diğer gişe üç durak ötede. Her ay 40 Para yol, damga aynı damga.",
+      "en": "The other counter is three stops away. Forty a month in fares, same rubber stamp.",
+      "coach": [
+        {
+          "tr": "Üç durak, ayda 40 Para. Damga değişmedi.",
+          "en": "Three stops, forty a month. Same stamp.",
+          "roast": false
+        }
+      ]
+    },
+    "otomatik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "otomatik_odeme"
+          ]
+        }
+      },
+      "tr": "Talimat verildi. Faturalar artık kendiliğinden ödeniyor; sen yine de ayın biri gişenin önünden geçiyorsun.",
+      "en": "Autopay is on. Bills pay themselves now. You still walk past the old counter on the first of the month.",
+      "coach": [
+        {
+          "tr": "Talimat çalışıyor. Yürüyüş de.",
+          "en": "Autopay works. So does the walk.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "otuz yıllık fatura ödeme gişesinin kapanıp uygulamaya geçilmesi",
+    "mechanism": "yabancı şifreyi uygulamaya geri soruyor",
+    "mechanismId": "literalism",
+    "punch": "uygulama bana şifre sordu, ben de ona sordum",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "yuruyus",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

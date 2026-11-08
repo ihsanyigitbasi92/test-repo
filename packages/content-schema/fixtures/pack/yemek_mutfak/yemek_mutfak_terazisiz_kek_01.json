@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_terazisiz_kek_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "ev",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Tarif 260 gram un diyor. Tartımız yok. Bir su bardağı kaç gram, biliyor musun?",
+      "en": "The recipe says 260 grams of flour. We don't have a scale. Do you know how many grams a cup is?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "İnternette üç cevap var, üçü farklı. Biri sadece \"yaklaşık\" diyor.",
+      "en": "The internet has three answers, all different. One just says \"roughly.\""
+    }
+  ],
+  "choices": [
+    {
+      "id": "tahmin",
+      "tr": "Tahmin et, dök",
+      "en": "Guess and pour",
+      "pattern": "risk"
+    },
+    {
+      "id": "tarti",
+      "tr": "Mutfak tartısı al",
+      "en": "Buy a kitchen scale",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "anne",
+      "tr": "Annene sor",
+      "en": "Ask your mom",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "tahmin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yemek_yogun_kek"
+          ]
+        }
+      },
+      "tr": "Kek pişti ama yoğun pişti. Ev arkadaşın bir dilimi kapı tamponu olarak kullanmayı önerdi.",
+      "en": "The cake baked. Densely. Your roommate suggested using a slice as a doorstop.",
+      "coach": [
+        {
+          "tr": "Kek pişti. Kapı da sabitlendi.",
+          "en": "The cake baked. The door is now secured.",
+          "roast": true
+        }
+      ]
+    },
+    "tarti": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "yemek_mutfak_tartisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Tartı 150 Para tuttu ve kek tarife uydu. Ev arkadaşın her şeyi tartmaya başladı, kahvaltı zeytinleri dahil.",
+      "en": "The scale cost 150 and the cake matched the recipe. Your roommate started weighing everything, breakfast olives included.",
+      "coach": [
+        {
+          "tr": "Gram hassasiyetinde kek. Zeytinler de denetlendi.",
+          "en": "Cake, accurate to the gram. The olives got audited too.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "yemek_annenin_olcusu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Annen \"İki bardak, biraz eksik\" dedi. \"Biraz\"ın ne kadar olduğunu söylemedi, kek yine de kabardı.",
+      "en": "Your mom said, \"Two cups, a little under.\" She never said how much \"a little\" was. The cake rose anyway.",
+      "coach": [
+        {
+          "tr": "Ölçü birimi: biraz. Sonuç: kabarık.",
+          "en": "Unit of measure: a little. Result: risen.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "gram cinsinden kek tarifi ama evde mutfak tartısı yok",
+    "mechanism": "internetin üç farklı cevabı",
+    "mechanismId": "understatement",
+    "punch": "biri sadece yaklaşık diyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sonuc"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_emeklilik_son_proje_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "emeklilik",
+    "nevin",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 7000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 66
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "retire"
+      ]
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Emeklilik dilekçenizi aldım. Çok sevindim, gerçekten. Yalnız bir son proje var.",
+      "en": "I received your retirement letter. So happy for you. Truly. There's just one last project."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Altı ay. En fazla dokuz. Sizsiz olmaz.",
+      "en": "Six months. Nine at most. It won't work without you.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "imza",
+      "tr": "Dilekçeden dönme",
+      "en": "Stand by the letter",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "kal",
+      "tr": "Altı ay daha kal",
+      "en": "Stay six more months",
+      "pattern": "overwork"
+    },
+    {
+      "id": "yarim",
+      "tr": "Yarı zamanlı teklif et",
+      "en": "Offer part-time",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "retire"
+      }
+    }
+  ],
+  "outcomes": {
+    "imza": {
+      "effects": {
+        "stats": {
+          "joy": 6
+        },
+        "status": {
+          "job": null
+        },
+        "flags": {
+          "add": [
+            "retired"
+          ]
+        }
+      },
+      "tr": "Son gün masanı topladın. Yerine gelen kişi ilk gün seni aradı; açmadın.",
+      "en": "Last day, you cleared your desk. Your replacement called you on day one. You did not pick up.",
+      "coach": [
+        {
+          "tr": "Hedef tamam. Masa boş, telefon sessiz.",
+          "en": "Goal done. Desk empty. Phone silent.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "money": 6000,
+        "stats": {
+          "joy": -4
+        },
+        "flags": {
+          "add": [
+            "emeklilik_ertelendi"
+          ]
+        }
+      },
+      "tr": "Altı ay dokuz oldu, dokuz on bir. Proje bitti; veda pastasına adın yanlış yazıldı.",
+      "en": "Six months became nine, nine became eleven. The project wrapped. Your name was misspelled on the farewell cake.",
+      "coach": [
+        {
+          "tr": "On bir ay, 6.000 Para, bir yanlış harf.",
+          "en": "Eleven months, 6,000, one wrong letter.",
+          "roast": true
+        }
+      ]
+    },
+    "yarim": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 3000,
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "yari_zamanli_emekli"
+            ]
+          }
+        },
+        "tr": "Haftada iki gün anlaştınız: salı ve perşembe. Kalan günler telefonun \"emekli\" modunda.",
+        "en": "Two days a week: Tuesdays and Thursdays. The rest of the week, your phone is on \"retired\" mode.",
+        "coach": [
+          {
+            "tr": "İki gün iş. Yarım damga.",
+            "en": "Two workdays. Halfway stamp.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "emeklilik_ertelendi"
+            ]
+          }
+        },
+        "tr": "Nevin Hanım \"bizde yarı zaman tam zaman demek\" dedi. Dilekçen çekmeceye geri girdi.",
+        "en": "Ms. Carver said, \"Part-time here means full-time.\" Your letter went back into the drawer.",
+        "nearMiss": {
+          "tr": "Nevin Hanım bir an \"salı\" dedi. Sonra \"ve diğer günler\" diye ekledi.",
+          "en": "For a moment Ms. Carver said \"Tuesdays.\" Then she added \"and the other days.\""
+        },
+        "coach": [
+          {
+            "tr": "Yarı zaman tanımı şirkete göre değişiyor.",
+            "en": "Part-time is defined locally.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yarim",
+    "slip": {
+      "tr": "İDDİA: Yarı zaman pazarlığı tam zamanla biter. — M.",
+      "en": "WAGER: The part-time deal ends up full-time. — M."
+    }
+  },
+  "intent": {
+    "setup": "emeklilik dilekçesinden sonra patron son bir proje istiyor",
+    "mechanism": "altı ay dokuza, dokuz on bire",
+    "mechanismId": "escalation",
+    "punch": "en fazla dokuz",
+    "lift": "masa boş",
+    "target": "decision",
+    "closer": "damga",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

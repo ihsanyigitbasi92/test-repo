@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_cuma_mesaisi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "mesai",
+    "nevin",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 120,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "noOvertime"
+      ]
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Hafta sonunuzu bölmek istemem. Küçük bir sunum; sabaha hazır olsa harika olur.",
+      "en": "I'd hate to interrupt your weekend. Just a small deck. Ready by morning would be wonderful."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Saat beşi elli iki geçiyor, biliyorum. Ben de buradayım.",
+      "en": "It's 5:52, I know. I'm still here too.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "cik",
+      "tr": "Çantanı al, çık",
+      "en": "Grab your bag and leave",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "ego",
+        "goal": "noOvertime"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Kal, bitir",
+      "en": "Stay and finish it",
+      "pattern": "overwork"
+    },
+    {
+      "id": "pazartesi",
+      "tr": "Pazartesi sabahı öner",
+      "en": "Offer Monday morning",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "cik": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "mesai_reddi"
+            ]
+          }
+        },
+        "tr": "\"İyi hafta sonları\" deyip çıktın. Pazartesi sunumu başka biri hazırlamıştı; kimse bir şey demedi.",
+        "en": "You said \"have a nice weekend\" and left. On Monday someone else had done the deck. Nobody said a word.",
+        "coach": [
+          {
+            "tr": "Mesai sayacı: sıfır. Hedef yolda.",
+            "en": "Overtime count: zero. Goal on track.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "mesai_kaldi"
+            ]
+          }
+        },
+        "tr": "Asansör gelmeden telefonun çaldı. Sunumu evden, yarısı pijamayla hazırladın.",
+        "en": "Your phone rang before the elevator arrived. You built the deck from home, half in pajamas.",
+        "nearMiss": {
+          "tr": "Kapıya kadar gittin. Nevin Hanım \"bir saniye\" dedi; saniye kırk dakika sürdü.",
+          "en": "You made it to the door. Ms. Carver said \"one second.\" The second lasted forty minutes."
+        },
+        "coach": [
+          {
+            "tr": "Mesai saati değişti, mekân değişti. Sunum değişmedi.",
+            "en": "New hours, new location. Same deck.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": -4
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "mesai_kaldi"
+          ]
+        }
+      },
+      "tr": "Saat dokuzda bitti. Nevin Hanım \"harikasınız\" yazdı; mesaj bir sonraki sunumun bağlantısıyla geldi.",
+      "en": "Done at nine. Ms. Carver texted \"you're wonderful,\" with a link to the next deck.",
+      "coach": [
+        {
+          "tr": "Bir sunum, bir iltifat, bir bağlantı. Zincir uzuyor.",
+          "en": "One deck, one compliment, one link. The chain grows.",
+          "roast": true
+        }
+      ]
+    },
+    "pazartesi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "\"Pazartesi dokuzda\" dedin. Nevin Hanım \"çok güzel, sekiz buçuk\" dedi.",
+      "en": "You offered Monday at nine. Ms. Carver said, \"Lovely. Eight-thirty.\"",
+      "coach": [
+        {
+          "tr": "Yarım saatlik pazarlık. Hafta sonu sağlam.",
+          "en": "A half-hour haggle. Weekend intact.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cik",
+    "slip": {
+      "tr": "İDDİA: Cuma 17:52'de o kapıdan çıkılmaz. — M.",
+      "en": "WAGER: Nobody gets out that door at 5:52 on a Friday. — M."
+    }
+  },
+  "intent": {
+    "setup": "cuma kapanışında patron küçük bir sunum istiyor",
+    "mechanism": "küçük iş, kibar dil, büyüyen talep",
+    "mechanismId": "escalation",
+    "punch": "ben de buradayım",
+    "lift": "mesai sayacı",
+    "target": "decision",
+    "closer": "zincir",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

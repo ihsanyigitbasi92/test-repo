@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_imza_uyusmazligi_01",
+  "tags": [
+    "yaslilik",
+    "banka",
+    "evrak",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 74,
+      "max": 95
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "İmzanız sistemdekiyle uyuşmuyor. Sistemdeki 1979 tarihli.",
+      "en": "Your signature doesn't match the one on file. The one on file is from 1979."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Bir daha atar mısınız? Biraz daha... 1979 gibi.",
+      "en": "Could you sign again? A bit more... 1979?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "tekrar",
+      "tr": "1979 gibi imzala",
+      "en": "Sign like it's 1979",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yeni",
+      "tr": "Yeni imza kartı doldur",
+      "en": "Fill out a new signature card",
+      "pattern": "patience"
+    },
+    {
+      "id": "cocuk",
+      "tr": "Çocuğunu ara",
+      "en": "Call your kid",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "tekrar": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Dördüncü denemede eski imzayı tutturdun. Memur ekrana bakıp \"işte bu\" dedi.",
+        "en": "Fourth try, you nailed the old signature. The clerk looked at the screen and said, \"There it is.\"",
+        "coach": [
+          {
+            "tr": "Kırk yıllık imza, dördüncü denemede.",
+            "en": "A forty-year-old signature, on attempt four.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "imza_guncellenecek"
+            ]
+          }
+        },
+        "tr": "Beş deneme yaptın. Memur hepsini bir dosyaya koydu ve yarın tekrar gelmeni istedi.",
+        "en": "Five attempts. The clerk filed them all in a folder and asked you to come back tomorrow.",
+        "coach": [
+          {
+            "tr": "Beş imza dosyada. Yarın bir tane daha.",
+            "en": "Five signatures on file. One more tomorrow.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yeni": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yeni_imza_karti"
+          ]
+        }
+      },
+      "tr": "Yeni imza kartı dolduruldu. Kartta bugünün tarihi var ve kayıttaki imza ilk kez sana benziyor.",
+      "en": "New signature card done. It carries today’s date, and for the first time in years the signature on file looks like you.",
+      "coach": [
+        {
+          "tr": "Kayıt güncel. Sen de.",
+          "en": "Records current. So are you.",
+          "roast": false
+        }
+      ]
+    },
+    "cocuk": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "cocukla_banka"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Çocuğun öğle arasında geldi. Memur ona da imza attırdı, çünkü onunki de 2004’ten kalmaydı.",
+      "en": "Your kid came over on their lunch break. The clerk made them re-sign too. Theirs was from 2004.",
+      "coach": [
+        {
+          "tr": "İki kuşak, iki güncelleme.",
+          "en": "Two generations. Two updates.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "bankada imzanın 1979 tarihli imza kartına uymaması",
+    "mechanism": "memur imzanın daha çok 1979 gibi olmasını istiyor",
+    "mechanismId": "escalation",
+    "punch": "biraz daha 1979 gibi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kayit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

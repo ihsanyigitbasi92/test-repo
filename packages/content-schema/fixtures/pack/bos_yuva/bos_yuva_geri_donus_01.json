@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bos_yuva_geri_donus_01",
+  "tags": [
+    "ebeveynlik",
+    "ev",
+    "bos_yuva"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "bos_yuva": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "İşten çıkarıldım. Birkaç aylığına odama dönebilir miyim?",
+      "en": "I got laid off. Could I move back into my room for a few months?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "O oda artık dikiş odası. Ama makine taşınır.",
+      "en": "That room is a sewing room now. But the machine can move.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kucak",
+      "tr": "Kapıyı aç, şart koyma",
+      "en": "Open the door, no conditions",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kira",
+      "tr": "Küçük bir kira iste",
+      "en": "Ask for a little rent",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tarih",
+      "tr": "Bir taşınma tarihi belirle",
+      "en": "Set a move-out date",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kucak": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 5
+          }
+        ],
+        "flags": {
+          "add": [
+            "cocuk_geri_dondu"
+          ]
+        }
+      },
+      "tr": "Çocuğun ertesi gün iki bavulla geldi. Ay sonunda market faturası 1.200 Para arttı.",
+      "en": "Your kid arrived the next day with two suitcases. The grocery bill went up 1,200 by the end of the month.",
+      "coach": [
+        {
+          "tr": "Oda doldu. Buzdolabı boşaldı. Simetri.",
+          "en": "The room filled up. The fridge emptied out. Symmetry.",
+          "roast": true
+        }
+      ]
+    },
+    "kira": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 500,
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "cocuk_geri_dondu",
+              "evde_kiraci_cocuk"
+            ]
+          }
+        },
+        "tr": "Ayda 500 Para kararlaştırıldı. Çocuğun ilk ayın kirasını zamanında, bir de notla ödedi.",
+        "en": "Rent was set at 500 a month. Your kid paid the first one on time, with a note.",
+        "coach": [
+          {
+            "tr": "Ev sahibi oldun. Kiracı seni büyüttüğünü sanıyor.",
+            "en": "You’re a landlord now. Your tenant thinks you raised them.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef kumbarasına ayda 500.",
+            "en": "Goal jar: plus 500 a month.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "cocuk_geri_dondu"
+            ]
+          }
+        },
+        "tr": "Kira lafı masada soğudu. Çocuğun yine de taşındı ama akşam yemeklerine odasında oturuyor.",
+        "en": "The word “rent” went cold on the table. Your kid moved in anyway, but eats dinner in their room.",
+        "coach": [
+          {
+            "tr": "Kira yok, sohbet de yok. Ödeşildi.",
+            "en": "No rent, no conversation. Paid in full.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tarih": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "cocuk_geri_dondu",
+            "tasinma_tarihi_var"
+          ]
+        }
+      },
+      "tr": "Takvime bir tarih yazıldı: dört ay sonra. Dikiş makinesi salona taşındı.",
+      "en": "A date went on the calendar: four months out. The sewing machine moved to the living room.",
+      "coach": [
+        {
+          "tr": "Takvimde bir daire. Makine salonda.",
+          "en": "A circle on the calendar. A sewing machine in the lounge.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kira",
+    "slip": {
+      "tr": "İDDİA: Çocuğundan kira alamazsın. — M.",
+      "en": "WAGER: You won’t collect rent from your own kid. — M."
+    }
+  },
+  "intent": {
+    "setup": "işini kaybeden yetişkin çocuğun eve geri dönmek istemesi",
+    "mechanism": "oda çoktan başka bir şey olmuş",
+    "mechanismId": "reversal",
+    "punch": "kiracı seni büyüttüğünü sanıyor",
+    "lift": "hedef kumbarası",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "simetri"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

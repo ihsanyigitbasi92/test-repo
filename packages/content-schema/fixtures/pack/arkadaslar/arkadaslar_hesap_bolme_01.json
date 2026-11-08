@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_hesap_bolme_01",
+  "tags": [
+    "sosyal",
+    "para",
+    "yemek",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Hesap geldi. Biri “eşit bölelim” dedi. Ben çorba içtim.",
+      "en": "The check came. Someone said “let’s just split it evenly.” I had soup."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "O iki ana yemek, bir tatlı ve üç limonata içti. Şimdi tuvalette.",
+      "en": "They had two entrées, a dessert and three lemonades. They’re in the bathroom now.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "esit",
+      "tr": "Eşit bölmeyi kabul et",
+      "en": "Go along with the even split",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kalem",
+      "tr": "Kalem kalem bölmeyi öner",
+      "en": "Propose an itemized split",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Payını bırak, erken çık",
+      "en": "Leave your share, head out",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "esit": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kişi başı 450 Para. Ev arkadaşının çorbası da 450 Para’ya geldi.",
+      "en": "Four-fifty a head. Your roommate’s soup also came to four-fifty.",
+      "coach": [
+        {
+          "tr": "Şehrin en pahalı çorbası. Yanında ekmek yoktu.",
+          "en": "The most expensive soup in town. No bread included.",
+          "roast": true
+        }
+      ]
+    },
+    "kalem": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -180,
+          "stats": {
+            "joy": 3,
+            "charm": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "hesap_kalem_kalem"
+            ]
+          }
+        },
+        "tr": "Kalem kalem böldünüz, payın 180 Para. İki ana yemekli arkadaşın sessizce kartını çıkardı.",
+        "en": "Itemized it. Your share: 180. The two-entrée friend quietly reached for their card.",
+        "coach": [
+          {
+            "tr": "Adalet hesap makinesinden geldi. Masa sessizleşti.",
+            "en": "Justice arrived via calculator. The table went quiet.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -450,
+          "meters": {
+            "cringe": 4
+          }
+        },
+        "tr": "Hesap makinesi açılınca masa soğudu. Yine eşit bölündü, üstüne “muhasebeci” lakabı geldi.",
+        "en": "The calculator came out and the table cooled. Split evenly anyway, plus a new nickname: “the accountant.”",
+        "coach": [
+          {
+            "tr": "Lakap bedavaydı. Hesap değildi.",
+            "en": "The nickname was free. The meal was not.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "grup_fotografinda_yok"
+          ]
+        }
+      },
+      "tr": "Kendi payını masaya bırakıp çıktın. Gecenin grup fotoğrafında yoksun.",
+      "en": "You left cash for what you ate and slipped out. You’re missing from the group photo.",
+      "coach": [
+        {
+          "tr": "Cüzdan korundu. Albümde bir boşluk var.",
+          "en": "Wallet protected. There’s a gap in the album.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kalem",
+    "slip": {
+      "tr": "İDDİA: Kalem kalem bölüşüm masadan geçmez. — M.",
+      "en": "WAGER: The itemized split won’t pass the table. — M."
+    }
+  },
+  "intent": {
+    "setup": "arkadaş yemeğinde az yiyenin de eşit bölüşüme zorlanması",
+    "mechanism": "çorba ile iki ana yemek aynı fiyata",
+    "mechanismId": "deadpan_report",
+    "punch": "ben çorba içtim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "albüm"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

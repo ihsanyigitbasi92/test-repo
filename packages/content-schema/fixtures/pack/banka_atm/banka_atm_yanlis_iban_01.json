@@ -1,0 +1,161 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_yanlis_iban_01",
+  "tags": [
+    "para",
+    "banka",
+    "havale",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "Gönderdiğiniz hesap numarasında bir hane farklı. Para karşı tarafa geçmiş.",
+      "en": "One digit in the account number was off. The money's gone through to someone else."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "İade için alıcının onayı lazım. Kendisine nazik bir mesaj iletebiliriz.",
+      "en": "We need the recipient's consent to reverse it. We can pass along a polite message.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "mesaj",
+      "tr": "Nazik bir mesaj yaz",
+      "en": "Write a polite message",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Resmî itiraz başlat",
+      "en": "Open a formal dispute",
+      "pattern": "pride"
+    },
+    {
+      "id": "vazgec",
+      "tr": "350 Para'yı unut",
+      "en": "Let the 350 go",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "mesaj": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yanlis_iban_iade"
+          ]
+        }
+      },
+      "tr": "Alıcı ertesi gün parayı iade etti. Açıklamaya 'Ben de bir kez kiramı bir yabancıya yatırmıştım' yazmış.",
+      "en": "The recipient sent it back the next day. Memo line: 'I once paid my rent to a stranger too.'",
+      "coach": [
+        {
+          "tr": "350 Para geri. Bir de not.",
+          "en": "350 back, plus a note.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "iade_itirazi"
+          ]
+        },
+        "glossary": "iade_talebi"
+      },
+      "tr": "İtiraz kaydı açıldı, dosya no 7731. Tahmini süre: 'işlem sırasına göre'.",
+      "en": "Dispute opened, file no. 7731. Estimated time: 'in order received.'",
+      "coach": [
+        {
+          "tr": "Dosya 7731. Sıra numarası gizli.",
+          "en": "File 7731. Place in line: classified.",
+          "roast": true
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yanlis_iban_vazgecildi"
+          ]
+        }
+      },
+      "tr": "350 Para'yı unuttun. Bir yabancı o akşam büyük ihtimalle pizza söyledi.",
+      "en": "You let the 350 go. Somewhere tonight, a stranger probably ordered pizza.",
+      "coach": [
+        {
+          "tr": "Zarar 350 Para. Hane farkı bir.",
+          "en": "Loss: 350. Digits off: one.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "tek hane hatayla 350 Para'nın bir yabancının hesabına gitmesi",
+    "mechanism": "beklenen kötü yabancı yerine anlayışlı yabancı",
+    "mechanismId": "reversal",
+    "punch": "ben de bir kez kiramı bir yabancıya yatırmıştım",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "hane",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

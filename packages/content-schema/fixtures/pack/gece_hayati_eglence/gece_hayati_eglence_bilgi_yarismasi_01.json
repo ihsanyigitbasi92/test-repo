@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gece_hayati_eglence_bilgi_yarismasi_01",
+  "tags": [
+    "sosyal",
+    "gece",
+    "ev_arkadasi",
+    "gece_hayati_eglence"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "gece_hayati_eglence": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Eşitlik sorusu. Kazanan takım akşam yemeğini bedava yiyor.",
+      "en": "Tiebreaker question. Winning team eats free tonight."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Soru: Bir zürafanın kalbi kaç kilo? En yakın tahmin kazanır.",
+      "en": "Question: how much does a giraffe's heart weigh? Closest guess wins.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "On bir. Bir belgeselde gördüm. Ya da bir rüyada.",
+      "en": "Twenty-five pounds. I saw it in a documentary. Or a dream.",
+      "delayMs": 300
+    }
+  ],
+  "choices": [
+    {
+      "id": "kendi",
+      "tr": "Kendi tahminini yaz",
+      "en": "Write your own guess",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "evarkadasi",
+      "tr": "Ev arkadaşının cevabını yaz",
+      "en": "Go with your roommate's answer",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tatli",
+      "tr": "Kâğıdı boş ver, tatlı söyle",
+      "en": "Hand in a blank, order dessert",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "kendi": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 300,
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "bilgi_yarismasi_kazandi"
+            ]
+          }
+        },
+        "tr": "On iki dedin, cevap on bir. Öteki takım otuz demişti. Yemek bedava.",
+        "en": "You said thirty pounds. Answer: twenty-five. The other team said sixty. Dinner is free.",
+        "coach": [
+          {
+            "tr": "Bir zürafa kalbi, bir akşam yemeği. Bilgi sonunda karın doyurdu.",
+            "en": "A giraffe's heart bought dinner. Trivia finally paid for itself.",
+            "roast": true
+          },
+          {
+            "tr": "Zarfa 300 Para girdi.",
+            "en": "Three hundred into the envelope.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "Yirmi iki dedin. Ev arkadaşının on biri doğruymuş. Rüya değilmiş.",
+        "en": "You said fifty. Your roommate's twenty-five was right. Not a dream after all.",
+        "coach": [
+          {
+            "tr": "Belgesel bir, rüya bir, sen sıfır.",
+            "en": "Documentary one, dream one, you zero.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "evarkadasi": {
+      "effects": {
+        "money": 300,
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Onun cevabını yazdın, doğru çıktı. Ev arkadaşın bütün yol belgeselin adını hatırlamaya çalıştı.",
+      "en": "You wrote down the roommate answer. Correct. The whole way home, your roommate tried to remember the documentary.",
+      "coach": [
+        {
+          "tr": "Doğru cevap, belirsiz kaynak. Hakem heyeti bunu sevmezdi.",
+          "en": "Right answer, unknown source. Peer review would hate this.",
+          "roast": true
+        }
+      ]
+    },
+    "tatli": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 2
+        }
+      },
+      "tr": "Boş kâğıt verdin, tatlı söyledin. Öteki takım kazandı ve tatlını izledi.",
+      "en": "You turned in a blank and ordered dessert. The other team won. They watched you eat it.",
+      "coach": [
+        {
+          "tr": "Yarışma kaybedildi, tatlı kazanıldı. Bilanço şekerli.",
+          "en": "Lost the quiz, won the dessert. A sugary balance sheet.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kendi",
+    "slip": {
+      "tr": "İDDİA: Zürafa seni yener. — M.",
+      "en": "WAGER: The giraffe wins this one. — M."
+    }
+  },
+  "intent": {
+    "setup": "bilgi yarışması gecesinde eşitlik sorusu",
+    "mechanism": "rüyadan gelen cevap doğru çıkıyor",
+    "mechanismId": "reversal",
+    "punch": "belgeselde gördüm ya da rüyada",
+    "lift": "zarf",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bilanco"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

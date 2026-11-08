@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_ipotek_kaldirma_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3650,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "housing": [
+      "mortgage"
+    ],
+    "money": {
+      "min": 1000
+    },
+    "flags": {
+      "none": [
+        "ipotek_kalkti"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Son taksit yatmış. Şerhin kalkması için banka yazısı lazım.",
+      "en": "Final installment received. To lift the lien we need the bank's letter."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Aslı. Islak imzalı. Bir de fotokopisi.",
+      "en": "The original. Wet-ink signed. Plus a photocopy.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda ev peşin alınırdı. Şerh nedir bilmezdik.",
+      "en": "In my day you paid cash for a house. Nobody knew what a lien was.",
+      "delayMs": 400,
+      "when": {
+        "npc": {
+          "uncle": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sırada bekle, işi bitir",
+      "en": "Wait in line and finish it",
+      "pattern": "patience"
+    },
+    {
+      "id": "yarin",
+      "tr": "Yarına bırak",
+      "en": "Leave it for tomorrow",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "kutla",
+      "tr": "Önce kutlama yemeği",
+      "en": "Celebrate first",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "housing": "owned",
+        "status": {
+          "home": {
+            "kind": "owned",
+            "rent": 0
+          }
+        },
+        "stats": {
+          "joy": 5
+        },
+        "flags": {
+          "add": [
+            "ipotek_kalkti"
+          ]
+        }
+      },
+      "tr": "Üç saat sonra şerh kalktı. Tapuda artık banka yok.",
+      "en": "Three hours later the lien was lifted. The deed no longer mentions a bank.",
+      "coach": [
+        {
+          "tr": "Yirmi yıl taksit, üç saat sıra. Sıra daha kısa sürdü.",
+          "en": "Twenty years of installments, three hours in line. The line was quicker.",
+          "roast": false
+        },
+        {
+          "tr": "Taksit sayacı sıfırda.",
+          "en": "Installment counter: zero.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "yarin": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "ipotek_serhi_bekliyor"
+          ]
+        }
+      },
+      "tr": "Ertesi gün aynı gişe, başka memur. Bu kez iki fotokopi istendi, şerh bir hafta daha kaldı.",
+      "en": "Next day, same window, different clerk. This one wanted two photocopies. The lien stayed another week.",
+      "coach": [
+        {
+          "tr": "Borç bitti. Fotokopi borcu başladı.",
+          "en": "The loan is done. The photocopy debt has begun.",
+          "roast": true
+        }
+      ]
+    },
+    "kutla": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "ipotek_serhi_bekliyor"
+          ]
+        }
+      },
+      "tr": "Kutlama yemeğine çıktın, 600 Para. Şerh hâlâ tapuda, sen tatlıdasın.",
+      "en": "Celebration dinner, 600. The lien is still on the deed. You are on dessert.",
+      "coach": [
+        {
+          "tr": "Kutlama bir gün erken. Evrak bir hafta geç.",
+          "en": "Celebration a day early. Paperwork a week late.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "son taksitten sonra tapudaki ipotek şerhini kaldırma",
+    "mechanism": "memurun istekleri tırmanıyor: aslı, ıslak imza, fotokopi",
+    "mechanismId": "escalation",
+    "punch": "aslı, ıslak imzalı, bir de fotokopisi",
+    "lift": "taksit sayacı sıfırda",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fotokopi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

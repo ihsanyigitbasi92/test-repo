@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_iptal_ikna_01",
+  "tags": [
+    "para",
+    "borc",
+    "kredi_karti",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "kredi_karti_borcu",
+        "yeni_kart",
+        "debt"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kartı iptal etmeden önce size bir yıl ücretsiz kullanım önerebilirim.",
+      "en": "Before you cancel, I can offer you a fee-free year."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Bir de ek kart. O da ücretsiz. İptal formu da burada, ikisinin arasında.",
+      "en": "And a second card, also free. The cancellation form is right here, between the two.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iptal",
+      "tr": "Formu imzala, kartı kes",
+      "en": "Sign the form, cut the card",
+      "pattern": "pride"
+    },
+    {
+      "id": "ucretsiz",
+      "tr": "Ücretsiz yılı kabul et",
+      "en": "Take the free year",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ikisi",
+      "tr": "İkisini de kabul et",
+      "en": "Take both offers",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "iptal": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "kart_iptal_edildi"
+          ],
+          "remove": [
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Kalan 1.200 Para borç kapatıldı, kart ikiye kesildi. Bankacı makası hazırda tutuyormuş.",
+      "en": "You paid off the remaining 1,200 and the card was cut in half. The banker had scissors ready.",
+      "coach": [
+        {
+          "tr": "Bir makas, bir imza, 1.200 Para.",
+          "en": "One pair of scissors, one signature, 1,200.",
+          "roast": false
+        }
+      ]
+    },
+    "ucretsiz": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kart_ucretsiz_yil"
+          ]
+        }
+      },
+      "tr": "İptal formu masada kaldı. Kart bir yıl daha ücretsiz, sonra ücret geri geliyor.",
+      "en": "The cancellation form stayed on the desk. The card is free for one year. Then the fee comes back.",
+      "coach": [
+        {
+          "tr": "İptale geldin, bir yıl uzattın.",
+          "en": "You came to cancel. You renewed for a year.",
+          "roast": true
+        }
+      ]
+    },
+    "ikisi": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ek_kart",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "İptal için girdiğin şubeden iki kartla çıktın. Ek kart üç iş gününde geliyor.",
+      "en": "You walked in to cancel one card and walked out with two. The spare arrives in three business days.",
+      "coach": [
+        {
+          "tr": "Girişte bir kart, çıkışta iki.",
+          "en": "One card in. Two cards out.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "kredi kartını iptal etmeye gidip bankacının ikna turuna girmek",
+    "mechanism": "iptal formu iki teklifin arasında",
+    "mechanismId": "reversal",
+    "punch": "iptal formu ikisinin arasında",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "makas",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

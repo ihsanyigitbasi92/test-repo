@@ -1,0 +1,164 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_minimum_tutar_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "gece",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Gece ikide açık tek yer bu. Minimum sipariş 250, bizim sepet 170.",
+      "en": "It's 2 a.m. and this is the only place open. Minimum order: 250. Our cart: 170."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Seksen Paralık bir şey daha lazım. Yarın sabah için dürüm mü? Yarın sabah için. Dürüm.",
+      "en": "We need eighty more. A wrap for tomorrow morning? For tomorrow morning. A wrap.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "durum",
+      "tr": "Yarın için dürüm ekle",
+      "en": "Add tomorrow's wrap",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "tatli",
+      "tr": "İki tatlı ekle",
+      "en": "Add two desserts",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "tost",
+      "tr": "Vazgeç, tost yap",
+      "en": "Give up, make toasties",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "durum": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -255,
+        "flags": {
+          "add": [
+            "siparis_yarinin_durumu"
+          ]
+        }
+      },
+      "tr": "Sepet 255 oldu. Yarın sabah için alınan dürüm gece üçte yendi.",
+      "en": "The cart hit 255. The wrap for tomorrow morning got eaten at three a.m.",
+      "coach": [
+        {
+          "tr": "Yarınki dürüm. Yarın erken başladı.",
+          "en": "Tomorrow's wrap. Tomorrow started early.",
+          "roast": true
+        }
+      ]
+    },
+    "tatli": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 3
+        },
+        "money": -250,
+        "flags": {
+          "add": [
+            "siparis_gece_tatlisi"
+          ]
+        }
+      },
+      "tr": "İki tatlıyla sepet tam 250 oldu. Tatlılar ana yemekten önce bitti.",
+      "en": "Two desserts made exactly 250. The desserts were gone before the mains.",
+      "coach": [
+        {
+          "tr": "Tam tutar. Ters sıra.",
+          "en": "Exact total. Reverse order.",
+          "roast": false
+        }
+      ]
+    },
+    "tost": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -1
+        },
+        "money": -15,
+        "flags": {
+          "add": [
+            "siparis_gece_tostu"
+          ]
+        }
+      },
+      "tr": "Vazgeçip tost yaptınız. Tost makinesi gece ikide de üç dakika sürdü.",
+      "en": "You gave up and made toasties. Even at 2 a.m., the toaster took three minutes.",
+      "coach": [
+        {
+          "tr": "Minimum yok, kurye yok. Üç dakika.",
+          "en": "No minimum, no courier. Three minutes.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "gece ikide minimum sipariş tutarına seksen Para eksik kalmak",
+    "mechanism": "yarın sabah için dürüm",
+    "mechanismId": "count",
+    "punch": "yarın sabah için, dürüm",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ters"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

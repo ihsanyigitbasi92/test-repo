@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_sms_onay_01",
+  "tags": [
+    "para",
+    "banka",
+    "ilk_hesap",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hesabı açmak için telefonunuza gelen kodu söylemeniz lazım.",
+      "en": "To open the account, read me the code we just texted you."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Şube bodrumda, burada çekmiyor. Herkes merdivenin üçüncü basamağına çıkıyor.",
+      "en": "We're in the basement, so there's no signal. Everyone goes up to the third stair.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Ben dördüncü basamaktayım. Sıra sizde değil.",
+      "en": "I'm on the fourth stair. You're not next.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "merdiven",
+      "tr": "Üçüncü basamakta sıra bekle",
+      "en": "Wait your turn on the third stair",
+      "pattern": "patience"
+    },
+    {
+      "id": "disari",
+      "tr": "Dışarı çık, kodu ezberle",
+      "en": "Step outside, memorize the code",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yarin",
+      "tr": "Yarın gel",
+      "en": "Come back tomorrow",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "merdiven": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "banka_hesabi"
+          ]
+        }
+      },
+      "tr": "Kod üçüncü basamakta geldi. On dakika sonra hesabın açıktı.",
+      "en": "The code arrived on the third stair. Ten minutes later, you had an account.",
+      "coach": [
+        {
+          "tr": "Üç basamak, altı haneli kod, bir hesap.",
+          "en": "Three stairs, a six-digit code, one account.",
+          "roast": false
+        }
+      ]
+    },
+    "disari": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 1,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "banka_hesabi"
+            ]
+          }
+        },
+        "tr": "Kodu kaldırımda ezberleyip aşağı indin, doğru söyledin. Hesap açıldı.",
+        "en": "You memorized the code on the sidewalk, came back down, and got it right. Account open.",
+        "coach": [
+          {
+            "tr": "Altı hane, bir kat merdiven, hatasız.",
+            "en": "Six digits, one flight of stairs, no typos.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "banka_hesabi_bekliyor"
+            ]
+          }
+        },
+        "tr": "Merdivende iki rakamın yeri değişti. Kodun süresi doldu, yenisi yine yukarıda bekliyor.",
+        "en": "Two digits swapped places on the stairs. The code expired. A new one is waiting upstairs.",
+        "coach": [
+          {
+            "tr": "Kod sokakta. Sen bodrumdasın.",
+            "en": "The code's on the street. You're in the basement.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "banka_hesabi_bekliyor"
+          ]
+        }
+      },
+      "tr": "Ertesi gün aynı şube, aynı bodrum. Merdivende bu kez altı kişi vardı.",
+      "en": "Next day: same branch, same basement. Six people on the stairs this time.",
+      "coach": [
+        {
+          "tr": "Dün üç kişiydi. Bugün altı.",
+          "en": "Yesterday, three on the stairs. Today, six.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ilk banka hesabını açarken bodrum şubede SMS kodunun gelmemesi",
+    "mechanism": "merdivende çekim sırası oluşuyor",
+    "mechanismId": "escalation",
+    "punch": "ben dördüncü basamaktayım, sıra sizde değil",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "basamak",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

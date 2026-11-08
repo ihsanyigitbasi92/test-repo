@@ -1,0 +1,230 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_kalabalik_ev_gezisi_01",
+  "tags": [
+    "ev",
+    "ev",
+    "ilan",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Bugün yirmi üç kişi geziyor. Daire altmış metrekare; sırayla girelim.",
+      "en": "Twenty-three people are touring today. The flat is 650 square feet. Let's go in shifts."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "İlana 1.800 yazdım ama teklifler 2.100'den başladı.",
+      "en": "I listed it at 1,800, but offers started at 2,100."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Ben 2.200 diyorum. Bir de kendi yaptığım reçel.",
+      "en": "I'm offering 2,200. Plus homemade jam.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "teklif",
+      "tr": "2.300 teklif et",
+      "en": "Offer 2,300",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "mektup",
+      "tr": "Ev sahibine kısa bir mektup yaz",
+      "en": "Write the landlord a short letter",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 3500,
+        "stat": "charm",
+        "goal": "ev"
+      }
+    },
+    {
+      "id": "cik",
+      "tr": "Sıradan çık",
+      "en": "Step out of line",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "teklif": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "money": -2300,
+        "flags": {
+          "add": [
+            "yuksek_kira"
+          ]
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 2300
+          }
+        }
+      },
+      "tr": "Daire senin, ayda 2.300 Para. Reçelli aday yan binada 1.900'e başka bir daire buldu.",
+      "en": "The flat is yours at 2,300. The jam applicant found one next door for 1,900.",
+      "coach": [
+        {
+          "tr": "Kazandın. Fark: ayda 400 Para ve bir kavanoz reçel.",
+          "en": "You won. Margin: four hundred a month and one jar of jam.",
+          "roast": true
+        }
+      ]
+    },
+    "mektup": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "money": -1800,
+          "flags": {
+            "add": [
+              "mektupla_ev"
+            ]
+          },
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1800
+            }
+          }
+        },
+        "tr": "Mektupta kombiyi her yıl bakıma vereceğini yazdın. Ev sahibi seni seçti; kira ilandaki gibi 1.800.",
+        "en": "Your letter promised annual boiler servicing. The landlord picked you. Rent as listed: 1,800.",
+        "coach": [
+          {
+            "tr": "Yirmi üç aday, bir mektup. Kombi kazandırdı.",
+            "en": "Twenty-three applicants, one letter. The boiler clinched it.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef defterinde: ev, tamam.",
+            "en": "Goal notebook: home, checked.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_aramaya_devam"
+            ]
+          }
+        },
+        "tr": "Mektubu okudu, cebine koydu. Daire reçelli adaya gitti.",
+        "en": "The landlord read your letter and pocketed it. The flat went to the jam person.",
+        "coach": [
+          {
+            "tr": "Mektup okundu. Reçel tadıldı.",
+            "en": "The letter was read. The jam was tasted.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Sıradan çıkıp köşedeki kafede ilanlara baktın. Ertesi gün aynı daire \"yeni\" diye yeniden ilana çıktı.",
+      "en": "You stepped out of line and checked listings at the corner café. Next day the same flat was relisted as 'new.'",
+      "coach": [
+        {
+          "tr": "Yirmi üç kişilik sırada bir eksik. Öğleden sonran kurtuldu.",
+          "en": "Twenty-three in line, minus one. Your afternoon survived.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "mektup",
+    "slip": {
+      "tr": "İDDİA: Mektup, reçeli geçemez. — M.",
+      "en": "WAGER: Your letter won't beat the jam. — M."
+    }
+  },
+  "intent": {
+    "setup": "kalabalık ev gezisinde kira teklif yarışı",
+    "mechanism": "aday ve teklif sayımı",
+    "mechanismId": "count",
+    "punch": "bir de kendi yaptığım reçel",
+    "lift": "hedef defteri: ev tamam",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "recel"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

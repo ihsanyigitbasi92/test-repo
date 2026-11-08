@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "flort_tanisma_rezervasyon_iptali_01",
+  "tags": [
+    "iliski",
+    "flort",
+    "flort_tanisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "flort_tanisma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    },
+    "flags": {
+      "none": [
+        "sevgili"
+      ]
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "LİMONLU AVLU Restoran — Rezervasyon Servisi (kurgusal)",
+      "en": "THE LEMON COURTYARD — Reservations (fictional)"
+    },
+    "body": {
+      "tr": "'Romantik Akşam' menüsü rezervasyonunuz onaylanmıştır. 2 saatten kısa süre kala yapılan iptallerde kişi başı 350 Para no-show ücreti uygulanır.",
+      "en": "Your 'Romantic Evening' reservation is confirmed. Cancellations under 2 hours before incur a no-show fee of 350 per guest."
+    },
+    "translate": {
+      "tr": {
+        "from": "no-show ücreti",
+        "to": "gelmeyenin bedelini gelen öder"
+      },
+      "en": {
+        "from": "no-show fee",
+        "to": "the one who showed up pays for the one who did not"
+      }
+    },
+    "glossaryKey": "no_show_ucreti"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Çok özür dilerim, işten çıkamıyorum. Başka bir akşam?",
+      "en": "So sorry, I can't get away from work. Another night?"
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Masanız hazır. Mum yandı. Tek kişi misiniz?",
+      "en": "Your table is ready. The candle is lit. Party of one?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "otur",
+      "tr": "Menüyü tek başına ye",
+      "en": "Eat the set menu solo",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "ucret",
+      "tr": "Ücreti öde, çık",
+      "en": "Pay the fee and leave",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Ücrete itiraz et",
+      "en": "Dispute the fee",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "otur": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": 3
+        }
+      },
+      "tr": "İki kişilik menüyü tek başına yedin, 700 Para. Garson ikinci tatlıyı paketledi.",
+      "en": "You ate the menu for two on your own, 700. The waiter boxed the second dessert.",
+      "coach": [
+        {
+          "tr": "İki kişilik akşam, bir kişi, iki tatlı.",
+          "en": "Dinner for two, one diner, both desserts.",
+          "roast": false
+        }
+      ]
+    },
+    "ucret": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": -3
+        },
+        "flags": {
+          "add": [
+            "flort_iptal_edildi"
+          ]
+        }
+      },
+      "tr": "İki kişilik ücreti ödeyip çıktın, 700 Para. Mum yanmaya devam etti.",
+      "en": "You paid the fee for two and left, 700. The candle kept burning.",
+      "coach": [
+        {
+          "tr": "700 Para, sıfır yemek. Mum kârlı çıktı.",
+          "en": "Seven hundred, zero dinner. The candle came out ahead.",
+          "roast": true
+        }
+      ]
+    },
+    "itiraz": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 2
+        },
+        "glossary": "no_show_ucreti"
+      },
+      "tr": "Müdür 'siz geldiniz' deyip ücreti yarıya indirdi, 350 Para. Mumu söndürmediler.",
+      "en": "The manager halved it since you did show up: 350. They didn't blow out the candle.",
+      "coach": [
+        {
+          "tr": "Gelen yarı fiyat öder. Kural böyle.",
+          "en": "Those who show up pay half. That is the policy.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "flörtün son anda iptal ettiği akşam için restoranın no-show ücreti",
+    "mechanism": "'no-show ücreti' tercümesi ve tek kişilik mum",
+    "mechanismId": "translation",
+    "punch": "masanız hazır, mum yandı, tek kişi misiniz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mum"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

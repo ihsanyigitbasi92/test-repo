@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "sans_ikramiye_radyo_yarismasi_01",
+  "tags": [
+    "para",
+    "sans",
+    "radyo",
+    "sans_ikramiye"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "sans_ikramiye": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 90
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Hattımızda bir dinleyicimiz var! Soru: Bir düzinede kaç tane vardır? Süreniz beş saniye.",
+      "en": "We have a caller on the line! Question: how many in a baker's dozen? You have five seconds."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Ödül bir su ısıtıcısı. Geçen haftaki dinleyicimiz şemsiye kazanmıştı.",
+      "en": "The prize is an electric kettle. Last week's caller won an umbrella.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "cevap",
+      "tr": "Hemen cevapla",
+      "en": "Answer right away",
+      "pattern": "risk",
+      "check": {
+        "base": 6500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "komsu",
+      "tr": "Duvardan komşuya sor",
+      "en": "Shout the question to the neighbor",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kapat",
+      "tr": "Heyecandan kapat",
+      "en": "Hang up in a panic",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cevap": [
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "hidden": {
+            "luck": 1
+          },
+          "flags": {
+            "add": [
+              "radyo_odulu"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "su_isiticisi"
+              ]
+            }
+          }
+        },
+        "tr": "'On iki' dedin, doğru. Isıtıcı kargoyla geldi; adını yayında iki kez okudular.",
+        "en": "You said 'thirteen.' Correct. The kettle came by mail, and they said your name on air twice.",
+        "coach": [
+          {
+            "tr": "On iki tane, bir ısıtıcı, iki anons.",
+            "en": "Thirteen, one kettle, your name twice on air.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "radyo_yanlis"
+            ]
+          }
+        },
+        "tr": "Heyecandan 'on' dedin. Sunucu 'Az kaldı' dedi, şemsiye de yokmuş.",
+        "en": "Nerves made you say 'ten.' The host said 'So close!' No umbrella this time either.",
+        "coach": [
+          {
+            "tr": "On iki sorulmuş, on cevaplanmış. İki eksik.",
+            "en": "Asked for thirteen. Answered ten. Three short.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "radyo_odulu_ortak"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2,
+            "memory": "ortak_isitici"
+          }
+        ]
+      },
+      "tr": "Komşun duvarın arkasından 'On iki!' diye bağırdı, yayına girdi. Isıtıcı artık ortak: çarşamba sende, perşembe onda.",
+      "en": "Your neighbor yelled 'Thirteen!' through the wall and made it on air. Now you share the kettle: Wednesdays yours, Thursdays theirs.",
+      "coach": [
+        {
+          "tr": "Bir ısıtıcı, iki daire, haftalık nöbet.",
+          "en": "One kettle, two households, a weekly rota.",
+          "roast": true
+        }
+      ]
+    },
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "radyo_kapatildi"
+          ]
+        }
+      },
+      "tr": "Telefonu kapattın. Radyo sıradaki dinleyiciye bağlandı; o 'on iki' dedi ve ısıtıcıyı aldı.",
+      "en": "You hung up. The next caller said 'thirteen' and took the kettle.",
+      "coach": [
+        {
+          "tr": "Cevap biliniyordu. Hat kapalıydı.",
+          "en": "The answer was known. The line was not.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cevap",
+    "slip": {
+      "tr": "İDDİA: Heyecan cevabı yutar. — M.",
+      "en": "WAGER: Nerves eat the answer. — M."
+    }
+  },
+  "intent": {
+    "setup": "sabah radyo programına telefonla bağlanıp ödüllü soruya denk gelmek",
+    "mechanism": "ödüller, cevaplar, eksikler sayılıyor",
+    "mechanismId": "count",
+    "punch": "on iki sorulmuş, on cevaplanmış",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "anons",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "TR'de 'düzine = 12', EN'de 'baker's dozen = 13'; sayı şakası dile göre uyarlandı, olay aynı."
+  }
+}

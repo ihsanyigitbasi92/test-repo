@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_ortak_taksit_01",
+  "tags": [
+    "para",
+    "borc",
+    "taksit",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Televizyonu senin kartla dokuz taksit alalım. Her ay yarısını elden veririm.",
+      "en": "Let's put the TV on your card, nine installments. I'll hand you my half every month."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Söz. Hatta yazarım. Hatta sesli mesaj atarım.",
+      "en": "Promise. I'll put it in writing. I'll even send a voice note.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Kartla al",
+      "en": "Put it on your card",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "yazili",
+      "tr": "Önce yazılı al",
+      "en": "Get it in writing first",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "Kendi kartıyla alsın",
+      "en": "Tell them to use their own card",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "kredi_karti_borcu",
+            "ev_arkadasi_taksit"
+          ]
+        }
+      },
+      "tr": "Televizyon salona, borç kartına geldi. Ev arkadaşın ilk ay yarısını verdi, ikinci ay 'cuma' dedi.",
+      "en": "The TV landed in the living room. The debt landed on your card. Your roommate paid half the first month; the second month they said 'Friday.'",
+      "coach": [
+        {
+          "tr": "Dokuz taksit, bir cuma.",
+          "en": "Nine installments. One Friday.",
+          "roast": false
+        }
+      ]
+    },
+    "yazili": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 2,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "kredi_karti_borcu",
+            "ev_arkadasi_taksit_yazili"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Ev arkadaşın bir peçeteye 'Dokuz ay, yarı yarıya' yazıp imzaladı. Peçete buzdolabının kapağında.",
+      "en": "Your roommate signed a napkin: 'Nine months, fifty-fifty.' The napkin is on the fridge door.",
+      "coach": [
+        {
+          "tr": "Peçete imzalı. Buzdolabı tanık.",
+          "en": "The napkin is signed. The fridge is a witness.",
+          "roast": false
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "tv_reddedildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Televizyon alınmadı. Ev arkadaşın akşamları telefonda dizi izliyor, ses sonuna kadar açık.",
+      "en": "No TV. Your roommate watches shows on their phone every night at full volume.",
+      "coach": [
+        {
+          "tr": "Borç sıfır. Ses son seviye.",
+          "en": "Debt: zero. Volume: maximum.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ev arkadaşının ortak televizyonu senin kartınla taksitle almak istemesi",
+    "mechanism": "söz büyüyor: yazarım, sesli mesaj atarım",
+    "mechanismId": "escalation",
+    "punch": "hatta sesli mesaj atarım",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "cuma",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

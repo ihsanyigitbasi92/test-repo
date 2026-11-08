@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_ev_sahibi_denetim_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "ev_sahibi",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Yarın saat onda bir göz atacağım. Rutin kontrol. Sözleşmede yazıyor.",
+      "en": "I'll stop by tomorrow at ten. Routine check. It's in the lease."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Akvaryumu ne yapacağız? Üç yüz litre. Sözleşmede \"hayvan yok\" yazıyor.",
+      "en": "What about the aquarium? Three hundred liters. The lease says 'no pets.'"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Ama balık hayvan mı? Felsefi bir soru.",
+      "en": "But are fish pets? Philosophically.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sakla",
+      "tr": "Akvaryumu örtüyle gizle",
+      "en": "Hide it under a blanket",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "soyle",
+      "tr": "Ev sahibine baştan söyle",
+      "en": "Tell the landlord upfront",
+      "pattern": "patience"
+    },
+    {
+      "id": "baris",
+      "tr": "Konuşmayı Barış yapsın",
+      "en": "Let Jordan do the talking",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sakla": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Ev sahibi örtülü akvaryumu \"çok şık bir sehpa\" diye övdü. Filtre o an susmayı başardı.",
+        "en": "The landlord praised the covered aquarium as 'a very chic side table.' The filter managed to stay quiet.",
+        "coach": [
+          {
+            "tr": "Sehpa denetimi geçti. Balıklar sustu.",
+            "en": "The side table passed inspection. The fish kept quiet.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "depozito_kesintisi"
+            ]
+          }
+        },
+        "tr": "Filtre fokurdadı. Ev sahibi örtüyü kaldırdı ve depozitodan 1.000 Para keseceğini yazdı.",
+        "en": "The filter gurgled. The landlord lifted the blanket and noted a 1,000 deposit deduction.",
+        "coach": [
+          {
+            "tr": "Sehpa fokurdadı. Depozito eridi.",
+            "en": "The side table gurgled. The deposit shrank.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "soyle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 2
+          }
+        ],
+        "status": {
+          "rentDelta": 150
+        }
+      },
+      "tr": "Ev sahibi \"balık sorun değil\" dedi. Sonra kiraya ayda 150 Para \"su gideri\" ekledi.",
+      "en": "The landlord said fish are fine. Then added 150 a month for 'water costs.'",
+      "coach": [
+        {
+          "tr": "Dürüstlük kabul edildi. Ayda 150 Para.",
+          "en": "Honesty accepted. 150 a month.",
+          "roast": false
+        }
+      ]
+    },
+    "baris": {
+      "effects": {
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          },
+          {
+            "role": "npc:landlord",
+            "affinity": -1
+          }
+        ],
+        "meters": {
+          "cringe": 4
+        }
+      },
+      "tr": "Barış yirmi dakika boyunca balıkların \"misafir\" olduğunu anlattı. Ev sahibi not alıp gitti.",
+      "en": "Jordan spent twenty minutes explaining that the fish are 'guests.' The landlord took notes and left.",
+      "coach": [
+        {
+          "tr": "Misafir balıklar. Tutanağa geçti.",
+          "en": "Guest fish. It's in the report.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sakla",
+    "slip": {
+      "tr": "İDDİA: Filtre tam o an fokurdar. — M.",
+      "en": "WAGER: The filter gurgles on cue. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi yarın denetime geliyor, sözleşmede hayvan yasak ama salonda akvaryum var",
+    "mechanism": "balık hayvan mı sorusu",
+    "mechanismId": "literalism",
+    "punch": "balık hayvan mı ama",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tutanak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

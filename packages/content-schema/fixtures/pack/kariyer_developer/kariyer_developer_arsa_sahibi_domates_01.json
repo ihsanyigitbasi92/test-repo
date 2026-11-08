@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_developer_arsa_sahibi_domates_01",
+  "tags": [
+    "kariyer",
+    "muteahhit",
+    "kariyer_developer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_developer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 35,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "developer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Anlaşmada köşe daireler benimdi. Ama şimdi bahçe katını istiyorum. Domates ekeceğim.",
+      "en": "Our deal gave me the corner units. Now I want the garden floor instead. I'm growing tomatoes."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Bir de çatı katı. Domatesler güneşi sever, ben de severim.",
+      "en": "And the penthouse. Tomatoes like sun. So do I.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Bahçe katını ver",
+      "en": "Give up the garden floor",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sozlesme",
+      "tr": "Sözleşmeyi masaya koy",
+      "en": "Put the contract on the table",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cati",
+      "tr": "Çatıda ortak bahçe öner",
+      "en": "Offer a shared rooftop garden",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "money": -4000,
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 4
+          }
+        ],
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Bahçe katı arsa sahibine geçti, köşe daireler satışa çıktı. Hesapta 4.000 Para eksik, bahçede fideler var.",
+      "en": "The garden floor went to the landowner; the corner units went on sale. You're 4,000 down. The garden has seedlings.",
+      "coach": [
+        {
+          "tr": "Dört bin Para, iki sıra fide.",
+          "en": "Four thousand, two rows of seedlings.",
+          "roast": false
+        }
+      ]
+    },
+    "sozlesme": [
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -3
+            }
+          ],
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Sözleşmenin dördüncü maddesini yüksek sesle okudun. Arsa sahibi köşe dairelerde kaldı, domatesler balkona taşındı.",
+        "en": "You read clause four aloud. The landowner keeps the corner units; the tomatoes move to the balcony.",
+        "coach": [
+          {
+            "tr": "Dördüncü madde ayakta. Domatesler balkonda.",
+            "en": "Clause four stands. The tomatoes relocate to the balcony.",
+            "roast": false
+          },
+          {
+            "tr": "Sözleşme sayfası hedef klasöründe.",
+            "en": "Contract page filed under goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1500,
+          "hidden": {
+            "stress": 5
+          },
+          "stats": {
+            "joy": -2
+          }
+        },
+        "tr": "Arsa sahibinin avukatı da dördüncü maddeyi okudu, başka türlü. Konu arabulucuya gitti, ilk seans 1.500 Para.",
+        "en": "The landowner's lawyer read clause four too, differently. It went to mediation; first session, 1,500.",
+        "coach": [
+          {
+            "tr": "Aynı madde, iki yorum. Fatura tek.",
+            "en": "Same clause, two readings. One invoice.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cati": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "muteahhit_cati_bahcesi"
+          ]
+        }
+      },
+      "tr": "Çatıya ortak bir bahçe çizdirdin, maliyeti 900 Para. Arsa sahibi bahçenin başkanı olmak istedi.",
+      "en": "You had a shared rooftop garden drawn up for 900. The landowner asked to chair it.",
+      "coach": [
+        {
+          "tr": "Çatıda bahçe, bahçede başkan. Sıradaki talep yönetim kurulu.",
+          "en": "A garden on the roof, a chair in the garden. Next request: the board.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "kat karşılığı anlaşmada arsa sahibinin domates için daire değiştirmek istemesi",
+    "mechanism": "talepler katlanıyor",
+    "mechanismId": "escalation",
+    "punch": "domatesler güneşi sever, ben de severim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "madde"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

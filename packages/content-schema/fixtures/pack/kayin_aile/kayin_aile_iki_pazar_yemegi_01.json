@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kayin_aile_iki_pazar_yemegi_01",
+  "tags": [
+    "aile",
+    "kayin_aile"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kayin_aile": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Pazar saat birde yemek var. Kaçta geliyorsun? Birde gel.",
+      "en": "Sunday lunch, one o’clock. What time are you coming? Come at one."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Annem de pazar birde diyor. İkisi de “kısa bir öğle yemeği” diyor.",
+      "en": "My mom says Sunday at one too. Both are calling it “just a quick lunch.”",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikisi",
+      "tr": "İkisine de git, iki öğle",
+      "en": "Do both, two lunches",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sira",
+      "tr": "Haftaları sıraya koy",
+      "en": "Alternate the Sundays",
+      "pattern": "patience"
+    },
+    {
+      "id": "birlestir",
+      "tr": "İki aileyi tek sofrada topla",
+      "en": "Merge them into one lunch",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "ikisi": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": -5
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Birde bir sofra, üçte öbürü. Gün iki ana yemek ve bir hazımsızlıkla kapandı.",
+      "en": "One o’clock at one house, three at the other. The day ended with two main courses and one indigestion.",
+      "coach": [
+        {
+          "tr": "İki sofra, tek mide.",
+          "en": "Two tables. One stomach.",
+          "roast": true
+        }
+      ]
+    },
+    "sira": {
+      "effects": {
+        "meters": {
+          "momPressure": 4
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "pazar_sirasi"
+          ]
+        }
+      },
+      "tr": "Takvime işlendi: tek haftalar senin annen, çift haftalar onunki. Annen ilk tek haftanın hangisi olduğunu soruyor.",
+      "en": "It’s on the calendar: odd weeks your mom, even weeks theirs. Mom is already asking which week counts as odd.",
+      "coach": [
+        {
+          "tr": "Takvim kuruldu. Tartışma tek haftalara taşındı.",
+          "en": "Calendar set. The arguing moved to odd weeks.",
+          "roast": false
+        }
+      ]
+    },
+    "birlestir": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "meters": {
+            "momPressure": -3
+          },
+          "flags": {
+            "add": [
+              "aileler_pazar"
+            ]
+          }
+        },
+        "tr": "İki anne aynı sofrada tarif alıp verdi. Kısa öğle yemeği dört saat sürdü.",
+        "en": "Two moms, one table, recipes traded. The quick lunch lasted four hours.",
+        "coach": [
+          {
+            "tr": "Kısa yemek, dört saat.",
+            "en": "Quick lunch. Four hours.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "meters": {
+            "momPressure": 5
+          }
+        },
+        "tr": "İki anne aynı sofrada. Konu hangi evin daha yakın olduğuna geldi ve tatlıya kadar orada kaldı.",
+        "en": "Two moms, one table. The topic became whose house is closer. It stayed there until dessert.",
+        "coach": [
+          {
+            "tr": "Mesafe tartışması, iki saat. Yol tarifi çıkmadı.",
+            "en": "Two hours on distance. No directions resulted.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "domain wager payı başka olaylarda"
+  },
+  "intent": {
+    "setup": "iki anne aynı pazar aynı saatte öğle yemeğine çağırıyor",
+    "mechanism": "iki davet, iki saat, iki ana yemek sayımı",
+    "mechanismId": "count",
+    "punch": "ikisi de kısa bir öğle yemeği diyor",
+    "closer": "mide",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

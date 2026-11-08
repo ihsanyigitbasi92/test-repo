@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_zarf_sayimi_01",
+  "tags": [
+    "iliski",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 36
+    },
+    "flags": {
+      "all": [
+        "dugun_yapildi"
+      ],
+      "none": [
+        "zarf_sayildi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Zarflar burada, defter burada. Bu gece yazmazsak kim ne verdi unuturuz.",
+      "en": "Envelopes here, notebook here. If we don’t write down who gave what tonight, we’ll forget."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Dayının zarfında para yok, not var: “Benim zamanımda zarf düğün gecesi açılmazdı.”",
+      "en": "Your uncle’s envelope has no money. Just a note: “In my day, nobody opened these on the wedding night.”",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "yaz",
+      "tr": "Hepsini tek tek yaz",
+      "en": "Log every envelope",
+      "pattern": "patience"
+    },
+    {
+      "id": "balayi",
+      "tr": "Hepsini balayına ekle",
+      "en": "Put it all toward the honeymoon",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "dayi",
+      "tr": "Sabah dayını ara",
+      "en": "Call your uncle in the morning",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "yaz": {
+      "effects": {
+        "money": 6000,
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "zarf_sayildi",
+            "zarf_defteri"
+          ]
+        }
+      },
+      "tr": "Saat üçte bitti: 6.000 Para, otuz iki isim. Defter bir sonraki düğün için rafa kalktı.",
+      "en": "Done by three: 6,000 and thirty-two names. The notebook went on the shelf for the next wedding.",
+      "coach": [
+        {
+          "tr": "Otuz iki isim. Her biri bir gün geri sorulacak.",
+          "en": "Thirty-two names. Each one comes due someday.",
+          "roast": true
+        },
+        {
+          "tr": "Zarf sayısı: otuz iki.",
+          "en": "Envelope count: thirty-two.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "balayi": {
+      "effects": {
+        "money": 2500,
+        "stats": {
+          "joy": 5
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "flags": {
+          "add": [
+            "zarf_sayildi",
+            "balayi_uzadi"
+          ]
+        }
+      },
+      "tr": "Balayına iki gece eklendi. Kim ne verdi sorusu ileride annene kaldı.",
+      "en": "Two nights added to the honeymoon. Who-gave-what is now Mom’s problem, later.",
+      "coach": [
+        {
+          "tr": "İki gece eklendi, bir liste eksildi.",
+          "en": "Two nights added. One list missing.",
+          "roast": false
+        }
+      ]
+    },
+    "dayi": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 2000,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "zarf_sayildi"
+            ]
+          }
+        },
+        "tr": "Dayın güldü ve akşam 2.000 Para getirdi. Zarfı kapıda kendisi açtı.",
+        "en": "Your uncle laughed and brought 2,000 that evening. He opened the envelope himself, at the door.",
+        "coach": [
+          {
+            "tr": "Kapıda açılan zarf. Kuralı bozulmadı.",
+            "en": "An envelope opened at the door. His rule stands.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "zarf_sayildi"
+            ]
+          }
+        },
+        "tr": "Dayın “verdim, zarftan düşmüştür” dedi. Konu düğün videosu izlenerek kapatıldı.",
+        "en": "Your uncle said he’d put it in and it must have fallen out. The matter was closed by reviewing the wedding video.",
+        "coach": [
+          {
+            "tr": "Görüntü incelendi. Karar: belirsiz.",
+            "en": "Footage reviewed. Ruling: inconclusive.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dayi",
+    "slip": {
+      "tr": "İDDİA: Dayının zarfı boş kalır. — M.",
+      "en": "WAGER: Your uncle’s envelope stays empty. — M."
+    }
+  },
+  "intent": {
+    "setup": "düğün gecesi geç saatte hediye zarflarını saymak",
+    "mechanism": "dayının notu kuralı kelimesi kelimesine uyguluyor",
+    "mechanismId": "literalism",
+    "punch": "benim zamanımda zarf düğün gecesi açılmazdı",
+    "closer": "karar",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

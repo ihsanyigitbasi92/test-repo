@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_gizli_hesap_01",
+  "tags": [
+    "para",
+    "birikim",
+    "partner",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "money": {
+      "min": 3000
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Banka mektubu yanlışlıkla bana açıldı. Senin bir birikim hesabın varmış.",
+      "en": "I opened a bank letter by mistake. Apparently you have a savings account."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Adı da 'Acil'. Ne kadar acil, onu merak ediyorum.",
+      "en": "It's called 'Emergency.' I'd love to know how much of an emergency.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ortak",
+      "tr": "Hesabı ortak yap",
+      "en": "Make it a joint account",
+      "pattern": "generosity"
+    },
+    {
+      "id": "acikla",
+      "tr": "Acil durumlar için, de",
+      "en": "Say it's for emergencies",
+      "pattern": "pride"
+    },
+    {
+      "id": "uc",
+      "tr": "Üç hesap öner: senin, benim, ortak",
+      "en": "Propose yours, mine, and ours",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ortak": {
+      "effects": {
+        "money": 200,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "ortak_hesap"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Hesap ortak oldu, adı 'Acil'den 'Ev'e çevrildi. Partnerin ilk gün 200 Para ekledi.",
+      "en": "It's a joint account now, renamed from 'Emergency' to 'Home.' Your partner added 200 on day one.",
+      "coach": [
+        {
+          "tr": "Bir isim değişikliği, 200 Para katkı.",
+          "en": "One rename. One 200 deposit.",
+          "roast": false
+        }
+      ]
+    },
+    "acikla": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "gizli_hesap_tartismasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -3,
+            "memory": "gizli_hesap"
+          }
+        ]
+      },
+      "tr": "Partnerin 'ne kadar acil' sorusunu üç gün boyunca, farklı odalarda tekrar sordu.",
+      "en": "Your partner asked 'how much of an emergency' for three days, in different rooms.",
+      "coach": [
+        {
+          "tr": "Üç gün, beş oda, bir soru.",
+          "en": "Three days, five rooms, one question.",
+          "roast": true
+        }
+      ]
+    },
+    "uc": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "uc_hesap"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Üç hesap açıldı: senin, onun, ortak. Ortak hesabın adı konusunda henüz anlaşılamadı.",
+      "en": "Three accounts opened: yours, theirs, and a joint one. The joint one's name is still under negotiation.",
+      "coach": [
+        {
+          "tr": "Üç hesap. Biri isimsiz.",
+          "en": "Three accounts. One unnamed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "partnerin senin gizli birikim hesabını yanlışlıkla açılan mektuptan öğrenmesi",
+    "mechanism": "hesabın adı 'Acil' sorgusu",
+    "mechanismId": "deadpan_report",
+    "punch": "ne kadar acil, onu merak ediyorum",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "isim",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

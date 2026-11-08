@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_aci_seviyesi_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "restoran",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Acı seviyesi birden beşe. Beşi şef bile yemiyor, sadece menüde duruyor.",
+      "en": "Heat level's one to five. The chef won't even eat a five. It's just on the menu."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "smug",
+      "tr": "Dört diyenler genelde süt de istiyor. Söyleyeyim dedim.",
+      "en": "People who say four usually ask for milk too. Just so you know.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bes",
+      "tr": "Beş",
+      "en": "Five",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "iki",
+      "tr": "İki",
+      "en": "Two",
+      "pattern": "patience"
+    },
+    {
+      "id": "sutlu",
+      "tr": "Dört, yanında süt",
+      "en": "Four, with a glass of milk",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "bes": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "money": -180,
+          "flags": {
+            "add": [
+              "siparis_bes_aci"
+            ]
+          }
+        },
+        "tr": "Beşi bitirdin. Garson boş tabağını mutfağa götürüp şefe gösterdi.",
+        "en": "You finished the five. The waiter carried your empty plate back to show the chef.",
+        "coach": [
+          {
+            "tr": "Şefin yemediği tabak boş döndü.",
+            "en": "The plate the chef won't eat came back empty.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "health": -2,
+            "joy": -2
+          },
+          "money": -225,
+          "flags": {
+            "add": [
+              "siparis_bes_sut"
+            ]
+          }
+        },
+        "tr": "Üçüncü lokmada süt istedin. Garson sormadan iki bardak getirdi, ikincisi hesaba yazıldı.",
+        "en": "Third bite, you asked for milk. The waiter brought two glasses without asking. The second went on the bill.",
+        "coach": [
+          {
+            "tr": "Üç lokma, iki bardak süt. Beş hâlâ menüde.",
+            "en": "Three bites, two glasses of milk. Five is still on the menu.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "iki": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -180,
+        "flags": {
+          "add": [
+            "siparis_iki_aci"
+          ]
+        }
+      },
+      "tr": "İki geldi ve tam iki tadındaydı. Yan masa beş istedi, ikinci lokmada süt istediler.",
+      "en": "The two arrived and tasted exactly like a two. The next table ordered a five. They asked for milk on bite two.",
+      "coach": [
+        {
+          "tr": "İki dedin, iki geldi. Yan masa öğretici oldu.",
+          "en": "You said two, you got two. The next table was educational.",
+          "roast": false
+        }
+      ]
+    },
+    "sutlu": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -220,
+        "flags": {
+          "add": [
+            "siparis_dort_sutlu"
+          ]
+        }
+      },
+      "tr": "Dördü sütle bitirdin. Garson başını salladı, tahmini tutmuştu.",
+      "en": "You finished the four with the milk. The waiter nodded. Prediction confirmed.",
+      "coach": [
+        {
+          "tr": "Garsonun öngörüsü: tam isabet.",
+          "en": "Waiter forecast accuracy: perfect.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bes",
+    "slip": {
+      "tr": "İDDİA: Beş seni yener. — M.",
+      "en": "WAGER: Level five wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni restoranda birden beşe acı seviyesi seçmek",
+    "mechanism": "şefin bile yemediği seviye",
+    "mechanismId": "escalation",
+    "punch": "beşi şef bile yemiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "isabet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

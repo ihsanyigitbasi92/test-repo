@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_tek_konut_muafiyeti_01",
+  "tags": [
+    "para",
+    "vergi",
+    "emlak_vergisi",
+    "emekli",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 90
+    },
+    "housing": [
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tek konutu olan emeklilere emlak vergisi muafiyeti var. Başka taşınmazınız yok, değil mi?",
+      "en": "Retirees with a single home are exempt from property tax. You don't own anything else, right?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sistemde bir köy tarlasının on altıda biri görünüyor. Teknik olarak iki taşınmaz.",
+      "en": "The system shows one-sixteenth of a farm field. Technically, that's two properties.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "devret",
+      "tr": "Hisseni kardeşine devret",
+      "en": "Sign the share over to your sibling",
+      "pattern": "generosity",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "alive": true
+          }
+        }
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Muafiyetten vazgeç, öde",
+      "en": "Skip the exemption, pay",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Hissenin değerini belgele",
+      "en": "Document what the share is worth",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "devret": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "tarla_devredildi",
+            "emlak_muafiyeti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Tapu masrafı 150 Para. Hisse kardeşine geçti, muafiyet gelecek yıl başlıyor.",
+      "en": "Title fees: 150. The share went to your sibling. The exemption starts next year.",
+      "coach": [
+        {
+          "tr": "On altıda bir tarla, bir imza.",
+          "en": "One-sixteenth of a field, one signature.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "emlak_vergisi_odendi"
+          ]
+        }
+      },
+      "tr": "Emlak vergisi 700 Para ödendi. Tarlanın payına düşen kısmı 3 Para.",
+      "en": "Paid the 700 property tax. The field's share of it: three.",
+      "coach": [
+        {
+          "tr": "697 ev, 3 tarla.",
+          "en": "697 for the house, three for the field.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "emlak_muafiyeti"
+            ]
+          }
+        },
+        "tr": "Memur hissenin değerini görünce dosyaya 'ihmal edilebilir' yazdı. Muafiyet onaylandı.",
+        "en": "The clerk saw what the share was worth and wrote 'negligible' on the file. Exemption approved.",
+        "coach": [
+          {
+            "tr": "Tarla resmen önemsiz.",
+            "en": "The field is officially negligible.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -700,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "emlak_vergisi_odendi"
+            ]
+          }
+        },
+        "tr": "Mevzuat 'değer' değil 'hisse' diyor. Vergi 700 Para; tarlayı hiç görmedin bile.",
+        "en": "The rule says 'share,' not 'value.' Tax: 700. You've never even seen the field.",
+        "coach": [
+          {
+            "tr": "Görülmemiş tarla, görülmüş vergi.",
+            "en": "Unseen field. Very visible tax.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "emekli tek konut muafiyetinin miras kalan tarla hissesi yüzünden takılması",
+    "mechanism": "on altıda bir tarla ikinci taşınmaz sayılıyor",
+    "mechanismId": "bathos",
+    "punch": "teknik olarak iki taşınmaz",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "tarla",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Emekliye tek konut emlak vergisi muafiyeti TR uygulaması; EN'de genel 'senior property tax exemption' olarak okunur, oran ve kurum adı yok."
+  }
+}

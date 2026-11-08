@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kayin_aile_balkon_kapisi_01",
+  "tags": [
+    "aile",
+    "kayin_aile"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kayin_aile": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Babam balkon kapısını tamir etti. Artık kapanmıyor ama gıcırdamıyor da.",
+      "en": "Dad fixed the balcony door. It doesn’t close now, but it doesn’t squeak either."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Hafta sonu yine gelecekmiş. Alet çantasını burada bıraktı.",
+      "en": "He’s coming back this weekend. He left his toolbox here.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "usta",
+      "tr": "Sessizce usta çağır",
+      "en": "Quietly call a handyman",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "bekle",
+      "tr": "Hafta sonunu bekle",
+      "en": "Wait for the weekend",
+      "pattern": "patience"
+    },
+    {
+      "id": "birlikte",
+      "tr": "Onunla birlikte tamir et",
+      "en": "Fix it with him",
+      "pattern": "generosity",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "usta": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "gizli_usta"
+          ]
+        }
+      },
+      "tr": "Usta kapıyı yarım saatte düzeltti, 450 Para. Kayınpeder hafta sonu kapıya bakıp “oturmuş” dedi.",
+      "en": "A handyman fixed it in half an hour: 450. On the weekend, your father-in-law said the door had “settled.”",
+      "coach": [
+        {
+          "tr": "Ücret senden, takdir ona.",
+          "en": "You paid the fee. He took the credit.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -2,
+          "health": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "balkon_acik"
+          ]
+        }
+      },
+      "tr": "Balkon kapısı dört gün açık kaldı. Bir güvercin salonu baştan sona inceledi.",
+      "en": "The balcony door stayed open four days. A pigeon reviewed the living room.",
+      "coach": [
+        {
+          "tr": "Dört gün, bir ziyaretçi.",
+          "en": "Four days. One visitor.",
+          "roast": false
+        }
+      ]
+    },
+    "birlikte": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "brain": 1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "kayinpeder_cirak"
+            ]
+          }
+        },
+        "tr": "Menteşeyi birlikte değiştirdiniz ve kapı kapandı. Kayınpeder seni artık “çırağım” diye tanıtıyor.",
+        "en": "You replaced the hinge together and the door closed. He now introduces you as his apprentice.",
+        "coach": [
+          {
+            "tr": "Bir menteşe, bir unvan.",
+            "en": "One hinge. One job title.",
+            "roast": false
+          },
+          {
+            "tr": "Sayaçta bir menteşe.",
+            "en": "One hinge on the counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "İkiniz ayrı ayrı vida söktünüz. Kapı artık yalnızca dışarıdan kapanıyor.",
+        "en": "You each removed a different screw. The door now only closes from the outside.",
+        "coach": [
+          {
+            "tr": "Kapı yeni bir özellik kazandı.",
+            "en": "The door gained a feature.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "birlikte",
+    "slip": {
+      "tr": "İDDİA: İkiniz o kapıyı kapatamazsınız. — M.",
+      "en": "WAGER: The two of you won’t get that door shut. — M."
+    }
+  },
+  "intent": {
+    "setup": "kayınpeder balkon kapısını tamir edip bozuyor",
+    "mechanism": "tamir yeni bir arıza üretiyor",
+    "mechanismId": "reversal",
+    "punch": "kapanmıyor ama gıcırdamıyor da",
+    "closer": "unvan",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

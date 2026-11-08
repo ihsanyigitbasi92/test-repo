@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_damlayan_musluk_01",
+  "tags": [
+    "ev",
+    "ev",
+    "tamir",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Musluk mu damlıyor? Contadır. Videosu var, beş dakikalık iş.",
+      "en": "The faucet's dripping? It's the washer. There's a video. Five-minute job."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Ben gelemem, dizim. Ama videoyu ben de izledim.",
+      "en": "I can't come over, bad knee. But I watched the video too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kendin",
+      "tr": "Videoyla kendin tamir et",
+      "en": "Fix it yourself with the video",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Tesisatçı çağır, öde",
+      "en": "Call a plumber and pay",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kova",
+      "tr": "Altına kova koy",
+      "en": "Put a bucket under it",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "kendin": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 2
+          },
+          "money": -40,
+          "flags": {
+            "add": [
+              "musluk_tamir"
+            ]
+          }
+        },
+        "tr": "Contayı değiştirdin: 40 Para ve bir öğleden sonra. Musluk sustu.",
+        "en": "You replaced the washer. Forty and one afternoon. The faucet went quiet.",
+        "coach": [
+          {
+            "tr": "Beş dakikalık iş dört saat sürdü. Ama sustu.",
+            "en": "A five-minute job in four hours. But quiet.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -450,
+          "flags": {
+            "add": [
+              "musluk_tamir"
+            ]
+          }
+        },
+        "tr": "Videonun yarısında ana vana dönmez oldu. Gelen tesisatçı 450 Para aldı.",
+        "en": "Halfway through the video the main valve stopped turning. The plumber who came charged 450.",
+        "coach": [
+          {
+            "tr": "Video beş dakikaydı. Tesisatçı kırk.",
+            "en": "The video ran five minutes. The plumber ran forty.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -350,
+        "flags": {
+          "add": [
+            "musluk_tamir",
+            "tamir_fisi_bekliyor"
+          ]
+        }
+      },
+      "tr": "Tesisatçı yirmi dakikada bitirdi, 350 Para aldı. Fişi ev sahibine gösterdin; \"güzel iş\" dedi.",
+      "en": "The plumber finished in twenty minutes and charged 350. You showed the landlord the receipt. 'Nice work,' came the reply.",
+      "coach": [
+        {
+          "tr": "Fiş beğenildi. Ödenmedi.",
+          "en": "The receipt got a compliment. Not a refund.",
+          "roast": true
+        }
+      ]
+    },
+    "kova": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "musluk_damliyor"
+          ]
+        }
+      },
+      "tr": "Kovayı koydun. Gece damlaları saydın; altı yüzde uyudun.",
+      "en": "You set out a bucket. That night you counted drops and fell asleep at six hundred.",
+      "coach": [
+        {
+          "tr": "Kova her gün boşalıyor. Sorun dolu kalıyor.",
+          "en": "The bucket gets emptied daily. The problem stays full.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "damlayan musluk, ev sahibi video öneriyor",
+    "mechanism": "\"beş dakikalık iş\", \"ben de izledim\"",
+    "mechanismId": "understatement",
+    "punch": "videoyu ben de izledim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kova"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

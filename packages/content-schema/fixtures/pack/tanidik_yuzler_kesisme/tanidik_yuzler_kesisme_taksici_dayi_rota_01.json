@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tanidik_yuzler_kesisme_taksici_dayi_rota_01",
+  "tags": [
+    "tanidik_yuzler",
+    "taksici",
+    "dayi",
+    "yol",
+    "tanidik_yuzler_kesisme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tanidik_yuzler_kesisme": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Ben bu adamı tanıyorum. Mahalle takımında kaleciydi, hep sağ köşeye atlardı.",
+      "en": "I know this guy. Neighborhood team, goalkeeper. Always dove to the right."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "annoyed",
+      "tr": "Benim zamanımda sağ köşe tek doğru köşeydi. Sağdan dön.",
+      "en": "In my day, right was the only correct corner. Turn right.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Benim bir teorim var: sağdan dönen geç kalır.",
+      "en": "I have a theory. People who turn right arrive late.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "sec",
+      "tr": "Rotayı sen seç",
+      "en": "Pick the route yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "mac",
+      "tr": "Eski maçı sor",
+      "en": "Ask about the old match",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sus",
+      "tr": "Arkada sessiz otur",
+      "en": "Sit quietly in the back",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "sec": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 2
+            },
+            {
+              "role": "cabbie",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Ortadaki yolu seçtin, vaktinde vardınız. İkisi de \"benim yolumdu\" dedi.",
+        "en": "You picked the middle road. Right on time. Both of them claimed it was their route.",
+        "coach": [
+          {
+            "tr": "Doğru yol senin, tapusu onların.",
+            "en": "Your route. Their credit.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Seçtiğin yol kapalıydı. İkisi ilk kez bir konuda anlaştı: senin hatan.",
+        "en": "Your road was closed. For the first time ever, they agreed on something: your fault.",
+        "coach": [
+          {
+            "tr": "Yirmi yıllık rekabet, bir ortak düşmanla bitti.",
+            "en": "A twenty-year rivalry, ended by a common enemy.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "mac": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4
+          },
+          {
+            "role": "cabbie",
+            "affinity": 3,
+            "memory": "dayi_kaleci"
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_taksici_dost"
+          ]
+        }
+      },
+      "tr": "Maçı baştan anlattılar. Yirmi dakika geç vardın; taksimetre uzatmaları da saydı.",
+      "en": "They told the whole match. You arrived twenty minutes late. The meter counted extra time too.",
+      "coach": [
+        {
+          "tr": "Uzatma dakikaları ücretli.",
+          "en": "Extra time is billable.",
+          "roast": true
+        }
+      ]
+    },
+    "sus": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "memory": "dayi_kaleci"
+          }
+        ]
+      },
+      "tr": "Sustun. İkisi sağ ile sol arasında bir orta yol buldu: kırk dakikalık bir orta yol.",
+      "en": "You stayed quiet. They found a compromise between right and left: a forty-minute compromise.",
+      "coach": [
+        {
+          "tr": "Uzlaşının süresi: kırk dakika.",
+          "en": "Length of compromise: forty minutes.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sec",
+    "slip": {
+      "tr": "İDDİA: İki yol uzmanının arasında üçüncü yol kapalı çıkar. — M.",
+      "en": "WAGER: Between two route experts, route three is closed. — M."
+    }
+  },
+  "intent": {
+    "setup": "taksici dayının eski takım arkadaşı çıkıyor; rota kavgası",
+    "mechanism": "kaleci köşesi rota teorisine dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "sağdan dönen geç kalır",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "sure",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_kartla_kart_01",
+  "tags": [
+    "para",
+    "borc",
+    "kredi_karti",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Nakit avansla diğer kartınızı kapatabilirsiniz. İşlem ücreti ilk günden işler.",
+      "en": "You can pay off your other card with a cash advance. Fees start on day one."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Çok müşterimiz böyle yapıyor. Dört kartla yapan bile var.",
+      "en": "Lots of our customers do this. Some do it with four cards.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "avans",
+      "tr": "Avansla öbür kartı kapat",
+      "en": "Cash-advance the other card",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "tablo",
+      "tr": "Bütün borçları tabloya dök",
+      "en": "Put every debt on one sheet",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "asgari",
+      "tr": "Bu ay asgariyi öde",
+      "en": "Pay the minimums this month",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "avans": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "nakit_avans"
+          ]
+        }
+      },
+      "tr": "Bir kartın borcu öbürüne taşındı, araya 180 Para işlem ücreti girdi. Toplam aynı, adres yeni.",
+      "en": "The debt moved from one card to the other, with a 180 fee in between. Same total, new address.",
+      "coach": [
+        {
+          "tr": "İki kart, bir borç, 180 Para nakliye.",
+          "en": "Two cards, one debt, and a 180 moving fee.",
+          "roast": true
+        }
+      ]
+    },
+    "tablo": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "brain": 3,
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "borc_tablosu"
+            ]
+          }
+        },
+        "tr": "Tablo dört satır çıktı. En küçüğü bu ay kapanıyor, gerisi sırada.",
+        "en": "The sheet came to four rows. The smallest closes this month. The rest are in line.",
+        "coach": [
+          {
+            "tr": "Dört satır. Biri bu ay siliniyor.",
+            "en": "Four rows. One goes this month.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "borc_tablosu"
+            ]
+          },
+          "bailoutCheck": true
+        },
+        "tr": "Tablo yedi satır çıktı, ikisini unutmuşsun. Dosyayı kaydetmeden kapattın.",
+        "en": "The sheet came to seven rows, two of which you'd forgotten. You closed the file without saving.",
+        "coach": [
+          {
+            "tr": "Yedi satır. İkisi sürpriz.",
+            "en": "Seven rows. Two were surprises.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "asgari": {
+      "effects": {
+        "money": -1100,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "İki karta asgari ödeme yapıldı: 1.100 Para. Toplam borç bu ay biraz azaldı, çok az.",
+      "en": "Minimums paid on both cards: 1,100. The total went down this month. A little. Very little.",
+      "coach": [
+        {
+          "tr": "1.100 Para gitti. Borç fark etmedi.",
+          "en": "1,100 out the door. The debt barely noticed.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tablo",
+    "slip": {
+      "tr": "İDDİA: Tablo beklediğinden uzun çıkar. — M.",
+      "en": "WAGER: The sheet runs longer than you think. — M."
+    }
+  },
+  "intent": {
+    "setup": "bir kredi kartının borcunu öbürünün nakit avansıyla kapatma teklifi",
+    "mechanism": "borçlar sayılıyor: satır, ücret, kart",
+    "mechanismId": "count",
+    "punch": "dört kartla yapan bile var",
+    "lift": "dört satır, biri bu ay siliniyor",
+    "target": "decision",
+    "closer": "satir",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

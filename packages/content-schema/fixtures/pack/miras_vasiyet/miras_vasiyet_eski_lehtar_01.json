@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "miras_vasiyet_eski_lehtar_01",
+  "tags": [
+    "yaslilik",
+    "sigorta",
+    "eski_partner",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hayat poliçenizi güncelliyoruz. Lehtar satırında hâlâ bir isim var.",
+      "en": "We're updating your life policy. There's still a name on the beneficiary line."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "On sekiz yıl önceki partneriniz. Kendisine her yıl prim hatırlatması gidiyormuş.",
+      "en": "Your partner from eighteen years ago. They get a premium reminder every year, apparently.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "degistir",
+      "tr": "Lehtarı hemen değiştir",
+      "en": "Change it right now",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Eski partneri arayıp söyle",
+      "en": "Call your ex and tell them",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Kalsın, kimseye zararı yok",
+      "en": "Leave it. It's harmless",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "degistir": {
+      "effects": {
+        "money": -120,
+        "flags": {
+          "add": [
+            "lehtar_guncel"
+          ]
+        },
+        "glossary": "lehtar"
+      },
+      "tr": "Form üç sayfa, ücreti 120 Para. Kalem yeni lehtar satırının üstünde bir süre bekledi.",
+      "en": "Three pages, a 120 fee. The pen hovered over the new beneficiary line for a while.",
+      "coach": [
+        {
+          "tr": "On sekiz yıl gecikmeli bir düzeltme. Form gerekçe sormuyor.",
+          "en": "An eighteen-year-late correction. The form doesn't ask why.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 4000,
+        "effects": {
+          "flags": {
+            "add": [
+              "lehtar_guncel"
+            ]
+          },
+          "npc": [
+            {
+              "role": "ex",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Açtı, güldü. \"Ben de seni yazmıştım, siliyorum\" dedi; ikiniz de sildiniz.",
+        "en": "They picked up and laughed. \"You're still on mine too. Deleting.\" You both deleted.",
+        "coach": [
+          {
+            "tr": "Karşılıklı iki silme. Temiz kapanış.",
+            "en": "Two deletions, both directions. Clean close.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "flags": {
+            "add": [
+              "lehtar_eski_kaldi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "ex",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Açmadı. Sesli mesajın \"Merhaba, poliçe konusunda\" diye başladı ve orada kaldı.",
+        "en": "No answer. Your voicemail began \"Hi, it's about the policy\" and stopped there.",
+        "coach": [
+          {
+            "tr": "Yarım bir sesli mesaj. Poliçe hâlâ aynı.",
+            "en": "Half a voicemail. Policy unchanged.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "flags": {
+          "add": [
+            "lehtar_eski_kaldi"
+          ]
+        }
+      },
+      "tr": "Değiştirmedin. Poliçe, eski partnerine her yıl \"iyi ki varsınız\" kartı göndermeye devam ediyor.",
+      "en": "You left it. The policy keeps sending your ex a yearly \"so glad you're with us\" card.",
+      "coach": [
+        {
+          "tr": "Sen unuttun, poliçe unutmadı. Her yıl bir kart.",
+          "en": "You forgot. The policy didn't. One card a year.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "hayat poliçesinde lehtar hâlâ eski partner",
+    "mechanism": "eski partner yıllardır hatırlatma alıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "her yıl prim hatırlatması",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "kart",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

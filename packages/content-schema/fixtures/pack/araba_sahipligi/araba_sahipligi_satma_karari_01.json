@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_satma_karari_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 68,
+      "max": 85
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kilometre yüksek ama araba bakımlı. Hikâyesi var gibi.",
+      "en": "High mileage, but well kept. Feels like it has a story."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Hikâyeyi fiyattan düşebilir miyiz? Ben hikâye almaya gelmedim.",
+      "en": "Can we take the story off the price? I didn't come to buy a story.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sat",
+      "tr": "Sat, vedalaş",
+      "en": "Sell it, say goodbye",
+      "pattern": "patience"
+    },
+    {
+      "id": "tut",
+      "tr": "Satmaktan vazgeç",
+      "en": "Change your mind",
+      "pattern": "pride"
+    },
+    {
+      "id": "hediye",
+      "tr": "Çocuğuna ver",
+      "en": "Give it to your child",
+      "pattern": "generosity",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "sat": {
+      "effects": {
+        "money": 3800,
+        "stats": {
+          "joy": -2
+        },
+        "status": {
+          "assets": {
+            "remove": [
+              "araba"
+            ]
+          }
+        },
+        "flags": {
+          "add": [
+            "araba_satildi"
+          ],
+          "remove": [
+            "araba_var"
+          ]
+        }
+      },
+      "tr": "Araba 3.800 Para’ya gitti. Torpidodaki yirmi yıllık otopark fişlerini alıcıya bırakmadın.",
+      "en": "The car went for 3,800. You kept the twenty years of parking stubs from the glovebox.",
+      "coach": [
+        {
+          "tr": "Yirmi yıl, 3.800 Para, bir avuç fiş.",
+          "en": "Twenty years, 3,800, one fistful of stubs.",
+          "roast": false
+        }
+      ]
+    },
+    "tut": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "araba_satilmadi"
+          ]
+        }
+      },
+      "tr": "Alıcıya çay verip yolcu ettin. Araba aynı yerde, aynı açıyla park hâlinde kaldı.",
+      "en": "You gave the buyer tea and sent them off. The car stayed put, parked at exactly the same angle.",
+      "coach": [
+        {
+          "tr": "Araba kaldı. Açısı da.",
+          "en": "The car stays. So does the angle.",
+          "roast": false
+        }
+      ]
+    },
+    "hediye": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "status": {
+          "assets": {
+            "remove": [
+              "araba"
+            ]
+          }
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "araba_cocuga"
+          ],
+          "remove": [
+            "araba_var"
+          ]
+        }
+      },
+      "tr": "Anahtarı çocuğuna verdin. Koltuğu ilk gün geri çekti; aynayı senin açına bıraktı.",
+      "en": "You handed your child the keys. They pushed the seat back on day one, but left the mirror at your angle.",
+      "coach": [
+        {
+          "tr": "Ayna aynı açıda. Araba yeni elde.",
+          "en": "Mirror untouched. Car in new hands.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddiaya uygun değil"
+  },
+  "intent": {
+    "setup": "ileri yaşta yıllardır kullanılan arabayı satmaya karar vermek",
+    "mechanism": "alıcı hikâyeyi fiyattan düşmek istiyor",
+    "mechanismId": "literalism",
+    "punch": "ben hikâye almaya gelmedim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "fis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

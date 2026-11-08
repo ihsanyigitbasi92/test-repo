@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kucuk_rahatsizliklar_dis_sikma_01",
+  "tags": [
+    "saglik",
+    "kucuk_hastalik",
+    "stres",
+    "kucuk_rahatsizliklar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "kucuk_rahatsizliklar": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 33,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Gece dişlerini sıkıyorsun. Ses çıkıyor. Ceviz kırar gibi.",
+      "en": "You grind your teeth at night. It makes a sound. Like cracking walnuts."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Gece plağı yaparız. İki haftada hazır olur.",
+      "en": "We'll fit you for a night guard. Ready in two weeks.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "plak",
+      "tr": "Gece plağı yaptır",
+      "en": "Get the night guard",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "gecer",
+      "tr": "Stres geçince geçer de",
+      "en": "Say it'll stop when the stress does",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "liste",
+      "tr": "Stresinin listesini çıkar",
+      "en": "List what's stressing you",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "plak": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "health": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "diagnosis": "dis_sikma",
+        "flags": {
+          "add": [
+            "gece_plagi"
+          ]
+        }
+      },
+      "tr": "Plak iki hafta sonra geldi. Partnerin ceviz sesinin hafif bir ıslığa dönüştüğünü bildirdi.",
+      "en": "Two weeks later the guard arrived. Your partner reports the walnut sound has become a faint whistle.",
+      "coach": [
+        {
+          "tr": "900 Para’ya cevizden ıslığa geçiş. Orkestra küçüldü.",
+          "en": "900 to downgrade from walnuts to whistling. The orchestra shrank.",
+          "roast": true
+        },
+        {
+          "tr": "Stres sayacı iki indi.",
+          "en": "Stress counter down two.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "gecer": {
+      "effects": {
+        "stats": {
+          "health": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "dis_sikma_ertelendi"
+          ]
+        }
+      },
+      "tr": "Stres geçmedi. Altı ay sonra diş hekimi aynı cümleyi daha büyük bir faturayla kurdu.",
+      "en": "The stress did not stop. Six months later the dentist said the same thing, with a bigger bill.",
+      "coach": [
+        {
+          "tr": "Altı ay geçti. Geçmesi beklenen geçmedi.",
+          "en": "Six months passed. The thing that was supposed to pass did not.",
+          "roast": true
+        }
+      ]
+    },
+    "liste": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "flags": {
+          "add": [
+            "stres_listesi"
+          ]
+        }
+      },
+      "tr": "Listeyi yazdın: on dokuz madde. Dokuzu işle ilgili, biri ceviz sesiyle.",
+      "en": "You wrote the list: nineteen items. Nine about work. One about the walnut sound.",
+      "coach": [
+        {
+          "tr": "On dokuz madde. Listenin kendisi yirminci.",
+          "en": "Nineteen items. The list itself is item twenty.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "partnerin gece diş sıkma sesini fark etmesi",
+    "mechanism": "partner sesi kuru kuru raporluyor: ceviz kırar gibi",
+    "mechanismId": "deadpan_report",
+    "punch": "ceviz kırar gibi",
+    "lift": "stres sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "liste"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

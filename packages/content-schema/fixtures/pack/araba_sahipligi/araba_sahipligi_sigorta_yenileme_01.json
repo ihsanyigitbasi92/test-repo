@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "araba_sahipligi_sigorta_yenileme_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "evrak",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "TEMKİN KASKO VE SİGORTA (kurgusal)",
+      "en": "STEADYHAND MOTOR INSURANCE (fictional)"
+    },
+    "body": {
+      "tr": "Değerli sigortalımız, hasarsızlık indiriminiz korunmuştur. Poliçe priminiz piyasa koşullarına göre güncellenmiştir.",
+      "en": "Dear policyholder, your no-claims discount has been preserved. Your premium has been updated in line with market conditions."
+    },
+    "translate": {
+      "tr": {
+        "from": "priminiz güncellenmiştir",
+        "to": "indirim kaldı, sen daha çok ödüyorsun"
+      },
+      "en": {
+        "from": "your premium has been updated",
+        "to": "you kept the discount and pay more anyway"
+      }
+    },
+    "glossaryKey": "prim_guncelleme"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Yenileme otomatik. Siz hiçbir şey yapmayın, biz her şeyi yaparız.",
+      "en": "Renewal is automatic. You don't do a thing. We do everything."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Ödemeyi de biz çekeriz. Kolaylık bizden.",
+      "en": "We take the payment too. Convenience is on us.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "karsilastir",
+      "tr": "Üç teklif topla",
+      "en": "Gather three quotes",
+      "pattern": "patience"
+    },
+    {
+      "id": "otomatik",
+      "tr": "Otomatik yenilensin",
+      "en": "Let it auto-renew",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Arayıp itiraz et",
+      "en": "Call and push back",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "karsilastir": {
+      "effects": {
+        "money": -1350,
+        "hidden": {
+          "stress": 2
+        },
+        "glossary": "prim_guncelleme",
+        "flags": {
+          "add": [
+            "sigorta_degisti"
+          ]
+        }
+      },
+      "tr": "İki gün, üç teklif. Yeni şirket 1.350 Para’ya yaptı; eski şirket ayrılışını “üzüntüyle” onayladı.",
+      "en": "Two days, three quotes. The new insurer did it for 1,350. The old one confirmed your departure “with regret.”",
+      "coach": [
+        {
+          "tr": "Üç teklif, iki gün, bir veda mektubu.",
+          "en": "Three quotes, two days, one farewell letter.",
+          "roast": false
+        }
+      ]
+    },
+    "otomatik": {
+      "effects": {
+        "money": -1900,
+        "stats": {
+          "joy": 1
+        },
+        "glossary": "prim_guncelleme"
+      },
+      "tr": "Otomatik yenilendi: 1.900 Para. Ekte bir broşür vardı: “Sadakatiniz için teşekkürler.”",
+      "en": "Auto-renewed at 1,900. A leaflet came with it: “Thank you for your loyalty.”",
+      "coach": [
+        {
+          "tr": "Sadakat 550 Para fazlaya geldi. Teşekkür dahil.",
+          "en": "Loyalty cost 550 extra. Thank-you included.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1500,
+          "meters": {
+            "ego": 2
+          },
+          "glossary": "prim_guncelleme"
+        },
+        "tr": "Telefonda yirmi dakika bekledin. Temsilci “sizin için özel” deyip 400 Para indirdi.",
+        "en": "Twenty minutes on hold. The rep said “just for you” and knocked off 400.",
+        "coach": [
+          {
+            "tr": "Yirmi dakika, 400 Para. Dakikası yirmi.",
+            "en": "Twenty minutes, 400 off. Twenty a minute.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -1900,
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "prim_guncelleme"
+        },
+        "tr": "Temsilci anlayışla dinledi, sistemin “değişikliğe kapalı” olduğunu üzüntüyle bildirdi.",
+        "en": "The rep listened with great understanding and regretfully reported that the system was “closed to changes.”",
+        "coach": [
+          {
+            "tr": "Anlayış bol. Sistem kapalı.",
+            "en": "Understanding: plentiful. System: closed.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "kurgusal araç sigortası yenileme yazısı",
+    "mechanism": "\"prim güncellendi\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "hasarsızlık indirimi korundu, prim yine arttı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sadakat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

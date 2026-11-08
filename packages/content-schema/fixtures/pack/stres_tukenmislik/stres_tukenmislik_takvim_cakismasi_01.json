@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "stres_tukenmislik_takvim_cakismasi_01",
+  "tags": [
+    "saglik",
+    "is",
+    "stres",
+    "stres_tukenmislik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "stres_tukenmislik": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "typing",
+      "tr": "Saat ikideki toplantı üçe alındı, üçteki ikiye. İkisine de davetlisin.",
+      "en": "The two o'clock moved to three, and the three moved to two. You're invited to both."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Bir de dörtte \"kısa senkron\" var. Kısa dediklerine bakma.",
+      "en": "There's also a \"quick sync\" at four. Don't trust the \"quick.\""
+    }
+  ],
+  "choices": [
+    {
+      "id": "yeniden",
+      "tr": "Hepsini yeniden planla",
+      "en": "Reschedule all of it",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ikisine",
+      "tr": "İkisine birden bağlan",
+      "en": "Join both at once",
+      "pattern": "overwork"
+    },
+    {
+      "id": "birini_birak",
+      "tr": "Birini sessizce reddet",
+      "en": "Quietly decline one",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "yeniden": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "stres_takvim_duzeldi"
+            ]
+          }
+        },
+        "tr": "Üç toplantıyı tek mesajla yeniden dizdin. Herkes kabul etti, biri teşekkür bile etti.",
+        "en": "One message, three meetings, new order. Everyone accepted. Someone even said thanks.",
+        "coach": [
+          {
+            "tr": "Üç toplantı, bir mesaj, sıfır çakışma.",
+            "en": "Three meetings, one message, zero overlap.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "stres_hizalama_toplantisi"
+            ]
+          }
+        },
+        "tr": "Yeni planın dördüncü bir toplantı doğurdu: \"Takvim hizalama.\" Düzenleyen sensin.",
+        "en": "Your new plan spawned a fourth meeting: \"Calendar alignment.\" You're the organizer.",
+        "coach": [
+          {
+            "tr": "Toplantı azaltma toplantısı. Ev sahibi sen.",
+            "en": "A meeting to reduce meetings. Hosted by you.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ikisine": {
+      "effects": {
+        "stats": {
+          "health": -1
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "stres_cift_kulaklik"
+          ]
+        }
+      },
+      "tr": "Bir kulağın bir toplantıda, öteki ötekindeydi. İkisinde de \"Sen ne düşünüyorsun?\" diye soruldu.",
+      "en": "One ear in each meeting. Both of them asked, \"What do you think?\"",
+      "coach": [
+        {
+          "tr": "İki toplantıya katıldın. Tutanaklara göre hiçbirinde yoktun.",
+          "en": "You attended two meetings. The minutes say neither.",
+          "roast": true
+        }
+      ]
+    },
+    "birini_birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "stres_red_tusu"
+          ]
+        }
+      },
+      "tr": "Dörtteki \"kısa senkron\"u reddettin. Kırk beş dakika sürmüş, kimse seni sormamış.",
+      "en": "You declined the four o'clock \"quick sync.\" It ran forty-five minutes. Nobody asked where you were.",
+      "coach": [
+        {
+          "tr": "Kırk beş dakika geri geldi. Faturası çıkmadı.",
+          "en": "Forty-five minutes back. No invoice attached.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yeniden",
+    "slip": {
+      "tr": "İDDİA: Takvim bu turu alır. — M.",
+      "en": "WAGER: The calendar takes this round. — M."
+    }
+  },
+  "intent": {
+    "setup": "takvimde toplantıların yer değiştirip çakışması, ikisine birden davetli olmak",
+    "mechanism": "saatler yer değiştiriyor, kısa senkron kısa değil",
+    "mechanismId": "reversal",
+    "punch": "kısa dediklerine bakma",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tutanak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

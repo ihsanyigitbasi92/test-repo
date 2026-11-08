@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "flort_tanisma_kosu_grubu_01",
+  "tags": [
+    "iliski",
+    "flort",
+    "flort_tanisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "flort_tanisma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    },
+    "flags": {
+      "none": [
+        "sevgili"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Pazar on kilometre koşuyoruz. Sen de geliyorsun, değil mi? Grupta en hevesli sensin.",
+      "en": "Sunday we're running ten K. You're coming, right? You're the keenest one in the group."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "İlk beşte hep tempoyu düşürürüm. Yanımda koşarsın.",
+      "en": "I always ease off for the first five. You can run with me.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "On kilometreyi koş",
+      "en": "Run the full ten",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "itiraf",
+      "tr": "Gruba neden katıldığını söyle",
+      "en": "Admit why you really joined",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "bahane",
+      "tr": "Dizini bahane et",
+      "en": "Blame your knee",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": 4,
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "flort"
+            ]
+          }
+        },
+        "tr": "Kırk dakika yan yana koştunuz, sonra yirmi dakika tek başına. Bitişte su ikram edildi, numara da.",
+        "en": "Forty minutes side by side, then twenty on your own. At the finish: water, and a number.",
+        "coach": [
+          {
+            "tr": "On kilometre, bir numara. Kilometre başına ucuz.",
+            "en": "Ten kilometers, one number. Per kilometer, a bargain.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef defterinde on kilometre.",
+            "en": "Ten kilometers in the goal log.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": -3,
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 4
+          }
+        },
+        "tr": "Altıncı kilometrede kaldırıma oturdun. Kişi bitişten sonra dönüp seni buldu, yanında başka bir koşucuyla.",
+        "en": "At kilometer six you sat on the curb. They came back for you after finishing, with another runner.",
+        "coach": [
+          {
+            "tr": "Altı kilometre sende. Kalan dördü başkasıyla koşuldu.",
+            "en": "Six kilometers were yours. The other four were run by someone else.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "cringe": 5
+        },
+        "flags": {
+          "add": [
+            "flort"
+          ]
+        }
+      },
+      "tr": "Isınmada söyledin. Kişi güldü, 'biliyordum' dedi, pazar koşusu kahveye çevrildi.",
+      "en": "You told them during warm-up. They laughed, said 'I know,' and swapped Sunday's run for coffee.",
+      "coach": [
+        {
+          "tr": "Antrenman programı iptal. Bitişe kestirme.",
+          "en": "Training plan cancelled. Shortcut to the finish line.",
+          "roast": false
+        }
+      ]
+    },
+    "bahane": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "kosu_bahanesi"
+          ]
+        }
+      },
+      "tr": "Dizini bahane ettin. Kişi fizyoterapist bir arkadaşının numarasını gönderdi, başka numara gelmedi.",
+      "en": "You blamed your knee. They sent you the number of a physio friend. No other number followed.",
+      "coach": [
+        {
+          "tr": "Bir numara geldi. Yanlış uzmanlıkta.",
+          "en": "You did get a number. Wrong specialty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: Altıncı kilometrede oturursun. — M.",
+      "en": "WAGER: You'll be sitting down by kilometer six. — M."
+    }
+  },
+  "intent": {
+    "setup": "sırf biri için katılınan koşu grubunda on kilometre daveti",
+    "mechanism": "beklenen numara yerine fizyoterapist numarası",
+    "mechanismId": "reversal",
+    "punch": "numara geldi, yanlış uzmanlıkta",
+    "lift": "hedef defterinde on kilometre",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kilometre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_bos_yuva_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 58
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "child": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Oda boşaldı. Ne yapalım orayı? Ben hobi odası diyorum.",
+      "en": "The room’s empty. What do we do with it? I’m thinking hobby room."
+    },
+    {
+      "speaker": "child",
+      "avatar": "happy",
+      "tr": "Odamı değiştirmeyin ama. Arada gelirim. Çamaşırla.",
+      "en": "Don’t change my room, though. I’ll visit. With laundry.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "hobi",
+      "tr": "Hobi odası yap",
+      "en": "Make it a hobby room",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "koru",
+      "tr": "Odayı olduğu gibi bırak",
+      "en": "Leave it exactly as it is",
+      "pattern": "patience"
+    },
+    {
+      "id": "kira",
+      "tr": "Odayı kiraya ver",
+      "en": "Rent the room out",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "hobi": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "hobi_odasi",
+            "bos_yuva"
+          ]
+        }
+      },
+      "tr": "Oda hobi odası oldu: raf ve masa 600 Para. Çocuğun ilk ziyarette çamaşırını oraya serdi.",
+      "en": "It’s a hobby room now: 600 on shelves and a desk. On the first visit, your kid hung laundry in it.",
+      "coach": [
+        {
+          "tr": "Hobi odası, ayda bir çamaşırhane.",
+          "en": "Hobby room. Monthly laundromat.",
+          "roast": false
+        }
+      ]
+    },
+    "koru": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "bos_yuva"
+          ]
+        }
+      },
+      "tr": "Oda aynı kaldı, posterler dahil. Çocuğun ayda iki kez geliyor, sepetiyle.",
+      "en": "The room stays as is, posters and all. Your kid visits twice a month. With a hamper.",
+      "coach": [
+        {
+          "tr": "Ayda iki ziyaret, iki sepet.",
+          "en": "Two visits a month. Two hampers.",
+          "roast": false
+        }
+      ]
+    },
+    "kira": {
+      "effects": {
+        "money": 900,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "oda_kiracisi",
+            "bos_yuva"
+          ]
+        }
+      },
+      "tr": "Odayı bir yüksek lisans öğrencisine verdiniz, ayda 900 Para. Çamaşır makinesi artık üç kişinin.",
+      "en": "You rented the room to a grad student, 900 a month. The washing machine now serves three people.",
+      "coach": [
+        {
+          "tr": "Kira geliri 900. Makine sırası uzun.",
+          "en": "Rental income: 900. Laundry queue: long.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "son çocuk evden ayrılınca boş kalan oda",
+    "mechanism": "çamaşır her dalda geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "arada gelirim, çamaşırla",
+    "closer": "sepet",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

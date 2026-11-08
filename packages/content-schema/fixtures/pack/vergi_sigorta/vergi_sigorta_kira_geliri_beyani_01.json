@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_kira_geliri_beyani_01",
+  "tags": [
+    "para",
+    "vergi",
+    "beyanname",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Küçük daireyi kiraya verdik ya. Onu beyan etmemiz gerekiyor, biliyorsun.",
+      "en": "We rented out the studio, remember. That has to go on the tax return, you know."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Geçen yıl 'kolay' demiştin. Beyanname o günden beri masada, kolay kolay duruyor.",
+      "en": "Last year you said it was 'easy.' The form's been sitting on the table ever since, looking easy.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kendin",
+      "tr": "Beyannameyi kendin doldur",
+      "en": "Fill it out yourself",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "muhasebeci",
+      "tr": "Muhasebeciye ver",
+      "en": "Hand it to an accountant",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "partner",
+      "tr": "Partnerine bırak",
+      "en": "Leave it to your partner",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kendin": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1800,
+          "stats": {
+            "brain": 3,
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "kira_geliri_beyan"
+            ]
+          }
+        },
+        "tr": "Beyanname iki akşamda bitti. Ödenecek vergi 1.800 Para, iki taksit.",
+        "en": "Two evenings and the return was done. Tax due: 1,800, in two installments.",
+        "coach": [
+          {
+            "tr": "İki akşam, iki taksit.",
+            "en": "Two evenings, two installments.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1950,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kira_geliri_beyan",
+              "duzeltme_beyani"
+            ]
+          },
+          "glossary": "duzeltme_beyani"
+        },
+        "tr": "Giderleri yanlış satıra yazdın. Düzeltme beyannamesi 150 Para fark çıkardı.",
+        "en": "You put expenses on the wrong line. The corrected return came out 150 higher.",
+        "coach": [
+          {
+            "tr": "Bir satır aşağı, 150 Para yukarı.",
+            "en": "One line down, 150 up.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "muhasebeci": {
+      "effects": {
+        "money": -2300,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "kira_geliri_beyan"
+          ]
+        }
+      },
+      "tr": "Muhasebeci beyannameyi yirmi dakikada verdi, 500 Para aldı. Vergi yine 1.800.",
+      "en": "The accountant filed it in twenty minutes and charged 500. The tax was still 1,800.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika, 500 Para.",
+          "en": "Twenty minutes, 500.",
+          "roast": false
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "money": -1800,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kira_geliri_beyan"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Beyanname verildi. Partnerin ertesi sabah kahvaltıda iki kez 'kolaymış' dedi.",
+      "en": "Return filed. Next morning at breakfast, your partner said 'easy, huh' twice.",
+      "coach": [
+        {
+          "tr": "'Kolay' sözcüğü sahibine döndü.",
+          "en": "'Easy' found its way home.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "kiraya verilen ikinci dairenin kira gelirini ilk kez beyan etmek",
+    "mechanism": "'kolay' sözü bir yıl masada bekliyor",
+    "mechanismId": "understatement",
+    "punch": "kolay kolay duruyor",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "kolay",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

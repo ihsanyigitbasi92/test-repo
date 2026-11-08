@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gec_ask_yalnizlik_tek_bilet_sinema_01",
+  "tags": [
+    "iliski",
+    "gec_ask_yalnizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "gec_ask_yalnizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Tek kişi mi? Tek kişilik en iyi yer G7. Yanında da bir tek var.",
+      "en": "Just one? Best single seat is G7. There’s another single right next to it."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Mısırın büyüğünü aldım. Yanlışlıkla. Yardım eder misin?",
+      "en": "I got the large popcorn. By mistake. Want to help?",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "misir",
+      "tr": "Mısıra ortak ol",
+      "en": "Help with the popcorn",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sessiz",
+      "tr": "Filmi sessizce izle",
+      "en": "Just watch the film",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "sohbet",
+      "tr": "Çıkışta film hakkında konuş",
+      "en": "Talk about it after",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "misir": {
+      "effects": {
+        "stats": {
+          "joy": 3,
+          "health": -1
+        }
+      },
+      "tr": "Büyük mısır filmden önce bitti. Jenerikte ikiniz de aynı yerde güldünüz.",
+      "en": "The large popcorn ran out before the film did. You both laughed at the same line in the credits.",
+      "coach": [
+        {
+          "tr": "Yarım mısır, tam film.",
+          "en": "Half a popcorn. A whole film.",
+          "roast": false
+        }
+      ]
+    },
+    "sessiz": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -3
+        }
+      },
+      "tr": "İki saat film. Yorum yapan yok, dirsek atan yok.",
+      "en": "Two hours of film. No commentary, no elbows.",
+      "coach": [
+        {
+          "tr": "İki saat, kolçak tamamen senin.",
+          "en": "Two hours. The armrest entirely yours.",
+          "roast": false
+        }
+      ]
+    },
+    "sohbet": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5,
+            "charm": 1
+          },
+          "flags": {
+            "add": [
+              "sinema_arkadasi",
+              "flort"
+            ]
+          }
+        },
+        "tr": "Çıkışta yarım saat konuştunuz. Bir sonraki filmin seansı kararlaştırıldı.",
+        "en": "Half an hour of talk outside. You agreed on the next showtime.",
+        "coach": [
+          {
+            "tr": "Bir sonraki seans: iki bilet.",
+            "en": "Next showtime: two tickets.",
+            "roast": false
+          },
+          {
+            "tr": "Sayaç kıpırdadı.",
+            "en": "The counter moved.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          }
+        },
+        "tr": "Filmi ikiniz farklı anlamışsınız. Tartışma otoparka kadar sürdü, numara alınmadı.",
+        "en": "You’d understood two different films. The debate lasted to the parking lot. No numbers exchanged.",
+        "coach": [
+          {
+            "tr": "Aynı salon, iki ayrı film.",
+            "en": "Same theater. Two different movies.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sohbet",
+    "slip": {
+      "tr": "İDDİA: Çıkıştaki sohbet otoparkta biter. — M.",
+      "en": "WAGER: The chat dies in the parking lot. — M."
+    }
+  },
+  "intent": {
+    "setup": "tek başına sinemaya gitmek, yan koltukta da tek biri",
+    "mechanism": "gişe ve mısır düz anlatılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "mısırın büyüğünü aldım, yanlışlıkla",
+    "closer": "seans",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

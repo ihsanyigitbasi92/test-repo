@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_teacher_fotokopi_kuyrugu_01",
+  "tags": [
+    "kariyer",
+    "ogretmen",
+    "kariyer_teacher"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_teacher": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "teacher"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Ben bir ara vereyim mi? Bende sadece 340 sayfa kaldı.",
+      "en": "Want me to pause? I've only got 340 pages left."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Bir de iki taraflı. Makine iki taraflıda uzun düşünüyor.",
+      "en": "Double-sided, too. The machine thinks hard about double-sided."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Arkadaşlar, zil çaldı. Bir de kâğıt bitti, bilginize.",
+      "en": "Folks, that's the bell. Also, we're out of paper. FYI.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sırada bekle",
+      "en": "Wait your turn",
+      "pattern": "patience"
+    },
+    {
+      "id": "once",
+      "tr": "Önce geçmeyi rica et",
+      "en": "Ask to cut in",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tahta",
+      "tr": "Soruları tahtaya yaz",
+      "en": "Write it on the board",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Sıra sana geldiğinde ikinci zil de çaldı. Derse kopyasız girdin, ilk on dakika soruları dikte ettin.",
+      "en": "By your turn, the second bell had rung. You walked in copy-free and dictated the questions for ten minutes.",
+      "coach": [
+        {
+          "tr": "Otuz kopya için yirmi beş dakika. Dakikada bir kopya bile çıkmadı.",
+          "en": "Twenty-five minutes for thirty copies. Not even one a minute.",
+          "roast": false
+        }
+      ]
+    },
+    "once": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Otuz kopyanı kâğıdın son tomarından aldın. Arkandaki üç kişi kâğıtsız kaldı.",
+        "en": "You got your thirty copies off the last ream. The three people behind you got nothing.",
+        "coach": [
+          {
+            "tr": "Sırayı sen kestin. Kâğıdı da.",
+            "en": "You cut the line. And the paper supply.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -2,
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Rica ettin, 340 sayfa durmadı. Teneffüste herkes senin \"sadece otuz tane\" cümleni tekrarladı.",
+        "en": "You asked. The 340 pages kept going. At recess, everyone was quoting your \"it's only thirty.\"",
+        "coach": [
+          {
+            "tr": "Otuz sayfa otuz saniye sürecekti. Rica etmek daha uzun sürdü.",
+            "en": "Thirty pages would have taken thirty seconds. Asking took longer.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tahta": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Soruları tahtaya yazdın. Sınıf defterine geçirdi, ders tebeşir tozuyla bitti.",
+      "en": "You wrote the questions on the board. The class copied them down. The lesson ended in chalk dust.",
+      "coach": [
+        {
+          "tr": "Tahta bugüne kadar hiç kâğıtsız kalmadı.",
+          "en": "The board has never once run out of paper.",
+          "roast": false
+        },
+        {
+          "tr": "Fotokopi sırası: sıfır dakika.",
+          "en": "Copier wait: zero minutes.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "once",
+    "slip": {
+      "tr": "İDDİA: Rica, o kuyruğu kısaltmaz. — M.",
+      "en": "WAGER: Asking nicely won't shorten that line. — M."
+    }
+  },
+  "intent": {
+    "setup": "sabah ders öncesi tek fotokopi makinesinde öğretmen kuyruğu",
+    "mechanism": "öndekinin işi büyüyor, sonunda kâğıt bitiyor",
+    "mechanismId": "escalation",
+    "punch": "kâğıt bitti, bilginize",
+    "lift": "fotokopi sırası sıfır",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kagit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

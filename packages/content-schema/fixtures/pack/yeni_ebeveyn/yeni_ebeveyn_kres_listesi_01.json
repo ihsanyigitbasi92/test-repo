@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yeni_ebeveyn_kres_listesi_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "para",
+    "yeni_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "yeni_ebeveyn": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Kreş müdürü aradı. Sıra listesinde otuz sekizinciymişiz.",
+      "en": "The daycare director called. We’re thirty-eighth on the waiting list."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Ama “kayıt ücretini şimdi yatıranlar” diye ayrı bir liste de varmış.",
+      "en": "But there’s also a separate list for “families who pay the registration fee now.”",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Ücreti yatır, sırayı tut",
+      "en": "Pay the fee, hold the spot",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "anne",
+      "tr": "Annene sor, o baksın",
+      "en": "Ask your mom to babysit",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "bekle",
+      "tr": "Otuz sekizinci olarak bekle",
+      "en": "Wait it out at number 38",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -1500,
+        "flags": {
+          "add": [
+            "kres_kaydi_var"
+          ]
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Ücreti yatırdın, liste numaran dörde indi. Makbuzun üstünde “iade edilmez” yazıyor, büyük harfle.",
+      "en": "You paid and jumped to number four. The receipt says NON-REFUNDABLE, in capitals.",
+      "coach": [
+        {
+          "tr": "Sıra otuz dört basamak kısaldı. Merdiven ücretliydi.",
+          "en": "The line got thirty-four places shorter. The staircase had a toll.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef zarfı: kreş sırası dört.",
+          "en": "Goal envelope: daycare slot four.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "money": 300,
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 4
+          }
+        ],
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "anne_bebege_bakiyor"
+          ]
+        }
+      },
+      "tr": "Annen hemen kabul etti ve bir çanta oyuncakla geldi. Ertesi gün mutfağının yerini değiştirmişti.",
+      "en": "Your mom said yes instantly and arrived with a bag of toys. By the next day she had rearranged your kitchen.",
+      "coach": [
+        {
+          "tr": "Bakıcı bedava. Mutfak artık onun.",
+          "en": "The babysitter is free. The kitchen is now hers.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "kres_sirada"
+          ]
+        }
+      },
+      "tr": "Liste ayda bir güncelleniyor. İlk ay otuz yedinci oldun.",
+      "en": "The list updates once a month. After the first month you were thirty-seventh.",
+      "coach": [
+        {
+          "tr": "Ayda bir basamak. Bebek o tarihte okula başlıyor.",
+          "en": "One place a month. At this rate the baby starts school first.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddiaya uygun değil"
+  },
+  "intent": {
+    "setup": "kreş sıra listesinde otuz sekizinci olmak ve ücretli hızlı sıra",
+    "mechanism": "ücret ödeyen ayrı liste",
+    "mechanismId": "count",
+    "punch": "iade edilmez, büyük harfle",
+    "lift": "Hedef zarfı: kreş sırası dört.",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sayim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

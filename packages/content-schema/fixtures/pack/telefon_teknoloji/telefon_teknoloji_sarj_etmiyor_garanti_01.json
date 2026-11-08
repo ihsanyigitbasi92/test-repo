@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "telefon_teknoloji_sarj_etmiyor_garanti_01",
+  "tags": [
+    "teknoloji",
+    "telefon",
+    "evrak",
+    "telefon_teknoloji"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "telefon_teknoloji": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇIRAK ELEKTRONİK SERVİS HİZMETLERİ (kurgusal)",
+      "en": "APPRENTICE ELECTRONICS SERVICE (fictional)"
+    },
+    "body": {
+      "tr": "Ürününüz, kullanıcı kaynaklı olmayan arızalara karşı iki yıl süreyle garanti kapsamındadır.",
+      "en": "Your device is covered for two years against faults not caused by the user."
+    },
+    "translate": {
+      "tr": {
+        "from": "kullanıcı kaynaklı olmayan",
+        "to": "senin yapmadığın; yani hiçbiri"
+      },
+      "en": {
+        "from": "not caused by the user",
+        "to": "not your fault, which in practice is never"
+      }
+    },
+    "glossaryKey": "kullanici_kaynakli"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Şarj girişinde toz var. Toz kullanıcı kaynaklıdır.",
+      "en": "There's lint in the charging port. Lint is user-caused."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Cep sizin, toz sizin. Biz sadece telefonu yaptık.",
+      "en": "Your pocket, your lint. We only made the phone.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "servis",
+      "tr": "Servise gönder",
+      "en": "Send it in for service",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Tozu tartış",
+      "en": "Dispute the lint",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kablo",
+      "tr": "Önce kabloyu değiştir",
+      "en": "Try a new cable first",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "servis": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": -1
+        },
+        "glossary": "kullanici_kaynakli",
+        "flags": {
+          "add": [
+            "telefon_serviste"
+          ]
+        }
+      },
+      "tr": "Servis on gün sürdü, “temizlik ücreti” 400 Para. Telefon geri geldi, tozu ayrı bir poşette.",
+      "en": "Service took ten days. “Cleaning fee”: 400. The phone came back with its lint in a separate bag.",
+      "coach": [
+        {
+          "tr": "400 Para’ya iade edilen toz.",
+          "en": "Lint, returned to sender, 400.",
+          "roast": true
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "glossary": "kullanici_kaynakli"
+        },
+        "tr": "Garanti belgesinde tozun geçmediğini gösterdin. Temizlik ücretsiz yapıldı.",
+        "en": "You pointed out the warranty never mentions lint. They cleaned it for free.",
+        "coach": [
+          {
+            "tr": "Belgeyi belge yendi.",
+            "en": "Paperwork beat paperwork.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "money": -400,
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "kullanici_kaynakli"
+        },
+        "tr": "Yetkili, tozun “çevresel kullanıcı unsuru” olduğunu açıkladı. 400 Para.",
+        "en": "The supervisor explained that lint counts as an “environmental user factor.” 400.",
+        "coach": [
+          {
+            "tr": "Yeni terim, aynı fiyat.",
+            "en": "New term. Same price.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kablo": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 3
+        },
+        "glossary": "kullanici_kaynakli",
+        "status": {
+          "assets": {
+            "add": [
+              "sarj_kablosu_yeni"
+            ]
+          }
+        }
+      },
+      "tr": "Yeni kablo 180 Para. Telefon hemen şarj olmaya başladı; arıza baştan beri kablodaymış.",
+      "en": "A new cable: 180. The phone started charging at once. The fault was the cable all along.",
+      "coach": [
+        {
+          "tr": "180 Para’lık teşhis. Servis atlandı.",
+          "en": "A 180 diagnosis. Service skipped.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "telefon on üç ayda şarj almıyor, kurgusal servis garanti belgesi",
+    "mechanism": "\"kullanıcı kaynaklı olmayan\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "cep sizin, toz sizin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "toz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

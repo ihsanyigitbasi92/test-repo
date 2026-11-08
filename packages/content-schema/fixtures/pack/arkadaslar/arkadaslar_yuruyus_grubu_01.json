@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_yuruyus_grubu_01",
+  "tags": [
+    "sosyal",
+    "doga",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Bir arkadaşın seni hafta sonu yürüyüş grubuna çağırdı. Herkes birbirini tanıyor, sen hariç.",
+      "en": "A friend brought you along to their weekend hiking group. Everyone knows everyone, except you."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Yeni misiniz? Grubun kuralı: tepeye kim ne getirdiyse paylaşılır.",
+      "en": "New here? Group rule: whatever you carry up the hill gets shared."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Geçen hafta biri sadece limon getirdi. Hâlâ konuşuluyor.",
+      "en": "Last week someone brought only lemons. People are still talking about it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tepsi",
+      "tr": "Ev yapımı börek götür",
+      "en": "Bring a homemade tray bake",
+      "pattern": "generosity"
+    },
+    {
+      "id": "hizli",
+      "tr": "Öndekilere yetiş",
+      "en": "Keep up with the front pack",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "arka",
+      "tr": "Arkada yürü, sohbet et",
+      "en": "Walk at the back and chat",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "tepsi": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 5
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "create": true,
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "yuruyus_grubu"
+          ]
+        }
+      },
+      "tr": "Tepsiyi tepede açtın, beş dakikada bitti. Gruba “Tepsi” lakabıyla katıldın.",
+      "en": "You opened the tray at the summit and it was gone in five minutes. You joined the group under the nickname “Tray.”",
+      "coach": [
+        {
+          "tr": "Beş dakikada lakap. Limon seviyesinin çok üstünde.",
+          "en": "A nickname in five minutes. Well above lemon level.",
+          "roast": false
+        }
+      ]
+    },
+    "hizli": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "yuruyus_grubu"
+            ]
+          }
+        },
+        "tr": "Öndekilerle tepeye çıktın. Nefesin yerine gelene kadar herkes adını öğrenmişti.",
+        "en": "You summited with the front pack. By the time you caught your breath, everyone knew your name.",
+        "coach": [
+          {
+            "tr": "Tepe fethedildi. Nefes sonradan geldi.",
+            "en": "Summit reached. Breath arrived later, separately.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "create": true,
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yuruyus_grubu"
+            ]
+          }
+        },
+        "tr": "Yarı yolda bir kayaya oturdun. Arkadan gelenler sana su verdi, sohbet orada başladı.",
+        "en": "Halfway up you sat on a rock. The stragglers gave you water, and that’s where the conversation started.",
+        "coach": [
+          {
+            "tr": "Kaya bir buluşma noktası çıktı.",
+            "en": "The rock turned out to be a meeting point.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "arka": {
+      "effects": {
+        "stats": {
+          "joy": 4,
+          "health": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "create": true,
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "yuruyus_grubu"
+          ]
+        }
+      },
+      "tr": "Arka taraf grubun asıl sohbet kanalıymış. Dönüşte telefonunda üç yeni numara vardı.",
+      "en": "The back of the line turns out to be the group’s real social channel. You came home with three new numbers.",
+      "coach": [
+        {
+          "tr": "Üç numara, bir tepe.",
+          "en": "Three numbers, one hill.",
+          "roast": false
+        },
+        {
+          "tr": "Sayaç: üç yeni numara.",
+          "en": "Counter: three new numbers.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddiaya uygun değil"
+  },
+  "intent": {
+    "setup": "arkadaşının hafta sonu yürüyüş grubuna ilk kez katılmak",
+    "mechanism": "tepedeki paylaşım kuralı ve limon efsanesi",
+    "mechanismId": "callback",
+    "punch": "biri sadece limon getirdi",
+    "lift": "Sayaç: üç yeni numara.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "lakap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

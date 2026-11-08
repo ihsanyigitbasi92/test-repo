@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_emekli_indirimi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "su",
+    "emekli",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 85
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Emekli indirimi için yaşınızı belgelemeniz gerekiyor.",
+      "en": "For the senior discount, you'll need to prove your age."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kimliğiniz elimde ama fotokopisi lazım. Fotokopi makinesi karşı binada.",
+      "en": "I'm holding your ID, but I need a photocopy. The copier's across the street.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "karsi",
+      "tr": "Karşıya geç, fotokopi çek",
+      "en": "Cross the street, make a copy",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikna",
+      "tr": "Memuru ikna et",
+      "en": "Talk the clerk into it",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "İndirimden vazgeç",
+      "en": "Skip the discount",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "karsi": {
+      "effects": {
+        "money": -2,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "emekli_indirimi"
+          ]
+        }
+      },
+      "tr": "Fotokopi 2 Para tuttu. İndirim tanımlandı; faturan her ay 60 Para azalacak.",
+      "en": "The copy cost two. Discount on file: sixty off every month.",
+      "coach": [
+        {
+          "tr": "İki Para fotokopi, ayda 60 Para indirim.",
+          "en": "Two for the copy. Sixty off a month.",
+          "roast": false
+        }
+      ]
+    },
+    "ikna": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "charm": 1
+          },
+          "flags": {
+            "add": [
+              "emekli_indirimi"
+            ]
+          }
+        },
+        "tr": "Memur kimliği kendi telefonuyla çekti, dosyaya 'görüldü' yazdı. İndirim aynı gün işlendi.",
+        "en": "The clerk snapped the ID on their own phone and wrote 'sighted' on the file. Discount applied same day.",
+        "coach": [
+          {
+            "tr": "Tek kelimelik onay: görüldü.",
+            "en": "One-word approval: sighted.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "emekli_indirimi_bekliyor"
+            ]
+          }
+        },
+        "tr": "Memur nazikçe karşı binayı gösterdi. Fotokopici öğle arasına çıkmıştı.",
+        "en": "The clerk politely pointed across the street. The copy shop was out to lunch.",
+        "coach": [
+          {
+            "tr": "Sistem bekliyor. Fotokopici de.",
+            "en": "The system's waiting. So is the copy shop.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "emekli_indirimi_yok"
+          ]
+        }
+      },
+      "tr": "İndirimsiz devam. Fatura her ay 60 Para fazla, ama karşıya geçmedin.",
+      "en": "No discount. Sixty extra a month, but you never crossed the street.",
+      "coach": [
+        {
+          "tr": "Ayda 60 Para, bir yaya geçidi için.",
+          "en": "Sixty a month to skip one crosswalk.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "emekli su indirimi için kimlik elde dururken fotokopisinin istenmesi",
+    "mechanism": "memur kimliği tutuyor ama kâğıdın kopyasını istiyor",
+    "mechanismId": "literalism",
+    "punch": "kimliğiniz elimde ama fotokopisi lazım",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "gecit",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

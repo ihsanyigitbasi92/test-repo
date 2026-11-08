@@ -1,0 +1,234 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_yemek_arabasi_ortaklik_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "girisim",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda ortaklık el sıkışmayla olurdu. İki bin koyarım, sen yemek arabasını açarsın.",
+      "en": "In my day a partnership was a handshake. I put in two thousand, you open the food truck."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Tek şartım var: menüde benim köftem olacak. Bir de tabelada adım.",
+      "en": "One condition: my meatballs on the menu. And my name on the sign."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Köfteyi kim yapacak? Ben yapmam, baştan söyleyeyim.",
+      "en": "Who's making the meatballs? Not me, I'm saying it now.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Ortaklığı kabul et",
+      "en": "Accept the partnership",
+      "pattern": "risk"
+    },
+    {
+      "id": "sartlar",
+      "tr": "Şartları yazıya dök",
+      "en": "Put the terms in writing",
+      "pattern": "patience",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Teşekkür edip reddet",
+      "en": "Thank him, decline",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": 2000,
+        "flags": {
+          "add": [
+            "dayi_ortak"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Para hesabına geçti. Tabelada dayının adı seninkinden bir punto büyük çıktı.",
+      "en": "The money hit your account. On the sign, your uncle's name came out one font size bigger.",
+      "coach": [
+        {
+          "tr": "Ortaklık başladı. Punto farkı belgeli.",
+          "en": "Partnership launched. Font gap documented.",
+          "roast": false
+        }
+      ]
+    },
+    "sartlar": [
+      {
+        "p": 3000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "money": 2000,
+          "flags": {
+            "add": [
+              "dayi_ortak",
+              "dayi_sozlesme"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Dayın sözleşmeyi imzaladı, köfte maddesine paraf attı. Tabelada adlarınız aynı boyda.",
+        "en": "Your uncle signed and initialed the meatball clause. Your names are the same size on the sign.",
+        "coach": [
+          {
+            "tr": "Köfte maddesi sözleşmenin en uzun maddesi.",
+            "en": "The meatball clause is the longest in the contract.",
+            "roast": true
+          },
+          {
+            "tr": "Sözleşme zarfta. Hedef yakın.",
+            "en": "Contract in the envelope. Goal closer.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -3,
+              "memory": "kagit_istedi"
+            }
+          ]
+        },
+        "tr": "'Benden kâğıt mı istiyorsun' dedi dayın. Teklif masadan kalktı, köfte tarifi de.",
+        "en": "'You want paper from me?' said your uncle. The offer left the table. So did the meatball recipe.",
+        "coach": [
+          {
+            "tr": "Teklif geri çekildi. Tarif de.",
+            "en": "Offer withdrawn. Recipe too.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "kuzen_yemek_arabasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Reddettin. Dayın iki bini bir kuzenine teklif etti; kuzenin kabul etti.",
+      "en": "You declined. Your uncle offered the two thousand to a cousin. The cousin said yes.",
+      "coach": [
+        {
+          "tr": "Para aile içinde kaldı. Adres değişti.",
+          "en": "The money stayed in the family. Different address.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sartlar",
+    "slip": {
+      "tr": "İDDİA: Dayın kâğıda imza atmaz. — M.",
+      "en": "WAGER: Your uncle won't sign anything. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının yemek arabası için köfte şartıyla ortaklık teklif etmesi",
+    "mechanism": "şartlar büyüyor: köfte, tabela, punto",
+    "mechanismId": "escalation",
+    "punch": "bir de tabelada adım",
+    "lift": "sözleşme zarfta",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "punto"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

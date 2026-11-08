@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_tamiri_ariza_petek_havasi_01",
+  "tags": [
+    "ev",
+    "tamir",
+    "dayi",
+    "ev_tamiri_ariza"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_tamiri_ariza": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Petekler ısınmıyor mu? Hava yapmıştır. Benim zamanımda herkes kendi peteğinin havasını alırdı.",
+      "en": "Radiators cold? Air in the lines. In my day, everyone bled their own radiators."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Anahtarı çevir, tıss sesini bekle, su gelince kapat. Kovayı unutma. Ben unuttum bir kere.",
+      "en": "Turn the key, wait for the hiss, close it when water comes. Get a bucket. I forgot once.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kendin",
+      "tr": "Havayı kendin al",
+      "en": "Bleed them yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayın gelip yapsın",
+      "en": "Have your uncle come do it",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "usta",
+      "tr": "Kombiciyi çağır",
+      "en": "Call the boiler tech",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kendin": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "brain": 1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "petek_ustasi"
+            ]
+          }
+        },
+        "tr": "Altı peteğin havasını aldın, kova hazırdı. Ev yarım saatte ısındı.",
+        "en": "You bled all six radiators, bucket at the ready. The place warmed up in half an hour.",
+        "coach": [
+          {
+            "tr": "Altı petek, bir kova, sıfır sel.",
+            "en": "Six radiators, one bucket, zero floods.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -150,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Beşinci petekte anahtar elinden düştü, su halıya gitti. Halı yıkama 150 Para.",
+        "en": "On radiator five you dropped the key and water went into the rug. Rug cleaning: 150.",
+        "coach": [
+          {
+            "tr": "Beş petek ve bir halı. Halı da sıraya girmiş.",
+            "en": "Five radiators and one rug. The rug wanted a turn.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4,
+            "memory": "petek_gunu"
+          }
+        ]
+      },
+      "tr": "Dayın geldi, petekleri açtı, kovayı unuttu. Halıyı birlikte kuruladınız; iki saat de eski günleri dinledin.",
+      "en": "Your uncle came, bled the radiators, and forgot the bucket. You dried the rug together, with two hours of the old days on the side.",
+      "coach": [
+        {
+          "tr": "Kova yine unutuldu. Gelenek korundu.",
+          "en": "The bucket was forgotten again. Tradition preserved.",
+          "roast": true
+        }
+      ]
+    },
+    "usta": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 1
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "petek_anahtari"
+            ]
+          }
+        }
+      },
+      "tr": "Kombici on beş dakikada bitirdi, 300 Para. Giderken hava alma anahtarını sana hediye etti.",
+      "en": "The boiler tech was done in fifteen minutes: 300. On the way out, they gave you the bleed key.",
+      "coach": [
+        {
+          "tr": "300 Para ve bir anahtar. Kullanım kılavuzu sözlü.",
+          "en": "300, plus a key. Instructions given verbally.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kendin",
+    "slip": {
+      "tr": "İDDİA: Kova bir yerde unutulur. — M.",
+      "en": "WAGER: Somebody forgets the bucket. — M."
+    }
+  },
+  "intent": {
+    "setup": "petekler ısınmıyor, dayın hava almayı telefonda tarif ediyor",
+    "mechanism": "unutulan kova her dalda geri geliyor",
+    "mechanismId": "callback",
+    "punch": "kovayı unutma, ben unuttum bir kere",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kova"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

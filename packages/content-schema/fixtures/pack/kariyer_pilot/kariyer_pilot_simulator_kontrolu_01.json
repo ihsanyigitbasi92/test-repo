@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_simulator_kontrolu_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 32,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Altı aylık simülatör kontrolü. Bugün sana her şeyi aynı anda vereceğim.",
+      "en": "Six-month sim check. Today I give you everything at once."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Motor arızası, sağanak yağmur, bir de kabinde doğum yapan yolcu. Hazır mısın?",
+      "en": "Engine failure, heavy rain, and a passenger in labor. Ready?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "liste",
+      "tr": "Kontrol listesini harfiyen uygula",
+      "en": "Follow the checklist to the letter",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kisayol",
+      "tr": "Kısayol prosedürü dene",
+      "en": "Try the quick procedure",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "nefes",
+      "tr": "Önce bir nefes al",
+      "en": "Take a breath first",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "liste": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "career": {
+            "rungDelta": 1
+          },
+          "status": {
+            "job": {
+              "title": "kıdemli ikinci pilot",
+              "tier": 3,
+              "monthly": 5200
+            }
+          }
+        },
+        "tr": "On dört madde, hepsi zamanında. Eğitmen formu \"örnek\" diye doldurdu ve senin uçuşunu bir sonraki kursiyerin sınavı yaptı.",
+        "en": "Fourteen checklist items, all on time. The instructor marked you 'exemplary' and turned your run into the next trainee's exam.",
+        "coach": [
+          {
+            "tr": "Senin uçuşun artık başkasının sınavı.",
+            "en": "Your run is now someone else's exam.",
+            "roast": false
+          },
+          {
+            "tr": "Kariyer sayacı: kıdemli ikinci pilot.",
+            "en": "Career counter: senior first officer.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "simulator_tekrar"
+            ]
+          }
+        },
+        "tr": "Bebek doğdu, motor toparlandı, ama yağmuru unuttun. İki hafta sonra tekrar kontrol var.",
+        "en": "The baby arrived, the engine recovered, but you forgot the rain. Retest in two weeks.",
+        "coach": [
+          {
+            "tr": "Bebek doğdu. Yağmur unutuldu.",
+            "en": "Baby delivered. Rain forgotten.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kisayol": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kısayol işe yaradı. Eğitmen forma \"işe yaradı ama yazılı değil\" yazıp bir saatlik prosedür dersi ekledi.",
+      "en": "The shortcut worked. The instructor wrote 'worked, but not in the manual' and added a one-hour procedures class.",
+      "coach": [
+        {
+          "tr": "İşe yarayan kısayol, artı bir saat ders.",
+          "en": "A shortcut that worked, plus an hour of class.",
+          "roast": false
+        }
+      ]
+    },
+    "nefes": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Bir nefes aldın. Simülatör o sırada otuz metre irtifa kaybetti; nefesin kayda geçti ve sonra konuşuldu.",
+      "en": "You took a breath. The sim lost a hundred feet in the meantime. The breath was logged and discussed.",
+      "coach": [
+        {
+          "tr": "Nefes almak serbest. Kayıtta da.",
+          "en": "Breathing is allowed. Also recorded.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "altı aylık simülatör kontrolünde eğitmen her arızayı aynı anda veriyor",
+    "mechanism": "sınav olunan uçuş sınav sorusuna dönüşüyor",
+    "mechanismId": "reversal",
+    "punch": "senin uçuşun başkasının sınavı",
+    "lift": "kariyer sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sinav"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

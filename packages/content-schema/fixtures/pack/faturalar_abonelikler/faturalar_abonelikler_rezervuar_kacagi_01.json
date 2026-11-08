@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_rezervuar_kacagi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "su",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tüketiminiz üç kat artmış. Evde havuz falan yok, değil mi?",
+      "en": "Your usage tripled. You haven't put in a pool, have you?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Genelde rezervuardır. Sessizce akar, kimse duymaz.",
+      "en": "It's usually the toilet tank. It runs quietly. Nobody hears it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kendin",
+      "tr": "Rezervuarı kendin tamir et",
+      "en": "Fix the tank yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Tesisatçı çağır",
+      "en": "Call a plumber",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "taksit",
+      "tr": "Faturayı taksitlendir",
+      "en": "Pay the bill in installments",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "kendin": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -1140,
+          "stats": {
+            "brain": 2,
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "rezervuar_tamir"
+            ]
+          }
+        },
+        "tr": "Parça 40 Para tuttu, tamir yarım saat sürdü. Fazla fatura yine de 1.100 Para.",
+        "en": "The part cost forty and half an hour. The excess bill was still 1,100.",
+        "coach": [
+          {
+            "tr": "Yarım saat, 40 Para. Ses kesildi.",
+            "en": "Half an hour, forty for the part. The hissing stopped.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1340,
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "rezervuar_tamir"
+            ]
+          }
+        },
+        "tr": "Şamandıra elinde kaldı. Ertesi sabah tesisatçı geldi, 200 Para aldı, parçayı tek hamlede taktı.",
+        "en": "The float came off in your hand. A plumber came the next morning, charged 200, and fixed it in one move.",
+        "coach": [
+          {
+            "tr": "Onun tek hamlesi 200 Para. Seninki bedavaydı.",
+            "en": "His one move: 200. Yours was free.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "money": -1350,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "rezervuar_tamir"
+          ]
+        }
+      },
+      "tr": "Tesisatçı yirmi dakikada tamir etti, 250 Para aldı. Rezervuar artık sessiz ve gerçekten kapalı.",
+      "en": "The plumber fixed it in twenty minutes for 250. The tank is quiet now, and actually off.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika. Sessizlik yine bedava.",
+          "en": "Twenty minutes. Silence is free again.",
+          "roast": false
+        }
+      ]
+    },
+    "taksit": {
+      "effects": {
+        "money": -400,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "su_taksit"
+          ]
+        }
+      },
+      "tr": "Fatura üç taksite bölündü, ilki 400 Para. Rezervuar sessizce akmaya devam ediyor.",
+      "en": "The bill's in three installments, first one 400. The tank is still quietly running.",
+      "coach": [
+        {
+          "tr": "Taksit üç ay. Rezervuarın planı yok.",
+          "en": "Three installments. The tank has no plan.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "su faturası üç katına çıkınca sessizce akan rezervuar kaçağı",
+    "mechanism": "memur felaketi 'sessizce akar' diye küçültüyor",
+    "mechanismId": "understatement",
+    "punch": "sessizce akar, kimse duymaz",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "plan",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

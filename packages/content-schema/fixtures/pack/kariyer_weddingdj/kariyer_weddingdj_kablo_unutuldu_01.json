@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_weddingdj_kablo_unutuldu_01",
+  "tags": [
+    "kariyer",
+    "dugun_dj",
+    "kariyer_weddingdj"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_weddingdj": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "weddingDJ"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Hoparlör kabloları… Ben senin aldığını sandım. Sen de benim aldığımı sanmışsın.",
+      "en": "The speaker cables… I thought you packed them. You thought I packed them."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Salonda bir karaoke makinesi var. Mikrofonunda kurdele var.",
+      "en": "The venue has a karaoke machine. The mic has a ribbon on it."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Çift ilk dansa üç dakika sonra çıkıyor. Hazırız, değil mi?",
+      "en": "The couple's first dance is in three minutes. We're good, right?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "karaoke",
+      "tr": "Karaoke makinesine bağlan",
+      "en": "Patch into the karaoke machine",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "telefon",
+      "tr": "Telefondan çal",
+      "en": "Play it off your phone",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "oyala",
+      "tr": "Kablo gelene kadar oyala",
+      "en": "Stall until the cables arrive",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "karaoke": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "dj_karaoke_kurtardi"
+            ]
+          }
+        },
+        "tr": "Karaoke makinesine bağlandın, ilk dans çaldı. Ekranda sözler aktı, çift okuyarak dans etti.",
+        "en": "You patched into the karaoke machine and the first dance played. The lyrics scrolled on screen, and the couple danced while reading along.",
+        "coach": [
+          {
+            "tr": "Kablo yoktu, altyazı vardı. Gece ayakta kaldı.",
+            "en": "No cables, but subtitles. The night held.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -500,
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "ego": -2
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Makine ilk dansı puanladı: 38. Çift ücrette indirim istedi.",
+        "en": "The karaoke machine scored the first dance: 38. The couple asked for a discount.",
+        "coach": [
+          {
+            "tr": "İlk dansa not verildi. Faturaya da.",
+            "en": "The first dance got graded. So did your invoice.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "telefon": {
+      "effects": {
+        "money": -300,
+        "meters": {
+          "ego": -3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Telefondan çaldın. Dansın ortasında bir arama geldi, zil sesin salonu doldurdu.",
+      "en": "You played it off your phone. Mid-dance, a call came in and your ringtone filled the hall.",
+      "coach": [
+        {
+          "tr": "Arayan annendi. Zamanlaması hep böyle.",
+          "en": "It was your mom. Her timing, as ever.",
+          "roast": false
+        }
+      ]
+    },
+    "oyala": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kablolar gelene kadar yirmi dakika mikrofonu tuttun. Çiftin tanışma hikâyesini üç kez anlattın.",
+      "en": "You held the mic for twenty minutes until the cables arrived. You told the couple's how-we-met story three times.",
+      "coach": [
+        {
+          "tr": "Aynı hikâye, üç kez. Üçüncüsü alkış aldı.",
+          "en": "Same story, three times. The third one got applause.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "karaoke",
+    "slip": {
+      "tr": "İDDİA: Makine ilk dansa not verir. — M.",
+      "en": "WAGER: The machine grades the first dance. — M."
+    }
+  },
+  "intent": {
+    "setup": "düğünde hoparlör kablolarının unutulması",
+    "mechanism": "iki kişi birbirini suçluyor, tek çare kurdeleli karaoke",
+    "mechanismId": "escalation",
+    "punch": "mikrofonunda kurdele var",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "altyazi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
