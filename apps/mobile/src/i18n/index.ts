@@ -1,0 +1,28 @@
+/**
+ * Runtime language switch (TR / EN). UI strings come from tr.ts / en.ts; event prose comes from the content
+ * bundle through the engine's text keys (`renderText`), so a switch re-renders the whole feed in the new language.
+ */
+import { createContext, useContext } from 'react';
+import { renderText } from '@motto/engine';
+import type { Locale } from '@motto/engine';
+import { BUNDLE } from '../content/bundle';
+import { tr, type Strings } from './tr';
+import { en } from './en';
+
+export type { Strings };
+export const CATALOG: Record<Locale, Strings> = { tr, en };
+
+export interface I18n {
+  locale: Locale;
+  s: Strings;
+  /** Engine text key → localized, `{param}`-filled string (empty when the key is unknown). */
+  text: (key: string, params?: Readonly<Record<string, number | string>>) => string;
+}
+
+export function makeI18n(locale: Locale): I18n {
+  return { locale, s: CATALOG[locale], text: (key, params) => renderText(BUNDLE, key, locale, params) ?? '' };
+}
+
+export const I18nContext = createContext<I18n>(makeI18n('tr'));
+export const useI18n = (): I18n => useContext(I18nContext);
+export { upperTr, upper, groupDigits } from './format';

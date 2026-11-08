@@ -1,0 +1,150 @@
+/**
+ * UI catalog — Türkçe. Event prose comes from the content bundle (fixtures' tr/en blocks via engine text keys);
+ * this file holds only interface strings, system lines the engine names by key (death causes, envelope teasers)
+ * and coach lines the UI owns (FTUE intro, birthday card, mottos). en.ts must mirror every key (type-checked).
+ */
+import { groupDigits, lowerTr } from './format';
+
+const n = (x: number) => groupDigits(x, '.');   // 2.000 — dot grouping, no currency sign (D-033)
+
+export const tr = {
+  langName: 'TR',
+  brandSub: 'Sertifikasız Hayat Koçu',
+  // HUD
+  stat: { health: 'Sağlık', joy: 'Keyif', brain: 'Kafa', charm: 'Çekicilik' },
+  meter: { ego: 'Ego', cringe: 'Cringe', momPressure: 'Anne Baskısı', money: 'Para' },
+  unread: 'Okunmamış',
+  ageUnit: 'yaş',
+  lifeN: (k: number) => `${k}. hayat`,
+  num: n,
+  money: (x: number) => `${x < 0 ? '−' : ''}◆ ${n(x)}`,
+  // clock (D-109: no year on the top bar)
+  dayWord: 'Gün',
+  weekdays: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+  months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+  speedA11y: { pause: 'Duraklat', play: 'Oynat', fast: 'Hızlı' },
+  // status strip (D-067)
+  status: { job: 'İş', home: 'Ev', love: 'İlişki', cat: 'Kedi', assets: 'Varlıklar' },
+  jobless: 'İşsiz',
+  perMonth: '/ay',
+  home: {
+    momsHouse: 'Anne evi · katkı payı', room: (r: number) => `Oda · kira ${n(r)}/ay`, flat: (r: number) => `Daire · kira ${n(r)}/ay`,
+    wide: (r: number) => `Geniş daire · kira ${n(r)}/ay`, mortgage: (r: number) => `Kredili ev ${n(r)}/ay`, owned: 'Kendi evin',
+  },
+  single: 'Bekâr',
+  partner: (years: number) => (years < 1 ? 'Sevgili · yeni' : `Sevgili · ${years} yıldır`),
+  catName: 'Pamuk',
+  none: '—',
+  jobTitle: { ofis: 'Ofis Elemanı', kafe: 'Barista', kurye: 'Kurye', cagri: 'Çağrı Merkezi', emekli: 'Emekli' } as Record<string, string>,
+  asset: { kedi: 'kedi', araba: 'araba', yeni_telefon: 'yeni telefon', telefon: 'telefon' } as Record<string, string>,
+  // feed
+  label: { event: 'OLAY', doc: 'EVRAK', legend: 'EFSANE OLAY', call: 'ANNE ARIYOR', surprise: 'SÜRPRİZ', daily: 'GÜNÜN GÜNÜ', forced: 'GÜNDEM' },
+  ageTag: (a: number) => `${a} YAŞ`,
+  birthdayTag: 'DOĞUM GÜNÜ',
+  you: 'SEN',
+  youAuto: 'SEN (otomatik)',
+  coach: 'MOTTO',
+  wager: 'İDDİA',
+  odds: (p: number) => `Gerçek oran: %${p}. Zar benim değil.`,
+  translate: 'Tercüme',
+  translated: (from: string, to: string) => `“${from}” = ${to}`,
+  stampCalled: 'İSABET',
+  stampWrong: 'HAKSIZ ÇIKTIM',
+  stampFiled: 'İŞLENDİ',
+  flow: {
+    payday: (x: number) => `Maaş günü. +${n(x)}. Hesaba girdi, hesaptan çıkacak.`,
+    allowance: (x: number) => `Annenden harçlık: +${n(x)}. Yanında tavsiye.`,
+    rentMom: (x: number) => `Eve katkı payı: −${n(x)}. Annen "kira değil, katkı" dedi. Fark yok.`,
+    rent: (x: number) => `Kira günü. −${n(x)}. Ev sahibi "evladım" dedi; otomatik ödeme demek.`,
+    daily: (x: number) => `Gündelik giderler: ${x < 0 ? '−' : '+'}${n(x)}. Mama dahil.`,
+  },
+  quiet: 'Sakin bir gün. Pamuk 05:00’te uyandırdı; başka bir şey olmadı.',
+  typing: 'yazıyor…',
+  speaker: {
+    mom: 'ANNE', uncle: 'DAYI', roommate: 'BARIŞ', boss: 'NEVİN HANIM', neighbor: 'KOMŞU', cat: 'PAMUK', cabbie: 'TAKSİCİ',
+    ex: 'ESKİ SEVGİLİ', partner: 'SEVGİLİ', child: 'ÇOCUK', sibling: 'KARDEŞ',
+    'npc:courier': 'KURYE', 'npc:boilerTech': 'KOMBİCİ', 'npc:landlord': 'EV SAHİBİ', 'npc:hr': 'İK', 'npc:doctor': 'DOKTOR',
+    'npc:clerk': 'MEMUR', 'npc:stranger': 'YABANCI', 'npc:barber': 'BERBER', 'npc:coworker': 'İŞ ARKADAŞI', 'npc:neighborKid': 'KOMŞU',
+    'npc:waiter': 'GARSON', 'npc:banker': 'BANKACI',
+  } as Record<string, string>,
+  envelopeOpened: 'Zarf açıldı. İçine bakmadım. Yarın bakarız.',
+  envTeaser: {
+    'env.is_teklifi': 'Bir iş başvurusunun cevabı yolda.',
+    'env.sys.boss_office': 'Biri seni bir ofise çağıracak. Hangi ofis, zarf söylemiyor.',
+  } as Record<string, string>,
+  envTeaserDefault: 'Deftere bir zarf eklendi. Açmadım. Hâlâ.',
+  lowJoy: 'Bu bir oyun. Gerçek hayatta destek istersen yakınındaki birine ya da bir uzmana ulaş.',
+  // birthday + report card (D-061, 07 §2.2.3)
+  birthdayLine: (a: number) => `Doğum günün. ${a} oldun. Pasta yok; dayın aradı, "para göndermedim" demek için.`,
+  agingLbl: 'YAŞLANIYORSUN',
+  reportTitle: 'KARNE',
+  gradeNames: { health: 'Sağlık', money: 'Para', relationships: 'İlişkiler', brain: 'Kafa', courage: 'Cesaret', spectacle: 'Gösteri' },
+  grades: ['Zayıf', 'Geçer', 'Orta', 'İyi', 'Pekiyi'],
+  coachAccuracy: (h: number, t: number) => (t ? `Koçun isabeti: ${h}/${t}` : 'Bu yıl iddia yok. Ben de şaşırdım.'),
+  mottoLbl: 'YILIN MOTTOSU',
+  decade: 'ONYIL KARNESİ',
+  noEnvelope: 'Zarf yok. Bu yıl sessiz geçti; şüpheli.',
+  // CTAs (07 §2.2.1 budgets)
+  cta: {
+    nextDay: 'Ertesi Gün', oneMoreYear: 'Bir Yıl Daha', cont: 'Devam', auto: 'Otomatik', autoOn: 'Otomatik: açık', enough: 'Bugünlük yeter',
+    share: 'Paylaş', shuffle: 'Karıştır', keep: 'Bu olsun', newClient: 'YENİ MÜŞTERİ', fastLife: 'Hızlı yaşa', skip: 'Geç ›',
+  },
+  sessionTitle: 'BUGÜNLÜK YETER',
+  sessionText: (y: number, d: number) => `Mesai bitti. ${y} yıl, ${d} gün, ${d} pişmanlık adayı. Ben buradayım, defter de. Sen de ol; kolay değil ama.`,
+  suggestEnd: 'Bugünlük yeter mi? Ben yorulmadım. Defter yoruldu.',
+  // FTUE (07 §2.3.2)
+  intro1: '18 oldun. Tebrikler. Buradan sonrası resmî olarak senin suçun.',
+  intro2: 'Ben Motto. Hayat koçun. Sertifikam yok; 2.400 seminer verdim, hiçbiri işe yaramadı. Sen son müşterimsin. Baskı yok.',
+  fileTitle: 'MÜŞTERİ DOSYASI',
+  fileName: 'Ad',
+  fileAge: 'Yaş',
+  fileCity: 'Şehir',
+  fileHint: 'İsim ve şehir kurgusaldır. Karıştır, beğen, başla.',
+  nameRoast: (name: string) => `${name}. Soyadın bir vaat. Tutmayacaksın.`,
+  names: [
+    ['Deniz Ertelemez', 'Kadıköy'], ['Ece Sonradan', 'Bornova'], ['Kerem Bellibelirsiz', 'Çankaya'], ['Selin Yarınbaşlar', 'Nilüfer'],
+    ['Mert Hemenşimdi', 'Karşıyaka'], ['Burak Boşverir', 'Beylikdüzü'], ['Ayla Haftaya', 'Konak'], ['Cem Birazdan', 'Tepebaşı'],
+    ['Zeynep Pazartesi', 'Atakum'], ['Onur Halledecek', 'Muratpaşa'],
+  ] as [string, string][],
+  // death → Roast Raporu → new client (07 §2.2.7)
+  deathCause: {
+    circ: 'Kalp. Yıllarca "sonra" dedi; kalp bir gün "şimdi" dedi.',
+    tumor: 'Uzun bir hastalık. Bütün randevulara gitti; birine bile geç kalmadı.',
+    resp: 'Nefes. Sonuncusu bir cümlenin ortasına denk geldi. Cümle iyiydi.',
+    accident: 'Kaza. Bir basamak. Yıllardır "şuraya bir tutamak lazım" diyordu.',
+    external: 'Dışarıdan bir şey. Hava, şans, zamanlama; üçü aynı anda.',
+    absurd: 'Bir hamak ve ani bir rüzgâr. Rapor iki kez okundu.',
+    unknown: 'Dosya kapandı. Sebep hanesi boş; ben de bilmiyorum.',
+  } as Record<string, string>,
+  epitaphDefault: 'Başladı. Teknik olarak.',
+  roastTitle: 'ROAST RAPORU',
+  roastAge: (a: number) => `${a} yaşında. Dosya kapandı.`,
+  nums: { yearsWorked: 'yıl çalıştın', wagersPlayerWon: 'kez beni haksız çıkardın', shownDays: 'gün yaşadın (yazılanlar)' },
+  peak: (x: number, r: number, m: number) => `En yüksek bakiye ◆ ${n(x)} · ${r} kira krizi · ${m} anne araması`,
+  patTitle: 'Ömür boyu kalıpların',
+  times: 'kez',
+  rightMoment: 'Haklı çıktığın an',
+  rightMomentLine: (d: number, p: number) => `Gün ${d}. Oran %${p}'ti. Olmaz dedim; oldu.`,
+  noRightMoment: 'Beni hiç haksız çıkarmadın. Bu bir iltifat değil.',
+  lastWord: 'Koçun son sözü',
+  lastWordLine: (k: number, p: string) => `${k} kez ${lowerTr(p)}. Kimseye söyleme ama iyiydi.`,
+  noLastWord: 'Son söz: dosyada iyi bir şey aradım. Kedi seni sevdi. Bu sayılır.',
+  autoNote: (k: number) => `${k} gün koç seçti. Onları da saydım; söyleyeyim dedim.`,
+  closed: 'KAPANDI',
+  tapToSkip: 'dokun: devam',
+  // patterns (D-024 neutral names)
+  pattern: {
+    procrastination: 'Erteleme', avoidance: 'Kaçınma', impulseSpend: 'Anlık harcama', peoplePleasing: 'Herkesi memnun etme',
+    risk: 'Gözü karalık', selfCare: 'Kendine bakma', overwork: 'Fazla mesai', leanOnFamily: 'Aileye yaslanma', shortcut: 'Kestirme',
+    pride: 'Gurur', generosity: 'Cömertlik', patience: 'Sabır',
+  } as Record<string, string>,
+  motto: {
+    procrastination: 'Plan vardı. Pazartesi de vardı.', avoidance: 'Görüldü. Cevap yok. Yıl bitti.', impulseSpend: 'Para gitti, ders kaldı. Dersi de unuttun.',
+    peoplePleasing: 'Herkes memnun. Sen hariç.', risk: 'Cesaret Pekiyi, bakiye Zayıf.', selfCare: 'Uyudun. Bu yıl buna zafer diyoruz.',
+    overwork: 'Yorgun ama kararlı. Daha çok yorgun.', leanOnFamily: 'Annen kazandı. Annen hep kazanır.', shortcut: 'Kestirme uzun ama hızlı.',
+    pride: 'Hayır demeyi öğrendin. Aynaya.', generosity: 'Verdin, verdin. Kimse saymadı; ben saydım.', patience: 'Bekledin. Bazen gerçekten geldi.',
+    none: 'Başladı. Teknik olarak.', good: 'Potansiyel: var. Kanıt: yavaş yavaş.', bad: 'Bu yıl da olmadı; ama az kaldı.',
+  } as Record<string, string>,
+};
+
+export type Strings = typeof tr;

@@ -1,23 +1,30 @@
+import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { channelRng, ENGINE_VERSION } from '@motto/engine';
+import { LifeScreen } from './src/screens/LifeScreen';
 
-export default function App() {
-  const rng = channelRng('demo-life', 1, 'events');
-  const sample = rng.int(1, 100);
-  return (
-    <View style={styles.container} testID="root">
-      <Text style={styles.brand}>MOTTO</Text>
-      <Text style={styles.sub}>Sertifikasız Hayat Koçu · engine {ENGINE_VERSION}</Text>
-      <Text style={styles.line}>Deterministik zar: {sample}</Text>
-      <StatusBar style="light" />
-    </View>
-  );
+const FONTS_HREF = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Archivo+Black&display=swap';
+
+/** Web only: load the mock's Google fonts; native (and offline web) falls back to system serif / heavy sans. */
+function useWebFonts(): void {
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined' || document.getElementById('motto-fonts')) return;
+    const link = document.createElement('link');
+    link.id = 'motto-fonts';
+    link.rel = 'stylesheet';
+    link.href = FONTS_HREF;
+    document.head.appendChild(link);
+    document.title = 'Motto';
+    document.body.style.backgroundColor = '#181e18';
+  }, []);
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#101410', alignItems: 'center', justifyContent: 'center', gap: 8 },
-  brand: { color: '#c9ff3a', fontSize: 28, fontWeight: '900', letterSpacing: 4 },
-  sub: { color: '#a8ab9c', fontSize: 13 },
-  line: { color: '#f1eee2', fontSize: 16 },
-});
+export default function App() {
+  useWebFonts();
+  return (
+    <>
+      <LifeScreen />
+      <StatusBar style="light" />
+    </>
+  );
+}
