@@ -1,0 +1,44 @@
+{ "id": "evt_is_gorusmesi_ik", "v": 1, "type": "event", "tags": ["kariyer", "ik", "is"], "rarity": "common",
+  "valence": 0, "intensity": 8000, "punchOwner": "coach", "universality": "universal", "cooldownDays": { "self": 30 },
+  "pre": { "any": [ { "flags": { "all": ["is_ariyor"] } }, { "career": { "employed": false } } ], "age": { "min": 18 } },
+  "dialog": [
+    { "speaker": "npc:hr", "avatar": "neutral", "tr": "Hoş geldiniz. Kendinizden bahseder misiniz? Kısaca.", "en": "Welcome. Tell us about yourself. Briefly." },
+    { "speaker": "npc:hr", "avatar": "neutral", "tr": "Beş yıl sonra kendinizi nerede görüyorsunuz?", "en": "Where do you see yourself in five years?" },
+    { "speaker": "npc:hr", "avatar": "smug", "tr": "Maaş beklentiniz? Sayı söylemeyin; aralık söyleyin; aralık da söylemeyin.", "en": "Salary expectations? Don't say a number. Give a range. Don't give a range." }
+  ],
+  "choices": [
+    { "id": "durust", "tr": "Dürüst cevap", "en": "Be honest", "pattern": "patience", "check": { "base": 4500, "stat": "brain", "goal": "is" } },
+    { "id": "ezber", "tr": "Ezber cevaplar", "en": "The script", "pattern": "peoplePleasing", "check": { "base": 5000, "stat": "charm", "goal": "is" } },
+    { "id": "maas", "tr": "Yüksek sayı söyle", "en": "Say a big number", "pattern": "risk", "check": { "base": 3000, "stat": "ego", "goal": "is" } }
+  ],
+  "outcomes": {
+    "durust": [
+      { "p": 4500, "luckScaled": true, "effects": { "status": { "job": { "title": "ofis", "tier": 1, "monthly": 1000 } }, "stats": { "joy": 8 }, "flags": { "add": ["calisiyor"], "remove": ["is_ariyor"] } },
+        "tr": "'Pazartesi başlayabilir misiniz?' Pazartesi.", "en": "'Can you start Monday?' Monday.",
+        "coach": [ { "tr": "İşe alındın. 'Beş yıl sonra' sorusuna 'burada değil' dedin; yine aldılar. Dürüstlük işe yarıyor. Nadiren, ama yarıyor.", "en": "Hired. You answered 'five years' with 'not here.' They took you anyway. Honesty works. Rarely. But it works.", "roast": true } ] },
+      { "p": 5500, "effects": { "meters": { "ego": -3 }, "hidden": { "stress": 3 } },
+        "tr": "'Size döneceğiz.' Dönmediler.", "en": "'We'll get back to you.' They didn't get back.",
+        "nearMiss": { "tr": "İkinci tura kaldın. Üçüncü tur yoktu; bütçe vardı. Bütçe kesildi.", "en": "You made round two. There was no round three; there was a budget. The budget got cut." },
+        "coach": [ { "tr": "Ret. Sayaç: {n}. 'Döneceğiz' hayatın en uzun zarfı.", "en": "Rejected. Count: {n}. 'We'll get back to you' is life's longest envelope.", "roast": true },
+                   { "tr": "Aynı kapı, +%10; yazdım.", "en": "Same door, +10 percent. Noted.", "roast": false, "lift": true } ] } ],
+    "ezber": [
+      { "p": 5000, "luckScaled": true, "effects": { "status": { "job": { "title": "ofis", "tier": 1, "monthly": 1000 } }, "flags": { "add": ["calisiyor"], "remove": ["is_ariyor"] } },
+        "tr": "'Takım oyuncusuyum' dedin. Takım yok; sen varsın. Pazartesi.", "en": "'I'm a team player,' you said. There's no team. There's you. Monday.",
+        "coach": [ { "tr": "Ezber tuttu. Benim seminer ezberim de tutuyordu; sonra kurum kapandı. Not.", "en": "The script worked. My seminar script worked too, right up until the institute closed. Noted.", "roast": true } ] },
+      { "p": 5000, "effects": { "meters": { "cringe": 5 } },
+        "tr": "Ezber bitti, sorular bitmedi.", "en": "The script ran out before the questions did.",
+        "nearMiss": { "tr": "'Çok hazırlıklıydınız' dediler. İltifat değildi.", "en": "'You were very prepared,' they said. It wasn't a compliment." },
+        "coach": [ { "tr": "Cringe +5. Ezber bir kez biter; cringe birikir.", "en": "Cringe +5. A script ends once. Cringe compounds.", "roast": true },
+                   { "tr": "Bir soruya kendi cümlen.", "en": "One answer, your own words.", "roast": false, "lift": true } ] } ],
+    "maas": [
+      { "p": 3000, "luckScaled": true, "effects": { "status": { "job": { "title": "ofis", "tier": 2, "monthly": 1600 } }, "money": 1000, "meters": { "ego": 10 }, "flags": { "add": ["calisiyor"], "remove": ["is_ariyor"] } },
+        "tr": "Sayı söyledin. Kimse gülmedi. Kabul ettiler. Sen güldün; sonra.", "en": "You said a number. Nobody laughed. They accepted. You laughed, later.",
+        "coach": [ { "tr": "Yüksek dedin, aldın. Ego {ego}. Bu sayı odayı tek başına doldurur; dikkat.", "en": "You went high; they paid. Ego {ego}. That number fills a room by itself. Careful.", "roast": true } ] },
+      { "p": 7000, "effects": { "meters": { "ego": -6 } },
+        "tr": "Sayı söyledin. Gülmediler; nezaketten değil, şaşkınlıktan.", "en": "You said a number. They didn't laugh. Not politeness. Shock.",
+        "coach": [ { "tr": "Oran %30'du; iddia açmadım, kural. Yine de 'olmaz' diye düşündüm; sessizce.", "en": "Thirty percent. No wager; rule's a rule. I still thought 'no.' Quietly.", "roast": true, "when": { "wagerOpen": false } },
+                   { "tr": "Sayı büyüktü, oda küçüktü. Gerisi fişte yazıyor.", "en": "Big number, small room. The rest is on the slip.", "roast": true, "when": { "wagerOpen": true } } ] } ]
+  },
+  "wager": { "eligible": true, "slip": { "tr": "İDDİA: Bu kapı açılmaz. — M.", "en": "WAGER: This door stays shut. — M." } },
+  "intent": { "setup": "İK mülakatı, üç klasik soru", "mechanism": "üç strateji, üç olasılık; koç kapıya karşı", "mechanismId": "count", "punch": "'döneceğiz' = en uzun zarf", "lift": "aynı kapı +%10", "target": "decision" },
+  "review": { "status": "punched", "legal": "ok", "funnyTr": 4, "funnyEn": 4 } }
