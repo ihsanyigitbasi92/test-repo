@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_dayi_tek_kitap_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "hazirlik",
+    "dayi",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 20
+    },
+    "flags": {
+      "none": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda tek kitap vardı. Onu ezberledin mi, kazandın.",
+      "en": "In my day there was one book. Memorize it, you're in."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Bu kadar deneme kitabı yoktu. Mum vardı, kitap vardı, bir de ben vardım.",
+      "en": "None of these practice books. There was a candle, a book, and me.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Dayın haklı. Ama sen yine de kursa git.",
+      "en": "Your uncle's right. But you're still going to the prep course.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kurs",
+      "tr": "Kursa yazıl",
+      "en": "Sign up for prep classes",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "tekkitap",
+      "tr": "Tek kitap yöntemini dene",
+      "en": "Try the one-book method",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "plan",
+      "tr": "Kendi takvimini kur",
+      "en": "Build your own schedule",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kurs": {
+      "effects": {
+        "meters": {
+          "momPressure": -5
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "brain": 2
+        },
+        "flags": {
+          "add": [
+            "hazirlik_kursu"
+          ]
+        }
+      },
+      "tr": "Kursa yazıldın. Annen ilk taksiti yatırdı, dayın \"para tuzağı\" dedi ve broşürü katlayıp cebine koydu.",
+      "en": "You signed up. Mom paid the first installment. Your uncle called it a money trap, then folded the brochure into his pocket.",
+      "coach": [
+        {
+          "tr": "Broşür dayının cebinde. Merak edilen o.",
+          "en": "The brochure's in your uncle's pocket. Curious.",
+          "roast": false
+        }
+      ]
+    },
+    "tekkitap": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "brain": 4
+          },
+          "meters": {
+            "momPressure": -3
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "Tek kitabı iki ayda bitirdin. İlk denemede netlerin yükseldi; dayın bunu herkese anlattı.",
+        "en": "You finished the one book in two months. Your first practice score went up. Your uncle told everyone.",
+        "coach": [
+          {
+            "tr": "Bir kitap. Dayının hikâyesine bir bölüm daha.",
+            "en": "One book. One more chapter in your uncle's story.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef bir kitap yaklaştı.",
+            "en": "Goal: one book closer.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 1,
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "momPressure": 4
+          }
+        },
+        "tr": "Tek kitabın baskısı on beş yıl önceymiş. Müfredatın üçte biri kitapta yok.",
+        "en": "The one book was fifteen years old. A third of the syllabus wasn't in it.",
+        "coach": [
+          {
+            "tr": "Kitap yerinde. Müfredat taşınmış.",
+            "en": "The book stayed put. The syllabus moved out.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "plan": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "calisma_takvimi"
+          ]
+        }
+      },
+      "tr": "Haftalık bir takvim kurdun ve buzdolabına astın. Dayın yanına mum resmi çizdi.",
+      "en": "You made a weekly schedule and stuck it on the fridge. Your uncle drew a candle next to it.",
+      "coach": [
+        {
+          "tr": "Takvim buzdolabında. Mum da.",
+          "en": "Schedule on the fridge. Candle too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "üniversite sınavına ikinci kez hazırlanırken dayının yöntem tavsiyesi",
+    "mechanism": "dayı eski usulü tek kitapla anlatıyor",
+    "mechanismId": "callback",
+    "punch": "tek kitap, tek kalem, tek mum",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "mum"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

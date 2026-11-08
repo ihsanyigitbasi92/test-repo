@@ -16,7 +16,7 @@
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
 import { buildRoast, emptyMeta, step } from '@motto/engine';
 import type { Action, Effect, LifeState, Locale, MetaState, ReportCardData, RoastReport, Speed, StepResult } from '@motto/engine';
-import { BUNDLE, eventById } from '../content/bundle';
+import { START_AGE, advanceContent, contentReadyFor, eventById, getBundle, prepareContent } from '../content/bundle';
 import { CATALOG } from '../i18n';
 import { haptic } from './haptics';
 import type { CardVariant, Delta, FeedItem, StampResult } from './feed';
@@ -123,6 +123,9 @@ export class GameController {
   private timers = new Set<ReturnType<typeof setTimeout>>();
   private seq = 1;
   private started = false;
+  /** D-156: START_LIFE waits once for core + the first age band (web fetch); a failed load falls back to base content. */
+  private waitingContent = false;
+  private contentTried = false;
   private autoDays = 0;
   private lowJoyShown = false;
   private lastMotto: string | null = null;
@@ -168,6 +171,7 @@ export class GameController {
     if (!this.tickTimer) this.tickTimer = setInterval(() => this.tick(), TICK);
     if (this.started) { this.scheduleAuto(); return; }
     this.started = true;
+    void prepareContent(START_AGE);                                           // packs load while the Client File is up
     this.enqueue([
       { wait: 300, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro1' }, roast: true }) },
       { wait: 1400, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro2' } }) },
@@ -183,9 +187,10 @@ export class GameController {
   // ── engine dispatch ───────────────────────────────────────────────────────
   private dispatch(action: Action): StepResult | null {
     if (!this.state && action.type !== 'START_LIFE') return null;
-    const r = step(this.state as LifeState, this.meta, action, BUNDLE);
+    const r = step(this.state as LifeState, this.meta, action, getBundle());
     this.state = r.state;
     this.meta = r.meta;
+    if (r.state?.calendar) advanceContent(r.state.calendar.age);          // D-156: merge reached bands, prefetch the next
     if (r.effects.length === 1 && r.effects[0]!.kind === 'HAPTIC') haptic.error();
     return r;
   }
@@ -509,7 +514,12 @@ export class GameController {
   toggleFastLife = (): void => { haptic.selection(); this.set({ fastLife: !this.snap.fastLife }); };
 
   keepName = (): void => {
-    if (this.snap.stage !== 'file') return;
+    if (this.snap.stage !== 'file' || this.waitingContent) return;
+    if (!this.contentTried && !contentReadyFor(START_AGE)) {                  // web: core + first band still loading
+      this.waitingContent = true;
+      void prepareContent(START_AGE).finally(() => { this.waitingContent = false; this.contentTried = true; this.keepName(); });
+      return;
+    }
     this.clearAuto();
     haptic.selection();
     const { name } = this.snap.candidate;

@@ -21,7 +21,7 @@ describe('content production tools', () => {
     expect(v.stdout).toMatch(/ events, 0 error/);
     expect(run('redline').status).toBe(0);
     expect(run('dupes').status).toBe(0);
-  });
+  }, 180_000);   // the whole production pool (D-155: growing to 10.000 events) — well past the 5 s default
 
   it('validate walks nested domain folders', () => {
     const d = join(dir, 'pack', 'egitim_universite');

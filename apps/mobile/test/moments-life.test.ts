@@ -5,7 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import { step, emptyMeta } from '@motto/engine';
 import type { Effect, LifeState, MetaState } from '@motto/engine';
-import { BUNDLE } from '../src/content/bundle';
+import { BASE_BUNDLE as BUNDLE } from '../src/content/bundle';
 import { seededRng } from '../src/avatar/look';
 import {
   BIRTHDAY_MILESTONES, emptyMomentHistory, isMilestoneBirthday, lifeChange, momentCandidates, pickMoment, recordMoment,

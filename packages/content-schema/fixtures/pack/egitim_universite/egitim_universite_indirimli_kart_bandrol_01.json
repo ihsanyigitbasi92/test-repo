@@ -1,0 +1,166 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_indirimli_kart_bandrol_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "ulasim",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bandrol geçen dönemin. Tam bilet ödeyeceksiniz.",
+      "en": "That sticker's last term. Full fare."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Yeni bandrol için öğrenci belgesi lazım. Belgeyi öğrenci kartıyla alıyorsunuz.",
+      "en": "New sticker needs a student certificate. You get the certificate by showing the card.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Kart da geçerli değil şu an tabii.",
+      "en": "Which, right now, isn't valid.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tam",
+      "tr": "Tam bileti öde",
+      "en": "Pay full fare",
+      "pattern": "patience"
+    },
+    {
+      "id": "kimlik",
+      "tr": "Nüfus kimliğiyle dene",
+      "en": "Try your national ID",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yuru",
+      "tr": "Kampüse yürü",
+      "en": "Walk to campus",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "tam": {
+      "effects": {
+        "money": -30,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "bandrol_bekliyor"
+          ]
+        }
+      },
+      "tr": "Tam bilet ödedin. Bandrol işi öğrenci işlerinde, salı ve perşembe 10.00–12.00.",
+      "en": "You paid full fare. Sticker office: Tuesdays and Thursdays, ten to noon.",
+      "coach": [
+        {
+          "tr": "Salı ya da perşembe. Saat on ile on iki arası.",
+          "en": "Tuesday or Thursday. Between ten and noon.",
+          "roast": false
+        }
+      ]
+    },
+    "kimlik": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "bandrol_tamam"
+          ]
+        }
+      },
+      "tr": "Öğrenci işleri kimlikle belgeyi verdi. Belgeyle bandrol, bandrolle indirim. Üç gişe, bir sabah.",
+      "en": "The registrar accepted your ID. Certificate, then sticker, then the discount. Three windows, one morning.",
+      "coach": [
+        {
+          "tr": "Döngü kimlikle kırıldı. Sabah gitti.",
+          "en": "The loop broke on a national ID. The morning didn't survive.",
+          "roast": false
+        }
+      ]
+    },
+    "yuru": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "devamsizlik_bir"
+          ]
+        }
+      },
+      "tr": "Kampüse yürüdün, ilk derse yirmi dakika geç kaldın. Hoca yoklamayı derse başlamadan almış.",
+      "en": "You walked and arrived twenty minutes late. Attendance had been taken at minute one.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika yürüyüş, sıfır yoklama.",
+          "en": "Twenty minutes of walking. Zero attendance credit.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "otobüste öğrenci kartının dönem bandrolü eski çıktı",
+    "mechanism": "bandrol için belge, belge için kart döngüsü",
+    "mechanismId": "escalation",
+    "punch": "kart için belge, belge için kart",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dongu_kart"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

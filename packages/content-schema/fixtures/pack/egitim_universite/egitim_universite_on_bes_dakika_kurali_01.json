@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_on_bes_dakika_kurali_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "ders",
+    "yoklama",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "On beş dakika kuralı. Hoca gelmezse çıkıyoruz. KESİN kural bu, yönetmelikte var.",
+      "en": "Fifteen-minute rule. Prof's not here, we leave. That is DEFINITELY a rule, it's in the handbook."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Yönetmelikte yok. Ama herkes çıkıyor.",
+      "en": "It's not in the handbook. But everyone's leaving.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cik",
+      "tr": "Herkesle çık",
+      "en": "Leave with everyone",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kal",
+      "tr": "Sınıfta kal",
+      "en": "Stay in your seat",
+      "pattern": "patience"
+    },
+    {
+      "id": "kapi",
+      "tr": "Kapıda bekle",
+      "en": "Wait in the doorway",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "devamsizlik_bir"
+          ]
+        }
+      },
+      "tr": "Hoca on altıncı dakikada geldi ve yoklama aldı. Sınıfta iki kişi vardı; sen değildin.",
+      "en": "The professor walked in at minute sixteen and took attendance. Two people were there. Not you.",
+      "coach": [
+        {
+          "tr": "On beş dakika bekledin. On altıncıyı beklemedin.",
+          "en": "You waited fifteen minutes. Not sixteen.",
+          "roast": true
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "vize_ipucu"
+          ]
+        }
+      },
+      "tr": "Kalan iki kişiden biri sendin. Hoca ikinize de vize öncesi konu ipucu verdi.",
+      "en": "You were one of the two who stayed. The professor gave you both a hint about the midterm.",
+      "coach": [
+        {
+          "tr": "İki kişilik sınıf, iki kişilik ipucu.",
+          "en": "A class of two, a hint for two.",
+          "roast": false
+        }
+      ]
+    },
+    "kapi": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "vize_ipucu"
+            ]
+          }
+        },
+        "tr": "Kapıda bekledin; hoca koridorda görünce içeri girdin. Yoklamaya yetiştin, ipucuna da.",
+        "en": "You waited in the doorway and slipped in when the professor rounded the corner. Made attendance and the hint.",
+        "coach": [
+          {
+            "tr": "Kapı eşiği bugün iyi bir yerdi.",
+            "en": "The doorway was a good spot today.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "devamsizlik_bir"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kapıda bekledin, ev arkadaşın kolundan çekti. Hoca merdivenden çıkarken siz asansördeydiniz.",
+        "en": "You hovered in the doorway until your roommate pulled you away. The professor took the stairs while you rode the elevator down.",
+        "coach": [
+          {
+            "tr": "Asansör aşağı, hoca yukarı. Zamanlama kusursuz.",
+            "en": "Elevator down, professor up. Flawless timing.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kapi",
+    "slip": {
+      "tr": "İDDİA: Kapıda bekleyen ne içeride ne dışarıda. — M.",
+      "en": "WAGER: Whoever waits in the doorway ends up neither in nor out. — M."
+    }
+  },
+  "intent": {
+    "setup": "hoca gelmeyince on beşinci dakikada sınıfı terk etmek",
+    "mechanism": "hoca on altıncı dakikada gelip yoklama alıyor",
+    "mechanismId": "callback",
+    "punch": "on altıncı dakika",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dakika"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

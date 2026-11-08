@@ -5,7 +5,7 @@
 import { createContext, useContext } from 'react';
 import { renderText } from '@motto/engine';
 import type { Locale } from '@motto/engine';
-import { BUNDLE } from '../content/bundle';
+import { getBundle } from '../content/bundle';
 import { tr, type Strings } from './tr';
 import { en } from './en';
 
@@ -20,7 +20,7 @@ export interface I18n {
 }
 
 export function makeI18n(locale: Locale): I18n {
-  return { locale, s: CATALOG[locale], text: (key, params) => renderText(BUNDLE, key, locale, params) ?? '' };
+  return { locale, s: CATALOG[locale], text: (key, params) => renderText(getBundle(), key, locale, params) ?? '' };
 }
 
 export const I18nContext = createContext<I18n>(makeI18n('tr'));

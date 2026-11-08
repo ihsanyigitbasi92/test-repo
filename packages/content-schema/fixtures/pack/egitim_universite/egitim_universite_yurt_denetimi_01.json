@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_yurt_denetimi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "yurt",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    },
+    "housing": [
+      "room"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Denetim geliyor! Isıtıcıyı saklamamız lazım. KESİN dolaba bakmazlar.",
+      "en": "Inspection's coming! We have to hide the kettle. They DEFINITELY won't check the closet."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Rutin oda kontrolü. Elektrikli ısıtıcı, ocak, tost makinesi yasak.",
+      "en": "Routine room check. Kettles, hot plates and sandwich presses are prohibited.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "sakla",
+      "tr": "Yorganın altına sakla",
+      "en": "Hide it under the duvet",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "cringe"
+      }
+    },
+    {
+      "id": "teslim",
+      "tr": "Kendin teslim et",
+      "en": "Hand it over",
+      "pattern": "patience"
+    },
+    {
+      "id": "dolap",
+      "tr": "Ev arkadaşının dolabı",
+      "en": "Roommate's closet plan",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "sakla": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Görevli yatağa oturmadı. Isıtıcı yorganın altında, hâlâ sıcak, kurtuldu.",
+        "en": "The inspector didn't sit on the bed. The kettle survived under the duvet, still warm.",
+        "coach": [
+          {
+            "tr": "Isıtıcı kurtuldu. Yorgan biraz ısındı.",
+            "en": "Kettle saved. Duvet slightly heated.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "yurt_uyari"
+            ]
+          }
+        },
+        "tr": "Görevli yatağa oturdu ve hemen kalktı. Isıtıcıya el konuldu, odaya bir uyarı yazıldı.",
+        "en": "The inspector sat on the bed and stood right back up. Kettle confiscated, written warning issued.",
+        "coach": [
+          {
+            "tr": "Isıtıcı hâlâ sıcaktı. Tutanak da.",
+            "en": "The kettle was still warm. So is the report.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "teslim": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "isitici_emanette"
+          ]
+        }
+      },
+      "tr": "Isıtıcıyı teslim ettin. Dönem sonunda iade edilecek; çayı artık kantinde içiyorsun, bardağı 5 Para.",
+      "en": "You turned it in. You'll get it back at term's end. Tea now comes from the cafeteria, five a cup.",
+      "coach": [
+        {
+          "tr": "Dönem sonuna kadar bardak başı beş.",
+          "en": "Five a cup until the end of term.",
+          "roast": false
+        }
+      ]
+    },
+    "dolap": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -4
+          }
+        ]
+      },
+      "tr": "Isıtıcı ev arkadaşının dolabında bulundu. Uyarı onun adına yazıldı; sana bir hafta konuşmadı.",
+      "en": "They found it in your roommate's closet. The warning went in their name. They didn't speak to you for a week.",
+      "coach": [
+        {
+          "tr": "Bir uyarı, bir hafta sessizlik. Çay devam ediyor.",
+          "en": "One warning, one silent week. Tea service continues.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check var; denetim günü wager kapalı (parti dengesi)"
+  },
+  "intent": {
+    "setup": "yurt oda denetiminde yasak su ısıtıcısı",
+    "mechanism": "ısıtıcının saklanma yeri",
+    "mechanismId": "escalation",
+    "punch": "ısıtıcı yorganın altında hâlâ sıcak",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "isitici"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

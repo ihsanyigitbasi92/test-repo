@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_kutuphane_cezasi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "kutuphane",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kitap yüz on dokuz gün gecikmiş. Günlük iki Para.",
+      "en": "This book is one hundred nineteen days late. Two a day."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Okudunuz mu bari? Kenarında hiç iz yok.",
+      "en": "Did you at least read it? Not a single mark in the margins.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Cezayı öde",
+      "en": "Pay the fine",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Tatil günlerine itiraz et",
+      "en": "Dispute the holiday days",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kitap",
+      "tr": "Kitabı bir dönem daha al",
+      "en": "Check it out again",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -238,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "kutuphane_temiz"
+          ]
+        }
+      },
+      "tr": "238 Para ödedin. Kitap rafa döndü; senin kayıt kartın temizlendi.",
+      "en": "You paid 238. The book is back on the shelf and your record is clean.",
+      "coach": [
+        {
+          "tr": "Bir dönem misafirlik. Kira 238.",
+          "en": "A semester-long sleepover. Rent: 238.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -150,
+          "stats": {
+            "brain": 2
+          }
+        },
+        "tr": "Yönetmelik bulundu: Tatillerde ceza işlemiyor. Tutar 150 Para'ya indi.",
+        "en": "The rulebook agrees: no fines on holidays. It drops to 150.",
+        "coach": [
+          {
+            "tr": "Seksen sekiz Para geri. Yönetmelik bu kez senden yana.",
+            "en": "Eighty-eight back. The rulebook picked your side today.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -238,
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Görevli yönetmeliği gösterdi: Tatil günleri de sayılıyor. Tutar 238 Para, itiraz yarım saat.",
+        "en": "The clerk showed you the rulebook: holidays count. 238, plus half an hour of debate.",
+        "coach": [
+          {
+            "tr": "Yarım saat itiraz, sıfır indirim.",
+            "en": "Half an hour of objection. Zero discount.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kitap": {
+      "effects": {
+        "money": -238,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kitap_yatak_alti"
+          ]
+        }
+      },
+      "tr": "Cezayı ödedin, kitabı yeniden aldın. Yatağın altına geri döndü.",
+      "en": "You paid and checked it out again. It went back under the bed.",
+      "coach": [
+        {
+          "tr": "Kitap evine döndü.",
+          "en": "The book went home.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "yatağın altında bir dönem kalan kütüphane kitabının gecikme cezası",
+    "mechanism": "ceza gün gün sayılmış",
+    "mechanismId": "count",
+    "punch": "kitap yatağın altında dönemi bitirdi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "okundu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

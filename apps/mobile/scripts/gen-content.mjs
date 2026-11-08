@@ -4,7 +4,8 @@
  * can bundle them for iOS / Android / web. Run after adding or removing a fixture file:
  *   node apps/mobile/scripts/gen-content.mjs
  * Only top-level + demo/ are bundled. fixtures/pack/<domain>/ (the 10.000-event production pool, D-155) is
- * deliberately NOT imported here: it ships as lazily-loaded per-domain packs built by a later step (D-156).
+ * deliberately NOT imported here: it ships as lazily-loaded age-band packs (D-156) — content-schema `build:packs`
+ * → assets/content/, loaded by src/content/bundle.ts.
  */
 import { readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';

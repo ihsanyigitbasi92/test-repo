@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_son_dakika_yukleme_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "odev",
+    "sistem",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "ekran",
+      "tr": "Teslim 23.59'da. Saat 23.56. Yükleme çubuğu yüzde doksan dokuzda duruyor.",
+      "en": "Due at 11:59. It's 11:56. The upload bar is parked at ninety-nine percent."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Sayfayı yenileme! Yenilersen gider. Ya da yenile. Bilmiyorum.",
+      "en": "Don't refresh! It'll vanish. Or refresh. I don't know."
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Çubuğa güven",
+      "en": "Trust the bar",
+      "pattern": "patience",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "mail",
+      "tr": "Dosyayı hocaya e-postala",
+      "en": "Email it to the professor",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yenile",
+      "tr": "Sayfayı yenile",
+      "en": "Refresh the page",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "odev_teslim"
+            ]
+          }
+        },
+        "tr": "23.59'da çubuk doldu. Sistem \"Teslim alındı\" yazdı, saat damgası 23.59.",
+        "en": "At 11:59 the bar filled. The system said: Received. Timestamp 11:59.",
+        "coach": [
+          {
+            "tr": "Son dakika. Gerçek anlamda.",
+            "en": "Last minute. Literally.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "odev_gec"
+            ]
+          }
+        },
+        "tr": "Çubuk 00.01'de doldu. Sistem teslimi aldı, yanına kırmızı bir \"GEÇ\" ekledi: yüzde on kesinti.",
+        "en": "The bar filled at 12:01. The system accepted it and added a red LATE tag. Ten percent off.",
+        "coach": [
+          {
+            "tr": "İki dakika, yüzde on. Dakikası yüzde beş.",
+            "en": "Two minutes, ten percent. Five percent a minute.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "mail": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "followUp": [
+          {
+            "eventId": "egitim_universite_son_dakika_yukleme_02",
+            "delayDays": [
+              1,
+              3
+            ]
+          }
+        ]
+      },
+      "tr": "Dosyayı 23.58'de e-postaladın. Hoca ertesi sabah cevap verdi: \"Sistemden yükleyiniz.\" Sistem kapanmıştı.",
+      "en": "Emailed at 11:58. Next morning the professor replied: Please use the system. The system was closed.",
+      "coach": [
+        {
+          "tr": "E-posta zamanında. Sistem değil.",
+          "en": "The email was on time. The system wasn't.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacı bir gün bekleyecek.",
+          "en": "Goal counter waits a day.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "yenile": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "odev_kayip"
+          ]
+        }
+      },
+      "tr": "Yeniledin. Dosya gitti; sistem 00.00'da yeni teslimleri kapattı.",
+      "en": "You refreshed. The file vanished. The system closed submissions at midnight.",
+      "coach": [
+        {
+          "tr": "Yenile tuşu yeniledi. Dönemi değil.",
+          "en": "The refresh button refreshed. Not the semester.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Çubuk 23.59'u kaçırır. — M.",
+      "en": "WAGER: The bar misses 11:59. — M."
+    }
+  },
+  "intent": {
+    "setup": "ödev yükleme sistemi teslimden üç dakika önce yavaşlıyor",
+    "mechanism": "yükleme çubuğu yüzde doksan dokuzda",
+    "mechanismId": "escalation",
+    "punch": "yüzde doksan dokuz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cubuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

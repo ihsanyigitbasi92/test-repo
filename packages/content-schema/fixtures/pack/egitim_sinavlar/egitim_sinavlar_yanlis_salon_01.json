@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_yanlis_salon_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "salon",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Sizin kitapçığınız C türü. Bu salonda C yok. Belgeniz?",
+      "en": "Your booklet is type C. There's no C in this room. Your slip?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "B-21. Burası B-12. Koşmayın ama hızlı yürüyün.",
+      "en": "B-21. This is B-12. Don't run. But walk fast.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Hızlı yürü, yetiş",
+      "en": "Speed-walk and make it",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "tutanak",
+      "tr": "Tutanak tutulsun",
+      "en": "Ask for an official report",
+      "pattern": "patience"
+    },
+    {
+      "id": "sakin",
+      "tr": "Nefes al, sonra git",
+      "en": "Breathe, then go",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "salon_tutanak"
+            ]
+          }
+        },
+        "tr": "B-21'e yedi dakikada vardın. Görevli kaybettiğin süreyi tutanağa yazıp ekledi.",
+        "en": "You made B-21 in seven minutes. The proctor logged the lost time and added it back.",
+        "coach": [
+          {
+            "tr": "Yedi dakika koridor, on dakika iade.",
+            "en": "Seven minutes of hallway. Ten minutes refunded.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "sinav_kacti"
+            ]
+          },
+          "glossary": "giris_suresi"
+        },
+        "tr": "B-21 başka bloktaymış. Vardığında giriş süresi dolmuştu; görevli kapıyı açmadı.",
+        "en": "B-21 was in a different building. By the time you arrived, entry had closed. The door stayed shut.",
+        "coach": [
+          {
+            "tr": "Blok yanlış, kapı doğru zamanda kapandı.",
+            "en": "Wrong building. Right on time, the door closed.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tutanak": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "salon_tutanak"
+          ]
+        }
+      },
+      "tr": "Tutanak tutuldu; görevli seni B-21'e kendisi götürdü. On dakikan geri verildi.",
+      "en": "An incident report was filed and the proctor walked you to B-21. Your ten minutes were restored.",
+      "coach": [
+        {
+          "tr": "Tutanak yürüdü. Sen de arkasından.",
+          "en": "The report walked. You followed.",
+          "roast": false
+        }
+      ]
+    },
+    "sakin": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Bir dakika nefes aldın, sonra B-21'e yürüdün. Kayıp on bir dakika; ilk on soru hızlı geçti.",
+      "en": "One minute of breathing, then B-21. Eleven minutes lost. The first ten questions went fast.",
+      "coach": [
+        {
+          "tr": "On bir dakika eksik. Nefes yerinde.",
+          "en": "Eleven minutes short. Breathing intact.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check var; bu partide wager payı dolu"
+  },
+  "intent": {
+    "setup": "sınava yanlış salonda on dakika oturmak",
+    "mechanism": "kitapçık türü farklı çıkınca anlaşılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "salon B-12 değil, B-21",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "salon_no"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

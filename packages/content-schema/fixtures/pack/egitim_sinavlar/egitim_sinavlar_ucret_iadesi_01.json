@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "egitim_sinavlar_ucret_iadesi_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "ucret",
+    "evrak",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÖLÇME VE SINAV HİZMETLERİ BİRİMİ (kurgusal)",
+      "en": "TESTING SERVICES UNIT (fictional)"
+    },
+    "body": {
+      "tr": "İptal edilen oturum için iade talebiniz değerlendirmeye alınmıştır. İade, işlem bedeli düşülerek 45 iş günü içinde yapılacaktır.",
+      "en": "Your refund request for the cancelled session is under review. Refunds, less a processing fee, are issued within 45 business days."
+    },
+    "translate": {
+      "tr": {
+        "from": "işlem bedeli düşülerek",
+        "to": "yazıyı yazmanın ücreti senden"
+      },
+      "en": {
+        "from": "less a processing fee",
+        "to": "you're paying for this letter"
+      }
+    },
+    "glossaryKey": "islem_bedeli"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sınav ücreti 900'dü. İşlem bedeli 150. Gerisi hesabınıza.",
+      "en": "The exam fee was 900. Processing is 150. The rest goes to your account."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "İadeyi bekle",
+      "en": "Wait for the refund",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "İşlem bedeline itiraz et",
+      "en": "Dispute the fee",
+      "pattern": "pride"
+    },
+    {
+      "id": "aktar",
+      "tr": "Ücreti yeni oturuma aktar",
+      "en": "Roll it into the next session",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 750,
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "sinav_iade"
+          ]
+        }
+      },
+      "tr": "Kırk dördüncü iş günü 750 Para hesabına yattı. Açıklamada \"İADE\" yazıyordu.",
+      "en": "On business day forty-four, 750 arrived. Memo line: REFUND.",
+      "coach": [
+        {
+          "tr": "Kırk dört gün. Erken teslim sayılır.",
+          "en": "Forty-four days. Early, technically.",
+          "roast": true
+        }
+      ]
+    },
+    "itiraz": {
+      "effects": {
+        "money": 750,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sinav_iade"
+          ]
+        }
+      },
+      "tr": "İtiraz formu ücretsizmiş. Cevap üç hafta sonra geldi: \"İşlem bedeli iade edilmez.\" 750 Para yine de yattı.",
+      "en": "The dispute form was free. Three weeks later: the processing fee is non-refundable. The 750 arrived anyway.",
+      "coach": [
+        {
+          "tr": "Ücretsiz form, ücretli cevap. Sonuç aynı.",
+          "en": "Free form. Same answer. Same 750.",
+          "roast": false
+        }
+      ]
+    },
+    "aktar": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sinav_yeni_oturum"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "egitim_sinavlar_cikista_cevap_karsilastirma_01",
+            "delayDays": [
+              55,
+              60
+            ],
+            "chance": 5000
+          }
+        ]
+      },
+      "tr": "Ücreti bir sonraki oturuma aktardın; işlem bedeli kesilmedi. Sınav tarihin iki ay sonrası.",
+      "en": "You moved the fee to the next session. No processing fee. New exam date: two months out.",
+      "coach": [
+        {
+          "tr": "900 Para yerinde. Sınav takvimde.",
+          "en": "All 900 intact. Exam on the calendar.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "iptal edilen sınav oturumunun ücret iadesi yazısı",
+    "mechanism": "'değerlendirmeye alınmıştır' tercümesi",
+    "mechanismId": "translation",
+    "punch": "iade kesintili; kesinti 'işlem bedeli'",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "iade"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
