@@ -6,12 +6,12 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **5.018** / 10.000 (50.2%) |
+| Alan paketlerindeki geçerli olay | **5.097** / 10.000 (51%) |
 | Kotası dolan alan | 0 / 132 |
 | Kotayı aşan alan | 0 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **5.066** |
+| Genel toplam geçerli olay | **5.145** |
 | Şema hatalı dosya | 0 |
 
 ## Grup bazında
@@ -31,8 +31,8 @@
 | sosyal | 8 | 288 | 539 | 53.4% |
 | saglik | 9 | 425 | 716 | 59.4% |
 | gundelik | 6 | 278 | 501 | 55.5% |
-| ulasim | 3 | 92 | 234 | 39.3% |
-| teknoloji | 3 | 81 | 268 | 30.2% |
+| ulasim | 3 | 128 | 234 | 54.7% |
+| teknoloji | 3 | 124 | 268 | 46.3% |
 | burokrasi | 3 | 82 | 273 | 30% |
 | bos_zaman | 4 | 90 | 299 | 30.1% |
 | mevsim | 2 | 50 | 163 | 30.7% |
@@ -148,11 +148,11 @@
 | 103 | `gundelik_rutin` | gundelik | Sabahlar, rutin ve sıradan günler | 55 | 98 | 43 | 56.1% | ██████░░░░ |
 | 104 | `toplu_tasima` | ulasim | Toplu taşıma ve işe gidiş | 50 | 91 | 41 | 54.9% | █████░░░░░ |
 | 105 | `taksici` | tanidik_yuzler | Taksici arkı | 44 | 78 | 34 | 56.4% | ██████░░░░ |
-| 106 | `araba_sahipligi` | ulasim | Araba sahipliği | 27 | 91 | 64 | 29.7% | ███░░░░░░░ |
-| 107 | `trafik_cezalar` | ulasim | Trafik ve cezalar | 15 | 52 | 37 | 28.8% | ███░░░░░░░ |
+| 106 | `araba_sahipligi` | ulasim | Araba sahipliği | 50 | 91 | 41 | 54.9% | █████░░░░░ |
+| 107 | `trafik_cezalar` | ulasim | Trafik ve cezalar | 28 | 52 | 24 | 53.8% | █████░░░░░ |
 | 108 | `telefon_teknoloji` | teknoloji | Telefon ve teknoloji | 30 | 98 | 68 | 30.6% | ███░░░░░░░ |
-| 109 | `sosyal_medya` | teknoloji | Sosyal medya | 30 | 98 | 68 | 30.6% | ███░░░░░░░ |
-| 110 | `dijital_eglence` | teknoloji | Dizi, oyun ve ekran keyfi | 21 | 72 | 51 | 29.2% | ███░░░░░░░ |
+| 109 | `sosyal_medya` | teknoloji | Sosyal medya | 55 | 98 | 43 | 56.1% | ██████░░░░ |
+| 110 | `dijital_eglence` | teknoloji | Dizi, oyun ve ekran keyfi | 39 | 72 | 33 | 54.2% | █████░░░░░ |
 | 111 | `burokrasi_resmi_daire` | burokrasi | Bürokrasi ve resmî daireler (kurgusal) | 33 | 111 | 78 | 29.7% | ███░░░░░░░ |
 | 112 | `evrak_mektuplar` | burokrasi | Evrak kartları ve resmî mektuplar | 31 | 104 | 73 | 29.8% | ███░░░░░░░ |
 | 113 | `hukuki_sorunlar` | burokrasi | Küçük hukuki dertler (kurgusal) | 18 | 58 | 40 | 31% | ███░░░░░░░ |

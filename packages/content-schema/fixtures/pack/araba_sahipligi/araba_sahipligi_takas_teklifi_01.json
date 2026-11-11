@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_takas_teklifi_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Aracınız çok temiz. Takas değeri olarak 2.100 Para yazabiliyoruz.",
+      "en": "Your car's in lovely shape. We can offer 2,100 on the trade-in."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sistem öyle veriyor. Ben olsam daha fazla verirdim ama ben sistem değilim.",
+      "en": "That's what the system says. I'd give more myself. Sadly, I am not the system.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "takas",
+      "tr": "Takası kabul et",
+      "en": "Take the trade-in",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Rakamı zorla",
+      "en": "Push the number",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Arabanla devam et",
+      "en": "Keep your car",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "takas": {
+      "effects": {
+        "money": -6000,
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "yeni_araba_alindi"
+          ]
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "yeni_araba"
+            ],
+            "remove": [
+              "araba"
+            ]
+          }
+        }
+      },
+      "tr": "Eski araba 2.100 Para sayıldı, üstüne 6.000 Para verdin. Yeni koltukların naylonunu üç gün çıkarmadın.",
+      "en": "They counted the old car as 2,100 and you added 6,000. You left the plastic on the new seats for three days.",
+      "coach": [
+        {
+          "tr": "Naylon üç gün dayandı.",
+          "en": "The plastic lasted three days.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -5500,
+          "stats": {
+            "joy": 5
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "yeni_araba_alindi"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "yeni_araba"
+              ],
+              "remove": [
+                "araba"
+              ]
+            }
+          }
+        },
+        "tr": "Danışman \"müdürüme sorayım\" deyip gitti, 2.600 ile döndü. Fark 5.500 Para'ya indi; anahtarı aldın.",
+        "en": "The advisor said \"let me ask my manager\" and came back with 2,600. You paid 5,500 and took the keys.",
+        "coach": [
+          {
+            "tr": "Müdür var mıydı, bilinmiyor. 500 Para vardı.",
+            "en": "Unclear whether the manager exists. The 500 does.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Danışman müdürüne sordu, rakam değişmedi. Eski arabana binip çıktın.",
+        "en": "The advisor asked the manager. The number didn't move. You left in your old car.",
+        "coach": [
+          {
+            "tr": "Araba içeride konuşulanları duymadı.",
+            "en": "The car didn't hear any of what was said inside.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "takas_reddedildi"
+          ]
+        }
+      },
+      "tr": "Teklifi cebine koyup çıktın. Otoparkta araban her zamankinden biraz daha kıymetli göründü; tam 2.100 Para kadar.",
+      "en": "You pocketed the quote and left. In the lot your car looked a little more precious than usual. About 2,100 worth.",
+      "coach": [
+        {
+          "tr": "Fiyatını artık biliyorsun. O bilmiyor.",
+          "en": "You know its price now. It doesn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: O rakam yerinden oynamaz. — M.",
+      "en": "WAGER: That number won't move. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni araba bakarken bayinin eski arabaya düşük takas değeri biçmesi",
+    "mechanism": "danışman rakamı sisteme atıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "ben olsam daha fazla verirdim ama ben sistem değilim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sistem_degilim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

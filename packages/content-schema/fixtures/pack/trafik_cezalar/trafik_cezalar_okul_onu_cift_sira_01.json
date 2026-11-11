@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "trafik_cezalar_okul_onu_cift_sira_01",
+  "tags": [
+    "ulasim",
+    "trafik",
+    "trafik_cezalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "trafik_cezalar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Ben iki dakikaya çıkıyorum. Çocuk ayakkabısını bağlıyor.",
+      "en": "I'll be out in two minutes. My kid is tying a shoe."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Öndeki beni bekliyor, onun önündeki de onu. Biz burada bir aileyiz.",
+      "en": "The one in front is waiting on me. The one ahead, on them. We're a family here.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sıranı bekle",
+      "en": "Wait your turn",
+      "pattern": "patience"
+    },
+    {
+      "id": "uzak",
+      "tr": "İki sokak öteye park et, yürü",
+      "en": "Park two streets off, walk",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "cift",
+      "tr": "Sen de çift sıra yap",
+      "en": "Double-park too",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5500
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "On dört dakika bekledin. Ayakkabı bağlandı, sıra çözüldü; çocuğun binerken \"neden hep sonuncuyuz\" diye sordu.",
+      "en": "You waited fourteen minutes. The shoe got tied, the row dissolved. Climbing in, your kid asked why you're always last.",
+      "coach": [
+        {
+          "tr": "On dört dakikalık bir bağcık.",
+          "en": "A fourteen-minute shoelace.",
+          "roast": false
+        }
+      ]
+    },
+    "uzak": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "okul_yuruyus"
+          ]
+        }
+      },
+      "tr": "İki sokak öteye bıraktın, okula yürüdün. Dönüş yolunda bir kedi, iki su birikintisi ve bir fırın vardı.",
+      "en": "You parked two streets off and walked. The way back with your kid included one cat, two puddles, and a bakery.",
+      "coach": [
+        {
+          "tr": "Çift sıra yarın da orada. Sen olmayacaksın.",
+          "en": "The double row will be there tomorrow. You won't.",
+          "roast": false
+        }
+      ]
+    },
+    "cift": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Dörtlüleri yakıp üç dakikada çocuğu aldın. Arkandaki veli sana, senin öndekine baktığın gibi baktı.",
+        "en": "Hazards on, kid collected in three minutes. The parent behind you gave you the look you'd given the one in front.",
+        "coach": [
+          {
+            "tr": "Bakış elden ele geçiyor.",
+            "en": "The look gets passed down the row.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -200,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "cift_sira_cezasi"
+            ]
+          }
+        },
+        "tr": "Döndüğünde silecekte bir kâğıt vardı: çift sıra park, 200 Para. Çocuğun kâğıdı okumak istedi.",
+        "en": "You came back to a slip under the wiper: double parking, 200. Your kid asked to read it.",
+        "coach": [
+          {
+            "tr": "Günün okuma parçası bir ceza makbuzu.",
+            "en": "Today's reading practice was a parking ticket.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddiaya uygun değil"
+  },
+  "intent": {
+    "setup": "okul çıkışında çift sıra park zincirinde sıkışmak",
+    "mechanism": "herkes bir öndekini bekliyor, zincir aileye dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "biz burada bir aileyiz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bagcik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
