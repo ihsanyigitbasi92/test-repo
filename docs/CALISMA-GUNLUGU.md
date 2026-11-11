@@ -112,3 +112,9 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 
 ## 2026-11-11
 - Dalga 3 haftalık limite takıldı (32/50 parti tamam, +1.632 olay). Havuz: 4.668 paket olayı (çekirdekle 4.716). Tüm kontroller yeşil (1 kırmızı çizgi isabeti düzeltildi: EN "I bet" → "I'd say"). Güvenlik uyarısı incelendi: bir yazar ajan scratchpad'de başka ajanın yardımcı dosyasını taşımış; repoda silinen/değişen izlenen dosya yok.
+
+## 2026-11-11 — İçerik dalga 3 (devam)
+- Dalga 3'ün 50 partisinden 40'ı tamamlandı; havuz 5.097 paket olayı (hedefin %51'i). Şema 0 hata, kırmızı çizgi 0, yakın kopya 0.
+- Kırmızı çizgi taraması bir satır yakaladı ("oy verdi" — siyaset deseni, araba isim olayı); satır yeniden yazıldı.
+- Kalan 10 parti + QA turu 5 saatlik limite takılmıştı; limit sıfırlanınca yeniden başlatıldı.
+- Sprint 2 demosu 5.097 olayla yeniden derlendi, tarayıcıda duman testi geçti (hata yok) ve yayımlandı.
