@@ -1,0 +1,165 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gundelik_rutin_cop_kamyonu_01",
+  "tags": [
+    "gundelik",
+    "rutin",
+    "gundelik_rutin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "gundelik_rutin": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Çöp kamyonu sokağın başında. Torba hâlâ mutfakta. Sıra sendeydi.",
+      "en": "Garbage truck's at the end of the street. The bag's still in the kitchen. It was your turn."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Pijamayla koşarsan yetişirsin. Ben camdan izlerim.",
+      "en": "Run in your pajamas and you'll make it. I'll watch from the window.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Pijamayla koş",
+      "en": "Run for it in pajamas",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      },
+      "swipe": "right"
+    },
+    {
+      "id": "balkon",
+      "tr": "Torbayı balkona koy",
+      "en": "Park the bag on the balcony",
+      "pattern": "procrastination",
+      "swipe": "left"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Torbayı kamyona son anda yetiştirdin. Görevli torbayı havada aldı.",
+        "en": "You reached the truck at the last second. The crew member took the bag mid-air.",
+        "coach": [
+          {
+            "tr": "Yetişildi. Pijamayla.",
+            "en": "Made it. In pajamas.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "cop_balkonda"
+            ]
+          }
+        },
+        "tr": "Kamyon köşeyi döndü. Elinde torbayla sokakta kaldın, karşı apartmandan biri el salladı.",
+        "en": "The truck turned the corner. You stood in the street holding the bag. Someone across the way waved.",
+        "coach": [
+          {
+            "tr": "Kamyon dakikti.",
+            "en": "The truck was punctual.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "balkon": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "cop_balkonda"
+          ]
+        }
+      },
+      "tr": "Torba balkona çıktı. Bir sonraki kamyon iki gün sonra.",
+      "en": "The bag went out on the balcony. The next truck is in two days.",
+      "coach": [
+        {
+          "tr": "Balkonun iki günlük kiracısı var.",
+          "en": "The balcony has a tenant for two days.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: O kamyona yetişemezsin. — M.",
+      "en": "WAGER: You won't catch that truck. — M."
+    }
+  },
+  "intent": {
+    "setup": "çöp çıkarma sırası sendeyken kamyonun sokağa girdiğini duymak",
+    "mechanism": "ev arkadaşı koşuyu camdan izlemeyi planlıyor",
+    "mechanismId": "escalation",
+    "punch": "ben camdan izlerim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kamyon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

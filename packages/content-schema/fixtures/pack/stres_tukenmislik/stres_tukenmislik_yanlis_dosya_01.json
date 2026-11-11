@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "stres_tukenmislik_yanlis_dosya_01",
+  "tags": [
+    "saglik",
+    "is",
+    "hata",
+    "stres_tukenmislik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "stres_tukenmislik": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Müşteriye taslağı mı yolladın? Adı 'SON_gerçekten_son' olan dosyayı mı?",
+      "en": "You sent the client the draft? The one named 'FINAL_actually_final'?"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Ben ilk ayımda yemek siparişimi bütün şirkete yollamıştım. Hâlâ buradayım.",
+      "en": "My first month, I emailed my lunch order to the whole company. Still here.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "Sabah ilk iş patrona söyle",
+      "en": "Tell the boss first thing",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "duzelt",
+      "tr": "Gece doğrusunu yolla",
+      "en": "Send the right file tonight",
+      "pattern": "overwork"
+    },
+    {
+      "id": "bekle",
+      "tr": "Fark edilmesini bekle",
+      "en": "Wait and see if anyone notices",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "itiraf": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "st_hata_itiraf"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Söyledin. Nevin Hanım doğru dosyayı kendi imzasıyla iletti; konu dört dakikada kapandı.",
+        "en": "You told her. Ms. Carver forwarded the right file under her own name. The matter closed in four minutes.",
+        "coach": [
+          {
+            "tr": "Bütün gece uyumadın. Konu dört dakika sürdü.",
+            "en": "You lost a full night's sleep. The matter took four minutes.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Söyledin. Nevin Hanım 'süreç iyileştirme' başlıklı bir toplantı açtı; tek davetli sensin.",
+        "en": "You told her. Ms. Carver scheduled a meeting titled 'Process Improvement.' You are the only invitee.",
+        "coach": [
+          {
+            "tr": "Toplantı bir saat. Hata tek tıktı.",
+            "en": "The meeting is an hour. The mistake was one click.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "duzelt": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Gece ikide doğru dosyayı yolladın. Müşteri sabah ikisini de açmadığını yazdı.",
+      "en": "At two a.m. you sent the correct file. In the morning the client wrote that they hadn't opened either one.",
+      "coach": [
+        {
+          "tr": "İki e-posta, sıfır okuyucu.",
+          "en": "Two emails. Zero readers.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "st_hata_bekliyor"
+          ]
+        }
+      },
+      "tr": "Bekledin. Üç gün kimse bir şey demedi; üç gece de sen uyumadın.",
+      "en": "You waited. For three days nobody said a word. For three nights you didn't sleep.",
+      "coach": [
+        {
+          "tr": "Kimse fark etmedi. Uykun hariç.",
+          "en": "Nobody noticed. Except your sleep.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "ilk işte müşteriye yanlış dosyayı gönderip gece uyuyamamak",
+    "mechanism": "bir gecelik kaygı, dört dakikalık çözüm",
+    "mechanismId": "understatement",
+    "punch": "konu dört dakika sürdü",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dort_dakika"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

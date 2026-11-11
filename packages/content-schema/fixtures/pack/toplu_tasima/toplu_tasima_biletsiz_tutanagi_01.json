@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "toplu_tasima_biletsiz_tutanagi_01",
+  "tags": [
+    "ulasim",
+    "yol",
+    "evrak",
+    "toplu_tasima"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "toplu_tasima": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KENT İÇİ ULAŞIM İŞLETMESİ — BİLETSİZ YOLCULUK TUTANAĞI (kurgusal)",
+      "en": "CITY TRANSIT OPERATIONS — UNPAID FARE NOTICE (fictional)"
+    },
+    "body": {
+      "tr": "Yapılan kontrolde kartınızın okutulmadığı tespit edilmiştir. Bilet ücretinin yirmi katı tutarında ek ücret tahakkuk ettirilmiştir. Okuyucu arızası beyanları, beyan sahibince belgelendirilir.",
+      "en": "During inspection your card showed no valid tap. A surcharge of twenty times the fare has been applied. Claims of reader malfunction must be documented by the claimant."
+    },
+    "translate": {
+      "tr": {
+        "from": "beyan sahibince belgelendirilir",
+        "to": "cihazın bozuk olduğunu sen kanıtlayacaksın, cihaz değil"
+      },
+      "en": {
+        "from": "must be documented by the claimant",
+        "to": "the machine is innocent until you prove otherwise"
+      }
+    },
+    "glossaryKey": "beyan_sahibi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ben gördüm, bastınız. Cihaz ötmedi. Şahit olurum ama iki durak sonra iniyorum.",
+      "en": "I saw you tap. It didn't beep. I'll be your witness, but I'm getting off in two stops."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Ek ücreti öde",
+      "en": "Pay the surcharge",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "itiraz",
+      "tr": "İtiraz formunu doldur",
+      "en": "File the appeal form",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sahit",
+      "tr": "Şahidin numarasını al",
+      "en": "Get the witness's number",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "600 Para ödedin. Kartını bir kez daha bastın, cihaz bu kez öttü.",
+      "en": "You paid 600. You tapped your card once more. This time it beeped.",
+      "coach": [
+        {
+          "tr": "Cihaz sesini tutanaktan sonra buldu.",
+          "en": "The reader found its voice after the paperwork.",
+          "roast": true
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "ceza_itirazi_kabul"
+            ]
+          },
+          "glossary": "beyan_sahibi"
+        },
+        "tr": "Formu doldurdun, kartının geçiş kaydı çıkarıldı. Ek ücret silindi, yazısı üç hafta sonra geldi.",
+        "en": "You filed the form and they pulled the card's tap log. The surcharge was cancelled. The letter took three weeks.",
+        "coach": [
+          {
+            "tr": "Kayıt, cihazdan dürüst çıktı.",
+            "en": "The log proved more honest than the reader.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef dosyası 600 Para korudu.",
+            "en": "Goal file: 600 preserved.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "İtiraz reddedildi, kayıtta geçiş görünmüyormuş. 600 Para'yı süresi dolmadan ödedin.",
+        "en": "Appeal denied: no tap on record. You paid the 600 before the deadline.",
+        "coach": [
+          {
+            "tr": "Dosya kapandı.",
+            "en": "File closed.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sahit": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "otobus_sahidi"
+          ]
+        }
+      },
+      "tr": "Numarayı aldın, ek ücreti yine de ödedin. Şahit akşam mesaj attı: 'Hâlâ arkanızdayım.'",
+      "en": "You took the number and paid anyway. That evening the witness texted: 'Still on your side.'",
+      "coach": [
+        {
+          "tr": "600 Para gitti, bir şahit kaldı.",
+          "en": "600 gone. One witness retained.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "kart okuyucu ötmediği için kesilen kurgusal biletsiz yolculuk tutanağı ve iki durak sonra inecek şahit",
+    "mechanism": "arızayı cihaz değil sen kanıtlayacaksın",
+    "mechanismId": "translation",
+    "punch": "şahit olurum ama iki durak sonra iniyorum",
+    "lift": "hedef dosyası 600 Para korudu",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sahit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

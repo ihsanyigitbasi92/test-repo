@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_hasta_partnere_corba_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "iliski",
+    "corba",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Burnum tıkalı, hiçbir şeyin tadını almıyorum. Yani bugün ne pişirsen beş yıldız.",
+      "en": "My nose is blocked. I can't taste a thing. So whatever you cook today gets five stars."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Mutfaktan 'annem ne demişti' sesi geldi. Üçüncü kez.",
+      "en": "I just heard 'what did Mom say again' from the kitchen. For the third time.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tarif",
+      "tr": "Sesli mesajı adım adım izle",
+      "en": "Follow the voice message step by step",
+      "pattern": "patience",
+      "check": {
+        "base": 6500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "hazir",
+      "tr": "Hazır çorbayı süsle",
+      "en": "Dress up a packet soup",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ara",
+      "tr": "Annenle görüntülü pişir",
+      "en": "Cook on a video call with Mom",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "tarif": [
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "yemek_ilk_corba"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "Mesajı on bir kez durdurup yeniden dinledin. Çorba koyu ama içilir çıktı; partnerin iki kâse içti.",
+        "en": "You paused and replayed the message eleven times. The soup came out thick but drinkable. Your partner had two bowls.",
+        "coach": [
+          {
+            "tr": "Burun tıkalıydı. Kâse sayısı yine de iki.",
+            "en": "The nose was blocked. The bowl count is still two.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "'Bir tutam' kısmını yanlış duydun. Çorba tuzlu çıktı; partnerin tadını almadığı için bitirdi.",
+        "en": "You misheard the part about 'a pinch.' The soup was salty. Your partner, tasting nothing, finished it.",
+        "coach": [
+          {
+            "tr": "Tıkalı burun bugün senden yanaydı.",
+            "en": "The blocked nose was on your side today.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hazir": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 1
+        },
+        "money": -25,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Hazır çorbaya limon ve maydanoz ekledin. Partnerin 'annenin tarifi mi' diye sordu; paketi çöpün dibine ittin.",
+      "en": "You added lemon and parsley to a packet soup. Your partner asked if it was your mom's recipe. You pushed the packet deeper into the bin.",
+      "coach": [
+        {
+          "tr": "Tarif: bir paket, bir sır.",
+          "en": "Recipe: one packet, one secret.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          },
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Annen telefondan tencereye bakıp üç kez 'altını kıs' dedi. Çorba güzel oldu; annen partnerine 'geçmiş olsun', sana 'karıştır' dedi.",
+      "en": "Mom inspected the pot through the phone and said 'lower the heat' three times. The soup was good. She told your partner to feel better and told you to stir.",
+      "coach": [
+        {
+          "tr": "Mutfakta üç kişi vardı. Biri ekrandaydı.",
+          "en": "Three people in the kitchen. One on a screen.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "hasta partnere annenin sesli mesajındaki tarifle ilk kez çorba yapmak",
+    "mechanism": "tat alamayan jüri",
+    "mechanismId": "reversal",
+    "punch": "ne pişirsen beş yıldız",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kase"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

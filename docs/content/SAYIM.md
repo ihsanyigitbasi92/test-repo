@@ -6,12 +6,12 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **4.668** / 10.000 (46.7%) |
+| Alan paketlerindeki geçerli olay | **5.018** / 10.000 (50.2%) |
 | Kotası dolan alan | 0 / 132 |
 | Kotayı aşan alan | 0 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **4.716** |
+| Genel toplam geçerli olay | **5.066** |
 | Şema hatalı dosya | 0 |
 
 ## Grup bazında
@@ -23,15 +23,15 @@
 | kariyer | 24 | 631 | 1142 | 55.3% |
 | para | 8 | 342 | 617 | 55.4% |
 | ev | 8 | 343 | 618 | 55.5% |
-| tanidik_yuzler | 8 | 387 | 814 | 47.5% |
+| tanidik_yuzler | 8 | 407 | 814 | 50% |
 | iliski | 7 | 371 | 670 | 55.4% |
 | aile | 6 | 235 | 424 | 55.4% |
 | cagrilar | 2 | 94 | 169 | 55.6% |
 | ebeveynlik | 5 | 196 | 359 | 54.6% |
 | sosyal | 8 | 288 | 539 | 53.4% |
-| saglik | 9 | 245 | 716 | 34.2% |
-| gundelik | 6 | 151 | 501 | 30.1% |
-| ulasim | 3 | 69 | 234 | 29.5% |
+| saglik | 9 | 425 | 716 | 59.4% |
+| gundelik | 6 | 278 | 501 | 55.5% |
+| ulasim | 3 | 92 | 234 | 39.3% |
 | teknoloji | 3 | 81 | 268 | 30.2% |
 | burokrasi | 3 | 82 | 273 | 30% |
 | bos_zaman | 4 | 90 | 299 | 30.1% |
@@ -131,23 +131,23 @@
 | 86 | `gece_hayati_eglence` | sosyal | Gece hayatı ve dışarı çıkmak | 39 | 72 | 33 | 54.2% | █████░░░░░ |
 | 87 | `yabancilar_sokak` | sosyal | Sokakta yabancılar | 36 | 65 | 29 | 55.4% | ██████░░░░ |
 | 88 | `mahalle_esnaf` | sosyal | Mahalle esnafı | 28 | 52 | 24 | 53.8% | █████░░░░░ |
-| 89 | `kucuk_rahatsizliklar` | saglik | Küçük rahatsızlıklar | 64 | 117 | 53 | 54.7% | █████░░░░░ |
-| 90 | `doktor_hastane` | saglik | Doktor, check-up, diş, göz | 33 | 111 | 78 | 29.7% | ███░░░░░░░ |
-| 91 | `uyku` | saglik | Uyku | 20 | 65 | 45 | 30.8% | ███░░░░░░░ |
-| 92 | `spor_fitness` | saglik | Spor salonu ve egzersiz | 26 | 85 | 59 | 30.6% | ███░░░░░░░ |
-| 93 | `kronik_saglik` | saglik | Kronik sağlık (adsız) | 18 | 58 | 40 | 31% | ███░░░░░░░ |
-| 94 | `yaslanan_beden` | saglik | Yaşlanan beden | 24 | 78 | 54 | 30.8% | ███░░░░░░░ |
-| 95 | `ruhsal_yuk_dusuk_keyif` | saglik | Ruhsal yük ve düşük Keyif günleri | 27 | 91 | 64 | 29.7% | ███░░░░░░░ |
-| 96 | `stres_tukenmislik` | saglik | Stres ve tükenmişlik | 21 | 72 | 51 | 29.2% | ███░░░░░░░ |
-| 97 | `aliskanliklar_birakma` | saglik | Sigara/alkol ve bırakma denemeleri | 12 | 39 | 27 | 30.8% | ███░░░░░░░ |
-| 98 | `yemek_mutfak` | gundelik | Yemek ve mutfak | 31 | 104 | 73 | 29.8% | ███░░░░░░░ |
-| 99 | `disarida_yemek_siparis` | gundelik | Dışarıda yemek ve sipariş | 24 | 78 | 54 | 30.8% | ███░░░░░░░ |
-| 100 | `market_alisveris` | gundelik | Market ve alışveriş | 27 | 91 | 64 | 29.7% | ███░░░░░░░ |
-| 101 | `alisveris_kiyafet_online` | gundelik | Kıyafet ve online alışveriş | 24 | 78 | 54 | 30.8% | ███░░░░░░░ |
-| 102 | `kisisel_bakim_berber` | gundelik | Berber, kuaför ve kişisel bakım | 15 | 52 | 37 | 28.8% | ███░░░░░░░ |
-| 103 | `gundelik_rutin` | gundelik | Sabahlar, rutin ve sıradan günler | 30 | 98 | 68 | 30.6% | ███░░░░░░░ |
-| 104 | `toplu_tasima` | ulasim | Toplu taşıma ve işe gidiş | 27 | 91 | 64 | 29.7% | ███░░░░░░░ |
-| 105 | `taksici` | tanidik_yuzler | Taksici arkı | 24 | 78 | 54 | 30.8% | ███░░░░░░░ |
+| 89 | `kucuk_rahatsizliklar` | saglik | Küçük rahatsızlıklar | 93 | 117 | 24 | 79.5% | ████████░░ |
+| 90 | `doktor_hastane` | saglik | Doktor, check-up, diş, göz | 61 | 111 | 50 | 55% | █████░░░░░ |
+| 91 | `uyku` | saglik | Uyku | 36 | 65 | 29 | 55.4% | ██████░░░░ |
+| 92 | `spor_fitness` | saglik | Spor salonu ve egzersiz | 47 | 85 | 38 | 55.3% | ██████░░░░ |
+| 93 | `kronik_saglik` | saglik | Kronik sağlık (adsız) | 33 | 58 | 25 | 56.9% | ██████░░░░ |
+| 94 | `yaslanan_beden` | saglik | Yaşlanan beden | 44 | 78 | 34 | 56.4% | ██████░░░░ |
+| 95 | `ruhsal_yuk_dusuk_keyif` | saglik | Ruhsal yük ve düşük Keyif günleri | 50 | 91 | 41 | 54.9% | █████░░░░░ |
+| 96 | `stres_tukenmislik` | saglik | Stres ve tükenmişlik | 39 | 72 | 33 | 54.2% | █████░░░░░ |
+| 97 | `aliskanliklar_birakma` | saglik | Sigara/alkol ve bırakma denemeleri | 22 | 39 | 17 | 56.4% | ██████░░░░ |
+| 98 | `yemek_mutfak` | gundelik | Yemek ve mutfak | 57 | 104 | 47 | 54.8% | █████░░░░░ |
+| 99 | `disarida_yemek_siparis` | gundelik | Dışarıda yemek ve sipariş | 44 | 78 | 34 | 56.4% | ██████░░░░ |
+| 100 | `market_alisveris` | gundelik | Market ve alışveriş | 50 | 91 | 41 | 54.9% | █████░░░░░ |
+| 101 | `alisveris_kiyafet_online` | gundelik | Kıyafet ve online alışveriş | 44 | 78 | 34 | 56.4% | ██████░░░░ |
+| 102 | `kisisel_bakim_berber` | gundelik | Berber, kuaför ve kişisel bakım | 28 | 52 | 24 | 53.8% | █████░░░░░ |
+| 103 | `gundelik_rutin` | gundelik | Sabahlar, rutin ve sıradan günler | 55 | 98 | 43 | 56.1% | ██████░░░░ |
+| 104 | `toplu_tasima` | ulasim | Toplu taşıma ve işe gidiş | 50 | 91 | 41 | 54.9% | █████░░░░░ |
+| 105 | `taksici` | tanidik_yuzler | Taksici arkı | 44 | 78 | 34 | 56.4% | ██████░░░░ |
 | 106 | `araba_sahipligi` | ulasim | Araba sahipliği | 27 | 91 | 64 | 29.7% | ███░░░░░░░ |
 | 107 | `trafik_cezalar` | ulasim | Trafik ve cezalar | 15 | 52 | 37 | 28.8% | ███░░░░░░░ |
 | 108 | `telefon_teknoloji` | teknoloji | Telefon ve teknoloji | 30 | 98 | 68 | 30.6% | ███░░░░░░░ |

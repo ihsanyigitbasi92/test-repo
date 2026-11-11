@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "market_alisveris_teslimat_araligi_01",
+  "tags": [
+    "gundelik",
+    "market",
+    "online",
+    "market_alisveris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "market_alisveris": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Teslimatınız on ile on dört arasında. Daha net saat veremiyoruz.",
+      "en": "Your delivery is between ten and two. We can't narrow it further."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Aracınız şu an sizden önceki on yedinci adreste.",
+      "en": "Your van is currently at the seventeenth stop before yours.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Evde bekle",
+      "en": "Stay in and wait",
+      "pattern": "patience"
+    },
+    {
+      "id": "cik",
+      "tr": "Beş dakikalığına çık",
+      "en": "Pop out for five minutes",
+      "pattern": "risk",
+      "check": {
+        "base": 4000
+      }
+    },
+    {
+      "id": "iptal",
+      "tr": "İptal et, markete yürü",
+      "en": "Cancel, walk to the store",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "market_teslimat_bekledi"
+          ]
+        }
+      },
+      "tr": "Dört saat bekledin. Sipariş 13.56'da geldi, dondurma içilecek kıvamdaydı.",
+      "en": "You waited four hours. The order arrived at 1:56, and the ice cream had become a beverage.",
+      "coach": [
+        {
+          "tr": "Aralığa uyuldu. Dondurma dayanamadı.",
+          "en": "The window was honored. The ice cream did not last it.",
+          "roast": true
+        }
+      ]
+    },
+    "cik": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Beş dakikada döndün, kimse gelmemişti. Sipariş bir saat sonra geldi.",
+        "en": "You were back in five minutes and nobody had come. The order showed up an hour later.",
+        "coach": [
+          {
+            "tr": "Beş dakikalık boşluk fark edilmedi.",
+            "en": "The five-minute gap went undetected.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -40,
+          "flags": {
+            "add": [
+              "market_teslimat_kacti"
+            ]
+          }
+        },
+        "tr": "Döndüğünde kapıda not vardı: \"Evde bulunamadınız.\" Yeniden teslimat 40 Para.",
+        "en": "When you got back there was a note on the door: \"Sorry we missed you.\" Redelivery: forty.",
+        "coach": [
+          {
+            "tr": "Dört saatlik aralığın beş dakikası seçildi.",
+            "en": "Out of a four-hour window, they chose those five minutes.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "iptal": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "market_teslimat_iptal"
+          ]
+        }
+      },
+      "tr": "İptal ettin, markete yürüdün. Aynı sepet yirmi dakikada tamamlandı.",
+      "en": "You canceled and walked to the store. The same basket took twenty minutes.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika. Aralık bildirilmedi.",
+          "en": "Twenty minutes. No window was announced.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "online market teslimatı için dört saatlik aralıkta evde beklemek",
+    "mechanism": "dört saat beklenir, kurye evden çıkılan beş dakikada gelir",
+    "mechanismId": "reversal",
+    "punch": "dört saatlik aralığın beş dakikası seçildi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "aralik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

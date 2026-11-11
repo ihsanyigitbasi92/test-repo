@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_gece_agir_yemek_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "gece",
+    "partner",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Saat on bir. Geçen sefer de \"bir şey olmaz\" demiştin.",
+      "en": "It's eleven. Last time you also said \"it'll be fine.\""
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Ben karışmıyorum. Sodayı buzdolabına koyuyorum sadece.",
+      "en": "I'm not getting involved. I'm just putting the club soda in the fridge.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "soyle",
+      "tr": "Yine de söyle",
+      "en": "Order it anyway",
+      "pattern": "impulseSpend",
+      "check": {
+        "base": 3000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "hafif",
+      "tr": "Siparişi çorbaya çevir",
+      "en": "Downgrade to soup",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Vazgeç, yat",
+      "en": "Give up, go to bed",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "soyle": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "money": -210
+        },
+        "tr": "Yedin, bir şey olmadı. Sabaha kadar uyudun.",
+        "en": "You ate it and nothing happened. You slept through till morning.",
+        "coach": [
+          {
+            "tr": "\"Bir şey olmaz\" bu sefer tuttu.",
+            "en": "\"It'll be fine\" was accurate this time.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": -2
+          },
+          "money": -210,
+          "flags": {
+            "add": [
+              "siparis_gece_mide_yanmasi"
+            ]
+          }
+        },
+        "tr": "Gece ikide mutfaktaydın. Soda buzdolabında, soğumuş, bekliyordu.",
+        "en": "At two in the morning you were in the kitchen. The club soda was in the fridge, cold, waiting.",
+        "coach": [
+          {
+            "tr": "Soda saat on birde hazırlanmıştı.",
+            "en": "The club soda had been staged since eleven.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hafif": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": 0
+        },
+        "money": -70
+      },
+      "tr": "Çorba söyledin, 70 Para. Gece olaysız geçti.",
+      "en": "You ordered soup for seventy. The night passed without incident.",
+      "coach": [
+        {
+          "tr": "Olaysız gece. Soda açılmadı.",
+          "en": "An uneventful night. The club soda stayed sealed.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "siparis_gece_vazgecti"
+          ]
+        }
+      },
+      "tr": "Uygulamayı kapattın, yattın. Karnın on dakika itiraz etti, sonra sustu.",
+      "en": "You closed the app and went to bed. Your stomach objected for ten minutes, then dropped it.",
+      "coach": [
+        {
+          "tr": "İtiraz on dakika sürdü.",
+          "en": "The objection lasted ten minutes.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "gece on birde ağır yemek siparişi ve mide yanması",
+    "mechanism": "partnerin akşamdan buzdolabına koyduğu soda gece yarısı geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "soda buzdolabında, soğumuş, bekliyordu",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "soda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

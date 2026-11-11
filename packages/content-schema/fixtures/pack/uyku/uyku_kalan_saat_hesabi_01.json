@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uyku_kalan_saat_hesabi_01",
+  "tags": [
+    "saglik",
+    "gece",
+    "alarm",
+    "uyku"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "uyku": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Saat 02.20. Alarm 06.30'da. Yatakta hesap yapıyorsun: şimdi uyursan dört saat on dakika.",
+      "en": "2:20 a.m. Alarm's at 6:30. You're in bed doing the math: fall asleep now and that's four hours ten."
+    },
+    {
+      "id": "t2",
+      "tr": "Hesap bitti. Saat 02.35 oldu. Hesap yeniden.",
+      "en": "Math done. It is now 2:35. New math."
+    }
+  ],
+  "choices": [
+    {
+      "id": "telefon",
+      "tr": "Telefonu koridora bırak",
+      "en": "Leave the phone in the hallway",
+      "pattern": "selfCare",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "alarm",
+      "tr": "Alarmı on beş dakika ileri al",
+      "en": "Push the alarm fifteen minutes",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "sabahla",
+      "tr": "Hiç uyuma, sabahla",
+      "en": "Skip sleep, power through",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "telefon": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "telefon_koridorda"
+            ]
+          }
+        },
+        "tr": "Telefon koridorda kaldı. On dakikada uyudun, sabah alarmı susturmak için koridora yürüdün.",
+        "en": "The phone stayed in the hallway. You were out in ten minutes and had to walk to the alarm.",
+        "coach": [
+          {
+            "tr": "Dört saat. Hesapsız.",
+            "en": "Four hours. No math.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Telefon koridorda, sen uyanık. Hesabı bu kez kafadan yaptın, 03.30'a kadar.",
+        "en": "Phone in the hallway, you wide awake. You did the math by hand until 3:30.",
+        "coach": [
+          {
+            "tr": "Hesap makinesi gitti. Hesap kaldı.",
+            "en": "The calculator left. The math stayed.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "alarm": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Alarm 06.45 oldu. Kahvaltı iptal edildi, yerine on beş dakika uyku kondu.",
+      "en": "The alarm is now 6:45. Breakfast was canceled and replaced with fifteen minutes of sleep.",
+      "coach": [
+        {
+          "tr": "On beş dakika uyku alındı. Kahvaltıyla ödendi.",
+          "en": "Fifteen minutes of sleep purchased. Paid in breakfast.",
+          "roast": true
+        }
+      ]
+    },
+    "sabahla": {
+      "effects": {
+        "stats": {
+          "health": -3,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "sabahladi"
+          ]
+        }
+      },
+      "tr": "Uyumadın. Saat 11.00'de ayaktaydın, 15.00'te masada başın düştü.",
+      "en": "You stayed up. Still standing at eleven. Face down on a desk by three.",
+      "coach": [
+        {
+          "tr": "Uyku iptal olmadı. Yer değiştirdi.",
+          "en": "The sleep wasn't canceled. It relocated.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "telefon",
+    "slip": {
+      "tr": "İDDİA: Telefon gider, hesap kalır. — M.",
+      "en": "WAGER: The phone leaves, the math stays. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece yatakta alarma kalan uyku saatini tekrar tekrar hesaplamak",
+    "mechanism": "hesap sürdükçe hesaplanan süre kısalıyor",
+    "mechanismId": "count",
+    "punch": "hesap bitti, saat ilerledi, hesap yeniden",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hesap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
