@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_imza_yetkilisi_izinde_01",
+  "tags": [
+    "burokrasi",
+    "imza",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Belgenizi imzalayacak yetkili yıllık izinde. İki hafta sonra dönüyor.",
+      "en": "The officer who signs this is on annual leave. Back in two weeks."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Vekili var. Vekilin yetki yazısı da aynı imzayı bekliyor.",
+      "en": "There is a deputy. The deputy's authorization is waiting on the same signature.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "İki hafta bekle",
+      "en": "Wait the two weeks",
+      "pattern": "patience"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşu ilçedeki birime git",
+      "en": "Try the office one district over",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sikayet",
+      "tr": "Yazılı şikâyet bırak",
+      "en": "Leave a written complaint",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "imza_bekliyor"
+          ]
+        }
+      },
+      "tr": "İki hafta sonra geldin. Yetkili dönmüş, masasında seninkiyle birlikte doksan bir belge imza bekliyordu.",
+      "en": "You returned in two weeks. The officer was back, facing ninety-one documents awaiting signature. Yours was one of them.",
+      "coach": [
+        {
+          "tr": "Sıran doksan birin içinde bir yerde.",
+          "en": "You're somewhere in the ninety-one.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "money": -60,
+          "flags": {
+            "add": [
+              "imza_tamam"
+            ]
+          }
+        },
+        "tr": "Komşu ilçedeki yetkili masasındaydı. Belge yirmi dakikada imzalandı; yol 60 Para.",
+        "en": "The officer in the next district was at their desk. Signed in twenty minutes. Travel: 60.",
+        "coach": [
+          {
+            "tr": "Aynı imza, başka kalem.",
+            "en": "Same signature. Different pen.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "money": -60,
+          "flags": {
+            "add": [
+              "imza_bekliyor"
+            ]
+          }
+        },
+        "tr": "Komşu ilçe belgeyi \"kendi ilçenizde imzalanır\" diye geri verdi. Yol 60 Para.",
+        "en": "The next district handed it back: \"This gets signed in your own district.\" Travel: 60.",
+        "coach": [
+          {
+            "tr": "Altmış Para'ya ikinci görüş.",
+            "en": "A second opinion, for sixty.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sikayet": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "imza_bekliyor"
+          ]
+        }
+      },
+      "tr": "Şikâyet dilekçeni kayda aldılar. Değerlendirecek kişi, izindeki yetkili.",
+      "en": "Your complaint was logged. It will be reviewed by the officer who is on leave.",
+      "coach": [
+        {
+          "tr": "Şikâyet de aynı masaya gitti.",
+          "en": "The complaint is headed to the same desk.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "belgeyi imzalayacak tek yetkilinin izinde, vekilinin yetkisinin de aynı imzaya bağlı olması",
+    "mechanism": "çözüm sorunun kendisine muhtaç",
+    "mechanismId": "reversal",
+    "punch": "vekilin yetki yazısı da aynı imzayı bekliyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "vekil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

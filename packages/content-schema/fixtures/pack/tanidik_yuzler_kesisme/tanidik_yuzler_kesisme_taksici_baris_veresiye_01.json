@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tanidik_yuzler_kesisme_taksici_baris_veresiye_01",
+  "tags": [
+    "tanidik_yuzler",
+    "taksici",
+    "ev_arkadasi",
+    "borc",
+    "tanidik_yuzler_kesisme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tanidik_yuzler_kesisme": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      },
+      "cabbie": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Sen Barış'ın ev arkadaşı değil misin? Aynı sokak, aynı kapı.",
+      "en": "Aren't you Jordan's roommate? Same street, same door."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Onun bende üç yolculuğu var. 'Ay başı' dedi. Hangi ay, demedi.",
+      "en": "Jordan owes me three rides. Said 'first of the month.' Didn't say which month.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Barış'ın borcunu da öde",
+      "en": "Pay Jordan's tab too",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kendi",
+      "tr": "Yalnız kendi yolunu öde",
+      "en": "Pay only your own fare",
+      "pattern": "pride"
+    },
+    {
+      "id": "ara",
+      "tr": "Barış'ı ara, hoparlöre al",
+      "en": "Call Jordan on speaker",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -360,
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 4
+          },
+          {
+            "role": "roommate",
+            "affinity": 1,
+            "memory": "taksi_borcu_odendi"
+          }
+        ],
+        "flags": {
+          "add": [
+            "baris_taksi_borcu_sende"
+          ]
+        }
+      },
+      "tr": "360 Para verdin. Taksici torpidodan bir defter çıkardı, Barış'ın adının üstünü çizdi, altına seninkini yazdı.",
+      "en": "You paid 360. The driver took a notebook from the glove box, crossed out Jordan's name, and wrote yours beneath it.",
+      "coach": [
+        {
+          "tr": "Borç kapanmadı. İsim değiştirdi.",
+          "en": "The debt wasn't settled. It changed its name.",
+          "roast": true
+        }
+      ]
+    },
+    "kendi": {
+      "effects": {
+        "money": -90,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "90 Para ödeyip indin. Taksici camı açtı: 'Barış'a selam söyle, taksimetre onda hâlâ açık.'",
+      "en": "You paid your 90 and got out. The driver rolled down the window: 'Tell Jordan the meter's still running on him.'",
+      "coach": [
+        {
+          "tr": "Selam iletilecek. Hesap da.",
+          "en": "The hello will be passed on. So will the bill.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "money": -360,
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 2
+          },
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "baris_taksi_borcu_sende"
+          ]
+        }
+      },
+      "tr": "Barış hoparlörde 'abi tam seni arayacaktım' dedi. Borcu akşam ödedi; senden aldığı 360 Para'yla.",
+      "en": "On speaker, Jordan said, 'I was just about to call you.' The tab was paid that evening. With 360 borrowed from you.",
+      "coach": [
+        {
+          "tr": "Para yine senden çıktı. Bir aktarmayla.",
+          "en": "It was still your money. It just took a connecting flight.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia yok"
+  },
+  "intent": {
+    "setup": "taksicinin seni ev arkadaşının veresiye borcundan tanıması",
+    "mechanism": "taksici borcu kuru bir dökümle bildiriyor",
+    "mechanismId": "deadpan_report",
+    "punch": "hangi ay, demedi",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "aktarma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

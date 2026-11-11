@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "miras_vasiyet_kardes_alacak_defteri_01",
+  "tags": [
+    "yaslilik",
+    "miras",
+    "kardes",
+    "paylasim",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 78
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": false
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "annoyed",
+      "tr": "Paylaşmadan önce bir kalem var. Annem sana araba parası vermişti. Bana vermedi.",
+      "en": "Before we split it, one item. Mom gave you money for a car. She never gave me any."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Otuz bir yıl oldu. Ben yazmıştım.",
+      "en": "Thirty-one years ago. I wrote it down.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et, payından düşsün",
+      "en": "Agree, deduct it from yours",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "defter",
+      "tr": "Kendi kayıtlarını çıkar",
+      "en": "Dig out your own records",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yari",
+      "tr": "Yarı yarıya öner",
+      "en": "Offer to meet halfway",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": -1500,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "araba_parasi_kapandi"
+          ]
+        }
+      },
+      "tr": "Payından 1.500 Para düşüldü. Kardeşin defterdeki satırın üstünü senin önünde çizdi.",
+      "en": "1,500 came off your share. Your sibling crossed the line out of the notebook in front of you.",
+      "coach": [
+        {
+          "tr": "Otuz bir yıllık alacak tahsil edildi. Araba çoktan hurda.",
+          "en": "A thirty-one-year-old debt, collected. The car was scrapped long ago.",
+          "roast": true
+        }
+      ]
+    },
+    "defter": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "araba_parasi_kapandi"
+            ]
+          }
+        },
+        "tr": "Sen de bir kayıt buldun: kardeşinin düğün masrafı. İki satır birbirini götürdü, paylar eşit kaldı.",
+        "en": "You produced an entry of your own: your sibling's wedding costs. The two lines canceled out. Equal shares.",
+        "coach": [
+          {
+            "tr": "İki kayıt, sıfır fark.",
+            "en": "Two ledgers. Net zero.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -1500,
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "araba_parasi_kapandi"
+            ]
+          }
+        },
+        "tr": "Senin kayıtların bir ayakkabı kutusundaydı ve kutu yok. Kardeşinin defteri tek belge sayıldı; 1.500 Para düşüldü.",
+        "en": "Your records were in a shoebox, and the shoebox is gone. Your sibling's notebook stood as the only evidence. 1,500 deducted.",
+        "coach": [
+          {
+            "tr": "Kardeşin otuz bir yıl kayıt tuttu. Sen bir kutu tuttun.",
+            "en": "Your sibling kept a ledger for thirty-one years. You kept a box.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yari": {
+      "effects": {
+        "money": -750,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "750 Para'da anlaştınız. Kardeşin satırın yanına 'kısmen ödendi' yazdı.",
+      "en": "You settled at 750. Your sibling wrote 'partially paid' next to the line.",
+      "coach": [
+        {
+          "tr": "Kısmen ödendi. Satır açık kaldı.",
+          "en": "Partially paid. The line stays open.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "defter",
+    "slip": {
+      "tr": "İDDİA: Senin kayıtların ortaya çıkmaz. — M.",
+      "en": "WAGER: Your records won't turn up. — M."
+    }
+  },
+  "intent": {
+    "setup": "miras paylaşımında kardeşin otuz yıl önce sana verilen araba parasını paydan düşmek istemesi",
+    "mechanism": "kardeşin tuttuğu kayıt yıllar sonra faturaya dönüyor",
+    "mechanismId": "count",
+    "punch": "otuz bir yıl oldu, ben yazmıştım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "hurda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

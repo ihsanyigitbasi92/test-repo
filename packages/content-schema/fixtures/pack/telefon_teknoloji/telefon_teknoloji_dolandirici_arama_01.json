@@ -1,0 +1,151 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "telefon_teknoloji_dolandirici_arama_01",
+  "tags": [
+    "teknoloji",
+    "telefon",
+    "telefon_teknoloji"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "telefon_teknoloji": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bankanızın güvenlik biriminden arıyorum. Hesabınızda şüpheli işlem var.",
+      "en": "I'm calling from your bank's security team. There's suspicious activity on your account."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Güvenliğiniz için kartın arkasındaki üç haneyi okuyun. Acele edin, sistem kapanıyor.",
+      "en": "For your protection, read me the three digits on the back of the card. Quickly, the system is closing.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Kapat, bankayı kendin ara",
+      "en": "Hang up, call the bank yourself",
+      "pattern": "patience"
+    },
+    {
+      "id": "oyala",
+      "tr": "Uydurma rakamlarla oyala",
+      "en": "Stall with made-up digits",
+      "pattern": "pride"
+    },
+    {
+      "id": "soru",
+      "tr": "“Hangi banka?” diye sor",
+      "en": "Ask “which bank?”"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sahte_arama_atlatildi"
+          ]
+        },
+        "glossary": "oltalama"
+      },
+      "tr": "Kapattın, kartın arkasındaki numarayı aradın. Hesapta şüpheli işlem yoktu; tek şüpheli şey az önceki aramaydı.",
+      "en": "You hung up and dialed the number on the back of your card. No suspicious activity on the account. The only suspicious item was the call.",
+      "coach": [
+        {
+          "tr": "Üç hane yerinde.",
+          "en": "All three digits accounted for.",
+          "roast": false
+        }
+      ]
+    },
+    "oyala": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sahte_arama_atlatildi"
+          ]
+        }
+      },
+      "tr": "On dakika boyunca rakam uydurdun. Arayan her seferinde “sistem kabul etmedi” dedi; sonunda telefonu o kapattı.",
+      "en": "For ten minutes you invented digits. Each time, the caller said the system had rejected them. In the end, the caller hung up on you.",
+      "coach": [
+        {
+          "tr": "On dakika mesai. Karşı tarafınki boşa gitti.",
+          "en": "Ten minutes on the clock. The caller's, wasted.",
+          "roast": false
+        }
+      ]
+    },
+    "soru": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "sahte_arama_atlatildi"
+          ]
+        },
+        "glossary": "oltalama"
+      },
+      "tr": "“Hangi banka” diye sordun. Kısa bir sessizlik oldu, sonra cevap geldi: “Sizin bankanız.” Numarayı engelledin.",
+      "en": "“Which bank?” you asked. A short silence, then: “Your bank.” You blocked the number.",
+      "coach": [
+        {
+          "tr": "Soru iki kelime. Cevap yoktu.",
+          "en": "A two-word question. No answer on file.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "bankanın güvenlik biriminden aradığını söyleyen sahte arayanın kart bilgilerini istemesi",
+    "mechanism": "sahte aciliyet düz bir soruyla çöküyor",
+    "mechanismId": "deadpan_report",
+    "punch": "hangi banka",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "hane"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

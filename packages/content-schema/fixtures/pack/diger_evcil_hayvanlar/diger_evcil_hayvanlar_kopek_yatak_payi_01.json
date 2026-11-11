@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "diger_evcil_hayvanlar_kopek_yatak_payi_01",
+  "tags": [
+    "bos_zaman",
+    "kopek",
+    "partner",
+    "uyku",
+    "diger_evcil_hayvanlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "diger_evcil_hayvanlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "evcil_kopek"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Köpek bu gece de yatağa çıktı. Ben kenarda on santimle uyudum.",
+      "en": "The dog got on the bed again. I slept on four inches of mattress."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Ya o sepetine döner ya da sepete ben taşınırım.",
+      "en": "Either the dog goes back to the basket or I move into it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sepet",
+      "tr": "Köpeği sepete alıştır",
+      "en": "Retrain the dog to the basket",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "buyuk",
+      "tr": "Daha büyük yatak al",
+      "en": "Buy a bigger bed",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "ortak",
+      "tr": "Yatağı üçe bölün",
+      "en": "Split the bed three ways",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "sepet": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "kopek_sepette"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Dört gece sepetin yanında oturdun. Beşinci gece köpek sepette, partnerin yatağın ortasında uyudu.",
+        "en": "You sat by the basket for four nights. On the fifth, the dog slept in it and your partner took the middle of the bed.",
+        "coach": [
+          {
+            "tr": "Dört gece nöbet tutuldu. Yatağın ortası yine dolu.",
+            "en": "Four nights on watch. The middle of the bed is still taken.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Köpek her gece sepetten yatağa döndü. Üçüncü gece sepetin yanında uyuyakalan sendin.",
+        "en": "The dog returned to the bed every night. On the third, you were the one who fell asleep by the basket.",
+        "coach": [
+          {
+            "tr": "Sepetin yanı boş kalmadı.",
+            "en": "The spot by the basket got used.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "buyuk": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -2400,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "status": {
+          "assets": {
+            "add": [
+              "genis_yatak"
+            ]
+          }
+        }
+      },
+      "tr": "Yeni yatak 2.400 Para ve yirmi santim daha geniş. Köpek o yirmi santimi ilk gece aldı.",
+      "en": "The new bed cost 2,400 and is eight inches wider. The dog claimed the eight inches on night one.",
+      "coach": [
+        {
+          "tr": "Yirmi santim satın alındı. Kullanan belli.",
+          "en": "Eight inches were purchased. The dog is using them.",
+          "roast": false
+        }
+      ]
+    },
+    "ortak": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kopek_yatakta"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Yatak üçe bölündü. Paylar eşit değil, en büyüğü köpekte.",
+      "en": "The bed is now split three ways. Not evenly; the dog holds the majority.",
+      "coach": [
+        {
+          "tr": "Azınlık hissesi sende.",
+          "en": "You hold the minority stake.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sepet",
+    "slip": {
+      "tr": "İDDİA: Köpek sepette kalmaz. — M.",
+      "en": "WAGER: The dog won't stay in the basket. — M."
+    }
+  },
+  "intent": {
+    "setup": "köpeğin her gece yatağa çıkması ve partnerin sepet ültimatomu",
+    "mechanism": "ültimatom partnerin sepete taşınmasıyla bitiyor",
+    "mechanismId": "bathos",
+    "punch": "sepete ben taşınırım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "hisse"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_borcu_yoktur_01",
+  "tags": [
+    "burokrasi",
+    "borc",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Borcu yoktur yazısı istiyorsunuz. Bir bakayım.",
+      "en": "You want a certificate of no debt. Let me look."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Hiçbir şey çıkmıyor. Sayfayı yeniledim, yine çıkmıyor. İlginç.",
+      "en": "Nothing comes up. I refreshed. Still nothing. Interesting.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Yazıyı veriyorum. Bir kopyasını da kendime saklayacağım, nadir oluyor.",
+      "en": "I'll issue it. I'm keeping a copy for myself, though. This is rare.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Yazıyı al, çık",
+      "en": "Take the certificate and go",
+      "pattern": "patience"
+    },
+    {
+      "id": "iki",
+      "tr": "İkinci nüsha iste",
+      "en": "Ask for a second copy",
+      "pattern": "pride"
+    },
+    {
+      "id": "sor",
+      "tr": "'Emin misiniz' diye sor",
+      "en": "Ask whether they're sure",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "borcu_yoktur_yazisi"
+          ]
+        }
+      },
+      "tr": "Yazı mühürlendi: \"Borcu yoktur.\" Geçerlilik süresi on beş gün.",
+      "en": "The certificate was stamped: \"No outstanding debt.\" Valid for fifteen days.",
+      "coach": [
+        {
+          "tr": "On beş gün boyunca resmen temizsin.",
+          "en": "Officially clean, for fifteen days.",
+          "roast": false
+        },
+        {
+          "tr": "Sayaç bunu gördü.",
+          "en": "The counter saw that.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "iki": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "money": -12,
+        "flags": {
+          "add": [
+            "borcu_yoktur_yazisi"
+          ]
+        }
+      },
+      "tr": "İkinci nüsha için 12 Para harç ödedin. Borcu yoktur yazısının ilk masrafı.",
+      "en": "The second copy carried a fee of 12. The first expense of having no debt.",
+      "coach": [
+        {
+          "tr": "Borçsuzluğun maliyeti on iki Para.",
+          "en": "Being debt-free now costs twelve.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "borcu_yoktur_yazisi"
+          ]
+        }
+      },
+      "tr": "Görevli üçüncü kez baktı, bir de amirini çağırdı. İkisi birlikte ekrana bakıp yazıyı imzaladı.",
+      "en": "The clerk checked a third time, then called a supervisor. They both looked at the screen and signed.",
+      "coach": [
+        {
+          "tr": "İki imza. Şüphe eden üçüncü kişi sendin.",
+          "en": "Two signatures. The third party with doubts was you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "borcu yoktur yazısı isterken sistemde gerçekten hiçbir borcun çıkmaması",
+    "mechanism": "temiz kayıt görevliyi şüphelendiriyor",
+    "mechanismId": "reversal",
+    "punch": "bir kopyasını kendime saklayacağım, nadir oluyor",
+    "lift": "sayaç",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "nadir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bayram_ozel_gunler_yilbasi_firini_01",
+  "tags": [
+    "mevsim",
+    "partner",
+    "yilbasi",
+    "yemek",
+    "bayram_ozel_gunler"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "bayram_ozel_gunler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 56
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Misafirler oturdu. Fırındaki ne durumda?",
+      "en": "The guests are seated. What's the status in the oven?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Tarif \"üç saat\" diyordu. Sen kaçta koydun?",
+      "en": "The recipe said three hours. When did it go in?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Bekle, fırını yükselt",
+      "en": "Wait, turn the oven up",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dilim",
+      "tr": "Dilimle, tavada bitir",
+      "en": "Slice it, finish in a pan",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "siparis",
+      "tr": "Dışarıdan söyle",
+      "en": "Order in",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "charm": 1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Yemek 23.35'te çıktı, ortası pişmişti. Geri sayım ağızlar doluyken yapıldı.",
+        "en": "It came out at 11:35, cooked through. The countdown happened with everyone's mouth full.",
+        "coach": [
+          {
+            "tr": "Yeni yıla çatal elde girildi.",
+            "en": "The year began fork in hand.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "yilbasi_yemegi_yandi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Dışı karardı, ortası hâlâ pembeydi. Gece yarısı sofrada garnitür ve ekmek vardı.",
+        "en": "The outside went black and the middle stayed pink. At midnight the table held side dishes and bread.",
+        "coach": [
+          {
+            "tr": "Dışı geçen yıl. İçi gelecek yıl.",
+            "en": "Outside: last year. Inside: next year.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "dilim": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Dilimleyip tavada pişirdin. Sunum bozuldu, tabaklar 23.10'da doldu.",
+      "en": "You sliced it and finished it in a pan. The presentation died. The plates were full by 11:10.",
+      "coach": [
+        {
+          "tr": "Görüntü gitti. Yemek yetişti.",
+          "en": "Looks gone. Dinner on time.",
+          "roast": false
+        }
+      ]
+    },
+    "siparis": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "money": -900,
+        "flags": {
+          "add": [
+            "yilbasi_siparisi"
+          ]
+        }
+      },
+      "tr": "Yılbaşı gecesi açık tek yer pideciydi, teslimat doksan dakika. Yemek 00.20'de geldi, yeni yılın ilk siparişi oldu.",
+      "en": "The only place open was a flatbread shop quoting ninety minutes. Dinner arrived at 12:20, the first delivery of the new year.",
+      "coach": [
+        {
+          "tr": "Fırındaki sabaha pişti. Kahvaltı hazır.",
+          "en": "The roast finished by morning. Breakfast is handled.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Fırın gece yarısına yetişmez. — M.",
+      "en": "WAGER: The oven misses midnight. — M."
+    }
+  },
+  "intent": {
+    "setup": "yılbaşı gecesi misafire ilk kez büyük fırın yemeği yapmak, saat 22.30'da ortasının çiğ çıkması",
+    "mechanism": "saat ilerledikçe seçenekler daralıyor: fırın, tava, pideci",
+    "mechanismId": "escalation",
+    "punch": "dışı geçen yıl, içi gelecek yıl",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "catal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR bayram/yılbaşı/özel gün ↔ EN holidays/New Year/special occasions. Dini tören ya da terim yok."
+  }
+}

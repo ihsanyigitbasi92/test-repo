@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "tek_hedef_anlari_konut_on_onay_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "ev",
+    "banka",
+    "evrak",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "buyHome"
+      ]
+    },
+    "money": {
+      "min": 18000
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KIRLANGIÇ BANKASI · Konut Kredileri (kurgusal)",
+      "en": "SWALLOW BANK · Home Loans (fictional)"
+    },
+    "body": {
+      "tr": "Başvurunuz ön değerlendirmeden olumlu geçmiştir. Nihai onay, ekspertiz ve ek belgelerin incelenmesine bağlıdır.",
+      "en": "Your application has passed preliminary review. Final approval is subject to appraisal and review of additional documents."
+    },
+    "translate": {
+      "tr": {
+        "from": "ön değerlendirmeden olumlu geçmiştir",
+        "to": "evet demedik, hayır da demedik"
+      },
+      "en": {
+        "from": "passed preliminary review",
+        "to": "not a yes, not a no"
+      }
+    },
+    "glossaryKey": "on_onay"
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Ev alıyormuşsun. Balkonu var mı? Çamaşırı nereye asacaksın?",
+      "en": "You're buying a place, I hear. Does it have a balcony? Where will the laundry dry?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Krediyi sormuyorum. Balkonu soruyorum.",
+      "en": "I'm not asking about the loan. I'm asking about the balcony.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ekspertiz",
+      "tr": "Ekspertizi öde, devam et",
+      "en": "Pay for the appraisal, proceed",
+      "pattern": "patience"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden peşinata destek iste",
+      "en": "Ask Mom to top up the deposit",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "bekle",
+      "tr": "Dosyayı bir yıl beklet",
+      "en": "Shelve the file for a year",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "ekspertiz": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "konut_kredisi_basvurusu"
+          ]
+        },
+        "glossary": "on_onay"
+      },
+      "tr": "Ekspertiz 450 Para tuttu. Raporda ev 'bakımlı', balkon 'Fransız' yazıyor; yani yok.",
+      "en": "The appraisal cost 450. The report calls the home 'well kept' and the balcony 'French.' Meaning there isn't one.",
+      "coach": [
+        {
+          "tr": "Başvuru yolda. Hedef yarıyı gördü.",
+          "en": "Application in motion. The goal has reached halfway.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "money": 2000,
+        "meters": {
+          "momPressure": 4
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "konut_kredisi_basvurusu",
+            "anne_pesinat_destegi"
+          ]
+        }
+      },
+      "tr": "Annen 2.000 Para verdi ve bir şart koydu; tapuya değil, balkona: çamaşır ipini o seçecek.",
+      "en": "Mom gave you 2,000 and attached a condition, not to the deed but to the balcony: she picks the clothesline.",
+      "coach": [
+        {
+          "tr": "Peşinat büyüdü. Balkonun bir ortağı var.",
+          "en": "The down payment grew. The balcony has a co-owner.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "ev_alma_ertelendi"
+          ]
+        },
+        "glossary": "on_onay"
+      },
+      "tr": "Dosyayı beklettin. Banka her ay aynı mektubu gönderdi; yalnızca tarih değişti.",
+      "en": "You shelved the file. The bank sent the same letter every month. Only the date changed.",
+      "coach": [
+        {
+          "tr": "Ön değerlendirme bekliyor. Sabırlı bir mektup.",
+          "en": "The preliminary review is waiting. It is a patient letter.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "ev alma hedefinde bankadan gelen konut kredisi ön değerlendirme yazısı",
+    "mechanism": "banka dili düz dile çevriliyor",
+    "mechanismId": "translation",
+    "punch": "evet demedik, hayır da demedik",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "balkon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

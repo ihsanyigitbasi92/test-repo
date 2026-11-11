@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_yedek_anahtar_kavanozu_01",
+  "tags": [
+    "yaslilik",
+    "komsu",
+    "ev",
+    "anahtar",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 550,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 72,
+      "max": 92
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Anahtar içeride mi kaldı? Dur, yedeğin bende. Bir yerde. Kavanozda olacak.",
+      "en": "Locked out? Hold on, I have your spare. Somewhere. It should be in the jar."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Kavanozda on dört anahtar var. Hiçbirinde etiket yok. Biri eski bisiklet kilidinin.",
+      "en": "There are fourteen keys in this jar. None are labeled. One is for an old bike lock.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "On dördünü de dene",
+      "en": "Try all fourteen",
+      "pattern": "patience",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "cilingir",
+      "tr": "Doğrudan çilingir çağır",
+      "en": "Just call a locksmith",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "bekle",
+      "tr": "Çocuğundaki yedeği bekle",
+      "en": "Wait for your kid's spare",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Dokuzuncu anahtar kapıyı açtı. İçeri girince ilk iş ona kırmızı bir ip bağladın.",
+        "en": "The ninth key opened the door. First thing inside, you tied a red string on it.",
+        "coach": [
+          {
+            "tr": "Dokuzuncu anahtarın artık bir ipi var.",
+            "en": "Key number nine has a string now.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "On dört anahtarın hiçbiri uymadı: kilidi altı yıl önce değiştirmiştin. Çilingir 300 Para aldı.",
+        "en": "None of the fourteen fit. You changed the lock six years ago. The locksmith charged 300.",
+        "coach": [
+          {
+            "tr": "Yedek, eski kilide sadık kalmış.",
+            "en": "The spare stayed loyal to the old lock.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cilingir": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "etiketli_yedek_anahtar"
+          ]
+        }
+      },
+      "tr": "Çilingir kapıyı iki dakikada açtı: 300 Para. Giderken iki yedek kesti, biri komşuya etiketli gitti.",
+      "en": "The locksmith had the door open in two minutes: 300. Two spares were cut. One went next door, labeled.",
+      "coach": [
+        {
+          "tr": "Kavanozda artık bir etiket var.",
+          "en": "The jar now contains one label.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          },
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Çocuğun akşam yedide geldi. O saate kadar komşuda üç çay içtin, kavanozdaki anahtarların dördünün sahibini buldunuz.",
+      "en": "Your kid arrived at seven that evening. By then you'd had three teas next door and matched four keys from the jar to their owners.",
+      "coach": [
+        {
+          "tr": "Dört anahtarın sahibi bulundu.",
+          "en": "Four keys have been claimed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "anahtarı içeride unutup kapıda kalmak, komşudaki yedeğin etiketsiz anahtar kavanozunda olması",
+    "mechanism": "on dört etiketsiz anahtar tek tek sayılıp deneniyor",
+    "mechanismId": "count",
+    "punch": "biri eski bisiklet kilidinin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "etiket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

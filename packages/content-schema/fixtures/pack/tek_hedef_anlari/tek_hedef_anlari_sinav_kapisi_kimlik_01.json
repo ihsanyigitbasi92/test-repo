@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_sinav_kapisi_kimlik_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "egitim",
+    "sinav",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "exam"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kimlik, kalem, silgi. Su şişesi etiketsiz olacak.",
+      "en": "ID, pencil, eraser. Water bottles must have no label."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Kimliğiniz yok mu? Kapı on dakika sonra kapanıyor. Dokuz.",
+      "en": "No ID? Doors close in ten minutes. Nine.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Eve koş, kimliği al",
+      "en": "Sprint home for the ID",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "health",
+        "goal": "exam"
+      }
+    },
+    {
+      "id": "ikna",
+      "tr": "Başka kartlarla ikna etmeyi dene",
+      "en": "Try other cards on the proctor",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "seneye",
+      "tr": "Seneye gir",
+      "en": "Take it next year",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "health": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "sinava_girildi"
+            ]
+          }
+        },
+        "tr": "Sekiz dakikada gidip geldin. Salona girdiğinde nefesin yoktu; ilk on soruda aklın da yoktu.",
+        "en": "You made the round trip in eight minutes. You entered the hall without your breath, and did the first ten questions without your brain.",
+        "coach": [
+          {
+            "tr": "Sınava girildi. Hedef: tamam.",
+            "en": "Exam entered. Goal: done.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "sinav_kapida_kaldi"
+            ]
+          }
+        },
+        "tr": "Döndüğünde kapı kapanalı kırk saniye olmuştu. Görevli camın arkasından saatini gösterdi.",
+        "en": "When you got back, the door had been shut for forty seconds. The proctor pointed at a watch through the glass.",
+        "coach": [
+          {
+            "tr": "Kimlik artık yanında. Bir yıl boyunca.",
+            "en": "You have your ID with you now. For the next year.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ikna": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "cringe": 4
+        },
+        "flags": {
+          "add": [
+            "sinav_kapida_kaldi"
+          ]
+        }
+      },
+      "tr": "Öğrenci kartını, kütüphane kartını ve bir vesikalık fotoğrafını gösterdin. Görevli üçüne de baktı, sonra yönetmeliği gösterdi.",
+      "en": "You offered a student card, a library card, and a passport photo. The proctor examined all three, then pointed at the rulebook.",
+      "coach": [
+        {
+          "tr": "Üç belge sundun. İstenen dördüncüydü.",
+          "en": "You presented three documents. They wanted the fourth.",
+          "roast": true
+        }
+      ]
+    },
+    "seneye": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "sinav_seneye"
+          ]
+        }
+      },
+      "tr": "Eve yürüdün. Kimlik masanın üstündeydi, tam bıraktığın yerde.",
+      "en": "You walked home. The ID was on the desk, exactly where you left it.",
+      "coach": [
+        {
+          "tr": "Hedefe ERTELENDİ damgası. Kimlik masada.",
+          "en": "The goal gets a POSTPONED stamp. The ID is on the desk.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: Kapı senden önce kapanır. — M.",
+      "en": "WAGER: The door closes before you're back. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınava girme hedefinde sınav sabahı kimliği evde unutmak",
+    "mechanism": "görevli süreyi sayarak bildiriyor",
+    "mechanismId": "deadpan_report",
+    "punch": "on dakika sonra kapanıyor. dokuz.",
+    "lift": "hedef tamam",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "damga"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

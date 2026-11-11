@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_kayip_cuzdan_kimligi_01",
+  "tags": [
+    "burokrasi",
+    "kayip_esya",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Cüzdanınız bulundu. Teslim için kimlik göstermeniz gerekiyor.",
+      "en": "Your wallet's been handed in. I'll need to see ID to release it."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kimlik cüzdanın içinde, evet. Siz açamazsınız. Ben açıp fotoğrafa bakabilirim.",
+      "en": "Yes, the ID is inside the wallet. You can't open it. I can open it and check the photo.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Önce siz fotoğrafınızı tarif edin. Sonra ben bakacağım.",
+      "en": "First describe your ID photo. Then I'll look.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tarif",
+      "tr": "Fotoğrafını tarif et",
+      "en": "Describe your ID photo",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "pasaport",
+      "tr": "Eve git, pasaportu getir",
+      "en": "Go home and fetch your passport",
+      "pattern": "patience"
+    },
+    {
+      "id": "say",
+      "tr": "İçindekileri ezbere say",
+      "en": "Recite the wallet's contents",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "tarif": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "cuzdan_bulundu"
+            ]
+          }
+        },
+        "tr": "\"Saçım o gün yatmamıştı\" dedin. Görevli fotoğrafa baktı, başını salladı, cüzdanı uzattı.",
+        "en": "\"My hair wasn't cooperating that day,\" you said. The clerk checked the photo, nodded, and slid the wallet over.",
+        "coach": [
+          {
+            "tr": "Tarif tuttu. O fotoğraf ilk kez işe yaradı.",
+            "en": "The description matched. First time that photo helped anyone.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Tarifin fotoğrafa uymadı; fotoğraf dört yıllık. Cüzdan yarına kadar kasada.",
+        "en": "Your description didn't match. The photo is four years old. The wallet stays in the safe until tomorrow.",
+        "coach": [
+          {
+            "tr": "Dört yıl önceki hâlin tanıklık etmedi.",
+            "en": "Four-years-ago you declined to testify.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "pasaport": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -30,
+        "flags": {
+          "add": [
+            "cuzdan_bulundu"
+          ]
+        }
+      },
+      "tr": "Eve gidip pasaportla döndün. Cüzdan eksiksiz teslim edildi: içinde 85 Para ve bir otobüs kartı.",
+      "en": "You went home and came back with your passport. The wallet was returned intact: 85 in cash and a bus card.",
+      "coach": [
+        {
+          "tr": "İki yol parası verdin, cüzdanı aldın. Hesap artıda.",
+          "en": "Two bus fares for one wallet. Still ahead.",
+          "roast": false
+        }
+      ]
+    },
+    "say": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 1
+        },
+        "flags": {
+          "add": [
+            "cuzdan_bulundu"
+          ]
+        }
+      },
+      "tr": "Fişleri, kartları ve bozuklukları sırayla saydın. Görevli üçüncü fişte seni durdurup cüzdanı verdi.",
+      "en": "You listed the receipts, cards and coins in order. The clerk stopped you at the third receipt and handed it over.",
+      "coach": [
+        {
+          "tr": "Üçüncü fiş yeterli kanıt sayıldı.",
+          "en": "Three receipts were deemed sufficient.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "kayıp eşya bürosunda bulunan cüzdanı almak için içindeki kimliğin istenmesi",
+    "mechanism": "kanıt, teslim edilecek şeyin içinde",
+    "mechanismId": "reversal",
+    "punch": "önce siz tarif edin, sonra ben bakacağım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "fotograf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_yurt_gec_giris_01",
+  "tags": [
+    "burokrasi",
+    "yurt",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇINARALTI ÖĞRENCİ YURDU MÜDÜRLÜĞÜ (kurgusal)",
+      "en": "PLANE TREE STUDENT RESIDENCE, DIRECTOR'S OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "23.00 olan giriş saatini 7 dakika aştığınız tutanakla tespit edilmiştir. Üçüncü tutanakta veliniz bilgilendirilir. Bu ikinci tutanağınızdır.",
+      "en": "Records show that you exceeded the 11:00 p.m. curfew by 7 minutes. On a third report, your guardian is informed. This is your second."
+    },
+    "translate": {
+      "tr": {
+        "from": "veliniz bilgilendirilir",
+        "to": "annen aranır"
+      },
+      "en": {
+        "from": "your guardian is informed",
+        "to": "we call your mom"
+      }
+    },
+    "glossaryKey": "giris_saati"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kapıdaki saat esas alınır. Kapıdaki saat dört dakika ileri, o ayrı konu.",
+      "en": "The door clock is the official one. The door clock runs four minutes fast. Separate issue."
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzala",
+      "tr": "Tutanağı imzala",
+      "en": "Sign the report",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "saat",
+      "tr": "Saatin ayarına itiraz et",
+      "en": "Contest the clock",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annene kendin anlat",
+      "en": "Tell your mom yourself first",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "imzala": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yurt_ikinci_tutanak"
+          ]
+        },
+        "glossary": "giris_saati"
+      },
+      "tr": "İmzaladın. Dosyanda iki tutanak var.",
+      "en": "You signed. Your folder now holds two reports.",
+      "coach": [
+        {
+          "tr": "Dosya üç gözlü. İkisi doldu.",
+          "en": "The folder has room for three. Two are in.",
+          "roast": true
+        }
+      ]
+    },
+    "saat": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 1
+          },
+          "flags": {
+            "add": [
+              "yurt_ikinci_tutanak",
+              "yurt_saati_duzeltildi"
+            ]
+          },
+          "glossary": "giris_saati"
+        },
+        "tr": "Müdür kapıdaki saati kendi telefonuyla karşılaştırdı. Tutanak üç dakikaya indirildi, saat düzeltildi.",
+        "en": "The director checked the door clock against a phone. The report was amended to three minutes and the clock was reset.",
+        "coach": [
+          {
+            "tr": "Dört dakika geri alındı. Üçü hâlâ senin.",
+            "en": "Four minutes recovered. Three remain yours.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "yurt_ikinci_tutanak"
+            ]
+          }
+        },
+        "tr": "Müdür saati inceledi ve doğru buldu. İtirazın ayrı bir kâğıda yazılıp dosyaya eklendi.",
+        "en": "The director inspected the clock and found it accurate. Your objection was written up and added to the folder.",
+        "coach": [
+          {
+            "tr": "Dosya kalınlaştı.",
+            "en": "The folder got thicker.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yurt_ikinci_tutanak"
+          ]
+        }
+      },
+      "tr": "Annene anlattın. Yurt saatinin ileri olduğuna hemen inandı; ikinci cümlede saat kaçta yattığını sordu.",
+      "en": "You told your mom. She believed you about the fast clock at once. Her second sentence asked what time you go to bed.",
+      "coach": [
+        {
+          "tr": "Annen kendi tutanağını tuttu.",
+          "en": "Your mom opened a report of her own.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "yurt müdürlüğünün yedi dakikalık geç giriş için ikinci tutanağı tutması",
+    "mechanism": "yedi dakika resmî dosyaya dönüşüyor",
+    "mechanismId": "deadpan_report",
+    "punch": "dosya üç gözlü, ikisi doldu",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dosya"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

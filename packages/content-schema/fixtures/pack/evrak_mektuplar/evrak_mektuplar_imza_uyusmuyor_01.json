@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_imza_uyusmuyor_01",
+  "tags": [
+    "burokrasi",
+    "imza",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 90
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "SARNIÇ BANKASI ŞUBE OPERASYON (kurgusal)",
+      "en": "CISTERN BANK, BRANCH OPERATIONS (fictional)"
+    },
+    "body": {
+      "tr": "Talimatınızdaki imza, kayıtlarımızdaki imza örneğinizle uyuşmadığından işleminiz gerçekleştirilememiştir. İmza örneğinizin güncellenmesi için şubemize bekleriz.",
+      "en": "The signature on your instruction does not match the specimen we hold, and the transaction could not be completed. Please visit the branch to update your specimen."
+    },
+    "translate": {
+      "tr": {
+        "from": "uyuşmadığından",
+        "to": "kırk yılda elin değiştiğinden"
+      },
+      "en": {
+        "from": "does not match the specimen we hold",
+        "to": "has changed since you were young"
+      }
+    },
+    "glossaryKey": "imza_ornegi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kayıttaki imzayı kırk bir yıl önce atmışsınız. Güncellemek için önce onu atmanız gerekiyor.",
+      "en": "You gave us that signature forty-one years ago. To update it, you first need to produce it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "taklit",
+      "tr": "Eski imzanı atmayı dene",
+      "en": "Try to sign like you used to",
+      "pattern": "pride",
+      "check": {
+        "base": 3500
+      }
+    },
+    {
+      "id": "kimlik",
+      "tr": "Kimlikle şahsen güncelle",
+      "en": "Update it in person with ID",
+      "pattern": "patience"
+    },
+    {
+      "id": "nakit",
+      "tr": "İşlemi gişeden nakit yap",
+      "en": "Do the transfer in cash at the counter",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "taklit": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "imza_guncel"
+            ]
+          },
+          "glossary": "imza_ornegi"
+        },
+        "tr": "Üçüncü denemede kırk bir yıl önceki kuyruğu tutturdun. Yeni imzan kayda alındı, havale aynı gün çıktı.",
+        "en": "On the third try you nailed the flourish from forty-one years ago. Your new signature was recorded and the transfer went out the same day.",
+        "coach": [
+          {
+            "tr": "Genç hâlinin imzası üçüncü denemede geldi.",
+            "en": "Your younger signature showed up on the third try.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Beş deneme de reddedildi. Görevli dosyaya \"eski imzasını atamıyor\" notu düştü.",
+        "en": "All five attempts were rejected. The banker noted on file: \"unable to reproduce former signature.\"",
+        "coach": [
+          {
+            "tr": "Eski imzan daha süslüymüş.",
+            "en": "Your old signature had more flourish.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kimlik": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -35,
+        "flags": {
+          "add": [
+            "imza_guncel"
+          ]
+        },
+        "glossary": "imza_ornegi"
+      },
+      "tr": "Kimlik, iki güvenlik sorusu ve bir fotoğrafla imza güncellendi. Havale ertesi gün gitti; gecikme farkı 35 Para.",
+      "en": "With ID, two security questions and a photo, the signature was updated. The transfer went a day late. Late charge: 35.",
+      "coach": [
+        {
+          "tr": "Bugünkü imzan artık resmî.",
+          "en": "Today's signature is now the official one.",
+          "roast": false
+        }
+      ]
+    },
+    "nakit": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -20
+      },
+      "tr": "Parayı nakit çekip elden yatırdın; masrafı 20 Para. Eski imza kayıtlarda kırk ikinci yılına giriyor.",
+      "en": "You withdrew the cash and paid it in by hand for a 20 charge. The old signature enters its forty-second year on file.",
+      "coach": [
+        {
+          "tr": "Eski imza görevde kaldı.",
+          "en": "The old signature remains in office.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "bankanın imzanın kırk bir yıl önceki imza örneğiyle uyuşmadığı gerekçesiyle havaleyi durdurması",
+    "mechanism": "yenisini kaydetmek için eskisini atabilmek gerekiyor",
+    "mechanismId": "reversal",
+    "punch": "güncellemek için önce onu atmanız gerekiyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kuyruk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

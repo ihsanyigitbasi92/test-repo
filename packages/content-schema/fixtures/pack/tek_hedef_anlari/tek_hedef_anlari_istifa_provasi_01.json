@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_istifa_provasi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "is",
+    "istifa",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "quit"
+      ]
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Kusura bakmayın, yan kabindeydim. İstifa konuşması mı bu?",
+      "en": "Sorry, I was in the next stall. Is that a resignation speech?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Üçüncü cümle çok iyi. 'Büyümek istiyorum' kısmını atın, onu herkes der.",
+      "en": "Third sentence is great. Cut the 'I want to grow' part. Everyone says that.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "İçeri gir, istifa et",
+      "en": "Go in and resign",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "quit"
+      }
+    },
+    {
+      "id": "duzelt",
+      "tr": "Konuşmayı bir hafta daha çalış",
+      "en": "Polish the speech another week",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Vazgeç, masana dön",
+      "en": "Drop it, back to your desk",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "git": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 1500,
+          "stats": {
+            "joy": 8
+          },
+          "hidden": {
+            "stress": -5
+          },
+          "status": {
+            "job": null
+          },
+          "flags": {
+            "add": [
+              "istifa_edildi"
+            ]
+          }
+        },
+        "tr": "İstifa ettin; kullanılmamış izinlerin 1.500 Para olarak ödendi. Yöneticin 'kapımız açık' dedi, giriş kartın akşam iptal oldu.",
+        "en": "You resigned. Unused leave paid out at 1,500. Your manager said the door was always open. Your badge stopped working by evening.",
+        "coach": [
+          {
+            "tr": "Hedef: tamam. Maaş: sıfır.",
+            "en": "Goal: done. Salary: zero.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "status": {
+            "job": null
+          },
+          "flags": {
+            "add": [
+              "istifa_edildi"
+            ]
+          }
+        },
+        "tr": "İstifa ettin. İzin ödemesi çıkmadı; 'büyümek istiyorum' cümlesi de ağzından kaçtı.",
+        "en": "You resigned. No leave payout. And 'I want to grow' slipped out anyway.",
+        "coach": [
+          {
+            "tr": "Hedef tamam. O cümle de söylendi.",
+            "en": "Goal done. That sentence was also delivered.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "duzelt": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "istifa_dusunuluyor"
+          ]
+        }
+      },
+      "tr": "Konuşma dördüncü taslağa ulaştı. Kabindeki yabancıyı bir daha görmedin; editörsüz kaldın.",
+      "en": "The speech reached draft four. You never saw the stranger from the stall again. You have no editor.",
+      "coach": [
+        {
+          "tr": "Dördüncü taslak. Hedef yarımda.",
+          "en": "Draft four. Goal at halfway.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Masana döndün. Takvimde üç toplantı vardı; birinin adı 'büyüme hedefleri'.",
+      "en": "You went back to your desk. Three meetings on the calendar. One is called 'Growth Goals.'",
+      "coach": [
+        {
+          "tr": "Büyüme toplantısı saat üçte.",
+          "en": "The growth meeting is at three.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "git",
+    "slip": {
+      "tr": "İDDİA: İzin parası çıkmaz. — M.",
+      "en": "WAGER: The leave payout doesn't come through. — M."
+    }
+  },
+  "intent": {
+    "setup": "istifa hedefinde konuşmayı ofis tuvaletinde prova ederken yan kabindeki yabancının geri bildirim vermesi",
+    "mechanism": "mahrem prova editör buluyor",
+    "mechanismId": "reversal",
+    "punch": "onu herkes der",
+    "lift": "hedef tamam",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "buyume"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

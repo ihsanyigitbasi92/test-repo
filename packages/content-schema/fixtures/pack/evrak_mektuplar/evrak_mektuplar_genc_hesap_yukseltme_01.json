@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_genc_hesap_yukseltme_01",
+  "tags": [
+    "burokrasi",
+    "hesap",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "MARTI LİMAN BANKASI (kurgusal)",
+      "en": "GULL HARBOR BANK (fictional)"
+    },
+    "body": {
+      "tr": "Yaşınız nedeniyle Genç Hesabınız, Standart Hesaba yükseltilmiştir. Standart Hesap aylık 18 Para hesap işletim ücretine tabidir.",
+      "en": "Owing to your age, your Youth Account has been upgraded to a Standard Account. Standard Accounts carry a monthly maintenance fee of 18."
+    },
+    "translate": {
+      "tr": {
+        "from": "yükseltilmiştir",
+        "to": "artık ücretli"
+      },
+      "en": {
+        "from": "upgraded",
+        "to": "now costs money"
+      }
+    },
+    "glossaryKey": "hesap_yukseltme"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Doğum gününüz kutlu olsun. Bu arada genç tanımımız dün itibarıyla sizi kapsamıyor.",
+      "en": "Happy birthday. Incidentally, our definition of 'youth' stopped including you yesterday."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Ücreti kabul et",
+      "en": "Accept the fee",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "paket",
+      "tr": "Ücretsiz paket var mı, sor",
+      "en": "Ask about a no-fee package",
+      "pattern": "patience",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "Hesabı kapat, banka değiştir",
+      "en": "Close it and switch banks",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -18,
+        "flags": {
+          "add": [
+            "standart_hesap"
+          ]
+        },
+        "glossary": "hesap_yukseltme"
+      },
+      "tr": "İlk 18 Para ay sonunda kesildi. Dekont açıklaması: \"hesap işletim\".",
+      "en": "The first 18 came out at month's end. Statement description: \"account maintenance.\"",
+      "coach": [
+        {
+          "tr": "Gençlik dün bitti. Faturası bugün kesildi.",
+          "en": "Youth ended yesterday. It was invoiced today.",
+          "roast": true
+        }
+      ]
+    },
+    "paket": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "ucretsiz_paket"
+            ]
+          },
+          "glossary": "hesap_yukseltme"
+        },
+        "tr": "Maaşını bu hesaba alırsan ücret siliniyor. Kabul ettin; form üç sayfaydı.",
+        "en": "Route your salary through the account and the fee is waived. You agreed. The form ran to three pages.",
+        "coach": [
+          {
+            "tr": "On sekiz Para kurtuldu. Karşılığı üç sayfa imza.",
+            "en": "Eighteen saved, at a cost of three pages of signatures.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          },
+          "money": -18,
+          "flags": {
+            "add": [
+              "standart_hesap"
+            ]
+          }
+        },
+        "tr": "Ücretsiz paket de aynı yaş sınırına bağlıymış. Bir doğum günüyle kaçırmışsın.",
+        "en": "The no-fee package has the same age limit. You missed it by one birthday.",
+        "coach": [
+          {
+            "tr": "O paketin süresi de dün dolmuş.",
+            "en": "That package also expired yesterday.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "banka_degisti"
+          ]
+        }
+      },
+      "tr": "Hesabı kapattın, başka bankada yenisini açtın. Yeni bankanın genç tanımı da aynı çıktı.",
+      "en": "You closed the account and opened one elsewhere. The new bank's definition of youth turned out identical.",
+      "coach": [
+        {
+          "tr": "İki banka, tek tanım. Takvim konusunda anlaşmışlar.",
+          "en": "Two banks, one definition. They agree on the calendar.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "bankanın yaş sınırı dolunca genç hesabı ücretli standart hesaba çevirmesi",
+    "mechanism": "yükseltme kelimesi ücret anlamına geliyor",
+    "mechanismId": "translation",
+    "punch": "gençlik dün bitti, faturası bugün kesildi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "fatura"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_staj_evragi_turu_01",
+  "tags": [
+    "burokrasi",
+    "staj",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Staj formunu önce okul imzalar, sonra şirket, sonra okul yeniden mühürler.",
+      "en": "Three stops: the school signs, the company signs, then the school stamps it again."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "Şirket imzalamış ama tarih atmamış. Tarihsiz imzayı mühürleyemem.",
+      "en": "The company signed but didn't date it. I can't stamp an undated signature.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "geri_git",
+      "tr": "Şirkete geri git",
+      "en": "Go back to the company",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Şirketi ara, yazı iste",
+      "en": "Call the company for an email",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yarin",
+      "tr": "Yarına bırak",
+      "en": "Leave it for tomorrow",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "geri_git": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -25,
+        "flags": {
+          "add": [
+            "staj_evragi_tamam"
+          ]
+        }
+      },
+      "tr": "Günün üçüncü otobüsüyle şirkete döndün, tarihi attırdın. Form mesai bitmeden mühürlendi.",
+      "en": "Third bus of the day, back to the company for a date. The form got its stamp before closing.",
+      "coach": [
+        {
+          "tr": "Staj henüz başlamadı. Yol tecrübesi başladı.",
+          "en": "The internship hasn't started. The commute has.",
+          "roast": true
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "staj_evragi_tamam"
+            ]
+          }
+        },
+        "tr": "Şirket tarihli bir yazı gönderdi. Görevli çıktısını alıp forma zımbaladı.",
+        "en": "The company emailed a dated letter. The clerk printed it and stapled it to the form.",
+        "coach": [
+          {
+            "tr": "Bir e-posta, iki otobüsü emekliye ayırdı.",
+            "en": "One email retired two bus rides.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "staj_evragi_bekliyor"
+            ]
+          }
+        },
+        "tr": "Şirkette telefonu açan olmadı. Form geceyi çantanda, tarihsiz geçirdi.",
+        "en": "Nobody at the company picked up. The form spent the night in your bag, undated.",
+        "coach": [
+          {
+            "tr": "Form gecelemeye kaldı. İmzası tam, tarihi eksik.",
+            "en": "The form is staying over. Signed, undated, and in no hurry.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "staj_evragi_bekliyor"
+          ]
+        }
+      },
+      "tr": "Formu çantana koydun. Stajın başlamasına dört iş günü var.",
+      "en": "You put the form in your bag. The internship starts in four business days.",
+      "coach": [
+        {
+          "tr": "Dört iş günü. Okul ile şirket arası hâlâ iki otobüs.",
+          "en": "Four business days. School and company are still two buses apart.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "staj formunun okul ile şirket arasında üç kez imzaya taşınması",
+    "mechanism": "her durakta yeni bir eksik çıkıyor",
+    "mechanismId": "escalation",
+    "punch": "staj başlamadı, yol tecrübesi başladı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "otobus"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

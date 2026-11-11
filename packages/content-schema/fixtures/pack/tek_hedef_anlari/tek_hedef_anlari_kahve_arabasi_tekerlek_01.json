@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_kahve_arabasi_tekerlek_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "para",
+    "ev_arkadasi",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "noPlan"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Seyyar kahve arabası. 500 koy, ortak ol. Üç ayda geri döner.",
+      "en": "A coffee cart. Put in 500 and you're a partner. Pays back in three months."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Arabayı buldum, kahveyi buldum. Bir tek tekerlek eksik. Dört tekerlek.",
+      "en": "I've got the cart. I've got the coffee. Just missing a wheel. Four wheels.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "hayir",
+      "tr": "Para verme",
+      "en": "Don't hand over money",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "noPlan"
+      }
+    },
+    {
+      "id": "ver",
+      "tr": "500 ver",
+      "en": "Give the 500",
+      "pattern": "generosity"
+    },
+    {
+      "id": "emek",
+      "tr": "Para yok, emek teklif et",
+      "en": "Offer labor instead of cash",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "hayir": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "barisa_para_verilmedi"
+            ]
+          }
+        },
+        "tr": "'Para yok ama ilk kahveyi ben alırım' dedin. Barış kabul etti, seni listeye 'onursal ortak' diye yazdı.",
+        "en": "You said: no money, but you'd buy the first cup. Jordan accepted and listed you as 'honorary partner.'",
+        "coach": [
+          {
+            "tr": "Hedef: tamam. 500 yerinde.",
+            "en": "Goal: done. 500 still here.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "barisa_para_verilmedi"
+            ]
+          }
+        },
+        "tr": "Hayır dedin. Barış üç gün bulaşığı senin tarafına yığdı, arabanın çizimini buzdolabına astı.",
+        "en": "You said no. For three days Jordan stacked the dishes on your side and taped the cart sketch to the fridge.",
+        "coach": [
+          {
+            "tr": "Para cebinde. Bulaşık tezgâhında.",
+            "en": "The money stayed in your pocket. The dishes stayed on your counter.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ver": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "kahve_arabasi_ortagi"
+          ]
+        }
+      },
+      "tr": "500 Para verdin. Araba geldi: üç tekerlekli. Dördüncüsü için 'ikinci tur yatırım' açıldı.",
+      "en": "You handed over 500. The cart arrived with three wheels. A 'second funding round' has opened for the fourth.",
+      "coach": [
+        {
+          "tr": "Payın: üç tekerlek. Dördüncüsü ayrı fatura.",
+          "en": "Your stake: three wheels. The fourth is billed separately.",
+          "roast": true
+        }
+      ]
+    },
+    "emek": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "barisa_para_verilmedi"
+          ]
+        }
+      },
+      "tr": "Cumartesi arabayı birlikte boyadınız. Para vermedin; tişörtün sarı oldu.",
+      "en": "You spent Saturday painting the cart together. You gave no money. Your shirt is yellow now.",
+      "coach": [
+        {
+          "tr": "Hedef sağlam. Tişört pek değil.",
+          "en": "Goal intact. Shirt, less so.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hayir",
+    "slip": {
+      "tr": "İDDİA: Hayır dersin, bedelini bulaşıkla ödersin. — M.",
+      "en": "WAGER: You say no and pay in dishes. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşına para vermeme hedefinde seyyar kahve arabasına ortaklık teklifi",
+    "mechanism": "eksik tek parça sayılınca dört çıkıyor",
+    "mechanismId": "count",
+    "punch": "bir tek tekerlek eksik, dört tekerlek",
+    "lift": "hedef tamam",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "tekerlek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

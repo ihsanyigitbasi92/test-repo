@@ -1,0 +1,162 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "absurt_kuyruk_taksiciyle_ayni_randevu_01",
+  "tags": [
+    "meta",
+    "absurt",
+    "taksi",
+    "hastane",
+    "absurt_kuyruk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "absurt_kuyruk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 85
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "happy",
+      "tr": "Hastaneye mi? Ben de oraya gidecektim. Dokuz buçukta sıram var. Seninki kaçta?",
+      "en": "The hospital? I was headed there myself. I've got a slot at nine-thirty. When's yours?"
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Teorim şu: aynı yere gidiyorsak bu taksi değil, yol arkadaşlığı. Taksimetre teoriyi bilmiyor ama.",
+      "en": "My theory: if we're both going there, this isn't a cab ride, it's carpooling. The meter hasn't heard it.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "bolus",
+      "tr": "Ücreti bölüşmeyi öner",
+      "en": "Offer to split the fare",
+      "pattern": "generosity"
+    },
+    {
+      "id": "tam",
+      "tr": "Tam öde",
+      "en": "Pay in full",
+      "pattern": "pride"
+    },
+    {
+      "id": "donus",
+      "tr": "Dönüşü de birlikte ayarla",
+      "en": "Arrange the ride back together",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "bolus": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -30,
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 3,
+            "memory": "ayni_randevu"
+          }
+        ]
+      },
+      "tr": "Taksimetreyi ikiye böldünüz: 30 Para. Bekleme salonunda yan yana oturdunuz; onun numarası önce yandı.",
+      "en": "You split the meter: 30. You sat side by side in the waiting room. His number came up first.",
+      "coach": [
+        {
+          "tr": "Yarı ücret. Yolcu ikiymiş.",
+          "en": "Half fare. Turns out there were two passengers.",
+          "roast": false
+        }
+      ]
+    },
+    "tam": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -60,
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "60 Para'yı tam ödedin. Taksici parayı aldı, arabayı park etti ve seninle aynı kapıdan girdi.",
+      "en": "You paid the full 60. The cabbie took it, parked the car, and walked in through the same door as you.",
+      "coach": [
+        {
+          "tr": "Şoförünü de yanında getirdin.",
+          "en": "You brought your own driver along.",
+          "roast": false
+        }
+      ]
+    },
+    "donus": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 5,
+            "memory": "ayni_randevu"
+          }
+        ],
+        "flags": {
+          "add": [
+            "taksici_yol_arkadasi"
+          ]
+        }
+      },
+      "tr": "Çıkışta seni otoparkta bekledi. Dönüş yolunda ikiniz de doktorun ne dediğini anlattınız; taksimetre kapalıydı.",
+      "en": "He waited for you in the parking lot afterward. On the way back you each reported what the doctor said. The meter was off.",
+      "coach": [
+        {
+          "tr": "Dönüşte taksimetre kapalıydı. Teori kazandı.",
+          "en": "The meter stayed off on the ride back. The theory won.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "hastaneye götüren taksicinin de aynı saatte aynı hastanede randevusu olması",
+    "mechanism": "şoför yolcuya, yolculuk ortaklığa dönüyor",
+    "mechanismId": "reversal",
+    "punch": "Taksimetre teoriyi bilmiyor ama",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "yol_arkadasi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

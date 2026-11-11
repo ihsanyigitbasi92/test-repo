@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_kiralik_kasa_01",
+  "tags": [
+    "burokrasi",
+    "kasa",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇINAR EMANET BANKASI KASA HİZMETLERİ (kurgusal)",
+      "en": "SYCAMORE TRUST BANK, SAFE DEPOSIT SERVICES (fictional)"
+    },
+    "body": {
+      "tr": "117 numaralı kiralık kasanızın yıllık ücreti olan 260 Para hesabınızdan tahsil edilmiştir. Kasanıza son erişiminiz 16 yıl öncedir.",
+      "en": "The annual fee of 260 for safe deposit box 117 has been collected from your account. Your last visit to the box was 16 years ago."
+    },
+    "translate": {
+      "tr": {
+        "from": "tahsil edilmiştir",
+        "to": "on altıncı kez alındı"
+      },
+      "en": {
+        "from": "has been collected",
+        "to": "has been taken for the sixteenth time"
+      }
+    },
+    "glossaryKey": "kiralik_kasa"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "İçinde ne olduğunu biz bilemeyiz. Açıkçası siz de hatırlamıyor gibisiniz.",
+      "en": "We have no way of knowing what's inside. Frankly, you don't seem to either."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ac",
+      "tr": "Git, kasayı aç",
+      "en": "Go and open the box",
+      "pattern": "risk",
+      "check": {
+        "base": 4000
+      }
+    },
+    {
+      "id": "devam",
+      "tr": "Öde, merak etmeye devam et",
+      "en": "Keep paying, keep wondering",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "anahtar",
+      "tr": "Önce anahtarı ara",
+      "en": "Look for the key first",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "ac": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "money": -260,
+          "flags": {
+            "add": [
+              "kasa_acildi",
+              "kasada_altin"
+            ]
+          }
+        },
+        "tr": "Kasadan bir zarf içinde iki altın ve tapunun fotokopisi çıktı. Kasayı kapatmadın; artık neyi sakladığını biliyorsun.",
+        "en": "Inside: an envelope with two gold coins and a photocopy of the deed. You kept the box. At least now you know what it guards.",
+        "coach": [
+          {
+            "tr": "On altı yıllık kira iki altını korumuş.",
+            "en": "Sixteen years of rent, guarding two gold coins.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": -260,
+          "flags": {
+            "add": [
+              "kasa_acildi",
+              "kasa_kapatildi"
+            ]
+          }
+        },
+        "tr": "Kasadan bir garanti belgesi, tek bir küpe ve durmuş bir kol saati çıktı. Kasayı kapattırdın.",
+        "en": "Inside: a warranty card, a single earring and a stopped wristwatch. You closed the account.",
+        "coach": [
+          {
+            "tr": "On altı yılda 4.160 Para. Bir garanti belgesi için.",
+            "en": "That's 4,160 over sixteen years. For a warranty card.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "devam": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -260,
+        "glossary": "kiralik_kasa"
+      },
+      "tr": "Ücret ödendi, kasa kapalı kaldı. İçinde ne olduğu on yedinci yıla devretti.",
+      "en": "The fee was paid and the box stayed shut. The question of its contents carried over to year seventeen.",
+      "coach": [
+        {
+          "tr": "Merakın yıllık bedeli 260 Para.",
+          "en": "Curiosity, billed annually at 260.",
+          "roast": false
+        }
+      ]
+    },
+    "anahtar": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -260,
+        "flags": {
+          "add": [
+            "kasa_anahtari_kayip"
+          ]
+        }
+      },
+      "tr": "Üç çekmece ve iki ayakkabı kutusu aradın; anahtar çıkmadı. Yedek anahtar 150 Para'ymış; ona yarın bakacaksın.",
+      "en": "You searched three drawers and two shoeboxes. No key. A replacement costs 150. You'll look into that tomorrow.",
+      "coach": [
+        {
+          "tr": "Kasa kilitli. Anahtarın yeri de.",
+          "en": "The box is locked. So is the key's location.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "on altı yıldır açılmayan banka kiralık kasasının yıllık ücret bildirimi",
+    "mechanism": "içinde ne olduğunu sahibi de bilmiyor",
+    "mechanismId": "bathos",
+    "punch": "siz de hatırlamıyor gibisiniz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kasa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

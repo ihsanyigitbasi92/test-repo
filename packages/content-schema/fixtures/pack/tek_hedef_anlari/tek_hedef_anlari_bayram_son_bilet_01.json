@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_bayram_son_bilet_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "aile",
+    "anne",
+    "yolculuk",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "visit"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Bayrama geliyor musun? Yatağını havalandırdım. Bu bir soru değil.",
+      "en": "Are you coming home for the holidays? I've aired out your bed. That wasn't a question."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Bilet kalmadıysa söyle, dayın gelir alır. Yol dört saat, konuşursunuz.",
+      "en": "If the bus is sold out, say so. Your uncle will drive. Four hours. You two can talk.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "bilet",
+      "tr": "Son bileti al",
+      "en": "Buy the last ticket",
+      "pattern": "patience"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayınla git",
+      "en": "Ride with your uncle",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "uncle": {
+            "alive": true
+          }
+        }
+      }
+    },
+    {
+      "id": "kalma",
+      "tr": "Bu sefer gelemeyeceğini söyle",
+      "en": "Say you can't make it this time",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bilet": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 5
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 5
+          }
+        ],
+        "flags": {
+          "add": [
+            "bayrama_gidildi"
+          ]
+        }
+      },
+      "tr": "Son bilet 350 Para'ydı, en arka koltuk. Annen seni terminalde karşıladı; elinde ikinci bir mont vardı.",
+      "en": "The last ticket was 350, back row. Mom met you at the station holding a second coat.",
+      "coach": [
+        {
+          "tr": "Hedef: tamam. Mont dahil.",
+          "en": "Goal: done. Coat included.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 5
+          },
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "bayrama_gidildi"
+          ]
+        }
+      },
+      "tr": "Dayın dört saat boyunca üç konu anlattı: lastik basıncı, senin geleceğin, yine lastik basıncı.",
+      "en": "Over four hours your uncle covered three topics: tire pressure, your future, and tire pressure again.",
+      "coach": [
+        {
+          "tr": "Varış tamam. Lastikler de iyi.",
+          "en": "Arrival confirmed. Tires also fine.",
+          "roast": false
+        }
+      ]
+    },
+    "kalma": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Gelemeyeceğini söyledin. Annen 'peki' dedi ve sofranın fotoğrafını yolladı; senin tabağın da konmuş.",
+      "en": "You said you couldn't make it. Mom said 'all right' and sent a photo of the table. Your plate was set.",
+      "coach": [
+        {
+          "tr": "Tabak sofrada. Hedef seneye kaldı.",
+          "en": "The plate is on the table. The goal moves to next year.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia yok"
+  },
+  "intent": {
+    "setup": "bayrama gitme hedefinde biletler tükenmek üzere; annen yatağı havalandırmış",
+    "mechanism": "soru kılığındaki talimat",
+    "mechanismId": "reversal",
+    "punch": "bu bir soru değil",
+    "lift": "hedef tamam",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "mont"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "TR: bayram ziyareti (hangi bayram olduğu yazılmaz). EN: 'the holidays' genel tatil dönemi olarak yeniden yazıldı; otobüs/terminal iki dilde ortak."
+  }
+}

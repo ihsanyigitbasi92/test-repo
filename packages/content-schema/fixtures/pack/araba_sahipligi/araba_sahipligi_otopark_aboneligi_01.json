@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_otopark_aboneligi_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Aylık abonelik 600 Para. Günlük girerseniz 40.",
+      "en": "Monthly pass is 600. Daily rate, forty."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Sokakta yer ararsanız bedava. Bulursanız.",
+      "en": "Street parking's free. If you find any.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "abone",
+      "tr": "Aylık aboneliği al",
+      "en": "Buy the monthly pass",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "sokak",
+      "tr": "Her sabah sokakta yer ara",
+      "en": "Hunt the street each morning",
+      "pattern": "risk",
+      "check": {
+        "base": 4000
+      }
+    },
+    {
+      "id": "gunluk",
+      "tr": "Günlük öde, hesap tutma",
+      "en": "Pay daily, skip the math",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "abone": {
+      "effects": {
+        "hidden": {
+          "stress": -3
+        },
+        "money": -600,
+        "flags": {
+          "add": [
+            "otopark_abone"
+          ]
+        }
+      },
+      "tr": "600 Para verdin, bir kart aldın. Sabahları evden on beş dakika geç çıkıyorsun; bariyer seni tanıyor.",
+      "en": "600 bought you a card. You now leave home fifteen minutes later each morning, and the barrier knows you.",
+      "coach": [
+        {
+          "tr": "Ayda 600 Para'ya bir bariyerle tanışıklık.",
+          "en": "600 a month to be recognized by a barrier.",
+          "roast": true
+        }
+      ]
+    },
+    "sokak": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "sokak_parki"
+            ]
+          }
+        },
+        "tr": "Fırının önünde her sabah 07.40'ta boşalan bir yer buldun. Bir ay boyunca hep oradaydı; fırıncı artık selam veriyor.",
+        "en": "You found a spot outside the bakery that frees up at 7:40 every morning. It held all month. The baker now waves.",
+        "coach": [
+          {
+            "tr": "Bedava yer. Tek şartı 07.40.",
+            "en": "A free space. Terms: 7:40 sharp.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "money": -360
+        },
+        "tr": "Ay boyunca günde ortalama on dokuz dakika döndün. Dokuz gün pes edip otoparka girdin: 360 Para ve yeni bir alışkanlık.",
+        "en": "You circled an average of nineteen minutes a day. On nine days you gave up and paid the lot: 360, and a new habit.",
+        "coach": [
+          {
+            "tr": "Turlar bedava değildi. Benzin saydı.",
+            "en": "The laps weren't free. The fuel gauge kept count.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gunluk": {
+      "effects": {
+        "hidden": {
+          "stress": 0
+        },
+        "money": -880
+      },
+      "tr": "Yirmi iki iş günü, günde 40 Para: 880. Otoparkçı her sabah “abonelik?” diye sordu, her sabah “bakarız” dedin.",
+      "en": "Twenty-two working days at forty each: 880. Every morning the attendant asked “monthly pass?” and every morning you said “we'll see.”",
+      "coach": [
+        {
+          "tr": "“Bakarız” 280 Para tuttu.",
+          "en": "“We'll see” cost 280.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sokak",
+    "slip": {
+      "tr": "İDDİA: Sokak sana yer ayırmaz. — M.",
+      "en": "WAGER: The street has no room for you. — M."
+    }
+  },
+  "intent": {
+    "setup": "iş yerinin yanındaki otoparka aylık abonelik almak ya da her sabah sokakta yer aramak",
+    "mechanism": "üç ödeme yolunun ay sonu hesabı",
+    "mechanismId": "count",
+    "punch": "“bakarız” 280 Para tuttu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bariyer"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

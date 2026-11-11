@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_ogrenci_karti_kontrol_01",
+  "tags": [
+    "burokrasi",
+    "toplu_tasima",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kartınızın vizesi on bir gün önce bitmiş. On bir gündür indirimli biniyorsunuz.",
+      "en": "Your pass expired eleven days ago. You've been riding at the student rate for eleven days."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tutanak yazmam gerekiyor. Öğrenci belgeniz yanınızda mı?",
+      "en": "I have to write this up. Do you have proof of enrollment on you?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "belge",
+      "tr": "Telefondan belgeyi göster",
+      "en": "Pull up the letter on your phone",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Tutanağı imzala",
+      "en": "Sign the citation",
+      "pattern": "patience"
+    },
+    {
+      "id": "sonra",
+      "tr": "\"İtiraz edeceğim\" de",
+      "en": "Say you'll appeal",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "belge": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "kart_vize_uyarisi"
+            ]
+          }
+        },
+        "tr": "Öğrenci belgesi telefonda açıldı. Görevli tutanağı iptal etti, vizeyi bugün yenilemeni söyledi.",
+        "en": "The enrollment letter loaded. The inspector voided the citation and told you to renew the pass today.",
+        "coach": [
+          {
+            "tr": "Belge üçüncü denemede açıldı. Bütün otobüs bekledi.",
+            "en": "The file opened on the third try. The whole bus waited.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -240,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "yolcu_tutanagi"
+            ]
+          }
+        },
+        "tr": "Sayfa yüklenmedi. 240 Para'lık tutanak yazıldı; otobüsün yarısı izledi.",
+        "en": "The page never loaded. A 240 citation was written up while half the bus watched.",
+        "coach": [
+          {
+            "tr": "Bağlantı erken indi. Sen inemedin.",
+            "en": "The signal got off early. You couldn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -240,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yolcu_tutanagi"
+          ]
+        },
+        "glossary": "idari_para_cezasi"
+      },
+      "tr": "240 Para'lık tutanağı imzaladın. On beş gün içinde ödersen indirim var; kaçırdığın öğrenci indiriminden büyük.",
+      "en": "You signed for the 240. Pay within fifteen days and there's a discount, larger than the student one you lost.",
+      "coach": [
+        {
+          "tr": "İndirim seni yine buldu.",
+          "en": "A discount found you anyway.",
+          "roast": false
+        }
+      ]
+    },
+    "sonra": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "yolcu_tutanagi",
+            "itiraz_bekliyor"
+          ]
+        }
+      },
+      "tr": "Tutanağı \"itiraz edeceğim\" diyerek aldın. İtiraz süresi on beş gün; tutanak çantanın dibinde.",
+      "en": "You took the citation and said you'd appeal. The window is fifteen days. The citation is at the bottom of your bag.",
+      "coach": [
+        {
+          "tr": "On beş gün. Çanta derin.",
+          "en": "Fifteen days. Deep bag.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "belge",
+    "slip": {
+      "tr": "İDDİA: Belge açılmaz. — M.",
+      "en": "WAGER: That file won't load. — M."
+    }
+  },
+  "intent": {
+    "setup": "otobüste bilet kontrolünde öğrenci kartının vizesinin dolmuş çıkması",
+    "mechanism": "görevli gecikmeyi gün gün sayıyor; belge yüklenmiyor",
+    "mechanismId": "deadpan_report",
+    "punch": "bağlantı erken indi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "indi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
