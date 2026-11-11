@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "faturalar_abonelikler_mahsup_yazisi_01",
+  "tags": [
+    "para",
+    "elektrik",
+    "evrak",
+    "itiraz",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 48,
+      "max": 60
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "PARILTI ELEKTRİK PERAKENDE (kurgusal)",
+      "en": "BRIGHTWATER POWER RETAIL (fictional)"
+    },
+    "body": {
+      "tr": "İtirazınız değerlendirilmiş olup endeks okumasındaki hata nedeniyle oluşan 1.240 Para tutarındaki fazla tahakkuk sonraki dönem faturalarınızdan mahsup edilecektir. Nakit iade yapılmaz.",
+      "en": "Your objection has been reviewed. The overcharge of 1,240 caused by a meter-reading error will be offset against your upcoming bills. No cash refunds."
+    },
+    "translate": {
+      "tr": {
+        "from": "sonraki dönem faturalarınızdan mahsup edilecektir",
+        "to": "dört ay fatura gelmeyecek, para da gelmeyecek"
+      },
+      "en": {
+        "from": "offset against your upcoming bills",
+        "to": "four months of no bills, and also no money"
+      }
+    },
+    "glossaryKey": "mahsup"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Dört ay boyunca faturanız sıfır görünecek. Lütfen panik yapıp bizi aramayın.",
+      "en": "Your bill will show zero for four months. Please don't panic and call us."
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Mahsubu bekle",
+      "en": "Let the credit run",
+      "pattern": "patience"
+    },
+    {
+      "id": "nakit",
+      "tr": "Nakit iade için ısrar et",
+      "en": "Push for a cash refund",
+      "pattern": "pride"
+    },
+    {
+      "id": "kutla",
+      "tr": "İlk sıfır ayı kutla",
+      "en": "Celebrate the first zero month",
+      "pattern": "impulseSpend",
+      "requires": {
+        "npc": {
+          "partner": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "money": 1240,
+        "stats": {
+          "joy": 1
+        },
+        "glossary": "mahsup",
+        "flags": {
+          "add": [
+            "elektrik_mahsup"
+          ]
+        }
+      },
+      "tr": "Dört ay boyunca fatura sıfır geldi. Dördüncü ayın sonunda bir kez arandı, sadece emin olmak için.",
+      "en": "Four months of zero bills. At the end of month four, you called once. Just to be sure.",
+      "coach": [
+        {
+          "tr": "Dört ay sıfır, bir telefon.",
+          "en": "Four zero months. One phone call.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacına 1.240 eklendi.",
+          "en": "Goal meter: plus 1,240.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "nakit": {
+      "effects": {
+        "money": 1240,
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "elektrik_mahsup"
+          ]
+        }
+      },
+      "tr": "Israr kayda alındı, sonuç değişmedi. Mahsup planlandığı gibi işledi.",
+      "en": "Your insistence was logged. Nothing changed. The credit ran as planned.",
+      "coach": [
+        {
+          "tr": "Sistem dinledi, sonra mahsup etti.",
+          "en": "The system listened, then offset.",
+          "roast": false
+        }
+      ]
+    },
+    "kutla": {
+      "effects": {
+        "money": 840,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "elektrik_mahsup"
+          ]
+        }
+      },
+      "tr": "Faturasız ilk ay bir akşam yemeğine 400 Para gitti. Kalanı mahsupta bekliyor.",
+      "en": "First zero-bill month: 400 went to dinner. The rest waits as credit.",
+      "coach": [
+        {
+          "tr": "Faturasız ay, hesaplı akşam.",
+          "en": "A billless month. A billed evening.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "fatura itirazının kabul edilip fazla tahakkukun sonraki faturalardan mahsup edileceğini bildiren yazı",
+    "mechanism": "'mahsup' tercümesi: dört ay fatura yok, para da yok",
+    "mechanismId": "translation",
+    "punch": "panik yapıp aramayın",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mahsup"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

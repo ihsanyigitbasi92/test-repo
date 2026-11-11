@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_taksitli_makine_01",
+  "tags": [
+    "para",
+    "taksit",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 58
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda çamaşır makinesi kırk yıl giderdi. Seninki taksitten önce gitti.",
+      "en": "In my day, a washer lasted forty years. Yours didn't outlast the payments."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Bir tanıdık usta var. Garantiyi bozar ama makineyi yapar.",
+      "en": "I know a repair guy. He'll void the warranty, but he'll fix the machine.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "garanti",
+      "tr": "Garantiye gönder",
+      "en": "Send it in under warranty",
+      "pattern": "patience"
+    },
+    {
+      "id": "usta",
+      "tr": "Dayının ustasını çağır",
+      "en": "Call your uncle's guy",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "yeni",
+      "tr": "Yeni makine al, taksitle",
+      "en": "Buy a new one on installments",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "garanti": {
+      "effects": {
+        "money": -150,
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "makine_serviste"
+          ]
+        }
+      },
+      "tr": "Makine servise gitti, üç hafta sürecek. Bu arada çamaşırlar çamaşırhanede yıkandı: 150 Para.",
+      "en": "The machine went in for service: three weeks. Meanwhile, laundry went to the laundromat: 150.",
+      "coach": [
+        {
+          "tr": "Üç hafta makinesiz. Taksit tam zamanında.",
+          "en": "Three weeks without a washer. Payments, right on time.",
+          "roast": false
+        }
+      ]
+    },
+    "usta": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "garanti_bozuldu"
+          ]
+        }
+      },
+      "tr": "Usta makineyi bir saatte yaptı: 250 Para. Garanti etiketi söküldü, üç taksit duruyor.",
+      "en": "The guy fixed it in an hour: 250. Warranty sticker gone. Three payments still to go.",
+      "coach": [
+        {
+          "tr": "Makine çalışıyor. Garanti emekliye ayrıldı.",
+          "en": "The washer runs. The warranty has retired.",
+          "roast": false
+        }
+      ]
+    },
+    "yeni": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "kredi_karti_borcu",
+            "iki_makine_taksidi"
+          ]
+        }
+      },
+      "tr": "Yeni makine on iki taksitle alındı. Eskisinin son üç taksidiyle birlikte ayda 900 Para.",
+      "en": "New washer, twelve installments. Plus the old one's last three: 900 a month for now.",
+      "coach": [
+        {
+          "tr": "Aynı anda iki makinenin taksidi, tek makinenin çamaşırı.",
+          "en": "Payments on two washers. Laundry from one.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "on iki taksitle alınan çamaşır makinesinin dokuzuncu taksitte bozulması",
+    "mechanism": "dayı: benim zamanımda makine kırk yıl giderdi; ustası garantiyi bozar",
+    "mechanismId": "reversal",
+    "punch": "seninki taksitten önce gitti",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "garanti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

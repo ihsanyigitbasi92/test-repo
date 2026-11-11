@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aile_grubu_dayinin_odev_sorusu_01",
+  "tags": [
+    "aile",
+    "dayi",
+    "okul",
+    "aile_grubu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "aile_grubu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Komşunun torunu takılmış. Bizim aile okumuş aile, biri çözsün. Benim zamanımda cetvelle çözerdik.",
+      "en": "Neighbor's grandkid is stuck. We're an educated family; somebody solve it. In my day we used a ruler."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Ben fen okumadım, biliyorsunuz. O okudu.",
+      "en": "I didn't study science, as you all know. You did.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "coz",
+      "tr": "Soruyu çöz, gruba at",
+      "en": "Solve it, post it",
+      "pattern": "generosity",
+      "check": {
+        "base": 5000,
+        "stat": "brain",
+        "goal": "aile"
+      }
+    },
+    {
+      "id": "anlat",
+      "tr": "Çocuğa görüntülü anlat",
+      "en": "Explain it to the kid on video",
+      "pattern": "patience"
+    },
+    {
+      "id": "pas",
+      "tr": "Kardeşine pas ver",
+      "en": "Pass it to your sibling",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "coz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "dayi_odev_hatti"
+            ]
+          }
+        },
+        "tr": "Çözümü fotoğraflayıp gruba attın. Dayın \"işte bizim aile\" yazdı ve bir sonraki soruyu gönderdi.",
+        "en": "You photographed the solution and posted it. Your uncle wrote 'that's our family' and sent the next problem.",
+        "coach": [
+          {
+            "tr": "Bir soru çözüldü. Hat açıldı.",
+            "en": "One problem solved. A hotline opened.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Cevabın kitabın arkasındakiyle uyuşmadı. Dayın \"kitap yanlış basılmış\" dedi, kimse inanmadı.",
+        "en": "Your answer didn't match the back of the book. Your uncle declared it a misprint. Nobody bought it.",
+        "coach": [
+          {
+            "tr": "Kitap kazandı.",
+            "en": "The book won.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "anlat": {
+      "effects": {
+        "stats": {
+          "joy": 3,
+          "brain": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_odev_hatti"
+          ]
+        }
+      },
+      "tr": "Çocuğa yirmi dakika görüntülü anlattın. Ertesi gün öğretmenine \"kuzenim anlattı\" demiş; kuzeni değilsin.",
+      "en": "Twenty minutes on video with the kid. Next day they told their teacher 'my cousin explained it.' You're not their cousin.",
+      "coach": [
+        {
+          "tr": "Aile bir soruyla genişledi.",
+          "en": "The family grew by one math problem.",
+          "roast": false
+        }
+      ]
+    },
+    "pas": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          },
+          {
+            "role": "sibling",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Kardeşine pas attın, kardeşin dayına pas attı. Akşam olduğunda soru grupta hâlâ çözümsüzdü.",
+      "en": "You passed it to your sibling, who passed it to your uncle. By evening the problem was still sitting there.",
+      "coach": [
+        {
+          "tr": "Üç pas, sıfır gol.",
+          "en": "Three passes. No goal.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "coz",
+    "slip": {
+      "tr": "İDDİA: Cevabın kitabın arkasıyla uyuşmaz. — M.",
+      "en": "WAGER: Your answer won't match the back of the book. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının komşu torununun matematik ödevini aile grubuna atıp çözdürmek istemesi",
+    "mechanism": "okumuş aile iddiası ve pas zinciri",
+    "punch": "benim zamanımda cetvelle çözerdik",
+    "lift": "bir soru çözüldü, hat açıldı",
+    "target": "decision",
+    "mechanismId": "escalation",
+    "antithesis": false,
+    "closer": "pas"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

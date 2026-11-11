@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_harclik_pazarligi_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 36,
+      "max": 40
+    },
+    "dayOfMonth": {
+      "min": 26
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Çocuk masaya bir kâğıt koydu. Başlık: 'Harçlık Talebi'. Üç madde, bir grafik.",
+      "en": "The kid put a document on the table. Title: 'Allowance Request.' Three points and a chart."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Grafikte bizim kahve harcamamız da var. Kaynak gösterilmiş.",
+      "en": "The chart includes our coffee spending. With sources.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "muzakere",
+      "tr": "Müzakere et",
+      "en": "Negotiate",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Talebi kabul et",
+      "en": "Approve the request",
+      "pattern": "generosity"
+    },
+    {
+      "id": "erte",
+      "tr": "Maaştan sonraya ertele",
+      "en": "Defer until payday",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "muzakere": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -20,
+          "stats": {
+            "joy": 2,
+            "brain": 1
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Haftalık harçlık 20 Para arttı, karşılığında çöp çıkarma görevi eklendi. Anlaşma buzdolabına asıldı.",
+        "en": "The allowance went up twenty a week, in exchange for taking out the trash. The agreement went on the fridge.",
+        "coach": [
+          {
+            "tr": "Taraflar mutabık.",
+            "en": "The parties are aligned.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -40,
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Çocuk karşı teklifine kahve grafiğini ekledi. Harçlık 40 Para arttı, görev eklenmedi.",
+        "en": "The kid answered your counteroffer with the coffee chart. Allowance up forty, no chores attached.",
+        "coach": [
+          {
+            "tr": "Kaynakçalı itiraz kazandı.",
+            "en": "The cited rebuttal won.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "money": -30,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Talebi olduğu gibi kabul ettin, haftalık 30 Para zam. Ertesi hafta 'Talep 2' başlıklı yeni bir kâğıt geldi.",
+      "en": "Approved as submitted: thirty more per week. Next week a new document arrived, titled 'Request 2.'",
+      "coach": [
+        {
+          "tr": "Emsal oluştu.",
+          "en": "Precedent established.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "butce_harclik_bekliyor"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Ayın birine erteledin. Çocuk takvimde o günü kırmızıyla daire içine aldı ve her sabah gösterdi.",
+      "en": "You deferred to the first. The kid circled the date in red and pointed at it every morning.",
+      "coach": [
+        {
+          "tr": "Takvim artık taraf.",
+          "en": "The calendar has picked a side.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "muzakere",
+    "slip": {
+      "tr": "İDDİA: Grafik masayı kazanır. — M.",
+      "en": "WAGER: The chart wins the room. — M."
+    }
+  },
+  "intent": {
+    "setup": "çocuğun ay sonunda hazırlıklı bir yazıyla haftalık harçlığına zam istemesi",
+    "mechanism": "çocuğun ebeveynden daha hazırlıklı gelmesi",
+    "mechanismId": "reversal",
+    "punch": "grafikte bizim kahve harcamamız da var",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "taraf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

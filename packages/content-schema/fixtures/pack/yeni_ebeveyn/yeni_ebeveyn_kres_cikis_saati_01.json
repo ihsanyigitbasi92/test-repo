@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yeni_ebeveyn_kres_cikis_saati_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "is",
+    "yeni_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yeni_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    },
+    "flags": {
+      "any": [
+        "kres_kaydi_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bugün kreşi sen alıyorsun. Beş buçukta kapı kilitleniyor, bir dakika beklemiyorlar.",
+      "en": "You're on daycare pickup today. The door locks at five-thirty. They won't wait one minute."
+    }
+  ],
+  "choices": [
+    {
+      "id": "erken",
+      "tr": "Toplantıdan erken çık",
+      "en": "Leave the meeting early",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "kos",
+      "tr": "Toplantı bitsin, sonra koş",
+      "en": "Wait it out, then sprint",
+      "pattern": "overwork",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden almasını iste",
+      "en": "Ask your mom to pick up",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "erken": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "toplantidan_erken_cikti"
+          ]
+        }
+      },
+      "tr": "Toplantıdan beşi beş geçe çıktın. Tutanağa \"erken ayrıldı\" yazıldı, kreşe beşi yirmi geçe vardın.",
+      "en": "You left the meeting at 5:05. The minutes noted \"left early.\" You reached daycare at 5:20.",
+      "coach": [
+        {
+          "tr": "Toplantı sürdü, sen kreşteydin. İkisi de oldu.",
+          "en": "The meeting went on. You were at daycare. Both happened.",
+          "roast": false
+        }
+      ]
+    },
+    "kos": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Beşi yirmi dokuz geçe kapıdaydın. Öğretmen başıyla selam verdi.",
+        "en": "You hit the door at 5:29. The teacher gave you a nod.",
+        "coach": [
+          {
+            "tr": "Bir dakika payı. Baş selamı alındı.",
+            "en": "One minute to spare. Nod received.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -200,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kres_gecikme"
+            ]
+          }
+        },
+        "tr": "Beşi otuz dört geçe vardın. Bebek montunu giymiş, öğretmenin kucağında bekliyordu. Gecikme bedeli 200 Para.",
+        "en": "You arrived at 5:34. The baby was waiting in a coat, in the teacher's arms. Late fee: 200.",
+        "coach": [
+          {
+            "tr": "Dört dakika, 200 Para. Dakikası 50.",
+            "en": "Four minutes, 200. Fifty a minute.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Annen yarım saat erken gitti ve bebeği parka götürdü. Eve döndüğünde ikisi de yoktu.",
+      "en": "Your mom went half an hour early and took the baby to the park. When you got home, neither was there.",
+      "coach": [
+        {
+          "tr": "Annen erken davrandı. Park mesaisi uzadı.",
+          "en": "Mom went early. Park hours ran long.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "çalışan ebeveynin kreş kapanış saatine yetişmesi",
+    "mechanism": "dakika ve para hesabı",
+    "mechanismId": "understatement",
+    "punch": "dakikası 50",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dakika"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

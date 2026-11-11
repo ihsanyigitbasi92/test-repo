@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_internet_balkon_01",
+  "tags": [
+    "ev",
+    "gezi",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "İnternet çok iyi. Ben haberleri hiç takılmadan izliyorum.",
+      "en": "The internet's great. I watch the news without a single hiccup."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Balkonda tabii. Ama balkon geniş, masa da sığar.",
+      "en": "On the balcony, of course. But it's a big balcony. A desk fits.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tut",
+      "tr": "Balkonu ofis yap",
+      "en": "Turn the balcony into an office",
+      "pattern": "risk"
+    },
+    {
+      "id": "olc",
+      "tr": "Her odada hız ölç",
+      "en": "Speed-test every room",
+      "pattern": "patience",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Kablolu ev ara",
+      "en": "Search for a wired place",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "tut": {
+      "effects": {
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "money": -3200,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "balkon_ofis"
+          ]
+        }
+      },
+      "tr": "Masayı balkona kurdun. Toplantılar artık rüzgârlı; üç kişi arkadaki sesin deniz olup olmadığını sordu.",
+      "en": "You set up the desk on the balcony. Meetings are breezy now. Three people asked if that was the ocean.",
+      "coach": [
+        {
+          "tr": "Açık ofisi harfiyen uyguladın.",
+          "en": "You took \"open office\" literally.",
+          "roast": true
+        }
+      ]
+    },
+    "olc": [
+      {
+        "p": 4000,
+        "effects": {
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1600
+            }
+          },
+          "money": -3200,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "koridor_ofis"
+            ]
+          }
+        },
+        "tr": "Koridorun tam ortasında tam sinyal buldun. Masan artık kapı ile ayakkabılık arasında.",
+        "en": "You found full signal dead center in the hallway. Your desk now sits between the door and the shoe rack.",
+        "coach": [
+          {
+            "tr": "Bir metrekarelik ofis, tam çekiyor.",
+            "en": "One square meter of office. Full bars.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ev_ariyor"
+            ]
+          }
+        },
+        "tr": "Hız testi her odada yarım çizgi gösterdi. Ev sahibi \"akşamları açılır\" dedi.",
+        "en": "Every room tested at half a bar. The landlord said \"it picks up in the evening.\"",
+        "coach": [
+          {
+            "tr": "Akşamları açılıyor. Toplantıların sabah.",
+            "en": "It picks up in the evening. Your meetings are in the morning.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ev_ariyor"
+          ]
+        }
+      },
+      "tr": "Aramana \"kablolu\" kelimesini ekledin. Sonuç sayısı üçe düştü.",
+      "en": "You added \"wired\" to your search. Results dropped to three.",
+      "coach": [
+        {
+          "tr": "Filtre daraldı. Seçim kolaylaştı.",
+          "en": "Narrower filter. Easier choice.",
+          "roast": false
+        },
+        {
+          "tr": "Üç ilan, tek net kriter.",
+          "en": "Three listings. One clear filter.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "olc",
+    "slip": {
+      "tr": "İDDİA: Sinyal yalnızca balkonda yaşar. — M.",
+      "en": "WAGER: The signal lives on the balcony only. — M."
+    }
+  },
+  "intent": {
+    "setup": "evden çalışmak için gezide internet hızını ölçmek, sinyal yalnızca balkonda",
+    "mechanism": "haberler takılmıyor çünkü balkonda",
+    "mechanismId": "bathos",
+    "punch": "açık ofisi harfiyen uyguladın",
+    "lift": "üç ilan, tek kriter",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sinyal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

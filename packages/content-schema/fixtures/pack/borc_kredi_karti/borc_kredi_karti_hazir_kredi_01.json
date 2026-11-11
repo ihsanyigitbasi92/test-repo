@@ -1,0 +1,170 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_hazir_kredi_01",
+  "tags": [
+    "para",
+    "kredi",
+    "banka",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Adınıza 8.000 Para hazır kredi tanımlandı. Hazır diyorum, yani hazır. Sadece onay.",
+      "en": "An 8,000 loan is ready in your name. Ready meaning ready. Just say yes."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Toplantıdaysanız 'evet' demeniz yeterli. Kimse anlamaz.",
+      "en": "If you're in a meeting, just say 'yes.' No one will notice.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "evet",
+      "tr": "'Evet' de, toplantıya dön",
+      "en": "Say 'yes,' back to the meeting",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "hayir",
+      "tr": "Kibarca reddet",
+      "en": "Decline politely",
+      "pattern": "patience"
+    },
+    {
+      "id": "liste",
+      "tr": "Aranma listesinden çık",
+      "en": "Get off the call list",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "evet": {
+      "effects": {
+        "money": 8000,
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ihtiyac_kredisi",
+            "hazir_kredi_alindi"
+          ]
+        }
+      },
+      "tr": "Kredi onaylandı, hesaba 8.000 Para geçti. Toplantıdaki 'evet' bütçe sunumuna da onay sayıldı.",
+      "en": "Loan approved; 8,000 hit your account. The 'yes' also counted as approval for the budget slide on screen.",
+      "coach": [
+        {
+          "tr": "Bir 'evet', iki onay. Biri on iki ay sürecek.",
+          "en": "One 'yes,' two approvals. One of them lasts twelve months.",
+          "roast": true
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "hazir_kredi_red"
+          ]
+        }
+      },
+      "tr": "Teklif reddedildi. Bankacı 'teklif otuz gün geçerli' dedi ve ertesi hafta yine aradı.",
+      "en": "Declined. The banker said the offer was good for thirty days, then called again the next week.",
+      "coach": [
+        {
+          "tr": "Otuz gün geçerli. Her hafta.",
+          "en": "Valid for thirty days. Weekly.",
+          "roast": true
+        }
+      ]
+    },
+    "liste": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "flags": {
+          "add": [
+            "aranma_listesi"
+          ]
+        }
+      },
+      "tr": "Arama izni kaldırıldı. Teklif artık kısa mesajla geliyor.",
+      "en": "Calls blocked. The offer now arrives by text.",
+      "coach": [
+        {
+          "tr": "Kanal değişti. Teklif aynı.",
+          "en": "New channel. Same offer.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "toplantı ortasında arayan bankacının 'adınıza hazır kredi' teklifini anlatması",
+    "mechanism": "toplantıdaki 'evet' iki yere birden onay veriyor",
+    "mechanismId": "deadpan_report",
+    "punch": "kimse anlamaz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kanal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

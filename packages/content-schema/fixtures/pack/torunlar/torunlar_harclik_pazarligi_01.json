@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "torunlar_harclik_pazarligi_01",
+  "tags": [
+    "ebeveynlik",
+    "aile",
+    "para",
+    "torunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "torunlar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 52,
+      "max": 60
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "any": [
+        "torun_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Torun haftalık harçlığı için karşına oturdu. Elinde kareli kâğıda yazılmış bir liste var.",
+      "en": "The grandkid sat down across from you about the weekly allowance. They're holding a list on graph paper."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Kusura bakma, bizimki bir şey hazırlamış. Ben karışmıyorum, sadece okuyorum.",
+      "en": "Sorry, the kid's prepared something. I'm not involved. I'm just reading it out."
+    },
+    {
+      "speaker": "child",
+      "avatar": "smug",
+      "tr": "“Sınıfta dört kişinin büyüğü daha fazla veriyor. Teklifim iki katı. Pazarlık payı vardır.”",
+      "en": "“Four kids in my class get more from their grandparents. My offer: double. Open to negotiation.”",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "İki katını ver",
+      "en": "Pay double",
+      "pattern": "generosity"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Karşı teklif yap",
+      "en": "Make a counteroffer",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kural",
+      "tr": "“Annene babana sor” de",
+      "en": "Say “ask your parents”",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "torun_harclik_iki_kat"
+          ]
+        }
+      },
+      "tr": "Haftalık harçlık iki katına çıktı: 200 Para. Yetişkin çocuğun “emsal oluşturdun” dedi.",
+      "en": "Weekly allowance doubled: two hundred. Your kid said you'd just set a precedent.",
+      "coach": [
+        {
+          "tr": "Emsal listesine beşinci isim eklendi.",
+          "en": "The precedent list now has five names.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -150,
+          "stats": {
+            "joy": 4,
+            "charm": 1
+          },
+          "flags": {
+            "add": [
+              "torun_harclik_anlasmasi"
+            ]
+          }
+        },
+        "tr": "Bir buçuk kat artı hafta sonu dondurmasında anlaştınız. Torun kâğıdı katlayıp “imzalayalım” dedi.",
+        "en": "You settled on one and a half plus weekend ice cream. The grandkid folded the paper: “Let's sign.”",
+        "coach": [
+          {
+            "tr": "Sözleşme kareli kâğıtta. Altında iki imza var.",
+            "en": "The contract is on graph paper. Two signatures at the bottom.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -200,
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "Karşı teklif reddedildi. Torun “o zaman iki kat, son fiyat” dedi, sen de kabul ettin.",
+        "en": "Counteroffer rejected. “Then double, final price,” said the grandkid. You agreed.",
+        "coach": [
+          {
+            "tr": "Müzakere dört dakika sürdü. Sonuç iki kat.",
+            "en": "Negotiations lasted four minutes. Result: double.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kural": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "torun_harclik_ertelendi"
+          ]
+        }
+      },
+      "tr": "Torun kâğıdı yetişkin çocuğuna uzattı. O da kâğıdı sana geri uzattı.",
+      "en": "The grandkid handed the paper to their parent. Their parent handed it right back to you.",
+      "coach": [
+        {
+          "tr": "Kâğıt odada bir tur attı. Yine senin elinde.",
+          "en": "The paper did a lap of the room. Back in your hand.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Karşı teklif masadan dönmez. — M.",
+      "en": "WAGER: Your counteroffer won't survive the table. — M."
+    }
+  },
+  "intent": {
+    "setup": "torunun harçlık miktarını arkadaşlarının büyükleriyle kıyaslayıp yazılı pazarlık etmesi",
+    "mechanism": "kıyas listesi ve pazarlık payı notu",
+    "mechanismId": "escalation",
+    "punch": "teklifim iki katı, pazarlık payı vardır",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sozlesme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

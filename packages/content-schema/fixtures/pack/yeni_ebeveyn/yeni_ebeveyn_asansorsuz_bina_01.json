@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yeni_ebeveyn_asansorsuz_bina_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "ev",
+    "yeni_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yeni_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide"
+    ],
+    "flags": {
+      "none": [
+        "asansorlu_ev"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Puset, bebek, market poşeti. Dördüncü kat. Günde iki kez.",
+      "en": "Stroller, baby, groceries. Fourth floor. Twice a day."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Biz dört çocuğu bu merdivenden çıkardık. Asansörü kim istedi?",
+      "en": "We carried four kids up these stairs. Who needs an elevator?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasin",
+      "tr": "Asansörlü bir ev ara",
+      "en": "Look for a place with an elevator",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "hafif",
+      "tr": "Hafif bir puset al",
+      "en": "Buy a lighter stroller",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "merdiven",
+      "tr": "Merdiveni spor say",
+      "en": "Count the stairs as exercise",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "tasin": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "status": {
+            "rentDelta": 200
+          },
+          "flags": {
+            "add": [
+              "asansorlu_ev"
+            ]
+          }
+        },
+        "tr": "Zemin katta bir daire buldunuz; kira 200 Para fazla. Puset artık kapının önünde duruyor.",
+        "en": "You found a ground-floor flat. Rent is 200 higher. The stroller now parks by the front door.",
+        "coach": [
+          {
+            "tr": "Zemin kat. Merdiven emekli oldu.",
+            "en": "Ground floor. The stairs have retired.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_arandi_bebek"
+            ]
+          }
+        },
+        "tr": "On bir daire gezdiniz. Hepsi en az üçüncü kattı.",
+        "en": "You viewed eleven flats. Every one was third floor or higher.",
+        "coach": [
+          {
+            "tr": "On bir daire, on bir merdiven.",
+            "en": "Eleven flats, eleven staircases.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hafif": {
+      "effects": {
+        "money": -2200,
+        "stats": {
+          "joy": 1,
+          "health": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Yeni puset altı kilo, 2.200 Para. Bebek ve poşetler eskisi kadar ağır.",
+      "en": "The new stroller weighs thirteen pounds and cost 2,200. The baby and the groceries weigh what they always did.",
+      "coach": [
+        {
+          "tr": "Puset hafifledi. Gerisi aynı.",
+          "en": "The stroller got lighter. Nothing else did.",
+          "roast": true
+        }
+      ]
+    },
+    "merdiven": {
+      "effects": {
+        "stats": {
+          "health": 3,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Günde sekiz kat, hep yük altında. Bacakların güçlendi, nefesin hâlâ yetişmiyor.",
+      "en": "Eight flights a day, always loaded. Your legs got stronger. Your lungs are still catching up.",
+      "coach": [
+        {
+          "tr": "Günde sekiz kat. Program ücretsiz.",
+          "en": "Eight flights a day. Free program.",
+          "roast": false
+        },
+        {
+          "tr": "Sağlık sayacı: günde sekiz kat.",
+          "en": "Health counter: eight flights daily.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tasin",
+    "slip": {
+      "tr": "İDDİA: On bir daire gezersin, hepsi üst kat. — M.",
+      "en": "WAGER: Eleven viewings, all of them upstairs. — M."
+    }
+  },
+  "intent": {
+    "setup": "asansörsüz binada pusetle dördüncü kata çıkmak",
+    "mechanism": "kat sayısı ve daire sayısı hesabı",
+    "mechanismId": "count",
+    "punch": "on bir daire, on bir merdiven",
+    "lift": "Sağlık sayacı: günde sekiz kat.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

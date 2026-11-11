@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_clerk_ilk_bordro_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "evrak",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "PERSONEL MAAŞ BORDROSU · MALİ İŞLER BİRİMİ (kurgusal)",
+      "en": "PAYROLL STATEMENT · FINANCE UNIT (fictional)"
+    },
+    "body": {
+      "tr": "Brüt ödeme: 1.380 Para. Kesintiler: Kesinti A, Kesinti B, Fark Kesintisi, Önceki Dönem Mahsubu. Net ödeme: 1.040 Para.",
+      "en": "Gross pay: 1,380. Deductions: Deduction A, Deduction B, Adjustment Deduction, Prior Period Offset. Net pay: 1,040."
+    },
+    "translate": {
+      "tr": {
+        "from": "Önceki Dönem Mahsubu",
+        "to": "işe başlamadan önceki aydan borçlusun"
+      },
+      "en": {
+        "from": "Prior Period Offset",
+        "to": "you owe money from before you were hired"
+      }
+    },
+    "glossaryKey": "donem_mahsubu"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Mahsup herkese çıkar. Bana da çıkmıştı, on bir yıl önce. Hâlâ çıkıyor.",
+      "en": "Everyone gets the offset. I got it too, eleven years ago. Still getting it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "sor",
+      "tr": "Mali işlere sor",
+      "en": "Ask the finance office",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Sorgulamadan kabul et",
+      "en": "Accept it",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "anne",
+      "tr": "Bordroyu annene oku",
+      "en": "Read it to Mom on the phone",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "sor": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": 340
+        },
+        "tr": "Mali işler mahsubun yanlışlıkla yazıldığını kabul etti. 340 Para fark bir sonraki bordroya eklendi.",
+        "en": "Finance admitted the offset was entered by mistake. The 340 difference was added to your next paycheck.",
+        "coach": [
+          {
+            "tr": "340 Para geri döndü. Mahsup kendi kendini mahsup etti.",
+            "en": "Three-forty came back. The offset offset itself.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "memur_mahsup_dilekcesi"
+            ]
+          },
+          "glossary": "donem_mahsubu"
+        },
+        "tr": "Mali işler 'sistem öyle hesaplıyor' dedi ve mahsubun kaynağını dilekçeyle sormanı istedi.",
+        "en": "Finance said 'that's how the system calculates it' and asked you to request the source of the offset by petition.",
+        "coach": [
+          {
+            "tr": "Mahsubun kaynağı için bir dilekçe. Kâğıt çoğalıyor.",
+            "en": "A petition to locate the offset's source. The paperwork is multiplying.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "glossary": "donem_mahsubu"
+      },
+      "tr": "Net tutarla ilk ayını kapattın. Mahsup satırı bir sonraki bordroda da duruyordu.",
+      "en": "You closed your first month on the net amount. The offset line was on the next payslip too.",
+      "coach": [
+        {
+          "tr": "Mahsup ikinci ayına girdi. Sen de.",
+          "en": "The offset is entering its second month. So are you.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -3
+        }
+      },
+      "tr": "Bordroyu annene telefonda okudun. Annen yalnız 'brüt' kısmını duydu ve teyzene anlattı.",
+      "en": "You read the payslip to your mom over the phone. She only heard the gross figure and told your aunt.",
+      "coach": [
+        {
+          "tr": "Brüt rakam aile içinde dolaşımda. Net rakam sende.",
+          "en": "The gross figure is circulating in the family. The net figure stays with you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "ilk maaş bordrosunda anlaşılmayan önceki dönem mahsubu",
+    "mechanism": "mahsup satırı tercümesi",
+    "mechanismId": "translation",
+    "punch": "hâlâ çıkıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "mahsup"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_tek_binis_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "dayOfMonth": {
+      "min": 27
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Kartında tek biniş kalmış. Gidersin ama dönemezsin. Ya da dönersin, gidemezsin.",
+      "en": "One ride left on your card. You can go but not come back. Or come back but not go."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Yürüyerek mi döneceksin? O yol bir saat. Yağmur da var.",
+      "en": "You're walking back? That's an hour. And it's raining.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yuru",
+      "tr": "Dönüşü yürü",
+      "en": "Walk home",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "odunc",
+      "tr": "Ev arkadaşından biniş iste",
+      "en": "Borrow a ride from your roommate",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "gitme",
+      "tr": "Hiç gitme",
+      "en": "Skip the trip entirely",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "yuru": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Dönüşü yürüdün, elli iki dakika. Yolda kapanmak üzere olan bir fırından yarı fiyata ekmek aldın.",
+        "en": "You walked home: fifty-two minutes. On the way, a closing bakery sold you bread at half price.",
+        "coach": [
+          {
+            "tr": "Bir biniş kurtuldu, bir ekmek kazanıldı.",
+            "en": "One fare saved, one loaf gained.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Yürüdün. Yarı yolda yağmur başladı, çantandaki kâğıtların hepsi ıslandı.",
+        "en": "You walked. Halfway home it started raining. Every paper in your bag got soaked.",
+        "coach": [
+          {
+            "tr": "Bilet bedava oldu. Kâğıtlar ödedi.",
+            "en": "The fare was free. Your papers paid it.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "odunc": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Ev arkadaşın kartını verdi ve dönüşte seni durakta bekledi. Ertesi ay bunu iki kez hatırlattı.",
+      "en": "Your roommate lent you their card and waited at the stop. Brought it up twice the next month.",
+      "coach": [
+        {
+          "tr": "Biniş ödünç. Hatırlatmalar işlemeye devam ediyor.",
+          "en": "Ride borrowed. Reminders still accruing.",
+          "roast": true
+        }
+      ]
+    },
+    "gitme": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Gitmedin. Kaçırdığın atölyenin sertifikası gruptaki herkese geldi.",
+      "en": "You stayed home. Everyone else in the group got the workshop certificate.",
+      "coach": [
+        {
+          "tr": "Bakiye korundu. Fırsat harcandı.",
+          "en": "Balance preserved. Opportunity spent.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yuru",
+    "slip": {
+      "tr": "İDDİA: O yürüyüşün yarısı yağmurlu geçer. — M.",
+      "en": "WAGER: Half that walk comes with rain. — M."
+    }
+  },
+  "intent": {
+    "setup": "ayın son günlerinde toplu taşıma kartında yalnız tek yönlük biniş kalması",
+    "mechanism": "tek binişin gidiş ve dönüş arasında harfiyen bölünememesi",
+    "mechanismId": "literalism",
+    "punch": "gidersin ama dönemezsin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bilet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

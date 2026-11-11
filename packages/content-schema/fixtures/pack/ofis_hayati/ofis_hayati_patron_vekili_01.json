@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_patron_vekili_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "İki hafta yokum. Vekilim sensin. Önemli bir şey olursa arama, kendin karar ver.",
+      "en": "I'm out two weeks. You're acting manager. If anything big comes up, don't call. Decide."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Vekil olarak ilk kararın ne? Ben cuma erken çıkışı öneriyorum.",
+      "en": "What's your first call as acting boss? I'd suggest leaving early Friday."
+    }
+  ],
+  "choices": [
+    {
+      "id": "karar",
+      "tr": "Bekleyen kararı sen ver",
+      "en": "Make the pending call",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "erken",
+      "tr": "Cuma erken çıkışı onayla",
+      "en": "Approve early Friday",
+      "pattern": "generosity"
+    },
+    {
+      "id": "bekle",
+      "tr": "Her şeyi patrona sakla",
+      "en": "Save everything for the boss",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "karar": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "vekil_basarili"
+            ]
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Bekleyen tedarikçi kararını verdin. Patron dönüşte dosyayı okuyup 'ben de böyle yapardım' dedi; bir ay sonra unvanına 'yardımcısı' eklendi.",
+        "en": "You made the pending supplier call. Back from leave, the boss read the file: 'Exactly what I'd have done.' A month later, 'deputy' joined your title.",
+        "coach": [
+          {
+            "tr": "İki haftalık vekâlet, kalıcı bir ek.",
+            "en": "Two weeks acting. A permanent suffix.",
+            "roast": false
+          },
+          {
+            "tr": "Hedefe bir unvan eki.",
+            "en": "Goal: one title upgrade.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Kararı verdin, tedarikçi ertesi gün fiyatı değiştirdi. 'Arama' diyen patron tatilden iki kez aradı.",
+        "en": "You made the call. Next day the supplier changed the price. The boss who said 'don't call' called twice.",
+        "coach": [
+          {
+            "tr": "Arama yasağı tek yönlüymüş.",
+            "en": "The no-call rule ran one way.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "erken": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          },
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Cuma erken çıkışı onayladın, ekip saat üçte çıktı. Patron dönünce ilk 'cuma neden bu kadar sessizdi' diye sordu.",
+      "en": "You approved early Friday. The team left at three. The boss's first question back: 'Why was Friday so quiet?'",
+      "coach": [
+        {
+          "tr": "Sessizlik iki hafta sonra fark edildi.",
+          "en": "The silence was noticed two weeks later.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Her şeyi patrona bıraktın. Patron masasında 'dönüşünü bekledik' yazan on dokuz yapışkan not buldu.",
+      "en": "You saved it all for the boss. They came back to nineteen sticky notes reading 'Waited for you.'",
+      "coach": [
+        {
+          "tr": "On dokuz not, tek imza.",
+          "en": "Nineteen notes. One signature.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "karar",
+    "slip": {
+      "tr": "İDDİA: Vekâlet bir telefonla biter. — M.",
+      "en": "WAGER: The boss calls before it's over. — M."
+    }
+  },
+  "intent": {
+    "setup": "patron iki hafta tatildeyken vekil olmak",
+    "mechanism": "'arama' diyen patron arıyor",
+    "mechanismId": "reversal",
+    "punch": "arama, kendin karar ver",
+    "lift": "hedefe unvan",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "vekalet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

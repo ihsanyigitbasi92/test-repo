@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_boilertech_kuzenin_ustasi_01",
+  "tags": [
+    "kariyer",
+    "kombi",
+    "kariyer_boilertech"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_boilertech": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "boilerTech"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Kuzenimin tanıdığı aynı işe yarı fiyat dedi. Siz de inersiniz herhalde.",
+      "en": "My cousin's guy quoted half that for the same job. I'm sure you can come down."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Gerçi kombiyi hiç görmedi. Telefonda sesini dinledi.",
+      "en": "Granted, he's never seen it. He listened to it over the phone.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "in",
+      "tr": "Fiyatı indir",
+      "en": "Match the price",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "diren",
+      "tr": "Fiyatında dur",
+      "en": "Hold your price",
+      "pattern": "pride",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "kart",
+      "tr": "Kartını bırak, çık",
+      "en": "Leave your card and go",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "in": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": 300
+      },
+      "tr": "Fiyatı yarıya indirdin ve işi yaptın, 300 Para. Müşteri kuzenine de haber verdi.",
+      "en": "You cut the price in half and did the job for 300. The customer let the cousin know.",
+      "coach": [
+        {
+          "tr": "Yarı fiyat, tüm iş. Kuzenin tanıdığı gelmeden kazandı.",
+          "en": "Half the price, the whole job. The cousin's guy won without showing up.",
+          "roast": false
+        }
+      ]
+    },
+    "diren": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "money": 600
+        },
+        "tr": "Müşteri iki gün sonra geri aradı; kuzenin tanıdığı gelmemiş. İşi tam fiyattan yaptın.",
+        "en": "Two days later the customer called back. The cousin's guy never showed. You did the job at full price.",
+        "coach": [
+          {
+            "tr": "Fiyat yerinde kaldı. Kuzenin tanıdığı da evinde.",
+            "en": "Your price stayed put. So did the cousin's guy.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "flags": {
+            "add": [
+              "kombi_kaybedilen_musteri"
+            ]
+          }
+        },
+        "tr": "Müşteri kuzenin tanıdığıyla anlaştı. Bir hafta sonra kombi yine durdu; seni aramadı.",
+        "en": "The customer went with the cousin's guy. A week later the boiler quit again. They didn't call you.",
+        "coach": [
+          {
+            "tr": "Müşteri gitti, kombi durdu, telefon sessiz.",
+            "en": "The customer left, the boiler stopped, and your phone stayed quiet.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kart": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kombi_kartvizit"
+          ]
+        }
+      },
+      "tr": "Kartını bırakıp çıktın. Kart buzdolabına bir mıknatısla asıldı.",
+      "en": "You left your card and went. It ended up on the fridge under a magnet.",
+      "coach": [
+        {
+          "tr": "Kartın buzdolabında. Ev soğudukça görünür olacak.",
+          "en": "Your card is on the fridge. It gets more visible the colder the house gets.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "diren",
+    "slip": {
+      "tr": "İDDİA: Kuzenin tanıdığı kazanır. — M.",
+      "en": "WAGER: The cousin's guy wins this one. — M."
+    }
+  },
+  "intent": {
+    "setup": "müşteri kuzeninin tanıdığından aldığı yarı fiyat teklifi eşitlemeni istiyor",
+    "mechanism": "kombiyi telefonda dinleyen rakip",
+    "mechanismId": "reversal",
+    "punch": "telefonda sesini dinledi",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "miknatis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

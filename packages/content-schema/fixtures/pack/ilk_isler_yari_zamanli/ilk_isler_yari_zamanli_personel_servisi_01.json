@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ilk_isler_yari_zamanli_personel_servisi_01",
+  "tags": [
+    "is",
+    "ilk_is",
+    "ilk_isler_yari_zamanli"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ilk_isler_yari_zamanli": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Servis 05.40'ta köşeden geçer. Bir dakika beklemez, şoför saatine güvenir.",
+      "en": "The shuttle passes the corner at 5:40. It won't wait a minute. The driver trusts the clock."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kahvaltı hazır olacak. Yemeden çıkmak yok, değil mi?",
+      "en": "Breakfast will be ready. Nobody leaves without eating, right?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Kahvaltıyı bırak, koş",
+      "en": "Skip breakfast, run",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "ye",
+      "tr": "Kahvaltı et, taksiyle git",
+      "en": "Eat, then take a cab",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "erken",
+      "tr": "Alarmı yarım saat erkene kur",
+      "en": "Set the alarm half an hour early",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "health": -1
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Servise son saniyede bindin. Annen kahvaltıyı folyoya sarıp akşama sakladı.",
+        "en": "You made the shuttle at the last second. Your mom wrapped breakfast in foil and saved it for dinner.",
+        "coach": [
+          {
+            "tr": "Kahvaltı akşam yemeği oldu. Servis yakalandı.",
+            "en": "Breakfast became dinner. Shuttle caught.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -180,
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Servis köşeyi döndüğünde sen kapıdaydın. Taksi 180 Para tuttu, vardiyaya dokuz dakika geç girdin.",
+        "en": "The shuttle turned the corner as you hit the door. The cab cost 180, and you clocked in nine minutes late.",
+        "coach": [
+          {
+            "tr": "Hem aç hem geç. Taksi tam ücret aldı.",
+            "en": "Hungry and late. The cab charged full fare.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ye": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -180,
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Menemen yedin, taksiye 180 Para verdin. Annen kapıda 'yarın da yaparım' dedi.",
+      "en": "You had eggs and paid 180 for a cab. At the door your mom said, 'I'll make them again tomorrow.'",
+      "coach": [
+        {
+          "tr": "Kahvaltı 180 Para'ya geldi. Yarın yine pişecek.",
+          "en": "Breakfast cost 180. Tomorrow it's on again.",
+          "roast": true
+        }
+      ]
+    },
+    "erken": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -2
+        },
+        "flags": {
+          "add": [
+            "erken_kalkan"
+          ]
+        }
+      },
+      "tr": "Alarm 05.00'te çaldı. Kahvaltı da edildi, servise de binildi; akşam dokuzda koltukta uyuyakaldın.",
+      "en": "Alarm at 5:00. Breakfast, shuttle, all of it. You were asleep on the couch by nine p.m.",
+      "coach": [
+        {
+          "tr": "Her şey yetişti. Akşam yetişmedi.",
+          "en": "Everything got done. The evening didn't make it.",
+          "roast": false
+        },
+        {
+          "tr": "Erken kalkış sayacı: bir.",
+          "en": "Early-start counter: one.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: Servis kaçar. — M.",
+      "en": "WAGER: You miss the shuttle. — M."
+    }
+  },
+  "intent": {
+    "setup": "depo vardiyası için sabah 05.40 personel servisi ve annenin kahvaltısı",
+    "mechanism": "kahvaltı ve servis aynı saate sıkışıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "hem aç hem geç",
+    "lift": "erken kalkış sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "folyo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

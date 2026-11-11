@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_kutu_oyunu_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Oyun gecesi. Kurallar kutuda yazıyor. Bir de benim ek kurallarım var.",
+      "en": "Game night. The rules are in the box. I also have some house rules."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Mesela ben kazanırsam bulaşık senin. Sen kazanırsan bir tur daha.",
+      "en": "For example: if I win, you do the dishes. If you win, we play another round.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "oyna",
+      "tr": "Kazanmak için oyna",
+      "en": "Play to win",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yazili",
+      "tr": "Kuralları yazılı iste",
+      "en": "Demand written rules",
+      "pattern": "patience"
+    },
+    {
+      "id": "kaybet",
+      "tr": "Kasten kaybet, yat",
+      "en": "Lose on purpose, go to bed",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "oyna": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kazandın. Barış kutunun altından yeni bir kural çıkardı: 'Kazanan rövanş verir.'",
+        "en": "You won. Jordan produced a new rule from under the box: 'Winner owes a rematch.'",
+        "coach": [
+          {
+            "tr": "Kazanmak bir tur daha kazandırdı.",
+            "en": "Winning earned you another round.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "bulasik_borcu"
+            ]
+          }
+        },
+        "tr": "Kaybettin, bulaşık senin. Barış oyunu kutuladı; ek kurallar kapağın içine bantlı.",
+        "en": "You lost. Dishes are yours. Jordan boxed up the game, house rules taped inside the lid.",
+        "coach": [
+          {
+            "tr": "Ek kurallar artık oyunun parçası.",
+            "en": "The house rules are now canon.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yazili": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yazili_oyun_kurallari"
+          ]
+        }
+      },
+      "tr": "Kuralları yazılı istedin. Barış iki sayfa yazdı; ikinci sayfanın başlığı 'İstisnalar'dı.",
+      "en": "You asked for the rules in writing. Jordan wrote two pages. Page two was titled 'Exceptions.'",
+      "coach": [
+        {
+          "tr": "İkinci sayfa birinciyi geçersiz kılıyor.",
+          "en": "Page two overrides page one.",
+          "roast": false
+        }
+      ]
+    },
+    "kaybet": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "bulasik_borcu"
+          ]
+        }
+      },
+      "tr": "Kasten kaybedip yattın. Sabah tahta hâlâ kuruluydu, yanında bir not: 'rövanş'.",
+      "en": "You lost on purpose and went to bed. In the morning the board was still set up, with a note: 'rematch.'",
+      "coach": [
+        {
+          "tr": "Tahta kurulu. Rövanş bir yere gitmiyor.",
+          "en": "The board is still set. The rematch isn't going anywhere.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "oyna",
+    "slip": {
+      "tr": "İDDİA: Barış'ın ek kuralı seni yener. — M.",
+      "en": "WAGER: Jordan's house rules beat you. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış kutu oyunu gecesinde kutudaki kurallara kendi ek kurallarını ekliyor",
+    "mechanism": "kazansan da kaybetsen de oyun sürüyor",
+    "mechanismId": "escalation",
+    "punch": "sen kazanırsan bir tur daha",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "rovans"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

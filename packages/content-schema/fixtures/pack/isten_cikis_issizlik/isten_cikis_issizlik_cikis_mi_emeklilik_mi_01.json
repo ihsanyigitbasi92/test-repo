@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_cikis_mi_emeklilik_mi_01",
+  "tags": [
+    "is",
+    "isten_cikarma",
+    "emeklilik",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 64
+    },
+    "career": {
+      "employed": true
+    },
+    "stats": {
+      "joy": {
+        "min": 30
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "İki seçeneğiniz var. Ya işten çıkarma, tazminatla. Ya erken emeklilik, plaketle.",
+      "en": "You have two options. A layoff, with severance. Or early retirement, with a plaque."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "typing",
+      "tr": "Kâğıtta ikisi de aynı gün bitiyor. Sadece veda pastasının üstündeki yazı farklı.",
+      "en": "On paper, both end on the same day. Only the writing on the cake is different.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "cikis",
+      "tr": "İşten çıkarmayı seç",
+      "en": "Take the layoff",
+      "pattern": "pride"
+    },
+    {
+      "id": "emekli",
+      "tr": "Erken emekliliği seç",
+      "en": "Take early retirement",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikisi",
+      "tr": "İkisinin karışımını iste",
+      "en": "Ask for a bit of both",
+      "pattern": "shortcut",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "cikis": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "money": 6000,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "isten_cikarildi"
+          ]
+        }
+      },
+      "tr": "Tazminatı seçtin: 6.000 Para. Pastada \"Başarılar\" yazıyordu.",
+      "en": "You took the severance: 6,000. The cake said \"Best of Luck.\"",
+      "coach": [
+        {
+          "tr": "Altı bin Para, bir pasta.",
+          "en": "Six thousand and a cake.",
+          "roast": false
+        }
+      ]
+    },
+    "emekli": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "money": 1500,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "erken_emekli"
+          ]
+        }
+      },
+      "tr": "Emekliliği seçtin. Plaketin üstünde kırk yıl yazıyordu, sen otuz dokuz yıl çalışmıştın.",
+      "en": "You chose retirement. The plaque said forty years. You'd worked thirty-nine.",
+      "coach": [
+        {
+          "tr": "Plaket bir yıl ekledi.",
+          "en": "The plaque threw in a year.",
+          "roast": false
+        }
+      ]
+    },
+    "ikisi": [
+      {
+        "p": 3500,
+        "effects": {
+          "career": {
+            "fire": true
+          },
+          "money": 4500,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "erken_emekli"
+            ]
+          }
+        },
+        "tr": "İK \"emeklilik vedalı tazminat\" diye bir kalem buldu: 4.500 Para ve plaket.",
+        "en": "HR found a line item called \"severance with retirement send-off\": 4,500 and a plaque.",
+        "coach": [
+          {
+            "tr": "Pasta, plaket, tazminat. Tek kalemde.",
+            "en": "Cake, plaque, severance. One line item.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "career": {
+            "fire": true
+          },
+          "money": 1500,
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "erken_emekli"
+            ]
+          }
+        },
+        "tr": "\"Sistem karışık seçeneği tanımıyor\" dendi. Kutuda varsayılan olarak emeklilik işaretliydi.",
+        "en": "\"The system doesn't support mixed options.\" Retirement was checked by default.",
+        "coach": [
+          {
+            "tr": "Varsayılan kutu kararı verdi.",
+            "en": "The default box decided.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "emeklilik yaşında işten çıkarma ile erken emeklilik arasında seçim",
+    "mechanism": "aynı son, farklı pasta yazısı; yıllar ve paralar sayılıyor",
+    "mechanismId": "count",
+    "punch": "sadece pastanın üstündeki yazı farklı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pasta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

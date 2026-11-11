@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kutlamalar_dogum_gunu_partner_bilgi_yarismasi_01",
+  "tags": [
+    "sosyal",
+    "dogum_gunu",
+    "partner",
+    "kutlamalar_dogum_gunu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "kutlamalar_dogum_gunu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Arkadaşlarım doğum günüm için bir yarışma hazırlamış, konu ben. Sen de katılıyorsun tabii.",
+      "en": "My friends made a quiz for my birthday, and the topic is me. You're playing, obviously."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "İlk soru kolay: en sevdiğim renk. İkincisi o kadar kolay değil.",
+      "en": "First question's easy: my favorite color. The second one, less so.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "katil",
+      "tr": "Yarışmaya gir",
+      "en": "Play the quiz",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "takim",
+      "tr": "En eski arkadaşla takım ol",
+      "en": "Team up with their oldest friend",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sunucu",
+      "tr": "Sunuculuğu üstlen",
+      "en": "Volunteer to host",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "katil": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 4
+            }
+          ],
+          "flags": {
+            "add": [
+              "partner_yarismasi_kazanildi"
+            ]
+          }
+        },
+        "tr": "On sorudan sekizini bildin. Arkadaşlar seni mesaj gruplarına ekledi; grubun adı 'Ön Eleme'.",
+        "en": "You got eight out of ten. The friends added you to their group chat. It's called 'Preliminary Round.'",
+        "coach": [
+          {
+            "tr": "Sekiz doğru. Grubun adı devamının geleceğini söylüyor.",
+            "en": "Eight correct. The group's name suggests a next round.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 5
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "En sevdiği renge 'mavi' dedin. Doğrusu 'lacivert'miş; arkadaşlar puan vermedi.",
+        "en": "You said their favorite color was blue. The answer was navy. The friends gave you zero.",
+        "coach": [
+          {
+            "tr": "Renk doğru, ton yanlış. Jüri sert.",
+            "en": "Right color, wrong shade. Tough jury.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "takim": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "partner_cocukluk_lakabi"
+          ]
+        }
+      },
+      "tr": "En eski arkadaşla takım olup kazandınız. Ödülü paylaşmak yerine sana partnerinin çocukluk lakabını verdi.",
+      "en": "You teamed up with the oldest friend and won. Instead of splitting the prize, they told you your partner's childhood nickname.",
+      "coach": [
+        {
+          "tr": "Ödül: bir lakap. Kullanım hakkı belirsiz.",
+          "en": "Prize: one nickname. Usage rights unclear.",
+          "roast": true
+        }
+      ]
+    },
+    "sunucu": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Soruları sen okudun. Son soru 'Sevgilisinin adı ne?' çıktı ve bütün salon sana döndü.",
+      "en": "You read the questions. The last one was 'What's their partner's name?' The whole room turned to you.",
+      "coach": [
+        {
+          "tr": "Sunucu sorunun cevabı çıktı.",
+          "en": "The host turned out to be the answer.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "katil",
+    "slip": {
+      "tr": "İDDİA: Renk sorusu seni yakar. — M.",
+      "en": "WAGER: The color question gets you. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin doğum gününde arkadaşlarının partner hakkında bilgi yarışması düzenlemesi",
+    "mechanism": "sorular harfiyen; ton ayrımı puan kestiriyor",
+    "mechanismId": "literalism",
+    "punch": "renk doğru ton yanlış",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "lakap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

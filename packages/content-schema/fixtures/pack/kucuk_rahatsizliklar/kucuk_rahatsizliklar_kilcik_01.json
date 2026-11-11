@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kucuk_rahatsizliklar_kilcik_01",
+  "tags": [
+    "saglik",
+    "kucuk_hastalik",
+    "kucuk_rahatsizliklar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kucuk_rahatsizliklar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Kılçık mı? O balığı üç kez ayıkladım. Üç kez.",
+      "en": "A bone? I deboned that fish three times. Three."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Konuşma. Ya da konuş. Ayakkabılarını giy, bakarız.",
+      "en": "Don’t talk. Or do. Put your shoes on, we’ll see.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "doktor",
+      "tr": "Acile git",
+      "en": "Go to the ER",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "bekle",
+      "tr": "Biraz bekle",
+      "en": "Wait a bit",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "sus",
+      "tr": "Sus, yemeği bitir",
+      "en": "Say nothing, finish dinner",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "doktor": {
+      "effects": {
+        "stats": {
+          "health": 3,
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "kilcik_acili"
+          ]
+        }
+      },
+      "tr": "Acilde kılçık bir dakikada çıktı. Bekleme iki saat sürdü.",
+      "en": "At the ER the bone came out in a minute. The wait took two hours.",
+      "coach": [
+        {
+          "tr": "Bir dakika işlem, iki saat sandalye.",
+          "en": "One minute of procedure. Two hours of chair.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 1
+          }
+        },
+        "tr": "Yarım saat sonra his geçti. Kılçığın gidip gitmediği hâlâ belirsiz.",
+        "en": "Half an hour later the feeling passed. Whether the bone left remains unclear.",
+        "coach": [
+          {
+            "tr": "His gitti. Kılçık belirsiz.",
+            "en": "The feeling left. The bone is unaccounted for.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "diagnosis": "bogaz_cizigi"
+        },
+        "tr": "Batma gece boyunca sürdü. Sabah acilde söylendi: kılçık yokmuş, sadece bir çizik.",
+        "en": "The prickling lasted all night. At the ER in the morning: no bone, just a scratch.",
+        "coach": [
+          {
+            "tr": "Kılçık gece ayrılmış, çizik kalmış.",
+            "en": "The bone checked out overnight. The scratch stayed.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sus": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Yemeği tek kelime etmeden bitirdin. Partnerin bunu sessiz bir övgü sandı.",
+      "en": "You finished dinner without a word. Your partner took it as silent praise.",
+      "coach": [
+        {
+          "tr": "Sessizlik övgü sayıldı.",
+          "en": "Silence was logged as praise.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia payı başka olaylarda"
+  },
+  "intent": {
+    "setup": "balık yerken boğaza kılçık takılması",
+    "mechanism": "üç kez ayıklanan balık; sonuçlar haber dilinde",
+    "mechanismId": "deadpan_report",
+    "punch": "sessizlik övgü sayıldı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ovgu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

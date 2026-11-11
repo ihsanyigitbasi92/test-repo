@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_beyaz_tahta_01",
+  "tags": [
+    "para",
+    "borc",
+    "ev_arkadasi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Tahtayı güncelledim. Kira payından 600 kaldı. Dünkü kahve de eklendi.",
+      "en": "Updated the whiteboard. 600 left on your rent share. Yesterday's coffee is on there too."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Faiz yok. Sadece her sabah tahtanın önünde biraz durman yeterli.",
+      "en": "No interest. I just need you to stand in front of the board for a moment each morning.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Tamamını öde",
+      "en": "Pay it all off",
+      "pattern": "pride"
+    },
+    {
+      "id": "taksit",
+      "tr": "Haftalık taksit öner",
+      "en": "Propose weekly installments",
+      "pattern": "patience"
+    },
+    {
+      "id": "kahve",
+      "tr": "Kahveye itiraz et",
+      "en": "Dispute the coffee",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -600,
+        "hidden": {
+          "stress": -2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "tahta_temiz"
+          ],
+          "remove": [
+            "ev_arkadasina_borc"
+          ]
+        }
+      },
+      "tr": "600 Para ödendi. Tahta silindi; yerine market listesi yazıldı.",
+      "en": "Paid 600. The board was wiped. A grocery list went up in its place.",
+      "coach": [
+        {
+          "tr": "Tahta boş, liste dolu.",
+          "en": "Board clear. Grocery list full.",
+          "roast": false
+        },
+        {
+          "tr": "Borç sayacı sıfırlandı.",
+          "en": "Debt counter: zero.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "taksit": {
+      "effects": {
+        "money": -150,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "haftalik_taksit_tahta"
+          ]
+        }
+      },
+      "tr": "Haftada 150 Para'ya anlaşıldı. Tahtaya dört kutucuk çizildi, biri işaretlendi.",
+      "en": "Agreed: 150 a week. Four boxes went up on the board. One is checked.",
+      "coach": [
+        {
+          "tr": "Dört kutu, bir işaret.",
+          "en": "Four boxes. One check mark.",
+          "roast": false
+        }
+      ]
+    },
+    "kahve": {
+      "effects": {
+        "money": -585,
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Kahve tahtadan silindi: 15 Para. Kalan 585 kırmızı kalemle yeniden yazıldı.",
+      "en": "The coffee came off the board: 15. The remaining 585 got rewritten in red marker.",
+      "coach": [
+        {
+          "tr": "15 Para kazanıldı. Kalemin rengi değişti.",
+          "en": "Fifteen saved. The marker changed color.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "ev arkadaşına olan kira borcunun buzdolabındaki beyaz tahtada her gün güncellenmesi",
+    "mechanism": "faizsiz borç, karşılığında her sabah tahtanın önünde durmak",
+    "mechanismId": "escalation",
+    "punch": "dünkü kahve de eklendi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kutucuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

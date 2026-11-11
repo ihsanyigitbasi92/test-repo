@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_kosu_bandi_01",
+  "tags": [
+    "para",
+    "borc",
+    "satis",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Koşu bandını ben alırım. Ama taksitle. Benim zamanımda her şey taksitle alınırdı.",
+      "en": "I'll buy the treadmill. In installments, though. In my day, everything was bought in installments."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Üstündeki ceketler de dahil mi? Kahverengisi güzel.",
+      "en": "Are the coats on it included? I like the brown one.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ilan",
+      "tr": "İlana koy, pazarlık yap",
+      "en": "List it online and haggle",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayıya taksitle sat",
+      "en": "Sell it to your uncle in installments",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kullan",
+      "tr": "Tut, gerçekten kullan",
+      "en": "Keep it and actually use it",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ilan": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 2200,
+          "stats": {
+            "charm": 1,
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "kosu_bandi_satildi"
+            ]
+          }
+        },
+        "tr": "Koşu bandı 2.200 Para'ya satıldı, kart borcunun yarısı kapandı. Ceketler sandalyeye taşındı.",
+        "en": "Treadmill sold for 2,200. Half the card balance cleared. The coats moved to a chair.",
+        "coach": [
+          {
+            "tr": "Koşu bandı ilk kez hareket etti: kapıdan çıkarken.",
+            "en": "The treadmill finally moved. Out the front door.",
+            "roast": true
+          },
+          {
+            "tr": "Borç sayacı yarıya indi.",
+            "en": "Debt counter: halfway down.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": 1200,
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "kosu_bandi_satildi"
+            ]
+          }
+        },
+        "tr": "Alıcı 'hiç kullanılmamış ama ceket izi var' dedi; fiyat 1.200 Para'ya indi.",
+        "en": "The buyer said, 'Never used, but there are coat marks,' and the price fell to 1,200.",
+        "coach": [
+          {
+            "tr": "Ceket izi resmî bir değer kaybı sebebi sayıldı.",
+            "en": "Coat marks: now a recognized cause of depreciation.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "money": 300,
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_taksit_alacak"
+          ]
+        }
+      },
+      "tr": "Koşu bandı dayıya on taksitle satıldı. İlk taksit 300 Para geldi, kahverengi ceket de gitti.",
+      "en": "Treadmill sold to your uncle in ten installments. First payment: 300. The brown coat went too.",
+      "coach": [
+        {
+          "tr": "Taksit yön değiştirdi. Bu kez alacaklı sensin.",
+          "en": "The installments switched direction. This time, you're the creditor.",
+          "roast": true
+        }
+      ]
+    },
+    "kullan": {
+      "effects": {
+        "stats": {
+          "health": 3,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kosu_bandi_aktif"
+          ]
+        }
+      },
+      "tr": "Ceketler kaldırıldı, bant ilk kez çalıştı. On beş dakika yüründü; borç yerinde.",
+      "en": "The coats came off and the belt ran for the first time. Fifteen minutes of walking. The debt stays put.",
+      "coach": [
+        {
+          "tr": "On beş dakika yüründü. Borç yerinden kıpırdamadı.",
+          "en": "Fifteen minutes walked. The debt didn't budge.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ilan",
+    "slip": {
+      "tr": "İDDİA: Ceketler fiyatı düşürür. — M.",
+      "en": "WAGER: The coats knock the price down. — M."
+    }
+  },
+  "intent": {
+    "setup": "kart borcunu kapatmak için askılık olarak kullanılan koşu bandını satışa koymak",
+    "mechanism": "koşu bandı ilk kez hareket ediyor, kapıdan çıkarken; dayı taksitle almak istiyor",
+    "mechanismId": "reversal",
+    "punch": "ilk kez hareket etti: kapıdan çıkarken",
+    "lift": "borç sayacı yarıya",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ceket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

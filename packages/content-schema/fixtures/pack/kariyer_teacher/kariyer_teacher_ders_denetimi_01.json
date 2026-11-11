@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_teacher_ders_denetimi_01",
+  "tags": [
+    "kariyer",
+    "ogretmen",
+    "kariyer_teacher"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_teacher": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "teacher"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bugün sınıfına bir gözlemci girecek. Normal ders işle. Ama biraz daha normal.",
+      "en": "An observer is sitting in on your class today. Teach normally. But a bit more normally."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ben yokmuşum gibi davranın. Sadece arada bir yazacağım.",
+      "en": "Pretend I'm not here. I'll just be writing now and then.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "normal",
+      "tr": "Her zamanki dersi işle",
+      "en": "Teach your usual lesson",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "gosteri",
+      "tr": "Gösterişli grup çalışması",
+      "en": "Go all-out group work",
+      "pattern": "pride"
+    },
+    {
+      "id": "video",
+      "tr": "Belgesel aç",
+      "en": "Play a documentary",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "normal": [
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "iyi_gozlem_raporu"
+            ]
+          }
+        },
+        "tr": "Her zamanki dersi işledin. Gözlemci formun \"öneriler\" kutusunu boş bıraktı.",
+        "en": "You taught your usual lesson. The observer left the \"suggestions\" box blank.",
+        "coach": [
+          {
+            "tr": "Boş kutu. Formun en iyi kısmı.",
+            "en": "A blank box. Best part of the form.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef bir kutu ilerledi.",
+            "en": "Goal: one box closer.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Her zamanki ders, her zamanki soru. Bir öğrenci \"bunu geçen hafta da anlatmıştınız\" dedi.",
+        "en": "Usual lesson, usual question. One student said, \"You taught this last week.\"",
+        "coach": [
+          {
+            "tr": "Tekrar forma da tekrar olarak geçti.",
+            "en": "The repetition went on the form. Twice.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gosteri": {
+      "effects": {
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Grup çalışması, renkli kartlar, slayt. Gözlemci çıkarken bir öğrenci \"artık her ders böyle mi olacak\" diye sordu.",
+      "en": "Group work, colored cards, slides. As the observer left, a student asked, \"Is every class like this now?\"",
+      "coach": [
+        {
+          "tr": "Gösteri bitti. Beklenti kaldı.",
+          "en": "Show's over. The expectation stays.",
+          "roast": false
+        }
+      ]
+    },
+    "video": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Kırk dakikalık belgesel açtın. Gözlemci de izledi ve formuna \"ilgi çekici\" yazdı; belgesel için.",
+      "en": "You played a forty-minute documentary. The observer watched too and wrote \"engaging\" on the form. About the documentary.",
+      "coach": [
+        {
+          "tr": "Övgü belgesele gitti.",
+          "en": "The praise went to the documentary.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "normal",
+    "slip": {
+      "tr": "İDDİA: Normal dersin bugün normal geçmez. — M.",
+      "en": "WAGER: Your normal lesson won't look normal today. — M."
+    }
+  },
+  "intent": {
+    "setup": "dersine bir gözlemci giriyor ve formla arka sırada oturuyor",
+    "mechanism": "biraz daha normal talimatı",
+    "mechanismId": "literalism",
+    "punch": "normal ders işle ama biraz daha normal",
+    "lift": "hedef bir kutu ilerledi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "form"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

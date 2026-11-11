@@ -1,0 +1,178 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_borc_sayaci_01",
+  "tags": [
+    "para",
+    "borc",
+    "uygulama",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Uygulamada yeni bir özellik var: borcunuzun biteceği tarihi gösteriyor.",
+      "en": "The app has a new feature: it shows the date your debt ends."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Ek ödeme yaparsanız tarih öne gelir. Müşterilerimiz bunu çok seviyor.",
+      "en": "Make an extra payment and the date moves up. Customers love it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ek",
+      "tr": "500 Para ek ödeme yap",
+      "en": "Pay 500 extra",
+      "pattern": "patience"
+    },
+    {
+      "id": "bildirim",
+      "tr": "Sayaç bildirimini aç",
+      "en": "Turn on countdown alerts",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "gizle",
+      "tr": "Sayacı gizle",
+      "en": "Hide the countdown",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ek": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "borc_sayaci"
+          ]
+        }
+      },
+      "tr": "500 Para ek ödendi. Bitiş tarihi ekimden ağustosa geldi.",
+      "en": "Paid 500 extra. The end date moved from October to August.",
+      "coach": [
+        {
+          "tr": "Bitiş tarihi iki ay öne geldi.",
+          "en": "End date: two months sooner.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        },
+        {
+          "tr": "Ekim boşa çıktı. Ağustos sevindi.",
+          "en": "October got the afternoon off. August got promoted.",
+          "roast": true
+        }
+      ]
+    },
+    "bildirim": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "borc_sayaci_bildirim"
+          ]
+        }
+      },
+      "tr": "Sayaç her pazartesi bildirim atıyor. Üçüncü pazartesi, 200 Para ek ödemeyle tarih bir hafta öne geldi.",
+      "en": "The countdown pings every Monday. By the third Monday, a 200 top-up had moved it a week.",
+      "coach": [
+        {
+          "tr": "Her pazartesi bir tarih. Bu hafta biraz daha yakın.",
+          "en": "A date every Monday. A little closer this week.",
+          "roast": true
+        }
+      ]
+    },
+    "gizle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "borc_sayaci_gizli"
+          ]
+        }
+      },
+      "tr": "Sayaç gizlendi. Uygulama boşalan yere 'size özel kredi' kutusu koydu.",
+      "en": "Countdown hidden. The app filled the empty space with a 'loan just for you' banner.",
+      "coach": [
+        {
+          "tr": "Sayaç gitti, yerine teklif taşındı.",
+          "en": "The countdown moved out. An offer moved in.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "banka uygulamasındaki borç bitiş tarihi sayacının ek ödemeyle öne gelmesi",
+    "mechanism": "sayaç gizlenince yerine yeni kredi teklifi geliyor",
+    "mechanismId": "reversal",
+    "punch": "müşterilerimiz bunu çok seviyor",
+    "lift": "bitiş tarihi iki ay öne",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ekim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

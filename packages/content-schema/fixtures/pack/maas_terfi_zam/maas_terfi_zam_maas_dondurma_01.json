@@ -1,0 +1,232 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_maas_dondurma_01",
+  "tags": [
+    "is",
+    "maas",
+    "yonetici",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "career": {
+      "employed": true,
+      "minRung": 1
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "tired",
+      "tr": "Bu yıl maaşlar donduruldu. Ekibine sen söyleyeceksin, yöneticileri sensin.",
+      "en": "Salaries are frozen this year. You'll tell your team. You're their manager."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "typing",
+      "tr": "Konuşma metnini gönderdim. \"Zorlu ama geçici\" kısmını kalın yazdım.",
+      "en": "I've sent the talking points. I bolded \"challenging but temporary.\"",
+      "delayMs": 600
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Toplantı davetin geldi. Konu satırı boş. Herkes bir şey olduğunu anladı.",
+      "en": "Got your meeting invite. No subject line. Everyone knows something's up.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "metin",
+      "tr": "Metni aynen oku",
+      "en": "Read the script as written",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "acik",
+      "tr": "Kendi cümlelerinle anlat",
+      "en": "Say it in your own words",
+      "pattern": "pride"
+    },
+    {
+      "id": "telafi",
+      "tr": "Ekibe ek izin pazarlık et",
+      "en": "Bargain for extra days off",
+      "pattern": "generosity",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "metin": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "maas_donduruldu"
+          ]
+        }
+      },
+      "tr": "Metni okudun. \"Geçici\" kelimesinde biri not aldı, biri güldü.",
+      "en": "You read the script. At \"temporary,\" one person took notes and one person laughed.",
+      "coach": [
+        {
+          "tr": "Kalın yazılan kısım dikkat çekti. Ters yönden.",
+          "en": "The bold part got everyone's attention. The wrong kind.",
+          "roast": true
+        }
+      ]
+    },
+    "acik": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          },
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "maas_donduruldu"
+          ]
+        }
+      },
+      "tr": "\"Bu yıl artış yok, ben de üzgünüm\" dedin. Ekip teşekkür etti, İK metinden neden çıktığını sordu.",
+      "en": "You said, \"No raises this year, and I'm sorry too.\" The team thanked you. HR asked why you'd gone off script.",
+      "coach": [
+        {
+          "tr": "Ekip sana inandı. İK metne.",
+          "en": "The team believed you. HR believed the script.",
+          "roast": true
+        }
+      ]
+    },
+    "telafi": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 4
+            }
+          ],
+          "flags": {
+            "add": [
+              "maas_donduruldu",
+              "ekip_izin_gunu"
+            ]
+          }
+        },
+        "tr": "Herkese iki ek izin günü onaylandı. Maaşlar donuk, takvim biraz çözüldü.",
+        "en": "Two extra days off approved for everyone. Pay stays frozen. The calendar thawed a little.",
+        "coach": [
+          {
+            "tr": "İki gün. Bu yıl ekibe çıkan en büyük artış.",
+            "en": "Two days. The biggest raise anyone got this year.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: ekibe iki gün.",
+            "en": "Goal tracker: two days, whole team.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            },
+            {
+              "role": "npc:coworker",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "maas_donduruldu"
+            ]
+          }
+        },
+        "tr": "Talep \"emsal oluşturur\" diye reddedildi. Ekip ısrar ettiğini duydu.",
+        "en": "The request was turned down as \"setting a precedent.\" The team heard you pushed for it.",
+        "coach": [
+          {
+            "tr": "Ret geldi. Israrın da duyuldu.",
+            "en": "Rejected. But they heard you push.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "maaş dondurma kararını ekibe yöneticinin açıklaması",
+    "mechanism": "İK metninin kalın yazılmış iyimserliği olduğu gibi okunuyor",
+    "mechanismId": "deadpan_report",
+    "punch": "zorlu ama geçici, kalın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kalin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

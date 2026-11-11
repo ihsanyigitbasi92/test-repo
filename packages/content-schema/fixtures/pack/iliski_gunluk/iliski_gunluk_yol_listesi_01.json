@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_yol_listesi_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Yol listesini düzenledim. Biraz kısalttım.",
+      "en": "I cleaned up the road-trip playlist. Trimmed it a little."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Senin şarkıların zaten hep aynı şarkıydı. Farklı adlarla.",
+      "en": "Your songs were all the same song anyway. Different titles.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kanit",
+      "tr": "Farklı olduklarını kanıtla",
+      "en": "Prove they're different",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sira",
+      "tr": "Yolda sırayla seçin",
+      "en": "Take turns on the road",
+      "pattern": "patience"
+    },
+    {
+      "id": "kulaklik",
+      "tr": "Tek kulaklık tak",
+      "en": "Put in one earbud",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kanit": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Yedi şarkıyı art arda çaldın ve farkları saydın. Partnerin ikisini geri ekledi.",
+        "en": "You played seven back to back and named the differences. Your partner put two back.",
+        "coach": [
+          {
+            "tr": "Yedi sanık savunuldu. İkisi beraat etti.",
+            "en": "Seven defendants. Two acquitted.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          }
+        },
+        "tr": "Yedi şarkıyı art arda çaldın. Dördüncüde hangisinin hangisi olduğunu sen de karıştırdın.",
+        "en": "You played seven back to back. By the fourth, you couldn't tell them apart either.",
+        "coach": [
+          {
+            "tr": "Savunma kendi tanığını tanıyamadı.",
+            "en": "The defense failed to recognize its own witness.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sira": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2,
+            "memory": "yol_puanlari"
+          }
+        ]
+      },
+      "tr": "Sırayla seçtiniz. Altı saatlik yolda her şarkıya puan verildi; çizelge arka koltukta.",
+      "en": "You took turns. Six hours of road, every song scored. The scoreboard rode in the back seat.",
+      "coach": [
+        {
+          "tr": "Altı saat. Puanlar eşit.",
+          "en": "Six hours. Scores tied.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef saatine altı saat.",
+          "en": "Six hours on the goal clock.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kulaklik": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Tek kulaklık taktın. Yolun yarısında partnerin ne dinlediğini sordu ve sırasını istedi.",
+      "en": "You put in one earbud. Halfway there your partner asked what you were listening to. And wanted a turn.",
+      "coach": [
+        {
+          "tr": "Kulaklık yarım. Merak tam.",
+          "en": "Half an earbud. Full curiosity.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kanit",
+    "slip": {
+      "tr": "İDDİA: Dördüncü şarkıda karıştırırsın. — M.",
+      "en": "WAGER: You'll lose track by song four. — M."
+    }
+  },
+  "intent": {
+    "setup": "ortak yolculuk şarkı listesinden partnerin senin şarkılarını silmesi",
+    "mechanism": "şarkıları savunurken savunmanın kendi tanığını tanımaması",
+    "mechanismId": "reversal",
+    "punch": "Savunma kendi tanığını tanıyamadı.",
+    "lift": "hedef saati",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sarki"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

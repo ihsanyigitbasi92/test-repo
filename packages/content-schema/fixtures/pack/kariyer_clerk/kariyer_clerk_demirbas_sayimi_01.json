@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_demirbas_sayimi_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Demirbaş listesinde adınıza bir hesap makinesi var. Masanızda yok.",
+      "en": "The inventory sheet lists a calculator under your name. It's not on your desk."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "O makine benden önce de buradaydı. Ben hiç kullanmadım.",
+      "en": "That calculator was here before me. I never used it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Bütün çekmeceleri ara",
+      "en": "Search every drawer",
+      "pattern": "patience",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "al",
+      "tr": "Yenisini satın al",
+      "en": "Buy a replacement",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "onceki",
+      "tr": "Önceki memuru bul",
+      "en": "Track down the previous clerk",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ara": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "memur_demirbas_tamam"
+            ]
+          }
+        },
+        "tr": "Makine eski dosya dolabının arkasından çıktı. Ekranı hâlâ yanıyordu.",
+        "en": "The calculator turned up behind the old filing cabinet. Its screen was still on.",
+        "coach": [
+          {
+            "tr": "Makine dolabın arkasında saklanıyormuş. Yılların saklambacı bitti.",
+            "en": "It was hiding behind the cabinet. Years of hide-and-seek, over.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "money": -220,
+          "flags": {
+            "add": [
+              "memur_demirbas_kayip"
+            ]
+          }
+        },
+        "tr": "Makine çıkmadı. Tutanağa 'kayıp' yazıldı; bedeli 220 Para olarak maaşından kesilecek.",
+        "en": "No calculator. The report says 'lost,' and 220 will come out of your pay.",
+        "coach": [
+          {
+            "tr": "Hiç kullanmadığın bir makine için 220 Para. En pahalı hesabı buymuş.",
+            "en": "Two-twenty for a calculator you never used. Its most expensive calculation yet.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "al": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -180
+      },
+      "tr": "Aynı modeli bulamadın, daha yenisini 180 Para'ya aldın. Tutanağa 'iyileştirilmiş' notu düştü.",
+      "en": "You couldn't find the same model and bought a newer one for 180. The report notes it as 'improved.'",
+      "coach": [
+        {
+          "tr": "Kayıp makineyi yenisiyle değiştirdin. Liste teşekkür etmedi, not düştü.",
+          "en": "You replaced it with a better model. The list didn't thank you. It annotated you.",
+          "roast": true
+        }
+      ]
+    },
+    "onceki": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "memur_demirbas_inceleme"
+          ]
+        }
+      },
+      "tr": "Önceki memur emekli olmuştu. Telefonda makineyi yıllar önce iade ettiğini söyledi; tutanak ikinci kişiye açıldı.",
+      "en": "The previous clerk had retired. On the phone, they said they returned it years ago. A second report was opened.",
+      "coach": [
+        {
+          "tr": "Yıllar önce iade edilmiş, bugün kayıp. İki tutanak, bir makine, sıfır makine.",
+          "en": "Returned years ago, missing today. Two reports, one calculator, zero calculators.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ara",
+    "slip": {
+      "tr": "İDDİA: Makine bulunmaz. — M.",
+      "en": "WAGER: That calculator stays missing. — M."
+    }
+  },
+  "intent": {
+    "setup": "yıl sonu demirbaş sayımında adına kayıtlı hesap makinesi yok",
+    "mechanism": "hiç kullanılmamış makinenin bedeli",
+    "mechanismId": "deadpan_report",
+    "punch": "sıfır makine",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "saklambac"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

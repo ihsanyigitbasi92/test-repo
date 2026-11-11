@@ -1,0 +1,163 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_posta_odasi_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Her gün dokuzu beş geçe buradasınız. Posta odamızda bir kadro açıldı, ilgilenir misiniz?",
+      "en": "You're here at 9:05 every day. A job opened up in our mailroom. Interested?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Masa, sandalye, klima. Paketler size gelir, siz onlara değil.",
+      "en": "Desk, chair, air conditioning. The packages come to you, for a change.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et",
+      "en": "Take the job",
+      "pattern": "risk"
+    },
+    {
+      "id": "dusun",
+      "tr": "Bir hafta düşün",
+      "en": "Ask for a week",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "red",
+      "tr": "Motoru bırakamam de",
+      "en": "Say you can't give up the bike",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "kurye_birakti",
+            "kariyer_degisti"
+          ]
+        },
+        "status": {
+          "job": {
+            "title": "posta odası görevlisi",
+            "tier": 1,
+            "monthly": 950
+          }
+        }
+      },
+      "tr": "Pazartesi posta odasında başladın. İlk gün gelen paketlerden birini bir hafta önce sen getirmiştin.",
+      "en": "You started in the mailroom on Monday. One of the first packages in was one you had delivered a week before.",
+      "coach": [
+        {
+          "tr": "Bina aynı, kat aynı. Bu kez kartın var.",
+          "en": "Same building, same floor. This time you have a badge.",
+          "roast": false
+        }
+      ]
+    },
+    "dusun": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Bir hafta düşündün. Kadroya binanın kendi kuryesi geçti.",
+      "en": "You thought about it for a week. The building's own courier took the job.",
+      "coach": [
+        {
+          "tr": "Sen bir hafta düşündün. Kadro üç günde doldu.",
+          "en": "You took a week. The job took three days.",
+          "roast": false
+        }
+      ]
+    },
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "kurye_teklif_reddetti"
+          ]
+        }
+      },
+      "tr": "Teşekkür edip reddettin. Ertesi sabah dokuzu beş geçe yine kapıdaydın.",
+      "en": "You thanked them and said no. The next morning, at 9:05, you were at the door again.",
+      "coach": [
+        {
+          "tr": "Dokuzu beş geçe. Saat seni tanıyor.",
+          "en": "9:05 sharp. The clock knows you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "her gün teslimat yapılan ofisin müdürü posta odasında kadro teklif ediyor",
+    "mechanism": "paketlerin yön değiştirmesi",
+    "mechanismId": "reversal",
+    "punch": "paketler size gelir",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kart"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

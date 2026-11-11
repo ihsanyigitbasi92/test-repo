@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_actor_ceset_rolu_01",
+  "tags": [
+    "kariyer",
+    "oyuncu",
+    "kariyer_actor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_actor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "actor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Sahne basit. Yerde yatıyorsun, nefes almıyorsun. Kamera sana dönmeyecek, ama dönebilir.",
+      "en": "Simple scene. You lie on the floor and don't breathe. The camera won't pan to you. But it might."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Altıncı saatte burnun kaşınır. Herkesinki kaşınır. Ben üç dizide ceset oldum.",
+      "en": "Hour six, your nose will itch. Everyone's does. I've been the body on three shows.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kipirdama",
+      "tr": "Altı saat kıpırdama",
+      "en": "Hold still for six hours",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "health",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "uyu",
+      "tr": "Rolün içinde uyu",
+      "en": "Nap in character",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "mola",
+      "tr": "Her saat mola iste",
+      "en": "Ask for hourly breaks",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kipirdama": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 500,
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ceset_uzmani"
+            ]
+          }
+        },
+        "tr": "Altı saat kıpırdamadın. Yönetmen \"çok doğal\" dedi ve seni gelecek bölüme de ceset olarak yazdı.",
+        "en": "Six hours, not a twitch. The director called it \"very natural\" and booked you as a body next episode too.",
+        "coach": [
+          {
+            "tr": "Performans beğenildi. Rol aynı kaldı.",
+            "en": "Performance praised. Role unchanged.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef defterinde iki bölüm.",
+            "en": "Two episodes on the goal sheet.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": 300,
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Beşinci saatte hapşırdın. Sahne yeniden çekildi; hapşırığın kamera arkası videosuna girdi.",
+        "en": "Hour five, you sneezed. Scene reshot. Your sneeze made the blooper reel.",
+        "coach": [
+          {
+            "tr": "Sahneden kesildin. Hapşırık kaldı.",
+            "en": "Cut from the scene. The sneeze made it in.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uyu": {
+      "effects": {
+        "money": 300,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Gerçekten uyudun. İki saat sonra horladın; ses ekibi kaynağı yarım saat aradı.",
+      "en": "You actually fell asleep. Two hours in, you snored. Sound spent half an hour hunting for the source.",
+      "coach": [
+        {
+          "tr": "Rolün içinde uyudun. Mikrofon uyanıktı.",
+          "en": "You slept in character. The mic stayed awake.",
+          "roast": true
+        }
+      ]
+    },
+    "mola": {
+      "effects": {
+        "money": 300,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Her saat mola istedin. Yönetmen seni \"ceset\"ten \"yaralı\"ya terfi ettirdi; yaralılar oturabiliyor.",
+      "en": "You asked for a break every hour. The director promoted you from \"body\" to \"injured.\" The injured get to sit.",
+      "coach": [
+        {
+          "tr": "Yerden sandalyeye. Kariyer yükselişte.",
+          "en": "From the floor to a chair. Career on the rise.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kipirdama",
+    "slip": {
+      "tr": "İDDİA: Altı saat kıpırdamadan duramazsın. — M.",
+      "en": "WAGER: You won't make six hours without moving. — M."
+    }
+  },
+  "intent": {
+    "setup": "polisiye dizide altı saat yerde yatan ceset rolü",
+    "mechanism": "cesetten yaralıya terfi",
+    "mechanismId": "reversal",
+    "punch": "yaralılar oturabiliyor",
+    "lift": "hedef defterinde iki bölüm",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hapsirik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_lisansustu_cihaz_takvimi_01",
+  "tags": [
+    "egitim",
+    "tez",
+    "laboratuvar",
+    "egitim_lisansustu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_lisansustu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "grad"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Cihaz takvimi dolu. Biri altı haftayı tek satırla ayırmış: 'deney, belki'.",
+      "en": "The instrument calendar is full. Someone booked six weeks in one line: 'experiment, maybe.'"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Ayıran kişi geçen ay savunmasını verdi. Takvimi silmeyi unutmuş.",
+      "en": "Whoever booked it defended last month. Forgot to clear the calendar.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yaz",
+      "tr": "Kişiye kibar bir e-posta yaz",
+      "en": "Email them politely",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "gece",
+      "tr": "Gece boşluklarını kolla",
+      "en": "Book the overnight hours",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sil",
+      "tr": "Rezervasyonu kendin sil",
+      "en": "Delete the booking yourself",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "yaz": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "cihaz_takvim_acildi"
+            ]
+          }
+        },
+        "tr": "On dakikada cevap geldi: 'Unutmuşum, kusura bakma.' Altı hafta bir anda açıldı.",
+        "en": "A reply in ten minutes: 'Forgot, sorry.' Six weeks opened up at once.",
+        "coach": [
+          {
+            "tr": "Altı hafta, bir e-posta.",
+            "en": "Six weeks, one email.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "cihaz_cevap_yok"
+            ]
+          }
+        },
+        "tr": "Otomatik yanıt geldi: 'Artık kurumda değilim, dönüş tarihi belirsiz.'",
+        "en": "Auto-reply: 'I am no longer with the institution. Return date: unspecified.'",
+        "coach": [
+          {
+            "tr": "Dönüş belirsiz. Takvim gayet net.",
+            "en": "Return unclear. The calendar, very clear.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gece": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "gece_deneyi"
+          ]
+        }
+      },
+      "tr": "Gece ikiyle beş arasındaki boşlukları yakaladın. Üçüncü gece güvenlik görevlisi adını öğrendi.",
+      "en": "You started booking the 2-to-5 a.m. hours. By night three, the security guard knew your name.",
+      "coach": [
+        {
+          "tr": "Veri birikiyor. Uyku birikmiyor.",
+          "en": "Data, accumulating. Sleep, not.",
+          "roast": false
+        }
+      ]
+    },
+    "sil": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "takvim_silindi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Rezervasyonu sildin. Ertesi gün bölümde 'takvime kim dokundu' konulu bir e-posta dolaştı.",
+      "en": "You deleted the booking. Next day a department-wide email went out: 'Who touched the calendar?'",
+      "coach": [
+        {
+          "tr": "Takvim açıldı. Yazışma da.",
+          "en": "Calendar cleared. Thread opened.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "laboratuvar cihaz takviminde mezun olmuş birinin altı haftalık rezervasyonu",
+    "mechanism": "tek satırlık \"belki\" altı hafta tutar",
+    "mechanismId": "escalation",
+    "punch": "takvimi silmeyi unutmuş",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "takvim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

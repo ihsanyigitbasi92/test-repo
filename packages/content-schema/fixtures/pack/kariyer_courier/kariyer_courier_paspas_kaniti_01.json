@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_paspas_kaniti_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Paket gelmedi. Fotoğraftaki paspas bizim değil.",
+      "en": "Never got it. That doormat in your photo isn't ours."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bizimkinde 'Hoş geldin' yazar. Ondaki 'Hoş geldiniz'. Biz o kadar resmî değiliz.",
+      "en": "Ours says 'Hi.' That one says 'Welcome.' We are not 'Welcome' people.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kat",
+      "tr": "Üst kata bak",
+      "en": "Check the floor above",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "itiraz",
+      "tr": "Fotoğrafla itiraz et",
+      "en": "Dispute it with the photo",
+      "pattern": "pride"
+    },
+    {
+      "id": "ode",
+      "tr": "Kesintiyi kabul et",
+      "en": "Eat the deduction",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kat": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Paket bir üst katta, \"Hoş geldiniz\" paspasının üstündeydi. Aşağı indirip teslim ettin.",
+        "en": "The package was one floor up, on the \"Welcome\" mat. You carried it down and handed it over.",
+        "coach": [
+          {
+            "tr": "Paket bulundu. Üst kat hâlâ kimseyi beklemiyor.",
+            "en": "Package found. Upstairs still isn't expecting anyone.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "money": -150,
+          "flags": {
+            "add": [
+              "kurye_kayip_paket"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Üst katta da yoktu. Kayıp paket bedeli olarak 150 Para kesildi.",
+        "en": "It wasn't upstairs either. You were docked 150 for a lost package.",
+        "coach": [
+          {
+            "tr": "Kesinti 150. Paspas meselesi açık kaldı.",
+            "en": "Docked 150. The doormat question remains open.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "itiraz": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "money": -80,
+        "flags": {
+          "add": [
+            "kurye_itiraz_kaydi"
+          ]
+        }
+      },
+      "tr": "Şirket fotoğrafı inceledi ve kesintiyi yarıya indirdi: 80 Para.",
+      "en": "The company reviewed the photo and halved the deduction to 80.",
+      "coach": [
+        {
+          "tr": "Fotoğraf yarı yarıya inandırdı. Kesinti de yarıya indi.",
+          "en": "The photo was half convincing. The deduction got halved to match.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -160
+      },
+      "tr": "İtiraz etmedin. 160 Para kesildi, akşam vardiyası normal geçti.",
+      "en": "You didn't argue. They took 160, and the evening shift went by like any other.",
+      "coach": [
+        {
+          "tr": "160 gitti, akşam kaldı.",
+          "en": "160 gone. The evening stayed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kat",
+    "slip": {
+      "tr": "İDDİA: Paket üst katta çıkmaz. — M.",
+      "en": "WAGER: That package isn't upstairs. — M."
+    }
+  },
+  "intent": {
+    "setup": "teslim fotoğrafındaki paspası müşteri tanımıyor, paket kayıp sayılıyor",
+    "mechanism": "paspastaki hitap farkı kanıt oluyor",
+    "mechanismId": "literalism",
+    "punch": "biz o kadar resmî değiliz",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "paspas"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

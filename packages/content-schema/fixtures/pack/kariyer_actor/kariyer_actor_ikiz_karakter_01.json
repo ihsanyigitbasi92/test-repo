@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_actor_ikiz_karakter_01",
+  "tags": [
+    "kariyer",
+    "oyuncu",
+    "kariyer_actor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_actor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "actor"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Senaryoya ikiz kardeş ekledik. İkisini de sen oynuyorsun. Ücret aynı, çünkü sen tek kişisin.",
+      "en": "We added a twin to the script. You play both. Same pay, since you're only one person."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "İkizlerden biri solakmış. Hangisi olduğunu senarist de bilmiyor.",
+      "en": "One twin is left-handed. The writer isn't sure which.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "İkizin ücretini iste",
+      "en": "Ask to be paid for the twin",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Aynı ücrete oyna",
+      "en": "Play both, same pay",
+      "pattern": "patience"
+    },
+    {
+      "id": "ayir",
+      "tr": "İkizlere ayrı tikler ver",
+      "en": "Give each twin a tic",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 2500,
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "ikiz_ucret"
+            ]
+          }
+        },
+        "tr": "Yüzde elli zam aldın. Yapım bunu bordroya ayrı satır olarak yazdı: \"ikizin maaşı\".",
+        "en": "You got a fifty percent raise. Payroll lists it on its own line: \"twin's salary.\"",
+        "coach": [
+          {
+            "tr": "Bordroda iki kişisin.",
+            "en": "Two people on paper.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef sayacı çift hane.",
+            "en": "Goal counter, doubled.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Zam istedin. Yapımcı ikizlerden birini \"yurt dışında okuyor\" diye senaryodan çıkardı.",
+        "en": "You asked for more. The producer wrote one twin out: \"studying abroad.\"",
+        "coach": [
+          {
+            "tr": "İkiz gitti. Maaş yerinde.",
+            "en": "One twin gone. Salary unchanged.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "money": 500,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "İkisini de oynadın. Annen her bölüm hangisinin sen olduğunu yeniden sordu.",
+      "en": "You played both. Every episode, your mom asked which one was you.",
+      "coach": [
+        {
+          "tr": "Cevap her hafta değişti.",
+          "en": "The answer changed weekly.",
+          "roast": true
+        }
+      ]
+    },
+    "ayir": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ikiz_tik"
+          ]
+        }
+      },
+      "tr": "Birine kalkık kaş, diğerine sol el verdin. Seyirci ikizleri ayırdı; senarist hâlâ karıştırıyor.",
+      "en": "One twin got a raised eyebrow, the other a left hand. Viewers can tell them apart. The writer still can't.",
+      "coach": [
+        {
+          "tr": "Seyirci bir adım önde.",
+          "en": "The audience is a step ahead.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: İkizin maaşı çıkmaz. — M.",
+      "en": "WAGER: The twin won't get paid. — M."
+    }
+  },
+  "intent": {
+    "setup": "karakterine ikiz eklenip iki rolü aynı ücrete oynaman isteniyor",
+    "mechanism": "tek kişi olduğun için tek maaş",
+    "mechanismId": "literalism",
+    "punch": "ücret aynı, çünkü sen tek kişisin",
+    "lift": "hedef sayacı çift",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bordro"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

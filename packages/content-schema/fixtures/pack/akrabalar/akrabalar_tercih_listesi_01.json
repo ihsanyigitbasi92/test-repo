@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "akrabalar_tercih_listesi_01",
+  "tags": [
+    "aile",
+    "kuzen",
+    "okul",
+    "akrabalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "akrabalar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Teyzen aradı. Kuzenin tercih yapacak, sen üniversitelisin ya, bir bakıver. Akşam geliyorlar.",
+      "en": "Your aunt called. Your cousin's picking colleges, and you're in college, so you'll 'take a look.' Tonight."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Teyzen şehir dışı olmasın diyor. Kuzenin de sadece şehir dışı diyor.",
+      "en": "Your aunt says nothing out of town. Your cousin says only out of town.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "liste",
+      "tr": "Kuzenle ortak liste yap",
+      "en": "Build a list with your cousin",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "teyze",
+      "tr": "Teyzenin dediğini yaz",
+      "en": "Write what your aunt wants",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kuzen",
+      "tr": "Kuzenin tarafını tut",
+      "en": "Side with your cousin",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "liste": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 1
+          },
+          "meters": {
+            "momPressure": -3
+          },
+          "flags": {
+            "add": [
+              "kuzen_tercih_ortak"
+            ]
+          }
+        },
+        "tr": "Yirmi dört satırlık bir liste çıktı: yarısı şehirde, yarısı dışarıda. İki taraf da onayladı.",
+        "en": "You built a twenty-four-line list: half local, half not. Both sides signed off.",
+        "coach": [
+          {
+            "tr": "Yirmi dört satır. İki onay.",
+            "en": "Twenty-four lines. Two signatures.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "momPressure": 4
+          },
+          "flags": {
+            "add": [
+              "kuzen_tercih_ortak"
+            ]
+          }
+        },
+        "tr": "Teyzen listeyi gece yeniden yazdı, kuzenin sabah kendi listesini gönderdi. Seninki ikisinin arasında kayboldu.",
+        "en": "Your aunt rewrote the list overnight. By morning your cousin had submitted their own.",
+        "coach": [
+          {
+            "tr": "Üç liste, tek sistem. Sistem sonuncuyu aldı.",
+            "en": "Three lists. One system. It took the last one.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "teyze": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "flags": {
+          "add": [
+            "kuzen_tercih_teyze"
+          ]
+        }
+      },
+      "tr": "Listeye yalnızca şehirdeki okullar girdi. Kuzenin sana iki hafta \"görüldü\" attı.",
+      "en": "Only local schools made the list. Your cousin left you on read for two weeks.",
+      "coach": [
+        {
+          "tr": "Teyzen memnun. Kuzen sessiz.",
+          "en": "Your aunt is pleased. Your cousin is quiet.",
+          "roast": false
+        }
+      ]
+    },
+    "kuzen": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 6
+        },
+        "flags": {
+          "add": [
+            "kuzen_tercih_uzak"
+          ]
+        }
+      },
+      "tr": "Kuzenin dört saat uzaktaki bir okulu ilk sıraya yazdı. Teyzen bunu herkese senin fikrin diye anlattı.",
+      "en": "Your cousin put a school four hours away at the top. Your aunt told everyone it was your idea.",
+      "coach": [
+        {
+          "tr": "Fikir kuzenin. İmza senin.",
+          "en": "The idea was theirs. The blame is yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "liste",
+    "slip": {
+      "tr": "İDDİA: Bu liste akşamı çıkarmaz. — M.",
+      "en": "WAGER: That list won't survive the evening. — M."
+    }
+  },
+  "intent": {
+    "setup": "teyzenin, kuzenin üniversite tercih listesini sana yaptırması",
+    "mechanism": "anne ile kuzen zıt şart koyuyor, ortada sen",
+    "punch": "sadece şehir dışı",
+    "lift": "yok",
+    "target": "decision",
+    "mechanismId": "escalation",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

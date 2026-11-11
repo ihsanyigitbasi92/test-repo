@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_hesap_degisikligi_mesaji_01",
+  "tags": [
+    "ev",
+    "mesaj",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "typing",
+      "tr": "Merhaba, bu ay kirayı yeni hesaba yatırır mısınız? Eski hesap kapandı, acil.",
+      "en": "Hi, could you send this month's rent to a new account? The old one closed. Urgent."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "typing",
+      "tr": "Telefonum bozuk, aramayın lütfen. Sadece yazın.",
+      "en": "My phone's broken, please don't call. Just text.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "yatir",
+      "tr": "Yeni hesaba yatır",
+      "en": "Send it to the new account",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ara",
+      "tr": "Yine de sesli ara",
+      "en": "Call anyway",
+      "pattern": "patience",
+      "check": {
+        "base": 7000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sor",
+      "tr": "Yalnız onun bileceğini sor",
+      "en": "Ask something only they'd know",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "yatir": {
+      "effects": {
+        "money": -1500,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 6
+        },
+        "flags": {
+          "add": [
+            "kira_dolandiriciligi"
+          ]
+        },
+        "glossary": "acil_hesap"
+      },
+      "tr": "Kirayı yatırdın. Akşam ev sahibi aradı: \"Kira gelmedi. Bu arada telefonum çalınmış.\"",
+      "en": "You sent it. That evening the landlord called: \"Rent didn't come in. Also, my phone was stolen.\"",
+      "coach": [
+        {
+          "tr": "\"Acil\" kelimesi bu ay 1.500 Para tuttu.",
+          "en": "The word \"urgent\" cost 1,500 this month.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "sahte_mesaj_atlatildi"
+            ]
+          },
+          "glossary": "acil_hesap"
+        },
+        "tr": "Ev sahibi telefonu açtı; hesap hep aynıymış. Mesajı atan numara ertesi sabah kapanmıştı.",
+        "en": "The landlord picked up. Same account as always. The number that texted you was gone by morning.",
+        "coach": [
+          {
+            "tr": "Bir arama, bir aylık kirayı kurtardı.",
+            "en": "One call saved a month's rent.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kira_gecikti"
+            ]
+          },
+          "glossary": "acil_hesap"
+        },
+        "tr": "Ev sahibi açmadı, sen de yatırmadın. Kira iki gün gecikti; mesajın sahte olduğu sonra anlaşıldı.",
+        "en": "The landlord didn't pick up, so you held off. Rent went in two days late. The text turned out to be fake.",
+        "coach": [
+          {
+            "tr": "İki gün gecikme, sıfır kayıp.",
+            "en": "Two days late. Nothing lost.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sahte_mesaj_atlatildi"
+          ]
+        },
+        "glossary": "acil_hesap"
+      },
+      "tr": "\"Kombi kaç yaşında?\" diye sordun. Numara cevap vermedi, seni engelledi.",
+      "en": "You asked how old the boiler is. The number didn't answer. It blocked you.",
+      "coach": [
+        {
+          "tr": "Kombi soruyu bildi. Numara bilmedi.",
+          "en": "The boiler knew. The number didn't.",
+          "roast": false
+        },
+        {
+          "tr": "Kira güvende, hedef yerinde.",
+          "en": "Rent safe. Goal intact.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ara",
+    "slip": {
+      "tr": "İDDİA: Ev sahibi telefonu açmaz. — M.",
+      "en": "WAGER: The landlord won't pick up. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi adına kiranın yeni hesaba yatırılmasını isteyen acil mesaj",
+    "mechanism": "\"aramayın, sadece yazın\" kuralı",
+    "mechanismId": "deadpan_report",
+    "punch": "telefonum da çalınmış",
+    "lift": "kira güvende",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "numara"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_direksiyon_dersi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "araba",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Sınavdan önce bir de benim arabada çalış. Sinyal kolu bozuk, kolunu camdan çıkaracaksın.",
+      "en": "Practice in my car before the test. The turn signal's broken, so you'll be using your arm."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda ehliyeti hocaya değil, rampaya verirdik. Rampada stop eden yürürdü.",
+      "en": "In my day you didn't pass the instructor, you passed the hill. Stall on the hill, you walked."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kemer takıyor musunuz? Pencereden bakıyorum, kemer görmedim.",
+      "en": "Are you wearing seatbelts? I'm watching from the window and I don't see seatbelts.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "rampa",
+      "tr": "Rampada kalkışı dene",
+      "en": "Try the hill start",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kurs",
+      "tr": "Kursun arabasında kal",
+      "en": "Stick with the school car",
+      "pattern": "patience"
+    },
+    {
+      "id": "annem",
+      "tr": "Annemi de arkaya al",
+      "en": "Put Mom in the back seat",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "rampa": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "dayi_rampa_dersi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Rampada stop etmeden kalktın. Dayın kornaya iki kez basıp bunu bütün sokağa duyurdu.",
+        "en": "You made the hill start without stalling. Your uncle honked twice to inform the whole street.",
+        "coach": [
+          {
+            "tr": "Rampa geçti. Sokak haberdar.",
+            "en": "Hill: cleared. Street: informed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "flags": {
+            "add": [
+              "dayi_rampa_dersi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Araba üç kez stop etti, dördüncüde geri kaydı. Dayın debriyaj kokusunu “alışma kokusu” diye tanımladı.",
+        "en": "The car stalled three times and rolled back on the fourth. Your uncle called the clutch smell “the smell of learning.”",
+        "coach": [
+          {
+            "tr": "Debriyaj kokusu bir hafta sürer. Sınav cuma.",
+            "en": "Clutch smell lasts a week. The test is Friday.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kurs": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -300,
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1,
+            "memory": "kurs_arabasi_tercihi"
+          }
+        ]
+      },
+      "tr": "Kursa bir ek ders yazdırdın, 300 Para. Dayın “O arabalar fazla kolay” deyip kendi arabasını yıkamaya gitti.",
+      "en": "You booked one extra lesson at the school: 300. Your uncle said “those cars are too easy” and went to wash his.",
+      "coach": [
+        {
+          "tr": "Ek ders, ek fatura, sıfır rampa.",
+          "en": "Extra lesson, extra bill, zero hills.",
+          "roast": false
+        }
+      ]
+    },
+    "annem": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          },
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Annen arka koltukta her kavşakta “yavaş” dedi. Dayın her kavşakta “daha mı yavaş” diye sordu; ders iki saat sürdü.",
+      "en": "Mom said “slow down” at every intersection. Your uncle asked “slower?” at every intersection. The lesson took two hours.",
+      "coach": [
+        {
+          "tr": "Kavşak başına iki yorum.",
+          "en": "Two comments per intersection.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rampa",
+    "slip": {
+      "tr": "İDDİA: Rampada araba geri kayar. — M.",
+      "en": "WAGER: The car rolls back on the hill. — M."
+    }
+  },
+  "intent": {
+    "setup": "ehliyet sınavından önce dayının kendi eski arabasında el işaretli direksiyon dersi vermesi",
+    "mechanism": "dayının rampa efsanesi, annenin pencereden kemer denetimi",
+    "mechanismId": "escalation",
+    "punch": "rampada stop eden yürürdü",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "korna"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

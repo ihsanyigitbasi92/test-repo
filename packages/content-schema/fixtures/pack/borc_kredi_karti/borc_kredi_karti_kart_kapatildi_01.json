@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_kart_kapatildi_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "MIKNATIS BANKASI (kurgusal)",
+      "en": "LODESTONE BANK (fictional)"
+    },
+    "body": {
+      "tr": "Kartınız, ödeme düzeninizin yeniden sağlanması amacıyla geçici olarak kullanıma kapatılmıştır. Bu süreçte kartınızla yalnızca borç ödemesi yapabilirsiniz.",
+      "en": "Your card has been temporarily suspended to help restore your payment routine. During this period, the card may only be used to pay down the card."
+    },
+    "translate": {
+      "tr": {
+        "from": "ödeme düzeninizin yeniden sağlanması amacıyla",
+        "to": "sana yardım ediyoruz, ister istemez"
+      },
+      "en": {
+        "from": "to help restore your payment routine",
+        "to": "because we are helping you, whether you like it or not"
+      }
+    },
+    "glossaryKey": "kart_bloke"
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Pazarda kartın geçmedi diye domatesleri ben ödedim. Bir şey mi oldu?",
+      "en": "Your card didn't go through at the market, so I paid for the tomatoes. Did something happen?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Gecikeni öde, kartı aç",
+      "en": "Pay what's overdue, unlock it",
+      "pattern": "patience"
+    },
+    {
+      "id": "nakit",
+      "tr": "Bir ay nakitle yaşa",
+      "en": "Live on cash for a month",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "anne",
+      "tr": "Anneye durumu anlat",
+      "en": "Tell your mom what's going on",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -1600,
+        "hidden": {
+          "stress": -1
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kart_acildi"
+          ]
+        }
+      },
+      "tr": "Geciken 1.600 Para ödendi. Kart üç iş günü sonra yeniden açıldı.",
+      "en": "Paid the overdue 1,600. The card reopened three business days later.",
+      "coach": [
+        {
+          "tr": "Üç gün nakit, sonra yine plastik.",
+          "en": "Three days of cash, then plastic again.",
+          "roast": false
+        },
+        {
+          "tr": "Gecikme sayacı sıfırlandı.",
+          "en": "Late-payment counter: reset.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "nakit": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "glossary": "kart_bloke",
+        "flags": {
+          "add": [
+            "nakit_ayi"
+          ]
+        }
+      },
+      "tr": "Bir ay nakitle geçti. Cüzdandaki bozuk para bölmesi ilk kez kullanıldı.",
+      "en": "A month on cash. The coin pocket in your wallet saw its first use.",
+      "coach": [
+        {
+          "tr": "Bozuk para bölmesi göreve başladı.",
+          "en": "The coin pocket has been activated.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "bailoutCheck": true,
+        "money": 300,
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 6
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_biliyor"
+          ]
+        }
+      },
+      "tr": "Durum anlatıldı. Annen 300 Para verdi ve domates parasını ayrıca hatırlattı.",
+      "en": "You told her. Your mom gave you 300 and separately mentioned the tomatoes.",
+      "coach": [
+        {
+          "tr": "300 Para geldi. Domates hesabı ayrı.",
+          "en": "300 received. The tomato tab is separate.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "üst üste iki ödeme kaçınca kartın geçici olarak kullanıma kapatıldığını bildiren yazı",
+    "mechanism": "'ödeme düzeninizin yeniden sağlanması' tercümesi",
+    "mechanismId": "translation",
+    "punch": "sana yardım ediyoruz, zorla",
+    "lift": "kart açık, sayaç sıfır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bozuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_fortune_her_hafta_ayni_soru_01",
+  "tags": [
+    "kariyer",
+    "fal",
+    "kariyer_fortune"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_fortune": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "fortune"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Yine ben. Bu hafta fincanda mesaj var mı? Geçen hafta \"yakında\" demiştiniz.",
+      "en": "It's me again. Is there a text in my stars this week? Last week you said \"soon.\""
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Telefonumu sessizden de çıkardım. Her ihtimale karşı.",
+      "en": "I even took my phone off silent. Just in case.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ilk",
+      "tr": "\"İlk mesajı sen at\" de",
+      "en": "Say: \"You text first\"",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yakinda",
+      "tr": "Yine \"yakında\" de",
+      "en": "Say \"soon\" again",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "yok",
+      "tr": "\"Fincanda bu kişi yok\" de",
+      "en": "Say this person isn't there",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ilk": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 200,
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "fal_mesaj_tavsiyesi"
+            ]
+          }
+        },
+        "tr": "Müşteri ilk mesajı attı; cevap bir saatte geldi. Ertesi hafta iki kahve parası bıraktı.",
+        "en": "The reader texted first, and a reply came within the hour. They sent a thank-you card and a gift subscription.",
+        "coach": [
+          {
+            "tr": "Fal tutmadı. Mesaj tuttu.",
+            "en": "The reading didn't land. The text did.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Müşteri ilk mesajı attı; cevap gelmedi. Bir daha fal için gelmedi.",
+        "en": "The reader texted first. No reply came. They canceled their subscription.",
+        "coach": [
+          {
+            "tr": "Cesaret bir müşteriye mal oldu.",
+            "en": "Courage cost you a subscriber.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yakinda": {
+      "effects": {
+        "money": 150,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Sekizinci kez \"yakında\" dedin. Müşteri teşekkür etti ve gelecek haftaya randevu aldı.",
+      "en": "You wrote \"soon\" for the eighth time. The reader thanked you and renewed for another month.",
+      "coach": [
+        {
+          "tr": "Sekiz \"yakında\". Takvim hâlâ bekliyor.",
+          "en": "Eight \"soon\"s. The calendar is still waiting.",
+          "roast": true
+        }
+      ]
+    },
+    "yok": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "\"Fincanda bu kişi yok\" dedin. Müşteri bir süre sustu, sonra başka birini sordu.",
+      "en": "You wrote that this person is not in the stars. The reader paused, then asked about someone else.",
+      "coach": [
+        {
+          "tr": "Yeni bir isim, yeni bir hafta.",
+          "en": "A new name. A new week.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ilk",
+    "slip": {
+      "tr": "İDDİA: Cevap gelmez. — M.",
+      "en": "WAGER: No reply comes. — M."
+    }
+  },
+  "intent": {
+    "setup": "aynı müşteri her hafta aynı kişinin mesaj atıp atmayacağını soruyor",
+    "mechanism": "yakında tekrar tekrar ertelenince",
+    "mechanismId": "escalation",
+    "punch": "telefonumu sessizden de çıkardım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "yakinda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "TR: kafede kahve falına bakan falcı; EN: gazetede burç köşesi yazarı. Durum iki dilde aynı iskelette, kabuk yerelleştirildi. Kehanet her yerde tesadüf çerçevesinde; inanç nesnesi yok."
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_cek_tahsil_01",
+  "tags": [
+    "para",
+    "banka",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Çekin tarihi üç ay sonrası. Bugün tahsile verebilirsiniz, para o gün geçer.",
+      "en": "The check is dated three months out. You can lodge it today; the money clears on that date."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Bir de çeki katlamayın. Geçen hafta biri cüzdan boyutuna katlamıştı.",
+      "en": "Also, don't fold it. Last week someone folded one down to wallet size.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tahsil",
+      "tr": "Tahsile ver, bekle",
+      "en": "Lodge it and wait",
+      "pattern": "patience"
+    },
+    {
+      "id": "ciro",
+      "tr": "Ciro edip ev sahibine ver",
+      "en": "Sign it over to the landlord",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "cerceve",
+      "tr": "Fotokopisini çerçevelet",
+      "en": "Frame a photocopy",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "tahsil": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "cek_tahsilde"
+          ]
+        }
+      },
+      "tr": "Çek tahsile verildi. Makbuzda vade tarihi, takviminde kırmızı bir daire var.",
+      "en": "Check lodged. The receipt shows the due date; your calendar now has a red circle.",
+      "coach": [
+        {
+          "tr": "Üç ay sonra 1.800 Para. Takvimde yeri hazır.",
+          "en": "1,800 in three months. The calendar has a spot ready.",
+          "roast": false
+        }
+      ]
+    },
+    "ciro": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 1500,
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "cek_ciro"
+            ]
+          }
+        },
+        "tr": "Ev sahibi çeki bir aylık kira yerine kabul etti. Bu ay hesaptan kira çıkmadı.",
+        "en": "The landlord took the check as a month's rent. Nothing left your account this month.",
+        "coach": [
+          {
+            "tr": "Kira bu ay kâğıtla ödendi.",
+            "en": "Rent paid in paper this month.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "cek_cuzdanda"
+            ]
+          }
+        },
+        "tr": "Ev sahibi çeke \"ben nakit insanıyım\" der gibi baktı. Çek cüzdanına döndü, katlanmadan.",
+        "en": "The landlord gave the check a cash-only look. It went back in your wallet, unfolded.",
+        "coach": [
+          {
+            "tr": "Çek cüzdanda, dümdüz bekliyor.",
+            "en": "The check waits in your wallet, perfectly flat.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cerceve": {
+      "effects": {
+        "money": -120,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "cek_tahsilde",
+            "cek_cercevede"
+          ]
+        }
+      },
+      "tr": "Fotokopiyi 120 Para'ya çerçevelettin, aslını tahsile verdin.",
+      "en": "You framed a photocopy for 120 and lodged the original.",
+      "coach": [
+        {
+          "tr": "Duvarda kopyası, bankada aslı.",
+          "en": "A copy on the wall, the original at the bank.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "serbest iş karşılığı ilk kez ileri tarihli çek almak ve tahsile vermek",
+    "mechanism": "bankacının katlanmış çek anısı",
+    "mechanismId": "literalism",
+    "punch": "cüzdan boyutuna katlamıştı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "duz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

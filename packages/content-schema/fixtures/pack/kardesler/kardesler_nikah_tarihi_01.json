@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_nikah_tarihi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "dugun",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Tarih belli oldu! Haziranın üçüncü cumartesisi. Salon başka gün yokmuş.",
+      "en": "We've got a date! Third Saturday in June. The venue had nothing else."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Sen o hafta bir yere gidiyordun galiba. Gidiyor muydun? Gitme demiyorum.",
+      "en": "Weren't you going somewhere that week? Were you? I'm not saying don't.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "iptal",
+      "tr": "Tatili iptal et",
+      "en": "Cancel your trip",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "erte",
+      "tr": "Tatili ertelemeyi dene",
+      "en": "Try to move the trip",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "git",
+      "tr": "Tatile git, video yolla",
+      "en": "Go anyway, send a video",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "iptal": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "money": -1200,
+        "flags": {
+          "add": [
+            "kardes_nikahi_katildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "İptalden 1.200 Para kesildi. Kardeşin nikâh konuşmasında bunu anlattı, salon alkışladı.",
+      "en": "Cancellation cost 1,200. Your sibling mentioned it in their speech, and the room applauded.",
+      "coach": [
+        {
+          "tr": "1.200 Para'lık bir alkış. Kısa sürdü.",
+          "en": "A 1,200 round of applause. It was brief.",
+          "roast": true
+        }
+      ]
+    },
+    "erte": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -200,
+          "flags": {
+            "add": [
+              "kardes_nikahi_katildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Otel tarihleri bir hafta kaydırdı, 200 Para farkla. Nikâhtan sonraki pazartesi yola çıktın.",
+        "en": "The hotel moved you a week for a 200 fee. You left the Monday after the wedding.",
+        "coach": [
+          {
+            "tr": "İki etkinlik, sıfır çakışma.",
+            "en": "Two events. Zero overlap.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "momPressure": -2
+          },
+          "money": -1200,
+          "flags": {
+            "add": [
+              "kardes_nikahi_katildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Otel değiştirmedi, tatil yandı: 1.200 Para. Kardeşin sana deniz manzaralı masayı ayırdı; manzara bir tabloydu.",
+        "en": "The hotel refused and the trip was lost: 1,200. Your sibling gave you the sea-view table. The view was a painting.",
+        "coach": [
+          {
+            "tr": "Deniz göründü. Çerçeveliydi.",
+            "en": "You saw the sea. It was framed.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -4,
+            "memory": "nikahi_kacirdi"
+          }
+        ]
+      },
+      "tr": "Tatile gittin ve nikâha video yolladın. Video salonda oynatıldı; dalga sesi annenin yüz ifadesini bastıramadı.",
+      "en": "You went and sent a video. It played at the venue. The sound of waves did not drown out Mom's expression.",
+      "coach": [
+        {
+          "tr": "Dalgalar net çıktı. Annen daha net.",
+          "en": "The waves came through clearly. Mom, even more so.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz ya da iddiaya uygun olmayan gün"
+  },
+  "intent": {
+    "setup": "kardeşinin nikâh tarihini senin aylar önce ödediğin tatilin haftasına koyması",
+    "mechanism": "gitme demiyorum diyen anne, tablo deniz",
+    "mechanismId": "bathos",
+    "punch": "manzara bir tabloydu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tablo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

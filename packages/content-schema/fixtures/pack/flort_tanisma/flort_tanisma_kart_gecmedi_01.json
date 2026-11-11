@@ -1,0 +1,164 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "flort_tanisma_kart_gecmedi_01",
+  "tags": [
+    "iliski",
+    "flort",
+    "flort_tanisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 1200,
+    "tags": {
+      "flort_tanisma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    },
+    "flags": {
+      "none": [
+        "sevgili"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Kart geçmedi. Bir daha deneyelim mi?",
+      "en": "Card didn't go through. Shall we try again?"
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "worried",
+      "tr": "Yine geçmedi. Makine bir şey daha yazıyor ama ben okumayayım.",
+      "en": "Still no. The machine's saying something else too, but I won't read it out.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "odesin",
+      "tr": "Flörtün ödemesine izin ver",
+      "en": "Let your date pay",
+      "pattern": "patience"
+    },
+    {
+      "id": "anne",
+      "tr": "Annene acil havale yaz",
+      "en": "Text Mom for an emergency transfer",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    },
+    {
+      "id": "bozuk",
+      "tr": "Bozuklukları say",
+      "en": "Count out your coins",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "odesin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -3
+        },
+        "flags": {
+          "add": [
+            "flort",
+            "kahve_borcu_sende"
+          ]
+        }
+      },
+      "tr": "Flört ödedi ve 'bir dahakine sen' dedi. İkinci buluşma resmen takvime girdi.",
+      "en": "Your date paid and said, 'Next one's on you.' A second date is now officially on the calendar.",
+      "coach": [
+        {
+          "tr": "Bir borç, bir randevu.",
+          "en": "One debt. One second date.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": 6
+        },
+        "flags": {
+          "add": [
+            "flort"
+          ]
+        }
+      },
+      "tr": "Annen havaleyi dokuz dakikada yaptı, açıklamaya 'kiminlesin' yazdı. Hesap ödendi, açıklama cevapsız kaldı.",
+      "en": "Mom sent the money in nine minutes, memo line: 'who are you with.' The bill got paid. The memo did not get answered.",
+      "coach": [
+        {
+          "tr": "Havale geldi, soru bekliyor.",
+          "en": "Transfer received. Question pending.",
+          "roast": true
+        }
+      ]
+    },
+    "bozuk": {
+      "effects": {
+        "money": -90,
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "cringe": 6
+        }
+      },
+      "tr": "Bozuklukları masaya döktün, eksiği flört tamamladı. Garson bozukları tek tek saydı.",
+      "en": "You emptied your coins onto the table and your date covered the gap. The waiter counted every single coin.",
+      "coach": [
+        {
+          "tr": "Sayım bitti.",
+          "en": "Count complete.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ilk buluşmada ısmarlamak isterken kartın iki kez geçmemesi",
+    "mechanism": "garsonun makinenin söylediğini söylememesi; sonuçların kuru aktarımı",
+    "mechanismId": "understatement",
+    "punch": "garson bozukları tek tek saydı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bozuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

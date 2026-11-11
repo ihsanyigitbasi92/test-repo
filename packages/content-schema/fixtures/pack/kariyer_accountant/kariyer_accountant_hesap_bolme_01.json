@@ -1,0 +1,168 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_hesap_bolme_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 24
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Hesabı sen böl, muhasebeci sensin. Ben sadece çorba içtim. Bir de tatlıdan bir kaşık.",
+      "en": "You split the bill. You're the accountant. I only had soup. Well, and one spoon of dessert."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Ben içecek almadım. Suyu saymıyorum, su sayılmaz.",
+      "en": "I didn't order a drink. Water doesn't count. Water never counts.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Benimkini şirkete yaz. Fişini ayrı al ama.",
+      "en": "Put mine on the company. Separate receipt, though.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kurus",
+      "tr": "Kuruşu kuruşuna böl",
+      "en": "Split it down to the cent",
+      "pattern": "pride"
+    },
+    {
+      "id": "esit",
+      "tr": "Eşit böl, kimse sorgulamasın",
+      "en": "Split evenly, no questions",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "fark",
+      "tr": "Farkı sen öde",
+      "en": "Cover the difference yourself",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kurus": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -180,
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Peçeteye on altı satırlık tablo çizdin. Tatlı kaşığı 6 Para tuttu; itiraz eden olmadı, konuşan da.",
+      "en": "You built a sixteen-row table on a napkin. The spoon of dessert came to 6. No objections. No conversation either.",
+      "coach": [
+        {
+          "tr": "Peçete denkleşti.",
+          "en": "The napkin balances.",
+          "roast": false
+        }
+      ]
+    },
+    "esit": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "money": -240,
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Herkes 240 Para ödedi. Çorbacı arkadaş çıkarken bir tatlı da paket yaptırdı.",
+      "en": "Everyone paid 240. On the way out, the soup colleague ordered a dessert to go.",
+      "coach": [
+        {
+          "tr": "Hesap eşit bölündü. Tatlılar bölünmedi.",
+          "en": "The bill split evenly. The desserts did not.",
+          "roast": false
+        }
+      ]
+    },
+    "fark": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -320,
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "muhasebe_hesap_kurtarici"
+          ]
+        }
+      },
+      "tr": "Eksik kalan 80 Para'yı sen tamamladın. Bir sonraki ekip yemeğinde hesap gelince herkes sana döndü.",
+      "en": "You covered the missing 80. At the next team lunch, when the check came, every head turned to you.",
+      "coach": [
+        {
+          "tr": "Ödeme yöntemi: sen.",
+          "en": "Payment method: you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ekip yemeğinde hesabı bölme görevi \"muhasebeci sensin\" diye yeni başlayana veriliyor",
+    "mechanism": "herkes kendi istisnasını ilan ediyor",
+    "mechanismId": "escalation",
+    "punch": "su sayılmaz",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "corba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

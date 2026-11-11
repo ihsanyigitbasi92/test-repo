@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bebek_yolda_bebek_butcesi_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "para",
+    "bebek_yolda"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "bebek_yolda": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "all": [
+        "bebek_yolda"
+      ],
+      "none": [
+        "bebek_butcesi_hazir"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Tablo bitti. İlk yıl: bez, mama, beşik, bakıcı. Toplam en altta.",
+      "en": "Spreadsheet's done. Year one: diapers, formula, crib, childcare. Total's at the bottom."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda bebek çekmecede yatardı. Çekmece bedavaydı.",
+      "en": "In my day, a baby slept in a drawer. The drawer was free.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kis",
+      "tr": "Kalem kalem kıs",
+      "en": "Trim it line by line",
+      "pattern": "patience",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "fon",
+      "tr": "Birikimden ayır",
+      "en": "Set savings aside now",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayının çekmece fikrini dinle",
+      "en": "Hear out the drawer idea",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "kis": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "bebek_butcesi_hazir"
+            ]
+          }
+        },
+        "tr": "Toplamı yüzde on sekiz indirdin. \"Diğer\" satırı boş kaldı.",
+        "en": "You cut the total by eighteen percent. The \"Misc\" row stayed empty.",
+        "coach": [
+          {
+            "tr": "Tablo inceldi. Diğer satırı boş.",
+            "en": "The spreadsheet slimmed down. Misc is empty.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "bebek_butcesi_hazir"
+            ]
+          }
+        },
+        "tr": "Kestiğin her kalem \"diğer\" başlığıyla geri döndü. Toplam 300 Para arttı.",
+        "en": "Everything you cut came back under \"Misc.\" The total went up 300.",
+        "coach": [
+          {
+            "tr": "Kesilenler diğer'e taşındı. Toplam büyüdü.",
+            "en": "Everything cut moved to Misc. The total grew.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "fon": {
+      "effects": {
+        "money": -3000,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "bebek_fonu",
+            "bebek_butcesi_hazir"
+          ]
+        }
+      },
+      "tr": "Birikimden 3.000 Para'yı ayrı bir hesaba aldınız. Hesabın adı: \"Bebek.\"",
+      "en": "You moved 3,000 of savings into a separate account. Account name: \"Baby.\"",
+      "coach": [
+        {
+          "tr": "Hesap ilk misafirini aldı.",
+          "en": "The account has its first guest.",
+          "roast": false
+        },
+        {
+          "tr": "Bebek fonu: 3.000 Para.",
+          "en": "Baby fund: 3,000.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "dayi_sifonyer",
+            "bebek_butcesi_hazir"
+          ]
+        }
+      },
+      "tr": "Dayın ertesi gün çekmeceyi getirdi; çekmece bir şifonyere takılıydı. Şifonyer alt kattan çıkmadı.",
+      "en": "Your uncle brought the drawer the next day. It was attached to a dresser. The dresser never made it past the ground floor.",
+      "coach": [
+        {
+          "tr": "Fikir bedava. Nakliye ağır.",
+          "en": "The idea was free. The delivery was heavy.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kis",
+    "slip": {
+      "tr": "İDDİA: Kestiğin her kalem diğer'e döner. — M.",
+      "en": "WAGER: Everything you cut comes back as Misc. — M."
+    }
+  },
+  "intent": {
+    "setup": "bebeğin ilk yıl bütçe tablosu, dayının çekmece önerisi",
+    "mechanism": "kesilen kalemler 'diğer'de toplanıyor",
+    "mechanismId": "escalation",
+    "punch": "çekmece bedavaydı",
+    "lift": "Bebek fonu: 3.000 Para.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "diger"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "apartman_komsuluk_isinma_donusumu_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "evrak",
+    "isinma",
+    "apartman_komsuluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "apartman_komsuluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 43,
+      "max": 60
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "SÖĞÜT APARTMANI KAT MALİKLERİ KURULU (kurgusal)",
+      "en": "WILLOW HOUSE OWNERS' ASSEMBLY (fictional)"
+    },
+    "body": {
+      "tr": "Merkezi ısıtma sisteminden bireysel sisteme geçilmesine oy çokluğuyla karar verilmiştir. Dönüşüm masrafı daire başına ayrıca bildirilecektir.",
+      "en": "By majority vote, the building will switch from central heating to individual boilers. Conversion costs per flat will be communicated separately."
+    },
+    "translate": {
+      "tr": {
+        "from": "ayrıca bildirilecektir",
+        "to": "otururken okuman önerilir"
+      },
+      "en": {
+        "from": "will be communicated separately",
+        "to": "best read sitting down"
+      }
+    },
+    "glossaryKey": "ayrica_bildirilecek"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ben karşı çıktım ama tutanakta adım yok. Sen zaten gelmemiştin.",
+      "en": "I objected, but I'm not in the minutes. You didn't come anyway."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Usta yarın keşfe geliyor. Mutfakta kombiye yer açın.",
+      "en": "The installer's coming tomorrow to survey. Clear a spot in your kitchen for the boiler.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "pesin",
+      "tr": "Peşin öde",
+      "en": "Pay it upfront",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "taksit",
+      "tr": "Taksit iste",
+      "en": "Ask for installments",
+      "pattern": "patience"
+    },
+    {
+      "id": "toplu",
+      "tr": "Komşularla toplu pazarlık yap",
+      "en": "Haggle as a group",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "pesin": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "money": -6000,
+        "flags": {
+          "add": [
+            "kombi_takildi"
+          ]
+        }
+      },
+      "tr": "6.000 Para peşin ödendi. Kombi bir haftada takıldı, baharat rafının yerine.",
+      "en": "You paid 6,000 upfront. The boiler went in within a week, right where the herb rack used to be.",
+      "coach": [
+        {
+          "tr": "Baharatlar taşındı. Isı geldi.",
+          "en": "The herbs moved out. The heat moved in.",
+          "roast": false
+        },
+        {
+          "tr": "Tek Hedef 6.000 uzaklaştı.",
+          "en": "The goal slipped 6,000 away.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "taksit": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -1000,
+        "flags": {
+          "add": [
+            "kombi_taksiti"
+          ]
+        }
+      },
+      "tr": "Altı taksit; ilki 1.000 Para. Kombi geldi, ödeme planı buzdolabına asıldı.",
+      "en": "Six installments, the first one 1,000. The boiler arrived. The payment plan went on the fridge.",
+      "coach": [
+        {
+          "tr": "Kalan beş ay buzdolabının kapağında.",
+          "en": "Five months to go, on the fridge door.",
+          "roast": false
+        }
+      ]
+    },
+    "toplu": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -4500,
+          "flags": {
+            "add": [
+              "kombi_takildi",
+              "toplu_pazarlik"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Yedi daire aynı ustayla anlaştı. Pay 4.500 Para'ya indi.",
+        "en": "Seven flats signed with the same installer. The share dropped to 4,500.",
+        "coach": [
+          {
+            "tr": "Toplu pazarlık 1.500 kurtardı.",
+            "en": "Group haggling saved 1,500.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -6000,
+          "flags": {
+            "add": [
+              "kombi_takildi"
+            ]
+          }
+        },
+        "tr": "Pazarlık dağıldı, herkes kendi ustasını çağırdı. Bina bir hafta boyunca delik sesiyle yaşadı.",
+        "en": "The deal fell apart. Everyone hired their own installer, and the building lived with drilling for a week.",
+        "coach": [
+          {
+            "tr": "Yedi usta, yedi gün.",
+            "en": "Seven installers. Seven days.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "kat malikleri kurulu merkezi ısıtmadan bireysel kombiye geçiş kararı alıyor",
+    "mechanism": "\"ayrıca bildirilecektir\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "otururken okuman önerilir",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "baharat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

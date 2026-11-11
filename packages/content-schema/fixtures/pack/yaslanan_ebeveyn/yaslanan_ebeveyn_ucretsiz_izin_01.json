@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_ucretsiz_izin_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "is",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -2,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "career": {
+      "employed": true
+    },
+    "flags": {
+      "none": [
+        "bakim_izni"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Anneniz eve çıkabilir. Üç hafta yanında biri olsun, gerisini kendisi idare eder.",
+      "en": "Your mother can go home. Someone should stay with her for three weeks. She'll manage the rest herself."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Sakın işini bırakma. Ben komşulara söylerim, onlar bakar.",
+      "en": "Don't you dare take time off. I'll tell the neighbors. They'll look in.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "izin",
+      "tr": "Ücretsiz izin al",
+      "en": "Take unpaid leave",
+      "pattern": "generosity"
+    },
+    {
+      "id": "uzaktan",
+      "tr": "Annenin evinden çalış",
+      "en": "Work from Mom's place",
+      "pattern": "overwork",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "nobet",
+      "tr": "Kardeşinle nöbetleş",
+      "en": "Take shifts with your sibling",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "izin": {
+      "effects": {
+        "money": -6000,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -4
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "bakim_izni"
+          ]
+        }
+      },
+      "tr": "Üç hafta ücretsiz izin aldın; 6.000 Para eksik maaş. Annen her sabah \"gitsene\" dedi, her akşam çorba koydu.",
+      "en": "You took three weeks unpaid: 6,000 less in pay. Every morning Mom said \"go to work,\" every evening she served you soup.",
+      "coach": [
+        {
+          "tr": "Üç hafta, maaşsız. Çorba her akşam vardı.",
+          "en": "Three weeks, no pay. Soup every evening.",
+          "roast": false
+        }
+      ]
+    },
+    "uzaktan": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "momPressure": -2
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "bakim_izni"
+            ]
+          }
+        },
+        "tr": "Mutfak masası üç hafta ofis oldu. Annen her yirmi dakikada bir çay getirdi.",
+        "en": "The kitchen table was your office for three weeks. Mom brought tea every twenty minutes.",
+        "coach": [
+          {
+            "tr": "Mutfak masası ofis oldu. Çay servisi kesintisiz.",
+            "en": "The kitchen table became an office. Tea service, uninterrupted.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 7
+          },
+          "flags": {
+            "add": [
+              "bakim_izni",
+              "iste_yazili_uyari"
+            ]
+          }
+        },
+        "tr": "Bir teslim tarihini kaçırdın, yöneticin yazılı uyarı verdi. Annen o hafta tamamen toparlandı.",
+        "en": "You missed a deadline and your manager issued a written warning. Mom fully bounced back that same week.",
+        "coach": [
+          {
+            "tr": "Teslim tarihi kaçtı. Annen ayağa kalktı.",
+            "en": "The deadline slipped. Mom got back on her feet.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "nobet": {
+      "effects": {
+        "money": -2000,
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "bakim_izni"
+          ]
+        }
+      },
+      "tr": "Kardeşinle haftayı ikiye böldünüz. Çizelge annenin buzdolabında, annen kimin daha iyi çay yaptığını not ediyor.",
+      "en": "You and your sibling split the weeks. The schedule's on Mom's fridge, and Mom is keeping score on whose tea is better.",
+      "coach": [
+        {
+          "tr": "İki kişi, üç hafta. Puan tablosu annende.",
+          "en": "Two people, three weeks. Mom keeps the scoreboard.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "annenin hastaneden sonra üç hafta yardıma ihtiyacı, işten izin almak",
+    "mechanism": "annenin 'sakın işini bırakma' demesi",
+    "mechanismId": "understatement",
+    "punch": "gerisini kendisi idare eder",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "corba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

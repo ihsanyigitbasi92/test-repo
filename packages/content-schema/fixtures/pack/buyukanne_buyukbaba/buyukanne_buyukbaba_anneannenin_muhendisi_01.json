@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "buyukanne_buyukbaba_anneannenin_muhendisi_01",
+  "tags": [
+    "aile",
+    "anneanne",
+    "komsu",
+    "buyukanne_buyukbaba"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "buyukanne_buyukbaba": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "anneanne_muhendis"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Anneannen seni komşulara götürecek. Ne derse desin düzeltme, kırılır.",
+      "en": "Grandma's taking you round the neighbors. Whatever she says, don't correct her. She'll be hurt."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Mühendisimiz de gelmiş. Bizim kombi bir tık yapıyor, bakıverir misin?",
+      "en": "So this is the engineer. Our boiler keeps clicking. Would you take a quick look?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Sonra üçüncü kata çıkarsın. Onların çamaşır makinesi su kaçırıyor.",
+      "en": "Then pop up to the third floor. Their washing machine's leaking.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bak",
+      "tr": "Kombiye bir bak",
+      "en": "Look at the boiler",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "itiraf",
+      "tr": "Mühendis olmadığını söyle",
+      "en": "Admit you're not an engineer",
+      "pattern": "pride"
+    },
+    {
+      "id": "kac",
+      "tr": "Çay bahanesiyle kaç",
+      "en": "Escape behind a cup of tea",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bak": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "anneanne_muhendis"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "memory": "anneanne_muhendis_ilan"
+            }
+          ]
+        },
+        "tr": "Sıfırlama düğmesine bastın, tık sesi kesildi. Apartman seni resmen \"bizim mühendis\" ilan etti.",
+        "en": "You pressed the reset button and the clicking stopped. The building has officially named you \"our engineer.\"",
+        "coach": [
+          {
+            "tr": "Bir düğme, bir unvan. Bina seni tanıyor artık.",
+            "en": "One button, one title. The building knows you now.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "anneanne_muhendis"
+            ]
+          }
+        },
+        "tr": "Düğmeye bastın, tık sesi ikiye çıktı. Gelen usta 400 Para aldı ve seni \"meslektaş\" diye selamladı.",
+        "en": "You pressed a button and the click became two clicks. The technician charged 400 and greeted you as \"colleague.\"",
+        "coach": [
+          {
+            "tr": "Tek tık şimdi çift tık. Usta memnun ayrıldı.",
+            "en": "One click is now two. The technician left happy.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "anneanne_muhendis"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "memory": "mutevazi_muhendis"
+          }
+        ]
+      },
+      "tr": "Mühendis olmadığını söyledin. Anneannen komşulara döndü: \"Çok mütevazı, hep böyledir.\"",
+      "en": "You said you're not an engineer. Grandma turned to the neighbors: \"So modest. Always has been.\"",
+      "coach": [
+        {
+          "tr": "Unvan küçüldü, sıfat büyüdü.",
+          "en": "The title shrank. The adjective grew.",
+          "roast": false
+        }
+      ]
+    },
+    "kac": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "anneanne_cihaz_listesi"
+          ]
+        }
+      },
+      "tr": "Üç çay içip kalktın. Akşam anneanneni altı cihazlık bir arıza listesiyle uğurladılar.",
+      "en": "You drank three teas and left. That evening the neighbors sent Grandma home with a repair list of six appliances.",
+      "coach": [
+        {
+          "tr": "Altı cihaz sırada. Ziyaret takvimin doldu.",
+          "en": "Six appliances in the queue. Your visiting calendar just filled up.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "anneannenin seni komşulara mühendis diye tanıtması",
+    "mechanism": "her komşu bir arıza ekliyor",
+    "mechanismId": "escalation",
+    "punch": "çamaşır makinesi su kaçırıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "unvan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Anneanne/dede ile yakın, sık görüşülen ilişki TR aile dokusuna özgü; EN'de Grandma/Grandpa olarak aynı kabukla çalışır, dini ya da bayram çerçevesi yok."
+  }
+}

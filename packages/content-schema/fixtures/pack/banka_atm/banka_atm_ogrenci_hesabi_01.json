@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_ogrenci_hesabi_01",
+  "tags": [
+    "para",
+    "banka",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 21
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Öğrenci hesabı için okulunuzdan onaylı öğrenci belgesi lazım.",
+      "en": "For a student account, we need a stamped enrollment letter from your school."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "tired",
+      "tr": "Okul da belgeyi hesap numarası olmadan vermiyor, biliyorum. Herkes bunu söylüyor.",
+      "en": "And the school won't stamp it without an account number. I know. Everyone tells me.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "normal",
+      "tr": "Normal hesap aç, ücreti öde",
+      "en": "Open a regular account, pay the fee",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "okul",
+      "tr": "Okula git, döngüyü kır",
+      "en": "Go to the registrar, break the loop",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sonra",
+      "tr": "Haftaya hallederim",
+      "en": "Deal with it next week",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "normal": {
+      "effects": {
+        "money": -15,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "banka_hesabi_var"
+          ]
+        }
+      },
+      "tr": "Normal hesap açıldı. Her ay 15 Para hesap işletim ücreti kesilecek.",
+      "en": "Regular account opened. It comes with a monthly upkeep fee of fifteen.",
+      "coach": [
+        {
+          "tr": "İlk hesap, ilk kesinti, aynı öğleden sonra.",
+          "en": "First account, first deduction, same afternoon.",
+          "roast": true
+        }
+      ]
+    },
+    "okul": [
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "banka_hesabi_var",
+              "ogrenci_hesabi"
+            ]
+          }
+        },
+        "tr": "Okuldaki görevli \"hesap numarası yerine şube adı yeter\" dedi. Hesap ücretsiz açıldı.",
+        "en": "The registrar said a branch name would do instead. The account opened fee-free.",
+        "coach": [
+          {
+            "tr": "Döngü tek bir mühürle kırıldı.",
+            "en": "One stamp broke the loop.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ogrenci_belgesi_bekliyor"
+            ]
+          }
+        },
+        "tr": "Okul \"üç iş günü\" dedi. Şube başvuruyu o güne kadar bekletmeyi kabul etmedi.",
+        "en": "The registrar said three business days. The branch wouldn't hold the application that long.",
+        "coach": [
+          {
+            "tr": "Üç iş günü. Hafta sonu sayılmıyor.",
+            "en": "Three business days. Weekends don't count.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sonra": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "hesap_ertelendi"
+          ]
+        }
+      },
+      "tr": "Bir hafta sonra gittin. Aynı bankacı, aynı cümle: \"Herkes bunu söylüyor.\"",
+      "en": "A week later: same banker, same sentence. \"Everyone tells me.\"",
+      "coach": [
+        {
+          "tr": "Döngü bir hafta bekledi. Seni.",
+          "en": "The loop waited a week. For you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "öğrenci hesabı açarken şubenin okul belgesi, okulun da hesap numarası istemesi",
+    "mechanism": "iki kurum birbirini şart koşuyor",
+    "mechanismId": "deadpan_report",
+    "punch": "herkes bunu söylüyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dongu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

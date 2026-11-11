@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_son_bir_sey_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Harika, bitiriyoruz. Herkese teşekkürler.",
+      "en": "Great, let's wrap. Thanks, everyone."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Son bir şey. Üç kısa sorum var. Belki dört.",
+      "en": "One last thing. Three quick questions. Maybe four.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kal",
+      "tr": "Sessizce kal",
+      "en": "Stay quietly",
+      "pattern": "patience"
+    },
+    {
+      "id": "cik",
+      "tr": "'Başka toplantım var' de",
+      "en": "Claim another meeting",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "cevap",
+      "tr": "Soruları sen cevapla",
+      "en": "Answer them yourself",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Kaldın. Dört soru on yedi dakika sürdü; sonuncusu 'bu kaydediliyor mu, sonra izlemek istiyorum' idi.",
+      "en": "You stayed. Four questions, seventeen minutes. The last: 'Is this being recorded? I'd like to watch it later.'",
+      "coach": [
+        {
+          "tr": "Kayıt soruldu. Kayıt hâlâ sürüyordu.",
+          "en": "They asked about the recording. It was still recording.",
+          "roast": true
+        }
+      ]
+    },
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "sahte_toplanti"
+          ]
+        }
+      },
+      "tr": "'Başka toplantım var' deyip takvimine sahte bir blok açtın. Patron o bloğa da katılım isteği gönderdi.",
+      "en": "You claimed another meeting and blocked a fake slot on your calendar. The boss requested to join it.",
+      "coach": [
+        {
+          "tr": "Sahte toplantının ilk katılımcısı patron oldu.",
+          "en": "Your fake meeting got its first attendee: the boss.",
+          "roast": true
+        }
+      ]
+    },
+    "cevap": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Dört soruyu iki dakikada cevapladın. 'O zaman bir şey daha' cümlesine fırsat kalmadan toplantı kapandı.",
+        "en": "You answered all four in two minutes. The meeting ended before 'then just one more' could happen.",
+        "coach": [
+          {
+            "tr": "İki dakika, dört cevap.",
+            "en": "Two minutes. Four answers.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "İlk soruyu cevapladın; cevabın üç yeni soru doğurdu. Toplantı yarım saat uzadı.",
+        "en": "You answered the first one. Your answer spawned three more. The meeting ran another half hour.",
+        "coach": [
+          {
+            "tr": "Cevabın verimliydi. Soru üretiminde.",
+            "en": "Your answer was very productive. Of questions.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "kota"
+  },
+  "intent": {
+    "setup": "toplantı bitmek üzereyken birinin 'son bir şey' demesi",
+    "mechanism": "son bir şey dört soruya, cevaplar yeni sorulara dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "belki dört",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dort"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_isealimci_telefonu_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Masandaki telefon çaldı, ben açtım. Bir işe alım uzmanı, seni 'çok heyecan verici bir fırsat' için arıyor.",
+      "en": "Your desk phone rang, so I picked up. A recruiter. Calling about 'a very exciting opportunity' for you."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Sesli söyledim, kusura bakma. Yan masalar duydu, Nevin Hanım da odasındaydı.",
+      "en": "I said it out loud, sorry. The next desks heard. Ms. Carver was in her office.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yanlis",
+      "tr": "'Benzer isimli biri' de",
+      "en": "Say they wanted someone else",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "acik",
+      "tr": "Açıkça 'aradılar' de",
+      "en": "Admit it: they called",
+      "pattern": "risk"
+    },
+    {
+      "id": "nevin",
+      "tr": "Gidip Nevin Hanım'a anlat",
+      "en": "Go tell Ms. Carver yourself",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "yanlis": [
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "'Benzer isimli birini arıyorlarmış' dedin. Herkes inandı, ertesi gün yan masa adını iki kez heceletti.",
+        "en": "You said they'd wanted someone with a similar name. Everyone bought it. Next day the next desk asked you to spell your name twice.",
+        "coach": [
+          {
+            "tr": "Adın artık heceleniyor. Konu kapandı.",
+            "en": "Your name is now spelled out loud. Case closed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2,
+              "memory": "isealimci_aradi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "isealimci_duyuldu"
+            ]
+          }
+        },
+        "tr": "Uzman beş dakika sonra yine aradı, bu kez ad soyadınla. Nevin Hanım kapısını yarı açık bıraktı.",
+        "en": "The recruiter called back five minutes later, with your full name. Ms. Carver left her door half open.",
+        "coach": [
+          {
+            "tr": "İkinci arama soyadını da getirdi. Kapı yarı açık.",
+            "en": "The callback brought your last name. The door is now half open.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "acik": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          },
+          {
+            "role": "boss",
+            "memory": "isealimci_aradi"
+          }
+        ],
+        "flags": {
+          "add": [
+            "isealimci_duyuldu"
+          ]
+        }
+      },
+      "tr": "'Evet, aradılar, dinleyeceğim' dedin. Öğleden sonra iki iş arkadaşın aynı uzmanın numarasını senden istedi.",
+      "en": "You said, 'Yes, they called. I'll hear them out.' By afternoon two coworkers had asked you for the recruiter's number.",
+      "coach": [
+        {
+          "tr": "Bir telefon, iki yönlendirme. Uzmanın günü verimli geçti.",
+          "en": "One call, two referrals. The recruiter had a productive day.",
+          "roast": true
+        }
+      ]
+    },
+    "nevin": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Nevin Hanım'a gidip anlattın. Ertesi hafta takvimine 'Kariyer Sohbeti' başlıklı bir toplantı düştü.",
+      "en": "You went and told Ms. Carver. Next week a meeting titled 'Career Chat' appeared on your calendar.",
+      "coach": [
+        {
+          "tr": "Dürüstlüğün bir toplantı daveti olarak döndü.",
+          "en": "Your honesty came back as a calendar invite.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yanlis",
+    "slip": {
+      "tr": "İDDİA: Uzman ikinci kez arar. — M.",
+      "en": "WAGER: The recruiter calls back. — M."
+    }
+  },
+  "intent": {
+    "setup": "işe alım uzmanının masa telefonunu araması ve ekibin duyması",
+    "mechanism": "tek telefon ofis çapında yayılıyor",
+    "mechanismId": "escalation",
+    "punch": "çok heyecan verici bir fırsat",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "davet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

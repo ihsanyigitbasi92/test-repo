@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_mesai_yarim_saat_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Mesai başlangıcı sekiz buçuktan sekize alındı. Bitiş saati mevcut uygulamaya göre devam ediyor.",
+      "en": "Starting hours move from 8:30 to 8:00. The end of the day continues per current practice."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Servis sekiz buçukta geliyor. Servise de yazı gitti mi?",
+      "en": "The shuttle gets here at 8:30. Did the shuttle get the memo?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "erken",
+      "tr": "Erken otobüse geç",
+      "en": "Take the earlier bus",
+      "pattern": "patience"
+    },
+    {
+      "id": "servis",
+      "tr": "Servis saatini değiştirt",
+      "en": "Petition to move the shuttle",
+      "pattern": "pride",
+      "check": {
+        "base": 4000
+      }
+    },
+    {
+      "id": "gec",
+      "tr": "Sekiz buçukta gelmeye devam et",
+      "en": "Keep showing up at 8:30",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "erken": {
+      "effects": {
+        "stats": {
+          "health": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "memur_erken_otobus"
+          ]
+        },
+        "glossary": "mevcut_uygulama"
+      },
+      "tr": "Yedi on beş otobüsüne geçtin. İlk hafta binayı bekçiyle birlikte açtın.",
+      "en": "You switched to the 7:15 bus. The first week, you opened the building together with the night guard.",
+      "coach": [
+        {
+          "tr": "Yarım saat erken. Bina seni bekçiyle tanıştırdı.",
+          "en": "Half an hour early. The building introduced you to the night guard.",
+          "roast": false
+        }
+      ]
+    },
+    "servis": [
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "memur_servis_sorumlusu"
+            ]
+          }
+        },
+        "tr": "Servis sekize alındı. Birim seni 'servis sorumlusu' yaptı.",
+        "en": "The shuttle moved to 8:00. The unit made you 'shuttle coordinator.'",
+        "coach": [
+          {
+            "tr": "Servis sekizde. Sorumlusu da belli.",
+            "en": "Shuttle at eight. And it has a coordinator now: you.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "glossary": "mevcut_uygulama"
+        },
+        "tr": "Dilekçe 'mevcut uygulamaya göre' yanıtıyla döndü.",
+        "en": "The petition came back with the answer: 'per current practice.'",
+        "coach": [
+          {
+            "tr": "Yanıt kendini alıntıladı.",
+            "en": "The answer quoted itself.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "memur_gec_kaydi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Üç gün sekiz buçukta geldin. Dördüncü gün imza çizelgene kırmızı kalem girdi.",
+      "en": "You came in at 8:30 for three days. On the fourth, a red pen appeared on your sign-in sheet.",
+      "coach": [
+        {
+          "tr": "Üç gün sekiz buçuk, bir kırmızı kalem. Kalem hep zamanında.",
+          "en": "Three days at 8:30, one red pen. The pen is always on time.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "mesai başlangıcı yarım saat öne alındı, bitiş aynı, servis değişmedi",
+    "mechanism": "servise de yazı gitti mi",
+    "mechanismId": "literalism",
+    "punch": "servise de yazı gitti mi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kirmizi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

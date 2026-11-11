@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_sahil_arsasi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "para",
+    "emeklilik",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Sahilde iki arsa var, yan yana. Emeklilikte komşu oluruz. Her sabah çay bende.",
+      "en": "Two plots by the sea, side by side. We'd be neighbors in retirement. Morning tea at mine."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Ben deniz tarafını alayım. Senin taraf da güzel, yola bakıyor.",
+      "en": "I'll take the sea side. Yours is nice too. It faces the road."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Her sabah mı? Her sabah çay mı?",
+      "en": "Every morning? Tea, every morning?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Yol tarafını al",
+      "en": "Buy the road-side plot",
+      "pattern": "risk"
+    },
+    {
+      "id": "deniz",
+      "tr": "Deniz tarafı için pazarlık et",
+      "en": "Bargain for the sea side",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hayir",
+      "tr": "Komşuluğu reddet",
+      "en": "Pass on being neighbors",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -8000,
+        "flags": {
+          "add": [
+            "kardes_sahil_arsasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Yol tarafındaki arsayı 8.000 Para'ya aldın. Kardeşin sınırın tam üstüne şimdiden bir çay masası koydu.",
+      "en": "You bought the road-side plot for 8,000. Your sibling has already put a tea table right on the property line.",
+      "coach": [
+        {
+          "tr": "Sınır çizildi. Masanın ortasından.",
+          "en": "The line is drawn. Through the table.",
+          "roast": false
+        }
+      ]
+    },
+    "deniz": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 2
+          },
+          "money": -8000,
+          "flags": {
+            "add": [
+              "kardes_sahil_arsasi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Deniz tarafı senin oldu, 8.000 Para. Kardeşin yol tarafına iki katlı bir ev çizdirdi, “manzara yukarıdan” diyerek.",
+        "en": "You got the sea side for 8,000. Your sibling has sketched a two-story house on the road side. “The view's from upstairs.”",
+        "coach": [
+          {
+            "tr": "Rekabet dikeye geçti.",
+            "en": "The rivalry went vertical.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -2,
+              "memory": "deniz_tarafi_pazarligi"
+            }
+          ]
+        },
+        "tr": "Pazarlık uzadı, iki arsayı da başka bir aile aldı. Kardeşin bunu her aile yemeğinde “deniz kaçtı” diye anıyor.",
+        "en": "The haggling dragged on and another family bought both plots. Your sibling brings it up at every dinner: “The sea got away.”",
+        "coach": [
+          {
+            "tr": "Deniz yerinde. Arsalar başkasında.",
+            "en": "The sea's still there. The plots are someone else's.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kardes_misafir_arsasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Komşuluğu reddettin. Kardeşin iki arsayı da aldı ve birine “misafir arsası” dedi.",
+      "en": "You said no. Your sibling bought both plots and named one “the guest plot.”",
+      "coach": [
+        {
+          "tr": "Misafir odan bir tarla.",
+          "en": "Your guest room is a field.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz ya da iddiaya uygun olmayan gün"
+  },
+  "intent": {
+    "setup": "kardeşinin emeklilik için sahilde yan yana iki arsa almayı önermesi",
+    "mechanism": "yola bakan tarafın güzel diye sunulması",
+    "mechanismId": "literalism",
+    "punch": "senin taraf yola bakıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sinir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

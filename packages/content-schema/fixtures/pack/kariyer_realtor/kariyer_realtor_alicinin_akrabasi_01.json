@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_alicinin_akrabasi_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ben inşaattan anlarım. Bu duvar taşıyıcı değil. Ses taşıyıcı.",
+      "en": "I know construction. This wall isn't load-bearing. It's noise-bearing."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bizimkiler bu fiyata almaz. Ben almayın derim, onlar almaz.",
+      "en": "My relatives won't buy at this price. I'll tell them no, and they won't.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "teknik",
+      "tr": "Yapı raporunu göster",
+      "en": "Show the structural report",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "indirim",
+      "tr": "Mal sahibinden indirim kopar",
+      "en": "Squeeze a discount from the owner",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ogle",
+      "tr": "Akrabayı yemeğe götür",
+      "en": "Take the relative to lunch",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "teknik": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 1300,
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "realtor_satis_kapandi"
+            ]
+          }
+        },
+        "tr": "Yapı raporunu açtın. Akraba \"taşıyıcı\" kelimesini üç kez okudu, sonra başını salladı.",
+        "en": "You produced the structural report. The relative read \"load-bearing\" three times, then nodded.",
+        "coach": [
+          {
+            "tr": "Rapor konuştu.",
+            "en": "The report did the talking.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef bir imza yaklaştı.",
+            "en": "Goal: one signature closer.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Raporu açtın. Akraba raporu da duvar gibi tıklattı ve \"bu da ses taşıyor\" dedi.",
+        "en": "You produced the report. The relative tapped it like a wall: \"This carries sound too.\"",
+        "coach": [
+          {
+            "tr": "Rapor da tıklatıldı.",
+            "en": "Even the report got knocked on.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "indirim": {
+      "effects": {
+        "money": 800,
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_satis_kapandi"
+          ]
+        }
+      },
+      "tr": "Mal sahibinden yüzde üç indirim kopardın. Satış kapandı; mal sahibi seni bir daha aramadı.",
+      "en": "You got three percent off from the owner. The sale closed. The owner never called you again.",
+      "coach": [
+        {
+          "tr": "Satış kapandı. Bir kapı da.",
+          "en": "One deal closed. One door, too.",
+          "roast": false
+        }
+      ]
+    },
+    "ogle": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "akraba_ikna_bekliyor"
+          ]
+        }
+      },
+      "tr": "Akrabayı 200 Para'lık bir öğle yemeğine götürdün. Yemek boyunca kendi evinin duvarlarını anlattı.",
+      "en": "You took the relative to a 200 lunch. The entire meal was about the walls in their own house.",
+      "coach": [
+        {
+          "tr": "Duvar konusu açık kaldı.",
+          "en": "The wall topic remains open.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "teknik",
+    "slip": {
+      "tr": "İDDİA: Akraba ikna olmaz. — M.",
+      "en": "WAGER: The relative won't be convinced. — M."
+    }
+  },
+  "intent": {
+    "setup": "alıcının inşaattan anlayan akrabası ikinci gösterimde duvarları tıklatıp fiyatı düşürmeye çalışıyor",
+    "mechanism": "ses taşıyıcı duvar",
+    "mechanismId": "literalism",
+    "punch": "taşıyıcı değil, ses taşıyıcı",
+    "lift": "hedef bir imza",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tiklatma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

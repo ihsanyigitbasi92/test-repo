@@ -1,0 +1,237 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_sali_provasi_01",
+  "tags": [
+    "iliski",
+    "ev_hayati",
+    "komsu",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 55
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "prova_cozumu"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "neighbor": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Her salı akşamı davul. Eşiniz mi çalıyor?",
+      "en": "Drums every Tuesday night. Is that your spouse?"
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Benim torun da çalıyor. O daha iyi. Ama yine de.",
+      "en": "My grandson plays too. He’s better. But still.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "davet",
+      "tr": "Komşuyu konsere davet et",
+      "en": "Invite her to the gig",
+      "pattern": "generosity",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "haftasonu",
+      "tr": "Provayı cumartesi öğlene al",
+      "en": "Move practice to Saturday noon",
+      "pattern": "patience"
+    },
+    {
+      "id": "taraf",
+      "tr": "Partnerin tarafını tut",
+      "en": "Take your partner’s side",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "davet": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 5,
+              "memory": "konsere_geldi"
+            },
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "prova_cozumu"
+            ]
+          }
+        },
+        "tr": "Komşu konsere geldi, ön sırada oturdu, torununu da getirdi. Torun sahneye çıktı.",
+        "en": "She came to the gig, sat in the front row, and brought her grandson. The grandson got on stage.",
+        "coach": [
+          {
+            "tr": "Grup bir davulcu kazandı.",
+            "en": "The band gained a drummer.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2
+            }
+          ],
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "prova_cozumu"
+            ]
+          }
+        },
+        "tr": "Komşu davetiyeyi kapıdan geri verdi. Salı akşamları kapısından bir süpürge sesi geliyor, tam davul saatinde.",
+        "en": "She handed the invitation back at the door. On Tuesdays her vacuum now runs exactly during practice.",
+        "coach": [
+          {
+            "tr": "Süpürge karşı ritim tuttu.",
+            "en": "The vacuum keeps counter-rhythm.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "haftasonu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          },
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "prova_cozumu"
+          ]
+        }
+      },
+      "tr": "Prova cumartesi öğlene taşındı. Komşu artık o saatte pazara gidiyor.",
+      "en": "Practice moved to Saturday noon. The neighbor now goes to the market at that hour.",
+      "coach": [
+        {
+          "tr": "Takvimler uyuştu.",
+          "en": "The schedules aligned.",
+          "roast": false
+        }
+      ]
+    },
+    "taraf": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -4,
+            "memory": "davul_kavgasi"
+          },
+          {
+            "role": "partner",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "prova_cozumu"
+          ]
+        }
+      },
+      "tr": "Partnerin seni grubun “menajeri” ilan etti. Komşu yönetime yazılı şikâyet verdi.",
+      "en": "Your partner named you the band’s “manager.” The neighbor filed a written complaint with the building.",
+      "coach": [
+        {
+          "tr": "Menajerliğin ilk evrakı geldi.",
+          "en": "Your first paperwork as manager has arrived.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "davet",
+    "slip": {
+      "tr": "İDDİA: Komşu davetiyeyi geri verir. — M.",
+      "en": "WAGER: She hands the invitation right back. — M."
+    }
+  },
+  "intent": {
+    "setup": "orta yaşta partnerin kurduğu müzik grubunun salı provaları ve komşu şikâyeti",
+    "mechanism": "şikâyet kıyasla bitiyor",
+    "mechanismId": "bathos",
+    "punch": "o daha iyi, ama yine de",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ritim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

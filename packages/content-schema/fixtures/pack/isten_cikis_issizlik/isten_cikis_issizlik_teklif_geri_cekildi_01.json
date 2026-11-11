@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_teklif_geri_cekildi_01",
+  "tags": [
+    "is",
+    "isten_cikis",
+    "teklif",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -2,
+  "intensity": 8000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "career": {
+      "employed": true
+    },
+    "stats": {
+      "joy": {
+        "min": 30
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "worried",
+      "tr": "Kötü bir haberim var. Şirket genelinde işe alımlar donduruldu, teklifimizi geri çekiyoruz.",
+      "en": "I'm afraid I have bad news. We've frozen hiring company-wide and are withdrawing our offer."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Pazartesi başlayacaktınız, biliyoruz. Hoş geldin paketini iade etmenize gerek yok.",
+      "en": "We know you were starting Monday. There's no need to return the welcome kit.",
+      "delayMs": 800
+    },
+    {
+      "speaker": "boss",
+      "avatar": "tired",
+      "tr": "İstifan sisteme girdi bile. Yerine ilan verdik. Ama bir konuşalım.",
+      "en": "Your resignation's already in the system. We've posted your job. But let's talk.",
+      "delayMs": 1000
+    }
+  ],
+  "choices": [
+    {
+      "id": "geri",
+      "tr": "Eski işinde kalmayı iste",
+      "en": "Ask to stay on",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tazmin",
+      "tr": "Yeni şirketten tazmin iste",
+      "en": "Ask the new company for compensation",
+      "pattern": "pride"
+    },
+    {
+      "id": "bosluk",
+      "tr": "Boşluğu kabul et, aramaya başla",
+      "en": "Accept the gap, start searching",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "geri": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "istifa_geri_alindi"
+            ]
+          }
+        },
+        "tr": "Nevin Hanım istifanı geri çekti, ilanı kaldırdı. Masan aynı; toplantılarda sana bir saniye fazla bakılıyor.",
+        "en": "Ms. Carver withdrew your resignation and pulled the post. Same desk. In meetings, people look at you one second longer.",
+        "coach": [
+          {
+            "tr": "Aynı masa. Bir saniye fazla bakış.",
+            "en": "Same desk. One extra second of eye contact.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "career": {
+            "fire": true
+          },
+          "stats": {
+            "joy": -6
+          },
+          "hidden": {
+            "stress": 6
+          },
+          "flags": {
+            "add": [
+              "isten_cikarildi"
+            ]
+          }
+        },
+        "tr": "İlan çoktan bir adayla kapanmıştı. Cuma son günün oldu.",
+        "en": "The post had already gone to a candidate. Friday became your last day.",
+        "coach": [
+          {
+            "tr": "Hoş geldin paketi geldi. Gidilecek yer yok.",
+            "en": "The welcome kit arrived. Nowhere to go.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tazmin": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "money": 2000,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "isten_cikarildi",
+            "teklif_tazmini"
+          ]
+        }
+      },
+      "tr": "Yeni şirket bir aylık ücret karşılığı 2.000 Para ödemeyi kabul etti. Pazartesi iki şirkette de çalışmıyordun.",
+      "en": "The new company agreed to pay 2,000, a month's salary. On Monday you worked at neither.",
+      "coach": [
+        {
+          "tr": "Pazartesi geldi. İki şirket, sıfır masa.",
+          "en": "Monday came. Two companies, zero desks.",
+          "roast": false
+        }
+      ]
+    },
+    "bosluk": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "isten_cikarildi",
+            "basvuru_basladi"
+          ]
+        },
+        "glossary": "ise_alim_dondurma"
+      },
+      "tr": "Pazartesi sabahı hoş geldin paketindeki kupayla kahve içip ilk başvurunu yaptın.",
+      "en": "Monday morning you drank coffee from the welcome kit mug and sent your first application.",
+      "coach": [
+        {
+          "tr": "Kupa onların. Başvuru senin.",
+          "en": "The mug is theirs. The application is yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "istifa ettikten sonra yeni işin teklifinin işe alım dondurması nedeniyle geri çekilmesi",
+    "mechanism": "felaket nazik bir paket notuyla geliyor",
+    "mechanismId": "understatement",
+    "punch": "hoş geldin paketini iade etmenize gerek yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kupa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

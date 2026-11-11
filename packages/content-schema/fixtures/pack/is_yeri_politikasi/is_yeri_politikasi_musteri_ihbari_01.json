@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_musteri_ihbari_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Kıdemli izindeyken müşterisi seni aradı. Kıdemli 'gelecek ay' demiş, sözleşmede 'bu ay' yazıyor.",
+      "en": "A senior's client called you. The senior's away and promised 'next month.' The contract says 'this month.'"
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "{name}, müşteri benim bilgim dışında bir şey olduğunu söyledi. Bana kısa bir özet geçer misin?",
+      "en": "{name}, the client says something happened without my knowledge. Could you give me a quick summary?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yetistir",
+      "tr": "Sessizce yetiştir",
+      "en": "Quietly hit the deadline",
+      "pattern": "generosity",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "anlat",
+      "tr": "Olduğu gibi anlat",
+      "en": "Tell it straight",
+      "pattern": "risk"
+    },
+    {
+      "id": "bekle",
+      "tr": "Kıdemli dönsün de",
+      "en": "Wait for the senior",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yetistir": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 4
+            }
+          ],
+          "flags": {
+            "add": [
+              "kidemli_borclu"
+            ]
+          }
+        },
+        "tr": "Hafta sonu çalışıp teslimi bu aya yetiştirdin. Kıdemli dönünce masana iki kelimelik bir not bıraktı: 'Sana borçluyum.'",
+        "en": "You worked the weekend and hit this month's deadline. When the senior got back, they left a two-word note: 'Owe you.'",
+        "coach": [
+          {
+            "tr": "İki kelimelik bir senet aldın.",
+            "en": "You're holding a two-word IOU.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2,
+              "memory": "musteri_krizi"
+            }
+          ]
+        },
+        "tr": "Yetiştiremedin. Müşteri Nevin Hanım'ı aradı ve konuşmada adı geçen tek kişi sen oldun.",
+        "en": "You didn't make it. The client called Ms. Carver, and the only name mentioned was yours.",
+        "coach": [
+          {
+            "tr": "Başkasının sözünü tutmaya çalıştın. Suçu tuttun.",
+            "en": "You tried to keep someone else's promise. You kept their blame.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anlat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Olduğu gibi anlattın. Nevin Hanım teslimi ekibe dağıttı, kıdemli dönünce seninle bir hafta yalnızca mailden konuştu.",
+      "en": "You told it straight. Ms. Carver split the deadline across the team. When the senior returned, they spoke to you by email only for a week.",
+      "coach": [
+        {
+          "tr": "Bir hafta yazılı iletişim. Resmî ama kapanmamış.",
+          "en": "One week of strictly written communication. Formal, not final.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kıdemlinin dönmesini bekledin. Müşteri bu arada iki kez daha aradı, ikisinde de seni.",
+      "en": "You waited for the senior to get back. The client called twice more. Both times, for you.",
+      "coach": [
+        {
+          "tr": "Sen bekledin. Müşteri beklemedi.",
+          "en": "You waited. The client didn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yetistir",
+    "slip": {
+      "tr": "İDDİA: Bu ay yetişmez. — M.",
+      "en": "WAGER: This month isn't happening. — M."
+    }
+  },
+  "intent": {
+    "setup": "izindeki kıdemlinin müşterisine verdiği yanlış teslim sözünün sana kalması",
+    "mechanism": "başkasının hatası seni buluyor",
+    "mechanismId": "deadpan_report",
+    "punch": "gelecek ay demiş, sözleşmede bu ay",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "senet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

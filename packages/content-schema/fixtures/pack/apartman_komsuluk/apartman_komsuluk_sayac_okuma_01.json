@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "apartman_komsuluk_sayac_okuma_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "fatura",
+    "apartman_komsuluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "apartman_komsuluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Su sayacını okuyan yine geldi, sen yine yoktun. Kapına kâğıt bıraktı.",
+      "en": "The water-meter reader came again. You were out again. He left a note on your door."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Üç aydır tahmini fatura geliyor. Tahmine göre günde iki kez banyo yapıyorsun.",
+      "en": "Three months of estimated bills. According to the estimate, you bathe twice a day.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "izin",
+      "tr": "Okuma için yarım gün izin al",
+      "en": "Take half a day off for it",
+      "pattern": "patience",
+      "requires": {
+        "career": {
+          "employed": true
+        }
+      }
+    },
+    {
+      "id": "foto",
+      "tr": "Sayacın fotoğrafını gönder",
+      "en": "Send a photo of the meter",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ode",
+      "tr": "Tahmini faturayı öde",
+      "en": "Just pay the estimate",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "izin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": 200,
+        "flags": {
+          "add": [
+            "sayac_okundu"
+          ]
+        }
+      },
+      "tr": "Okuyucu öğlen geldi, sayaca baktı. Gerçek tüketimin tahminin yarısıymış; 200 Para iade gelecek.",
+      "en": "The reader came at noon and checked the meter. Real usage: half the estimate. A 200 refund is on its way.",
+      "coach": [
+        {
+          "tr": "Sayaç seni aklamış.",
+          "en": "The meter has cleared your name.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe 200 yaklaştın.",
+          "en": "Goal: 200 closer.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "foto": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "komsu_sayaci"
+          ]
+        }
+      },
+      "tr": "Fotoğrafı gönderdin. Cevap geldi: 'Fotoğraftaki sayaç komşunuza ait.'",
+      "en": "You sent the photo. Reply: 'The meter in your photo belongs to your neighbor.'",
+      "coach": [
+        {
+          "tr": "Doğru fotoğraf, yanlış sayaç.",
+          "en": "Right photo. Wrong meter.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -350,
+        "flags": {
+          "add": [
+            "tahmini_fatura"
+          ]
+        }
+      },
+      "tr": "Tahmini faturayı ödedin, 350 Para. Bir sonraki tahmin daha da cömert geldi.",
+      "en": "You paid the estimate: 350. The next estimate was even more generous.",
+      "coach": [
+        {
+          "tr": "Tahmin seni sevdi.",
+          "en": "The estimate has taken a liking to you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası başka olaylarda"
+  },
+  "intent": {
+    "setup": "evde olmadığın için su sayacı okunamıyor, tahmini fatura şişiyor",
+    "mechanism": "tahmin kişiliğine dair varsayım",
+    "mechanismId": "bathos",
+    "punch": "günde iki kez banyo yapıyorsun",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tahmin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

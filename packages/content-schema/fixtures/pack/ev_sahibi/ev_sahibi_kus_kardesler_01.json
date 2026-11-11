@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_kus_kardesler_01",
+  "tags": [
+    "ev",
+    "aile",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Kirayı bana yatır. Kardeşimle konuşmuyoruz. Ev yarı yarıya ama tapuda ben öndeyim.",
+      "en": "Pay the rent to me. My sibling and I don't speak. The flat's half and half, but my name's first on the deed."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "(Akşam, diğer kardeş) Kirayı bana yatır. Tapudaki sıra alfabetik, bir anlamı yok.",
+      "en": "(That evening, the other sibling) Pay the rent to me. The names on the deed are alphabetical. Means nothing.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "bol",
+      "tr": "Kirayı ikiye böl",
+      "en": "Split the rent in two",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "bulustur",
+      "tr": "İkisini aynı masaya oturt",
+      "en": "Get them at one table",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sozlesme",
+      "tr": "Sözleşmedeki hesaba yatır",
+      "en": "Pay the account in the lease",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "bol": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "kira_ikiye_bolundu"
+          ]
+        }
+      },
+      "tr": "Kirayı iki hesaba yarı yarıya yatırdın. İki kardeş de \"eksik geldi\" diye yazdı.",
+      "en": "You paid half to each account. Both siblings texted: \"It came in short.\"",
+      "coach": [
+        {
+          "tr": "İki dekont, iki şikâyet.",
+          "en": "Two receipts. Two complaints.",
+          "roast": false
+        }
+      ]
+    },
+    "bulustur": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "kardesler_baristi"
+            ]
+          }
+        },
+        "tr": "Üç saatlik çayın sonunda ortak hesap açtılar. Çıkarken ikisi aynı anda \"sağ ol\" dedi.",
+        "en": "After three hours of tea, they opened a joint account. On the way out, both said thanks at the same time.",
+        "coach": [
+          {
+            "tr": "Kira günü bir aileyi barıştırdı.",
+            "en": "Rent day reunited a family.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "kardes_kavgasi_tanik"
+            ]
+          }
+        },
+        "tr": "Masa kırk dakika dayandı. Konu kiradan 1983 yazındaki bisiklete geçti; kira hâlâ askıda.",
+        "en": "The table held for forty minutes. The topic moved from rent to a bicycle from the summer of 1983. Rent is still pending.",
+        "coach": [
+          {
+            "tr": "Bisiklet kiranın önüne geçti.",
+            "en": "The bicycle outranks the rent.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sozlesme": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sozlesme_hesabi"
+          ]
+        }
+      },
+      "tr": "Sözleşmede yazan hesaba yatırdın. Kardeşlerden biri teşekkür etti, diğeri komşuya \"kiracı taraf tuttu\" dedi.",
+      "en": "You paid the account named in the lease. One sibling said thanks. The other told the neighbor you'd picked a side.",
+      "coach": [
+        {
+          "tr": "Kâğıt hangi kardeşi seçtiğini yazmıyordu.",
+          "en": "The paper never said which sibling it picked.",
+          "roast": false
+        },
+        {
+          "tr": "Kira ödendi, dosya temiz.",
+          "en": "Rent paid. File clean.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bulustur",
+    "slip": {
+      "tr": "İDDİA: O masa kira konuşmaz. — M.",
+      "en": "WAGER: That table won't discuss rent. — M."
+    }
+  },
+  "intent": {
+    "setup": "evin iki ortak sahibi küs kardeşler, ikisi de kirayı kendi hesabına istiyor",
+    "mechanism": "aile kavgası kira gününe taşınıyor",
+    "mechanismId": "bathos",
+    "punch": "1983 yazındaki bisiklet",
+    "lift": "kira ödendi",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bisiklet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

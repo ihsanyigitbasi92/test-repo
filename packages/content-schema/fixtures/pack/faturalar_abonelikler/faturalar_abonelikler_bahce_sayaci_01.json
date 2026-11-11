@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_bahce_sayaci_01",
+  "tags": [
+    "para",
+    "su",
+    "bahce",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "housing": [
+      "wide",
+      "owned"
+    ],
+    "season": [
+      "spring",
+      "summer"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bahçeye giden su kanalizasyona gitmiyor, doğru. Ama sistem bunu bilmiyor.",
+      "en": "Garden water doesn't go into the sewer, true. But the system doesn't know that."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Ayrı sayaç için keşif, dilekçe ve bahçe krokisi gerekiyor. Elle çizilmiş olabilir.",
+      "en": "A separate meter needs an inspection, a petition and a sketch of the garden. Hand-drawn is fine.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kroki",
+      "tr": "Krokiyi çiz, başvur",
+      "en": "Draw the sketch and apply",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "az",
+      "tr": "Bahçeyi az sula",
+      "en": "Water the garden less",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "ode",
+      "tr": "Atık su bedelini öde",
+      "en": "Pay the sewer fee",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kroki": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -250,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "bahce_sayaci"
+            ]
+          }
+        },
+        "tr": "Başvuru kabul edildi, bahçe sayacı takıldı. Yaz faturası ayda 400 Para düştü.",
+        "en": "Application approved, garden meter installed. Summer water bills down 400 a month.",
+        "coach": [
+          {
+            "tr": "Kroki onaylandı. Domatesler resmen kanalizasyona bağlı değil.",
+            "en": "Sketch approved. The tomatoes are officially off the sewer system.",
+            "roast": true
+          },
+          {
+            "tr": "Hedefe yaz boyu ayda 400.",
+            "en": "Goal fund: plus 400 monthly.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "kroki_iade"
+            ]
+          }
+        },
+        "tr": "Kroki iade edildi: 'ölçek belirtilmemiş'. Başvuru gelecek bahara kaldı.",
+        "en": "Sketch returned: 'no scale indicated.' The application waits until next spring.",
+        "coach": [
+          {
+            "tr": "Domates fidanları ölçeksiz bulundu.",
+            "en": "The tomato plants were found to be out of scale.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "az": {
+      "effects": {
+        "money": 100,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "bahce_az_sulama"
+          ]
+        }
+      },
+      "tr": "Sulama yarıya indi, fatura 100 Para düştü. Salatalıklar küçük kaldı.",
+      "en": "Watering cut in half. Bill down 100. The cucumbers stayed small.",
+      "coach": [
+        {
+          "tr": "100 Para tasarruf. Farkı salatalıklar ödedi.",
+          "en": "100 saved. The cucumbers covered the difference.",
+          "roast": true
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "bahce_bol_su"
+          ]
+        }
+      },
+      "tr": "Atık su bedeli ödendi: 400 Para. Bahçe bu yaz sokağın en yeşili.",
+      "en": "Sewer fee paid: 400. The garden is the greenest on the street this summer.",
+      "coach": [
+        {
+          "tr": "400 Para'ya sokağın en yeşil kanalizasyonu.",
+          "en": "400 for the greenest sewer on the block.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kroki",
+    "slip": {
+      "tr": "İDDİA: Kroki ilk seferde geçmez. — M.",
+      "en": "WAGER: The sketch fails round one. — M."
+    }
+  },
+  "intent": {
+    "setup": "bahçe sulamasına atık su bedeli ödememek için ayrı bahçe sayacı başvurusu",
+    "mechanism": "sistem domatesin kanalizasyona gitmediğini bilmiyor",
+    "mechanismId": "literalism",
+    "punch": "ama sistem bunu bilmiyor",
+    "lift": "hedefe ayda 400",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "domates"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

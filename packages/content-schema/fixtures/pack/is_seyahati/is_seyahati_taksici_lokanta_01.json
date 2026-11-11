@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_seyahati_taksici_lokanta_01",
+  "tags": [
+    "is",
+    "seyahat_is",
+    "is_seyahati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "is_seyahati": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Havalimanı yemekleri plastiktir, ben bilirim. Yolun üstünde bir lokanta var, gerçek.",
+      "en": "Airport food is plastic, trust me. There's a diner on the way. A real one."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Uçak kalkış saati söyler ama kalkmaz. Benim teorim bu.",
+      "en": "Planes announce a departure time. They don't depart. That's my theory.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "lokanta",
+      "tr": "Lokantada dur",
+      "en": "Stop at the diner",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "direkt",
+      "tr": "Havalimanına devam",
+      "en": "Straight to the airport",
+      "pattern": "patience"
+    },
+    {
+      "id": "paket",
+      "tr": "Paket al, yolda ye",
+      "en": "Takeout, eat in the cab",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "lokanta": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -120,
+          "stats": {
+            "joy": 5,
+            "health": 1
+          }
+        },
+        "tr": "Kuru fasulye on dakikada geldi, son çağrıya yetiştin. Uçak, teoriye uygun olarak yarım saat rötar yaptı.",
+        "en": "The bean stew came in ten minutes and you made last call. The plane, true to theory, left half an hour late.",
+        "coach": [
+          {
+            "tr": "Teori doğrulandı.",
+            "en": "Theory confirmed.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: uçak yakalandı.",
+            "en": "Goal counter: flight caught.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Çay geldi, ardından tatlı. Kapı kapanmıştı; sonraki uçak için 900 Para fark ödedin.",
+        "en": "Tea came, then dessert. The gate had closed. The next flight cost 900 extra.",
+        "coach": [
+          {
+            "tr": "Bu uçak teoriye uymadı.",
+            "en": "This plane ignored the theory.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "direkt": {
+      "effects": {
+        "money": -80,
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Havalimanında plastik bir sandviç aldın. Uçak tam zamanında kalktı.",
+      "en": "You bought a plastic sandwich at the airport. The plane left exactly on time.",
+      "coach": [
+        {
+          "tr": "Sandviç teoriye uydu.",
+          "en": "The sandwich followed the theory.",
+          "roast": false
+        }
+      ]
+    },
+    "paket": {
+      "effects": {
+        "money": -120,
+        "stats": {
+          "joy": 2,
+          "health": -1
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Fasulyeyi taksinin arka koltuğunda yedin. Taksici tarifi dikiz aynasından anlattı.",
+      "en": "You ate the stew in the back seat. The cabbie narrated the recipe through the rearview mirror.",
+      "coach": [
+        {
+          "tr": "Taksimetre de tarif de işledi.",
+          "en": "The meter and the recipe both kept running.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "lokanta",
+    "slip": {
+      "tr": "İDDİA: Lokanta uçaktan uzun sürer. — M.",
+      "en": "WAGER: The diner outlasts the flight. — M."
+    }
+  },
+  "intent": {
+    "setup": "havalimanı yolunda taksicinin 'gerçek' lokanta önermesi",
+    "mechanism": "plastik yemek teorisi sonuçta geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "uçak kalkış saati söyler ama kalkmaz",
+    "lift": "hedef sayacı",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "teori"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

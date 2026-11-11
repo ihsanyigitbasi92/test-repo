@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_isletim_ucreti_01",
+  "tags": [
+    "para",
+    "birikim",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 34
+    },
+    "money": {
+      "min": 600
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bakiye belli bir tutarın altındaysa aylık 25 Para işletim ücreti var.",
+      "en": "Below a certain balance, there's a monthly upkeep fee of 25."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Premium hesaba geçerseniz ücret yok. Premium için de bakiye şartı var.",
+      "en": "Switch to Premium and the fee goes away. Premium has a balance requirement too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Ücreti kaldırmasını iste",
+      "en": "Ask to waive the fee",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tasi",
+      "tr": "Hesabı başka bankaya taşı",
+      "en": "Move to another bank",
+      "pattern": "overwork"
+    },
+    {
+      "id": "kalsin",
+      "tr": "Ücretle devam et",
+      "en": "Live with the fee",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": -1
+          },
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "isletim_ucreti_yok"
+            ]
+          }
+        },
+        "tr": "Bankacı ücreti \"bir yıllığına\" kaldırdı. On bir ay sonrasına hatırlatma kurdun.",
+        "en": "The banker waived the fee \"for one year.\" You set a reminder for month eleven.",
+        "coach": [
+          {
+            "tr": "On birinci ay, takvimde kırmızı.",
+            "en": "Month eleven, in red on the calendar.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -75,
+          "hidden": {
+            "stress": 2
+          },
+          "glossary": "isletim_ucreti",
+          "flags": {
+            "add": [
+              "isletim_ucreti"
+            ]
+          }
+        },
+        "tr": "Bankacı sistemin izin vermediğini söyleyip sana bir kalem hediye etti. Üç aylık ücret 75 Para, kalem dahil değil.",
+        "en": "The banker said the system wouldn't allow it and gave you a free pen. Three months of fees: 75. Pen not included.",
+        "coach": [
+          {
+            "tr": "Kalem, 75 Para'lık bir hatıra.",
+            "en": "A pen worth 75 in sentimental value.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tasi": {
+      "effects": {
+        "money": -25,
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "hesap_tasindi"
+          ]
+        }
+      },
+      "tr": "Yeni bankada hesap açıp eskisini kapattın. Eski banka çıkışta son kez 25 Para kesti.",
+      "en": "You opened a new account and closed the old one. The old bank took one last 25 on the way out.",
+      "coach": [
+        {
+          "tr": "Veda ücreti tam ay olarak kesildi.",
+          "en": "The farewell fee was charged as a full month.",
+          "roast": false
+        }
+      ]
+    },
+    "kalsin": {
+      "effects": {
+        "money": -300,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "isletim_ucreti"
+          ]
+        }
+      },
+      "tr": "Bir yılda 300 Para ücret kesildi. Birikim hesabı yılı başladığı yerin 300 altında bitirdi.",
+      "en": "A year of fees: 300. The savings account ended the year 300 below where it started.",
+      "coach": [
+        {
+          "tr": "Hesap birikiyordu. Ters yöne.",
+          "en": "The account was saving. In reverse.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: O ücret kalkmaz. — M.",
+      "en": "WAGER: That fee stays. — M."
+    }
+  },
+  "intent": {
+    "setup": "küçük birikim hesabından her ay kesilen işletim ücretinin birikimi yemesi",
+    "mechanism": "ücretsiz hesabın da şartı var",
+    "mechanismId": "escalation",
+    "punch": "premium için de bakiye şartı var",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kalem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

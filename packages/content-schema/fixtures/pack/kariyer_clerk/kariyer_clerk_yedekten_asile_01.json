@@ -1,0 +1,232 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_yedekten_asile_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    },
+    "flags": {
+      "all": [
+        "seflik_yedek_liste"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Yedek listeden asil listeye geçtiniz. Şeflik sizin, odanız henüz değil.",
+      "en": "You've moved from the waitlist to the list. The supervisor job is yours. The office isn't, yet."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Şef masası camın kenarında. Cam açılmıyor, haberin olsun.",
+      "en": "The supervisor's desk is by the window. The window doesn't open, just so you know.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "basla",
+      "tr": "Hemen başla",
+      "en": "Start right away",
+      "pattern": "overwork"
+    },
+    {
+      "id": "oda",
+      "tr": "Önce oda iste",
+      "en": "Ask for the office first",
+      "pattern": "pride",
+      "check": {
+        "base": 4500
+      }
+    },
+    {
+      "id": "eski",
+      "tr": "Eski masanda kal",
+      "en": "Stay at your old desk",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "basla": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "memur_sef"
+          ],
+          "remove": [
+            "seflik_yedek_liste"
+          ]
+        },
+        "career": {
+          "rungDelta": 1
+        }
+      },
+      "tr": "Ertesi sabah şef masasına oturdun. İlk gün dokuz imza attın, camı iki kez denedin.",
+      "en": "The next morning you sat at the supervisor desk. You signed nine things on day one and tried the window twice.",
+      "coach": [
+        {
+          "tr": "Yedek liste kapandı. Pencere açılmadı.",
+          "en": "The waitlist is closed. The window still won't open.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacı: şeflik tamam.",
+          "en": "Goal counter: supervisor, done.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "oda": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "memur_sef",
+              "memur_sef_odasi"
+            ],
+            "remove": [
+              "seflik_yedek_liste"
+            ]
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Arşivin yanındaki küçük oda sana verildi. Kapısında adın yazıyor.",
+        "en": "You got the small room next to the archive. Your name is on the door.",
+        "coach": [
+          {
+            "tr": "Oda geldi. Penceresi ayrı bir dilekçe.",
+            "en": "You got the office. Its window is a separate petition.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "memur_sef"
+            ],
+            "remove": [
+              "seflik_yedek_liste"
+            ]
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Oda talebi 'yeni bütçe döneminde' maddesine kaldı. Şef masası camın kenarında.",
+        "en": "The office request was deferred to 'the next budget period.' The supervisor desk is by the window.",
+        "coach": [
+          {
+            "tr": "Oda gelecek bütçeye, sen cama.",
+            "en": "The office goes to next year's budget. You go to the window.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "eski": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "memur_sef"
+          ],
+          "remove": [
+            "seflik_yedek_liste"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ],
+        "career": {
+          "rungDelta": 1
+        }
+      },
+      "tr": "Şeflik geldi, masa değişmedi. Ekip sana eski yerinden rapor veriyor.",
+      "en": "The promotion came; the desk stayed. Your team reports to you at your old spot.",
+      "coach": [
+        {
+          "tr": "Unvan değişti, sandalye aynı. Sandalye memnun.",
+          "en": "New title, same chair. The chair is pleased.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "şeflik yedek listesinden asil listeye çağrıldın",
+    "mechanism": "şeflik var oda yok",
+    "mechanismId": "reversal",
+    "punch": "odanız henüz değil",
+    "lift": "Hedef sayacı: şeflik tamam.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pencere"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

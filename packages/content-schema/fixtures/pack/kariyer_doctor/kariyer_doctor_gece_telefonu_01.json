@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_gece_telefonu_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Saat dört. Neden aradın? Kararı sen ver. Ama yanlış verirsen neden aramadın?",
+      "en": "It's four a.m. Why are you calling? Make the call yourself. But if it's wrong, why didn't you call?"
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Değerleri oku. Yavaş oku. Ben bu arada uyanıyorum.",
+      "en": "Read me the numbers. Slowly. I'm waking up while you do.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "karar",
+      "tr": "Kararı kendin ver",
+      "en": "Make the decision yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      },
+      "swipe": "right"
+    },
+    {
+      "id": "oku",
+      "tr": "Değerleri tek tek oku",
+      "en": "Read the numbers one by one",
+      "pattern": "patience",
+      "swipe": "left"
+    }
+  ],
+  "outcomes": {
+    "karar": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 5
+          },
+          "npc": [
+            {
+              "role": "npc:doctor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Kararı verdin. Sabah vizitinde kıdemli dosyaya baktı ve 'hı' dedi, asistanlar arasında en yüksek not.",
+        "en": "You made the call. On morning rounds the senior read the chart and said 'Hm.' Among residents, 'Hm' is an A.",
+        "coach": [
+          {
+            "tr": "Bir 'hı' aldın.",
+            "en": "You got a 'hm.'",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:doctor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kıdemli sabah dozu değiştirdi ve gerekçesini kırmızı kalemle yazdı. Hasta iyi, dosya kıpkırmızı.",
+        "en": "The senior changed the dose in the morning and explained why in red pen. The patient is fine. The chart is crimson.",
+        "coach": [
+          {
+            "tr": "Hasta iyi. Dosya yaralı.",
+            "en": "Patient fine. Chart wounded.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "oku": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "gece_okumasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Değerleri tek tek okudun. Kıdemli dördüncüde uyandı, altıncıda karar verdi, yedincide telefonu kapattı.",
+      "en": "You read the numbers one by one. The senior woke up at number four, decided at six, and hung up at seven.",
+      "coach": [
+        {
+          "tr": "Yedi değer, bir karar.",
+          "en": "Seven numbers. One decision.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "karar",
+    "slip": {
+      "tr": "İDDİA: Sabah vizitinde kırmızı kalem çıkar. — M.",
+      "en": "WAGER: The red pen comes out on morning rounds. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk nöbette gece dörtte kıdemliyi aramak ya da kararı kendin vermek",
+    "mechanism": "iki seçenek de suçlanıyor",
+    "mechanismId": "reversal",
+    "punch": "yanlış verirsen neden aramadın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

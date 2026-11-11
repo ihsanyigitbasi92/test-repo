@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_askida_ucret_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Bugün maaş günü. Arkamdan binen üç kişinin parası benden.",
+      "en": "It's payday. The next three people who get in are on me."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kim olduğumu söylemeyin. 'Biri ödedi' deyin, yeter.",
+      "en": "Don't say who. Just tell them 'someone got it.'",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "soyle",
+      "tr": "Sonrakilere söyle",
+      "en": "Tell the next riders",
+      "pattern": "patience"
+    },
+    {
+      "id": "ekle",
+      "tr": "Bir halka da sen ekle",
+      "en": "Add one on yourself",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sakla",
+      "tr": "Söylemeden ücreti al",
+      "en": "Charge them anyway, quietly",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000
+      }
+    }
+  ],
+  "outcomes": {
+    "soyle": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "sofor_askida_zinciri"
+          ]
+        }
+      },
+      "tr": "İlk iki yolcu teşekkür etti. Üçüncüsü, kendinden sonra binenin parasını ödedi.",
+      "en": "The first two riders said thanks. The third paid for whoever got in next.",
+      "coach": [
+        {
+          "tr": "Üç ücret dördüncüye taştı. Zincir kendi kendine uzadı.",
+          "en": "Three fares spilled into a fourth. The chain grew on its own.",
+          "roast": false
+        }
+      ]
+    },
+    "ekle": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 1
+        },
+        "money": -15,
+        "flags": {
+          "add": [
+            "sofor_askida_zinciri"
+          ]
+        }
+      },
+      "tr": "Dördüncü yolcunun parasını sen ödedin. Zincir akşam seferine kadar sürdü.",
+      "en": "You covered the fourth rider. The chain lasted until the evening run.",
+      "coach": [
+        {
+          "tr": "Bir halka da senden. Akşama kadar yetti.",
+          "en": "You added a link. It held until evening.",
+          "roast": false
+        }
+      ]
+    },
+    "sakla": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "money": 45
+        },
+        "tr": "Üç ücret cebinde kaldı. Kimse sormadı.",
+        "en": "Three fares stayed in your pocket. Nobody asked.",
+        "coach": [
+          {
+            "tr": "Hesap kâğıt üstünde tuttu. Başka yerde tutmadı.",
+            "en": "The math works on paper. Only on paper.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "sofor_ucret_sikayeti"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Düzenli yolcu ertesi gün sordu; üçüncü yolcu onun komşusuymuş. Hat sahibi parayı iade ettirdi ve dosyana not düştü.",
+        "en": "The regular asked the next day. The third rider turned out to be their neighbor. The owner made you pay it back and put a note in your file.",
+        "coach": [
+          {
+            "tr": "Komşu çıktı, hikâye yayıldı. Bu güzergâh küçük.",
+            "en": "It was the neighbor. This route is a small town.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "düzenli yolcu maaş gününde arkasından binen üç kişinin ücretini ödüyor",
+    "mechanism": "iyiliğin zincirleme yayılması",
+    "mechanismId": "understatement",
+    "punch": "üçüncüsü sonrakinin parasını ödedi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zincir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. TR dolmuşta sonraki yolcuların ücretini ödeyen düzenli yolcu; EN sonraki üç yolculuğa ekstra bırakan yolcu. Uygulama/şirket/marka adı yok."
+  }
+}

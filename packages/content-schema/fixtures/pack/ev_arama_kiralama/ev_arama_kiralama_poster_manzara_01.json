@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_poster_manzara_01",
+  "tags": [
+    "ev",
+    "ilan",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "İlandaki deniz manzarası bu pencereden. Şöyle, biraz sola eğilin.",
+      "en": "The sea view from the listing? This window. Lean a little to the left."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Manzara poster, evet. Ama çerçevesi sabit, demirbaşa dahil.",
+      "en": "Yes, the view is a poster. But it's mounted. It comes with the unit.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "tut",
+      "tr": "Posterle birlikte tut",
+      "en": "Take it, poster included",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Manzarasız fiyat iste",
+      "en": "Ask for the no-view price",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Teşekkür et, merdivene çık",
+      "en": "Say thanks, head for the stairs",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "tut": {
+      "effects": {
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1350
+          }
+        },
+        "money": -2700,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "poster_manzara"
+          ]
+        }
+      },
+      "tr": "Kira 1.350 Para, depozito 2.700. Posterdeki dalga yerinden hiç oynamıyor.",
+      "en": "Rent is 1,350, deposit 2,700. The wave in the poster stays exactly where it is.",
+      "coach": [
+        {
+          "tr": "Dalga hiç gelmeyecek. Kira her ay gelecek.",
+          "en": "The wave never comes in. The rent comes in monthly.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1250
+            }
+          },
+          "money": -2500,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "poster_manzara"
+            ]
+          }
+        },
+        "tr": "Emlakçı ev sahibini aradı. Manzarasız fiyat 1.250 Para; poster jest olarak kaldı.",
+        "en": "The agent called the owner. View-free rate: 1,250. The poster stays as a courtesy.",
+        "coach": [
+          {
+            "tr": "Yüz Para manzara indirimi. Yılda bin iki yüz.",
+            "en": "A hundred off for no view. Twelve hundred a year.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_ariyor"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"manzara fiyata dahil\" dedi. Daire ertesi gün başkasına gitti.",
+        "en": "The owner said the view was priced in. Someone else took the place the next day.",
+        "coach": [
+          {
+            "tr": "Poster yerinde kaldı. Sen yine ilanlardasın.",
+            "en": "The poster stayed. You're back on the listings.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ev_ariyor"
+          ]
+        }
+      },
+      "tr": "Merdivende ilana tekrar baktın. Fotoğrafın köşesinde bir raptiye görünüyor.",
+      "en": "On the stairs you checked the listing again. There's a thumbtack in the corner of the photo.",
+      "coach": [
+        {
+          "tr": "Raptiye oradaymış. Baştan beri.",
+          "en": "The thumbtack was there. The whole time.",
+          "roast": false
+        },
+        {
+          "tr": "Depozito cepte, hedef yerinde.",
+          "en": "Deposit kept. Goal intact.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Poster pazarlığı kazanır. — M.",
+      "en": "WAGER: The poster wins the haggle. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilandaki deniz manzarası gezide pencereye yapıştırılmış poster çıkıyor",
+    "mechanism": "emlakçı posteri demirbaş sayıyor",
+    "mechanismId": "literalism",
+    "punch": "çerçevesi sabit, demirbaşa dahil",
+    "lift": "depozito cepte",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "raptiye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

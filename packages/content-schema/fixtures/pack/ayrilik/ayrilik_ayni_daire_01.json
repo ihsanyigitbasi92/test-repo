@@ -1,0 +1,243 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ayrilik_ayni_daire_01",
+  "tags": [
+    "iliski",
+    "ayrilik_sonrasi",
+    "ev",
+    "ayrilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "ayrilik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 31,
+      "max": 38
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "money": {
+      "min": 2500
+    },
+    "flags": {
+      "all": [
+        "ayrildi"
+      ],
+      "none": [
+        "daire_kapildi",
+        "daire_eskide"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "ex",
+      "avatar": "worried",
+      "tr": "Sen de mi bu daireye bakıyorsun?",
+      "en": "You’re looking at this place too?"
+    },
+    {
+      "speaker": "ex",
+      "avatar": "neutral",
+      "tr": "Balkonu güzel. Sen balkonları hiç sevmezdin ama.",
+      "en": "Nice balcony. You never liked balconies, though.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kap",
+      "tr": "Kaporayı hemen ver",
+      "en": "Put down the deposit now",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Daireyi ona bırak",
+      "en": "Let them have it",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ust",
+      "tr": "Üst kattakini sor",
+      "en": "Ask about the unit upstairs",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kap": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -2200,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 2200
+            }
+          },
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "ex",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "daire_kapildi"
+            ]
+          }
+        },
+        "tr": "Kaporayı verdin, daire senin. Balkona ilk gün bir sandalye koydun.",
+        "en": "You paid the deposit. The place is yours. On day one you put a chair on the balcony.",
+        "coach": [
+          {
+            "tr": "Balkon artık senin.",
+            "en": "The balcony is yours now.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "ex",
+              "memory": "daireyi_aldi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "daire_eskide"
+            ]
+          }
+        },
+        "tr": "Ev sahibi “sabah biri kaparoyu verdi” dedi. O biri merdivende sana el salladı.",
+        "en": "The landlord said someone already paid that morning. That someone waved at you from the stairs.",
+        "coach": [
+          {
+            "tr": "Sabahki kaparo onunmuş.",
+            "en": "The morning deposit was theirs.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "affinity": 4,
+            "memory": "daireyi_birakti"
+          }
+        ],
+        "flags": {
+          "add": [
+            "daire_eskide"
+          ]
+        }
+      },
+      "tr": "Daireyi ona bıraktın. Bir hafta sonra kapı numarasıyla bir teşekkür mesajı geldi.",
+      "en": "You let them have it. A week later: a thank-you text, signed with the door number.",
+      "coach": [
+        {
+          "tr": "Teşekkür geldi.",
+          "en": "Thanks received.",
+          "roast": false
+        }
+      ]
+    },
+    "ust": {
+      "effects": {
+        "money": -2000,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 2000
+          }
+        },
+        "meters": {
+          "cringe": 6
+        },
+        "flags": {
+          "add": [
+            "daire_kapildi",
+            "eski_alt_kat"
+          ]
+        }
+      },
+      "tr": "Üst kat boşmuş, daha ucuz. Taşındın. Eski partnerin artık alt komşun.",
+      "en": "The unit upstairs was empty, and cheaper. You moved in. Your ex is now your downstairs neighbor.",
+      "coach": [
+        {
+          "tr": "Kira 200 eksik. Merdiven ortak.",
+          "en": "Rent’s 200 less. The stairs are shared.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kap",
+    "slip": {
+      "tr": "İDDİA: Daire sende kalmaz. — M.",
+      "en": "WAGER: You won’t get the apartment. — M."
+    }
+  },
+  "intent": {
+    "setup": "ayrılıktan aylar sonra eski partnerle aynı kiralık daireyi görmeye gelmek",
+    "mechanism": "eski partner balkon tercihini hatırlatıyor; seçenekler ters dönüyor",
+    "mechanismId": "reversal",
+    "punch": "sen balkonları hiç sevmezdin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "balkon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

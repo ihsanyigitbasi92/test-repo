@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_tedarikci_kaydi_01",
+  "tags": [
+    "kariyer",
+    "koc",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 35
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Atölyeniz onaylandı. Sizi tedarikçi olarak kaydedeceğiz. On dört belge, bir de vergi levhası.",
+      "en": "Your workshop's approved. We'll register you as a vendor. Fourteen documents and a tax certificate."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Ödeme vadesi doksan gün. Sistem öyle, benim elimde değil.",
+      "en": "Payment terms are ninety days. That's the system. It's out of my hands.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tamamla",
+      "tr": "Belgeleri tamamla",
+      "en": "Complete the paperwork",
+      "pattern": "patience"
+    },
+    {
+      "id": "avans",
+      "tr": "Avans iste",
+      "en": "Ask for an advance",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "İşi geri çevir",
+      "en": "Walk away from the gig",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "tamamla": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "money": 3200,
+        "flags": {
+          "add": [
+            "koc_tedarikci_kaydi"
+          ]
+        }
+      },
+      "tr": "On dört belge iki haftada tamamlandı. Ücret atölyeden doksan bir gün sonra hesabına geçti.",
+      "en": "Fourteen documents in two weeks. The fee landed ninety-one days after the workshop.",
+      "coach": [
+        {
+          "tr": "Para yolda. Doksan gün boyunca.",
+          "en": "The money is on its way. For ninety days.",
+          "roast": false
+        }
+      ]
+    },
+    "avans": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "money": 1600
+        },
+        "tr": "Yarı avans onaylandı. Kalan yarı için yine on dört belge istendi.",
+        "en": "Half up front, approved. The other half still requires fourteen documents.",
+        "coach": [
+          {
+            "tr": "Yarısı hemen, yarısı formda.",
+            "en": "Half now. Half in forms.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Avans için ayrı bir talep formu doldurman gerekti. Formun onay süresi de doksan gün.",
+        "en": "The advance required its own request form. Approval time for the form: ninety days.",
+        "coach": [
+          {
+            "tr": "Formun da vadesi varmış.",
+            "en": "Turns out the form has payment terms.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -200
+      },
+      "tr": "İşi bıraktın. Hazırladığın sunum masaüstünde \"atolye_son_son\" adıyla duruyor.",
+      "en": "You walked away. The deck you built sits on your desktop as 'workshop_FINAL_final.'",
+      "coach": [
+        {
+          "tr": "Dosya kaldı, iş gitti.",
+          "en": "The file stayed. The gig left.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "avans",
+    "slip": {
+      "tr": "İDDİA: Avansın da formu çıkar. — M.",
+      "en": "WAGER: The advance comes with its own form. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk kurumsal atölye işi için şirket on dört belgelik tedarikçi kaydı ve doksan gün vade istiyor",
+    "mechanism": "avansın da vadesi çıkıyor",
+    "mechanismId": "count",
+    "punch": "formun onay süresi de doksan gün",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "form"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

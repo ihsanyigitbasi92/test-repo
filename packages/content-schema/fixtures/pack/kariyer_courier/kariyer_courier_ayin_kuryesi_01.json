@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_ayin_kuryesi_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Ayın kuryesi bu akşam belli olacak. Bir teslimat farkla ikincisin. Ödül: koltuk minderi.",
+      "en": "Courier of the month gets announced tonight. You're one drop behind. Prize: a seat cushion."
+    },
+    {
+      "speaker": "npc:courier",
+      "avatar": "smug",
+      "tr": "Minder benim. Annem rengini bile seçti.",
+      "en": "That cushion is mine. My mom already picked the color.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "son",
+      "tr": "Son saate iki sipariş sığdır",
+      "en": "Squeeze in two more drops",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "eve",
+      "tr": "Bırak, eve git",
+      "en": "Clock out and go home",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "tebrik",
+      "tr": "Rakibi şimdiden tebrik et",
+      "en": "Congratulate your rival early",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "son": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "kurye_ayin_kuryesi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "İki siparişi son on dakikada bitirdin. Ayın kuryesi sensin; minder ertesi gün geldi.",
+        "en": "You finished both drops in the last ten minutes. Courier of the month is you. The cushion arrived the next day.",
+        "coach": [
+          {
+            "tr": "Minder senin. Rengi seçilmiş olarak geldi.",
+            "en": "The cushion is yours. It came with a color already picked.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef defterine bir minder.",
+            "en": "One cushion for the goal ledger.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Teslimat sayısı eşitlendi; eşitlik müşteri puanıyla bozuldu ve ikinci kaldın.",
+        "en": "You tied on deliveries. The tie went to customer ratings, and you came second.",
+        "coach": [
+          {
+            "tr": "Fark 0,1 yıldız. Minder yeni sahibinde.",
+            "en": "Margin: 0.1 stars. The cushion has its owner.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "eve": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Vardiyayı zamanında kapattın. Tören sensiz yapıldı.",
+      "en": "You clocked out on time. The ceremony went ahead without you.",
+      "coach": [
+        {
+          "tr": "Tören sensiz yapıldı. Akşam yemeği seninle.",
+          "en": "The ceremony happened without you. Dinner didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "tebrik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "npc": [
+          {
+            "role": "npc:courier",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Rakibini önceden tebrik ettin. Kazandı; minderin fotoğrafını sana da yolladı.",
+      "en": "You congratulated your rival early. They won, and sent you a photo of the cushion.",
+      "coach": [
+        {
+          "tr": "Erken tebrik, geç kayıp. Minder yakışmış.",
+          "en": "Early congratulations, late loss. The cushion suits them.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "son",
+    "slip": {
+      "tr": "İDDİA: Minder sende değil. — M.",
+      "en": "WAGER: That cushion isn't going home with you. — M."
+    }
+  },
+  "intent": {
+    "setup": "ayın kuryesi yarışında son saatte bir teslimat fark",
+    "mechanism": "ödülün minder olması",
+    "mechanismId": "bathos",
+    "punch": "ödül: koltuk minderi",
+    "lift": "Hedef defterine bir minder.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "minder"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

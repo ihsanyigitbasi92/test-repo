@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_kapi_numarasi_01",
+  "tags": [
+    "para",
+    "dogalgaz",
+    "sayac",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 85
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Sayacınız 7 numara, daireniz 8 görünüyor. Yani siz aslında komşunuzu ödüyorsunuz.",
+      "en": "Your meter is listed as No. 7, your apartment as No. 8. So you've been paying for your neighbor."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kaç yıldır olduğunu sistem söylemiyor. Sistem sadece son iki yılı hatırlıyor.",
+      "en": "The system can't say for how many years. It only remembers the last two.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "iade",
+      "tr": "Düzeltme ve iade iste",
+      "en": "Request a fix and a refund",
+      "pattern": "patience"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşuyla konuş",
+      "en": "Talk to the neighbor",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "birak",
+      "tr": "Düzelt, geçmişi bırak",
+      "en": "Fix it, let the past go",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "iade": {
+      "effects": {
+        "money": 1800,
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "sayac_duzeltildi"
+          ]
+        }
+      },
+      "tr": "Sayaçlar eşleştirildi. Son iki yılın farkı, 1.800 Para, sonraki faturalardan düşülecek.",
+      "en": "Meters matched. The last two years' difference, 1,800, comes off your future bills.",
+      "coach": [
+        {
+          "tr": "İki yıl geri geldi. Öncesi sistemin hafızasında yok.",
+          "en": "Two years came back. Before that, the system draws a blank.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacına 1.800 Para eklendi.",
+          "en": "Goal meter: plus 1,800.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "sayac_duzeltildi"
+          ]
+        }
+      },
+      "tr": "Komşu şaşırdı, sonra bir tepsi börek getirdi. Faturalar ertesi ay düzeldi.",
+      "en": "The neighbor was shocked, then brought over a tray of pastries. The bills were fixed the next month.",
+      "coach": [
+        {
+          "tr": "Yıllarca ısıtılan komşudan bir tepsi.",
+          "en": "From the neighbor you heated for years: one tray.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "sayac_duzeltildi"
+          ]
+        }
+      },
+      "tr": "Kayıt düzeltildi, iade istenmedi. Bu kışın faturası her zamankinin yarısı geldi.",
+      "en": "Records corrected, no refund requested. This winter's bill came in at half the usual.",
+      "coach": [
+        {
+          "tr": "Kış yarı fiyata. Geçmiş hesapsız kaldı.",
+          "en": "Winter at half price. The past stays off the books.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "sayaç ve daire numarası karışıklığıyla yıllardır komşunun doğalgazının senin aboneliğine işlenmesi",
+    "mechanism": "sistem yalnızca son iki yılı hatırlıyor",
+    "mechanismId": "reversal",
+    "punch": "siz aslında komşunuzu ödüyorsunuz",
+    "lift": "hedef sayacı 1.800",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tepsi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

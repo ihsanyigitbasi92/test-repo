@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_yerden_altin_yuzuk_01",
+  "tags": [
+    "para",
+    "sokak",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 80
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Bakın, yerde altın yüzük buldum. Sizin mi? Değil mi? O zaman ikimizin.",
+      "en": "Look, I found a gold ring on the ground. Yours? No? Then it's both of ours."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Benim acelem var. Siz bana 1.500 verin, yüzük sizde kalsın. Kuyumcuda 6.000 eder.",
+      "en": "I'm in a hurry. Give me 1,500 and keep the ring. A jeweler would say 6,000.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "1.500 ver, yüzüğü al",
+      "en": "Pay 1,500, take the ring",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kuyumcu",
+      "tr": "Birlikte kuyumcuya gidelim de",
+      "en": "Suggest walking to a jeweler together",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yuru",
+      "tr": "Yüzüğü bırak, yürü",
+      "en": "Leave the ring, walk on",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "money": -1500,
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "sahte_yuzuk"
+          ]
+        },
+        "glossary": "yerden_altin_oyunu"
+      },
+      "tr": "Kuyumcu yüzüğü tarttı: pirinç, 40 Para eder. Adam o köşede bir daha görülmedi.",
+      "en": "The jeweler weighed it: brass, worth forty. The man was never seen on that corner again.",
+      "coach": [
+        {
+          "tr": "Yüzük sende kaldı. Altını onda.",
+          "en": "You kept the ring. He kept the gold.",
+          "roast": false
+        }
+      ]
+    },
+    "kuyumcu": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 4
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "yuzuk_oyunu_bozuldu"
+            ]
+          },
+          "glossary": "yerden_altin_oyunu"
+        },
+        "tr": "\"Kuyumcu iki sokak ötede\" dedin. Adam saatine baktı, acelesi birden arttı ve yüzükle birlikte gitti.",
+        "en": "You said, \"There's a jeweler two streets over.\" He checked his watch, got even more hurried, and left with the ring.",
+        "coach": [
+          {
+            "tr": "Kuyumcu kelimesi yetti. Yürümeye gerek kalmadı.",
+            "en": "Just the word \"jeweler\" did it. No walk required.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -500,
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "sahte_yuzuk"
+            ]
+          }
+        },
+        "tr": "Adam fiyatı 500'e indirdi, sen de kuyumcu fikrini unuttun. Yüzük pirinç.",
+        "en": "He dropped the price to 500, and the jeweler idea slipped your mind. The ring is brass.",
+        "coach": [
+          {
+            "tr": "Pazarlığı kazandın. Pirinç kazandı.",
+            "en": "You won the haggle. Brass won the day.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yuru": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yuzuk_birakildi"
+          ]
+        }
+      },
+      "tr": "Yürüdün. Köşeyi dönerken adamın aynı yüzüğü yerden bir kez daha bulduğunu gördün.",
+      "en": "You walked on. Turning the corner, you watched him find the same ring on the ground again.",
+      "coach": [
+        {
+          "tr": "Bu yüzük çok kayboluyor. Hep aynı köşede.",
+          "en": "That ring gets lost a lot. Always on the same corner.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kuyumcu",
+    "slip": {
+      "tr": "İDDİA: Fiyat düşünce kuyumcuyu unutursun. — M.",
+      "en": "WAGER: Drop the price and you'll forget the jeweler. — M."
+    }
+  },
+  "intent": {
+    "setup": "sokakta yabancının yerde 'bulduğu' altın yüzüğü ucuza teklif etmesi",
+    "mechanism": "bulunan yüzük ortak ilan ediliyor",
+    "mechanismId": "literalism",
+    "punch": "o zaman ikimizin",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kose"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_partner_sorgusu_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "iliski",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      },
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Hoş geldin. Birkaç sorum var, faturanın arkasına yazdım. Kaygılanma, on dört tane.",
+      "en": "Welcome. Just a few questions. I wrote them on the back of a utility bill. Don't worry, only fourteen."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Birinci soru: çayı demlemeden önce demliği ısıtır mısın?",
+      "en": "Question one: do you warm the teapot before you brew?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Benim de bir sorum var ama sonra. Yemekten sonra.",
+      "en": "I have a question too, but later. After dinner.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cevap",
+      "tr": "Partnerine bırak",
+      "en": "Let your partner field it",
+      "pattern": "patience"
+    },
+    {
+      "id": "araya",
+      "tr": "Araya girip sen cevapla",
+      "en": "Jump in and answer for them",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tatli",
+      "tr": "Tatlıyı erkene al",
+      "en": "Bring dessert out early",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "cevap": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "dayi_sorgusu_gecildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          },
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Partnerin on dört soruyu cevapladı. Dayın faturayı katlayıp cebine koydu ve “ikinci tur yılbaşında” dedi.",
+      "en": "Your partner answered all fourteen. Your uncle folded the bill into his pocket and said, “Round two at New Year's.”",
+      "coach": [
+        {
+          "tr": "On dört soru tamam. Bir tur daha var.",
+          "en": "Fourteen down. One more round pending.",
+          "roast": false
+        }
+      ]
+    },
+    "araya": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "dayi_sorgusu_gecildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            },
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Dört soruyu sen cevapladın, dördü de doğruydu. Dayın listenin altına “yeğen yardım etti” notu düştü.",
+        "en": "You answered four of them, all correctly. He added a footnote: “relative assisted.”",
+        "coach": [
+          {
+            "tr": "Yardım puanı ayrı hesaplandı.",
+            "en": "Assists scored separately.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -2
+            },
+            {
+              "role": "uncle",
+              "affinity": -1,
+              "memory": "sorguda_kopya"
+            }
+          ]
+        },
+        "tr": "Demlik sorusunu yanlış cevapladın. Partnerin doğrusunu biliyordu ve bütün akşam bunu hatırlattı.",
+        "en": "You got the teapot question wrong. Your partner knew the answer and mentioned it all evening.",
+        "coach": [
+          {
+            "tr": "Demlik ısıtılıyormuş.",
+            "en": "Apparently, you warm the pot.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tatli": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          },
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Tatlıyı erkene aldın. Dayın sorulara tatlı tabağının yanında devam etti, kaşık elinde.",
+      "en": "You served dessert early. He continued the questions over dessert, spoon in hand.",
+      "coach": [
+        {
+          "tr": "Soru on bire geldi.",
+          "en": "We've reached question eleven.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "araya",
+    "slip": {
+      "tr": "İDDİA: Araya girersen bir soruda çakılırsın. — M.",
+      "en": "WAGER: Jump in and you'll flunk one. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının partnerinle ilk tanışmada faturanın arkasına yazdığı on dört soruyu okuması",
+    "mechanism": "ciddi sorgunun demlik sorusuyla açılması",
+    "mechanismId": "bathos",
+    "punch": "demliği ısıtır mısın",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "demlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

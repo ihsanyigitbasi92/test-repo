@@ -1,0 +1,168 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_geri_odeme_plani_01",
+  "tags": [
+    "egitim",
+    "kredi",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_birlik_sonucu_01",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 24
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Standart, kademeli ya da uzatılmış geri ödeme seçebilirsiniz. Üçünü de anlatayım.",
+      "en": "You can choose standard, graduated or extended repayment. I'll walk you through all three."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Uzatılmışın taksiti en düşüğü. Bitişi de epey ileri bir yaşınıza denk geliyor.",
+      "en": "Extended has the smallest monthly payment. It also runs until you're considerably older.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "standart",
+      "tr": "Standart planı seç",
+      "en": "Pick the standard plan",
+      "pattern": "patience"
+    },
+    {
+      "id": "uzun",
+      "tr": "Uzatılmış planı seç",
+      "en": "Pick the extended plan",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "anne",
+      "tr": "Annene sor",
+      "en": "Ask Mom",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "standart": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kredi_plan_standart"
+          ]
+        }
+      },
+      "tr": "Standart plan: on yıl, can yakan bir taksit. Görevli bitiş yaşını yapışkan nota yazdı: otuz üç.",
+      "en": "Standard plan. Ten years, a payment that stings. The banker wrote your finish age on a sticky note: thirty-three.",
+      "coach": [
+        {
+          "tr": "Otuz üç. Yapışkan notta.",
+          "en": "Thirty-three. On a sticky note.",
+          "roast": false
+        }
+      ]
+    },
+    "uzun": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "kredi_plan_uzun"
+          ]
+        }
+      },
+      "tr": "Uzatılmış plan: hafif bir taksit. Son ödeme, annenin bugünkü yaşına denk geliyor.",
+      "en": "Extended plan. A gentle payment. The last one lands around Mom's current age.",
+      "coach": [
+        {
+          "tr": "Hafif taksit, uzun yol.",
+          "en": "Light payment. Long road.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "kredi_plan_anne"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annen önce hangisinin erken bittiğini, sonra hangisinin ucuz olduğunu sordu. Sonra 'ikisi' dedi.",
+      "en": "Mom asked which one finishes soonest, then which one costs least, then said, 'That one. Both.'",
+      "coach": [
+        {
+          "tr": "İki şart. Böyle bir plan yok.",
+          "en": "Two conditions. No such plan.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "öğrenim kredisinde geri ödeme planı seçimi",
+    "mechanism": "annenin iki şartı tek planda istemesi",
+    "mechanismId": "literalism",
+    "punch": "bitişi epey ileri bir yaşa denk geliyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "plan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "EN-only ikiz (D-048): askerlik yerine öğrenim kredisi. Mekanik iskelet aynı (SC-24); TR bundle’ına girmez. Faiz oranı/kurum adı yok (K17)."
+  },
+  "l10n": {
+    "onlyLocale": "en",
+    "mechanismNote": "TR metni yalnızca inceleme içindir; TR oyuncu askerlik ikizini görür."
+  }
+}

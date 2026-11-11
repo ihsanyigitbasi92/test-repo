@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_dondurucu_kesinti_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Bütün sokakta elektrik yok. Dört saat sürecekmiş. Senin dondurmalar ne olacak?",
+      "en": "Power's out on the whole street. Four hours, they say. What about your ice cream?"
+    },
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "happy",
+      "tr": "Eriyorsa ben yardım edebilirim.",
+      "en": "If it melts, I can help.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dagit",
+      "tr": "Dondurmaları mahalleye dağıt",
+      "en": "Hand the ice cream out",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sar",
+      "tr": "Dolabı battaniyeyle sar",
+      "en": "Wrap the freezer in blankets",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "jenerator",
+      "tr": "Saatlik jeneratör kirala",
+      "en": "Rent a generator by the hour",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "dagit": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -700,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 4
+          },
+          {
+            "role": "npc:neighborKid",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Dolap otuz beş dakikada boşaldı. Sokakta herkesin elinde külah var, kasada hiçbir şey yok.",
+      "en": "The freezer was empty in thirty-five minutes. Everyone on the street has a cone. The till has nothing.",
+      "coach": [
+        {
+          "tr": "Sokak doydu. Hesap sende kaldı.",
+          "en": "The street ate well. The bill stayed with you.",
+          "roast": true
+        }
+      ]
+    },
+    "sar": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Üç battaniye, bir yorgan. Elektrik geldiğinde dondurmaların hepsi sapasağlamdı.",
+        "en": "Three blankets and a duvet. When the power came back, every tub was still solid.",
+        "coach": [
+          {
+            "tr": "Yorgan bu yıl ilk kez dükkânda mesai yaptı.",
+            "en": "First shift of the year for the duvet.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -650
+        },
+        "tr": "Battaniyeler dayandı ama kesinti altı saat sürdü. Yorgan artık çilekli.",
+        "en": "The blankets held, but the outage ran six hours. The duvet is now strawberry.",
+        "coach": [
+          {
+            "tr": "Battaniye dayandı. Takvim dayanmadı.",
+            "en": "The blankets held up. The schedule didn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "jenerator": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "money": -900,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Jeneratör dolabı kurtardı. Gürültüsü yüzünden üst kattaki komşu iki kez aşağı indi.",
+      "en": "The generator saved the freezer. The noise brought the upstairs neighbor down twice.",
+      "coach": [
+        {
+          "tr": "Dondurma kurtuldu, komşuluk biraz eridi.",
+          "en": "The ice cream survived. The neighborliness thawed a little.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sar",
+    "slip": {
+      "tr": "İDDİA: Battaniye yeter, kesinti yetmez. — M.",
+      "en": "WAGER: The blankets last. The outage lasts longer. — M."
+    }
+  },
+  "intent": {
+    "setup": "sokaktaki elektrik kesintisinde dükkânın dondurucusundaki dondurmalar erimek üzere",
+    "mechanism": "battaniye ve yorgan dondurucuya dönüşüyor",
+    "mechanismId": "bathos",
+    "punch": "yorgan artık çilekli",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yorgan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

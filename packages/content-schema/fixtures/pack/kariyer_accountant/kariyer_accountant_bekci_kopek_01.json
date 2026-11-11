@@ -1,0 +1,168 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_bekci_kopek_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Patron diyor ki Karabaş bekçi. Bekçinin maaşı da mama. Gider yazılsın.",
+      "en": "The boss says Biscuit is a security guard. A guard gets paid in dog food. Expense it."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Bir de kulübe var. Patron ona \"güvenlik kulübesi\" diyor.",
+      "en": "There's also a doghouse. The boss calls it 'the security booth.'",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "reddet",
+      "tr": "Kibarca reddet",
+      "en": "Politely decline",
+      "pattern": "patience"
+    },
+    {
+      "id": "yaz",
+      "tr": "Patronun dediği gibi yaz",
+      "en": "Book it the way the boss wants",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "belge",
+      "tr": "Bekçilik belgesini iste",
+      "en": "Ask for the guard's credentials",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "reddet": {
+      "effects": {
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:clerk",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Mamayı gidere yazmadın. Müşteri bir sonraki faturanın açıklamasına \"Karabaş üzgün\" yazdı.",
+      "en": "No dog food on the books. The client wrote 'Biscuit is sad' in the memo line of the next invoice.",
+      "coach": [
+        {
+          "tr": "Karabaş kayıt dışı kaldı.",
+          "en": "Biscuit remains off the books.",
+          "roast": false
+        }
+      ]
+    },
+    "yaz": {
+      "effects": {
+        "meters": {
+          "ego": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -3
+          },
+          {
+            "role": "npc:clerk",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "muhasebe_bekci_kopek"
+          ]
+        }
+      },
+      "tr": "Mama gidere girdi. Sekiz ay sonra gelen inceleme yazısında tek soru vardı: \"Bekçinin sigortası?\"",
+      "en": "The dog food went on the books. Eight months later the review letter had one question: 'The guard's insurance?'",
+      "coach": [
+        {
+          "tr": "Bekçi soruldu. Karabaş açıklama yapmadı.",
+          "en": "They asked about the guard. Biscuit declined to comment.",
+          "roast": false
+        }
+      ]
+    },
+    "belge": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 2
+        },
+        "npc": [
+          {
+            "role": "npc:clerk",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Bekçilik belgesini istedin. Asistan ertesi gün tasmanın fotoğrafını gönderdi; konu orada kapandı.",
+      "en": "You asked for the guard's credentials. The next day the assistant sent a photo of the collar. That closed the matter.",
+      "coach": [
+        {
+          "tr": "Tasma belge sayılmadı.",
+          "en": "The collar was not accepted as ID.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "müşteri firma köpeğini bekçi gösterip mamasını gider yazdırmak istiyor",
+    "mechanism": "köpek kelimesi kelimesine personel",
+    "mechanismId": "literalism",
+    "punch": "bekçinin maaşı mama",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "mama"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

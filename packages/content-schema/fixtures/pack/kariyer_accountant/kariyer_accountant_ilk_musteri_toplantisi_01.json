@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_ilk_musteri_toplantisi_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Seni müşteri toplantısına götürüyorum. Görevin sayılara bakıp başını sallamak.",
+      "en": "I'm taking you to a client meeting. Your job is to look at the numbers and nod."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "Konuşma yok. Biri bir şey sorarsa \"raporda var\" dersin.",
+      "en": "No talking. If anyone asks anything, you say 'it's in the report.'",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "salla",
+      "tr": "Sadece başını salla",
+      "en": "Just nod",
+      "pattern": "patience"
+    },
+    {
+      "id": "hata",
+      "tr": "Tablodaki hatayı söyle",
+      "en": "Point out the error in the table",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "not",
+      "tr": "Her şeyi not al",
+      "en": "Take notes on everything",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "salla": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Bir saat başını salladın. Müşteri çıkarken patrona \"genç arkadaş her şeye katılıyor\" dedi.",
+      "en": "You nodded for an hour. Leaving, the client told your boss, 'Your junior agrees with everything.'",
+      "coach": [
+        {
+          "tr": "Bir saat, sıfır kelime.",
+          "en": "One hour, zero words.",
+          "roast": false
+        }
+      ]
+    },
+    "hata": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "muhasebe_hatayi_bulan"
+            ]
+          }
+        },
+        "tr": "Toplamda iki satırın yer değiştirdiğini söyledin. Müşteri düzeltti, patron dönüşte kahve ısmarladı.",
+        "en": "You noted two rows were swapped in the total. The client fixed it. On the drive back the boss bought you coffee.",
+        "coach": [
+          {
+            "tr": "İlk toplantı, ilk kahve.",
+            "en": "First meeting, first coffee.",
+            "roast": false
+          },
+          {
+            "tr": "Hedefe bir çentik.",
+            "en": "One notch toward the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Hata sandığın şey müşterinin bilerek yaptığı bir yuvarlamaydı. Patron sana bakmadan \"raporda var\" dedi.",
+        "en": "The 'error' was a rounding the client did on purpose. Your boss said 'it's in the report' without looking at you.",
+        "coach": [
+          {
+            "tr": "Raporda varmış.",
+            "en": "It was in the report.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "not": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Dokuz sayfa not aldın. Toplantı bitince müşteri notlarının fotoğrafını istedi.",
+      "en": "You took nine pages of notes. At the end the client asked to photograph them.",
+      "coach": [
+        {
+          "tr": "Tutanak artık sensin.",
+          "en": "You're the minutes now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hata",
+    "slip": {
+      "tr": "İDDİA: O hata kasıtlı. — M.",
+      "en": "WAGER: That 'error' is on purpose. — M."
+    }
+  },
+  "intent": {
+    "setup": "patron yeni muhasebeciyi ilk müşteri toplantısına yalnızca başını sallaması için götürüyor",
+    "mechanism": "tek görev baş sallamak",
+    "mechanismId": "deadpan_report",
+    "punch": "genç arkadaş her şeye katılıyor",
+    "lift": "hedef çentiği",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bas_sallama"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

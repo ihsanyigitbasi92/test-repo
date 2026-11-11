@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_ogrenci_kiraci_01",
+  "tags": [
+    "para",
+    "borc",
+    "ev",
+    "kiraci",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 76
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "housing": [
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Boş odaya ilan verildi. İlk aday kapıda: elinde bir saksı, sırtında gitar.",
+      "en": "You listed the spare room. First applicant at the door: a potted plant in hand, a guitar on their back."
+    },
+    {
+      "id": "t2",
+      "tr": "Aday sordu: 'Kira ayın kaçında? Burs ayın 25'inde yatıyor.'",
+      "en": "They asked, 'When's rent due? My stipend lands on the 25th.'"
+    }
+  ],
+  "choices": [
+    {
+      "id": "gitar",
+      "tr": "Gitarlı adaya ver",
+      "en": "Rent to the guitarist",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Başka aday bekle",
+      "en": "Wait for another applicant",
+      "pattern": "patience"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Vazgeç, oda boş kalsın",
+      "en": "Forget it, keep the room empty",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "gitar": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 1500,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "ogrenci_kiraci",
+              "kira_geliri"
+            ]
+          }
+        },
+        "tr": "Öğrenci yerleşti: ayda 1.500 Para. İlk ayın kirası kart borcuna yatırıldı.",
+        "en": "The student moved in: 1,500 a month. Month one's rent went straight to the card debt.",
+        "coach": [
+          {
+            "tr": "Ayda 1.500 Para, akşamları canlı müzik dahil.",
+            "en": "1,500 a month. Live music included.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": 1500,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ogrenci_kiraci"
+            ]
+          }
+        },
+        "tr": "Öğrenci yerleşti: ayda 1.500 Para. Gitar her akşam iki saat çalınıyor, burs her ay iki gün geç yatıyor.",
+        "en": "The student moved in: 1,500 a month. Guitar: two hours every evening. Stipend: two days late every month.",
+        "coach": [
+          {
+            "tr": "İki saat gitar, iki gün gecikme. Kira yine de geliyor.",
+            "en": "Two hours of guitar, two days late. The rent still shows up.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "money": 1200,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ogrenci_kiraci",
+            "kira_geliri"
+          ]
+        }
+      },
+      "tr": "İkinci aday sessiz bir tıp öğrencisi çıktı: ayda 1.200 Para. Buzdolabında artık etiketli kaplar var.",
+      "en": "Applicant two: a quiet medical student. 1,200 a month. The fridge now holds labeled containers.",
+      "coach": [
+        {
+          "tr": "Etiketli kaplar, sessiz geceler. 300 Para indirimli.",
+          "en": "Labeled containers, silent nights. 300 off the price.",
+          "roast": true
+        },
+        {
+          "tr": "Hedefe ayda 1.200 Para.",
+          "en": "Goal fund: 1,200 a month.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "oda_bos"
+          ]
+        }
+      },
+      "tr": "İlan kaldırıldı. Boş oda yine ütü odası; kart borcu yerinde.",
+      "en": "Listing taken down. The spare room is the ironing room again. The card debt stays put.",
+      "coach": [
+        {
+          "tr": "Ütü odası korundu. Aylık bedeli belli.",
+          "en": "The ironing room survives. Its monthly cost is known.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gitar",
+    "slip": {
+      "tr": "İDDİA: Gitar sorun olur. — M.",
+      "en": "WAGER: The guitar becomes a problem. — M."
+    }
+  },
+  "intent": {
+    "setup": "kart borcunu kapatmak için evin boş odasını bir üniversite öğrencisine kiraya vermek",
+    "mechanism": "gitarlı aday ve 'burs ayın 25'inde' sorusu",
+    "mechanismId": "deadpan_report",
+    "punch": "burs ayın 25'inde yatıyor",
+    "lift": "hedefe ayda 1.200",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gitar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

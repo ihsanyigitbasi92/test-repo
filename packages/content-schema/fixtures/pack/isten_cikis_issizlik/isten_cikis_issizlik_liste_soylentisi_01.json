@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_liste_soylentisi_01",
+  "tags": [
+    "is",
+    "isten_cikarma",
+    "soylenti",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "stats": {
+      "joy": {
+        "min": 30
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Koridorda bir liste dolaşıyor. İsim yok, sadece kat numaraları var. Bizim kat da var.",
+      "en": "There's a list going around. No names, just floor numbers. Ours is on it."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Rutin bir çalışma: herkesin devir teslim dokümanını güncellemesini rica ediyoruz. Cumaya kadar.",
+      "en": "Just routine: we're asking everyone to update their handover documents. By Friday.",
+      "delayMs": 700
+    },
+    {
+      "speaker": "boss",
+      "avatar": "tired",
+      "tr": "Bilmiyorum. Gerçekten bilmiyorum. Ben de kendi dokümanımı güncelliyorum.",
+      "en": "I don't know. I honestly don't. I'm updating my handover doc too.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "dokuman",
+      "tr": "Dokümanı eksiksiz yaz",
+      "en": "Write the full handover",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "basvur",
+      "tr": "Akşamları başvurmaya başla",
+      "en": "Start applying in the evenings",
+      "pattern": "patience"
+    },
+    {
+      "id": "sor",
+      "tr": "İK'ya açıkça sor",
+      "en": "Ask HR point-blank",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "dokuman": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "money": 2500,
+        "stats": {
+          "joy": -4
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "isten_cikarildi",
+            "devir_dokumani"
+          ]
+        }
+      },
+      "tr": "Dokümanı otuz iki sayfa yazdın. Pazartesi pozisyonun kaldırıldı; dokümanın ekibe \"örnek şablon\" olarak dağıtıldı.",
+      "en": "You wrote thirty-two pages. On Monday your position was eliminated. Your doc went out to the team as a \"template.\"",
+      "coach": [
+        {
+          "tr": "Şablon sende başladı. Ekipte sürüyor.",
+          "en": "The template started with you. It lives on without you.",
+          "roast": false
+        }
+      ]
+    },
+    "basvur": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "basvuru_basladi"
+          ]
+        }
+      },
+      "tr": "Bir haftada dokuz başvuru yaptın. Cuma günü liste \"yanlış alarm\" ilan edildi; dokuzdan ikisi geri döndü.",
+      "en": "Nine applications in a week. On Friday the list was declared a \"false alarm.\" Two of the nine called back.",
+      "coach": [
+        {
+          "tr": "Alarm yanlıştı. Dönüşler gerçek.",
+          "en": "False alarm. Real callbacks.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "liste_netlesti"
+            ]
+          }
+        },
+        "tr": "İK sözlü olarak senin katının değil, bir alt katın etkileneceğini söyledi. Dokümanın rafa kalktı.",
+        "en": "HR told you, off the record, that it's the floor below. Your handover doc went back on the shelf.",
+        "coach": [
+          {
+            "tr": "Bir kat aşağısı. Asansörde göz teması azaldı.",
+            "en": "One floor down. Elevator eye contact has decreased.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "İK \"her şey rutin\" dedi ve sana cuma için hatırlatma gönderdi.",
+        "en": "HR said \"everything's routine\" and sent you a reminder about Friday.",
+        "coach": [
+          {
+            "tr": "Rutin dendi. Hatırlatma geldi.",
+            "en": "It's routine. Here's a reminder.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "işten çıkarma söylentisinde İK'nın devir teslim dokümanı istemesi",
+    "mechanism": "kimsenin bir şey bilmediği kurumsal sis aynen aktarılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "ben de kendi dokümanımı güncelliyorum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sablon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

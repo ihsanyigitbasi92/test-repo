@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tasinma_kapi_sifresi_01",
+  "tags": [
+    "ev",
+    "tasinma",
+    "tasinma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tasinma": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Bina kapısı şifreli. Şifre sizde yok mu?",
+      "en": "The building door has a keypad. You don't have the code?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Eşyaları kaldırıma indiriyoruz. Saat ücreti işliyor.",
+      "en": "We're unloading onto the sidewalk. The hourly rate is running.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "Tahmin et: 1234",
+      "en": "Guess: 1234",
+      "pattern": "risk",
+      "check": {
+        "base": 2000
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Bir sakinin çıkmasını bekle",
+      "en": "Wait for a resident to come out",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Emlakçıyı ara",
+      "en": "Call the agent",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 2000,
+        "effects": {
+          "money": -200,
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "1234 açtı. Nakliyeci başını salladı; yönetime yazmayı düşündün, yazmadın.",
+        "en": "1234 worked. The mover nodded. You thought about emailing building management. You did not.",
+        "coach": [
+          {
+            "tr": "Bina güvenliği dört rakam. Sırayla.",
+            "en": "Building security: four digits. In order.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 8000,
+        "effects": {
+          "money": -500,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Üç denemede tuş takımı kilitlendi. Bir saat kaldırımda beklediniz, ücret 500 Paraya çıktı.",
+        "en": "Three tries and the keypad locked. An hour on the sidewalk. The bill rose to 500.",
+        "coach": [
+          {
+            "tr": "Tuş takımı seni tanımadı. Kaldırım tanıdı.",
+            "en": "The keypad didn't recognize you. The sidewalk did.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "create": true,
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Elli dakika sonra köpekli bir komşu çıktı. Kapıyı tuttu, kanepenin bir ucunu da.",
+      "en": "Fifty minutes later a neighbor came out with a dog. Held the door, and one end of the sofa.",
+      "coach": [
+        {
+          "tr": "Bir komşun oldu. Kanepe tanıştırdı.",
+          "en": "You gained a neighbor. The sofa made the introduction.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "money": -300,
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Emlakçı şifreyi mesajla gönderdi: '1234'. Nakliyecinin yüzüne bakmadın.",
+      "en": "The agent texted the code: '1234.' You did not look at the mover.",
+      "coach": [
+        {
+          "tr": "Şifre tahmin edilebilirdi. Sen bir telefon harcadın.",
+          "en": "The code was guessable. You spent a phone call on it.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dene",
+    "slip": {
+      "tr": "İDDİA: Tuş takımı kazanır. — M.",
+      "en": "WAGER: The keypad wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "taşınma günü yeni binanın kapı şifresini bilmiyorsun, eşyalar kaldırımda bekliyor",
+    "mechanism": "güvenlik dört sıralı rakam",
+    "mechanismId": "escalation",
+    "punch": "bina güvenliği dört rakam, sırayla",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tus"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

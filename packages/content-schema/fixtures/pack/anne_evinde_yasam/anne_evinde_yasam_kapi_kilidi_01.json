@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_evinde_yasam_kapi_kilidi_01",
+  "tags": [
+    "ev",
+    "anne",
+    "oda",
+    "anne_evinde_yasam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "anne_evinde_yasam": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    },
+    "housing": [
+      "momsHouse"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Kapına kilit mi taktın? Bu evde kilit olmaz. Kilit olursa içeride kim var, bilemem.",
+      "en": "You put a lock on your door? This house doesn't do locks. With a lock, how would I know who's in there?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Ben girmeyeceğim zaten. Sadece açık dursun. Girmeyeceğim.",
+      "en": "I won't come in anyway. Just leave it open. I won't come in.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlas",
+      "tr": "Önce kapıyı çal kuralı öner",
+      "en": "Propose a knock-first rule",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kilit",
+      "tr": "Kilidi tut",
+      "en": "Keep the lock",
+      "pattern": "pride"
+    },
+    {
+      "id": "sok",
+      "tr": "Kilidi sök",
+      "en": "Take the lock off",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "anlas": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "momPressure": -3
+          },
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "kapi_calma_kurali"
+            ]
+          }
+        },
+        "tr": "Annen kabul etti. Artık kapıyı çalıyor; çalarken de açıyor.",
+        "en": "Mom agreed. She knocks now. While opening the door.",
+        "coach": [
+          {
+            "tr": "Kural yürürlükte. Bir saniye gecikmeyle.",
+            "en": "The rule is in force. With a one-second delay.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "momPressure": 3
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "kilit_tartismasi"
+            ]
+          }
+        },
+        "tr": "Annen \"çalarım ama beklemem\" dedi. Pazarlık orada kilitlendi.",
+        "en": "Mom said, \"I'll knock, but I won't wait.\" Negotiations locked up right there.",
+        "coach": [
+          {
+            "tr": "Görüşme kilitlendi. Kapı hâlâ açık.",
+            "en": "The talks locked. The door's still open.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kilit": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "oda_kilitli"
+          ]
+        }
+      },
+      "tr": "Kilit kaldı. Annen ertesi gün kapının önüne \"temiz çamaşırların\" notuyla bir sepet bıraktı ve bırakmaya devam ediyor.",
+      "en": "The lock stayed. Next day Mom left a basket outside your door with a note, \"Your clean laundry,\" and has kept it up.",
+      "coach": [
+        {
+          "tr": "Kapı kilitli. Sepet servisi başladı.",
+          "en": "Door locked. Basket service has begun.",
+          "roast": false
+        }
+      ]
+    },
+    "sok": {
+      "effects": {
+        "meters": {
+          "momPressure": -4
+        },
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "kilit_sokuldu"
+          ]
+        }
+      },
+      "tr": "Kilidi söktün. Kapıda iki vida deliği kaldı; annen üstüne küçük bir kapı süsü astı.",
+      "en": "You took it off. Two screw holes remained. Mom hung a little door ornament over them.",
+      "coach": [
+        {
+          "tr": "Kilit gitti, süs geldi.",
+          "en": "Lock out. Ornament in.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlas",
+    "slip": {
+      "tr": "İDDİA: Annen beklemeyi kabul etmez. — M.",
+      "en": "WAGER: Mom won't agree to wait. — M."
+    }
+  },
+  "intent": {
+    "setup": "odana kilit taktırınca annenin itirazı",
+    "mechanism": "'girmeyeceğim, sadece açık dursun'",
+    "mechanismId": "literalism",
+    "punch": "çalarken de açıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "vida"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

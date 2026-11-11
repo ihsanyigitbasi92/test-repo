@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_temassiz_sifre_01",
+  "tags": [
+    "para",
+    "banka",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 34
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tutar temassız limitinin üstünde. Şifre girmeniz gerekiyor.",
+      "en": "It's over the tap limit. You'll need your PIN."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Acele yok. Arkada sadece altı kişi var.",
+      "en": "No rush. There are only six people behind you.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tahmin",
+      "tr": "Parmak hafızasına güven",
+      "en": "Trust muscle memory",
+      "pattern": "risk",
+      "check": {
+        "base": 4000
+      }
+    },
+    {
+      "id": "bol",
+      "tr": "Tutarı ikiye böldür",
+      "en": "Ask to split it into two taps",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "birak",
+      "tr": "Sepeti bırak, eve dön",
+      "en": "Leave the basket, go home",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "tahmin": [
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "sifre_hatirlandi"
+            ]
+          }
+        },
+        "tr": "Parmakların şifreyi senden önce hatırladı. Ödeme geçti.",
+        "en": "Your fingers remembered before you did. Payment approved.",
+        "coach": [
+          {
+            "tr": "Şifre başparmağında yaşıyormuş. Kirasız.",
+            "en": "Your PIN lives in your thumb. Rent-free.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "temassiz_limit",
+          "flags": {
+            "add": [
+              "sifre_unutuldu"
+            ]
+          }
+        },
+        "tr": "İki yanlış denemeden sonra ekranda \"son hakkınız\" yazdı. Sepet kasada kaldı, sen dışarı çıktın.",
+        "en": "Two wrong tries, and the screen said \"final attempt.\" The basket stayed at the till.",
+        "coach": [
+          {
+            "tr": "Altı kişi, iki deneme, sıfır hatıra.",
+            "en": "Six people, two attempts, zero recall.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bol": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "glossary": "temassiz_limit",
+        "flags": {
+          "add": [
+            "temassiz_bolundu"
+          ]
+        }
+      },
+      "tr": "Kasiyer tutarı ikiye böldü. İki temassız, iki fiş, bir iç çekiş.",
+      "en": "The cashier split it in two. Two taps, two receipts, one sigh.",
+      "coach": [
+        {
+          "tr": "Dört rakamı hatırlamamak için kasiyere ek mesai yaptırdın.",
+          "en": "You gave the cashier overtime to avoid remembering four digits.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "sifre_bulundu"
+          ]
+        }
+      },
+      "tr": "Sepeti bıraktın. Evde şifreyi eski bir not defterinde, \"önemli\" başlığının altında buldun.",
+      "en": "Back home you found the PIN in an old notebook, under the heading \"important.\"",
+      "coach": [
+        {
+          "tr": "\"Önemli\" başlığı işini yaptı. Üç saat geç.",
+          "en": "The heading \"important\" did its job. Three hours late.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "aylarca temassız ödedikten sonra limit üstü alışverişte kart şifresini hatırlayamamak",
+    "mechanism": "şifre kafada değil parmakta",
+    "mechanismId": "literalism",
+    "punch": "arkada sadece altı kişi var",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "baslik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

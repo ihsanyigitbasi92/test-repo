@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_uyku_duzeni_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "rutin",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Saat on biri kırk geçiyor. Gece vardiyasında mı çalışmaya başladın?",
+      "en": "It's 11:40. Did you start working nights?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Ben çıkarken uyuyordun, öğlen dönünce de uyuyorsun. Bu kahvaltı mı öğle yemeği mi?",
+      "en": "You were asleep when I left and you're asleep now that I'm back for lunch. Is this breakfast or lunch?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "alarm",
+      "tr": "Sabah sekize alarm kur",
+      "en": "Set an 8 a.m. alarm",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "gece",
+      "tr": "Gece düzenine devam et",
+      "en": "Stay on the night schedule",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "kahvalti",
+      "tr": "Ev arkadaşıyla kahvaltı sözleş",
+      "en": "Book breakfast with your roommate",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "alarm": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "sabah_rutini"
+          ]
+        }
+      },
+      "tr": "Alarm sekizde çaldı, dokuzda kalktın. Gün üç hafta sonra ilk kez öğleden önce başladı.",
+      "en": "The alarm went off at eight. You got up at nine. For the first time in three weeks, the day started before noon.",
+      "coach": [
+        {
+          "tr": "Dokuz da sabah sayılır.",
+          "en": "Nine counts as morning.",
+          "roast": false
+        }
+      ]
+    },
+    "gece": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "gece_duzeni"
+          ]
+        }
+      },
+      "tr": "Gece üçe kadar ilan taradın, öğlen kalktın. Başvurduğun yerlerin hepsi sabah dokuzda arıyor.",
+      "en": "You scrolled listings until 3 a.m. and slept till noon. Every place you applied to calls back at nine.",
+      "coach": [
+        {
+          "tr": "Başvurular gece, aramalar sabah. Arada sen uyuyorsun.",
+          "en": "Applications at night, callbacks in the morning. You sleep in between.",
+          "roast": false
+        }
+      ]
+    },
+    "kahvalti": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "sabah_rutini"
+          ]
+        }
+      },
+      "tr": "Ertesi sabah yedi buçukta mutfaktaydın. Ev arkadaşın simit getirdi, sen çay demledin.",
+      "en": "Next morning you were in the kitchen at 7:30. Your roommate brought bagels. You made tea.",
+      "coach": [
+        {
+          "tr": "Kahvaltı iki kişiyle tutunuyor.",
+          "en": "Breakfast holds better with two.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "işsizliğin üçüncü haftasında öğlene kadar uyumak",
+    "mechanism": "ev arkadaşı uyku saatini vardiya sanıyor",
+    "mechanismId": "literalism",
+    "punch": "gece vardiyasında mı çalışmaya başladın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sabah"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

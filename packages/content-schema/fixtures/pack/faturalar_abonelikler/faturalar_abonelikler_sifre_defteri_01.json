@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_sifre_defteri_01",
+  "tags": [
+    "para",
+    "fatura",
+    "uygulama",
+    "yaslilik",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 68,
+      "max": 88
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Şifre sıfırlamak için güvenlik sorusu: ilk evcil hayvanınızın adı.",
+      "en": "To reset your password, a security question: the name of your first pet."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Cevabın büyük harfle başladığı görünüyor. Sonunda da bir rakam var.",
+      "en": "The answer starts with a capital letter, it says. And ends with a number.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tahmin",
+      "tr": "Cevabı tahmin et",
+      "en": "Guess the answer",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gise",
+      "tr": "Kimlikle gişeye git",
+      "en": "Go in person with your ID",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Evde defteri ara",
+      "en": "Search the house for the notebook",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "tahmin": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "fatura_sifresi_yeni"
+            ]
+          }
+        },
+        "tr": "Üçüncü denemede tuttu: köpeğin adı ve eve taşınılan yıl. Yeni şifre buzdolabına yapıştırıldı.",
+        "en": "Third try worked: the dog's name plus the year you moved in. The new password went on the fridge.",
+        "coach": [
+          {
+            "tr": "Elli yıllık köpek, dört haneli yıl. Şifre geri geldi.",
+            "en": "A dog from fifty years ago, a four-digit year. Password restored.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "flags": {
+            "add": [
+              "hesap_kilitli"
+            ]
+          }
+        },
+        "tr": "Üç deneme bitti, hesap 24 saat kilitlendi. Son ödeme gününe bir gün kaldı.",
+        "en": "Three tries used. Account locked for twenty-four hours. One day left before the due date.",
+        "coach": [
+          {
+            "tr": "Köpek hatırlandı. Rakam hatırlanmadı.",
+            "en": "The dog was remembered. The number wasn't.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gise": {
+      "effects": {
+        "money": -10,
+        "stats": {
+          "joy": 1,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "gise_sifre"
+          ]
+        }
+      },
+      "tr": "Gişede kimlik gösterildi, şifre sıfırlandı. Görevli yeni şifrenin yeni bir deftere yazılmasını bekledi.",
+      "en": "ID shown at the counter, password reset. The clerk waited while you wrote it in a brand-new notebook.",
+      "coach": [
+        {
+          "tr": "Yeni defter. İlk sayfası dolu.",
+          "en": "New notebook. Page one, taken.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sifre_defteri_bulundu"
+          ]
+        }
+      },
+      "tr": "Defter iki saat sonra çorap çekmecesinde bulundu. İçinde 1997'den kalma bir telefon numarası da vardı.",
+      "en": "The notebook turned up two hours later in the sock drawer. It also held a phone number from 1997.",
+      "coach": [
+        {
+          "tr": "İki saatlik arama, bir eski numara.",
+          "en": "Two hours of searching. One old phone number, as a bonus.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia payı dolu"
+  },
+  "intent": {
+    "setup": "fatura uygulamasının şifresinin yazılı olduğu küçük defterin kaybolması ve güvenlik sorusu",
+    "mechanism": "güvenlik sorusu elli yıl öncesini, büyük harfi ve rakamı soruyor",
+    "mechanismId": "literalism",
+    "punch": "sonunda rakam var",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cekmece"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_sirket_yemegi_01",
+  "tags": [
+    "iliski",
+    "ev_hayati",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "sirket_yemegi"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Bizim şirket yemeği bu akşam. Sen kimseyi tanımıyorsun ama herkes seni tanıyor.",
+      "en": "My company dinner is tonight. You don’t know anyone, but everyone knows you."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Öğlenleri anlatıyorum. Muhasebedeki seni “balkon olayı”ndan biliyor.",
+      "en": "I talk about you at lunch. Someone in accounting knows you from “the balcony incident.”",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "dolas",
+      "tr": "Masaları dolaş",
+      "en": "Work the room",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yaninda",
+      "tr": "Partnerin yanından ayrılma",
+      "en": "Stay by your partner",
+      "pattern": "patience"
+    },
+    {
+      "id": "erken",
+      "tr": "Tatlıdan önce çık",
+      "en": "Leave before dessert",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dolas": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "charm": 2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 4,
+              "memory": "sirket_yemegi_basari"
+            }
+          ],
+          "flags": {
+            "add": [
+              "sirket_yemegi"
+            ]
+          }
+        },
+        "tr": "Altı masada tanıştın. Balkon olayını kendin anlattın, bu kez sen güldürdün.",
+        "en": "You met six tables. You told the balcony story yourself. This time you got the laugh.",
+        "coach": [
+          {
+            "tr": "Hikâye artık senin.",
+            "en": "The story is yours now.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "sirket_yemegi"
+            ]
+          }
+        },
+        "tr": "Herkes balkonu sordu. Sen anlattıkça hikâye bir kat daha yükseldi.",
+        "en": "Everyone asked about the balcony. Every time you told it, it went up a floor.",
+        "coach": [
+          {
+            "tr": "Balkon bir kat çıktı.",
+            "en": "The balcony gained a floor.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yaninda": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "sirket_yemegi"
+          ]
+        }
+      },
+      "tr": "Üç saat partnerinin yanında durdun. Herkes “ikiniz çok uyumlusunuz” dedi.",
+      "en": "Three hours at your partner’s side. Everyone said, “You two are so in sync.”",
+      "coach": [
+        {
+          "tr": "Uyum onaylandı.",
+          "en": "Sync confirmed.",
+          "roast": false
+        }
+      ]
+    },
+    "erken": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "sirket_yemegi"
+          ]
+        }
+      },
+      "tr": "Tatlıdan önce çıktın. Ertesi gün tatlı, partnerinin çantasında, peçeteye sarılı geldi.",
+      "en": "You left before dessert. Next day, dessert came home in your partner’s bag, wrapped in a napkin.",
+      "coach": [
+        {
+          "tr": "Tatlı seni buldu.",
+          "en": "Dessert found you anyway.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dolas",
+    "slip": {
+      "tr": "İDDİA: Balkon olayı bir kat daha yükselir. — M.",
+      "en": "WAGER: The balcony story gains a floor tonight. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin şirket yemeğine eş olarak gidip kimseyi tanımamak",
+    "mechanism": "bilinmeyen ortak hikâye geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "balkon olayı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hikaye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

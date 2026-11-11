@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_anne_borcu_iade_01",
+  "tags": [
+    "para",
+    "borc",
+    "anne",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc",
+        "anne_borcu"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Ne parası? Ben sana borç vermedim ki. Ben sana yardım ettim.",
+      "en": "What money? I never lent you anything. I helped you."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Ama o zaman 'anne, borcum olsun' dedin. Herkesin önünde dedin.",
+      "en": "But back then you said, 'Consider it a loan, Mom.' In front of everyone.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "zarf",
+      "tr": "Parayı zarfa koyup bırak",
+      "en": "Leave it in an envelope",
+      "pattern": "pride"
+    },
+    {
+      "id": "hediye",
+      "tr": "Onun yerine hediye al",
+      "en": "Buy her a gift instead",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kabul",
+      "tr": "Teklifi kabul et, para kalsın",
+      "en": "Accept, keep the money",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "zarf": {
+      "effects": {
+        "meters": {
+          "momPressure": -2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "zarf_gidip_geldi"
+          ]
+        }
+      },
+      "tr": "Zarf çay kutusunun içine bırakıldı. Ertesi gün aynı zarf ceketinin cebinden çıktı.",
+      "en": "The envelope went into the tea tin. The next day, it turned up in your coat pocket.",
+      "coach": [
+        {
+          "tr": "Zarf bir gün gitti, ertesi gün döndü.",
+          "en": "The envelope left one day and came back the next.",
+          "roast": false
+        }
+      ]
+    },
+    "hediye": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -5
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_borcu_kapandi"
+          ],
+          "remove": [
+            "anne_borcu"
+          ]
+        }
+      },
+      "tr": "Annene yeni bir çaydanlık alındı: 600 Para. Borç kapandı, çaydanlık komşulara gösterildi.",
+      "en": "You bought your mom a new kettle: 600. Debt closed. The kettle has been shown to the neighbors.",
+      "coach": [
+        {
+          "tr": "Borç çaydanlığa döndü. Komşular tanık.",
+          "en": "The debt became a kettle. The neighbors are witnesses.",
+          "roast": false
+        },
+        {
+          "tr": "Borç sayacından bir kalem silindi.",
+          "en": "Debt counter: one entry gone.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "flags": {
+          "add": [
+            "anne_alacakli_degil"
+          ]
+        }
+      },
+      "tr": "Para kaldı. Annen aile sofrasında, kimse sormadan, 'benim çocuğum borcunu öder' dedi.",
+      "en": "You kept the money. At family dinner, unprompted, your mom announced, 'My child pays their debts.'",
+      "coach": [
+        {
+          "tr": "Borç kapanmadı. Duyurusu yapıldı.",
+          "en": "The debt's still open. The announcement went out.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "ilk maaşla annenin verdiği borcu geri ödemeye çalışmak, annenin almaması",
+    "mechanism": "anne borç vermediğini söylüyor ama 'borcum olsun' cümlesini hatırlatıyor",
+    "mechanismId": "reversal",
+    "punch": "herkesin önünde dedin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "caydanlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

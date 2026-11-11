@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_kiraci_evde_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Gezin gezin, ben yokmuşum gibi. Mutfağa girmeyin, köfte var.",
+      "en": "Look around, pretend I'm not here. Stay out of the kitchen. Meatballs."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Kombiyi soracaklar. Kışın gece üçte öter, baştan söyleyeyim.",
+      "en": "They'll ask about the boiler. In winter it wails at 3 a.m. Just so you know.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kibar",
+      "tr": "Kiracıya aşağıda çay ısmarla",
+      "en": "Treat the tenant to tea downstairs",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "durust",
+      "tr": "Kombiyi kendin anlat",
+      "en": "Mention the boiler yourself",
+      "pattern": "pride"
+    },
+    {
+      "id": "hizli",
+      "tr": "Gezmeyi hızlı bitir",
+      "en": "Rush the tour",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kibar": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -40,
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 1
+          },
+          "flags": {
+            "add": [
+              "emlak_teklif_geldi"
+            ]
+          }
+        },
+        "tr": "Kiracı aşağıdaki kafeye indi. Müşteriler kombiyi sormadı; teklif ertesi gün geldi.",
+        "en": "The tenant went down to the café. Nobody asked about the boiler. An offer came the next day.",
+        "coach": [
+          {
+            "tr": "Bir çay, bir teklif.",
+            "en": "One tea. One offer.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir ilerledi.",
+            "en": "Goal counter: up one.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Kiracı inmedi. Alıcılara kombinin gece sesini taklit etti; oldukça başarılıydı.",
+        "en": "The tenant stayed put and did the boiler's night noise for the buyers. Quite a good impression.",
+        "coach": [
+          {
+            "tr": "Taklit gerçekçiydi. Teklif gelmedi.",
+            "en": "A faithful impression. No offer.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "durust": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "durust_emlakci"
+          ]
+        }
+      },
+      "tr": "Kombiyi kendin anlattın. Alıcılar teşekkür etti, tamir olunca tekrar arayacaklarını söyledi.",
+      "en": "You brought up the boiler yourself. The buyers thanked you and said they'd call once it was fixed.",
+      "coach": [
+        {
+          "tr": "Dürüst gösterim. Komisyon bahara kaldı.",
+          "en": "An honest showing. Commission postponed till spring.",
+          "roast": false
+        }
+      ]
+    },
+    "hizli": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Gezmeyi yedi dakikada bitirdin. Alıcı çıkarken mutfağı sordu; kiracı balkondan cevap verdi.",
+      "en": "You wrapped the tour in seven minutes. On the way out, a buyer asked about the kitchen. The tenant answered from the balcony.",
+      "coach": [
+        {
+          "tr": "Yedi dakika. Köfte kazandı.",
+          "en": "Seven minutes. The meatballs won.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kibar",
+    "slip": {
+      "tr": "İDDİA: Kiracı o koltuktan kalkmaz. — M.",
+      "en": "WAGER: The tenant isn't leaving that couch. — M."
+    }
+  },
+  "intent": {
+    "setup": "hâlâ evde oturan kiracı gösterim sırasında evin kusurlarını alıcılara anlatıyor",
+    "mechanism": "kiracının dürüst tanıtımı",
+    "mechanismId": "deadpan_report",
+    "punch": "kışın gece üçte öter",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kofte"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

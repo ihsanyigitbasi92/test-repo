@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_siparis_karisti_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Bu benim siparişim değil galiba. Yarısını yedikten sonra fark ettim.",
+      "en": "I don't think this is my order. I noticed about halfway through."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "typing",
+      "tr": "Lahmacunun sahibi arıyor. Elinde ne kaldı?",
+      "en": "The flatbread customer is calling. What have you got left?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "don",
+      "tr": "Restorana dön, yenisini al",
+      "en": "Go back for a fresh one",
+      "pattern": "overwork"
+    },
+    {
+      "id": "corba",
+      "tr": "Çorbayı öbür adrese götür",
+      "en": "Take the soup to the other door",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Lahmacunu sen öde",
+      "en": "Pay for the flatbread yourself",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "don": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Restorana dönüp yeni lahmacunu aldın, kırk dakika geç teslim ettin. Patron vardiya sonunda \"idare ettin\" dedi.",
+      "en": "You went back for a fresh flatbread and delivered it forty minutes late. At the end of the shift your boss said you \"handled it.\"",
+      "coach": [
+        {
+          "tr": "Kırk dakika geç, bir 'idare ettin'. Patron ağzından bu altın madalya.",
+          "en": "Forty minutes late, one 'you handled it.' From your boss, that's a gold medal.",
+          "roast": true
+        }
+      ]
+    },
+    "corba": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "İkinci müşteri çorbayı kabul etti; zaten hasta gibiymiş. Patron siparişi kapattı.",
+        "en": "The second customer took the soup. They were coming down with something anyway. Your boss closed the ticket.",
+        "coach": [
+          {
+            "tr": "Yanlış sipariş, doğru zaman. Kapıdaki öksürük satışı kapattı.",
+            "en": "Wrong order, right moment. The cough at the door closed the sale.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "kurye_bir_yildiz"
+            ]
+          }
+        },
+        "tr": "İkinci müşteri çorbayı kapıda geri verdi ve bir yıldız bıraktı.",
+        "en": "The second customer handed the soup back at the door and left one star.",
+        "coach": [
+          {
+            "tr": "Çorba gitti, döndü, yanında bir yıldız getirdi. Örnek bir iade süreci.",
+            "en": "The soup went, came back, and brought a one-star review. Textbook returns process.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -120
+      },
+      "tr": "Lahmacunu cebinden ödedin, 120 Para. Çorba da ilk müşteride kaldı.",
+      "en": "You paid 120 for the flatbread out of pocket. The first customer kept the soup too.",
+      "coach": [
+        {
+          "tr": "120 Para'ya iki yabancıyı doyurdun. Kendin hariç.",
+          "en": "One-twenty to feed two strangers. Not including you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "iki sipariş kutuda karıştı, ilk müşteri yanlışın yarısını yedi",
+    "mechanism": "zararın kimde kalacağı tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "patron ağzından altın madalya",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "madalya"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

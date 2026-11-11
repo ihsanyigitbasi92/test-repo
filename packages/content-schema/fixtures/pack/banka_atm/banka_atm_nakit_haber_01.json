@@ -1,0 +1,154 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_nakit_haber_01",
+  "tags": [
+    "para",
+    "banka",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "money": {
+      "min": 3000
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bu tutarda nakit için bir gün önceden haber vermeniz gerekiyor.",
+      "en": "For that much cash, we need a day's notice."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Kasada şu an 2.000 var. Gerisini sabah 10'da araç getiriyor.",
+      "en": "We have 2,000 in the vault right now. The van brings the rest at ten.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "havale",
+      "tr": "Ev sahibine havale öner",
+      "en": "Offer the landlord a transfer",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sabah",
+      "tr": "Sabah tekrar gel",
+      "en": "Come back in the morning",
+      "pattern": "patience"
+    },
+    {
+      "id": "subeler",
+      "tr": "Başka şubelerden tamamla",
+      "en": "Top up at other branches",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "havale": {
+      "effects": {
+        "flags": {
+          "add": [
+            "depozito_havale"
+          ]
+        }
+      },
+      "tr": "Ev sahibi havaleye razı oldu, açıklamaya \"depozito, iade edilecektir\" yazmanı istedi.",
+      "en": "The landlord agreed to a transfer, provided the memo says \"deposit, refundable.\"",
+      "coach": [
+        {
+          "tr": "Açıklama satırı bir sözleşme oldu.",
+          "en": "The memo line became a contract.",
+          "roast": false
+        }
+      ]
+    },
+    "sabah": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "depozito_nakit"
+          ]
+        }
+      },
+      "tr": "Araç 10'da geldi, 10:40'ta para elindeydi. Ev sahibi saymak için yere oturdu.",
+      "en": "The van came at ten; by 10:40 the cash was in hand. The landlord sat on the floor to count it.",
+      "coach": [
+        {
+          "tr": "Ev sahibi saydı. İki kez.",
+          "en": "The landlord counted it. Twice.",
+          "roast": false
+        }
+      ]
+    },
+    "subeler": {
+      "effects": {
+        "money": -20,
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "depozito_nakit"
+          ]
+        }
+      },
+      "tr": "Üç şube gezip tutarı tamamladın. Cebinde 3.000 Para'yla otobüste ayakta gittin.",
+      "en": "Three branches later, you had it all. You rode the bus standing, with 3,000 in your pocket.",
+      "coach": [
+        {
+          "tr": "Otobüsün en değerli yolcusuydun.",
+          "en": "Most valuable passenger on that bus.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "ev depozitosu için yüksek tutarda nakit çekerken şubenin bir gün önceden haber istemesi",
+    "mechanism": "bankanın kasasında para yok",
+    "mechanismId": "bathos",
+    "punch": "gerisini sabah araç getiriyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "iki_kez"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

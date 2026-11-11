@@ -1,0 +1,171 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_birlik_sonucu_01",
+  "tags": [
+    "egitim",
+    "askerlik",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_geri_odeme_plani_01",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 24
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Sonuç açıklanmış mı? Telefonu ver, ben okurum. Yok, sen oku, ben dayanamam.",
+      "en": "Are the results out? Give me the phone, I'll read it. No, you read it, I can't bear it."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Neresi çıktı? Ben orayı bilirim. Bilmiyorsam da bilen birini bilirim.",
+      "en": "Where'd you get posted? I know the place. If I don't, I know someone who does.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sesli",
+      "tr": "Sonucu sesli oku",
+      "en": "Read it out loud",
+      "pattern": "patience"
+    },
+    {
+      "id": "sessiz",
+      "tr": "Önce sessizce oku",
+      "en": "Read it silently first",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "dayi",
+      "tr": "Telefonu dayına ver",
+      "en": "Hand the phone to your uncle",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "sesli": {
+      "effects": {
+        "meters": {
+          "momPressure": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "birlik_okundu"
+          ]
+        }
+      },
+      "tr": "Sesli okudun. Annen yer adını tekrarladı, oranın havasına baktı, kazak örmeye karar verdi.",
+      "en": "You read it out loud. Mom repeated the place name, checked the weather there and decided to knit a sweater.",
+      "coach": [
+        {
+          "tr": "Bir yer adı, bir kazak.",
+          "en": "One place name. One sweater.",
+          "roast": false
+        }
+      ]
+    },
+    "sessiz": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "birlik_sessiz"
+          ]
+        }
+      },
+      "tr": "Sessizce okudun. Yüzüne bakan annen senden önce tahmin etti: 'Soğuk bir yer.'",
+      "en": "You read it silently. Watching your face, Mom guessed first: 'Somewhere cold.'",
+      "coach": [
+        {
+          "tr": "Sonuç yüzünde yazıyormuş.",
+          "en": "The result was on your face.",
+          "roast": false
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "dayi_birlik_bilgisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Dayın sonucu okudu ve yarım saat oradaki bir kasabayı anlattı. Kasaba başka bir ilde çıktı.",
+      "en": "Your uncle read it and spent half an hour describing a town there. The town turned out to be in another province.",
+      "coach": [
+        {
+          "tr": "Yarım saat bilgi. Başka il.",
+          "en": "Half an hour of facts. Wrong province.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "askerlik birlik yeri sonucunun ailece okunması",
+    "mechanism": "anne okuyamaz, dayı her yeri bilir",
+    "mechanismId": "understatement",
+    "punch": "bilmiyorsam da bilen birini bilirim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kazak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Askerlik TR’ye özgüdür (localeOnly, D-048); EN tarafında yayınlanmaz, ikizi öğrenim kredisi olayıdır. K7: kaçma/erteleme hilesi seçeneği yok; kurum değil deneyim anlatılıyor."
+  },
+  "l10n": {
+    "onlyLocale": "tr",
+    "mechanismNote": "EN metni yalnızca inceleme içindir; EN oyuncu ikiz olayı (öğrenim kredisi) görür."
+  }
+}

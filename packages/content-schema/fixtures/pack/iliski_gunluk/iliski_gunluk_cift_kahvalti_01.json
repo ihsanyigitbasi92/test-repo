@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_cift_kahvalti_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Pazar kahvaltıya bekliyorum. Börek yaptım. Partnerin de gelsin.",
+      "en": "Expecting you Sunday for breakfast. I'm making pastry. Bring your partner."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bizimkiler de pazar sabahı çağırdı. Aynı saat. Onlar da börek yapıyor.",
+      "en": "My family invited us Sunday morning too. Same time. They're also making pastry.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "iki",
+      "tr": "İkisine de git, ikişer saat",
+      "en": "Do both, two hours each",
+      "pattern": "overwork",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden başla",
+      "en": "Start at your mom's",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "birlestir",
+      "tr": "İki aileyi tek masada topla",
+      "en": "Put both families at one table",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "iki": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 2
+            },
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "İki kahvaltıya da yetiştiniz. Dört çeşit börek yediniz; iki aile de hangisinin daha iyi olduğunu sordu.",
+        "en": "You made both breakfasts. Four kinds of pastry. Both families asked which was better.",
+        "coach": [
+          {
+            "tr": "Dört börek. Doğru cevap yok.",
+            "en": "Four pastries. No correct answer.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "İlk kahvaltı uzadı. İkinciye çay soğuduktan bir saat sonra vardınız.",
+        "en": "The first breakfast ran long. You reached the second an hour after the tea went cold.",
+        "coach": [
+          {
+            "tr": "Plan iki kahvaltıydı. Teslim edilen bir buçuk.",
+            "en": "Planned: two breakfasts. Delivered: one and a half.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          },
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Annene gittiniz. Partnerinin ailesi bir börek fotoğrafı attı: 'Size ayırdık.'",
+      "en": "You went to your mom's. Your partner's family texted a photo of pastry: 'Saved you some.'",
+      "coach": [
+        {
+          "tr": "Börek bekliyor. Sıra sende.",
+          "en": "The pastry is waiting. You're next.",
+          "roast": false
+        }
+      ]
+    },
+    "birlestir": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          },
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "aileler_tanisti"
+          ]
+        }
+      },
+      "tr": "İki aileyi tek masada topladın. Annenle partnerinin ailesi börek tariflerini değiş tokuş etti; bulaşık sana kaldı.",
+      "en": "You got both families at one table. They swapped pastry recipes. You got the dishes.",
+      "coach": [
+        {
+          "tr": "Tarifler takas edildi. Bulaşık sende kaldı.",
+          "en": "Recipes traded. Dishes retained by you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iki",
+    "slip": {
+      "tr": "İDDİA: İkinci kahvaltıda çay soğuk. — M.",
+      "en": "WAGER: The second breakfast's tea will be cold. — M."
+    }
+  },
+  "intent": {
+    "setup": "annenin ve partnerinin ailesinin aynı pazar sabahı kahvaltıya çağırması",
+    "mechanism": "iki aile, iki börek, tek mide; sayım",
+    "mechanismId": "count",
+    "punch": "Doğru cevap yok.",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "borek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

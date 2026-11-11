@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_arka_koltuk_sallanti_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Pardon, arka koltuk beni sallıyor. Bir dakika kenara çekebilir misiniz?",
+      "en": "Sorry, the back seat is doing something to me. Could you pull over for a minute?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Sabah üç gözleme yedim. Hata bende.",
+      "en": "I had three pancakes for breakfast. That one is on me.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cek",
+      "tr": "Hemen kenara çek",
+      "en": "Pull over right away",
+      "pattern": "patience"
+    },
+    {
+      "id": "devam",
+      "tr": "Son durağa kadar dayanmasını iste",
+      "en": "Ask them to hold on",
+      "pattern": "risk",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "poset",
+      "tr": "Arkaya bir poşet uzat",
+      "en": "Pass back a bag",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "cek": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kenara çektin, yolcu iki dakika temiz hava aldı. Sefer dört dakika gecikti, hat sahibi duydu.",
+      "en": "You pulled over and the rider got two minutes of fresh air. You ran four minutes late, and the owner heard about it.",
+      "coach": [
+        {
+          "tr": "Dört dakika gecikme, sıfır temizlik. Kaldırım kazandı.",
+          "en": "Four minutes late, zero cleanup. The curb wins.",
+          "roast": false
+        }
+      ]
+    },
+    "devam": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Yolcu son durağa kadar dayandı. İnerken sana bir sakız uzattı.",
+        "en": "The rider held on to the last stop. On the way out, they handed you a piece of gum.",
+        "coach": [
+          {
+            "tr": "Son durağa yetişildi. Sakız teşekkür sayılır.",
+            "en": "Made it to the last stop. Gum counts as a thank-you.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -400
+        },
+        "tr": "Yolcu dayanamadı. Araç koltuk yıkamaya girdi, yarım gün çalışmadı: 400 Para.",
+        "en": "The rider didn't make it. The car went in for a seat cleaning and sat out half a day: 400.",
+        "coach": [
+          {
+            "tr": "Yarım gün, 400 Para. Gözlemeler pahalıya patladı.",
+            "en": "Half a day, four hundred. Those pancakes cost a lot.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "poset": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 1
+        }
+      },
+      "tr": "Torpidodaki poşeti arkaya uzattın. Poşet kullanılmadı ama bütün yol elden ele dolaştı.",
+      "en": "You passed the bag from the glove box back. Nobody used it, but it went hand to hand the whole ride.",
+      "coach": [
+        {
+          "tr": "Poşet bütün araçta dolaştı. Kimse kullanmadı, herkes tuttu.",
+          "en": "The bag toured the whole car. Nobody used it. Everybody held it.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "yolcunun arka koltukta midesi bulandı",
+    "mechanism": "üç gözlemenin itirafı",
+    "mechanismId": "deadpan_report",
+    "punch": "hata bende",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "poset"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. Midesi bulanan yolcu; TR dolmuşta sefer gecikmesi, EN yolculukta temizlik ücreti. Uygulama/şirket/marka adı yok."
+  }
+}

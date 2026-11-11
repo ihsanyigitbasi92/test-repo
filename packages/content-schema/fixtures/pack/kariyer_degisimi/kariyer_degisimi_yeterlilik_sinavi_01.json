@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_degisimi_yeterlilik_sinavi_01",
+  "tags": [
+    "is",
+    "kariyer_degisimi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_degisimi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 48,
+      "max": 58
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kalem aldın mı, yedek kalem? Silgi, yedek silgi?",
+      "en": "Got a pencil, and a spare pencil? An eraser, and a spare eraser?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Ben de geliyorum, kapıda beklerim. Diğer anneler de bekliyordur.",
+      "en": "I'm coming. I'll wait by the door. The other moms will be there too.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sinav",
+      "tr": "Sınava tek başına gir",
+      "en": "Sit the exam alone",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annen kapıda beklesin",
+      "en": "Let Mom wait outside",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "ertele",
+      "tr": "Sınavı ertele",
+      "en": "Postpone the exam",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "sinav": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "yeterlilik_belgesi_alindi"
+            ]
+          }
+        },
+        "tr": "Geçtin. Sonuç listesinde adın, yirmi iki yaşındaki iki adayın arasındaydı.",
+        "en": "You passed. On the results list, your name sat between two twenty-two-year-olds.",
+        "coach": [
+          {
+            "tr": "Geçenler listesinde bir isim daha.",
+            "en": "One more name on the pass list.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef: belge tamam.",
+            "en": "Goal: certificate, done.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "flags": {
+            "add": [
+              "yeterlilik_tekrar"
+            ]
+          }
+        },
+        "tr": "Üç puanla kaldın. Bir sonraki sınav dört ay sonra; annen yedek kalemleri şimdiden ayırdı.",
+        "en": "Missed by three points. The next sitting is in four months. Your mom has already set aside the spare pencils.",
+        "coach": [
+          {
+            "tr": "Dört ay. Kalemler hazır.",
+            "en": "Four months. Pencils on standby.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "yeterlilik_sinavi_girdi"
+          ]
+        }
+      },
+      "tr": "Sınavdan çıktığında annen kapıda on adaya yedek kalem dağıtmıştı. Sonuç iki hafta sonra.",
+      "en": "When you came out, your mom had handed spare pencils to ten other candidates. Results in two weeks.",
+      "coach": [
+        {
+          "tr": "On aday, annenden kalemli.",
+          "en": "Ten candidates, pencils courtesy of Mom.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "flags": {
+          "add": [
+            "yeterlilik_ertelendi"
+          ]
+        }
+      },
+      "tr": "Sınavı erteledin. Annen kalemleri bir kavanoza koyup buzdolabının üstüne yerleştirdi.",
+      "en": "You postponed. Your mom put the pencils in a jar on top of the fridge.",
+      "coach": [
+        {
+          "tr": "Kalemler beklemede.",
+          "en": "The pencils are on hold.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sinav",
+    "slip": {
+      "tr": "İDDİA: Kalem yeter, puan yetmez. — M.",
+      "en": "WAGER: Plenty of pencils, not enough points. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni meslek için orta yaşta yeterlilik sınavına girmek ve annenin okul sınavı gibi hazırlaması",
+    "mechanism": "anne sınavı ilkokul sınavı gibi harfiyen yaşıyor",
+    "mechanismId": "literalism",
+    "punch": "diğer anneler de bekliyordur",
+    "lift": "hedef: belge tamam",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kalem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

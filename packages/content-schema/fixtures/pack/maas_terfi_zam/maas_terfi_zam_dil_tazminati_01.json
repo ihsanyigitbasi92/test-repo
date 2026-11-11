@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_dil_tazminati_01",
+  "tags": [
+    "is",
+    "maas",
+    "yan_hak",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Yabancı dil tazminatı başladı. Sınavı geçen aylık 250 Para fazla alacak.",
+      "en": "We're introducing a language allowance. Pass the test, get 250 more a month."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Sınav yarım saat. İlk soru hep aynı: \"Kendinizi tanıtın.\"",
+      "en": "Thirty-minute test. First question is always the same: \"Introduce yourself.\"",
+      "delayMs": 600
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "typing",
+      "tr": "Ben geçen yıl kendimi tanıttım, gerisini hatırlamıyorum. Geçtim ama.",
+      "en": "I introduced myself last year. Don't remember the rest. Passed, though.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "gir",
+      "tr": "Sınava hemen gir",
+      "en": "Take the test now",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "calis",
+      "tr": "Bir ay çalış, sonra gir",
+      "en": "Study a month, then take it",
+      "pattern": "patience"
+    },
+    {
+      "id": "gecme",
+      "tr": "Tazminatı boş ver",
+      "en": "Skip the allowance",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "gir": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 250,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "dil_tazminati"
+            ]
+          }
+        },
+        "tr": "Kendini tanıttın, otuz yıllık ders kitabından bir paragraf hatırladın. Geçtin: aylık 250 Para.",
+        "en": "You introduced yourself and recalled a paragraph from a thirty-year-old textbook. Passed: 250 more a month.",
+        "coach": [
+          {
+            "tr": "Otuz yıllık paragraf bugün 250 Para etti.",
+            "en": "A thirty-year-old paragraph just paid 250.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "flags": {
+            "add": [
+              "dil_sinavi_kaldi"
+            ]
+          }
+        },
+        "tr": "\"Kendinizi tanıtın\"ı geçtin, ikinci soruda kaldın. Tekrar sınavı altı ay sonra.",
+        "en": "You got through \"Introduce yourself.\" Question two got you. Retake in six months.",
+        "coach": [
+          {
+            "tr": "Kendini tanıttın. Sınav seni tanımadı.",
+            "en": "You introduced yourself. The test didn't recognize you.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "calis": {
+      "effects": {
+        "money": 250,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "dil_tazminati"
+          ]
+        }
+      },
+      "tr": "Bir ay akşamları çalıştın. Sınavı rahat geçtin; ilk ödeme bir ay geç başladı.",
+      "en": "You studied every evening for a month. Passed comfortably. The first payment started a month later.",
+      "coach": [
+        {
+          "tr": "Bir ay geç, rahat bir geçiş.",
+          "en": "A month late. An easy pass.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacına bir ay eklendi.",
+          "en": "Goal tracker: plus one month.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "gecme": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Tazminatı boş verdin. Sınava girmeyen tek kişi sensin; yabancı bir müşteri aradığında herkes yine sana bakıyor.",
+      "en": "You skipped it. You're the only one who did. When an overseas client calls, everyone still looks at you.",
+      "coach": [
+        {
+          "tr": "Tazminat yok. Tercümanlık var.",
+          "en": "No allowance. Interpreter duties, though.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gir",
+    "slip": {
+      "tr": "İDDİA: İkinci soru otuz yıl öncesini hatırlamaz. — M.",
+      "en": "WAGER: Question two won't remember thirty years ago. — M."
+    }
+  },
+  "intent": {
+    "setup": "ileri yaşta yabancı dil tazminatı sınavı",
+    "mechanism": "'kendinizi tanıtın' sorusu kelimesi kelimesine sınanıyor",
+    "mechanismId": "literalism",
+    "punch": "sınav seni tanımadı",
+    "lift": "hedef sayacına bir ay",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "paragraf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

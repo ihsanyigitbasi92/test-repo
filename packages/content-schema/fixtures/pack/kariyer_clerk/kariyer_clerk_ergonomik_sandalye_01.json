@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_ergonomik_sandalye_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sandalye talebiniz incelendi. Mevcut sandalye kullanım ömrünü tamamlamamış.",
+      "en": "Your chair request was reviewed. Your current chair has not completed its service life."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Benimki geçen yıl kırıldı. Yenisi gelene kadar yedekte oturdum. Yedek de kırıldı.",
+      "en": "Mine broke last year. I sat on the spare until the new one came. The spare broke too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sandalyenin bozulmasını bekle",
+      "en": "Wait for the chair to break",
+      "pattern": "patience"
+    },
+    {
+      "id": "getir",
+      "tr": "Kendi sandalyeni getir",
+      "en": "Bring your own chair",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "rapor",
+      "tr": "Doktor raporu ekle",
+      "en": "Attach a doctor's note",
+      "pattern": "pride",
+      "check": {
+        "base": 5500
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "health": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "memur_sandalye_bekliyor"
+          ]
+        },
+        "glossary": "kullanim_omru"
+      },
+      "tr": "Sandalye dayandı. Sen öğleden sonraları ayakta yazmaya başladın.",
+      "en": "The chair held up. You started writing standing up in the afternoons.",
+      "coach": [
+        {
+          "tr": "Sandalye dayanıyor. Sen ayaktasın.",
+          "en": "The chair is holding up. You're standing.",
+          "roast": false
+        }
+      ]
+    },
+    "getir": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 2
+        },
+        "money": -650,
+        "flags": {
+          "add": [
+            "memur_ozel_sandalye"
+          ]
+        }
+      },
+      "tr": "Evdeki çalışma sandalyeni getirdin, üstüne 650 Para'lık bel minderi aldın. Demirbaş görevlisi sandalyeyi listeye eklemek istedi.",
+      "en": "You brought your desk chair from home and added a 650 lumbar cushion. The inventory officer wanted to put the chair on the list.",
+      "coach": [
+        {
+          "tr": "Kendi sandalyen, kurumun listesinde. Mülkiyet tartışmalı.",
+          "en": "Your own chair, on the institution's list. Ownership is disputed.",
+          "roast": false
+        }
+      ]
+    },
+    "rapor": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "memur_ergonomik_sandalye"
+            ]
+          }
+        },
+        "tr": "Raporla talep yeniden açıldı. Sandalye altı haftada geldi.",
+        "en": "With the note attached, the request reopened. The chair arrived in six weeks.",
+        "coach": [
+          {
+            "tr": "Altı hafta, bir sandalye. Bel teşekkür ediyor.",
+            "en": "Six weeks, one chair. Your lower back sends thanks.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "glossary": "kullanim_omru"
+        },
+        "tr": "Rapor dosyaya eklendi. Yanıt aynı cümleydi: 'kullanım ömrünü tamamlamamış.'",
+        "en": "The note went into the file. The answer was the same sentence: 'has not completed its service life.'",
+        "coach": [
+          {
+            "tr": "Cümle de kullanım ömrünü tamamlamamış.",
+            "en": "The sentence hasn't completed its service life either.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "ergonomik sandalye talebi eski sandalye ömrünü doldurmadı diye reddedildi",
+    "mechanism": "sandalyenin ömrü çalışanınkinden uzun",
+    "mechanismId": "deadpan_report",
+    "punch": "yedek de kırıldı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sandalye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

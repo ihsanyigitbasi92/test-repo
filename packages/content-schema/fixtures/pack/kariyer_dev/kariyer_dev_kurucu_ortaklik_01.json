@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_dev_kurucu_ortaklik_01",
+  "tags": [
+    "kariyer",
+    "yazilimci",
+    "kariyer_dev"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 7000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_dev": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "dev"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Kendi şirketimi kuruyorum. Teknik kurucu ortak lazım. Maaş yok ama ofiste puf var.",
+      "en": "I'm starting a company. I need a technical co-founder. There's no salary, but the office has beanbags."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Yüzde yirmi pay. Bir yılda yatırım gelmezse puflar satılacak.",
+      "en": "Twenty percent equity. If we don't raise money within a year, the beanbags get sold.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "atla",
+      "tr": "İşi bırak, ortak ol",
+      "en": "Quit and co-found",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "aksam",
+      "tr": "Akşamları danışmanlık yap",
+      "en": "Advise in the evenings",
+      "pattern": "overwork"
+    },
+    {
+      "id": "kal",
+      "tr": "Teşekkür et, kal",
+      "en": "Thank them and stay",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "atla": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "meters": {
+            "ego": 6
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "kurucu_ortak"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "teknik kurucu ortak",
+              "tier": 5,
+              "monthly": 2800
+            }
+          }
+        },
+        "tr": "Yıl dolmadan yatırım geldi. Puflar kaldı, maaş başladı: 2.800 Para.",
+        "en": "Funding came through before the year was out. The beanbags stayed. Salary started: 2,800.",
+        "coach": [
+          {
+            "tr": "Puflar kurtuldu.",
+            "en": "The beanbags survived.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef sayacında yeni satır.",
+            "en": "New line on the goal counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 6
+          },
+          "money": -3000,
+          "flags": {
+            "add": [
+              "kurucu_ortak"
+            ]
+          },
+          "status": {
+            "job": null
+          }
+        },
+        "tr": "On bir ay sonra yatırım gelmedi, şirket kapandı. Sana bir puf düştü.",
+        "en": "Eleven months, no funding. The company closed. You got one beanbag.",
+        "coach": [
+          {
+            "tr": "Yüzde yirmi pay, tek puf.",
+            "en": "Twenty percent equity. One beanbag.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "aksam": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "money": 700
+      },
+      "tr": "Akşamları danışmanlık yaptın, ayda 700 Para. Toplantılar pufta oldu, kalkmak her seferinde iki dakika sürdü.",
+      "en": "You advised in the evenings: 700 a month. Meetings happened on beanbags. Getting up took two minutes each time.",
+      "coach": [
+        {
+          "tr": "Ayda yedi yüz, puftan.",
+          "en": "Seven hundred a month, from a beanbag.",
+          "roast": true
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kaldın. Bir yıl sonra eski arkadaşın sana bir puf gönderdi, notu: 'Yine de.'",
+      "en": "You stayed. A year later your old colleague sent you a beanbag, with a note: 'Anyway.'",
+      "coach": [
+        {
+          "tr": "Puf her ihtimalde geldi.",
+          "en": "The beanbag arrived regardless.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "atla",
+    "slip": {
+      "tr": "İDDİA: Yılın sonunda puflar satılır. — M.",
+      "en": "WAGER: By the end of the year, the beanbags are for sale. — M."
+    }
+  },
+  "intent": {
+    "setup": "eski iş arkadaşı maaşsız teknik kurucu ortaklık teklif ediyor",
+    "mechanism": "bütün risk bir pufla ölçülüyor",
+    "mechanismId": "understatement",
+    "punch": "maaş yok ama ofiste puf var",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "puf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

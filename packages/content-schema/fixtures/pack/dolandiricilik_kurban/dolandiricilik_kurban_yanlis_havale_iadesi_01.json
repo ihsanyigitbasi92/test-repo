@@ -1,0 +1,155 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_yanlis_havale_iadesi_01",
+  "tags": [
+    "para",
+    "banka",
+    "mesaj",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Merhaba, yanlışlıkla size 2.000 Para gönderdim. Annemin ilaç parası. Lütfen iade edin.",
+      "en": "Hi, I sent you 2,000 by mistake. It's my mom's medicine money. Please send it back."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Ama aynı hesaba değil, şu yeni hesaba. Eskisi kapandı.",
+      "en": "Not to the same account, though. To this new one. The old one got closed.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yolla",
+      "tr": "Yeni hesaba geri gönder",
+      "en": "Send it to the new account",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "banka",
+      "tr": "Önce bankayı ara",
+      "en": "Call the bank first",
+      "pattern": "patience"
+    },
+    {
+      "id": "bekle",
+      "tr": "Hiçbir şey yapma, bekle",
+      "en": "Do nothing, wait",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yolla": {
+      "effects": {
+        "money": -2000,
+        "hidden": {
+          "stress": 6
+        },
+        "flags": {
+          "add": [
+            "yanlis_havale_kaptirdi"
+          ]
+        },
+        "glossary": "yanlis_havale"
+      },
+      "tr": "2.000 Para'yı yeni hesaba gönderdin. Ertesi gün banka aradı: ilk havale çalıntı bir hesaptan gelmiş ve geri alınmış.",
+      "en": "You sent the 2,000 to the new account. Next day the bank called: the original transfer came from a stolen account and has been reversed.",
+      "coach": [
+        {
+          "tr": "Para senden iki kez çıktı. Sana bir kez geldi.",
+          "en": "The money left you twice. It only arrived once.",
+          "roast": false
+        }
+      ]
+    },
+    "banka": {
+      "effects": {
+        "stats": {
+          "brain": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "havale_bildirildi"
+          ]
+        },
+        "glossary": "yanlis_havale"
+      },
+      "tr": "Banka işlemi inceleyip parayı geldiği hesaba kendisi iade etti. Mesaj atan numara aynı gün kapandı.",
+      "en": "The bank reviewed it and returned the money to the original account itself. The number that texted you went dark that day.",
+      "coach": [
+        {
+          "tr": "İade yapıldı. Geldiği yöne.",
+          "en": "Refund issued. In the direction it came from.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "havale_beklemede"
+          ]
+        }
+      },
+      "tr": "Üç gün bekledin. Para hesabında duruyor, mesajlar her gün kısalıyor: \"Lütfen.\" \"Acil.\" \"Bak.\"",
+      "en": "You waited three days. The money sits there and the texts keep shrinking: \"Please.\" \"Urgent.\" \"Look.\"",
+      "coach": [
+        {
+          "tr": "2.000 Para hesabında. Sahibi belli değil.",
+          "en": "Two thousand in your account. Owner unclear.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da düşük gerilim"
+  },
+  "intent": {
+    "setup": "hesaba bilinmeyen para gelip 'yanlışlıkla gönderdim, yeni hesaba iade et' mesajı",
+    "mechanism": "iade adresi gönderenden farklı",
+    "mechanismId": "deadpan_report",
+    "punch": "para iki kez çıktı, bir kez geldi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "yon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

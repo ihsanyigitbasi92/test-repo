@@ -1,0 +1,175 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_misafir_payi_01",
+  "tags": [
+    "para",
+    "bolusum",
+    "ev_arkadasi",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Kalmıyor ki. Akşam geliyor, sabah gidiyor. Haftada beş gün.",
+      "en": "They don't live here. They come over at night and leave in the morning. Five days a week."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Duş da almıyor. Yani sabah alıyor ama kısa.",
+      "en": "And they don't shower. I mean, they do, but it's quick.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pay",
+      "tr": "Faturaya üçüncü pay iste",
+      "en": "Ask for a third share",
+      "pattern": "pride"
+    },
+    {
+      "id": "kira",
+      "tr": "Kira payını yeniden böl",
+      "en": "Re-split the rent too",
+      "pattern": "risk"
+    },
+    {
+      "id": "sus",
+      "tr": "Bir şey deme",
+      "en": "Say nothing",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "pay": {
+      "effects": {
+        "money": 90,
+        "flags": {
+          "add": [
+            "ucuncu_pay"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Misafir faturalara ayda 90 Para katılmayı kabul etti. Buzdolabında bir raf 'misafir' etiketi aldı.",
+      "en": "The guest agreed to chip in 90 a month for bills. One fridge shelf got a GUEST label.",
+      "coach": [
+        {
+          "tr": "Üç kişilik fatura, üç kişilik raf.",
+          "en": "Bills for three. Shelves for three.",
+          "roast": false
+        }
+      ]
+    },
+    "kira": {
+      "effects": {
+        "status": {
+          "rentDelta": -150
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kira_yeniden_bolundu"
+          ]
+        }
+      },
+      "tr": "Kira payın 150 Para düştü. Ev arkadaşı yeni paylaşımı imzaladı, kalemi geri vermedi.",
+      "en": "Your rent share dropped 150. Your roommate signed the new split and kept the pen.",
+      "coach": [
+        {
+          "tr": "Kira bölündü. Kalem bölünmedi.",
+          "en": "The rent got split. The pen didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "sus": {
+      "effects": {
+        "money": -35,
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "misafir_sessiz"
+          ]
+        }
+      },
+      "tr": "Bir şey denmedi. Su faturası bu ay 70 Para fazla geldi; yarısı senin.",
+      "en": "Nothing was said. The water bill came in 70 higher this month. Half is yours.",
+      "coach": [
+        {
+          "tr": "Kısa duşlar, uzun bir ay.",
+          "en": "Quick showers. Long month.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "ev arkadaşının sevgilisinin haftada beş gün kalması ve faturaya pay istenmesi",
+    "mechanism": "'kalmıyor ki' savunması haftada beş günle çürüyor",
+    "mechanismId": "understatement",
+    "punch": "sabah alıyor ama kısa",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "raf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

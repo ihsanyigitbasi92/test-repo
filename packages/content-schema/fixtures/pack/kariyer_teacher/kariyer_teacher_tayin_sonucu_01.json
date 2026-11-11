@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_teacher_tayin_sonucu_01",
+  "tags": [
+    "kariyer",
+    "ogretmen",
+    "kariyer_teacher"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_teacher": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "teacher"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Tayin çıkmış diyorlar. Nereye? Yakın mı? Sabah kaçta çıkacaksın?",
+      "en": "They say the transfers are out. Where? Is it close? What time will you leave in the morning?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Ben sana termos alırım. İki otobüs dedin, değil mi? Üç termos alırım.",
+      "en": "I'll get you a thermos. Two buses, you said? I'll get three thermoses.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et, iki otobüs",
+      "en": "Accept it, two buses",
+      "pattern": "patience"
+    },
+    {
+      "id": "tasin",
+      "tr": "Okulun yanına taşın",
+      "en": "Move near the school",
+      "pattern": "risk"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Tayine itiraz et",
+      "en": "Appeal the transfer",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Her sabah 06.10'da çıktın. İki otobüs, bir yokuş; termoslar sırayla kullanıldı.",
+      "en": "You left at 6:10 every morning. Two buses, one hill. The thermoses rotated.",
+      "coach": [
+        {
+          "tr": "Yol uzun. Çay sıcak.",
+          "en": "Long commute. Hot tea.",
+          "roast": false
+        }
+      ]
+    },
+    "tasin": {
+      "effects": {
+        "money": -1800,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1800
+          }
+        }
+      },
+      "tr": "Okulun iki sokak yanında bir daire tuttun. Kira 1.800 Para, yol beş dakika.",
+      "en": "You rented a flat two streets from the school. Rent: 1,800. Commute: five minutes.",
+      "coach": [
+        {
+          "tr": "Beş dakika. Termoslar dolapta.",
+          "en": "Five minutes. The thermoses stay in the cupboard.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "tayin_itiraz_kabul"
+            ]
+          }
+        },
+        "tr": "İtirazın kabul edildi. Bir otobüslük mesafedeki bir okula verildin.",
+        "en": "Appeal granted. You were placed at a school one bus away.",
+        "coach": [
+          {
+            "tr": "Bir otobüs eksildi.",
+            "en": "One bus fewer.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "İtiraz reddedildi. Cevap yazısı yeni okulun adresine gönderildi.",
+        "en": "Appeal denied. The reply was mailed to the new school.",
+        "coach": [
+          {
+            "tr": "Cevap da aynı yoldan geldi.",
+            "en": "Even the reply took the long route.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da parti iddia payı doldu"
+  },
+  "intent": {
+    "setup": "tayin sonucu iki otobüs uzaklıktaki bir okula çıkıyor",
+    "mechanism": "annenin termos sayısı otobüs sayısını geçiyor",
+    "mechanismId": "escalation",
+    "punch": "üç termos alırım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "termos"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

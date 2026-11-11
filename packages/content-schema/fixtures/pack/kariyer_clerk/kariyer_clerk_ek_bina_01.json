@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_ek_bina_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Birimimiz ek binaya taşınıyor. Bina yeni, yol biraz uzun, çay ocağı henüz yok.",
+      "en": "Our unit is moving to the annex. New building, longer trip, no kitchenette yet."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Ek bina dediği tarlanın ortası. Bir kez gittim, minibüs beni geri getirmedi.",
+      "en": "The 'annex' is in the middle of a field. I went once. The minibus didn't bring me back.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Kabul et, yola alış",
+      "en": "Accept it, get used to the trip",
+      "pattern": "patience"
+    },
+    {
+      "id": "nakil",
+      "tr": "Başka birime nakil iste",
+      "en": "Request a transfer",
+      "pattern": "risk",
+      "check": {
+        "base": 4000
+      }
+    },
+    {
+      "id": "cay",
+      "tr": "Çay ocağını sen kur",
+      "en": "Set up the kitchenette yourself",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "memur_ek_bina"
+          ]
+        }
+      },
+      "tr": "Ek binaya taşındın. Yol her gün iki yönde kırk dakika uzadı.",
+      "en": "You moved to the annex. The commute grew by forty minutes each way.",
+      "coach": [
+        {
+          "tr": "Kırk dakika fazla yol, sıfır çay ocağı. Taşınma tam kurumsal.",
+          "en": "Forty extra minutes each way and no kitchenette. A truly corporate move.",
+          "roast": true
+        }
+      ]
+    },
+    "nakil": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "memur_arsiv_birimi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Nakil talebin kabul edildi; merkezdeki arşiv birimine geçtin.",
+        "en": "Your transfer was approved. You moved to the archive unit downtown.",
+        "coach": [
+          {
+            "tr": "Tarladan kaçtın, arşive düştün. Toz da bir manzara.",
+            "en": "You escaped the field and landed in the archive. Dust is a view too.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "memur_ek_bina",
+              "memur_nakil_bekliyor"
+            ]
+          }
+        },
+        "tr": "Talebin 'değerlendirmeye' alındı. Bu arada ek binaya taşındın.",
+        "en": "Your request is 'under review.' Meanwhile, you moved to the annex.",
+        "coach": [
+          {
+            "tr": "Talep değerlendirmede, sen tarlada. İkiniz de bekliyorsunuz.",
+            "en": "Your request is under review. You're in a field. You're both waiting.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cay": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "memur_ek_bina",
+            "memur_cay_ocagi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Evden su ısıtıcını götürdün, 150 Para'ya bardak aldın. Ek binanın ilk çay ocağı senin masanın yanında.",
+      "en": "You brought your kettle from home and bought cups for 150. The annex's first kitchenette is next to your desk.",
+      "coach": [
+        {
+          "tr": "Ek binanın tek sıcak noktası sensin. Elektrik sayacı da katılıyor.",
+          "en": "You're the annex's only warm spot. The power meter agrees.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "birim şehrin dışındaki ek binaya taşınıyor",
+    "mechanism": "tarlanın ortasındaki bina",
+    "mechanismId": "understatement",
+    "punch": "minibüs beni geri getirmedi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tarla"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

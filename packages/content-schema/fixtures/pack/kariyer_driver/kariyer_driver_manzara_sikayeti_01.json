@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_manzara_sikayeti_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "Yolcu yazmış: 'Sahilden gitti, manzara için.' Manzara için mi gittin?",
+      "en": "A rider wrote in: 'Took the coast road, for the view.' Did you go for the view?"
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Yanıt formu bende. Bugün dolduruyoruz.",
+      "en": "I've got the response form. We're filling it in today.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kayit",
+      "tr": "Trafik kaydını göster",
+      "en": "Show the traffic log",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ozur",
+      "tr": "Özür dile, uzatma",
+      "en": "Apologize, move on",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "manzara",
+      "tr": "Manzara için de",
+      "en": "Say it was for the view",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "kayit": [
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Köprüdeki yol çalışmasını gösteren trafik kaydını açtın. Şikâyet düştü.",
+        "en": "You pulled up the traffic log showing roadwork on the bridge. The complaint was dropped.",
+        "coach": [
+          {
+            "tr": "Trafik kaydı tanıklık etti. Yol çalışması doğruladı.",
+            "en": "The traffic log testified. The roadwork backed it up.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "sofor_guzergah_notu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Kayıt o saati göstermedi. Dosyana 'güzergâh tercihi' notu düştü.",
+        "en": "The log didn't cover that hour. Your file now says 'route preference.'",
+        "coach": [
+          {
+            "tr": "Kayıt sustu, dosya konuştu. 'Güzergâh tercihi' artık senin imzan.",
+            "en": "The log said nothing. The file said plenty. 'Route preference' is now your signature.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ozur": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": -2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Forma özür yazdın. Patron dosyayı kapattı.",
+      "en": "You wrote an apology on the form. The boss closed the file.",
+      "coach": [
+        {
+          "tr": "Beş dakikalık sahil için bir özür. Manzara bedavaydı, özür değil.",
+          "en": "One apology for five minutes of coastline. The view was free. The apology wasn't.",
+          "roast": true
+        }
+      ]
+    },
+    "manzara": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "sofor_manzara_notu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Patron bir an sustu, sonra güldü. Formun açıklama kısmına 'manzara' yazdı.",
+      "en": "The boss went quiet, then laughed, and wrote 'the view' in the explanation box.",
+      "coach": [
+        {
+          "tr": "Resmî gerekçe: 'manzara'. Kariyerinin en dürüst formu.",
+          "en": "Official reason: 'the view.' The most honest form of your career.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kayit",
+    "slip": {
+      "tr": "İDDİA: Kayıt seni kurtarmaz. — M.",
+      "en": "WAGER: The log doesn't save you. — M."
+    }
+  },
+  "intent": {
+    "setup": "yolcu sahil yolundan gittiğin için uzun güzergâh şikâyeti yazdı",
+    "mechanism": "şikâyetin manzara gerekçesi",
+    "mechanismId": "deadpan_report",
+    "punch": "manzara için mi gittin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "manzara"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. Yolcunun güzergâh şikâyeti; TR hat sahibine, EN platform yerine patrona iletilir. Uygulama/şirket/marka adı yok."
+  }
+}

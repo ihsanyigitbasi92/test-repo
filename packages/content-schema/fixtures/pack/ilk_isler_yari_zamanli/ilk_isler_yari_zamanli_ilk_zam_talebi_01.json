@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ilk_isler_yari_zamanli_ilk_zam_talebi_01",
+  "tags": [
+    "is",
+    "ilk_is",
+    "ilk_isler_yari_zamanli"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ilk_isler_yari_zamanli": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 27
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Zam isteyeceksen pazartesi sabahı isteme. Cuma öğleden sonra da isteme.",
+      "en": "If you're asking for a raise, not Monday morning. Not Friday afternoon either."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Salı on bir. Kahvesini içmiş, e-postalarına bakmamış olsun.",
+      "en": "Tuesday, eleven. After coffee, before email."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "typing",
+      "tr": "Görüşme mi istedin? Takvimde perşembe 16.50 boş.",
+      "en": "You wanted to talk? Thursday at 4:50 is open.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "persembe",
+      "tr": "16.50'yi kabul et",
+      "en": "Take the 4:50",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sali",
+      "tr": "Salı 11'i iste",
+      "en": "Ask for Tuesday at 11",
+      "pattern": "pride"
+    },
+    {
+      "id": "yazili",
+      "tr": "Talebi e-postayla yaz",
+      "en": "Put it in writing",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "persembe": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "ilk_zam_alindi"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "uzman",
+              "tier": 1,
+              "monthly": 2100
+            }
+          }
+        },
+        "tr": "16.50'de girdin, 16.58'de çıktın. Zam onaylandı; patron 'trafiğe kalmayayım' diyerek kapıyı kendisi kapattı.",
+        "en": "In at 4:50, out at 4:58. Raise approved. The boss shut the door themselves: 'Gotta beat traffic.'",
+        "coach": [
+          {
+            "tr": "Sekiz dakika, bir zam.",
+            "en": "Eight minutes, one raise.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef maaşı bir basamak yukarıda.",
+            "en": "Goal salary: one rung up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "zam_ertelendi"
+            ]
+          }
+        },
+        "tr": "16.50'de girdin. Patron 'bütçe dönemini bekleyelim' dedi; bütçe dönemi dört ay sonra.",
+        "en": "In at 4:50. 'Let's wait for the budget cycle,' said the boss. The budget cycle is four months out.",
+        "coach": [
+          {
+            "tr": "Takvim seni dört ay ileri attı.",
+            "en": "The calendar bumped you four months.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sali": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "zam_ertelendi"
+          ]
+        }
+      },
+      "tr": "Salı 11'i istedin. Patronun salıları 'odak zamanı' olarak kapalıymış; yeni tarih iki hafta sonra.",
+      "en": "You asked for Tuesday at 11. The boss blocks Tuesdays for 'focus.' New date: two weeks out.",
+      "coach": [
+        {
+          "tr": "Salı ideal gündü. Patron için de.",
+          "en": "Tuesday was ideal. For the boss, too.",
+          "roast": true
+        }
+      ]
+    },
+    "yazili": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "zam_yazili"
+          ]
+        }
+      },
+      "tr": "Talebi yazdın. Yanıt aynı gün geldi: 'Konuşalım.' Ekinde bir davet vardı: perşembe 16.50.",
+      "en": "You put it in writing. Same-day reply: 'Let's talk.' Attached: an invite for Thursday, 4:50.",
+      "coach": [
+        {
+          "tr": "E-posta seni aynı saate geri getirdi.",
+          "en": "The email brought you right back to 4:50.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "persembe",
+    "slip": {
+      "tr": "İDDİA: Perşembe 16.50'de zam çıkmaz. — M.",
+      "en": "WAGER: No raise at 4:50 on a Thursday. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk tam zamanlı işte ilk zam talebi için doğru saati seçmek",
+    "mechanism": "her yol perşembe 16.50'ye çıkıyor",
+    "mechanismId": "callback",
+    "punch": "perşembe 16.50",
+    "lift": "hedef maaşı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "saat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

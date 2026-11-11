@@ -1,0 +1,231 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "apartman_komsuluk_yonetici_tahsilat_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "aidat",
+    "yonetim",
+    "apartman_komsuluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "apartman_komsuluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "flags": {
+      "all": [
+        "apartman_yoneticisi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Aidat mı? Bu ay biraz sıkışığım. Sen yöneticisin, anlarsın.",
+      "en": "Dues? Bit tight this month. You're the manager, you'll understand."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Kiracım bana ödemezse ben de size ödemem. Zincir böyle.",
+      "en": "If my tenant doesn't pay me, I don't pay you. That's the chain.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapi",
+      "tr": "Kapı kapı tahsilata çık",
+      "en": "Go door to door collecting",
+      "pattern": "overwork",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "cep",
+      "tr": "Açığı cebinden kapat",
+      "en": "Cover the gap yourself",
+      "pattern": "generosity"
+    },
+    {
+      "id": "toplanti",
+      "tr": "Olağanüstü toplantı çağır",
+      "en": "Call an emergency meeting",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kapi": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "tahsilat_tamam"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Akşama kadar on bir dairenin on birinden de topladın. Defteri kapattığında saat dokuzdu.",
+        "en": "By evening you'd collected from all eleven flats. You closed the ledger at nine p.m.",
+        "coach": [
+          {
+            "tr": "Bina tam ödedi. Senin akşamın ödenmedi.",
+            "en": "The building paid in full. Your evening didn't.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "tahsilat_eksik"
+            ]
+          }
+        },
+        "tr": "Üç daire 'gelecek ay' dedi. Kazan bakımı ertelendi.",
+        "en": "Three flats said 'next month.' The boiler service got pushed back.",
+        "coach": [
+          {
+            "tr": "Gelecek ay kalabalık bir ay olacak.",
+            "en": "Next month is going to be crowded.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cep": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -1200,
+        "flags": {
+          "add": [
+            "yonetici_borc_verdi"
+          ]
+        }
+      },
+      "tr": "Eksik kalan 1.200 Para'yı kendin koydun. Kasa denk çıktı.",
+      "en": "You covered the 1,200 shortfall yourself. The books balanced.",
+      "coach": [
+        {
+          "tr": "Yöneticilik gönüllü. Senin için bir de ücretli.",
+          "en": "Managing is volunteer work. For you, it also costs.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacı 1.200 geriledi.",
+          "en": "Goal counter: back 1,200.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "toplanti": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "olaganustu_toplanti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Toplantıya dört kişi geldi, ikisinin borcu yoktu. Karar: bir toplantı daha.",
+      "en": "Four people came, two of whom owed nothing. Resolution: another meeting.",
+      "coach": [
+        {
+          "tr": "Gündemin tek maddesi: sıradaki gündem.",
+          "en": "One item on the agenda: the next agenda.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kapi",
+    "slip": {
+      "tr": "İDDİA: Aidatın tamamı toplanmaz. — M.",
+      "en": "WAGER: You won't collect it all. — M."
+    }
+  },
+  "intent": {
+    "setup": "yönetici seçildikten sonraki ilk aidat tahsilatında herkes bahane sunuyor",
+    "mechanism": "zincirleme ödememe",
+    "mechanismId": "understatement",
+    "punch": "kiracım ödemezse ben de ödemem",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gundem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_mukerrer_cekim_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "itiraz",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "İki işlem görünüyor. Aynı mağaza, aynı tutar, aynı dakika. Sistem ikisini de onaylamış.",
+      "en": "I see two transactions. Same store, same amount, same minute. The system approved both."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "İtiraz açabiliriz. Bu arada iki koltuğun taksiti de işler.",
+      "en": "We can open a dispute. In the meantime, both sofas' installments will run.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "İtiraz aç",
+      "en": "File a dispute",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "magaza",
+      "tr": "Mağazayı ara",
+      "en": "Call the store",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "bekle",
+      "tr": "Bekle, düşer mi bak",
+      "en": "Wait and see if it drops off",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 1,
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "glossary": "harcama_itirazi",
+          "flags": {
+            "add": [
+              "itiraz_kabul"
+            ]
+          }
+        },
+        "tr": "İtiraz kabul edildi. İkinci koltuğun taksitleri ekstreden silindi.",
+        "en": "Dispute accepted. The second sofa's installments were removed.",
+        "coach": [
+          {
+            "tr": "Tek koltuk, tek borç. Oturma düzeni normale döndü.",
+            "en": "One sofa, one debt. Seating back to normal.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -700,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "itiraz_red",
+              "kredi_karti_borcu"
+            ]
+          }
+        },
+        "tr": "İtiraz 'işlem onaylı' gerekçesiyle reddedildi. İkinci taksit 700 Para olarak çekildi.",
+        "en": "Dispute denied: 'transaction authorized.' A second installment of 700 was charged.",
+        "coach": [
+          {
+            "tr": "Evde bir koltuk, ekstrede iki.",
+            "en": "One sofa at home. Two on the statement.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "magaza": {
+      "effects": {
+        "stats": {
+          "charm": 1,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "magaza_iade"
+          ]
+        }
+      },
+      "tr": "Mağaza hatayı kabul etti, iadeyi başlattı. İade 'üç ila yedi iş günü' içinde yansıyacak.",
+      "en": "The store admitted the error and started a refund. It'll post in 'three to seven business days.'",
+      "coach": [
+        {
+          "tr": "Üç ila yedi gün. Aralık cömert.",
+          "en": "Three to seven days. A generous range.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "money": -1400,
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Bir ay beklendi, hiçbir şey düşmedi. İki taksit birden çekildi: 1.400 Para.",
+      "en": "A month went by. Nothing dropped off. Both installments were charged: 1,400.",
+      "coach": [
+        {
+          "tr": "Bir ay bekleme, iki taksit, oturacak tek yer.",
+          "en": "A month of waiting, two installments, one place to sit.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: İtiraz reddedilir. — M.",
+      "en": "WAGER: The dispute gets denied. — M."
+    }
+  },
+  "intent": {
+    "setup": "ekstrede taksitli koltuk alımının iki kez çekilmiş görünmesi ve itiraz",
+    "mechanism": "evde bir koltuk, ekstrede iki",
+    "mechanismId": "count",
+    "punch": "aynı dakika, sistem ikisini de onaylamış",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koltuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

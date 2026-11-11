@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_dost_fiyatina_araba_01",
+  "tags": [
+    "sosyal",
+    "araba",
+    "para",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Arkadaşın arabasını bize satmak istiyor. “Size özel fiyat” dedi, rakam söylemedi.",
+      "en": "Your friend wants to sell us their car. “Special price for you,” they said. No number."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bir de “ufak bir ses var, alışırsınız” dedi. Hangi ses dedim, taklit etti.",
+      "en": "They also said “there's a little noise, you get used to it.” I asked what noise. They did an impression.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Fiyatı pazarlık et",
+      "en": "Haggle on the price",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "al",
+      "tr": "Söylenen fiyattan al",
+      "en": "Buy at their price",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "reddet",
+      "tr": "“Araba bakmıyoruz” de",
+      "en": "Say you're not in the market",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -5500,
+          "stats": {
+            "joy": 3
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "car"
+              ]
+            }
+          },
+          "flags": {
+            "add": [
+              "araba_var",
+              "arkadastan_araba"
+            ]
+          }
+        },
+        "tr": "Fiyat 5.500 Para'ya indi. Ses de geldi: ilk virajda, aynen taklit edildiği gibi.",
+        "en": "Price came down to fifty-five hundred. The noise came too, on the first turn, exactly as impersonated.",
+        "coach": [
+          {
+            "tr": "Fiyat düştü. Ses sabit kaldı.",
+            "en": "The price dropped. The noise held steady.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -7200,
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "car"
+              ]
+            }
+          },
+          "flags": {
+            "add": [
+              "araba_var",
+              "arkadastan_araba"
+            ]
+          }
+        },
+        "tr": "Pazarlık ters döndü: 7.200 Para. Arkadaşına göre aradaki 200 “pazarlık zahmeti”.",
+        "en": "The haggling backfired: seventy-two hundred. Per your friend, the extra two hundred covers “haggling fatigue.”",
+        "coach": [
+          {
+            "tr": "İki yüz Para zahmet bedeli. Fişsiz.",
+            "en": "Two hundred for the trouble. No receipt.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "al": {
+      "effects": {
+        "money": -6800,
+        "stats": {
+          "joy": 1
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "car"
+            ]
+          }
+        },
+        "flags": {
+          "add": [
+            "araba_var",
+            "arkadastan_araba"
+          ]
+        }
+      },
+      "tr": "6.800 Para'ya aldın. Ses, taklitten biraz daha yüksek çıktı.",
+      "en": "Bought it for sixty-eight hundred. The noise is a little louder than the impression.",
+      "coach": [
+        {
+          "tr": "Ses garantili. Başka bir şey değil.",
+          "en": "The noise is guaranteed. Nothing else is.",
+          "roast": false
+        }
+      ]
+    },
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "araba_teklifi_reddedildi"
+          ]
+        }
+      },
+      "tr": "Arkadaşın “anlarım” dedi. İki hafta sonra arabayı başka bir arkadaşınız aldı; sesi sana o anlattı.",
+      "en": "“No worries,” they said. Two weeks later another friend bought it. You heard about the noise secondhand.",
+      "coach": [
+        {
+          "tr": "Ses başka bir garajda yaşıyor.",
+          "en": "The noise lives in another garage now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Dostluk fiyatı pazarlıkta yükselir. — M.",
+      "en": "WAGER: The friends-and-family price goes up when you haggle. — M."
+    }
+  },
+  "intent": {
+    "setup": "arkadaşının eski arabasını dostluğa özel fiyatla sana satmak istemesi",
+    "mechanism": "arıza sesinin taklit edilmesi",
+    "mechanismId": "escalation",
+    "punch": "hangi ses dedim, taklit etti",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "garaj"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

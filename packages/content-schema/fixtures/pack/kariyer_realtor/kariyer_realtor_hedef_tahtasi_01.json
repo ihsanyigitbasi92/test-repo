@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_hedef_tahtasi_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Tahtaya bakın. Aylık hedef üç satış. En alttaki ay boyunca kahveleri yapar.",
+      "en": "Look at the board. Monthly target: three sales. Whoever's at the bottom makes coffee all month."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bir de ay sonuna kadar her gün yirmi telefon. Listeyi ben tutuyorum.",
+      "en": "Also, twenty calls a day till month-end. I keep the list.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "telefon",
+      "tr": "Telefon maratonu",
+      "en": "Phone marathon",
+      "pattern": "overwork",
+      "check": {
+        "base": 4000,
+        "stat": "charm",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "kahve",
+      "tr": "Kahveleri kabullen",
+      "en": "Accept coffee duty",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ilan",
+      "tr": "Eski ilanları \"yeni\" diye as",
+      "en": "Repost old listings as \"new\"",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "telefon": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 1200,
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "aylik_hedef_tuttu"
+            ]
+          }
+        },
+        "tr": "Ayın son günü ikinci satışı kapattın. Adın tahtada bir satır yukarı çıktı.",
+        "en": "On the last day of the month you closed a second sale. Your name moved up one row.",
+        "coach": [
+          {
+            "tr": "Bir satır yukarı. Kahve artık başkasının derdi.",
+            "en": "Up one row. The coffee is someone else's problem now.",
+            "roast": true
+          },
+          {
+            "tr": "Hedefe bir satır kaldı.",
+            "en": "One row from the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Yüz otuz telefon açtın. Sekiz kişi dinledi, biri sana araba satmaya çalıştı.",
+        "en": "A hundred and thirty calls. Eight people listened. One tried to sell you a car.",
+        "coach": [
+          {
+            "tr": "Yüz otuz arama, bir ters satış.",
+            "en": "A hundred and thirty calls. One reverse pitch.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kahve": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Ay boyunca kahveleri sen yaptın. Patron ay sonunda kahveyi hedefin üstünde buldu.",
+      "en": "You made coffee all month. At month-end, your boss rated the coffee above target.",
+      "coach": [
+        {
+          "tr": "Bir hedef tuttu. Yanlış olanı.",
+          "en": "One target met. The wrong one.",
+          "roast": true
+        }
+      ]
+    },
+    "ilan": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "eski_ilan_yenilendi"
+          ]
+        }
+      },
+      "tr": "Eski ilanları \"yeni\" diye yeniden yayımladın. İlk arayan, aynı ilanı geçen ay da arayan kişiydi.",
+      "en": "You reposted old listings as \"new.\" The first caller had phoned about the same one last month.",
+      "coach": [
+        {
+          "tr": "Yeni ilan, sadık müşteri.",
+          "en": "New listing. Loyal customer.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "telefon",
+    "slip": {
+      "tr": "İDDİA: Hedef bu ay tutmaz. — M.",
+      "en": "WAGER: You won't hit target this month. — M."
+    }
+  },
+  "intent": {
+    "setup": "patron ofiste aylık satış hedefi tahtası kuruyor, en alttaki kahve yapacak",
+    "mechanism": "telefon sayısı ve ters satış",
+    "mechanismId": "count",
+    "punch": "biri sana araba satmaya çalıştı",
+    "lift": "hedefe bir satır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tahta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

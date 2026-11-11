@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_son_gun_odeme_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "basvuru",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t",
+      "tr": "Sınav başvurusunun son günü, saat 23.41. Ödeme ekranında 'İşleminiz sürüyor' yazıyor. Yardım hattını aradın.",
+      "en": "Last day to register for the exam. 11:41 p.m. The payment screen says 'Processing.' You call the help line."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Ödemeniz görünüyor ama onaylanmamış. Onaylanmamış ödeme ödeme sayılmaz. Yine de ödemedir.",
+      "en": "Your payment shows up but isn't confirmed. An unconfirmed payment doesn't count. It's still a payment, though."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Yarın sabah dokuzda yeniden arayın. Başvuru bu gece kapanıyor.",
+      "en": "Call back tomorrow at nine. Registration closes tonight.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tekrar",
+      "tr": "Ödemeyi yeniden dene",
+      "en": "Try the payment again",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Sabah dokuzu bekle",
+      "en": "Wait for nine a.m.",
+      "pattern": "patience"
+    },
+    {
+      "id": "anne",
+      "tr": "Annene ekran görüntüsü at",
+      "en": "Send Mom a screenshot",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "tekrar": [
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "sinav_kaydi_tamam",
+              "cift_odeme_iade"
+            ]
+          }
+        },
+        "tr": "İkinci deneme 23.57'de onaylandı. Birinci deneme de ertesi gün onaylandı; iadesi otuz gün sürecek.",
+        "en": "The second try confirmed at 11:57. The first one confirmed the next day. Refund: thirty days.",
+        "coach": [
+          {
+            "tr": "İki onay, bir sınav.",
+            "en": "Two confirmations. One exam.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "sinav_kaydi_belirsiz"
+            ]
+          }
+        },
+        "tr": "Ekran yine 'İşleminiz sürüyor' dedi. Saat 00.00 oldu, ekran aynı cümlede kaldı.",
+        "en": "The screen said 'Processing' again. Midnight came. The screen stayed on the same sentence.",
+        "coach": [
+          {
+            "tr": "Gece yarısı geçti, cümle geçmedi.",
+            "en": "Midnight passed. The sentence did not.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "sinav_kaydi_tamam"
+          ]
+        }
+      },
+      "tr": "Sabah dokuzda aradın. 'Ödemeniz dün 23.42'de onaylanmış' dediler.",
+      "en": "You called at nine. 'Your payment confirmed at 11:42 last night.'",
+      "coach": [
+        {
+          "tr": "Bir gece endişe, bir dakika fark.",
+          "en": "One night of worry. A one-minute lag.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "flags": {
+          "add": [
+            "sinav_kaydi_tamam"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annen ekran görüntüsünü üç akrabaya iletti. Ödeme sabah onaylandı; akrabalar hâlâ soruyor.",
+      "en": "Mom forwarded the screenshot to three relatives. The payment confirmed in the morning. The relatives are still asking.",
+      "coach": [
+        {
+          "tr": "Ödeme bitti, soruşturma sürüyor.",
+          "en": "Payment settled. Inquiry ongoing.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tekrar",
+    "slip": {
+      "tr": "İDDİA: İkinci deneme de ekranda takılır. — M.",
+      "en": "WAGER: The second try hangs too. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınav başvurusunun son gecesi ödemenin onaylanmaması",
+    "mechanism": "görevli ödemenin hem sayıldığını hem sayılmadığını söylüyor",
+    "mechanismId": "reversal",
+    "punch": "onaylanmamış ödeme ödeme sayılmaz, yine de ödemedir",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "onay"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
