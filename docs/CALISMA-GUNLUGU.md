@@ -118,3 +118,6 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - Kırmızı çizgi taraması bir satır yakaladı ("oy verdi" — siyaset deseni, araba isim olayı); satır yeniden yazıldı.
 - Kalan 10 parti + QA turu 5 saatlik limite takılmıştı; limit sıfırlanınca yeniden başlatıldı.
 - Sprint 2 demosu 5.097 olayla yeniden derlendi, tarayıcıda duman testi geçti (hata yok) ve yayımlandı.
+- Dalga 3 kapandı: havuz 5.623 paket olayı (%56,2). Üç olayda İngilizce diyalog satırı 110 karakter sınırını aşıyordu, kısaltıldı; kırmızı çizgi taraması "slots" kelimesini kumar deseni olarak yakaladı, "openings" yapıldı. Kontroller yeşil.
+- Dalga 3'ün QA turu limit yüzünden çalışmadı; dalga 4'ün sonundaki QA turu her iki dalgayı örnekleyecek.
+- Dalga 4 başlatıldı: 52 parti, 2.234 olay (kalan kotanın yarısı). Bitince ~7.857.
