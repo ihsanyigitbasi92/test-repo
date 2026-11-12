@@ -2,6 +2,7 @@
 import { groupDigits } from './format';
 import type { Strings } from './tr';
 import { shopEn } from './shopEn';
+import { adsEn } from './adsEn';
 
 const n = (x: number) => groupDigits(x, ',');
 const ord = (k: number) => (k % 100 >= 11 && k % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][k % 10] ?? 'th');
@@ -110,6 +111,7 @@ export const en: Strings = {
   ...RITUAL,
   langName: 'EN',
   shop: shopEn,
+  ads: adsEn,
   brandSub: 'Uncertified Life Coach',
   stat: { health: 'Health', joy: 'Joy', brain: 'Brain', charm: 'Looks' },
   meter: { ego: 'Ego', cringe: 'Cringe', momPressure: 'Mom Pressure', money: 'Cash' },

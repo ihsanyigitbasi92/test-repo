@@ -20,7 +20,7 @@ export function TopBar({ speed, locale, showSpeed, onSpeed, onLocale, onShop }: 
     <View style={st.bar}>
       <View style={st.brandBox}>
         <Text style={st.brand}>MOTTO</Text>
-        <Text style={st.sub} numberOfLines={1}>{upper(locale, s.brandSub)}</Text>
+        <Text style={st.sub} numberOfLines={2}>{upper(locale, s.brandSub)}</Text>
       </View>
       <View style={st.chips}>
         {showSpeed && (

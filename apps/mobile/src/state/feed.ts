@@ -7,11 +7,13 @@ import type { GapLine, MeterId, ReportCardData, StatId, WagerOffer } from '@mott
 import type { Strings } from '../i18n';
 
 /** A UI-catalog line: key of a string (or formatter) in tr.ts/en.ts + its arguments. */
-export type UiKey = 'intro1' | 'intro2' | 'nameRoast' | 'birthdayLine' | 'quiet' | 'envelopeOpened' | 'lowJoy' | 'suggestEnd' | 'resumed' | 'unreadInfo' | 'lowHealth';
+type AdUiKey = keyof Strings['ads']['feed'];
+export type UiKey = 'intro1' | 'intro2' | 'nameRoast' | 'birthdayLine' | 'quiet' | 'envelopeOpened' | 'lowJoy' | 'suggestEnd' | 'resumed' | 'unreadInfo' | 'lowHealth' | AdUiKey;
 export interface UiLine { k: UiKey; a?: (string | number)[] }
 
 export function uiText(s: Strings, line: UiLine): string {
-  const v = s[line.k] as string | ((...a: never[]) => string);
+  // Ad layer lines (adIncoming, adSponsorOffer, …) live in their own block: s.ads.feed.
+  const v = (line.k in s.ads.feed ? s.ads.feed[line.k as AdUiKey] : s[line.k as Exclude<UiKey, AdUiKey>]) as string | ((...a: never[]) => string);
   return typeof v === 'function' ? (v as (...a: (string | number)[]) => string)(...(line.a ?? [])) : v;
 }
 

@@ -6,6 +6,7 @@
 import { groupDigits, lowerTr } from './format';
 import { sfx } from './trSuffix';
 import { shopTr } from './shopTr';
+import { adsTr } from './adsTr';
 
 const n = (x: number) => groupDigits(x, '.');   // 2.000 — dot grouping, no currency sign (D-033)
 
@@ -118,6 +119,7 @@ export const tr = {
   ...RITUAL,
   langName: 'TR',
   shop: shopTr,
+  ads: adsTr,
   brandSub: 'Sertifikasız Hayat Koçu',
   // HUD
   stat: { health: 'Sağlık', joy: 'Keyif', brain: 'Kafa', charm: 'Çekicilik' },
