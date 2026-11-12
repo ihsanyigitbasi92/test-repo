@@ -307,3 +307,8 @@ Hayatı ileri taşıyan geçiş olayları `tags` içine kilometre taşı etiketi
 - `milestone:bebek` — `evli`; bir sonucu `flags.add: ["bebek_yolda"]`.
 - `milestone:dogum` — `bebek_yolda`; bir sonucu `npc: [{role:"child", create:true}]` ve `flags.add: ["bebek_geldi"]`.
 Her zaman bir "şimdi değil" seçeneği olur; reddetmek de hayatı değiştirir (bayrak/ilişki etkisi).
+
+## Metin denetimleri ve EN kadro adları (textlint)
+`pnpm run check` artık `textlint` da çalıştırır ve şunlarda HATA verir: metinde snake_case/camelCase (ham id), Türkçe sayı eki uyumsuzluğu (%39'du, 11:53'te), EN metinde Türkçe isim/sözcük, bilinen yazım hataları.
+EN kadro adları: kedi **Biscuit** (TR Pamuk), Nermin → Norma, Deniz → Dana, Sabri → Mr. Sutter, Selim → Mr. Sellers, Kaan → Kit, Saadet → Sadie. Tam liste: `scripts/lint/tr-names.txt`. Oyuncu ad havuzundaki isimler NPC adı olarak kullanılmaz.
+Koç persona işaretleri (ton kitabı): "Ben olsam … Sen bilirsin", "Seminerde buna … derdik", "Sertifikasız görüş", öz-iğneleme. Hedef: 18–35 bandında koç satırlarının ~%15'i; aynı kalıp partide ≤ 4. Düdük olay satırında yasak.
