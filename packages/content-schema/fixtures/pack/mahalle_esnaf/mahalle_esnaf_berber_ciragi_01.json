@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "mahalle_esnaf_berber_ciragi_01",
+  "tags": [
+    "sosyal",
+    "esnaf",
+    "mahalle_esnaf"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "mahalle_esnaf": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:barber",
+      "avatar": "happy",
+      "tr": "Usta öğlene kadar dolu. Çırak boş, ilk müşterisini arıyor. Yarı fiyat.",
+      "en": "The boss is booked till noon. The apprentice is free and looking for a first customer. Half price."
+    },
+    {
+      "speaker": "npc:barber",
+      "avatar": "neutral",
+      "tr": "Ben de yanında dururum. Makas tutuşunu düzeltirim, gerisi ona kalmış.",
+      "en": "I'll stand right next to them. I'll fix the scissor grip. The rest is up to them.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cirak",
+      "tr": "Çırağa otur",
+      "en": "Sit in the apprentice's chair",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Ustayı bekle",
+      "en": "Wait for the boss",
+      "pattern": "patience"
+    },
+    {
+      "id": "sonra",
+      "tr": "Başka gün gel",
+      "en": "Come back another day",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cirak": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -150,
+          "flags": {
+            "add": [
+              "cirak_ilk_musteri"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:barber",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Kesim düzgün çıktı. Çırak ilk kazancını aynanın kenarına sıkıştırdı.",
+        "en": "The cut came out clean. The apprentice tucked their first earnings into the mirror frame.",
+        "coach": [
+          {
+            "tr": "Aynanın kenarında artık senin paran duruyor.",
+            "en": "Your money now hangs on the mirror frame.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -150,
+          "flags": {
+            "add": [
+              "cirak_ders_malzemesi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:barber",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Ense biraz yamuk çıktı. Usta düzeltti ve 'Bu da derstir' dedi; dersin konusu sendin.",
+        "en": "The neckline came out crooked. The boss fixed it and said, 'That's a lesson.' You were the lesson.",
+        "coach": [
+          {
+            "tr": "Ders ücreti: yarım tıraş.",
+            "en": "Tuition: half a haircut.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -300,
+        "npc": [
+          {
+            "role": "npc:barber",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Öğlene kadar bekledin, iki dergi bitirdin. Usta her zamanki gibi kesti, her zamanki fiyattan.",
+      "en": "You waited until noon and finished two magazines. The boss cut it like always, at the usual price.",
+      "coach": [
+        {
+          "tr": "İki dergi, bir tam fiyat. Kesinlik ekstra ücretli.",
+          "en": "Two magazines, full price. Certainty costs extra.",
+          "roast": false
+        }
+      ]
+    },
+    "sonra": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "tiras_ertelendi"
+          ]
+        }
+      },
+      "tr": "Başka güne bıraktın. Çıkarken çırak sıradaki müşteriye 'İlk müşterim olur musunuz?' diye soruyordu.",
+      "en": "You left it for another day. On your way out, the apprentice was asking the next customer, 'Want to be my first?'",
+      "coach": [
+        {
+          "tr": "Ben olsam otururdum. Sen bilirsin.",
+          "en": "I'd have sat down. Your call.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cirak",
+    "slip": {
+      "tr": "İDDİA: Ense yamuk çıkar. — M.",
+      "en": "WAGER: The neckline comes out crooked. — M."
+    }
+  },
+  "intent": {
+    "setup": "berberde ustanın dolu olup çırağın ilk müşterisi olmanın yarı fiyata teklif edilmesi",
+    "mechanism": "ilk müşteri ders malzemesi",
+    "mechanismId": "deadpan_report",
+    "punch": "dersin konusu sendin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ayna"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

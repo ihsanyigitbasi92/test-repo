@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_kimlik_unutmak_01",
+  "tags": [
+    "saglik",
+    "kayit",
+    "banko",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Hastane kayıt bankosu. Cüzdanını açtın: kimlik kartının yeri boş.",
+      "en": "Hospital registration desk. You open your wallet. The ID slot is empty."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kimlik numaranız? Kart yok mu? O zaman sistem sizi tanımıyor.",
+      "en": "ID number? No card? Then the system doesn't know you."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Numarayı ezbere biliyorsanız olur. Bilmiyorsanız siz yoksunuz.",
+      "en": "If you know the number by heart, fine. If not, you don't exist.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ezber",
+      "tr": "Numarayı ezberden söyle",
+      "en": "Recite the number from memory",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Anneni ara, numarayı sor",
+      "en": "Call your mom for the number",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    },
+    {
+      "id": "eve",
+      "tr": "Eve dön, kartı al",
+      "en": "Go home for the card",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ezber": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "kimlik_ezber"
+            ]
+          }
+        },
+        "tr": "İlk denemede söyledin. Görevli başını kaldırmadan sıra fişini uzattı.",
+        "en": "First try. The clerk handed over a queue slip without looking up.",
+        "coach": [
+          {
+            "tr": "On bir hane, ilk seferde.",
+            "en": "Eleven digits, first try.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Son iki hanede takıldın. Sistem üç denemeden sonra seni on dakika kilitledi.",
+        "en": "You stalled on the last two digits. After three tries the system locked you out for ten minutes.",
+        "coach": [
+          {
+            "tr": "Dokuz hane doğru. Sistem hepsini istiyor.",
+            "en": "Nine digits right. The system wants all of them.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "anne_hastaneyi_ogrendi"
+          ]
+        }
+      },
+      "tr": "Annen numaranı tek nefeste okudu. Sonra neden hastanede olduğunu sordu; telefon yirmi dakika sürdü.",
+      "en": "Your mom recited the number in one breath. Then she asked why you were at a hospital. Twenty minutes.",
+      "coach": [
+        {
+          "tr": "Numara bir saniye, açıklama yirmi dakika.",
+          "en": "Number: one second. Explanation: twenty minutes.",
+          "roast": false
+        }
+      ]
+    },
+    "eve": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "randevu_oglene_kaldi"
+          ]
+        }
+      },
+      "tr": "Eve gidip döndün. Randevu saatin geçmişti, yeni sıra öğleden sonraya verildi.",
+      "en": "You went home and back. Your slot had passed. The new one is this afternoon.",
+      "coach": [
+        {
+          "tr": "Öğleden sonra kartlı bir insansın.",
+          "en": "This afternoon you are a person with a card.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "hastane kaydında kimlik kartını evde unutmak",
+    "mechanism": "görevli kartsız hastayı varoluştan siliyor",
+    "mechanismId": "literalism",
+    "punch": "bilmiyorsanız siz yoksunuz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kartli"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

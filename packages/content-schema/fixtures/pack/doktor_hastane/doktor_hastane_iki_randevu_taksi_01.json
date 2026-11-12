@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_iki_randevu_taksi_01",
+  "tags": [
+    "saglik",
+    "taksi",
+    "randevu",
+    "ileri_yas",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 67,
+      "max": 85
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Bu sabah senin göz kontrolün, partnerinin diş randevusu var. İki ayrı hastane, yarım saat arayla.",
+      "en": "This morning: your eye checkup and your partner's dental appointment. Two different hospitals, half an hour apart."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Önce dişçi. Dişçiler hep geç alır, göz doktorları hep erken. Bu bilimsel.",
+      "en": "Dentist first. Dentists always run late, eye doctors always run early. That's science."
+    }
+  ],
+  "choices": [
+    {
+      "id": "rota",
+      "tr": "Taksicinin rotasına uy",
+      "en": "Trust the driver's route",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "goz",
+      "tr": "Önce göz, sonra diş",
+      "en": "Eyes first, then teeth",
+      "pattern": "pride"
+    },
+    {
+      "id": "ayri",
+      "tr": "İki ayrı taksi tut",
+      "en": "Book two separate cabs",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "rota": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -220,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "iki_randevu_tamam"
+            ]
+          }
+        },
+        "tr": "Dişçi gerçekten geç aldı, göz doktoru gerçekten erken çağırdı. İki randevu da tuttu.",
+        "en": "The dentist did run late. The eye doctor did call early. Both appointments worked out.",
+        "coach": [
+          {
+            "tr": "Teori bu sabahlık doğrulandı.",
+            "en": "The theory holds, for this morning.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -260,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "goz_randevusu_kacti"
+            ]
+          }
+        },
+        "tr": "Dişçi bu kez tam vaktinde aldı, göz randevusuna on dakika geç kaldın. Taksici \"istisna kuralı bozmaz\" dedi.",
+        "en": "For once the dentist was on time, and you missed your eye slot by ten minutes. The driver said, \"Exceptions prove the rule.\"",
+        "coach": [
+          {
+            "tr": "Kural ayakta. Randevu değil.",
+            "en": "The rule still stands. The appointment doesn't.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "goz": {
+      "effects": {
+        "money": -240,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "iki_randevu_tamam"
+          ]
+        }
+      },
+      "tr": "Göz kontrolü bitti, dişçiye geçtiniz. Bekleme salonunda partnerinin sırası hâlâ gelmemişti.",
+      "en": "Eye exam done, you hurried to the dentist. Your partner's turn still hadn't come.",
+      "coach": [
+        {
+          "tr": "Dişçi teoriye sadık kaldı.",
+          "en": "The dentist stayed loyal to the theory.",
+          "roast": false
+        }
+      ]
+    },
+    "ayri": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "iki_randevu_tamam"
+          ]
+        }
+      },
+      "tr": "İki taksi, iki hastane, 400 Para. Öğlen evde buluştuğunuzda ikinizin de anlatacak bir taksici teorisi vardı.",
+      "en": "Two cabs, two hospitals, 400. When you met back home for lunch, you each had a driver's theory to share.",
+      "coach": [
+        {
+          "tr": "İki teori, tek öğle yemeği.",
+          "en": "Two theories. One lunch.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rota",
+    "slip": {
+      "tr": "İDDİA: Taksicinin bilimi bu sabah tutmaz. — M.",
+      "en": "WAGER: The driver's science fails this morning. — M."
+    }
+  },
+  "intent": {
+    "setup": "ileri yaşta aynı sabah iki ayrı hastanede iki randevuya tek taksiyle yetişmek",
+    "mechanism": "taksicinin hekim zamanlaması teorisi",
+    "mechanismId": "escalation",
+    "punch": "bu bilimsel",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "teori"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

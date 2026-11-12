@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_muayenede_telefon_01",
+  "tags": [
+    "saglik",
+    "muayene",
+    "telefon",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Stetoskop sırtında. Tam o sırada telefonun titremeye başladı.",
+      "en": "The stethoscope is on your back. That's when your phone starts buzzing."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Derin nefes alın. Verin. Bir daha alın.",
+      "en": "Deep breath in. And out. Once more."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "annoyed",
+      "tr": "Cebinizde bir şey titriyor. Kalbiniz değil, onu duyuyorum.",
+      "en": "Something's buzzing in your pocket. Not your heart. I can hear that one.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "reddet",
+      "tr": "Cepten körlemesine reddet",
+      "en": "Decline it blind, in the pocket",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "Telefonu çıkarıp kapat",
+      "en": "Take it out, switch it off",
+      "pattern": "patience"
+    },
+    {
+      "id": "cevap",
+      "tr": "Kısaca cevap ver",
+      "en": "Answer, keep it short",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "reddet": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 1
+          },
+          "diagnosis": "rutin_kontrol_temiz"
+        },
+        "tr": "Tek dokunuşla aramayı reddettin. Muayene kaldığı yerden devam etti.",
+        "en": "One blind tap declined the call. The exam picked up where it left off.",
+        "coach": [
+          {
+            "tr": "Tek dokunuş, sessiz cep.",
+            "en": "One tap. Quiet pocket.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "muayene_hoparlor"
+            ]
+          }
+        },
+        "tr": "Yanlış yere bastın, arama hoparlörden açıldı. Odadakiler bir kargo firmasının otomatik mesajını birlikte dinledi.",
+        "en": "Wrong spot. The call opened on speaker, and the room listened together to a shipping company's automated message.",
+        "coach": [
+          {
+            "tr": "Mesaj sonuna kadar çaldı.",
+            "en": "The message played to the very end.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "muayene_sessiz"
+          ]
+        }
+      },
+      "tr": "Telefonu kapattın. Doktor dinlemeye baştan başladı, nefes sayısı ikiye katlandı.",
+      "en": "You switched it off. The doctor started listening from scratch. Double the breathing.",
+      "coach": [
+        {
+          "tr": "Nefes tekrarı, ücretsiz.",
+          "en": "A breathing encore, no charge.",
+          "roast": false
+        }
+      ]
+    },
+    "cevap": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "muayene_yarim"
+          ]
+        }
+      },
+      "tr": "\"Sonra ararım\" dedin. Doktor stetoskopu boynuna astı ve sıradaki hastayı çağırdı.",
+      "en": "You said, \"I'll call you back.\" The doctor draped the stethoscope around their neck and called the next patient.",
+      "coach": [
+        {
+          "tr": "Sıra el değiştirdi.",
+          "en": "The turn changed hands.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "reddet",
+    "slip": {
+      "tr": "İDDİA: Cepte körlemesine dokunuş yanlış tuşa gider. — M.",
+      "en": "WAGER: A blind pocket tap hits the wrong button. — M."
+    }
+  },
+  "intent": {
+    "setup": "doktor stetoskopla dinlerken telefonun cepte titremesi",
+    "mechanism": "doktor titreşimi kalpten ayırıyor",
+    "mechanismId": "literalism",
+    "punch": "kalbiniz değil, onu duyuyorum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sira"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

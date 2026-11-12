@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_vardiya_degisimi_01",
+  "tags": [
+    "sosyal",
+    "is",
+    "yaz",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "typing",
+      "tr": "Arkadaşın bu cumartesi vardiyasını seninle değiştirmek istiyor. Üçüncü kez.",
+      "en": "Your friend wants to swap Saturday shifts with you. Third time."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Geçen sefer \"son kez\" demişti. Ondan önceki sefer de.",
+      "en": "Last time they said \"last time.\" The time before, too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Yine değiştir",
+      "en": "Swap again",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sart",
+      "tr": "Karşılığında pazarını iste",
+      "en": "Ask for their Sunday in return",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hayir",
+      "tr": "Hayır de",
+      "en": "Say no",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 400,
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "vardiya_dorduncu"
+          ]
+        }
+      },
+      "tr": "Cumartesi çalıştın, mesai 400 Para ekledi. Arkadaşın teşekkür mesajına \"son kez\" yazdı.",
+      "en": "You worked Saturday. The extra shift paid 400. Your friend's thank-you text said \"last time.\"",
+      "coach": [
+        {
+          "tr": "Son kez. Dördüncü kez.",
+          "en": "Last time. For the fourth time.",
+          "roast": false
+        }
+      ]
+    },
+    "sart": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Pazar gününü aldın. Arkadaşın pazar sabahı yedide işteydi ve kapalı kepengin fotoğrafını attı.",
+        "en": "You got their Sunday. They showed up at seven on Sunday and sent a photo of the closed shutter.",
+        "coach": [
+          {
+            "tr": "Pazar artık senin.",
+            "en": "Sunday is yours.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "pazar_vardiyasi_gitti"
+            ]
+          }
+        },
+        "tr": "Arkadaşın \"boş ver, başkasını bulurum\" dedi. Buldu: iş arkadaşını, senin pazar vardiyanla.",
+        "en": "\"Never mind, I'll find someone,\" your friend said. They did: your coworker, with your Sunday shift.",
+        "coach": [
+          {
+            "tr": "Cumartesi kurtuldu. Pazar da elden çıktı.",
+            "en": "Saturday saved. Sunday lost in the deal.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Hayır dedin. Arkadaşın cumartesi yine geldi; aynı kasada çalıştınız ve gün daha çabuk geçti.",
+      "en": "You said no. Your friend came in Saturday anyway. You worked the same register and the day flew.",
+      "coach": [
+        {
+          "tr": "Hayır dedin, iki kişilik vardiya çıktı.",
+          "en": "You said no and got a two-person shift.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sart",
+    "slip": {
+      "tr": "İDDİA: Arkadaşın pazarını vermez. — M.",
+      "en": "WAGER: Your friend won't give up their Sunday. — M."
+    }
+  },
+  "intent": {
+    "setup": "yaz işinde arkadaşın cumartesi vardiyasını üçüncü kez seninle değiştirmek istemesi",
+    "mechanism": "\"son kez\" sözünün her seferinde geri gelmesi",
+    "mechanismId": "callback",
+    "punch": "ondan önceki sefer de",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "son_kez"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

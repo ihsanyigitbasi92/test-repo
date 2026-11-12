@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_yedek_anahtar_01",
+  "tags": [
+    "sosyal",
+    "ev",
+    "gece",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Saat iki. Kapıda arkadaşın var. Yedek anahtarının sende olduğunu söylüyor.",
+      "en": "It's 2 a.m. Your friend is at the door. Says you have their spare key."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Anahtarı nereye koyduğunu da soruyor. Sana.",
+      "en": "They're also asking where you put it. You.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Anahtarı ara",
+      "en": "Search for the key",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kanepe",
+      "tr": "Bu gece kanepede kalsın",
+      "en": "Let them crash on the couch",
+      "pattern": "generosity"
+    },
+    {
+      "id": "cilingir",
+      "tr": "Çilingir çağır",
+      "en": "Call a locksmith",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "ara": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "yedek_anahtar_sende"
+            ]
+          }
+        },
+        "tr": "Anahtar mutfaktaki kavanozdaydı, üstünde \"ANAHTAR DEĞİL\" yazan bir etiketle.",
+        "en": "The key was in a kitchen jar labeled \"NOT THE KEY.\"",
+        "coach": [
+          {
+            "tr": "İki buçukta bulundu.",
+            "en": "Found at two-thirty.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kırk dakika aradınız, bulamadınız. Arkadaşın kanepede uyudu; anahtar sabah kendi cebinden çıktı.",
+        "en": "Forty minutes of searching, nothing. Your friend slept on the couch. In the morning the key turned up in their own pocket.",
+        "coach": [
+          {
+            "tr": "Anahtar başından beri evdeydi. Bir cepte.",
+            "en": "The key was home all along. In a pocket.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kanepe": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yedek_anahtar_kayip"
+          ]
+        }
+      },
+      "tr": "Arkadaşın kanepede uyudu. Sabah kahvaltıyı o hazırladı ve son yumurtalarını kullandı.",
+      "en": "Your friend slept on the couch, made breakfast in the morning, and used your last eggs.",
+      "coach": [
+        {
+          "tr": "Kahvaltı hazır. Yumurta sayısı sıfır.",
+          "en": "Breakfast is served. Egg count: zero.",
+          "roast": false
+        }
+      ]
+    },
+    "cilingir": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "arkadas_cilingir_borcu"
+          ]
+        }
+      },
+      "tr": "Çilingir gece tarifesiyle 600 Para istedi. Arkadaşın yarısını ödedi, yarısı için \"yarın\" dedi.",
+      "en": "The locksmith charged 600, night rate. Your friend paid half and said \"tomorrow\" for the rest.",
+      "coach": [
+        {
+          "tr": "Yarısı ödendi. Yarın tarihsiz.",
+          "en": "Half paid. Tomorrow, undated.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ara",
+    "slip": {
+      "tr": "İDDİA: Anahtarı bu gece bulamazsın. — M.",
+      "en": "WAGER: You won't find that key tonight. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece ikide yedek anahtarı sende olan arkadaşın kapıya gelmesi ve anahtarın bulunamaması",
+    "mechanism": "anahtarı saklayan kişiye nerede olduğu soruluyor",
+    "mechanismId": "deadpan_report",
+    "punch": "nereye koyduğunu da soruyor, sana",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cep"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
