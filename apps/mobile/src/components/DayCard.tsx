@@ -9,6 +9,8 @@ import { upper, useI18n } from '../i18n';
 import { eventById } from '../content/bundle';
 import type { FeedItemOf } from '../state/feed';
 import { useAppear, useReducedMotion, useSlam } from './anim';
+import { sfx } from '../state/sound';
+import { UI_SFX } from '../state/sfx';
 
 function Stamp({ result }: { result: 'calledIt' | 'iWasWrong' }) {
   const { s } = useI18n();
@@ -59,7 +61,7 @@ export function DayCard({ item }: { item: FeedItemOf<'card'> }) {
           {translated ? (
             <Text style={st.tr}><Text style={st.trLbl}>{s.translate}: </Text>{s.translated(doc.translate[locale].from, doc.translate[locale].to)}</Text>
           ) : (
-            <Pressable onPress={() => setTranslated(true)} style={st.trBtn} accessibilityRole="button"><Text style={st.trBtnTxt}>{s.translate} ›</Text></Pressable>
+            <Pressable onPress={() => { setTranslated(true); sfx(UI_SFX.translate); }} style={st.trBtn} accessibilityRole="button"><Text style={st.trBtnTxt}>{s.translate} ›</Text></Pressable>
           )}
         </View>
       )}

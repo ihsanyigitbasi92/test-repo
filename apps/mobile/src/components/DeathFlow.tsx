@@ -8,6 +8,8 @@
  * the player scrolls down to it.
  */
 import { useEffect, useRef, useState } from 'react';
+import { sfx } from '../state/sound';
+import { UI_SFX } from '../state/sfx';
 import { Animated, Easing, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import type { ScrollViewInstance } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
@@ -137,6 +139,8 @@ export function DeathFlow({ death, onNewClient }: { death: DeathView; onNewClien
     return () => clearTimeout(t);
   }, [step]);
   const advance = () => { if (step > 0 && step < LAST) setStep(step + 1); };
+  // Sound: the toll already rang with the death moment; here only the report sheet landing (16-ses-efektleri: restrained).
+  useEffect(() => { if (step === 2) sfx(UI_SFX.roastSheet); }, [step]);
   const cls = r.cause.lineKey.split('.').pop() ?? 'unknown';
   const maxCount = Math.max(1, ...r.patterns.map((p) => p.count));
 

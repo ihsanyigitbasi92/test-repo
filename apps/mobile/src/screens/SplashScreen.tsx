@@ -6,6 +6,8 @@ import { useEffect, useRef } from 'react';
 import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
 import { useI18n } from '../i18n';
+import { sfx } from '../state/sound';
+import { UI_SFX } from '../state/sfx';
 
 export const COMPANY = 'D2P Technology';
 const HOLD_MS = 1500;
@@ -31,7 +33,9 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
       Animated.delay(HOLD_MS),
     ]);
     anim.start(({ finished }) => { if (finished) finish(); });
-    return () => anim.stop();
+    // The logo is a rubber stamp: it lands ~140 ms into the spring (web: only heard after a first tap — autoplay policy).
+    const thud = setTimeout(() => sfx(UI_SFX.splashStamp), 140);
+    return () => { clearTimeout(thud); anim.stop(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

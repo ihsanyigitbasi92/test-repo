@@ -3,15 +3,18 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { Locale, Speed } from '@motto/engine';
 import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
+import { ShopButton } from './ShopButton';
 
 interface Props {
   speed: Speed; locale: Locale; showSpeed: boolean;
   onSpeed: (s: Speed) => void; onLocale: (l: Locale) => void;
+  /** Opens the shop; the button is hidden when absent. */
+  onShop?: () => void;
 }
 
 const SPEEDS: { s: Speed; glyph: string }[] = [{ s: 'pause', glyph: 'II' }, { s: 'play', glyph: '▶' }, { s: 'fast', glyph: '▶▶' }];
 
-export function TopBar({ speed, locale, showSpeed, onSpeed, onLocale }: Props) {
+export function TopBar({ speed, locale, showSpeed, onSpeed, onLocale, onShop }: Props) {
   const { s } = useI18n();
   return (
     <View style={st.bar}>
@@ -37,6 +40,7 @@ export function TopBar({ speed, locale, showSpeed, onSpeed, onLocale }: Props) {
             <Text style={[st.chipTxt, locale === l && st.chipTxtOn]}>{l.toUpperCase()}</Text>
           </Pressable>
         ))}
+        {onShop && <ShopButton onPress={onShop} />}
       </View>
     </View>
   );

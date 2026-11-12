@@ -5,6 +5,7 @@
  */
 import { groupDigits, lowerTr } from './format';
 import { sfx } from './trSuffix';
+import { shopTr } from './shopTr';
 
 const n = (x: number) => groupDigits(x, '.');   // 2.000 — dot grouping, no currency sign (D-033)
 
@@ -116,6 +117,7 @@ const RITUAL = {
 export const tr = {
   ...RITUAL,
   langName: 'TR',
+  shop: shopTr,
   brandSub: 'Sertifikasız Hayat Koçu',
   // HUD
   stat: { health: 'Sağlık', joy: 'Keyif', brain: 'Kafa', charm: 'Çekicilik' },
@@ -288,6 +290,13 @@ export const tr = {
   sessionTitle: 'BUGÜNLÜK YETER',
   sessionText: (y: number, d: number) => `Mesai bitti. ${y} yıl, ${d} gün, ${d} pişmanlık adayı. Ben buradayım, defter de. Sen de ol; kolay değil ama.`,
   suggestEnd: 'Bugünlük yeter mi? Ben yorulmadım. Defter yoruldu.',
+  // Settings sheet (07 §2.2.9 "Geri bildirim"; 16-ses-efektleri)
+  settings: {
+    open: 'Ayarlar', title: 'AYARLAR', on: 'AÇIK', off: 'KAPALI',
+    sound: 'Ses efektleri', soundHint: 'Damga, kâğıt, bozukluk. Müzik yok; senin müziğine de dokunmam.',
+    volume: 'Ses düzeyi', volumeLevels: ['Kısık', 'Orta', 'Yüksek'],
+    haptics: 'Titreşim', hapticsHint: 'Damga inince telefon da hisseder.',
+  },
   savedTitle: 'DEFTER KAPANDI',
   savedText: 'Kaydettim. Uygulamayı kapatabilirsin; döndüğünde kaldığın günden devam ederiz. Ben bir yere gitmiyorum.',
   resumed: 'Kaldığımız yerden. Defter açık; sen de açık ol.',

@@ -23,6 +23,9 @@ import type { Action, Effect, LifeState, Locale, MetaState, ReportCardData, Roas
 import { START_AGE, advanceContent, contentReadyFor, eventById, getBundle, prepareContent } from '../content/bundle';
 import { CATALOG, mottoLine } from '../i18n';
 import { haptic } from './haptics';
+import { sfx } from './sound';
+import { MOMENT_SFX, SFX, UI_SFX, isGrief, isMilestone, sfxForCard, sfxForChoice, sfxForFlow, sfxForOutcome, sfxForStamp } from './sfx';
+import type { SfxName } from './sfx';
 import { HEALTH_DANGER } from '../components/hudConst';
 import type { CardVariant, Delta, FeedItem, StampResult } from './feed';
 import { cyclePart, generateLook, outfitFor } from '../avatar/look';
@@ -161,6 +164,20 @@ export class GameController {
   private lastSaveAt = 0;
   private appStateSub: NativeEventSubscription | null = null;
   private onPageHide: (() => void) | null = null;
+  /** A loss / farewell card is on: the scene plays in near-silence (one soft tone, then nothing until the next day). */
+  private hushed = false;
+
+  /**
+   * Sound at the same semantic moments as the haptics (16-ses-efektleri). Silent while beats are drained for a
+   * background save, in grief scenes, and — for everything but the big moments — at ▶▶ auto, where days fly by.
+   */
+  private sfx(name: SfxName, delay = 0): void {
+    if (this.draining || (this.hushed && name !== 'grief' && name !== 'death')) return;
+    const minPri = this.t() === TURBO ? 2 : 0;
+    if (SFX[name].pri < minPri) return;
+    if (delay > 0) this.later(delay, () => { if (!this.draining && !this.hushed) sfx(name, { minPri }); });
+    else sfx(name, { minPri });
+  }
 
   constructor() {
     const locale: Locale = 'tr';
@@ -338,7 +355,7 @@ export class GameController {
     this.state = r.state;
     this.meta = r.meta;
     if (r.state?.calendar) advanceContent(r.state.calendar.age);          // D-156: merge reached bands, prefetch the next
-    if (r.effects.length === 1 && r.effects[0]!.kind === 'HAPTIC') haptic.error();
+    if (r.effects.length === 1 && r.effects[0]!.kind === 'HAPTIC') { haptic.error(); this.sfx('error_locked'); }
     return r;
   }
 
@@ -395,6 +412,8 @@ export class GameController {
       moment: { id, kind, age: st.calendar.age, fromAge: st.calendar.age, outfitFrom: outfit, outfitTo: outfit,
         cat: st.status.assets.includes('kedi'), ms, ...extra },
     });
+    const cue = MOMENT_SFX[kind];
+    if (cue) this.sfx(cue);
     this.later(ms, () => this.closeMoment(id));
   }
 
@@ -438,6 +457,8 @@ export class GameController {
             const gap = st.calendar.skippedSinceLast;
             const unread = c.dayIndex <= 1 ? this.snap.unread : Math.min(99, this.snap.unread + unreadGain(gap));
             this.set({ view: st, mood: 'neutral', playerMood: c.legendary ? 'shock' : 'neutral', progress: 0, unread });
+            this.hushed = false;
+            if (!birthday && c.eventId !== 'sys_death') this.sfx('day_advance');
             this.push({ id: this.id(), kind: 'date', dayIndex: c.dayIndex, calendarDay: st.calendar.calendarDay, dateISO: c.dateISO, birthday });
             this.warnHealth(st);                                                // drift lowers health between scenes too
           } });
@@ -445,7 +466,7 @@ export class GameController {
           if (pick === 'legendary') beats.push({ wait: t.line, run: () => this.openMoment(st, 'legendary'), hold: true });
           if (c.skip && c.dayIndex > 1) { const sk = c.skip; beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'skip', key: sk.key, params: sk.params }) }); }
           const momsHouse = st.status.home.kind === 'momsHouse';
-          if (c.flowLog.length) beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'flow', lines: c.flowLog, momsHouse }) });
+          if (c.flowLog.length) beats.push({ wait: t.line, run: () => { this.push({ id: this.id(), kind: 'flow', lines: c.flowLog, momsHouse }); sfxForFlow(c.flowLog).forEach((n, k) => this.sfx(n, k * 260)); } });
           if (birthday) {
             beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'birthdayLine', a: [st.calendar.age, report?.data.ritual?.birthdayBand ?? 'warmup', report?.data.ritual?.birthday ?? 0] }, roast: true }) });
           } else if (c.eventId === 'sys_quiet') {
@@ -454,8 +475,13 @@ export class GameController {
             const nar = c.bubbles.find((b) => b.speaker === 'narrator');
             beats.push({ wait: t.line, run: () => {
               haptic.selection();
-              this.push({ id: this.id(), kind: 'card', eventId: c.eventId, variant: cardVariant(c), age: st.calendar.age,
+              const variant = cardVariant(c), ev = eventById(c.eventId);
+              this.push({ id: this.id(), kind: 'card', eventId: c.eventId, variant, age: st.calendar.age,
                 narration: nar ? { key: nar.textKey, params: nar.params } : null, wager: c.wager, stamp: null });
+              const cue = sfxForCard({ variant, tags: ev?.tags ?? [], valence: ev?.valence ?? 0, surpriseTier: c.surpriseTier });
+              this.sfx(cue);
+              this.hushed = cue === 'grief';
+              if (c.wager) this.sfx('wager_pin', 220);
             } });
           }
           break;
@@ -472,6 +498,7 @@ export class GameController {
               beats.push({ wait: t.typing > 0 ? t.typing : wait, run: () => {
                 this.set({ feed: this.snap.feed.filter((f) => f.id !== typingId) });
                 this.push({ id: this.id(), kind: 'npc', speaker: b.speaker, avatar: b.avatar, key: b.textKey, params: b.params, age: st.calendar.age });
+                this.sfx('bubble');
               } });
             }
           } else if (e.layer === 'reply') {
@@ -486,11 +513,15 @@ export class GameController {
             }
             const b = e.bubbles[0]!;
             const face = outcomeMood(deltas);
+            const answeredId = (st.card ?? prev?.card)?.eventId;
+            const answered = answeredId ? eventById(answeredId) : undefined;
+            const cues = sfxForOutcome(deltas, { milestone: !!answered && isMilestone(answered.tags) && !isGrief(answered.tags) });
             beats.push({ wait: t.outcome, run: () => {
               this.set(face ? { view: st, playerMood: face } : { view: st });
               this.push({ id: this.id(), kind: 'outcome', key: b.textKey, params: b.params, deltas });
               this.spawnFloats(deltas);
               if (deltas.length) haptic.light();
+              cues.forEach((n, k) => this.sfx(n, k * 140));
               if (!this.lowJoyShown && st.stats.joy < 1500) {
                 this.lowJoyShown = true;
                 this.push({ id: this.id(), kind: 'sys', ui: { k: 'lowJoy' } });
@@ -512,6 +543,7 @@ export class GameController {
           const moment = pick === 'wagerWin' && res === 'iWasWrong';
           beats.push({ wait: t.stamp, run: () => {
             this.slam(res, variant, !moment);
+            this.sfx(sfxForStamp(res));
             this.set({ playerMood: res === 'iWasWrong' ? 'smug' : 'sad' });
             if (moment) this.openMoment(st, 'wagerWin');
           }, hold: moment });
@@ -522,13 +554,15 @@ export class GameController {
           if (pick === 'birthday') {
             // Aging morph replaces the plain AgeUp overlay: old face → new age, page flip, YAŞLANIYORSUN.
             beats.push({ wait: t.line, run: () => { this.set({ playerMood: 'neutral' }); this.openMoment(st, 'birthday', { fromAge: data.age - 1, age: data.age }); }, hold: true });
-          } else beats.push({ wait: t.line, run: () => this.set({ ageUp: { from: data.age - 1, to: data.age } }) });
+          } else beats.push({ wait: t.line, run: () => { this.set({ ageUp: { from: data.age - 1, to: data.age } }); this.sfx('birthday'); } });
           beats.push({ wait: pick === 'birthday' ? 0 : t.ageUp, run: () => {
             this.lastMotto = mottoKey(data);
             this.lastReport = data;
             this.set({ ageUp: null });
             this.push({ id: this.id(), kind: 'report', data, motto: this.lastMotto });
             haptic.medium();
+            this.sfx('report_reveal');
+            this.sfx(UI_SFX.reportFiled, 300);                                  // the FILED stamp lands (useSlam 380 ms)
           } });
           // The report card must be on screen before "One More Year" (playtest: at ▶▶ the button beat the card).
           beats.push({ wait: t.reportHold, run: () => undefined });
@@ -547,7 +581,7 @@ export class GameController {
           } });
           break;
         case 'NOTIFY_PLAN':
-          if (e.teaserKeys.length) beats.push({ wait: 0, run: () => this.push({ id: this.id(), kind: 'sys', ui: { k: 'envelopeOpened' } }) });
+          if (e.teaserKeys.length) beats.push({ wait: 0, run: () => { this.push({ id: this.id(), kind: 'sys', ui: { k: 'envelopeOpened' } }); this.sfx('paper_rustle'); } });
           break;
         case 'HAPTIC':
         case 'FLOAT_NUM':
@@ -665,12 +699,13 @@ export class GameController {
     return { name, city, i };
   }
 
-  shuffle = (): void => { haptic.selection(); this.set({ candidate: this.pickName(this.snap.locale, this.snap.candidate.i) }); };
+  shuffle = (): void => { haptic.selection(); this.sfx(UI_SFX.tap); this.set({ candidate: this.pickName(this.snap.locale, this.snap.candidate.i) }); };
 
   /** Client File: new random look (whole face). */
   shuffleLook = (): void => {
     if (this.snap.stage !== 'file') return;
     haptic.selection();
+    this.sfx(UI_SFX.tap);
     this.set({ draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: this.snap.lookNonce + 1 });
   };
 
@@ -678,6 +713,7 @@ export class GameController {
   cycleLook = (part: LookPart, dir: 1 | -1): void => {
     if (this.snap.stage !== 'file') return;
     haptic.selection();
+    this.sfx(UI_SFX.tap);
     this.set({ draftLook: cyclePart(this.snap.draftLook, part, dir), lookChanged: part, lookNonce: this.snap.lookNonce + 1 });
   };
 
@@ -687,12 +723,13 @@ export class GameController {
   setLocale = (locale: Locale): void => {
     if (locale === this.snap.locale) return;
     haptic.selection();
+    this.sfx(UI_SFX.tap);
     const [name, city] = CATALOG[locale].names[this.snap.candidate.i]!;
     this.set({ locale, candidate: this.snap.stage === 'file' ? { name, city, i: this.snap.candidate.i } : this.snap.candidate });
     this.persist();
   };
 
-  toggleFastLife = (): void => { haptic.selection(); this.set({ fastLife: !this.snap.fastLife }); this.persist(); };
+  toggleFastLife = (): void => { haptic.selection(); this.sfx(UI_SFX.tap); this.set({ fastLife: !this.snap.fastLife }); this.persist(); };
 
   keepName = (): void => {
     if (this.snap.stage !== 'file' || this.waitingContent) return;
@@ -703,6 +740,8 @@ export class GameController {
     }
     this.clearAuto();
     haptic.selection();
+    this.hushed = false;
+    this.sfx(UI_SFX.startLife);
     const { name } = this.snap.candidate;
     const r = this.dispatch({ type: 'START_LIFE', seed: randomSeed(), name, locale: this.snap.locale, fastLife: this.snap.fastLife });
     if (!r) return;
@@ -725,7 +764,7 @@ export class GameController {
     const st = this.state;
     if (this.snap.stage !== 'play' || this.snap.busy || !st || st.phase !== 'day' || !st.card) return;
     this.clearAuto();
-    if (via === 'tap') haptic.selection();
+    if (via === 'tap') { haptic.selection(); this.sfx(sfxForChoice(st.card.choices.find((c) => c.id === choiceId)?.swipe)); }
     const eventId = st.card.eventId;
     const r = this.dispatch({ type: 'ANSWER', eventId, choiceId, via });
     if (!r || r.effects.every((e) => e.kind === 'HAPTIC')) return;
@@ -733,22 +772,24 @@ export class GameController {
     this.play(r.effects, r.state, st);
   };
 
-  oneMoreYear = (): void => { if (this.state?.phase === 'birthday') { haptic.medium(); this.nextDay(); } };
+  oneMoreYear = (): void => { if (this.state?.phase === 'birthday') { haptic.medium(); this.sfx(UI_SFX.oneMoreYear); this.nextDay(); } };
 
   /** HUD "Unread" chip: Motto explains it in the feed (UX playtest #11), at most once every 20 s. */
   explainUnread = (): void => {
     if (this.snap.stage !== 'play' || Date.now() - this.unreadInfoAt < 20000) return;
     this.unreadInfoAt = Date.now();
     haptic.selection();
+    this.sfx(UI_SFX.tap);
     this.push({ id: this.id(), kind: 'coach', ui: { k: 'unreadInfo' } });
   };
 
   /** Manual mode (⏸): the Next Day button. */
-  nextDayManual = (): void => { haptic.selection(); this.nextDay(); };
+  nextDayManual = (): void => { haptic.selection(); this.sfx(UI_SFX.tap); this.nextDay(); };
 
   setSpeed = (speed: Speed): void => {
     if (speed === this.snap.speed) return;
     haptic.selection();
+    this.sfx(UI_SFX.tap);
     if (this.state) this.dispatch({ type: 'SET_SPEED', speed });
     this.set({ speed });
     this.set({ typeMs: this.t().typeMs });
@@ -758,6 +799,7 @@ export class GameController {
 
   toggleAuto = (): void => {
     haptic.selection();
+    this.sfx(UI_SFX.tap);
     this.set({ auto: !this.snap.auto, suggestEnd: false });
     this.set({ typeMs: this.t().typeMs });
     this.scheduleAuto();
@@ -770,6 +812,7 @@ export class GameController {
     const r = this.dispatch({ type: 'SESSION_END', reason: 'enough' });
     if (!r) return;
     this.clearAuto();
+    this.sfx(UI_SFX.endSession);
     this.set({ session: { years: st.calendar.age - 18, days: st.counters.shownDays }, suggestEnd: false });
     if (r.effects.some((e) => e.kind === 'NOTIFY_PLAN' && e.teaserKeys.length)) this.push({ id: this.id(), kind: 'sys', ui: { k: 'envelopeOpened' } });
     this.persist();
@@ -785,6 +828,7 @@ export class GameController {
     const s = this.snap.session;
     if (!s) return;
     haptic.selection();
+    this.sfx(UI_SFX.tap);
     this.clearAuto();
     this.drainBeats();
     this.set({ session: { ...this.snap.session ?? s, closed: true } });
@@ -805,6 +849,8 @@ export class GameController {
       draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: this.snap.lookNonce + 1, look: null, playerMood: 'neutral', moment: null,
     });
     haptic.success();
+    this.hushed = false;
+    this.sfx(UI_SFX.newClient);
     this.saveNow();
     this.enqueue([{ wait: 200, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro1' }, roast: true }) }]);
   };

@@ -1,6 +1,7 @@
 /** UI catalog — English. Mirrors tr.ts key for key (`Strings` type). */
 import { groupDigits } from './format';
 import type { Strings } from './tr';
+import { shopEn } from './shopEn';
 
 const n = (x: number) => groupDigits(x, ',');
 const ord = (k: number) => (k % 100 >= 11 && k % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][k % 10] ?? 'th');
@@ -108,6 +109,7 @@ const RITUAL = {
 export const en: Strings = {
   ...RITUAL,
   langName: 'EN',
+  shop: shopEn,
   brandSub: 'Uncertified Life Coach',
   stat: { health: 'Health', joy: 'Joy', brain: 'Brain', charm: 'Looks' },
   meter: { ego: 'Ego', cringe: 'Cringe', momPressure: 'Mom Pressure', money: 'Cash' },
@@ -270,6 +272,12 @@ export const en: Strings = {
   sessionTitle: 'ENOUGH FOR TODAY',
   sessionText: (y: number, d: number) => `Clocking out. ${y} years, ${d} days, ${d} candidates for regret. I'll be here, so will the notebook. Try to be too.`,
   suggestEnd: "Enough for today? I'm not tired. The notebook is.",
+  settings: {
+    open: 'Settings', title: 'SETTINGS', on: 'ON', off: 'OFF',
+    sound: 'Sound effects', soundHint: "Stamp, paper, loose change. No music; I won't touch yours either.",
+    volume: 'Volume', volumeLevels: ['Low', 'Medium', 'High'],
+    haptics: 'Vibration', hapticsHint: 'When the stamp lands, the phone feels it too.',
+  },
   savedTitle: 'NOTEBOOK CLOSED',
   savedText: "Saved. You can close the app; when you come back we pick up on the same day. I'm not going anywhere.",
   resumed: 'Where were we. The notebook is open; try to be too.',
