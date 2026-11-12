@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_tavugun_ici_01",
+  "tags": [
+    "gundelik",
+    "ev_arkadasi",
+    "ilk_yemek",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Dışı altın sarısı. İçi pembe. Pembe de bir renk ama...",
+      "en": "Golden outside. Pink inside. Pink is a color, but..."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Annem hep \"kemiğin yanına bak\" derdi. Kemiğin yanı ne diyor?",
+      "en": "My mom always said, \"Check by the bone.\" What's the bone saying?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "firin",
+      "tr": "Yirmi dakika daha fırına ver",
+      "en": "Twenty more minutes in the oven",
+      "pattern": "patience"
+    },
+    {
+      "id": "ye",
+      "tr": "Yeterince pişti, ye",
+      "en": "Good enough, eat",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "siparis",
+      "tr": "Tavuğu kaldır, dürüm söyle",
+      "en": "Fridge the chicken, order wraps",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "firin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "ym_tavuk_pisti"
+          ]
+        }
+      },
+      "tr": "Yirmi dakika daha bekledin. İçi pişti, dışı biraz koyulaştı; ev arkadaşın derisini ayrıca yedi.",
+      "en": "Twenty more minutes. The inside cooked, the outside darkened. Your roommate ate the skin on its own.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika fazla fırın. Akşam olaysız kapandı.",
+          "en": "Twenty extra minutes. Dinner closed without incident.",
+          "roast": false
+        }
+      ]
+    },
+    "ye": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "ym_tavuk_pisti"
+            ]
+          }
+        },
+        "tr": "Kemiğin yanı da pişmiş; pembelik lambanın ışığındanmış. Tabaklar boşaldı.",
+        "en": "It was cooked by the bone too. The pink was the light bulb. Plates cleared.",
+        "coach": [
+          {
+            "tr": "Pembe, mutfak lambasıymış. Lamba değişecek.",
+            "en": "The pink was the kitchen bulb. The bulb is getting replaced.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": -6,
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ym_tavuk_dersi"
+            ]
+          }
+        },
+        "tr": "Gece ikide ikiniz de banyo sırası bekliyordunuz. Ertesi gün tavuktan hiç bahsedilmedi.",
+        "en": "At 2 a.m. you were both queuing for the bathroom. Nobody mentioned chicken the next day.",
+        "coach": [
+          {
+            "tr": "İki kişi, bir banyo, gece iki. Tavuk konusu kapandı.",
+            "en": "Two people, one bathroom, 2 a.m. The chicken topic is closed.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "siparis": {
+      "effects": {
+        "money": -260,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ym_tavuk_pisti"
+          ]
+        }
+      },
+      "tr": "Tavuğu buzdolabına koyup dürüm söyledin. Ertesi gün ikinci kez fırına girdi ve bu kez tam pişti.",
+      "en": "You put the chicken in the fridge and ordered wraps. The next day it went back in the oven and came out done.",
+      "coach": [
+        {
+          "tr": "İki günlük tavuk. Sabırlı bir tarif.",
+          "en": "A two-day chicken. A patient recipe.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ye",
+    "slip": {
+      "tr": "İDDİA: Pembe, pembedir. — M.",
+      "en": "WAGER: Pink means pink. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk kez fırında bütün tavuk pişirip içinin pembe olup olmadığından emin olamamak",
+    "mechanism": "kemiğin yanı ne diyor",
+    "mechanismId": "deadpan_report",
+    "punch": "pembelik lambanın ışığındanmış",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "lamba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -16,6 +16,8 @@ import { useEntitlements } from '../monetization/entitlements';
 import { MockIapProvider, type MockDecision, type StoreProduct } from '../monetization/iap';
 import { shop, useShop } from '../monetization/purchases';
 import { AD_CONFIG } from '../ads/config';
+import { sfx } from '../state/sound';
+import { UI_SFX } from '../state/sfx';
 
 type Notice = { tone: 'ok' | 'info' | 'warn'; text: string } | null;
 interface Ask { product: StoreProduct; resolve: (d: MockDecision) => void }
@@ -66,7 +68,7 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
   const buy = async (sku: Sku): Promise<void> => {
     setNotice(null);
     const r = await shop().buy(sku);
-    if (r.status === 'ok') setNotice({ tone: 'ok', text: t.notice.bought[sku] });
+    if (r.status === 'ok') { sfx(UI_SFX.purchase); setNotice({ tone: 'ok', text: t.notice.bought[sku] }); }
     else if (r.status === 'restored') setNotice({ tone: 'ok', text: t.notice.alreadyOwned });
     else if (r.status === 'pending') setNotice({ tone: 'info', text: t.notice.pending });
     else if (r.status === 'failed') setNotice({ tone: 'warn', text: r.code === 'not_allowed' ? t.notice.notAllowed : t.notice.failed });
