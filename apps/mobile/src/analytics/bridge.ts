@@ -19,7 +19,8 @@ export function connectAnalytics(): void {
     onConsentChange(pushConsent);
     void ads.ready().then(pushConsent).catch(() => undefined);
 
-    const pushOwned = (): void => userState({ payer: entitlements.ownedIds().length > 0, noAds: entitlements.hasNoAds() });
+    // `payer` only ever rises here (a consumable purchase sets it too, in trackPurchaseResult).
+    const pushOwned = (): void => userState({ ...(entitlements.ownedIds().length > 0 ? { payer: true } : {}), noAds: entitlements.hasNoAds() });
     onEntitlementsChange(pushOwned);
     void entitlements.load().then(pushOwned).catch(() => undefined);
 

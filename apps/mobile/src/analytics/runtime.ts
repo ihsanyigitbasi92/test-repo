@@ -44,7 +44,7 @@ export function startAnalytics(): void {
   if (started) return;
   started = true;
   try {
-    analytics.setUserProps({ app_version: APP_VERSION });
+    analytics.setUserProps({ app_version: APP_VERSION.toLowerCase().replace(/[^a-z0-9_.:-]/g, '_'), payer: '0', no_ads: '0' });
     if (AppState.currentState !== 'background') analytics.foreground();
     AppState.addEventListener('change', (st) => {
       if (st === 'active') { analytics.foreground(); refreshRemoteConfig(); }

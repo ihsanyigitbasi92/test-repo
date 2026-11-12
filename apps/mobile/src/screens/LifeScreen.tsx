@@ -20,6 +20,7 @@ import { AvatarMoment } from '../components/AvatarMoment';
 import { SettingsSheet } from '../components/SettingsSheet';
 import { ShopScreen } from './ShopScreen';
 import { AdHost } from '../ads/AdHost';
+import { AnalyticsHost } from '../analytics/ConsentUI';
 import { PrivacyEntry, RewardedOfferButtons } from '../ads/OfferButtons';
 import type { Speed } from '@motto/engine';
 
@@ -90,6 +91,7 @@ export function LifeScreen() {
           <SettingsSheet open={settingsOpen} onClose={() => setSettingsOpen(false)} />
           <ShopScreen open={shopOpen} onClose={closeShop} />
           <AdHost />
+          <AnalyticsHost />
           {snap.stage === 'death' && snap.death && <DeathFlow death={snap.death} onNewClient={game.newClient} />}
         </View>
       </View>

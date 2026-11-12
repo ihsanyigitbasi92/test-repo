@@ -7,7 +7,6 @@ import type { AnalyticsCore } from './core';
 import { ageBand, causeClass, livesBucket, toId, type EventParams } from './events';
 
 type Surface = EventParams<'paywall_view'>['surface'];
-type DayKind = EventParams<'day_shown'>['kind'];
 type FailReason = EventParams<'purchase_fail'>['reason'];
 type AdFormat = EventParams<'ad_shown'>['format'];
 
@@ -44,11 +43,11 @@ export function createHooks(a: AnalyticsCore, o: HookOptions = {}) {
         a.sessionReason(null);
         a.screen('life');
       },
-      dayShown(p: { eventId: string; tags?: readonly string[]; age: number; kind: DayKind; auto: boolean; fast: boolean }): void {
+      dayShown(p: { eventId: string; tags?: readonly string[]; age: number; kind: string; auto: boolean; fast: boolean }): void {
         a.count('shown_days');
         a.count(p.auto ? 'speed_auto' : p.fast ? 'speed_fast' : 'speed_play');
         const pct = Math.max(0, Math.min(100, o.daySamplePct?.() ?? 10));
-        if (pct > 0 && rnd() * 100 < pct) a.track('day_shown', { event_id: toId(p.eventId), domain: domainOf(p.tags), age_band: ageBand(p.age), kind: p.kind, sample_pct: Math.round(pct) });
+        if (pct > 0 && rnd() * 100 < pct) a.track('day_shown', { event_id: toId(p.eventId), domain: domainOf(p.tags), age_band: ageBand(p.age), kind: toId(p.kind, 'event'), sample_pct: Math.round(pct) });
       },
       answer(p: { eventId: string; choiceId: string; tags?: readonly string[]; age: number; via: 'tap' | 'auto' }): void {
         a.ftue('decision');

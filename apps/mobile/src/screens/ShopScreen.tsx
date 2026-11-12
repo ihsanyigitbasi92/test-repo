@@ -18,6 +18,7 @@ import { shop, useShop } from '../monetization/purchases';
 import { AD_CONFIG } from '../ads/config';
 import { PrivacyEntry } from '../ads/OfferButtons';
 import { sfx } from '../state/sound';
+import { trackPaywallView, trackPurchaseResult, trackPurchaseStart, trackRestore } from '../analytics/hooks';
 import { UI_SFX } from '../state/sfx';
 
 type Notice = { tone: 'ok' | 'info' | 'warn'; text: string } | null;
@@ -44,6 +45,8 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
     void c.init().then(() => c.loadProducts(locale === 'tr' ? 'TRY' : 'USD'));
   }, [open, locale]);
 
+  useEffect(() => { if (open) trackPaywallView('store'); }, [open]);                 // analytics: paywall_view (docs/design/17)
+
   // Demo store: the fake payment sheet stands in for the store's own confirmation.
   useEffect(() => {
     const p = shop().provider;
@@ -68,7 +71,9 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
 
   const buy = async (sku: Sku): Promise<void> => {
     setNotice(null);
+    trackPurchaseStart(sku);
     const r = await shop().buy(sku);
+    trackPurchaseResult(r, shop().snapshot().products[sku]);
     if (r.status === 'ok') { sfx(UI_SFX.purchase); setNotice({ tone: 'ok', text: t.notice.bought[sku] }); }
     else if (r.status === 'restored') setNotice({ tone: 'ok', text: t.notice.alreadyOwned });
     else if (r.status === 'pending') setNotice({ tone: 'info', text: t.notice.pending });
@@ -79,6 +84,7 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
   const restore = async (): Promise<void> => {
     setNotice(null);
     const r = await shop().restore();
+    trackRestore(r);
     if (r.status === 'failed') setNotice({ tone: 'warn', text: t.notice.restoreFailed });
     else if (r.status === 'none') setNotice({ tone: 'info', text: t.notice.restoreNone });
     else setNotice({ tone: 'ok', text: r.restored.length ? t.notice.restored(r.restored.map((id) => t.name[id]).join(', ')) : t.notice.restoredSame });

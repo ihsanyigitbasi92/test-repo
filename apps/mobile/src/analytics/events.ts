@@ -73,7 +73,7 @@ export const EVENTS = {
   tutorial_complete: { group: 'ftue', kpi: 'FTUE completion (GA4 recommended event)', p: {} },
   // ── core loop ──────────────────────────────────────────────────────────────
   life_start: { group: 'core', kpi: 'lives per user', p: { life_no: 'int', fast_life: 'bool' } },
-  day_shown: { group: 'core', kpi: 'content heatmap (sampled)', p: { event_id: 'id', domain: 'id', age_band: AGE_BANDS, kind: ['event', 'call', 'legend', 'doc', 'surprise', 'daily', 'quiet'], sample_pct: 'int' } },
+  day_shown: { group: 'core', kpi: 'content heatmap (sampled)', p: { event_id: 'id', domain: 'id', age_band: AGE_BANDS, kind: 'id', sample_pct: 'int' } },
   answer: { group: 'core', kpi: 'content heatmap, choice split, auto share', p: { event_id: 'id', choice_id: 'id', domain: 'id', age_band: AGE_BANDS, via: ['tap', 'auto'] } },
   wager_resolved: { group: 'core', kpi: 'coach accuracy (50–62 %)', p: { event_id: 'id', p_odds: 'int', result: ['hit', 'wrong'] }, opt: ['event_id'] },
   year_end: { group: 'core', kpi: 'report cards, "One More Year" denominator', p: { age: 'int', grades: 'id', shown_days_year: 'int' } },
@@ -159,7 +159,7 @@ function clean(kind: ParamKind, v: unknown): ParamValue | undefined {
   if (kind === 'num') return typeof v === 'number' && Number.isFinite(v) ? v : undefined;
   if (kind === 'bool') return typeof v === 'boolean' ? v : undefined;
   if (typeof v !== 'string') return undefined;
-  if (kind === 'id') { const s = v.toLowerCase(); return s.length <= LIMITS.stringValueLen && ID_RE.test(s) ? s : undefined; }
+  if (kind === 'id') return ID_RE.test(v) ? v : undefined;                   // already-lowercase machine ids only; nothing is "cleaned into" an id
   return kind.includes(v) ? v : undefined;
 }
 
@@ -187,21 +187,19 @@ export function sanitizeUserProps(props: unknown): Record<string, string> {
   for (const [k, v] of Object.entries(props as Record<string, unknown>)) {
     const kind = (USER_PROPS as Record<string, 'id' | readonly string[]>)[k];
     if (!kind || typeof v !== 'string') continue;
-    const s = kind === 'id' ? v.toLowerCase() : v;
-    if (kind === 'id' ? ID_RE.test(s) && s.length <= LIMITS.userPropValueLen : kind.includes(s)) out[k] = s;
+    if (kind === 'id' ? ID_RE.test(v) && v.length <= LIMITS.userPropValueLen : kind.includes(v)) out[k] = v;
   }
   return out;
 }
 
 /** Death cause key (`<band>.<class>` for the hazard die, a content id for scripted deaths) → its class. */
 export function causeClass(cause: string | null | undefined): string {
-  const c = String(cause ?? '').toLowerCase().split('.').pop() ?? '';
-  const s = c.replace(/[^a-z0-9_]/g, '_').slice(0, 40);
-  return ID_RE.test(s) ? s : 'unknown';
+  const c = String(cause ?? '').split('.').pop() ?? '';
+  return /^[a-z][a-z0-9_]{0,39}$/.test(c) ? c : 'unknown';       // anything that is not already a machine id is not sent at all
 }
 
 /** Any content tag / id → a safe machine id (`other` when it is not one). */
 export function toId(x: string | null | undefined, fallback = 'other'): string {
-  const s = String(x ?? '').toLowerCase();
+  const s = String(x ?? '');
   return ID_RE.test(s) ? s : fallback;
 }

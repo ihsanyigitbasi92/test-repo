@@ -39,6 +39,9 @@ import { ads, registerAdDebug } from '../ads/runtime';
 import { AD_CONFIG } from '../ads/config';
 import { adGameContext, grantMoney, isGriefScene } from '../ads/gameContext';
 import type { Offer } from '../ads/adService';
+import { gameAnalytics, trackAdOffer, trackAdReward, trackAdShown, trackAdSkip } from '../analytics/hooks';
+import { connectAnalytics } from '../analytics/bridge';
+import { promptAnalyticsIfDue } from '../analytics/ConsentUI';
 
 export type Mood = 'neutral' | 'smirk' | 'shock' | 'sad';
 export type Stage = 'file' | 'play' | 'death';
@@ -195,6 +198,7 @@ export class GameController {
       ageUp: null, death: null, session: null, suggestEnd: false, booting: true, busy: true, unread: 9, typeMs: PLAY.typeMs,
       draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: 0, look: null, playerMood: 'neutral', moment: null, offer: null, adBreak: false,
     };
+    connectAnalytics();                                                       // consent bridge + user properties (docs/design/17)
     registerAdDebug('offer', () => this.debugOffer());
     registerAdDebug('returnSlot', (awayHours = 7) => this.enqueue([{ wait: 0, run: () => this.returnSlot(awayHours * 3_600_000), hold: true }]));
   }
@@ -207,7 +211,7 @@ export class GameController {
     for (const l of this.listeners) l();
   }
   private id(): number { return this.seq++; }
-  private push(item: FeedItem): void { this.set({ feed: [...this.snap.feed, item].slice(-MAX_FEED) }); }
+  private push(item: FeedItem): void { if (item.kind === 'coach') gameAnalytics.coachLine(); this.set({ feed: [...this.snap.feed, item].slice(-MAX_FEED) }); }
   private later(ms: number, f: () => void): void {
     const t = setTimeout(() => { this.timers.delete(t); f(); }, ms);
     this.timers.add(t);
@@ -271,6 +275,7 @@ export class GameController {
 
   private freshStart(): void {
     this.set({ booting: false, stage: 'file', view: null, feed: [] });
+    gameAnalytics.boot({ locale: this.snap.locale, lifeNo: this.snap.lifeNo, contentHash: getBundle().contentHash, stage: 'file' });
     void prepareContent(START_AGE);                                           // packs load while the Client File is up
     this.enqueue([
       { wait: 300, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro1' }, roast: true }) },
@@ -295,6 +300,7 @@ export class GameController {
       feed: [...feed, { id: this.id(), kind: 'coach', ui: { k: 'resumed' } }],
     });
     this.set({ typeMs: this.t().typeMs });
+    gameAnalytics.boot({ locale: this.snap.locale, lifeNo: life.lifeNo, contentHash: getBundle().contentHash, stage: 'play' });
     // Ad layer return slot (D-084): decided before the first input, while the splash still covers the screen.
     this.enqueue([{ wait: 0, run: () => this.returnSlot(Date.now() - save.savedAt), hold: true }]);
     this.scheduleAuto();
@@ -431,6 +437,7 @@ export class GameController {
     const outfit = outfitFor({ job: st.status.job, age: st.calendar.age });
     const ms = kind === 'death' ? Math.max(1400, this.t().moment) : this.t().moment;
     recordMoment(this.momentHist, kind, { shownDays: st.counters.shownDays, age: st.calendar.age });
+    gameAnalytics.milestone(kind, st.calendar.age);
     this.set({
       moment: { id, kind, age: st.calendar.age, fromAge: st.calendar.age, outfitFrom: outfit, outfitTo: outfit,
         cat: st.status.assets.includes('kedi'), ms, ...extra },
@@ -481,6 +488,7 @@ export class GameController {
             const gap = st.calendar.skippedSinceLast;
             const unread = c.dayIndex <= 1 ? this.snap.unread : Math.min(99, this.snap.unread + unreadGain(gap));
             this.set({ view: st, mood: 'neutral', playerMood: c.legendary ? 'shock' : 'neutral', progress: 0, unread });
+            if (!birthday && c.eventId !== 'sys_death') gameAnalytics.dayShown({ eventId: c.eventId, tags: eventById(c.eventId)?.tags, age: st.calendar.age, kind: c.eventId === 'sys_quiet' ? 'quiet' : cardVariant(c), auto: this.snap.auto, fast: this.snap.speed === 'fast' });
             this.hushed = false;
             if (!birthday && c.eventId !== 'sys_death') this.sfx('day_advance');
             this.push({ id: this.id(), kind: 'date', dayIndex: c.dayIndex, calendarDay: st.calendar.calendarDay, dateISO: c.dateISO, birthday });
@@ -567,6 +575,7 @@ export class GameController {
           const moment = pick === 'wagerWin' && res === 'iWasWrong';
           beats.push({ wait: t.stamp, run: () => {
             this.slam(res, variant, !moment);
+            gameAnalytics.stamp({ eventId: (st.card ?? prev?.card)?.eventId, result: res, pOddsBp: e.pOddsBp });
             this.sfx(sfxForStamp(res));
             this.set({ playerMood: res === 'iWasWrong' ? 'smug' : 'sad' });
             if (moment) this.openMoment(st, 'wagerWin');
@@ -582,6 +591,7 @@ export class GameController {
           beats.push({ wait: pick === 'birthday' ? 0 : t.ageUp, run: () => {
             this.lastMotto = mottoKey(data);
             this.lastReport = data;
+            gameAnalytics.reportCard({ age: data.age, grades: data.grades, shownDaysYear: data.shownDaysThisYear });
             this.set({ ageUp: null });
             this.push({ id: this.id(), kind: 'report', data, motto: this.lastMotto });
             haptic.medium();
@@ -662,6 +672,7 @@ export class GameController {
   private die(st: LifeState): void {
     this.clearAuto();
     ads.noteDeath();                                                          // D-007: the death flow has no ad surface at all
+    gameAnalytics.death({ age: st.death?.age ?? st.calendar.age, cause: st.death?.cause, channel: st.death?.channel ?? 'hazard', lifeNo: this.snap.lifeNo, shownDays: st.counters.shownDays, autoDays: this.autoDays });
     const birthYear = Number(st.calendar.startDateISO.slice(0, 4)) - 18;
     const s = CATALOG[this.snap.locale];
     // Auto never carries into the next life: the player picks the next client's name themselves.
@@ -698,13 +709,16 @@ export class GameController {
         await ads.ready();
         if (this.covered) await new Promise<void>((r) => { this.uncoverWaiters.push(r); });
         const slot = ads.returnSlot(this.adGame(), awayMs);
-        if (!slot) return;
+        if (!slot) { await promptAnalyticsIfDue(); return; }                  // analytics switch: same stopped-time slot (docs/design/17 §5)
+        const shownBefore = ads.getLedger().lastInterstitialAt;
         if (slot !== 'att') {
           // Announced, never sudden: the coach says it first (06 §2.4, Google "unexpected full-screen" rule).
           this.push({ id: this.id(), kind: 'coach', ui: { k: slot === 'interstitial' ? 'adIncoming' : 'adConsentIntro' } });
           await new Promise<void>((r) => { this.later(AD_CONFIG.interstitial.noticeMs, r); });
         }
         if (this.snap.stage === 'play') await ads.runReturnSlot(slot, this.adGame(), awayMs);
+        if (slot === 'interstitial' && ads.getLedger().lastInterstitialAt !== shownBefore) trackAdShown('return', 'interstitial');
+        if (slot === 'consent') await promptAnalyticsIfDue();
       } catch (e) { console.warn('[ads] return slot failed:', e); }
       finally { this.endAdBreak(); }
     })();
@@ -725,6 +739,7 @@ export class GameController {
   private mountOffer(offer: Offer): void {
     this.push({ id: this.id(), kind: 'coach', ui: { k: offer.free ? 'adSponsorFree' : 'adSponsorOffer', a: [offer.amount] } });
     this.set({ offer });
+    trackAdOffer(offer.placement);
   }
 
   /** Demo / test hook (registered only outside production): the payday trigger is skipped, every cap still applies. */
@@ -745,6 +760,8 @@ export class GameController {
     this.set({ adBreak: true });
     void ads.claim(offer, this.adGame()).then((r) => {
       this.set({ offer: null });
+      if (!offer.free && (r.rewarded || r.reason === 'closed')) trackAdShown(offer.placement, 'rewarded');
+      if (r.rewarded) trackAdReward(offer.placement, offer.free); else trackAdSkip(offer.placement, r.reason);
       const now = this.state;
       if (r.rewarded && now && now.lifeSeed === st.lifeSeed && !now.death) {      // earned → granted, always (06 §2.1 principle 4)
         this.state = grantMoney(now, offer.amount);
@@ -761,6 +778,7 @@ export class GameController {
   declineOffer = (): void => {
     if (!this.snap.offer || this.snap.adBreak) return;
     haptic.selection();
+    trackAdSkip(this.snap.offer.placement, 'declined');
     this.set({ offer: null });
     this.scheduleAuto();
   };
@@ -841,10 +859,11 @@ export class GameController {
     this.sfx(UI_SFX.tap);
     const [name, city] = CATALOG[locale].names[this.snap.candidate.i]!;
     this.set({ locale, candidate: this.snap.stage === 'file' ? { name, city, i: this.snap.candidate.i } : this.snap.candidate });
+    gameAnalytics.locale(locale);
     this.persist();
   };
 
-  toggleFastLife = (): void => { haptic.selection(); this.sfx(UI_SFX.tap); this.set({ fastLife: !this.snap.fastLife }); this.persist(); };
+  toggleFastLife = (): void => { haptic.selection(); this.sfx(UI_SFX.tap); this.set({ fastLife: !this.snap.fastLife }); gameAnalytics.setting('fast_life', this.snap.fastLife); this.persist(); };
 
   keepName = (): void => {
     if (this.snap.stage !== 'file' || this.waitingContent) return;
@@ -867,6 +886,7 @@ export class GameController {
     const look = this.snap.draftLook;
     this.looks.set(r.state.lifeSeed, look);
     this.set({ stage: 'play', view: this.state, progress: 0, unread: 9, lifeNo: this.meta.legacy.livesCompleted + 1, look, playerMood: 'neutral', moment: null });
+    gameAnalytics.lifeStart({ lifeNo: this.snap.lifeNo, fastLife: this.snap.fastLife });
     const t = this.t();
     this.enqueue([
       { wait: 0, run: () => this.push({ id: this.id(), kind: 'reply', raw: name, auto: false }) },
@@ -883,11 +903,12 @@ export class GameController {
     const eventId = st.card.eventId;
     const r = this.dispatch({ type: 'ANSWER', eventId, choiceId, via });
     if (!r || r.effects.every((e) => e.kind === 'HAPTIC')) return;
+    gameAnalytics.answer({ eventId, choiceId, tags: eventById(eventId)?.tags, age: st.calendar.age, via });
     if (eventById(eventId)?.tags.some((tg) => FAMILY_TAGS.includes(tg))) this.set({ unread: 0 });
     this.play(r.effects, r.state, st);
   };
 
-  oneMoreYear = (): void => { if (this.state?.phase === 'birthday') { haptic.medium(); this.sfx(UI_SFX.oneMoreYear); this.nextDay(); } };
+  oneMoreYear = (): void => { if (this.state?.phase === 'birthday') { gameAnalytics.oneMoreYear({ age: this.state.calendar.age, via: this.snap.auto ? 'auto' : 'tap' }); haptic.medium(); this.sfx(UI_SFX.oneMoreYear); this.nextDay(); } };
 
   /** HUD "Unread" chip: Motto explains it in the feed (UX playtest #11), at most once every 20 s. */
   explainUnread = (): void => {
@@ -916,6 +937,7 @@ export class GameController {
     haptic.selection();
     this.sfx(UI_SFX.tap);
     this.set({ auto: !this.snap.auto, suggestEnd: false });
+    gameAnalytics.setting('auto', this.snap.auto);
     this.set({ typeMs: this.t().typeMs });
     this.scheduleAuto();
     this.persist();
@@ -929,11 +951,12 @@ export class GameController {
     this.clearAuto();
     this.sfx(UI_SFX.endSession);
     this.set({ session: { years: st.calendar.age - 18, days: st.counters.shownDays }, suggestEnd: false });
+    gameAnalytics.enough();
     if (r.effects.some((e) => e.kind === 'NOTIFY_PLAN' && e.teaserKeys.length)) this.push({ id: this.id(), kind: 'sys', ui: { k: 'envelopeOpened' } });
     this.persist();
   };
 
-  closeSession = (): void => { this.dispatch({ type: 'RESUME', localDay: localDay() }); this.set({ session: null }); this.scheduleAuto(); this.persist(); };
+  closeSession = (): void => { gameAnalytics.resumed(); this.dispatch({ type: 'RESUME', localDay: localDay() }); this.set({ session: null }); this.scheduleAuto(); this.persist(); };
 
   /**
    * "Close" on the Enough-for-today sheet: the stop is honoured — saved at once, nothing runs. Android leaves the
@@ -947,6 +970,7 @@ export class GameController {
     this.clearAuto();
     this.drainBeats();
     this.set({ session: { ...this.snap.session ?? s, closed: true } });
+    gameAnalytics.closed();
     this.persist(true);
     if (Platform.OS === 'android') { try { BackHandler.exitApp(); } catch { /* stays on the closed sheet */ } }
   };
@@ -966,6 +990,7 @@ export class GameController {
     haptic.success();
     this.hushed = false;
     this.sfx(UI_SFX.newClient);
+    gameAnalytics.newClient();
     this.saveNow();
     this.enqueue([{ wait: 200, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro1' }, roast: true }) }]);
   };

@@ -8,6 +8,7 @@ import { useI18n } from '../i18n';
 import { haptic, hapticsPrefs, useHapticsEnabled } from '../state/haptics';
 import { sfx, sound, useSoundPrefs } from '../state/sound';
 import { PrimaryButton } from './ActionZone';
+import { AnalyticsSettings } from '../analytics/ConsentUI';
 
 /** Master volume steps (soundCore DEFAULT_PREFS.volume = the middle one). */
 export const VOLUME_STEPS = [0.35, 0.6, 0.9] as const;
@@ -65,6 +66,7 @@ export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () =>
               onToggle={() => { hapticsPrefs.set(!hapticsOn); haptic.selection(); sfx('ui_tap'); }} />
           </View>
         )}
+        <AnalyticsSettings />
         <PrimaryButton label={s.cta.close} onPress={onClose} testID="settings-close" />
       </View>
     </View>

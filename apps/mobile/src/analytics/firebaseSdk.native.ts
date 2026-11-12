@@ -22,12 +22,12 @@ export async function loadFirebaseSdk(): Promise<FirebaseSdk | null> {
     let crash: ReturnType<typeof import('@react-native-firebase/crashlytics').getCrashlytics> | null = null;
     try { C = require('@react-native-firebase/crashlytics') as typeof import('@react-native-firebase/crashlytics'); crash = C.getCrashlytics(); } catch { C = null; crash = null; }
     return {
-      setConsent: (c) => A.setConsent(analytics, c),
-      setAnalyticsCollectionEnabled: (on) => A.setAnalyticsCollectionEnabled(analytics, on),
+      setConsent: async (c) => { await A.setConsent(analytics, c); },
+      setAnalyticsCollectionEnabled: async (on) => { await A.setAnalyticsCollectionEnabled(analytics, on); },
       setCrashlyticsCollectionEnabled: async (on) => { if (C && crash) await C.setCrashlyticsCollectionEnabled(crash, on); },
-      logEvent: (name, params) => A.logEvent(analytics, name, params),
-      setUserProperties: (props) => A.setUserProperties(analytics, props),
-      resetAnalyticsData: () => A.resetAnalyticsData(analytics),
+      logEvent: async (name, params) => { await A.logEvent(analytics, name, params); },
+      setUserProperties: async (props) => { await A.setUserProperties(analytics, props); },
+      resetAnalyticsData: async () => { await A.resetAnalyticsData(analytics); },
       deleteUnsentCrashReports: async () => { if (C && crash) await C.deleteUnsentReports(crash); },
       recordError: (error, name) => { if (C && crash) C.recordError(crash, error, name); },
     };
@@ -44,7 +44,7 @@ export async function loadRemoteConfigSource(): Promise<RemoteConfigSource | nul
     const rc = R.getRemoteConfig();
     return {
       async fetchAndActivate(defaults, minFetchSec) {
-        rc.settings = { ...rc.settings, minimumFetchIntervalMillis: minFetchSec * 1000, fetchTimeMillis: 10_000 };
+        rc.settings = { ...rc.settings, minimumFetchIntervalMillis: minFetchSec * 1000, fetchTimeoutMillis: 10_000 };
         rc.defaultConfig = defaults;
         await R.fetchAndActivate(rc);
         const out: Record<string, string> = {};

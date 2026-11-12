@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { sfx } from '../state/sound';
 import { UI_SFX } from '../state/sfx';
 import { Animated, Easing, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
+import { gameAnalytics } from '../analytics/hooks';
 import type { ScrollViewInstance } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
@@ -90,7 +91,7 @@ function ShareCard({ d }: { d: DeathView }) {
   const age = d.roast.ageAtDeath;
   const motto = d.epitaph ?? s.epitaphDefault;
   const msg = `${d.name} · ${age} — “${motto}” · MOTTO`;
-  const onShare = () => { Share.share({ message: msg }).catch(() => undefined); };
+  const onShare = () => { gameAnalytics.share('death'); Share.share({ message: msg }).catch(() => undefined); };
   return (
     <View style={st.shareWrap} testID="share-card">
       <View style={st.share}>
