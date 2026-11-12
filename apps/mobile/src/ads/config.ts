@@ -74,10 +74,12 @@ export const AD_CONFIG = {
     /** Bir oturumda monte edilen teklif sayısı (reddedilen teklif aynı oturumda geri gelmez). */
     offersPerSession: 1,
     /**
-     * Reklamsız hakkı (hasNoAds) olan oyuncu: 'grantWithoutAd' → aynı teklif, aynı tavan, reklam gösterilmeden ödül.
-     * 'showAd' → 06 §2.2.2'nin ilk hâli ("isterse izler"). Karar ve gerekçe: 15 §3.4.
+     * Reklamsız hakkı (hasNoAds) olan oyuncu için rewarded teklifleri.
+     * 'showAd' (VARSAYILAN, koordinatör kararı; 06 §2.2.2 / D-038): Reklamsız yalnız interstitial'ı kaldırır; teklif
+     *   yerinde kalır, isteyen reklamı izler. Satın alma hiçbir biçimde para/stat vermez.
+     * 'grantWithoutAd': aynı teklif, aynı tavan, reklam gösterilmeden ödül. Kodda duruyor, varsayılan DEĞİL (15 §3.4).
      */
-    noAdsMode: 'grantWithoutAd' as 'grantWithoutAd' | 'showAd',
+    noAdsMode: 'showAd' as 'grantWithoutAd' | 'showAd',
     /** Reklam yüklenmesi için en çok bekleme (06 §2.3.3). */
     loadTimeoutMs: 4000,
     placements: {

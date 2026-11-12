@@ -6,6 +6,8 @@
 export interface ChoiceResult { personalized: boolean; adult: boolean }
 export interface PrivacyStatus {
   resolved: boolean; personalized: boolean; adult: boolean; minor: boolean; noAds: boolean;
+  /** noAds and rewards are granted without an ad (`noAdsMode: 'grantWithoutAd'`). */
+  noAdsFree: boolean;
   /** Google's own form decides in this region (EEA / UK / CH): the sheet shows a button instead of the switch. */
   ump: boolean; ios: boolean;
 }

@@ -176,7 +176,7 @@ function Privacy({ view, done }: { view: ViewOf<'privacy'>; done: Done<'privacy'
   return (
     <Sheet title={t.title} testID="privacy-sheet">
       <Text style={st.body} testID="privacy-status">{!p.resolved ? t.statusPending : p.personalized ? t.statusPersonal : t.statusNonPersonal}</Text>
-      {p.noAds ? <Text style={st.body}>{t.noAds}</Text> : null}
+      {p.noAds ? <Text style={st.body}>{p.noAdsFree ? t.noAdsFree : t.noAds}</Text> : null}
       {p.ump
         ? <Btn label={t.umpButton} onPress={() => done({ k: 'ump' })} testID="privacy-ump" />
         : <ChoiceFields minor={p.minor} value={value} onChange={setValue} />}

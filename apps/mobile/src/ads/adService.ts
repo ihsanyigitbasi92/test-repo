@@ -150,9 +150,10 @@ export class AdService {
     const cfg = this.d.cfg;
     if (!this.loaded || !cfg.enabled || cfg.kill.all || game.stage !== 'play' || game.phase === 'dead' || game.pendingDeath) return null;
     const n = this.ledger.sessionCount;
-    // An owner of the no-ads entitlement sees no ad, so the ad consent step is not put in front of them either.
-    if (!this.d.noAds() && consentDue(cfg, this.consentState, n)) return game.phase === 'birthday' ? null : 'consent';
-    if (!this.d.noAds() && attDue(cfg, this.consentState, this.d.platform, n)) return 'att';
+    // An owner who never sees an ad (no interstitials, rewards granted without one) is not asked for ad consent.
+    const adFree = this.d.noAds() && fulfilment(cfg, { noAds: true }) === 'free';
+    if (!adFree && consentDue(cfg, this.consentState, n)) return game.phase === 'birthday' ? null : 'consent';
+    if (!adFree && attDue(cfg, this.consentState, this.d.platform, n)) return 'att';
     return this.interstitialDecision(game, { kind: 'return', awayMs }).ok && this.d.provider.isReady('interstitial') ? 'interstitial' : null;
   }
 
@@ -220,7 +221,7 @@ export class AdService {
 
   privacyStatus(): PrivacyStatus {
     const c = this.consentState;
-    return { resolved: c.resolved, personalized: personalizedAllowed(c, this.d.platform), adult: c.adultConfirmed, minor: c.isMinor, noAds: this.d.noAds(),
+    return { resolved: c.resolved, personalized: personalizedAllowed(c, this.d.platform), adult: c.adultConfirmed, minor: c.isMinor, noAds: this.d.noAds(), noAdsFree: fulfilment(this.d.cfg, { noAds: true }) === 'free',
       ump: c.source === 'ump' || (!c.resolved && consentSteps(this.region()).includes('ump')), ios: this.d.platform === 'ios' };
   }
 

@@ -5,3 +5,5 @@ export { adGameContext, grantMoney, isGriefScene } from './gameContext';
 export type { Offer } from './adService';
 export { AdHost } from './AdHost';
 export { PrivacyEntry, RewardedOfferButtons } from './OfferButtons';
+export { getConsent, onConsentChange, requestTracking } from './consentApi';
+export type { ConsentSnapshot } from './consentApi';

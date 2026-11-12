@@ -222,6 +222,7 @@ export class GameController {
     this.watchLifecycle();
     if (this.started) { this.scheduleAuto(); return; }
     this.started = true;
+    void ads.ready();                                                        // ad ledger: session count + play clock (no SDK before consent)
     void this.boot();
   }
 
