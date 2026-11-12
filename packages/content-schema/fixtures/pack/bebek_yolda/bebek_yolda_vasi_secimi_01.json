@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bebek_yolda_vasi_secimi_01",
+  "tags": [
+    "ebeveynlik",
+    "partner",
+    "bebek",
+    "aile",
+    "bebek_yolda"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "bebek_yolda": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "uncle": {
+        "alive": true
+      },
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "all": [
+        "bebek_yolda"
+      ],
+      "none": [
+        "bebek_geldi",
+        "vasi_secildi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bize bir şey olursa bebeğe kim bakar? Bir isim yazmamız lazım.",
+      "en": "If anything happens to us, who raises the baby? We need to write down a name."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Beni yazın. Ben çocuk büyütmedim ama çok izledim.",
+      "en": "Put me down. I've never raised a kid, but I've watched plenty.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anne",
+      "tr": "Anneni yaz",
+      "en": "Write down your mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayıyı yaz",
+      "en": "Write down your uncle",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşinle konuş",
+      "en": "Ask your sibling",
+      "pattern": "patience",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          },
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "vasi_secildi",
+            "vasi_anne"
+          ]
+        }
+      },
+      "tr": "Annen kâğıdı imzalayıp çerçeveletmek istedi. Dayın bir hafta aramadı.",
+      "en": "Mom signed and asked to have it framed. Your uncle didn't call for a week.",
+      "coach": [
+        {
+          "tr": "Vasi belli. Dayı küs.",
+          "en": "Guardian named. Uncle sulking.",
+          "roast": false
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "vasi_secildi",
+            "vasi_dayi"
+          ]
+        }
+      },
+      "tr": "Dayın ertesi gün bir yetiştirme planı getirdi: dokuz madde, üçü balıkçılık.",
+      "en": "Your uncle came back the next day with an upbringing plan: nine points, three of them about fishing.",
+      "coach": [
+        {
+          "tr": "Plan hazır. Balıkçılık ağırlıklı.",
+          "en": "A plan exists. Fishing-heavy.",
+          "roast": false
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "vasi_secildi",
+            "vasi_kardes"
+          ]
+        }
+      },
+      "tr": "Kardeşin hemen kabul etti, sonra üç kez bilmediği bir şey olup olmadığını sordu.",
+      "en": "Your sibling agreed right away, then asked three times whether you knew something they didn't.",
+      "coach": [
+        {
+          "tr": "Kabul edildi. Endişe ek pakette.",
+          "en": "Accepted. Anxiety sold separately.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "bebek gelmeden vasi seçimi: anne, dayı ya da kardeş",
+    "mechanism": "çok izledim",
+    "mechanismId": "understatement",
+    "punch": "çocuk büyütmedim ama çok izledim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "vasi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

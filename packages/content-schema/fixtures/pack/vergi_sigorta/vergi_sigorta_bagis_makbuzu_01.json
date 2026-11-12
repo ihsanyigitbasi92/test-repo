@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_bagis_makbuzu_01",
+  "tags": [
+    "para",
+    "vergi",
+    "bagis",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bağış indirimi için makbuzun aslı gerekiyor. Fotoğraf olmaz.",
+      "en": "For the donation deduction we need the original receipt. A photo won't do."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "Ayrıca makbuzda bağışçı adı kısmına \"kedi maması\" yazılmış.",
+      "en": "Also, on this receipt, the donor name field says \"cat food.\"",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dernek",
+      "tr": "Dernekten yeni makbuz iste",
+      "en": "Ask the shelter for a new one",
+      "pattern": "patience"
+    },
+    {
+      "id": "birak",
+      "tr": "İndirimi boş ver",
+      "en": "Forget the deduction",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "dekont",
+      "tr": "Banka dekontunu göster",
+      "en": "Show the bank transfer slip",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "dernek": {
+      "effects": {
+        "money": 120,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "bagis_indirimi"
+          ]
+        }
+      },
+      "tr": "Hayvan barınağı derneği yeni makbuz kesti: ad doğru, tarih bir yıl ileri. Üçüncü makbuzla başvuru tamamlandı, 120 Para indirim.",
+      "en": "The animal shelter issued a new receipt: right name, wrong year. Receipt number three did it: 120 off your tax.",
+      "coach": [
+        {
+          "tr": "Üçüncü makbuz geçti. İlki çerçeveye layık.",
+          "en": "Receipt three cleared. The first one deserves a frame.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "bagis_makbuzu_hatira"
+          ]
+        }
+      },
+      "tr": "İndirimden vazgeçtin. \"Kedi maması\" yazan makbuz çekmecede duruyor.",
+      "en": "You let the deduction go. The \"cat food\" receipt lives in a drawer.",
+      "coach": [
+        {
+          "tr": "120 Para’yı iyi bir hikâyeye bıraktın.",
+          "en": "You traded 120 for a good story.",
+          "roast": false
+        }
+      ]
+    },
+    "dekont": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 120,
+          "stats": {
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "bagis_indirimi"
+            ]
+          },
+          "glossary": "bagis_indirimi"
+        },
+        "tr": "Banka dekontu yeterli sayıldı. İndirim işlendi: 120 Para.",
+        "en": "The bank slip was accepted. Deduction processed: 120.",
+        "coach": [
+          {
+            "tr": "Dekontun el yazısı daha düzgünmüş.",
+            "en": "The bank slip had better handwriting.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "bagis_makbuzu_bekliyor"
+            ]
+          }
+        },
+        "tr": "Dekont yetmedi; makbuz aslı şart. İkinci gelişin için yeni sıra numarası aldın.",
+        "en": "The slip wasn't enough. Originals only. You took a fresh queue number for visit two.",
+        "coach": [
+          {
+            "tr": "İkinci ziyaret, aynı memur, yeni numara.",
+            "en": "Second visit, same clerk, new number.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "vergi indirimi için sunulan barınak bağış makbuzunda bağışçı adının yerine kedi maması yazılması",
+    "mechanism": "yanlış kutuya yazılmış bağış",
+    "mechanismId": "literalism",
+    "punch": "bağışçı adı: kedi maması",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "makbuz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

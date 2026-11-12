@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_dayi_emaneti_01",
+  "tags": [
+    "para",
+    "birikim",
+    "dayi",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "worried",
+      "tr": "Bankaya güvenmiyorum. Bu poşeti sende tut. Kimseye söyleme, annene bile.",
+      "en": "I don't trust banks. Keep this bag at your place. Tell no one. Not even your mother."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "İçinde ne var diye sorma. Para. Ama sorma.",
+      "en": "Don't ask what's in it. It's money. But don't ask.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sakla",
+      "tr": "Gardıroba sakla",
+      "en": "Hide it in the closet",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "banka",
+      "tr": "Onu bankaya ikna et",
+      "en": "Talk him into a bank",
+      "pattern": "patience",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "iade",
+      "tr": "Kibarca geri ver",
+      "en": "Politely hand it back",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sakla": {
+      "effects": {
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_emaneti_dolapta"
+          ]
+        }
+      },
+      "tr": "Poşet gardırobun üst rafında, kışlıkların arasında. Her gece bir kez kontrol ediyorsun.",
+      "en": "The bag lives on the top shelf of your closet, among the winter clothes. You check on it once a night.",
+      "coach": [
+        {
+          "tr": "Gardırobun artık bir kasası var. Kasa uyumuyor.",
+          "en": "Your closet has a vault now. The vault doesn't sleep.",
+          "roast": false
+        }
+      ]
+    },
+    "banka": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "dayi_bankada"
+            ]
+          }
+        },
+        "tr": "Dayın bankacıyla yarım saat tartıştı, sonra kendi adına vadeli hesap açtırdı. Poşet gişede boşaltıldı.",
+        "en": "Your uncle argued with the banker for half an hour, then opened a term deposit in his own name. The bag was emptied at the counter.",
+        "coach": [
+          {
+            "tr": "Poşet emekli oldu. Dayın emin olmak için üç kez imza attı.",
+            "en": "The bag has retired. Your uncle signed three times, just to be sure.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "dayi_emaneti_dolapta"
+            ]
+          }
+        },
+        "tr": "Dayın şube kapısından geri döndü. Poşet şimdi senin gardırobunda, üstünde \"açma\" notuyla.",
+        "en": "Your uncle turned around at the branch door. The bag is now in your closet with a \"DO NOT OPEN\" note on it.",
+        "coach": [
+          {
+            "tr": "Kapıya kadar gidildi. Not daha kararlı çıktı.",
+            "en": "You made it to the door. The note made it further.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "iade": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_emaneti_yengede"
+          ]
+        }
+      },
+      "tr": "Poşeti geri verdin. Dayın onu yengene emanet etti; yengen herkese anlattı.",
+      "en": "You gave it back. He left it with your aunt instead. Your aunt told everyone.",
+      "coach": [
+        {
+          "tr": "Sır üç saat dayandı.",
+          "en": "The secret held for three hours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "bankaya güvenmeyen dayının nakit birikimini poşetle sana emanet etmesi",
+    "mechanism": "para ama sorma",
+    "mechanismId": "escalation",
+    "punch": "para, ama sorma",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "not"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "akrabalar_kuzen_borcu_doner_01",
+  "tags": [
+    "aile",
+    "kuzen",
+    "para",
+    "akrabalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "akrabalar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "all": [
+        "kuzen_borc_acik"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Kuzenin borcu ödemeye başlıyormuş. Kendi usulüyle.",
+      "en": "Your cousin's starting to pay you back. Their own way."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "İlk taksiti bende bıraktı. Bir kavanoz, bir zarf.",
+      "en": "They left the first installment with me. A jar and an envelope.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Taksiti kabul et",
+      "en": "Accept the installment plan",
+      "pattern": "patience"
+    },
+    {
+      "id": "toplu",
+      "tr": "Kalanı toplu iste",
+      "en": "Ask for the rest at once",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sil",
+      "tr": "Kalanını sil",
+      "en": "Forgive the rest",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 1000,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kuzen_taksit_basladi"
+          ],
+          "remove": [
+            "kuzen_borc_acik"
+          ]
+        }
+      },
+      "tr": "Zarfta 1.000 Para, kavanozda ev yapımı reçel vardı. Kuzenin dört taksit, dört kavanoz öngörüyor.",
+      "en": "The envelope held 1,000. The jar held homemade jam. Your cousin is projecting four installments, four jars.",
+      "coach": [
+        {
+          "tr": "Borcun dörtte biri kapandı. Kahvaltı tamamen.",
+          "en": "A quarter of the debt is settled. Breakfast is fully covered.",
+          "roast": false
+        }
+      ]
+    },
+    "toplu": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": 4000,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "flags": {
+            "remove": [
+              "kuzen_borc_acik"
+            ]
+          }
+        },
+        "tr": "Kuzenin kalan 3.000 Para'yı bir haftada buldu. Teyzen de aynı hafta seninle konuşmadı.",
+        "en": "Your cousin found the remaining 3,000 within a week. Your aunt stopped speaking to you for the same week.",
+        "coach": [
+          {
+            "tr": "Bir hafta, iki teslimat: para ve sessizlik.",
+            "en": "One week, two deliveries: the money and the silence.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": 1000,
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "kuzen_taksit_basladi"
+            ],
+            "remove": [
+              "kuzen_borc_acik"
+            ]
+          }
+        },
+        "tr": "Kuzenin 'şu an yok' dedi, ilk zarfı bıraktı. Kavanozu geri aldı.",
+        "en": "Your cousin said 'not right now,' left the first envelope, and took back the jar.",
+        "coach": [
+          {
+            "tr": "Zarf sende. Reçel pazarlıkta yandı.",
+            "en": "You kept the envelope. The jam was lost in negotiations.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sil": {
+      "effects": {
+        "money": 1000,
+        "stats": {
+          "joy": 4
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kuzen_borc_affedildi"
+          ],
+          "remove": [
+            "kuzen_borc_acik"
+          ]
+        }
+      },
+      "tr": "Kalanını sildin. Kuzenin yeni evin anahtarını çoğaltıp sana verdi: 'Burası senin de evin.'",
+      "en": "You forgave the rest. Your cousin had a key cut for you: 'This is your place too.'",
+      "coach": [
+        {
+          "tr": "Üç bin Para'lık bir anahtar. Pahalı anahtar, iyi kapı.",
+          "en": "A three-thousand key. Pricey key. Good door.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "toplu",
+    "slip": {
+      "tr": "İDDİA: Kalan para bu yıl toplu gelmez. — M.",
+      "en": "WAGER: The rest won't arrive in one piece this year. — M."
+    }
+  },
+  "intent": {
+    "setup": "kuzenin peşinat borcunu reçel kavanozu ve zarfla taksitle ödemeye başlaması",
+    "mechanism": "borç kahvaltıyla ödeniyor",
+    "mechanismId": "bathos",
+    "punch": "dört taksit, dört kavanoz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kavanoz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gec_ask_yalnizlik_yemek_kursu_01",
+  "tags": [
+    "iliski",
+    "gec_ask_yalnizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "gec_ask_yalnizlik": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    },
+    "flags": {
+      "none": [
+        "yemek_kursu_eslesme"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "kurs",
+      "tr": "Çiftler için açılmış bir yemek kursuna tek başına yazıldın. Eğitmen tezgâhları ikişer ikişer dağıtıyor.",
+      "en": "You signed up alone for a cooking class meant for couples. The instructor is assigning stations two by two."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Tezgâhlar iki kişilik. İkiniz tek geldiniz, sizi birleştiriyorum.",
+      "en": "Stations are for two. You both came alone, so you're a team now."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Ben soğan doğrayamam, ağlarım. Soğandan yani, başka bir şeyden değil.",
+      "en": "I can't chop onions. I cry. From the onions. Only the onions.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sogan",
+      "tr": "Soğanları sen doğra",
+      "en": "Take over the onions",
+      "pattern": "generosity",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yaris",
+      "tr": "Görev böl, yarışın",
+      "en": "Split tasks, make it a race",
+      "pattern": "pride"
+    },
+    {
+      "id": "ayri",
+      "tr": "Ayrı tezgâh iste",
+      "en": "Ask for your own station",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sogan": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "flags": {
+            "add": [
+              "yemek_kursu_eslesme",
+              "yeni_tanisma"
+            ]
+          }
+        },
+        "tr": "Soğanları sen doğradın, sos onun eseri oldu. Çıkışta gelecek haftanın kursuna birlikte yazıldınız.",
+        "en": "You chopped, they made the sauce. On the way out you signed up for next week's class together.",
+        "coach": [
+          {
+            "tr": "Bir tezgâh, iki kayıt.",
+            "en": "One station. Two sign-ups.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "yemek_kursu_eslesme"
+            ]
+          }
+        },
+        "tr": "Soğanı sen doğradın, ağlayan sen oldun. Kurs arkadaşın mendil uzattı; kursun en çok fotoğraflanan anı buydu.",
+        "en": "You chopped the onions, and you're the one who cried. Your teammate passed you a tissue: the most photographed moment of the class.",
+        "coach": [
+          {
+            "tr": "Soğan kazandı.",
+            "en": "The onion won.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yaris": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 3
+        },
+        "flags": {
+          "add": [
+            "yemek_kursu_eslesme",
+            "yeni_tanisma"
+          ]
+        }
+      },
+      "tr": "Eğitmen yemeğinize 'ilginç' notunu verdi. Kurs arkadaşın tarifin fotoğrafını çekip numaranı istedi.",
+      "en": "The instructor graded your dish 'interesting.' Your teammate photographed the recipe and asked for your number.",
+      "coach": [
+        {
+          "tr": "Not: ilginç. Sonuç: bir numara.",
+          "en": "Grade: interesting. Result: a phone number.",
+          "roast": false
+        }
+      ]
+    },
+    "ayri": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "yemek_kursu_eslesme"
+          ]
+        }
+      },
+      "tr": "Ayrı tezgâh verildi. Yemeğin iyi oldu; eğitmen dışında tadına bakan olmadı.",
+      "en": "You got your own station. The dish turned out well. Nobody tasted it except the instructor.",
+      "coach": [
+        {
+          "tr": "Tek kişilik başarı, belgeli.",
+          "en": "Solo success, documented.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sogan",
+    "slip": {
+      "tr": "İDDİA: Soğan sizi ayırır. — M.",
+      "en": "WAGER: The onion splits you up. — M."
+    }
+  },
+  "intent": {
+    "setup": "çiftler için açılmış yemek kursuna tek gidip başka bir bekârla aynı tezgâha verilmek",
+    "mechanism": "'ağlarım' cümlesi kelimesi kelimesine soğana bağlanıyor",
+    "mechanismId": "literalism",
+    "punch": "Soğandan yani, başka bir şeyden değil",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sogan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

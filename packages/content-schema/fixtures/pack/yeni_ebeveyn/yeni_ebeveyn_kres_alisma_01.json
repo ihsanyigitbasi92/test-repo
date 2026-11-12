@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yeni_ebeveyn_kres_alisma_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "kres",
+    "is",
+    "yeni_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "yeni_ebeveyn": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 38
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "kres_alisti"
+      ]
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Kreşte alışma haftası varmış. Veli her gün koridorda bekliyor. Koridorda sadece çocuk sandalyesi var.",
+      "en": "Daycare has an adjustment week. A parent waits in the hallway daily. The hallway has only kid-size chairs."
+    },
+    {
+      "speaker": "child",
+      "avatar": "happy",
+      "tr": "(sınıfa koşar, arkasına bakmaz)",
+      "en": "(runs into the classroom without looking back)",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "koridor",
+      "tr": "Bir hafta koridorda bekle",
+      "en": "Spend the week in the hallway",
+      "pattern": "patience"
+    },
+    {
+      "id": "erken",
+      "tr": "Üçüncü gün ayrılmayı dene",
+      "en": "Try leaving on day three",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Haftayı annene devret",
+      "en": "Hand the week to your mom",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "koridor": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "kres_alisti"
+          ]
+        }
+      },
+      "tr": "Bir hafta çocuk sandalyesinde oturdun. Bebek alıştı. Belin hâlâ alışma sürecinde.",
+      "en": "A week on a kid-size chair. The baby adjusted. Your lower back is still adjusting.",
+      "coach": [
+        {
+          "tr": "Alışma tamamlandı. Bir tarafta.",
+          "en": "Adjustment complete. On one side.",
+          "roast": false
+        }
+      ]
+    },
+    "erken": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "kres_alisti"
+            ]
+          }
+        },
+        "tr": "Üçüncü gün ayrıldın. Bebek el salladı, sınıfa döndü. Haftanın kalanında işe yetiştin.",
+        "en": "You left on day three. The baby waved and went back to class. You made it to work the rest of the week.",
+        "coach": [
+          {
+            "tr": "Erken mezuniyet. İki gün kazanıldı.",
+            "en": "Early graduation. Two days recovered.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kres_alisma_uzadi"
+            ]
+          }
+        },
+        "tr": "Üçüncü gün çıkınca bebek kapıda bekledi. Alışma haftası iki haftaya uzadı.",
+        "en": "When you left on day three, the baby waited at the door. Adjustment week became adjustment fortnight.",
+        "coach": [
+          {
+            "tr": "Program bir hafta uzadı.",
+            "en": "The program got a one-week extension.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kres_alisti"
+          ]
+        }
+      },
+      "tr": "Annen haftayı devraldı. Cuma günü öğretmenle tarif değiş tokuşu yapıyordu, bebek ikinci planda.",
+      "en": "Mom took the week. By Friday she and the teacher were swapping recipes. The baby was a side topic.",
+      "coach": [
+        {
+          "tr": "En hızlı alışan annen oldu.",
+          "en": "Fastest to adjust: your mom.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "erken",
+    "slip": {
+      "tr": "İDDİA: Kapıda bekleyen biri olur. — M.",
+      "en": "WAGER: Someone ends up waiting at the door. — M."
+    }
+  },
+  "intent": {
+    "setup": "kreş alışma haftasında velinin koridorda çocuk sandalyesinde beklemesi",
+    "mechanism": "bebek alışır, veli alışamaz",
+    "mechanismId": "reversal",
+    "punch": "belin hâlâ alışma sürecinde",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "alisma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

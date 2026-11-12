@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_provizyon_bekleme_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "saglik",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sigortanızdan provizyon bekliyoruz. Sistem \"işlemde\" diyor.",
+      "en": "We're waiting on pre-approval from your insurer. The system says \"processing.\""
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Ya bekleyin ya şimdi ödeyin, sonra sigortadan geri alın. Geri alan biri olmuş, duydum.",
+      "en": "Either wait, or pay now and claim it back later. I hear someone did once.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Bekle",
+      "en": "Wait",
+      "pattern": "patience"
+    },
+    {
+      "id": "ode",
+      "tr": "Şimdi öde, sonra iste",
+      "en": "Pay now, claim later",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ara",
+      "tr": "Sigortayı ara",
+      "en": "Call the insurer",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "provizyon_alindi"
+          ]
+        }
+      },
+      "tr": "Provizyon bir saat on dakika sonra geldi. Muayene oldun; bekleme salonundaki dergiyi bitirdin.",
+      "en": "Approval came through after an hour and ten. You were seen. You finished the waiting-room magazine.",
+      "coach": [
+        {
+          "tr": "Derginin son sayfasındaki bulmaca da bitti.",
+          "en": "The crossword on the last page got finished too.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "geri_odeme_bekliyor"
+          ]
+        },
+        "glossary": "provizyon"
+      },
+      "tr": "800 Para ödedin. Geri ödeme formu dört sayfa; fatura aslı, rapor ve \"tedavi gerekçesi\" istiyor.",
+      "en": "You paid 800. The claim form is four pages and wants the original invoice, the report and a \"treatment rationale.\"",
+      "coach": [
+        {
+          "tr": "Formun \"gerekçe\" satırı seni bekliyor.",
+          "en": "The \"rationale\" line is waiting for you.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "provizyon_alindi"
+            ]
+          }
+        },
+        "tr": "Çağrı merkezi dosyanı buldu: tek eksik bir tıklamaymış. Provizyon iki dakikada geldi.",
+        "en": "The helpline found your file. It was one missing click. Approval came in two minutes.",
+        "coach": [
+          {
+            "tr": "Bir tık. Salondaki herkes adına.",
+            "en": "One click. On behalf of the whole waiting room.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -800,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "geri_odeme_bekliyor"
+            ]
+          }
+        },
+        "tr": "Yirmi dakika bekleme müziği dinledin, hat kesildi. Sonunda 800 Para ödeyip formu aldın.",
+        "en": "Twenty minutes of hold music, then the line dropped. You paid the 800 and took the form.",
+        "coach": [
+          {
+            "tr": "Bekleme müziğini artık ezbere biliyorsun.",
+            "en": "You can hum the hold music by heart now.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "özel sağlık sigortası provizyonu çıkmayınca hastane bankosunda bekletilmek",
+    "mechanism": "geri alan biri olmuş, duydum",
+    "mechanismId": "understatement",
+    "punch": "geri alan biri olmuş, duydum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

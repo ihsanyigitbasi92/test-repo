@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bosanma_tatil_iptali_01",
+  "tags": [
+    "iliski",
+    "bosanma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "bosanma": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "flags": {
+      "any": [
+        "bosanma_sureci",
+        "bosandi"
+      ],
+      "none": [
+        "tatil_iptal"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "otel",
+      "tr": "Boşanmadan önce alınmış beş gecelik tatil rezervasyonu için otelden arandın.",
+      "en": "The hotel called about the five-night trip you booked before the divorce."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Rezervasyon iki kişilik, beş gece. Ödeme sizin kartınızdan çekilmiş.",
+      "en": "The booking is for two, five nights. It was charged to your card."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "İptalde yüzde kırkı iade. Ama isim değişikliği ücretsiz, kimi getirdiğinize bakmıyoruz.",
+      "en": "Cancel and you get forty percent back. Name changes are free, though. We don't check who shows up.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iptal",
+      "tr": "İptal et, kesintiyi öde",
+      "en": "Cancel and eat the fee",
+      "pattern": "patience"
+    },
+    {
+      "id": "anne",
+      "tr": "Anneni götür",
+      "en": "Take your mom",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    },
+    {
+      "id": "tek",
+      "tr": "Tek başına git",
+      "en": "Go alone",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "iptal": {
+      "effects": {
+        "money": 1600,
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "tatil_iptal"
+          ]
+        }
+      },
+      "tr": "Ödenen 4.000 Para'nın 1.600'ü hesabına döndü. Kalanı otelin yaz bütçesine katıldı.",
+      "en": "Of the 4,000 you paid, 1,600 came back. The rest joined the hotel's summer budget.",
+      "coach": [
+        {
+          "tr": "Balkon başkasının oldu.",
+          "en": "Someone else gets the balcony.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 5
+          }
+        ],
+        "flags": {
+          "add": [
+            "tatil_iptal",
+            "anneyle_tatil"
+          ]
+        }
+      },
+      "tr": "Annen beş gecenin dördünde balkonda komşusuyla telefonda konuştu. Kahvaltıda seni otelin garsonuyla tanıştırmaya çalıştı.",
+      "en": "Your mom spent four of the five nights on the balcony, on the phone with her neighbor. At breakfast she tried to set you up with the waiter.",
+      "coach": [
+        {
+          "tr": "Beş gece, bir aday.",
+          "en": "Five nights. One candidate.",
+          "roast": false
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -4
+        },
+        "flags": {
+          "add": [
+            "tatil_iptal",
+            "tek_tatil"
+          ]
+        }
+      },
+      "tr": "Beş gece tek başına kaldın. İkinci yastığı ilk gece dolaba kaldırdın.",
+      "en": "Five nights on your own. You put the second pillow in the closet the first night.",
+      "coach": [
+        {
+          "tr": "Yastık dolapta. Balkon senin.",
+          "en": "Pillow in the closet. Balcony all yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "boşanma öncesi alınmış iki kişilik tatil rezervasyonunu iptal etmek ya da başkasıyla kullanmak",
+    "mechanism": "otel görevlisi boşanmayı umursamadan isim değişikliğini kampanya gibi sunuyor",
+    "mechanismId": "understatement",
+    "punch": "kimi getirdiğinize bakmıyoruz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "balkon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

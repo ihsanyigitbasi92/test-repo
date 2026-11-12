@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_kanarya_gerginligi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      },
+      "cat": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Kuş yemi bıraktı. Kedin sabahtan beri ona bakıyor. Bakışı iyi değil.",
+      "en": "The bird's gone off its seed. Your cat has been staring at it since morning. It's not a nice stare."
+    },
+    {
+      "speaker": "cat",
+      "avatar": "neutral",
+      "tr": "(camdan ayrılmıyor) Miyav.",
+      "en": "(does not leave the window) Meow.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Ya kafesi içeri alırım ya sen perdeni çekersin. Kafes içeride sıkılıyor.",
+      "en": "Either I bring the cage in or you draw your curtain. The cage gets bored indoors.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "perde",
+      "tr": "Perdeyi çek",
+      "en": "Draw the curtain",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "oyuncak",
+      "tr": "Pamuk'a oyuncak al",
+      "en": "Buy Biscuit a toy",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "tanistir",
+      "tr": "Kediyle kuşu tanıştır",
+      "en": "Introduce cat and bird",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "perde": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "perde_kapali"
+          ]
+        }
+      },
+      "tr": "Perdeyi çektin. Pamuk perdenin arkasında oturmaya devam etti; kanarya yeniden yem yiyor.",
+      "en": "You drew the curtain. Biscuit kept sitting behind it. The canary is eating again.",
+      "coach": [
+        {
+          "tr": "Kanarya rahatladı. Pamuk hâlâ görevde.",
+          "en": "The canary relaxed. Biscuit remains on duty.",
+          "roast": true
+        }
+      ]
+    },
+    "oyuncak": {
+      "effects": {
+        "money": -90,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "cat",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Tüylü bir oyuncak kuş aldın: 90 Para. Pamuk onu yatağın altına götürdü ve cama döndü.",
+      "en": "You bought a feathered toy bird: 90. Biscuit dragged it under the bed and went back to the window.",
+      "coach": [
+        {
+          "tr": "Yedek kuş reddedildi. Orijinal tercih ediliyor.",
+          "en": "The understudy bird was rejected. Biscuit wants the original.",
+          "roast": true
+        }
+      ]
+    },
+    "tanistir": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "kedi_kus_anlasmasi"
+            ]
+          }
+        },
+        "tr": "Pamuk kafesin önünde iki dakika oturdu, esneyip gitti. Kanarya ilk kez öttü.",
+        "en": "Biscuit sat by the cage for two minutes, yawned and left. The canary sang for the first time.",
+        "coach": [
+          {
+            "tr": "Anlaşma esnemeyle imzalandı.",
+            "en": "Treaty signed, by yawn.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -4,
+              "memory": "kafes_olayi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "kanarya_icerde"
+            ]
+          }
+        },
+        "tr": "Pamuk kafese patisini uzattı. Kanarya iki gün sustu, Şükran Teyze kafesi içeri aldı.",
+        "en": "Biscuit reached a paw toward the cage. The canary went silent for two days, and Mrs. Dale moved it inside.",
+        "coach": [
+          {
+            "tr": "Diplomasi bir pati sürdü.",
+            "en": "Diplomacy lasted one paw.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "komşunun yeni kanaryasını kedin camdan saatlerce izliyor, komşu perde istiyor",
+    "mechanism": "kedi ile kuş arasında komşu diplomasisi",
+    "mechanismId": "escalation",
+    "punch": "kafes içeride sıkılıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pati"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

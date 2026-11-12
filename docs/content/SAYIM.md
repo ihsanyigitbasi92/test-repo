@@ -6,12 +6,12 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **8.406** / 10.000 (84.1%) |
-| Kotası dolan alan | 39 / 132 |
-| Kotayı aşan alan | 4 |
+| Alan paketlerindeki geçerli olay | **9.229** / 10.000 (92.3%) |
+| Kotası dolan alan | 83 / 132 |
+| Kotayı aşan alan | 10 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **8.454** |
+| Genel toplam geçerli olay | **9.277** |
 | Şema hatalı dosya | 0 |
 
 ## Grup bazında
@@ -20,14 +20,14 @@
 |---|---:|---:|---:|---:|
 | egitim | 5 | 358 | 358 | 100% |
 | is | 11 | 945 | 945 | 100% |
-| kariyer | 24 | 1102 | 1142 | 96.5% |
-| para | 8 | 482 | 617 | 78.1% |
-| ev | 8 | 483 | 618 | 78.2% |
-| tanidik_yuzler | 8 | 638 | 814 | 78.4% |
-| iliski | 7 | 550 | 670 | 82.1% |
-| aile | 6 | 331 | 424 | 78.1% |
-| cagrilar | 2 | 132 | 169 | 78.1% |
-| ebeveynlik | 5 | 299 | 359 | 83.3% |
+| kariyer | 24 | 1175 | 1142 | 102.9% |
+| para | 8 | 617 | 617 | 100% |
+| ev | 8 | 618 | 618 | 100% |
+| tanidik_yuzler | 8 | 761 | 814 | 93.5% |
+| iliski | 7 | 697 | 670 | 104% |
+| aile | 6 | 424 | 424 | 100% |
+| cagrilar | 2 | 169 | 169 | 100% |
+| ebeveynlik | 5 | 379 | 359 | 105.6% |
 | sosyal | 8 | 421 | 539 | 78.1% |
 | saglik | 9 | 577 | 716 | 80.6% |
 | gundelik | 6 | 391 | 501 | 78% |
@@ -75,55 +75,55 @@
 | 30 | `kariyer_shopkeeper` | kariyer | Kariyer: Esnaf | 52 | 52 | 0 | 100% | ██████████ |
 | 31 | `kariyer_pilot` | kariyer | Kariyer: Pilot | 39 | 39 | 0 | 100% | ██████████ |
 | 32 | `kariyer_accountant` | kariyer | Kariyer: Muhasebeci | 45 | 45 | 0 | 100% | ██████████ |
-| 33 | `kariyer_lifecoach` | kariyer | Kariyer: Hayat Koçu (absürt) | 49 | 49 | 0 | 100% | ██████████ |
-| 34 | `kariyer_influencer` | kariyer | Kariyer: Influencer (absürt) | 52 | 52 | 0 | 100% | ██████████ |
-| 35 | `kariyer_crypto` | kariyer | Kariyer: Kripto Gurusu (absürt) | 42 | 42 | 0 | 100% | ██████████ |
-| 36 | `kariyer_fortune` | kariyer | Kariyer: Kahve Falcısı (TR) / Burç Yazarı (EN) | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 37 | `kariyer_weddingdj` | kariyer | Kariyer: Düğün DJ'i (absürt) | 33 | 42 | 9 | 78.6% | ████████░░ |
-| 38 | `kariyer_hoa` | kariyer | Kariyer: Site Yöneticisi (absürt) | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 39 | `kariyer_doortodoor` | kariyer | Kariyer: Kapıdan Satış (absürt) | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 40 | `kariyer_developer` | kariyer | Kariyer: Müteahhit (absürt) | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 41 | `para_butce_ay_sonu` | para | Bütçe ve ay sonu | 101 | 130 | 29 | 77.7% | ████████░░ |
-| 42 | `faturalar_abonelikler` | para | Faturalar ve abonelikler | 81 | 104 | 23 | 77.9% | ████████░░ |
-| 43 | `borc_kredi_karti` | para | Borç, kredi kartı ve kredi | 77 | 98 | 21 | 78.6% | ████████░░ |
-| 44 | `banka_atm` | para | Banka ve ATM | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 45 | `birikim_yatirim` | para | Birikim ve yatırım | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 46 | `vergi_sigorta` | para | Vergi ve sigorta | 35 | 45 | 10 | 77.8% | ████████░░ |
-| 47 | `sans_ikramiye` | para | Şans ve beklenmedik paralar | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 48 | `dolandiricilik_kurban` | para | Dolandırıcılık (kurban olarak) | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 49 | `anne_evinde_yasam` | ev | Annenin evinde yaşamak | 66 | 85 | 19 | 77.6% | ████████░░ |
-| 50 | `ev_arama_kiralama` | ev | Ev arama ve kiralama | 61 | 78 | 17 | 78.2% | ████████░░ |
-| 51 | `ev_sahibi` | ev | Ev sahibi | 71 | 91 | 20 | 78% | ████████░░ |
-| 52 | `komsu_sukran` | tanidik_yuzler | Şükran Teyze arkı | 71 | 91 | 20 | 78% | ████████░░ |
-| 53 | `apartman_komsuluk` | ev | Apartman ve komşuluk | 77 | 98 | 21 | 78.6% | ████████░░ |
-| 54 | `ev_arkadasi_baris` | tanidik_yuzler | Barış (ev arkadaşı) arkı | 81 | 104 | 23 | 77.9% | ████████░░ |
-| 55 | `tasinma` | ev | Taşınma | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 56 | `ev_tamiri_ariza` | ev | Ev arızaları ve tamirat | 71 | 91 | 20 | 78% | ████████░░ |
-| 57 | `ev_isleri` | ev | Ev işleri ve düzen | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 58 | `ev_satin_alma` | ev | Ev satın alma ve tapu | 35 | 45 | 10 | 77.8% | ████████░░ |
-| 59 | `flort_tanisma` | iliski | Flört ve tanışma | 133 | 163 | 30 | 81.6% | ████████░░ |
-| 60 | `ilk_ask_yagmur` | tanidik_yuzler | Yağmur (ilk aşk, eski sevgili) arkı | 80 | 98 | 18 | 81.6% | ████████░░ |
-| 61 | `iliski_gunluk` | iliski | İlişkide gündelik hayat | 111 | 143 | 32 | 77.6% | ████████░░ |
-| 62 | `ayrilik` | iliski | Ayrılık | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 63 | `nisan_teklif_dugun` | iliski | Evlilik teklifi, nişan, düğün | 74 | 72 | 0 | 102.8% | ██████████ |
-| 64 | `evlilik_gunluk` | iliski | Evli hayat | 101 | 130 | 29 | 77.7% | ████████░░ |
-| 65 | `bosanma` | iliski | Boşanma | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 66 | `kayin_aile` | aile | Kayınvalide, kayınpeder, eşin ailesi | 51 | 65 | 14 | 78.5% | ████████░░ |
-| 67 | `gec_ask_yalnizlik` | iliski | Bekâr hayat, geç aşk, yeniden başlamak | 54 | 65 | 11 | 83.1% | ████████░░ |
-| 68 | `anne` | tanidik_yuzler | Anne arkı | 131 | 169 | 38 | 77.5% | ████████░░ |
-| 69 | `cagri_anne` | cagrilar | ANNE ARIYOR (çağrı devralma) | 86 | 111 | 25 | 77.5% | ████████░░ |
-| 70 | `cagri_diger` | cagrilar | Diğer çağrılar (Dayı, Nevin Hanım, Yağmur) | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 71 | `dayi` | tanidik_yuzler | Dayı arkı | 77 | 98 | 21 | 78.6% | ████████░░ |
-| 72 | `kardesler` | aile | Kardeşler | 61 | 78 | 17 | 78.2% | ████████░░ |
-| 73 | `akrabalar` | aile | Teyzeler, halalar, kuzenler | 66 | 85 | 19 | 77.6% | ████████░░ |
-| 74 | `aile_grubu` | aile | Aile Grubu (mesajlaşma) | 66 | 85 | 19 | 77.6% | ████████░░ |
-| 75 | `buyukanne_buyukbaba` | aile | Büyükanne ve büyükbaba | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 76 | `yaslanan_ebeveyn` | aile | Yaşlanan anneye bakım | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 77 | `bebek_yolda` | ebeveynlik | Bebek kararı ve bebek yolda | 51 | 39 | 0 | 130.8% | ██████████ |
-| 78 | `yeni_ebeveyn` | ebeveynlik | Yeni ebeveyn (bebeklik) | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 79 | `cocuk_buyutme` | ebeveynlik | Okul çağı ve ergen çocuk | 96 | 124 | 28 | 77.4% | ████████░░ |
-| 80 | `bos_yuva` | ebeveynlik | Yetişkin çocuk ve boş yuva | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 81 | `torunlar` | ebeveynlik | Torunlar (büyükanne/büyükbaba olmak) | 56 | 72 | 16 | 77.8% | ████████░░ |
+| 33 | `kariyer_lifecoach` | kariyer | Kariyer: Hayat Koçu (absürt) | 60 | 49 | 0 | 122.4% | ██████████ |
+| 34 | `kariyer_influencer` | kariyer | Kariyer: Influencer (absürt) | 64 | 52 | 0 | 123.1% | ██████████ |
+| 35 | `kariyer_crypto` | kariyer | Kariyer: Kripto Gurusu (absürt) | 51 | 42 | 0 | 121.4% | ██████████ |
+| 36 | `kariyer_fortune` | kariyer | Kariyer: Kahve Falcısı (TR) / Burç Yazarı (EN) | 39 | 39 | 0 | 100% | ██████████ |
+| 37 | `kariyer_weddingdj` | kariyer | Kariyer: Düğün DJ'i (absürt) | 42 | 42 | 0 | 100% | ██████████ |
+| 38 | `kariyer_hoa` | kariyer | Kariyer: Site Yöneticisi (absürt) | 39 | 39 | 0 | 100% | ██████████ |
+| 39 | `kariyer_doortodoor` | kariyer | Kariyer: Kapıdan Satış (absürt) | 39 | 39 | 0 | 100% | ██████████ |
+| 40 | `kariyer_developer` | kariyer | Kariyer: Müteahhit (absürt) | 39 | 39 | 0 | 100% | ██████████ |
+| 41 | `para_butce_ay_sonu` | para | Bütçe ve ay sonu | 130 | 130 | 0 | 100% | ██████████ |
+| 42 | `faturalar_abonelikler` | para | Faturalar ve abonelikler | 104 | 104 | 0 | 100% | ██████████ |
+| 43 | `borc_kredi_karti` | para | Borç, kredi kartı ve kredi | 98 | 98 | 0 | 100% | ██████████ |
+| 44 | `banka_atm` | para | Banka ve ATM | 58 | 58 | 0 | 100% | ██████████ |
+| 45 | `birikim_yatirim` | para | Birikim ve yatırım | 58 | 58 | 0 | 100% | ██████████ |
+| 46 | `vergi_sigorta` | para | Vergi ve sigorta | 45 | 45 | 0 | 100% | ██████████ |
+| 47 | `sans_ikramiye` | para | Şans ve beklenmedik paralar | 52 | 52 | 0 | 100% | ██████████ |
+| 48 | `dolandiricilik_kurban` | para | Dolandırıcılık (kurban olarak) | 72 | 72 | 0 | 100% | ██████████ |
+| 49 | `anne_evinde_yasam` | ev | Annenin evinde yaşamak | 85 | 85 | 0 | 100% | ██████████ |
+| 50 | `ev_arama_kiralama` | ev | Ev arama ve kiralama | 78 | 78 | 0 | 100% | ██████████ |
+| 51 | `ev_sahibi` | ev | Ev sahibi | 91 | 91 | 0 | 100% | ██████████ |
+| 52 | `komsu_sukran` | tanidik_yuzler | Şükran Teyze arkı | 91 | 91 | 0 | 100% | ██████████ |
+| 53 | `apartman_komsuluk` | ev | Apartman ve komşuluk | 98 | 98 | 0 | 100% | ██████████ |
+| 54 | `ev_arkadasi_baris` | tanidik_yuzler | Barış (ev arkadaşı) arkı | 104 | 104 | 0 | 100% | ██████████ |
+| 55 | `tasinma` | ev | Taşınma | 58 | 58 | 0 | 100% | ██████████ |
+| 56 | `ev_tamiri_ariza` | ev | Ev arızaları ve tamirat | 91 | 91 | 0 | 100% | ██████████ |
+| 57 | `ev_isleri` | ev | Ev işleri ve düzen | 72 | 72 | 0 | 100% | ██████████ |
+| 58 | `ev_satin_alma` | ev | Ev satın alma ve tapu | 45 | 45 | 0 | 100% | ██████████ |
+| 59 | `flort_tanisma` | iliski | Flört ve tanışma | 169 | 163 | 0 | 103.7% | ██████████ |
+| 60 | `ilk_ask_yagmur` | tanidik_yuzler | Yağmur (ilk aşk, eski sevgili) arkı | 101 | 98 | 0 | 103.1% | ██████████ |
+| 61 | `iliski_gunluk` | iliski | İlişkide gündelik hayat | 143 | 143 | 0 | 100% | ██████████ |
+| 62 | `ayrilik` | iliski | Ayrılık | 58 | 58 | 0 | 100% | ██████████ |
+| 63 | `nisan_teklif_dugun` | iliski | Evlilik teklifi, nişan, düğün | 90 | 72 | 0 | 125% | ██████████ |
+| 64 | `evlilik_gunluk` | iliski | Evli hayat | 130 | 130 | 0 | 100% | ██████████ |
+| 65 | `bosanma` | iliski | Boşanma | 39 | 39 | 0 | 100% | ██████████ |
+| 66 | `kayin_aile` | aile | Kayınvalide, kayınpeder, eşin ailesi | 65 | 65 | 0 | 100% | ██████████ |
+| 67 | `gec_ask_yalnizlik` | iliski | Bekâr hayat, geç aşk, yeniden başlamak | 68 | 65 | 0 | 104.6% | ██████████ |
+| 68 | `anne` | tanidik_yuzler | Anne arkı | 169 | 169 | 0 | 100% | ██████████ |
+| 69 | `cagri_anne` | cagrilar | ANNE ARIYOR (çağrı devralma) | 111 | 111 | 0 | 100% | ██████████ |
+| 70 | `cagri_diger` | cagrilar | Diğer çağrılar (Dayı, Nevin Hanım, Yağmur) | 58 | 58 | 0 | 100% | ██████████ |
+| 71 | `dayi` | tanidik_yuzler | Dayı arkı | 98 | 98 | 0 | 100% | ██████████ |
+| 72 | `kardesler` | aile | Kardeşler | 78 | 78 | 0 | 100% | ██████████ |
+| 73 | `akrabalar` | aile | Teyzeler, halalar, kuzenler | 85 | 85 | 0 | 100% | ██████████ |
+| 74 | `aile_grubu` | aile | Aile Grubu (mesajlaşma) | 85 | 85 | 0 | 100% | ██████████ |
+| 75 | `buyukanne_buyukbaba` | aile | Büyükanne ve büyükbaba | 39 | 39 | 0 | 100% | ██████████ |
+| 76 | `yaslanan_ebeveyn` | aile | Yaşlanan anneye bakım | 72 | 72 | 0 | 100% | ██████████ |
+| 77 | `bebek_yolda` | ebeveynlik | Bebek kararı ve bebek yolda | 59 | 39 | 0 | 151.3% | ██████████ |
+| 78 | `yeni_ebeveyn` | ebeveynlik | Yeni ebeveyn (bebeklik) | 72 | 72 | 0 | 100% | ██████████ |
+| 79 | `cocuk_buyutme` | ebeveynlik | Okul çağı ve ergen çocuk | 124 | 124 | 0 | 100% | ██████████ |
+| 80 | `bos_yuva` | ebeveynlik | Yetişkin çocuk ve boş yuva | 52 | 52 | 0 | 100% | ██████████ |
+| 81 | `torunlar` | ebeveynlik | Torunlar (büyükanne/büyükbaba olmak) | 72 | 72 | 0 | 100% | ██████████ |
 | 82 | `arkadaslar` | sosyal | Arkadaşlık | 111 | 143 | 32 | 77.6% | ████████░░ |
 | 83 | `dugun_davetli` | sosyal | Düğünlerde misafir | 51 | 65 | 14 | 78.5% | ████████░░ |
 | 84 | `cenaze_taziye` | sosyal | Cenaze ve taziye (misafir) | 35 | 45 | 10 | 77.8% | ████████░░ |

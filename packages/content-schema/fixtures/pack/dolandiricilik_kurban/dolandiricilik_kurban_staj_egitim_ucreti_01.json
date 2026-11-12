@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_staj_egitim_ucreti_01",
+  "tags": [
+    "para",
+    "is",
+    "staj",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Mülakatı geçtiniz, tebrikler. Başlamadan önce sertifika eğitimimizi almanız gerekiyor.",
+      "en": "You passed the interview, congratulations. Before you start, you'll need our certification course."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Eğitim 900. İlk maaşınızdan iade ediliyor, maaşlar da üçüncü ay başlıyor.",
+      "en": "The course is 900. It's refunded from your first paycheck. Paychecks start in month three.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Staj mı buldun? Ben herkese söyledim bile.",
+      "en": "You got an internship? I already told everyone.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Eğitimi öde",
+      "en": "Pay for the course",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sor",
+      "tr": "Önce sözleşmeyi iste",
+      "en": "Ask for the contract first",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "İlanlara geri dön",
+      "en": "Back to the job listings",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 6
+        },
+        "flags": {
+          "add": [
+            "staj_sertifikasi_alindi"
+          ]
+        },
+        "glossary": "ucretli_is_teklifi"
+      },
+      "tr": "Eğitim yirmi dakikalık bir videoydu. Sertifika geldi, staj adresi gelmedi.",
+      "en": "The course was a twenty-minute video. The certificate arrived. The office address did not.",
+      "coach": [
+        {
+          "tr": "Sertifikalı stajyer. Ofis henüz eğitimde.",
+          "en": "Certified intern. The office is still in training.",
+          "roast": true
+        }
+      ]
+    },
+    "sor": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "staj_tuzagi_fark"
+            ]
+          },
+          "glossary": "ucretli_is_teklifi"
+        },
+        "tr": "Sözleşme istedin. Cevap \"sözleşme eğitimden sonra\" oldu, sonra hiçbir şey olmadı.",
+        "en": "You asked for a contract. The reply: \"Contracts come after the course.\" Then nothing came at all.",
+        "coach": [
+          {
+            "tr": "Tek bir soru 900 Para'yı cebinde tuttu.",
+            "en": "One question kept 900 in your pocket.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "glossary": "ucretli_is_teklifi"
+        },
+        "tr": "Sözleşme geldi, imzaladın. Üçüncü maddede eğitim ücretinin iade edilmeyeceği yazıyordu.",
+        "en": "The contract came and you signed. Clause three said the course fee was non-refundable.",
+        "coach": [
+          {
+            "tr": "Sözleşmeyi istedin. Okumak isteğe bağlıydı.",
+            "en": "You asked for a contract. Reading it was optional.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "staj_ertelendi_anne"
+          ]
+        }
+      },
+      "tr": "İlanlara döndün. Annen akşam telefonda akrabalara stajın \"biraz ertelendiğini\" anlattı.",
+      "en": "Back to the listings. That evening Mom told the relatives the internship was \"slightly postponed.\"",
+      "coach": [
+        {
+          "tr": "Ertelendi. Ailedeki resmî sürüm bu.",
+          "en": "Postponed. That's the official family version.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sor",
+    "slip": {
+      "tr": "İDDİA: Sözleşme seni kurtarmaz. — M.",
+      "en": "WAGER: The contract won't save you. — M."
+    }
+  },
+  "intent": {
+    "setup": "staj teklifinde işe başlamadan önce ücretli oryantasyon sertifikası istenmesi",
+    "mechanism": "mülakat, eğitim, maaşın üçüncü ay başlaması diye tırmanan şart listesi",
+    "mechanismId": "escalation",
+    "punch": "ofis henüz eğitimde",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ofis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

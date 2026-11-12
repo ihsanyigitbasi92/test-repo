@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_vade_uzatma_teklifi_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_satin_alma": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 60
+    },
+    "housing": [
+      "mortgage"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 500
+    },
+    "flags": {
+      "all": [
+        "ev_satin_alindi"
+      ],
+      "none": [
+        "vade_uzadi",
+        "vade_aynen",
+        "vade_ortada",
+        "kredi_erken_kapandi"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "text": [
+    {
+      "id": "kurulum",
+      "tr": "Bankadan bir mektup geldi: \"Size özel teklif.\" Taksit düşüyor, vade \"yalnızca birkaç yıl\" uzuyor.",
+      "en": "A letter from the bank: 'An offer just for you.' Lower payments, and a term that grows by 'only a few years.'"
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Taksitiniz hafifler, hayatınız hafifler. Vade biraz uzar, o kadar.",
+      "en": "Your payments get lighter. Your life gets lighter. The term gets a bit longer, that's all."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Ne kadar uzar? \"Biraz\" kaç yıl?",
+      "en": "Longer by how much? How many years is 'a bit'?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Teklifi kabul et",
+      "en": "Accept the offer",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "toplam",
+      "tr": "Toplam maliyeti iste",
+      "en": "Ask for the total cost",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Ara bir vade iste",
+      "en": "Negotiate a middle term",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "status": {
+          "rentDelta": -300
+        },
+        "flags": {
+          "add": [
+            "vade_uzadi"
+          ]
+        },
+        "glossary": "vade_uzatma"
+      },
+      "tr": "Taksit 300 Para düştü. Son ödeme yedi yıl ileri gitti; takvimde artık emeklilik pastasının yanında.",
+      "en": "Monthly payment down 300. The final payment moved seven years out. On the calendar it now sits next to your retirement cake.",
+      "coach": [
+        {
+          "tr": "Aylık rahatlık, uzun vadeli ilişki.",
+          "en": "Monthly relief. Long-term relationship.",
+          "roast": false
+        }
+      ]
+    },
+    "toplam": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "vade_aynen"
+          ]
+        },
+        "glossary": "vade_uzatma"
+      },
+      "tr": "Toplam maliyet tablosu geldi. Yedi yılın bedelini görünce teklifi kibarca reddettin; bankacı \"tabii\" dedi.",
+      "en": "The total-cost table arrived. After seeing what seven extra years cost, you declined politely. The banker said 'of course.'",
+      "coach": [
+        {
+          "tr": "Bir tablo, bir \"tabii\".",
+          "en": "One table. One 'of course.'",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "status": {
+            "rentDelta": -150
+          },
+          "flags": {
+            "add": [
+              "vade_ortada"
+            ]
+          }
+        },
+        "tr": "Üç yıllık uzatmada anlaştınız. Taksit 150 Para düştü, emeklilik pastası güvende.",
+        "en": "You settled on three extra years. Payment down 150. The retirement cake is safe.",
+        "coach": [
+          {
+            "tr": "Üç yıl, yarım rahatlama.",
+            "en": "Three years. Half the relief.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "vade_aynen"
+            ]
+          }
+        },
+        "tr": "Bankacı ara seçeneğin \"sistemde olmadığını\" söyledi. Kredi olduğu gibi kaldı.",
+        "en": "The banker said a middle option 'isn't in the system.' The loan stays as it is.",
+        "coach": [
+          {
+            "tr": "Sistem iki seçenek tanıyor.",
+            "en": "The system recognizes two options.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "bankadan konut kredisinin vadesini uzatıp taksiti düşürme teklifi mektubu geliyor",
+    "mechanism": "\"yalnızca birkaç yıl\" ifadesi emeklilik pastasının yanına düşüyor",
+    "mechanismId": "bathos",
+    "punch": "emeklilik pastasının yanında",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pasta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

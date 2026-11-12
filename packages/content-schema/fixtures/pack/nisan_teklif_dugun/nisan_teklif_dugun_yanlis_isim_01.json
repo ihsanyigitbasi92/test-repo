@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_yanlis_isim_01",
+  "tags": [
+    "milestone:dugun",
+    "iliski",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Nikâh memuru adımı listeden yanlış okudu. Bir harf. Ama çok önemli bir harf.",
+      "en": "The officiant read my name wrong off the list. One letter. A very important letter."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Düzelttirsek mi, yoksa bu yaşta kimse fark etmez mi?",
+      "en": "Do we get it fixed, or at our age does nobody notice?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "duzelt",
+      "tr": "Durdur, düzelttir",
+      "en": "Stop and correct it",
+      "pattern": "pride"
+    },
+    {
+      "id": "devam",
+      "tr": "Gülümse, devam et",
+      "en": "Smile and carry on",
+      "pattern": "patience"
+    },
+    {
+      "id": "espri",
+      "tr": "Herkese bir espriyle duyur",
+      "en": "Announce it with a joke",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "duzelt": {
+      "effects": {
+        "stats": {
+          "joy": 5
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "evli"
+          ],
+          "remove": [
+            "nisanli"
+          ]
+        }
+      },
+      "tr": "Tören iki dakika durdu, isim düzeltildi. Evlisiniz, kâğıtlar da doğru.",
+      "en": "The ceremony paused two minutes; the name got corrected. You’re married, and the paperwork is right.",
+      "coach": [
+        {
+          "tr": "İki dakika gecikme. Tek harf kurtarıldı.",
+          "en": "Two-minute delay. One letter rescued.",
+          "roast": false
+        }
+      ]
+    },
+    "devam": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "evli",
+            "yeni_lakap"
+          ],
+          "remove": [
+            "nisanli"
+          ]
+        }
+      },
+      "tr": "Tören yanlış harfle devam etti, belgeler doğru basıldı. Akrabalar o harfi düğün boyunca tekrar etti.",
+      "en": "The ceremony went on with the wrong letter; the documents printed correctly. Relatives repeated the wrong version all night.",
+      "coach": [
+        {
+          "tr": "Belgede doğru isim. Akrabaların ağzında yeni isim.",
+          "en": "The right name on paper. A new name in every relative’s mouth.",
+          "roast": false
+        }
+      ]
+    },
+    "espri": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 7
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 5
+            }
+          ],
+          "flags": {
+            "add": [
+              "evli",
+              "harf_esprisi"
+            ],
+            "remove": [
+              "nisanli"
+            ]
+          }
+        },
+        "tr": "Espri tuttu, salon güldü, memur da güldü. Partnerin hâlâ o harfle imza atıyor. Evlisiniz.",
+        "en": "The joke landed. The room laughed, the officiant too. Your partner now signs cards with that letter. You’re married.",
+        "coach": [
+          {
+            "tr": "Bir harf, bir kahkaha, iki imza.",
+            "en": "One letter, one laugh, two signatures.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "evli"
+            ],
+            "remove": [
+              "nisanli"
+            ]
+          }
+        },
+        "tr": "Espriyi yalnız sen anladın. Salonda dört saniyelik bir sessizlik oldu, sonra tören sürdü. Evlisiniz.",
+        "en": "Only you got the joke. Four seconds of silence, then the ceremony resumed. You’re married.",
+        "coach": [
+          {
+            "tr": "Dört saniye sessizlik. Evet yine de geldi.",
+            "en": "Four seconds of silence. The yes came anyway.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "espri",
+    "slip": {
+      "tr": "İDDİA: Salon espriyi duymaz. — M.",
+      "en": "WAGER: The room doesn’t laugh. — M."
+    }
+  },
+  "intent": {
+    "setup": "ileri yaşta nikâhta memurun partnerin adını bir harf yanlış okuması",
+    "mechanism": "törenin ciddiyetini tek bir harf bozuyor",
+    "mechanismId": "bathos",
+    "punch": "bir harf ama önemli bir harf",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "harf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

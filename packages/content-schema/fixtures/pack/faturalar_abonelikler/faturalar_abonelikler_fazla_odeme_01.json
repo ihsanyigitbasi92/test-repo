@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "faturalar_abonelikler_fazla_odeme_01",
+  "tags": [
+    "para",
+    "fatura",
+    "su",
+    "ev_arkadasi",
+    "evrak",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "AKARSU SU İDARESİ (kurgusal)",
+      "en": "BROOKSIDE WATER (fictional)"
+    },
+    "body": {
+      "tr": "Aynı faturaya iki ayrı ödeme yapılmıştır. Fazla tutar abonelik hesabınızda alacak bakiye olarak tutulmaktadır.",
+      "en": "Two separate payments were made for the same bill. The excess is held on your account as a credit balance."
+    },
+    "translate": {
+      "tr": {
+        "from": "alacak bakiye",
+        "to": "gelecek ay su bizden"
+      },
+      "en": {
+        "from": "credit balance",
+        "to": "next month's water is on us"
+      }
+    },
+    "glossaryKey": "alacak_bakiye"
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Su faturasını ben ödedim. Teşekkür beklemiyorum.",
+      "en": "I paid the water bill. No need to thank me."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Ne demek sen de ödedin? Ne zaman?",
+      "en": "What do you mean you paid it too? When?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iade",
+      "tr": "İade için dilekçe ver",
+      "en": "File for a refund",
+      "pattern": "patience"
+    },
+    {
+      "id": "kalsin",
+      "tr": "Alacak hesapta kalsın",
+      "en": "Leave the credit on the account",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "comert",
+      "tr": "Alacağı ev arkadaşına bırak",
+      "en": "Let your roommate keep the credit",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "iade": {
+      "effects": {
+        "money": 310,
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "su_iade_alindi"
+          ]
+        },
+        "glossary": "alacak_bakiye"
+      },
+      "tr": "Dilekçe kabul edildi. 310 Para on iki iş gününde hesabına döndü.",
+      "en": "The refund went through. 310 landed back in your account in twelve business days.",
+      "coach": [
+        {
+          "tr": "On iki iş günü, 310 Para.",
+          "en": "Twelve business days. 310 back.",
+          "roast": false
+        }
+      ]
+    },
+    "kalsin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "su_alacak_bakiye"
+          ]
+        }
+      },
+      "tr": "Fazla ödeme hesapta kaldı. Gelecek ayın su faturası sıfır geldi.",
+      "en": "The overpayment stayed on the account. Next month's water bill came in at zero.",
+      "coach": [
+        {
+          "tr": "Bir ay boyunca su faturası yok.",
+          "en": "One month, no water bill.",
+          "roast": false
+        }
+      ]
+    },
+    "comert": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "su_alacak_ev_arkadasinda"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Alacak ev arkadaşının payına yazıldı. Gelecek ay onun payı sıfır, seninki aynı.",
+      "en": "The credit went toward your roommate's share. Next month theirs is zero; yours isn't.",
+      "coach": [
+        {
+          "tr": "Ev arkadaşın bir ay borçsuz.",
+          "en": "Your roommate: debt-free for a month.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "ev arkadaşıyla aynı su faturasını ikisinin de ayrı ayrı ödemesi ve alacak bakiye yazısı",
+    "mechanism": "sorumluluk fazlası: iki kişi aynı faturayı ödüyor",
+    "mechanismId": "reversal",
+    "punch": "ne demek sen de ödedin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "is_gunu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

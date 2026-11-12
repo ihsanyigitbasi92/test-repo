@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_bebeklik_fotografi_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 56
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "Akşam biriyle yemeğe geliyorum. Lütfen bebeklik fotoğrafı yok. Lütfen.",
+      "en": "I’m bringing someone to dinner tonight. Please, no baby photos. Please."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Yedi çeşit yemek yaptım. Albüm de masanın ucunda, ne olur ne olmaz.",
+      "en": "I made seven dishes. The album is at the end of the table. Just in case.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kaldir",
+      "tr": "Albümü kaldır",
+      "en": "Hide the album",
+      "pattern": "generosity"
+    },
+    {
+      "id": "tek",
+      "tr": "Tek fotoğrafa izin iste",
+      "en": "Negotiate one photo",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Masayı partnerine bırak",
+      "en": "Let your partner run the table",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kaldir": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 4
+          },
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "albumsuz_aksam"
+          ]
+        }
+      },
+      "tr": "Albüm yatak odasına taşındı. Akşam sakin geçti; misafir yedi çeşidin altısını denedi.",
+      "en": "The album went to the bedroom. Dinner was calm. The guest tried six of the seven dishes.",
+      "coach": [
+        {
+          "tr": "Albüm kapalı kaldı. Yemek konuştu.",
+          "en": "The album stayed shut. The food did the talking.",
+          "roast": false
+        }
+      ]
+    },
+    "tek": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            },
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "tek_fotograf"
+            ]
+          }
+        },
+        "tr": "Tek fotoğraf gösterildi: plajda, kovayla. Misafir güldü, çocuğun da güldü.",
+        "en": "One photo was shown: the beach, with a bucket. The guest laughed. So did your child.",
+        "coach": [
+          {
+            "tr": "Bir fotoğraf, iki kahkaha. Anlaşma işledi.",
+            "en": "One photo, two laughs. The deal held.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -3,
+              "memory": "album_acildi"
+            }
+          ],
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "album_krizi"
+            ]
+          }
+        },
+        "tr": "“Tek fotoğraf” dördüncü sayfaya kadar uzadı. Çocuğun tatlıyı beklemeden misafiri yolcu etti.",
+        "en": "“One photo” stretched to page four. Your child walked the guest out before dessert.",
+        "coach": [
+          {
+            "tr": "Tek fotoğraf dört sayfa sürdü. Tatlı yalnız kaldı.",
+            "en": "One photo lasted four pages. Dessert was left alone.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -2
+          },
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "album_acildi"
+          ]
+        }
+      },
+      "tr": "Partnerin albümü tatlıyla birlikte açtı. Misafir ertesi hafta yine geldi, albümün ikinci cildini istedi.",
+      "en": "Your partner opened the album with dessert. The guest came back the next week and asked for volume two.",
+      "coach": [
+        {
+          "tr": "Albüm ikinci cilde geçti. Çocuğun hâlâ konuşmuyor.",
+          "en": "The album is on volume two. Your child is still not speaking to you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddiaya uygun check yok"
+  },
+  "intent": {
+    "setup": "yetişkin çocuğun yemeğe getirdiği kişiye bebeklik fotoğrafı gösterilmemesini istemesi",
+    "mechanism": "partnerin hazırladığı albüm masada bekliyor",
+    "mechanismId": "deadpan_report",
+    "punch": "ne olur ne olmaz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "album"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

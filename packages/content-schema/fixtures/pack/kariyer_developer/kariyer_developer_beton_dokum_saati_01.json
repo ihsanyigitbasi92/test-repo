@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_developer_beton_dokum_saati_01",
+  "tags": [
+    "kariyer",
+    "muteahhit",
+    "kariyer_developer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_developer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 32,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "developer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Kiracılarım sabah altıda pompanın sesiyle uyanıyor. Ben de onların telefonlarıyla.",
+      "en": "My tenants wake at six to the sound of your pump. I wake at six to their phone calls."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Beton santrali sabah döküm saati veriyor. Öğlen dökümü ayrı fiyat.",
+      "en": "The concrete plant only schedules morning pours. A midday pour is priced separately.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ogle",
+      "tr": "Dökümü öğlene al",
+      "en": "Move the pour to midday",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kahvalti",
+      "tr": "Kiracılara kahvaltı gönder",
+      "en": "Send the tenants breakfast",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "devam",
+      "tr": "Saatinde dök",
+      "en": "Pour on schedule",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "ogle": {
+      "effects": {
+        "money": -1200,
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          }
+        ],
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Döküm öğlene alındı, ek ücret bin iki yüz Para. Yan binadan biri dökümü öğle arasında balkondan izledi.",
+      "en": "The pour moved to noon at an extra twelve hundred. Someone next door watched it from their balcony over lunch.",
+      "coach": [
+        {
+          "tr": "Sessiz bir döküm. Seyircili.",
+          "en": "A quiet pour. With an audience.",
+          "roast": false
+        }
+      ]
+    },
+    "kahvalti": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -300,
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 2
+            }
+          ],
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Yirmi daireye poğaça ve peynir gönderdin. Bir kiracı ertesi gün pompa sesine alıştığını söyledi.",
+        "en": "You sent pastries and cheese to twenty units. The next day one tenant said they'd gotten used to the pump.",
+        "coach": [
+          {
+            "tr": "Kahvaltı pompayı bastırdı.",
+            "en": "Breakfast drowned out the pump.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -300,
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -1
+            }
+          ],
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Kahvaltılar dağıtıldı. Şikâyet dilekçesine yeni bir satır eklendi: ‘Kahvaltı da soğuktu.’",
+        "en": "The breakfasts were delivered. The complaint letter gained a new line: 'Also, the breakfast was cold.'",
+        "coach": [
+          {
+            "tr": "Dilekçe bir satır uzadı.",
+            "en": "The complaint grew by one line.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "devam": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dev_komsu_sikayet_dilekcesi"
+          ]
+        }
+      },
+      "tr": "Döküm saatinde yapıldı. Ertesi hafta otuz imzalı bir dilekçe geldi, en üstte ev sahibinin imzası.",
+      "en": "The pour went ahead on schedule. The next week a petition arrived with thirty signatures, the landlord's on top.",
+      "coach": [
+        {
+          "tr": "Otuz imza. Beton prizini aldı.",
+          "en": "Thirty signatures. The concrete has set.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kahvalti",
+    "slip": {
+      "tr": "İDDİA: Kahvaltı da şikâyete girer. — M.",
+      "en": "WAGER: The breakfast ends up in the complaint. — M."
+    }
+  },
+  "intent": {
+    "setup": "sabah altıda beton dökümüne başlanınca yan binanın ev sahibi ve kiracılarının şikâyeti",
+    "mechanism": "ev sahibi pompayla değil kiracılarının telefonlarıyla uyanıyor",
+    "mechanismId": "bathos",
+    "punch": "ben de onların telefonlarıyla",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dilekce"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

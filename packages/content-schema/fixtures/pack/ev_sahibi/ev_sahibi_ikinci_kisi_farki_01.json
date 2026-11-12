@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_ikinci_kisi_farki_01",
+  "tags": [
+    "ev",
+    "kira",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Partnerin taşınmış. Hoş geldi. Ama su artık iki kişilik akıyor.",
+      "en": "Your partner moved in. Welcome. But the water runs for two now."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Kişi başı kira yapalım. Modern usul.",
+      "en": "Let's do rent per person. The modern way.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "fatura",
+      "tr": "Faturaların senin adına olduğunu göster",
+      "en": "Show the bills are in your name",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Farkı kabul et",
+      "en": "Accept the increase",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "az",
+      "tr": "Küçük bir fark öner",
+      "en": "Offer a small bump",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "fatura": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "partner_kirada"
+            ]
+          }
+        },
+        "tr": "Su ve elektriğin zaten senin adına olduğunu gösterdin. Ev sahibi \"modern usul\" lafını geri aldı.",
+        "en": "You showed that water and power are already in your name. The landlord withdrew \"the modern way.\"",
+        "coach": [
+          {
+            "tr": "Faturalar sende. Kira tek kişilik kaldı.",
+            "en": "The bills were yours. The rent stayed single.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "status": {
+            "rentDelta": 200
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "partner_kirada"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"aşınma da iki kişilik\" dedi. Kira ayda 200 Para arttı.",
+        "en": "The landlord said, \"Wear and tear is for two now as well.\" Rent rose 200 a month.",
+        "coach": [
+          {
+            "tr": "Aşınma artık kişi başı hesaplanıyor.",
+            "en": "Wear and tear is now billed per head.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "status": {
+          "rentDelta": 300
+        },
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "partner_kirada"
+          ]
+        }
+      },
+      "tr": "Kira ayda 300 Para arttı. Partnerin farkı kendi payından ödemeyi teklif etti.",
+      "en": "Rent rose 300 a month. Your partner offered to cover the difference.",
+      "coach": [
+        {
+          "tr": "Kişi başı kira. Kişi başı ödeme. Modern usul.",
+          "en": "Rent per head. Paid per head. The modern way.",
+          "roast": true
+        }
+      ]
+    },
+    "az": {
+      "effects": {
+        "status": {
+          "rentDelta": 100
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "partner_kirada"
+          ]
+        }
+      },
+      "tr": "Ayda 100 Para'da anlaştınız. Ev sahibi \"üçüncü kişi olursa yine konuşuruz\" dedi.",
+      "en": "You agreed on 100 a month. The landlord said, \"If there's ever a third, we'll talk again.\"",
+      "coach": [
+        {
+          "tr": "Henüz olmayan üçüncü kişinin fiyatı belli.",
+          "en": "A price has been set for a third person who does not exist.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "fatura",
+    "slip": {
+      "tr": "İDDİA: Kişi başı kira faturaları yener. — M.",
+      "en": "WAGER: Per-head rent beats your utility bills. — M."
+    }
+  },
+  "intent": {
+    "setup": "partner eve taşınınca ev sahibinin kişi başı kira istemesi",
+    "mechanism": "\"iki kişilik su\" kelimesi kelimesine fiyatlanıyor",
+    "mechanismId": "literalism",
+    "punch": "su artık iki kişilik akıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kisi_basi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

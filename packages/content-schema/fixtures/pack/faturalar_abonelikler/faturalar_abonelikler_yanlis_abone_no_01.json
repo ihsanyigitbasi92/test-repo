@@ -1,0 +1,165 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_yanlis_abone_no_01",
+  "tags": [
+    "para",
+    "fatura",
+    "elektrik",
+    "komsu",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 80
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Ödemeniz başka bir aboneliğe geçmiş. Üçüncü kat, sizin karşınız.",
+      "en": "Your payment went to another account. Third floor, the unit across from yours."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "İade için o abonenin onayı gerekiyor.",
+      "en": "To refund it, we need that customer's consent.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "komsu",
+      "tr": "Komşunun kapısını çal",
+      "en": "Knock on the neighbor's door",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "iade",
+      "tr": "Resmi iade süreci başlat",
+      "en": "Start the formal refund",
+      "pattern": "patience"
+    },
+    {
+      "id": "hediye",
+      "tr": "Hediye say",
+      "en": "Call it a gift",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "komsu_fatura_iade"
+          ]
+        }
+      },
+      "tr": "Komşu 430 Para'yı elden verdi. Kendi faturasının neden gelmediğini merak ettiğini söyledi.",
+      "en": "The neighbor handed back the 430 in cash, admitting they'd wondered why their bill never showed up.",
+      "coach": [
+        {
+          "tr": "Kendi faturan hâlâ bekliyor.",
+          "en": "Your own bill is still waiting.",
+          "roast": false
+        }
+      ]
+    },
+    "iade": {
+      "effects": {
+        "money": -430,
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "fatura_iade_sureci"
+          ]
+        }
+      },
+      "tr": "İade süreci başladı, otuz iş günü sürecek. Kendi faturanı ayrıca 430 Para ödedin.",
+      "en": "Refund process started: thirty business days. You paid your own 430 separately.",
+      "coach": [
+        {
+          "tr": "Otuz iş günü. Para yolda.",
+          "en": "Thirty business days. Money in transit.",
+          "roast": false
+        }
+      ]
+    },
+    "hediye": {
+      "effects": {
+        "money": -430,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "komsuya_fatura_hediye"
+          ]
+        }
+      },
+      "tr": "Görevli komşuya haber verdi. Ertesi sabah kapına bir teşekkür notu ve bir kavanoz reçel bırakıldı.",
+      "en": "The clerk let the neighbor know. Next morning, a thank-you note and a jar of jam appeared at your door.",
+      "coach": [
+        {
+          "tr": "430 Para'lık reçel.",
+          "en": "A 430 jar of jam.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "fatura öderken abone numarasının bir hanesini yanlış yazıp karşı komşunun elektrik faturasını ödemek",
+    "mechanism": "yanlış ödeme bir kavanoz reçele dönüşüyor",
+    "mechanismId": "callback",
+    "punch": "430 Para'lık reçel",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "recel"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_son_donem_payi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "dogalgaz",
+    "ev_arkadasi",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Ben ayın on dördünde çıktım. Faturanın on dört gününü öderim.",
+      "en": "I moved out on the fourteenth. I'll pay for fourteen days of the bill."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Ayrıca o hafta evde değildim. Onu da düşelim.",
+      "en": "Also, I wasn't home that week. Let's take that off too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "israr",
+      "tr": "Yarı yarıya diye ısrar et",
+      "en": "Insist on half",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "gun",
+      "tr": "Gün hesabını kabul et",
+      "en": "Accept the day count",
+      "pattern": "patience"
+    },
+    {
+      "id": "birak",
+      "tr": "Hiç isteme, sen öde",
+      "en": "Drop it, pay it all",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "israr": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -350,
+          "flags": {
+            "add": [
+              "son_fatura_kapandi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Yarı yarıya anlaştınız. 700 Para'lık faturanın 350'si sana düştü.",
+        "en": "You settled on half. Your share of the 700 bill: 350.",
+        "coach": [
+          {
+            "tr": "350. Tam ortadan.",
+            "en": "Three-fifty. Right down the middle.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -520,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "son_fatura_kapandi",
+              "eski_ev_arkadasi_kirgin"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Israr ettin, o da tarihli sayaç fotoğrafları gönderdi. Sonunda 520 Para sana kaldı, grup sessize alındı.",
+        "en": "You insisted; they sent timestamped meter photos. You ended up with 520 of it, and the group chat got muted.",
+        "coach": [
+          {
+            "tr": "Sen ısrar getirdin. O, delil klasörü getirdi.",
+            "en": "You brought feelings. They brought exhibits.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gun": {
+      "effects": {
+        "money": -520,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "son_fatura_kapandi"
+          ]
+        }
+      },
+      "tr": "Gün hesabı yapıldı, evde olmadığı hafta da düşüldü. Payın 520 Para çıktı.",
+      "en": "Day count done, absent week deducted. Your share: 520.",
+      "coach": [
+        {
+          "tr": "On dört gün onun. Gerisi, o hafta dahil, senin.",
+          "en": "Fourteen days for them. Everything else for you, that week included.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "son_fatura_kapandi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Faturanın tamamını ödedin. Eski ev arkadaşın bir kalp gönderdi.",
+      "en": "You paid the whole 700. Your former roommate replied with a heart.",
+      "coach": [
+        {
+          "tr": "Bir kalbin piyasa değeri 700 Para.",
+          "en": "Going rate for one heart: 700.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "israr",
+    "slip": {
+      "tr": "İDDİA: Yarı yarıya olmaz. — M.",
+      "en": "WAGER: Half isn't happening. — M."
+    }
+  },
+  "intent": {
+    "setup": "taşınıp giden ev arkadaşından son dönem doğalgaz faturası payını istemek",
+    "mechanism": "ev arkadaşı faturayı güne ve evde olmadığı haftaya göre kesiyor",
+    "mechanismId": "understatement",
+    "punch": "evde olmadığı hafta da düşülüyor",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "delil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,227 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_kutu_oyunu_rovansi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "oyun",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Oyunu çıkardım. Bu sefer kurallar yazılı. Geçen sefer sen kural uydurdun.",
+      "en": "Got the board game out. Rules in writing this time. Last time you invented one."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Bu sefer tahtayı kim fırlatırsa oyunu bir yıl ben saklarım.",
+      "en": "Whoever flips the board this time, I keep the game for a year.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "oyna",
+      "tr": "Kazanmak için oyna",
+      "en": "Play to win",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kaybet",
+      "tr": "Kasten kaybet",
+      "en": "Lose on purpose",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kural",
+      "tr": "Yeni bir kural öner",
+      "en": "Propose a new rule",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "oyna": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "kutu_oyunu_galibi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kazandın. Kardeşin tahtayı fırlatmadı, sadece çok yavaş kapattı. Annen oyunu yine de dolaba kaldırdı.",
+        "en": "You won. Your sibling didn't flip the board, just closed it very slowly. Mom confiscated the game anyway.",
+        "coach": [
+          {
+            "tr": "Galibiyet kayıtlı. Oyun gözaltında.",
+            "en": "Win recorded. Game in custody.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 2,
+              "memory": "zafer_konusmasi"
+            }
+          ]
+        },
+        "tr": "Kaybettin. Kardeşin bir zafer konuşması yaptı ve yazılı kopyasını annene verdi.",
+        "en": "You lost. Your sibling gave a victory speech and handed Mom a printed copy.",
+        "coach": [
+          {
+            "tr": "Konuşma dosyada.",
+            "en": "The speech is on file.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kaybet": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "flags": {
+          "add": [
+            "kutu_oyunu_rovans"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          },
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Kasten kaybettin. Kardeşin anladı ve rövanş istedi, bu sefer \"gerçek\" olsun diye.",
+      "en": "You lost on purpose. Your sibling noticed and demanded a rematch. \"A real one this time.\"",
+      "coach": [
+        {
+          "tr": "Rövanş takvimde.",
+          "en": "The rematch is on the calendar.",
+          "roast": false
+        }
+      ]
+    },
+    "kural": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "kutu_oyunu_yasakli"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -2
+          },
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Yeni bir kural önerdin. Annen oyunu oracıkta dolaba kaldırdı; bir yıl bugünden başladı.",
+      "en": "You proposed a new rule. Mom put the game away on the spot. The year starts today.",
+      "coach": [
+        {
+          "tr": "Bir kural, bir yıl.",
+          "en": "One rule. One year.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "oyna",
+    "slip": {
+      "tr": "İDDİA: Zafer konuşmasını kardeşin yapar. — M.",
+      "en": "WAGER: Your sibling gives the victory speech. — M."
+    }
+  },
+  "intent": {
+    "setup": "anne evinde kardeşinle yıllardır süren kutu oyunu rekabetinin yazılı kurallarla yeniden başlaması",
+    "mechanism": "geçmiş kural uydurma ve tahta fırlatmaya geri dönüş",
+    "mechanismId": "callback",
+    "punch": "tahtayı kim fırlatırsa bir yıl ben saklarım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dolap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

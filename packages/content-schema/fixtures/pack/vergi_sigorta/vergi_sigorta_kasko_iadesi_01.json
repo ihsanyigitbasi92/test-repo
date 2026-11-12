@@ -1,0 +1,167 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_kasko_iadesi_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "araba",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 48,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Arabanızı satmışsınız. Kaskonun kalan günleri için iade hakkınız var.",
+      "en": "You've sold the car. You're owed a refund for the unused days on the policy."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "typing",
+      "tr": "Ruhsat fotokopisi, satış belgesi, IBAN ve \"neden sattınız\" kutusu.",
+      "en": "Copy of the registration, bill of sale, IBAN, and a box marked \"Why did you sell?\"",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "doldur",
+      "tr": "Formu eksiksiz doldur",
+      "en": "Fill in every box",
+      "pattern": "patience"
+    },
+    {
+      "id": "bos",
+      "tr": "\"Neden\" kutusunu boş bırak",
+      "en": "Leave the \"why\" box blank",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "hikaye",
+      "tr": "Kutuya hikâyeyi yaz",
+      "en": "Write the whole story in the box",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "doldur": {
+      "effects": {
+        "money": 620,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "kasko_iade_alindi"
+          ],
+          "remove": [
+            "araba_var"
+          ]
+        }
+      },
+      "tr": "Kalan 143 gün için 620 Para iade yattı. \"Neden\" kutusuna \"artık yürüyorum\" yazdın.",
+      "en": "A refund of 620 for 143 unused days. In the \"why\" box you wrote \"I walk now.\"",
+      "coach": [
+        {
+          "tr": "Yürümek poliçe istemiyor.",
+          "en": "Walking requires no policy.",
+          "roast": false
+        }
+      ]
+    },
+    "bos": {
+      "effects": {
+        "money": 620,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kasko_iade_alindi"
+          ],
+          "remove": [
+            "araba_var"
+          ]
+        },
+        "glossary": "prim_iadesi"
+      },
+      "tr": "Kutu boş kalınca form geri döndü. İkinci seferde \"kişisel\" yazdın; 620 Para iki hafta gecikmeyle yattı.",
+      "en": "The blank box bounced the form. Second time you wrote \"personal.\" The 620 arrived two weeks late.",
+      "coach": [
+        {
+          "tr": "Boş kutu kendi kendine iki hafta ekledi.",
+          "en": "The empty box added two weeks all by itself.",
+          "roast": false
+        }
+      ]
+    },
+    "hikaye": {
+      "effects": {
+        "money": 620,
+        "stats": {
+          "joy": 4,
+          "charm": 1
+        },
+        "flags": {
+          "add": [
+            "kasko_iade_alindi"
+          ],
+          "remove": [
+            "araba_var"
+          ]
+        }
+      },
+      "tr": "Kutuya yarım sayfa yazdın: park yeri, yakıt, yaş. Acente memuru okuyup \"ben de satacağım\" dedi. İade: 620 Para.",
+      "en": "You filled the box with half a page: parking, fuel, age. The agent read it and said, \"I'm selling mine too.\" Refund: 620.",
+      "coach": [
+        {
+          "tr": "Bir araba satıldı, biri de yolda.",
+          "en": "One car sold. Another on the way.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "arabayı satınca kaskonun kalan günleri için prim iadesi formunda \"neden sattınız\" kutusu",
+    "mechanism": "neden sattınız kutusu",
+    "mechanismId": "bathos",
+    "punch": "neden sattınız kutusu",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kutu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

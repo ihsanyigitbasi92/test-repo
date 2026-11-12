@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_ehliyet_provasi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Yarın direksiyon sınavım var. Kuzenimin arabasıyla boş otoparkta prova yapacağız. Sınav görevlisi sensin.",
+      "en": "Driving test tomorrow. We're practicing in my cousin's car in an empty lot. You're the examiner."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Ayna kontrolü yapıyorum. Ayna orada. Ayna hâlâ orada. Sinyal veriyorum. Hâlâ veriyorum.",
+      "en": "Checking mirrors. Mirror is there. Mirror is still there. Signaling. Still signaling.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sert",
+      "tr": "Gerçek görevli gibi sert ol",
+      "en": "Be a strict examiner",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yumusak",
+      "tr": "Her harekete aferin de",
+      "en": "Praise every move",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "arka",
+      "tr": "Arka koltuğa geç",
+      "en": "Move to the back seat",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sert": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "baris_ehliyet"
+            ]
+          }
+        },
+        "tr": "Üç kez geri park yaptırdın. Ertesi gün Barış sınavı ilk denemede geçti ve sana direksiyon şeklinde bir anahtarlık aldı.",
+        "en": "You made Jordan reverse-park three times. Next day Jordan passed first try and bought you a steering-wheel keychain.",
+        "coach": [
+          {
+            "tr": "Sınav geçti. Anahtarlık sende, anahtar onda.",
+            "en": "Test passed. You got the keychain. Jordan got the keys.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2,
+              "memory": "sert_gorevli"
+            }
+          ]
+        },
+        "tr": "Sertliğin Barış'ı gerdi; otoparkın tek direğine yandan dokundu. Kuzenin aynası şimdi bantla duruyor.",
+        "en": "Your strictness rattled Jordan, who clipped the lot's only pole. The cousin's mirror is now held on with tape.",
+        "coach": [
+          {
+            "tr": "Bir otopark, bir direk. Bulundu.",
+            "en": "One parking lot. One pole. Found.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yumusak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Her sinyale aferin dedin. Barış gerçek sınavda da yüksek sesle 'aferin' dedi ve görevli bunu kâğıda yazdı.",
+      "en": "You praised every signal. Jordan said 'nice' out loud during the real test too, and the examiner wrote it down.",
+      "coach": [
+        {
+          "tr": "Sonuç cuma belli olacak. 'Aferin' kâğıtta.",
+          "en": "Results come Friday. The 'nice' is on paper.",
+          "roast": false
+        }
+      ]
+    },
+    "arka": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Arka koltuktan yorum yaptın. Barış dikiz aynasını sana çevirdi ve bir saat seni izleyerek sürdü.",
+      "en": "You commented from the back seat. Jordan turned the rearview mirror toward you and drove for an hour watching you.",
+      "coach": [
+        {
+          "tr": "Ayna kontrolleri yapıldı. Hepsi sana.",
+          "en": "Mirror checks were performed. All of them on you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sert",
+    "slip": {
+      "tr": "İDDİA: Sert görevli direği buldurur. — M.",
+      "en": "WAGER: A strict examiner finds the pole. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış direksiyon sınavından önce boş otoparkta seni sınav görevlisi yapıyor",
+    "mechanism": "her ayna kontrolü yüksek sesle, harfiyen anlatılıyor",
+    "mechanismId": "literalism",
+    "punch": "ayna hâlâ orada",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "ayna"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

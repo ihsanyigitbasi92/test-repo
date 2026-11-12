@@ -1,0 +1,234 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dayi_geri_odedi_01",
+  "tags": [
+    "para",
+    "borc",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "dayiya_alacak"
+      ],
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Sana borcum vardı. Getirdim, faiziyle.",
+      "en": "I owed you. Brought it back, with interest."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Yarısı nakit, yarısı ceviz. Benim zamanımda ceviz paradan kıymetliydi.",
+      "en": "Half's cash, half's walnuts. In my day, walnuts were worth more than money.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Teşekkür et, cevizi al",
+      "en": "Thank him, take the walnuts",
+      "pattern": "patience"
+    },
+    {
+      "id": "nakit",
+      "tr": "Tamamını nakit iste",
+      "en": "Ask for it all in cash",
+      "pattern": "pride"
+    },
+    {
+      "id": "sat",
+      "tr": "Cevizleri pazarda sat",
+      "en": "Sell the walnuts at the market",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 750,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "dayi_borcu_kapandi",
+            "ceviz_cuvali"
+          ],
+          "remove": [
+            "dayiya_alacak"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "750 Para nakit ve on iki kilo ceviz teslim alındı. Nakit doğrudan kart borcuna yatırıldı.",
+      "en": "Received: 750 in cash and twelve kilos of walnuts. The cash went straight to the card.",
+      "coach": [
+        {
+          "tr": "Kart borcu 750 Para azaldı. Kiler doldu.",
+          "en": "Card balance down 750. Pantry full.",
+          "roast": false
+        }
+      ]
+    },
+    "nakit": {
+      "effects": {
+        "money": 750,
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "dayi_borcu_yarim"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Dayın kalan yarısı için 'yılbaşında' dedi. Ceviz çuvalı arabaya geri kondu.",
+      "en": "Your uncle said the other half would come 'around New Year's.' The walnut sack went back in his car.",
+      "coach": [
+        {
+          "tr": "Yarısı geldi. Yarısı bagajda.",
+          "en": "Half delivered. Half in the trunk.",
+          "roast": false
+        }
+      ]
+    },
+    "sat": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 1500,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "dayi_borcu_kapandi"
+            ],
+            "remove": [
+              "dayiya_alacak"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Cevizler pazarda 750 Para'ya satıldı. Borç tam kapandı.",
+        "en": "The walnuts sold for 750 at the market. Debt fully repaid.",
+        "coach": [
+          {
+            "tr": "Ceviz paraya çevrildi.",
+            "en": "Walnuts converted to cash.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": 1050,
+          "stats": {
+            "health": -1
+          },
+          "flags": {
+            "add": [
+              "dayi_borcu_kapandi"
+            ],
+            "remove": [
+              "dayiya_alacak"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Cevizin yarısı satıldı, 300 Para getirdi. Kalanı dolapta.",
+        "en": "Half the walnuts sold, for 300. The rest live in your cupboard.",
+        "coach": [
+          {
+            "tr": "Altı kilo ceviz sende.",
+            "en": "Six kilos of walnuts remain.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "yıllar önce dayına verdiğin borcun yarı nakit yarı cevizle 'faiziyle' geri ödenmesi",
+    "mechanism": "dayı faizi ceviz cinsinden hesaplıyor",
+    "mechanismId": "callback",
+    "punch": "benim zamanımda ceviz paradan kıymetliydi",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "ceviz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

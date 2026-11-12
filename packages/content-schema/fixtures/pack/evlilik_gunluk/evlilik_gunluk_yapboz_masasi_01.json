@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_yapboz_masasi_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Yapboz beşinci haftasında. Üç bin parça. Gökyüzü bitti sayılır.",
+      "en": "The puzzle is in week five. Three thousand pieces. The sky is basically done."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Cumartesi misafir mi geliyor? Yemek masası şu an bir müze.",
+      "en": "Guests on Saturday? The dining table is a museum right now.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bitir",
+      "tr": "Cuma gecesi bitirmeye çalış",
+      "en": "Try to finish it Friday night",
+      "pattern": "overwork",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tasi",
+      "tr": "Kartona alıp yatağın altına sür",
+      "en": "Slide it onto cardboard, under the bed",
+      "pattern": "patience"
+    },
+    {
+      "id": "yerde",
+      "tr": "Misafirle yerde ye",
+      "en": "Eat on the floor with the guests",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "bitir": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 5,
+            "health": -2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 4
+            }
+          ],
+          "flags": {
+            "add": [
+              "yapboz_bitti"
+            ]
+          }
+        },
+        "tr": "Gece üçte son parça yerine oturdu. Misafirler yapbozun fotoğrafını yemekten önce çekti.",
+        "en": "The last piece clicked in at 3 a.m. The guests photographed the puzzle before the food.",
+        "coach": [
+          {
+            "tr": "Üç bin parça, bir gece. Uyku parçası eksik.",
+            "en": "Three thousand pieces, one night. One piece missing: sleep.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef: üç bin parça yerinde.",
+            "en": "Goal: three thousand pieces placed.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "yapboz_eksik"
+            ]
+          }
+        },
+        "tr": "Sabah dörtte gökyüzünün yarısı hâlâ maviydi ve eşti. Yapboz kartona taşındı, iki parça kayboldu.",
+        "en": "At 4 a.m. half the sky was still identical blue. The puzzle went onto cardboard and lost two pieces.",
+        "coach": [
+          {
+            "tr": "Gökyüzü kazandı. Mavi bir parça kayıp.",
+            "en": "The sky won. One blue piece is missing in action.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tasi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yapboz_yatak_alti"
+          ]
+        }
+      },
+      "tr": "Yapboz kartonla yatağın altına girdi. Misafirler gitti, yapboz hâlâ orada.",
+      "en": "The puzzle went under the bed on cardboard. The guests left. The puzzle stayed.",
+      "coach": [
+        {
+          "tr": "Yatağın altında beşinci hafta. Altıncı başlıyor.",
+          "en": "Week five under the bed. Week six begins.",
+          "roast": true
+        }
+      ]
+    },
+    "yerde": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "yer_sofrasi"
+          ]
+        }
+      },
+      "tr": "Misafirlerle yer sofrası kurdunuz. Biri yemekten sonra yapboza yirmi parça ekledi.",
+      "en": "You ate on the floor with the guests. One of them added twenty pieces to the puzzle after dinner.",
+      "coach": [
+        {
+          "tr": "Misafir yirmi parça koydu. Ev sahipleri beş haftada daha az koymuştu.",
+          "en": "A guest placed twenty pieces. In one evening. The hosts have taken five weeks.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bitir",
+    "slip": {
+      "tr": "İDDİA: Gökyüzü cumaya bitmez. — M.",
+      "en": "WAGER: The sky won’t be done by Friday. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin üç bin parçalık yapbozunun haftalardır yemek masasını işgal etmesi",
+    "mechanism": "misafir geliyor ve masa müzeye dönmüş",
+    "mechanismId": "understatement",
+    "punch": "gökyüzü bitti sayılır",
+    "lift": "Hedef: üç bin parça yerinde.",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "gokyuzu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

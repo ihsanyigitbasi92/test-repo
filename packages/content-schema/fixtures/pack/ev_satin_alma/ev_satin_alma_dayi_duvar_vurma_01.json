@@ -1,0 +1,231 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_dayi_duvar_vurma_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_satin_alma": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "money": {
+      "min": 5000
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "ev_satin_alindi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Dur. Dinle. Bu duvar boş ses veriyor. Benim zamanımda duvar dolu olurdu.",
+      "en": "Hold on. Listen. This wall sounds hollow. In my day, walls were full."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "worried",
+      "tr": "Mutfaktaki de boş. Banyodaki dolu ama nem kokuyor.",
+      "en": "Kitchen one's hollow too. The bathroom one's solid, but it smells damp.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Onlar alçıpan bölme, efendim. Öyle ses vermeleri normal.",
+      "en": "Those are drywall partitions, sir. They're meant to sound like that.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "ekspertiz",
+      "tr": "Ekspertiz yaptır",
+      "en": "Order a proper survey",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Dayına güven, vazgeç",
+      "en": "Trust your uncle, walk away",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "teklif",
+      "tr": "Dayını dinleme, teklif ver",
+      "en": "Ignore him, make an offer",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ekspertiz": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "ekspertiz_yapildi",
+              "ev_teklif_kabul"
+            ]
+          },
+          "glossary": "ekspertiz"
+        },
+        "tr": "Ekspertiz yapıldı: 400 Para. Duvarlar sağlam çıktı, banyodaki nem gerçekti; satıcı onarım bedelini fiyattan düştü.",
+        "en": "The survey cost 400. Walls fine. The bathroom damp was real, and the seller took the repair off the price.",
+        "coach": [
+          {
+            "tr": "Dayın yarı haklı çıktı. En iyi ortalaması.",
+            "en": "Your uncle was half right. That's his best average.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ev_arama_devam"
+            ]
+          },
+          "glossary": "ekspertiz"
+        },
+        "tr": "Rapor gelene kadar daire başka birine satıldı. Rapor sende, daire onlarda.",
+        "en": "By the time the survey came back, the flat had sold to someone else. You have the report. They have the flat.",
+        "coach": [
+          {
+            "tr": "Elinde dünyanın en ayrıntılı başkasının dairesi raporu var.",
+            "en": "You now own the most detailed report on someone else's flat.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ev_arama_devam",
+            "dayi_danisman"
+          ]
+        }
+      },
+      "tr": "Daireden vazgeçtin. Dayın sonraki üç gezide de duvarları dinlemek için şimdiden yer ayırttı.",
+      "en": "You passed. Your uncle has already booked himself in to listen to the walls at your next three viewings.",
+      "coach": [
+        {
+          "tr": "Dayın artık danışman. Ücreti çay.",
+          "en": "Your uncle is now a consultant. Fee: tea.",
+          "roast": true
+        }
+      ]
+    },
+    "teklif": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ev_teklif_kabul",
+            "banyo_supheli"
+          ]
+        }
+      },
+      "tr": "Teklif verdin, kabul edildi. Dayın \"banyoya dikkat\" dedi ve kapıyı biraz sert kapattı.",
+      "en": "You made an offer. It was accepted. Your uncle said 'watch that bathroom' and shut the door a little hard.",
+      "coach": [
+        {
+          "tr": "Teklif kabul. Banyo gözetim altında.",
+          "en": "Offer accepted. Bathroom under observation.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ekspertiz",
+    "slip": {
+      "tr": "İDDİA: Daire rapordan hızlı gider. — M.",
+      "en": "WAGER: The flat sells faster than the survey. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayın ev gezisine gelip duvarlara vurarak dairenin sağlamlığını test ediyor",
+    "mechanism": "dayının vurma testi her odada yeni bir hükme varıyor",
+    "mechanismId": "escalation",
+    "punch": "dayı yarı haklı, en iyi ortalaması",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "danisman"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

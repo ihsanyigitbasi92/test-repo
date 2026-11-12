@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_dugun_erteleme_01",
+  "tags": [
+    "iliski",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 31,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Yeni projede ilk yıl izin yok dediler. Düğünü bir yıl ertelesek?",
+      "en": "They said no time off for the first year on the new project. What if we push the wedding back a year?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Salonu ben arayacağım. Kaporayı da konuşurum.",
+      "en": "I’ll call the venue. I’ll handle the deposit too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ertele",
+      "tr": "Bir yıl ertelemeyi kabul et",
+      "en": "Agree to a one-year delay",
+      "pattern": "patience"
+    },
+    {
+      "id": "kucuk",
+      "tr": "Küçük nikâhla öne çek",
+      "en": "Move it up as a small ceremony",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "itiraz",
+      "tr": "Tarihte ısrar et",
+      "en": "Insist on the date",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ertele": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": -4
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dugun_ertelendi"
+          ]
+        }
+      },
+      "tr": "Düğün bir yıl ertelendi. Kaporanın 1.200 Parası yandı, salon bir yıl sonrasına tarih verdi.",
+      "en": "The wedding moved back a year. 1,200 of the deposit was lost. The venue gave you a date next autumn.",
+      "coach": [
+        {
+          "tr": "Tarih değişti. Nişan uzadı.",
+          "en": "New date. Longer engagement.",
+          "roast": false
+        }
+      ]
+    },
+    "kucuk": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -1500,
+          "stats": {
+            "joy": 6
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 5
+            }
+          ],
+          "flags": {
+            "add": [
+              "evli",
+              "kucuk_nikah"
+            ],
+            "remove": [
+              "nisanli"
+            ]
+          }
+        },
+        "tr": "Bir cumartesi öğlen, yirmi kişiyle nikâh kıydınız. Proje ilk yılını yine izinsiz geçirdi. Evlisiniz.",
+        "en": "You married on a Saturday at noon, twenty guests. The project still got its year without leave. You’re married.",
+        "coach": [
+          {
+            "tr": "Yirmi kişi, bir öğlen. Proje bile kutladı.",
+            "en": "Twenty guests, one lunchtime. Even the project celebrated.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1200,
+          "stats": {
+            "joy": -5
+          },
+          "flags": {
+            "add": [
+              "dugun_ertelendi"
+            ]
+          }
+        },
+        "tr": "Uygun tarih yalnızca proje teslim günüydü. Plan rafa kalktı, düğün yine bir yıl sonra.",
+        "en": "The only open date was the project deadline. The plan got shelved. The wedding is still a year out.",
+        "coach": [
+          {
+            "tr": "Takvim tek tarih verdi. Yanlış olanı.",
+            "en": "The calendar offered one date. The wrong one.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "itiraz": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -4,
+            "memory": "tarih_israri"
+          }
+        ],
+        "flags": {
+          "add": [
+            "dugun_tarihi_sabit"
+          ]
+        }
+      },
+      "tr": "Tarihte ısrar ettin, partnerin üç gece geç saate kadar çalıştı. Düğün yerinde kaldı ama ikiniz de yorgunsunuz.",
+      "en": "You held the date. Your partner worked three late nights in a row. The wedding stays put, and you’re both exhausted.",
+      "coach": [
+        {
+          "tr": "Tarih kurtuldu. Uyku kurtulamadı.",
+          "en": "The date survived. Sleep didn’t.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kucuk",
+    "slip": {
+      "tr": "İDDİA: Küçük nikâh takvime sığmaz. — M.",
+      "en": "WAGER: The small ceremony won’t fit the calendar. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin yeni iş projesi yüzünden düğünü bir yıl ertelemek istemesi",
+    "mechanism": "iş takvimi düğün takvimini yutuyor",
+    "mechanismId": "callback",
+    "punch": "ilk yıl izin yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "proje"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_nakit_avans_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "ev_arkadasi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Kamp alanı nakit istiyor. Kartından çek, dönünce hallederiz.",
+      "en": "The campsite's cash only. Pull it off your card, we'll sort it out later."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Nakit avans dediğin sonuçta para. Para paradır.",
+      "en": "A cash advance is just money. Money's money.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cek",
+      "tr": "Kredi kartından 1.000 çek",
+      "en": "Take 1,000 off the credit card",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "banka",
+      "tr": "Banka kartından az çek",
+      "en": "Take less from your debit card",
+      "pattern": "patience"
+    },
+    {
+      "id": "kalma",
+      "tr": "Kampa gitme",
+      "en": "Skip the trip",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cek": {
+      "effects": {
+        "money": -1080,
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "nakit_avans",
+            "kredi_karti_borcu"
+          ]
+        },
+        "glossary": "nakit_avans"
+      },
+      "tr": "Kamp güzel geçti. Ekstrede 1.000 Para avansın yanında 80 Para işlem ücreti ve çekildiği günden işleyen faiz vardı.",
+      "en": "The trip was great. The statement showed the 1,000 advance, an 80 fee, and interest from day one.",
+      "coach": [
+        {
+          "tr": "Para paraymış. Faiz de faizmiş.",
+          "en": "Money was money. Interest was interest.",
+          "roast": true
+        }
+      ]
+    },
+    "banka": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kamp_butceli"
+          ]
+        }
+      },
+      "tr": "Banka kartından 500 Para çektin. İki gece kaldın, üçüncü gece otobüsle döndün.",
+      "en": "You took 500 from your debit card. Two nights at camp, then the bus home.",
+      "coach": [
+        {
+          "tr": "İki gece, faizsiz.",
+          "en": "Two nights, interest-free.",
+          "roast": false
+        }
+      ]
+    },
+    "kalma": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kamp_kacti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Evde kaldın. Grup sohbetine yüz kırk fotoğraf düştü.",
+      "en": "You stayed home. The group chat filled up with a hundred and forty photos.",
+      "coach": [
+        {
+          "tr": "140 fotoğraf, sıfır faiz.",
+          "en": "140 photos. Zero interest.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "arkadaşlarla hafta sonu kampı için kredi kartından nakit avans çekmek",
+    "mechanism": "ev arkadaşının 'para paradır' sözü ekstrede geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "faiz de faizmiş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "faiz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

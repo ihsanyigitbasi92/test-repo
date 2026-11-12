@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_arkadas_bosaniyor_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Ayrılan arkadaşlarımız aynı akşam ayrı doğum günü yapıyor. İkisi de “kim geliyor bakacağım” demiş.",
+      "en": "Our divorcing friends have rival birthday parties the same night. Both will “see who shows up.”"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Hediyeyi ortak almıştık. Onu kime vereceğiz?",
+      "en": "We bought them one joint gift. Who gets it now?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bolun",
+      "tr": "Birer tarafa ayrılın",
+      "en": "Split up, one party each",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ikisi",
+      "tr": "İkisine de uğrayın",
+      "en": "Hit both parties together",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "evde",
+      "tr": "Evde kalın",
+      "en": "Stay home",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bolun": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "arkadaslar_bolundu"
+          ]
+        }
+      },
+      "tr": "Birer partiye gittiniz. Eve dönünce ikiniz de diğer tarafın hikâyesini anlattınız; hikâyeler uyuşmadı.",
+      "en": "You each went to one party. At home, you swapped the other side’s version of events. The versions did not match.",
+      "coach": [
+        {
+          "tr": "İki parti, iki hikâye. Gerçek evde bekliyordu.",
+          "en": "Two parties, two stories. The truth was at home.",
+          "roast": true
+        }
+      ]
+    },
+    "ikisi": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "health": -1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "iki_tarafa_da_gidildi"
+            ]
+          }
+        },
+        "tr": "Saat dokuzda birinde, on birde ötekinde oldunuz. İkisi de sizi en son gidenler arasında saydı.",
+        "en": "Nine p.m. at one, eleven at the other. Both counted you among the last to leave.",
+        "coach": [
+          {
+            "tr": "İki parti, sıfır taraf.",
+            "en": "Two parties. Zero sides taken.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3,
+            "health": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "hediye_arabada"
+            ]
+          }
+        },
+        "tr": "İkinci partiye gece yarısı vardınız, pasta çoktan kesilmişti. Ortak hediye arabada kaldı.",
+        "en": "You reached the second party at midnight. The cake was long gone. The joint gift stayed in the car.",
+        "coach": [
+          {
+            "tr": "Pasta bitmişti. Hediye hâlâ ortak.",
+            "en": "The cake was gone. The gift is still joint.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "evde": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "arkadaslar_kirgin"
+          ]
+        }
+      },
+      "tr": "Evde kaldınız, ortak hediyeyi kendinize açtınız. İkisinden de ertesi gün “gelmediniz” mesajı geldi.",
+      "en": "You stayed home and opened the joint gift yourselves. Next morning, both sent the same text: “You didn’t come.”",
+      "coach": [
+        {
+          "tr": "Hediye evde kaldı. İki mesaj geldi.",
+          "en": "The gift stayed home. Two texts arrived.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikisi",
+    "slip": {
+      "tr": "İDDİA: İkinci partiye pasta kalmaz. — M.",
+      "en": "WAGER: There’s no cake left at party two. — M."
+    }
+  },
+  "intent": {
+    "setup": "evli çiftin boşanan arkadaşlarının aynı akşam ayrı doğum günü yapması",
+    "mechanism": "ortak hediye ortak olmayan iki tarafa bölünüyor",
+    "mechanismId": "understatement",
+    "punch": "hediyeyi kime vereceğiz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "hediye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ayrilik_acil_durum_kisisi_01",
+  "tags": [
+    "iliski",
+    "ayrilik_sonrasi",
+    "ayrilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "ayrilik": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "ayrildi"
+      ]
+    }
+  },
+  "text": [
+    {
+      "id": "form",
+      "tr": "Klinik formunda bir satır: 'Acil durumda aranacak kişi.' Kalem bekliyor.",
+      "en": "One line on the clinic form: 'Emergency contact.' The pen waits."
+    }
+  ],
+  "choices": [
+    {
+      "id": "anne",
+      "tr": "Annenin adını yaz",
+      "en": "Write your mom's name",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    },
+    {
+      "id": "eski",
+      "tr": "Alışkanlıkla eskiyi yaz",
+      "en": "Write your ex's name, out of habit",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "kendin",
+      "tr": "Kendi numaranı yaz",
+      "en": "Write your own number",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -1
+        },
+        "flags": {
+          "add": [
+            "acil_kisi_anne"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Annenin adını yazdın. Klinik doğrulama için aradı; annen akşam seni arayıp üç soru sordu.",
+      "en": "You wrote your mom's name. The clinic called her to verify. That evening she called you with three follow-up questions.",
+      "coach": [
+        {
+          "tr": "Bir doğrulama, üç soru.",
+          "en": "One verification. Three questions.",
+          "roast": false
+        }
+      ]
+    },
+    "eski": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "acil_kisi_eski"
+          ]
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "memory": "acil_kisi"
+          }
+        ]
+      },
+      "tr": "Alışkanlıkla eski partnerinin adını yazdın. Klinik doğrulamak için aradı; eski partnerin 'Hâlâ ben miyim?' diye mesaj attı.",
+      "en": "Out of habit, you wrote your ex's name. The clinic called to verify. Your ex texted: 'Still me?'",
+      "coach": [
+        {
+          "tr": "Form bir alışkanlığı yakaladı.",
+          "en": "The form caught a habit.",
+          "roast": false
+        }
+      ]
+    },
+    "kendin": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 2,
+          "cringe": 2
+        }
+      },
+      "tr": "Kendi numaranı yazdın. Görevli formu geri uzattı: 'Sizi kendiniz için arayamayız.'",
+      "en": "You wrote your own number. The receptionist handed it back: 'We can't call you about you.'",
+      "coach": [
+        {
+          "tr": "Kendi acil kişin olamadın. Form reddetti.",
+          "en": "You can't be your own emergency contact. The form said no.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz ya da düşük gerilimli gün"
+  },
+  "intent": {
+    "setup": "ayrılıktan sonra klinik formunda 'acil durumda aranacak kişi' satırını doldurmak",
+    "mechanism": "kendi numarasını yazan kişiye 'sizi arayamayız'",
+    "mechanismId": "literalism",
+    "punch": "Kalem bekliyor.",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "form"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

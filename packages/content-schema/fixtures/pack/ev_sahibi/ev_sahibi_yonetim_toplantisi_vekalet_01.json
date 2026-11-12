@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_yonetim_toplantisi_vekalet_01",
+  "tags": [
+    "ev",
+    "apartman",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Toplantıya ben gidemiyorum. Benim yerime git, her şeye hayır de.",
+      "en": "I can't make the meeting. Go in my place and vote no on everything."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Gündem: bahçeye bank, merdivene ışık. Sen kimin adına oy veriyorsun, kendinin mi?",
+      "en": "Agenda: a bench for the yard, a light for the stairs. Whose vote is this, yours?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "hayir",
+      "tr": "Talimata uy, hayır de",
+      "en": "Follow orders, vote no",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "evet",
+      "tr": "Kendi oyunu ver, evet de",
+      "en": "Vote your own way: yes",
+      "pattern": "pride"
+    },
+    {
+      "id": "erte",
+      "tr": "Ertelemeyi öner",
+      "en": "Move to postpone",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "hayir": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          },
+          {
+            "role": "neighbor",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "vekil_hayir"
+          ]
+        }
+      },
+      "tr": "İki maddeye de hayır dedin. Merdiven ışığı yine yanmıyor; ev sahibi teşekkür mesajı yolladı.",
+      "en": "You voted no on both. The stairwell light still doesn't work. The landlord sent a thank-you text.",
+      "coach": [
+        {
+          "tr": "Teşekkür geldi. Işık gelmedi.",
+          "en": "The thanks came through. The light didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "evet": {
+      "effects": {
+        "status": {
+          "rentDelta": 120
+        },
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -3
+          },
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "vekil_evet"
+          ]
+        }
+      },
+      "tr": "İkisine de evet dedin. Ev sahibi aidattaki artışı kiraya ekledi: ayda 120 Para.",
+      "en": "You voted yes on both. The landlord passed the dues increase on to your rent: 120 a month.",
+      "coach": [
+        {
+          "tr": "Bank ve ışık geldi. Faturası adresine.",
+          "en": "A bench and a light. Billed to your address.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "toplanti_ertelendi",
+            "kalici_vekil"
+          ]
+        }
+      },
+      "tr": "Ertelemeyi önerdin, kabul edildi. Bir sonraki toplantıya da sen gideceksin.",
+      "en": "You moved to postpone. Motion carried. You're attending the next one too.",
+      "coach": [
+        {
+          "tr": "Vekâletin süresi uzadı.",
+          "en": "Your proxy term has been extended.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı doldu"
+  },
+  "intent": {
+    "setup": "ev sahibinin kiracıyı apartman toplantısına kendi yerine vekil yollaması",
+    "mechanism": "vekâlet büyüyüp kalıcılaşıyor",
+    "mechanismId": "escalation",
+    "punch": "kimin adına oy veriyorsun",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "vekalet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

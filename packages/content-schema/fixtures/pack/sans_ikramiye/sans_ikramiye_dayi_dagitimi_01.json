@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "sans_ikramiye_dayi_dagitimi_01",
+  "tags": [
+    "para",
+    "ikramiye",
+    "dayi",
+    "sans_ikramiye"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "sans_ikramiye": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Eski minibüsü sattım. Yeğenlere pay ediyorum. Sıraya girin.",
+      "en": "I sold the old minibus. I'm handing out shares to the nieces and nephews. Line up."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Payını alan bir hikâye dinler. Kısa versiyonu yok.",
+      "en": "Everyone who takes a share hears a story. There is no short version.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dinle",
+      "tr": "Payını al, hikâyeyi dinle",
+      "en": "Take it and listen",
+      "pattern": "patience"
+    },
+    {
+      "id": "reddet",
+      "tr": "Payını kuzenlere bırak",
+      "en": "Pass your share to the cousins",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kisa",
+      "tr": "Kısa versiyonu iste",
+      "en": "Ask for the short version",
+      "pattern": "shortcut",
+      "check": {
+        "base": 2500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "dinle": {
+      "effects": {
+        "money": 500,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_minibus_payi"
+          ]
+        }
+      },
+      "tr": "Hikâye minibüsün 1996’daki ilk seferiyle başladı, kırk dakika sürdü. Zarftan 500 Para çıktı.",
+      "en": "The story began with the minibus's first route in 1996 and ran forty minutes. The envelope held 500.",
+      "coach": [
+        {
+          "tr": "Dakikası 12,5 Para. Hikâye için makul bir ücret.",
+          "en": "Twelve and a half a minute. A fair rate for a story.",
+          "roast": false
+        }
+      ]
+    },
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_payi_reddedildi"
+          ]
+        }
+      },
+      "tr": "Payını kuzenlere bıraktın. Dayın hikâyeyi sana yine de anlattı, ücretsiz.",
+      "en": "You passed your share to the cousins. Your uncle told you the story anyway. Free of charge.",
+      "coach": [
+        {
+          "tr": "Ücretsiz versiyonu da kırk dakika.",
+          "en": "The free version also runs forty minutes.",
+          "roast": false
+        }
+      ]
+    },
+    "kisa": [
+      {
+        "p": 2500,
+        "effects": {
+          "money": 500,
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "dayi_minibus_payi",
+              "dayi_hikaye_borcu"
+            ]
+          }
+        },
+        "tr": "Dayın güldü, \"bir kereliğine\" dedi; zarfı verdi, hikâyeyi bayrama erteledi. 500 Para.",
+        "en": "He laughed, said \"just this once,\" handed over the envelope and put the story off until the holidays. 500.",
+        "coach": [
+          {
+            "tr": "Hikâye ertelendi. Gecikme faiziyle gelecek.",
+            "en": "The story's been deferred. It'll come with late fees.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7500,
+        "effects": {
+          "money": 500,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "dayi_minibus_payi"
+            ]
+          }
+        },
+        "tr": "Dayın \"kısa versiyon yok dedim\" deyip baştan, bu kez minibüsü aldığı günden başladı. Elli beş dakika, 500 Para.",
+        "en": "\"I said there's no short version,\" he said, and started over, this time from the day he bought it. Fifty-five minutes. 500.",
+        "coach": [
+          {
+            "tr": "Kısa versiyon istedin, uzununun önsözü geldi.",
+            "en": "You asked for the short version and got the long one's prologue.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "dayının eski minibüsünü satıp parayı hikâye karşılığı yeğenlere dağıtması",
+    "mechanism": "kısa versiyonu yok",
+    "mechanismId": "escalation",
+    "punch": "kısa versiyonu yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "erteleme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_ikinci_el_araba_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "araba",
+    "para",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    },
+    "money": {
+      "min": 6500
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Bu modelden bende de vardı. Kapısını kapatınca anlaşılır.",
+      "en": "I had this exact model. You can tell by how the door shuts."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Dinle: kapı aynı ses. Fiyatı düşürsün, motorda bir ses eksik.",
+      "en": "Listen. Same door sound. He should drop the price. The engine is missing a sound.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Pazarlığı sen yap",
+      "en": "Do the haggling yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Pazarlığı dayına bırak",
+      "en": "Leave it to your uncle",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Başka araba bak",
+      "en": "Keep looking",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "money": -5500,
+          "flags": {
+            "add": [
+              "ilk_araba"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 2
+            }
+          ],
+          "status": {
+            "assets": {
+              "add": [
+                "ikinci_el_araba"
+              ]
+            }
+          }
+        },
+        "tr": "Fiyat 5.500 Para'ya indi. Satıcı imzalarken dayına eski arabasını sordu.",
+        "en": "The price came down to 5,500. While signing, the seller asked your uncle about his old car.",
+        "coach": [
+          {
+            "tr": "5.500. Kapı sesi dahil.",
+            "en": "5,500. Door sound included.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "money": -6500,
+          "flags": {
+            "add": [
+              "ilk_araba"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ],
+          "status": {
+            "assets": {
+              "add": [
+                "ikinci_el_araba"
+              ]
+            }
+          }
+        },
+        "tr": "Satıcı kapı hikâyesine güldü, fiyat inmedi: 6.500 Para. Dayın dönüş yolunda motoru dinleyip \"eksik\" dedi.",
+        "en": "The seller laughed at the door story. The price held at 6,500. On the drive home your uncle listened to the engine: \"Missing.\"",
+        "coach": [
+          {
+            "tr": "Ses eksik. Fatura tam.",
+            "en": "Sound missing. Invoice complete.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "money": -6000,
+        "flags": {
+          "add": [
+            "ilk_araba"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4,
+            "memory": "araba_pazarligi"
+          }
+        ],
+        "status": {
+          "assets": {
+            "add": [
+              "ikinci_el_araba"
+            ]
+          }
+        }
+      },
+      "tr": "Dayın yarım saat konuştu, 500 Para indirdi ve satıcıyla telefon numarası değişti.",
+      "en": "Your uncle talked for half an hour, got 500 off, and swapped phone numbers with the seller.",
+      "coach": [
+        {
+          "tr": "500 indirim. Dayına bir yeni arkadaş.",
+          "en": "500 off. One new friend for your uncle.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "araba_arayisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Aramaya devam dedin. Ertesi sabah dayın üç ilan gönderdi, üçü de aynı model.",
+      "en": "You decided to keep looking. Next morning your uncle sent three listings. All three, the same model.",
+      "coach": [
+        {
+          "tr": "Arama sürüyor. Model belli.",
+          "en": "The search goes on. The model is decided.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Kapı hikâyesi fiyatı indirmez. — M.",
+      "en": "WAGER: The door story won't move the price. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk ikinci el arabayı alırken dayının satıcıyla kapı sesi üzerinden pazarlık etmesi",
+    "mechanism": "uzmanlık iddiası kapı sesine kadar tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "motorda bir ses eksik",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "fatura"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

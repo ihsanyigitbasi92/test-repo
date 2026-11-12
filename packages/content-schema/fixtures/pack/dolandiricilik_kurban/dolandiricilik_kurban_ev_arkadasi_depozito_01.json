@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_ev_arkadasi_depozito_01",
+  "tags": [
+    "para",
+    "kira",
+    "ilan",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "housing": [
+      "momsHouse"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Oda hâlâ boş ama üç kişi daha soruyor. Depozitoyu ilk yatıran alır.",
+      "en": "Room's still free, but three others are asking. First deposit gets it."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ben şu an şehir dışındayım. Anahtarı kargoyla yollarım, kapıyı kendin açarsın.",
+      "en": "I'm out of town right now. I'll mail you the key. You can let yourself in.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Görmeden ev mi tutulur? Ben de gelirim, kapıyı ben çalarım.",
+      "en": "Who rents a place without seeing it? I'm coming. I'll do the knocking.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yatir",
+      "tr": "Depozitoyu yatır",
+      "en": "Send the deposit",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "gor",
+      "tr": "Önce görüntülü arama iste",
+      "en": "Ask for a video call first",
+      "pattern": "patience"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenle adrese git",
+      "en": "Go to the address with Mom",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "yatir": {
+      "effects": {
+        "money": -1500,
+        "stats": {
+          "joy": -4
+        },
+        "hidden": {
+          "stress": 8
+        },
+        "flags": {
+          "add": [
+            "depozito_kaptirildi"
+          ]
+        },
+        "glossary": "sahte_kiralik_ilan"
+      },
+      "tr": "1.500 Para gitti, anahtar gelmedi. İlan ertesi gün başka bir fotoğrafla yeniden yayındaydı.",
+      "en": "The 1,500 went. No key came. Next day the listing was back up with a new photo.",
+      "coach": [
+        {
+          "tr": "Anahtar hâlâ kargoda. Kargo hiç yola çıkmadı.",
+          "en": "The key is still in the mail. The mail never left.",
+          "roast": true
+        }
+      ]
+    },
+    "gor": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "sahte_ilan_fark_edildi"
+          ]
+        },
+        "glossary": "sahte_kiralik_ilan"
+      },
+      "tr": "Görüntülü arama istedin. İlan sahibinin kamerası \"bozuktu\", bir saat sonra numarası da.",
+      "en": "You asked for a video call. The landlord's camera was \"broken.\" An hour later, so was the number.",
+      "coach": [
+        {
+          "tr": "Oda boş çıktı. Hem de hiç yokmuş.",
+          "en": "The room was empty. Also imaginary.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "sahte_ilan_fark_edildi"
+          ]
+        },
+        "glossary": "sahte_kiralik_ilan"
+      },
+      "tr": "Adrese gittiniz. Kapıyı açan teyze o odada otuz yıldır kendisinin oturduğunu söyledi, çay koydu.",
+      "en": "You went to the address. The woman who answered said she'd lived in that room for thirty years, then put the kettle on.",
+      "coach": [
+        {
+          "tr": "İlan sahte, çay gerçek.",
+          "en": "Fake listing. Real tea.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşı ilanında odayı görmeden depozito istenmesi, anahtar kargoyla gelecek",
+    "mechanism": "anahtar kargoda sözü kapanışta geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "kargo hiç yola çıkmadı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kargo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "torunlar_oto_koltugu_01",
+  "tags": [
+    "ebeveynlik",
+    "aile",
+    "araba",
+    "torunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "torunlar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "any": [
+        "torun_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "Koltuk beş noktadan bağlanıyor. Klik sesini duymadan yola çıkmayın lütfen.",
+      "en": "It's a five-point harness. Please don't leave until you hear the click."
+    },
+    {
+      "speaker": "child",
+      "avatar": "typing",
+      "tr": "Göğüs tokası koltuk altı hizasında olacak. Videosunu attım, dört dakika.",
+      "en": "The chest clip goes at armpit level. I sent you the video. Four minutes.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tak",
+      "tr": "Videoyu izle, kendin tak",
+      "en": "Watch the video, do it yourself",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cagir",
+      "tr": "Görüntülü arayıp yardım iste",
+      "en": "Video-call for backup",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "yuru",
+      "tr": "Arabayı bırak, parka yürü",
+      "en": "Skip the car, walk to the park",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "tak": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "torun_koltuk_ustasi"
+            ]
+          }
+        },
+        "tr": "Yirmi iki dakika sürdü. Klik sesi geldi; torun o sırada uyumuştu.",
+        "en": "Twenty-two minutes. The click came. By then the grandkid was asleep.",
+        "coach": [
+          {
+            "tr": "Yirmi iki dakika, bir klik. Park artık yarının işi.",
+            "en": "Twenty-two minutes, one click. The park is tomorrow's problem.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "koltuk_dersi"
+            ]
+          }
+        },
+        "tr": "Kayış göğüs yerine çene hizasında kaldı. Yetişkin çocuğun fotoğrafı görünce on dakikada geldi.",
+        "en": "The strap ended up at chin level. Your kid saw the photo and arrived in ten minutes.",
+        "coach": [
+          {
+            "tr": "Fotoğrafı sen attın. Kanıtı da sen sundun.",
+            "en": "You sent the photo. You also supplied the evidence.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cagir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "koltuk_goruntulu"
+          ]
+        }
+      },
+      "tr": "Görüntülü aramada kamera çoğunlukla tavanı gösterdi. Klik sesi yine de geldi, alkışla birlikte.",
+      "en": "The video call showed mostly ceiling. The click came anyway, with applause.",
+      "coach": [
+        {
+          "tr": "Tavandan yönetilen bir montaj. Çalıştı.",
+          "en": "Assembly directed from the ceiling. It worked.",
+          "roast": false
+        }
+      ]
+    },
+    "yuru": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "park_yuruyusu"
+          ]
+        }
+      },
+      "tr": "Parka yürüdünüz. Torun yolda on bir köpek saydı, parka varınca eve dönmek istedi.",
+      "en": "You walked to the park. The grandkid counted eleven dogs on the way, then asked to go home on arrival.",
+      "coach": [
+        {
+          "tr": "Koltuk kavgasız kazandı. Köpek sayımı ikramdı.",
+          "en": "The car seat won without a fight. The dog census was a bonus.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tak",
+    "slip": {
+      "tr": "İDDİA: Klik sesinden önce sabrın biter. — M.",
+      "en": "WAGER: Your patience runs out before the click. — M."
+    }
+  },
+  "intent": {
+    "setup": "torunu yetişkin çocuğun arabasındaki beş noktalı çocuk koltuğuna ilk kez bağlamak",
+    "mechanism": "dört dakikalık video yirmi iki dakikalık montaja dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "klik geldi, torun uyumuştu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "klik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

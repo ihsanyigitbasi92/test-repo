@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_son_kart_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "banka",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66,
+      "max": 80
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ALBATROS BANKASI (kurgusal)",
+      "en": "ALBATROSS BANK (fictional)"
+    },
+    "body": {
+      "tr": "Kredi kartı hesabınızın kapatılması talebiniz alınmıştır. Kalan bakiyenin ödenmesiyle hesabınız kapanacaktır. Otuz sekiz yıllık birlikteliğimiz için teşekkür ederiz.",
+      "en": "We have received your request to close your credit card account. It will close once the remaining balance is paid. Thank you for thirty-eight years together."
+    },
+    "translate": {
+      "tr": {
+        "from": "otuz sekiz yıllık birlikteliğimiz",
+        "to": "otuz sekiz yıl, her ay bir zarf"
+      },
+      "en": {
+        "from": "thirty-eight years together",
+        "to": "thirty-eight years of monthly envelopes"
+      }
+    },
+    "glossaryKey": "hesap_kapama"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "Kartı kapatırsanız internetten alışveriş zorlaşır. Emin misiniz?",
+      "en": "Close the card and online shopping gets harder. Are you sure?"
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kalan bakiye 1.140 Para. Ödendiği gün hesap kapanır.",
+      "en": "Remaining balance: 1,140. The account closes the day it's paid.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Öde ve kapat",
+      "en": "Pay it and close it",
+      "pattern": "patience"
+    },
+    {
+      "id": "dusur",
+      "tr": "Limiti düşür, açık kalsın",
+      "en": "Lower the limit, keep it open",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Vazgeç, kalsın",
+      "en": "Never mind, keep it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "money": -1140,
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "flags": {
+          "add": [
+            "kart_hesabi_kapandi"
+          ],
+          "remove": [
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "1.140 Para ödendi, hesap kapandı. Kart, otuz sekiz yılın zarflarıyla aynı çekmeceye kondu.",
+      "en": "1,140 paid; account closed. The card went into the drawer with thirty-eight years of envelopes.",
+      "coach": [
+        {
+          "tr": "Otuz sekiz yıl. Kapandı.",
+          "en": "Thirty-eight years. Closed.",
+          "roast": false
+        }
+      ]
+    },
+    "dusur": {
+      "effects": {
+        "money": -1140,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kart_limit_dusuk"
+          ],
+          "remove": [
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Bakiye ödendi, limit 2.000 Para'ya indirildi. Kart artık yalnızca torunların doğum günü hediyeleri için kullanılıyor.",
+      "en": "Balance paid; limit lowered to 2,000. The card is now reserved for your grandchildren's birthday presents.",
+      "coach": [
+        {
+          "tr": "Tek görevli bir kart.",
+          "en": "A card with one job.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kart_acik_kaldi"
+          ]
+        }
+      },
+      "tr": "Kart açık kaldı. Gelecek ay yıllık ücret ekstreye yansıdı.",
+      "en": "The card stays open. Next month, the annual fee showed up.",
+      "coach": [
+        {
+          "tr": "Otuz dokuzuncu yıl başladı.",
+          "en": "Year thirty-nine has begun.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "otuz sekiz yıllık son kredi kartının kalan bakiyesini ödeyip kartı kapatma kararı",
+    "mechanism": "banka 'birlikteliğimiz' diyor; gerçekte her ay bir zarf",
+    "mechanismId": "translation",
+    "punch": "otuz dokuzuncu yıl başladı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cekmece"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

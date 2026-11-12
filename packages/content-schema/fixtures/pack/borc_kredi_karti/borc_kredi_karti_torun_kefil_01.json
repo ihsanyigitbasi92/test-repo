@@ -1,0 +1,168 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_torun_kefil_01",
+  "tags": [
+    "para",
+    "kredi",
+    "kefil",
+    "torun",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 78
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Torununuz sizi kefil göstermiş. Son üç ayın emekli maaşı dökümü lazım.",
+      "en": "Your grandchild listed you as guarantor. We'll need your last three pension statements."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Bir de üç ayrı yere imza atacaksınız. Üçü de birbirine benzemeli.",
+      "en": "You'll also sign in three places. All three should look alike.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kefil",
+      "tr": "Kefil ol",
+      "en": "Co-sign",
+      "pattern": "generosity"
+    },
+    {
+      "id": "hayir",
+      "tr": "Kefil olmayı reddet",
+      "en": "Decline to co-sign",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "pesinat",
+      "tr": "Kefalet yerine peşinata katıl",
+      "en": "Chip in on the down payment instead",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kefil": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "torun_kefil"
+          ]
+        },
+        "glossary": "kefalet"
+      },
+      "tr": "Üç imza atıldı, üçü de birbirine benzedi. Kredi onaylandı; ilk taksit gününü torunundan önce sen öğrendin.",
+      "en": "Three signatures, all three alike. Loan approved; you learned the first payment date before your grandchild did.",
+      "coach": [
+        {
+          "tr": "Takvimde bir tarih daha.",
+          "en": "One more date on your calendar.",
+          "roast": false
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "torun_kefil_reddi"
+          ]
+        }
+      },
+      "tr": "Kefil olmadın. Torunun krediyi anne babasının kefaletiyle aldı, pazar kahvaltısında konu açılmadı.",
+      "en": "You declined. Your grandchild got the loan with a parent co-signing; nobody brought it up at Sunday breakfast.",
+      "coach": [
+        {
+          "tr": "Pazar kahvaltısı sakin geçti.",
+          "en": "Sunday breakfast stayed calm.",
+          "roast": false
+        }
+      ]
+    },
+    "pesinat": {
+      "effects": {
+        "money": -3000,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "torun_pesinat"
+          ]
+        }
+      },
+      "tr": "Peşinata 3.000 Para eklendi, kredi kefilsiz onaylandı. Arabanın ilk durağı senin kapın oldu.",
+      "en": "You put 3,000 toward the down payment; the loan went through without a guarantor. The car's first stop was your door.",
+      "coach": [
+        {
+          "tr": "İlk ziyaret sana.",
+          "en": "First trip: your place.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "torunun ilk taşıt kredisi için seni kefil göstermesi ve bankacının belge ve imza istemesi",
+    "mechanism": "bankacı imzaların birbirine benzemesini şart koşuyor",
+    "mechanismId": "literalism",
+    "punch": "üçü de birbirine benzemeli",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tarih"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

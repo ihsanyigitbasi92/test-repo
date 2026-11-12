@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_fortune_yagmurlu_piknik_01",
+  "tags": [
+    "kariyer",
+    "fal",
+    "kariyer_fortune"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_fortune": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "fortune"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Fincanımda 'açık hava, güneşli bir gün' demiştin. Nişan pikniğimiz yağmurda kaldı.",
+      "en": "You wrote 'clear skies and open air' for my sign. Our engagement picnic got rained out."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Nişanlımın annesi 'falcıya kim sordu' diye soruyor. Ben de cevap arıyorum.",
+      "en": "My future mother-in-law wants to know who consults a horoscope for a picnic. So do I.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Tesadüf olduğunu anlat",
+      "en": "Explain it's coincidence",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "iade",
+      "tr": "Ücreti iade et",
+      "en": "Refund the fee",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "hava",
+      "tr": "Hava durumunu hatırlat",
+      "en": "Mention the weather report",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "anlat": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "fal_tesaduf_anlatildi"
+            ]
+          }
+        },
+        "tr": "Falın bir tahmin değil, bir sohbet olduğunu anlattın. Müşteri yağmurlu fotoğrafları gösterdi; hepsinde gülüyorlardı.",
+        "en": "You explained it was a conversation, not a forecast. They showed you the rained-out photos. Everyone was laughing.",
+        "coach": [
+          {
+            "tr": "Fotoğraflar ıslak. Kahkahalar sağlam.",
+            "en": "Soggy photos. Sturdy laughs.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -150,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Anlatırken telefonun hoparlörde olduğu, karşıda nişanlının annesinin dinlediği ortaya çıktı. Ücreti iade ettin.",
+        "en": "Halfway through, it emerged the future in-law was on speakerphone. You refunded the fee.",
+        "coach": [
+          {
+            "tr": "İade 150 Para. Hoparlör açıktı.",
+            "en": "Refund: 150. Speakerphone: on.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "iade": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "fal_dugun_davetiyesi"
+          ]
+        }
+      },
+      "tr": "Ücreti iade ettin. Müşteri parayı düğün bütçesine ekleyip seni düğüne davet etti; düğün kapalı salonda.",
+      "en": "You refunded the fee. They put it toward the wedding and invited you. The venue is indoors.",
+      "coach": [
+        {
+          "tr": "Kapalı salon. Tedbir alınmış.",
+          "en": "Indoor venue. Precautions taken.",
+          "roast": false
+        }
+      ]
+    },
+    "hava": {
+      "effects": {
+        "meters": {
+          "ego": 2,
+          "cringe": 2
+        },
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Hava durumunun yağmur dediğini hatırlattın. Müşteri haklı olduğunu kabul edip artık yalnızca hava durumunu izliyor.",
+      "en": "You pointed out the weather report had called for rain. They agreed, and now read only the weather report.",
+      "coach": [
+        {
+          "tr": "Müşteri rakibe geçti: hava durumu.",
+          "en": "Client lost to the competition: the weather.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlat",
+    "slip": {
+      "tr": "İDDİA: Tesadüf açıklaması müşteriyi yatıştırmaz. — M.",
+      "en": "WAGER: 'Coincidence' won't calm them down. — M."
+    }
+  },
+  "intent": {
+    "setup": "güneşli gün dediğin müşterinin nişan pikniği yağmurda kalıyor (EN: burç yorumundaki açık hava)",
+    "mechanism": "tesadüf hesap sorulan bir vaade dönüşüyor",
+    "mechanismId": "reversal",
+    "punch": "müşteri rakibe geçti: hava durumu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hava_durumu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "TR: kafede kahve falına bakan falcı; EN: gazetede burç köşesi yazarı. Durum iki dilde aynı iskelette, kabuk yerelleştirildi. Kehanet her yerde tesadüf çerçevesinde; inanç nesnesi yok."
+  }
+}

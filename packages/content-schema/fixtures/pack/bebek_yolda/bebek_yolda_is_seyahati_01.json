@@ -1,0 +1,247 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bebek_yolda_is_seyahati_01",
+  "tags": [
+    "ebeveynlik",
+    "partner",
+    "bebek",
+    "is",
+    "bebek_yolda"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "bebek_yolda": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "bebek_yolda"
+      ],
+      "none": [
+        "bebek_geldi",
+        "seyahat_karari"
+      ]
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Fuar tarihleri geldi. Tam tahmini haftaya denk geliyor.",
+      "en": "The trade fair dates came in. Right on the due week."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Patronuna bebeğin takvime bakmadığını söyle. Ben söyledim bak, sıra sende.",
+      "en": "Tell your boss babies don't check calendars. There, I said it. Your turn.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Başkasını göndermesini iste",
+      "en": "Ask to send someone else",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "git",
+      "tr": "Git, telefon hep açık",
+      "en": "Go, phone on loud",
+      "pattern": "overwork"
+    },
+    {
+      "id": "red",
+      "tr": "Kesin hayır de",
+      "en": "Flat-out refuse",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "seyahat_karari",
+              "seyahat_iptal"
+            ]
+          }
+        },
+        "tr": "Patron fuara iş arkadaşını gönderdi. Senden hastaneden canlı yayın istedi, reddettin.",
+        "en": "Your boss sent a coworker to the fair and asked you for a livestream from the hospital. You declined.",
+        "coach": [
+          {
+            "tr": "Fuar başkasında. Hafta sende.",
+            "en": "The fair goes to someone else. The week stays yours.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": 600,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "seyahat_karari",
+              "seyahat_zorunlu"
+            ]
+          }
+        },
+        "tr": "Patron “sadece iki gün” dedi. Bavul kapıda, telefonun şarjı tam.",
+        "en": "Your boss said, “Just two days.” Suitcase by the door, phone fully charged.",
+        "coach": [
+          {
+            "tr": "İki günlük plan. Bebeğin onayı bekleniyor.",
+            "en": "A two-day plan. Pending the baby's approval.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "git": {
+      "effects": {
+        "money": 800,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "seyahat_karari",
+            "seyahat_zorunlu"
+          ]
+        }
+      },
+      "tr": "Fuar standında telefon her titrediğinde koşarak çıktın. Altı yanlış alarm, bir kargo bildirimi.",
+      "en": "Every time your phone buzzed you sprinted off the booth. Six false alarms, one shipping notification.",
+      "coach": [
+        {
+          "tr": "Yedi titreşim, sıfır bebek.",
+          "en": "Seven buzzes. Zero babies.",
+          "roast": false
+        }
+      ]
+    },
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "seyahat_karari",
+            "seyahat_reddedildi"
+          ]
+        }
+      },
+      "tr": "Hayır dedin. Patron bir şey demedi, bir sonraki toplantı davetinden adını sildi.",
+      "en": "You said no. Your boss said nothing and dropped you from the next meeting invite.",
+      "coach": [
+        {
+          "tr": "Toplantı listesi bir isim kısaldı.",
+          "en": "The invite list is one name shorter.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef zarfı: hafta korundu.",
+          "en": "Goal envelope: the week, protected.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Bavul kapıda bekler. — M.",
+      "en": "WAGER: The suitcase stays packed. — M."
+    }
+  },
+  "intent": {
+    "setup": "bebeğin tahmini haftasına denk gelen iş seyahati",
+    "mechanism": "telefon her titrediğinde koşmak",
+    "mechanismId": "deadpan_report",
+    "punch": "altı yanlış alarm, bir kargo",
+    "lift": "hedef zarfı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "titresim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

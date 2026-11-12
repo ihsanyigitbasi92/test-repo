@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_ev_arkadasi_taksit_01",
+  "tags": [
+    "para",
+    "borc",
+    "ev_arkadasi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Sana 600 borcum var, biliyorum. Dört taksit yapalım.",
+      "en": "I owe you 600, I know. Let's do four installments."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Vade farkı yok. Ev arkadaşı fiyatı.",
+      "en": "No financing charge. Roommate rate.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Dört taksiti kabul et",
+      "en": "Accept four installments",
+      "pattern": "patience"
+    },
+    {
+      "id": "pesin",
+      "tr": "Kart borcunu söyle, peşin iste",
+      "en": "Mention your card debt, ask for all",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vade",
+      "tr": "Vade farkını bulaşıkla iste",
+      "en": "Charge interest in dishes",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 150,
+        "flags": {
+          "add": [
+            "ev_arkadasi_taksit"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "İlk taksit 150 Para geldi. Açıklamasında '1/4' yazıyordu.",
+      "en": "Installment one: 150, with '1/4' in the memo.",
+      "coach": [
+        {
+          "tr": "Dört ayda 600 Para.",
+          "en": "600 over four months.",
+          "roast": false
+        }
+      ]
+    },
+    "pesin": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 600,
+          "flags": {
+            "add": [
+              "ev_arkadasi_borc_kapandi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "600 Para tek seferde geldi. Açıklamada 'peşin, indirimsiz' yazıyordu.",
+        "en": "All 600 arrived at once. Memo: 'paid in full, no discount.'",
+        "coach": [
+          {
+            "tr": "Tek satır, 600 Para.",
+            "en": "One line. 600.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": 150,
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "ev_arkadasi_taksit"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Peşin olmadı. Plan yine dört taksit kaldı, ilk taksit bir hafta gecikti.",
+        "en": "No lump sum. The plan stayed at four, and installment one arrived a week late.",
+        "coach": [
+          {
+            "tr": "Taksit planı yerinde.",
+            "en": "The installment plan holds.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "vade": {
+      "effects": {
+        "money": 150,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "ev_arkadasi_taksit",
+            "bulasik_vade_farki"
+          ]
+        }
+      },
+      "tr": "Anlaşıldı: dört taksit artı dört akşam bulaşık. Bulaşık taksitleri zamanında ödeniyor.",
+      "en": "Deal: four installments plus four nights of dishes. The dish payments are arriving on time.",
+      "coach": [
+        {
+          "tr": "Vade farkı tabakla ödendi.",
+          "en": "Interest, paid in plates.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "ev arkadaşının sana olan market borcunu banka gibi taksitlendirmeyi teklif etmesi",
+    "mechanism": "ev arkadaşı küçük borcu kart sözleşmesi diliyle sunuyor",
+    "mechanismId": "literalism",
+    "punch": "vade farkı yok, ev arkadaşı fiyatı",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "tabak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

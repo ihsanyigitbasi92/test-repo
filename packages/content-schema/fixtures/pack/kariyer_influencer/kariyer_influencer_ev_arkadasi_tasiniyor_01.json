@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_influencer_ev_arkadasi_tasiniyor_01",
+  "tags": [
+    "kariyer",
+    "influencer",
+    "kariyer_influencer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_influencer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "influencer"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Taşınıyorum. Her akşam yedide salon stüdyo oluyor, ben kendi evimde figüranım.",
+      "en": "I'm moving out. Every night at seven the living room becomes a set, and I'm an extra in my own home."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Geçen hafta tuvalete giderken canlı yayına girdim. Annem izlemiş.",
+      "en": "Last week I walked through your livestream on the way to the bathroom. My mom was watching.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Çekimleri sınırla, kalmasını iste",
+      "en": "Limit shoots, ask them to stay",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ilan",
+      "tr": "'Çekime uygun' ev arkadaşı ara",
+      "en": "Advertise for a camera-ready roommate",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kucuk",
+      "tr": "Sen de tek odaya taşın",
+      "en": "Move into a studio yourself",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "infl_cekim_saati"
+            ]
+          }
+        },
+        "tr": "Çekimleri haftada iki akşama indirdin. Ev arkadaşın kaldı ve kapısına 'yayında değilim' yazısı astı.",
+        "en": "You cut shoots to two nights a week. Your roommate stayed and hung a 'not on air' sign on their door.",
+        "coach": [
+          {
+            "tr": "Haftada iki akşam. Kapıda bir yazı.",
+            "en": "Two nights a week. One sign on the door.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "rentDelta": 900
+          },
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Ev arkadaşın yine de taşındı. Kiranın onun payı artık senin aylık giderine eklendi.",
+        "en": "They moved out anyway. Their share of the rent is now part of your monthly bill.",
+        "coach": [
+          {
+            "tr": "Kira tek kişilik. Set de.",
+            "en": "Solo rent. Solo set.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ilan": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "infl_ilan_cekime_uygun"
+          ]
+        }
+      },
+      "tr": "İlana 'çekime uygun' yazdın. Başvuran üç kişinin üçü de içerik üreticisiydi ve üçü de salonu istedi.",
+      "en": "Your ad said 'camera-ready.' All three applicants were content creators, and all three wanted the living room.",
+      "coach": [
+        {
+          "tr": "Üç başvuru, üç stüdyo talebi.",
+          "en": "Three applicants. Three studio requests.",
+          "roast": false
+        }
+      ]
+    },
+    "kucuk": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 0
+        },
+        "status": {
+          "home": {
+            "kind": "room",
+            "rent": 1100
+          }
+        },
+        "flags": {
+          "add": [
+            "infl_tek_oda"
+          ]
+        }
+      },
+      "tr": "Tek odalı bir yere taşındın. Kamera artık yatağın ucunda, arka planda dolap kapağı var.",
+      "en": "You moved into a studio. The camera now sits at the foot of the bed, wardrobe door in the background.",
+      "coach": [
+        {
+          "tr": "Yeni stüdyo, tek oda. Ev arkadaşı: dolap.",
+          "en": "New studio, one room. Roommate: the wardrobe.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "ev arkadaşı salonun her akşam çekim stüdyosuna dönmesinden bıkıp taşınıyor",
+    "mechanism": "ev arkadaşı kendi evinde figüran oluyor; annesi yayında görüyor",
+    "mechanismId": "escalation",
+    "punch": "ben kendi evimde figüranım",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "dolap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

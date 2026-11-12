@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_dis_cephe_payi_01",
+  "tags": [
+    "ev",
+    "masraf",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Dış cephe mantolanıyor. Daire başı 2.000, kiracılar da katılsın dedik.",
+      "en": "The building's getting exterior insulation. 2,000 per unit, and we decided tenants should chip in."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Yalıtım senin işine yarar. Kış faturası sana geliyor, değil mi?",
+      "en": "Insulation helps you. You're the one paying the winter bills, right?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Payı öde",
+      "en": "Pay the share",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "madde",
+      "tr": "Sözleşme maddesini göster",
+      "en": "Point to the lease clause",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yari",
+      "tr": "Yarı yarıya teklif et",
+      "en": "Offer to split it",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -2000,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "mantolama_kiraci_odedi"
+          ]
+        }
+      },
+      "tr": "2.000 Para ödedin. Bina yeni rengine boyandı; ev sahibi dairenin değerlendiğini komşulara anlattı.",
+      "en": "You paid 2,000. The building got a fresh coat, and the landlord told the neighbors how much the unit had appreciated.",
+      "coach": [
+        {
+          "tr": "Bina değer kazandı. Tapu yerinde duruyor.",
+          "en": "The building gained value. The deed stayed where it was.",
+          "roast": true
+        }
+      ]
+    },
+    "madde": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "mantolama_ev_sahibi_odedi"
+            ]
+          }
+        },
+        "tr": "Sözleşmedeki \"yapısal masraflar ev sahibine aittir\" satırını gösterdin. Ev sahibi ödedi, selamları kısaldı.",
+        "en": "You pointed to the line in the lease: \"structural costs are borne by the owner.\" The landlord paid. The hellos got shorter.",
+        "coach": [
+          {
+            "tr": "Selam iki kelimeye indi. Payın sıfıra.",
+            "en": "Hellos down to two words. Your share, down to zero.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1000,
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "mantolama_yari",
+              "kombi_bakimi_kiracida"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"o zaman kombi bakımını da sen yaparsın\" dedi. Yarısını ödemeyi kabul ettin.",
+        "en": "The landlord said, \"Then the boiler servicing is on you too.\" You agreed to pay half.",
+        "coach": [
+          {
+            "tr": "Bir madde, bir kombi.",
+            "en": "One clause. One boiler.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yari": {
+      "effects": {
+        "money": -1000,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "mantolama_yari"
+          ]
+        }
+      },
+      "tr": "1.000 Para'da uzlaştınız. Ev sahibi kalanını \"kiraya yansıtmayacağını\" söyledi; şimdilik.",
+      "en": "You settled on 1,000. The landlord said the rest \"won't touch the rent.\" For now.",
+      "coach": [
+        {
+          "tr": "Şimdilik, bir zaman birimidir.",
+          "en": "\"For now\" is a unit of time.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "madde",
+    "slip": {
+      "tr": "İDDİA: Madde mantolamayı yenemez. — M.",
+      "en": "WAGER: The clause loses to the insulation. — M."
+    }
+  },
+  "intent": {
+    "setup": "apartmanın dış cephe yalıtım payının kiracıya kesilmek istenmesi",
+    "mechanism": "masraflar bülten diliyle sayılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "kış faturası sana geliyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zaman"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bebek_yolda_egitim_fonu_01",
+  "tags": [
+    "ebeveynlik",
+    "partner",
+    "bebek",
+    "para",
+    "bebek_yolda"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "bebek_yolda": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "all": [
+        "bebek_yolda"
+      ],
+      "none": [
+        "bebek_geldi",
+        "egitim_fonu"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Bebek gelmeden bir eğitim hesabı açalım dedim. Ayda 300 Para.",
+      "en": "I thought we'd open an education fund before the baby comes. Three hundred a month."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Bankaya mı? Benim zamanımda para çay bahçesine yatırılırdı. Kuzeninin bahçesi büyüyor.",
+      "en": "A bank? In my day, money went into a tea garden. Your cousin's garden is expanding.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "hesap",
+      "tr": "Hesabı aç",
+      "en": "Open the fund",
+      "pattern": "patience"
+    },
+    {
+      "id": "vazgecir",
+      "tr": "Dayıyı nazikçe vazgeçir",
+      "en": "Gently talk your uncle down",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayıya 1.000 ver",
+      "en": "Give your uncle 1,000",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "hesap": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "egitim_fonu"
+          ]
+        }
+      },
+      "tr": "Hesap açıldı. İlk ekstrede alıcı olarak “Bebek (isim bekleniyor)” yazıyor.",
+      "en": "The fund is open. The first statement is addressed to “Baby (name pending).”",
+      "coach": [
+        {
+          "tr": "Hesap sahibi yolda. Hesap hazır.",
+          "en": "Account holder: en route. Account: ready.",
+          "roast": false
+        },
+        {
+          "tr": "Zarf açıldı: eğitim fonu.",
+          "en": "Envelope opened: education fund.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "vazgecir": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "egitim_fonu"
+            ]
+          }
+        },
+        "tr": "Dayın “peki, ama çay bahçesinde bir masa onun adına” dedi. Masa bedava.",
+        "en": "Your uncle relented: “Fine, but there's a table at the tea garden in the baby's name.” The table is free.",
+        "coach": [
+          {
+            "tr": "Fon kuruldu. Masa ayrıldı.",
+            "en": "Fund established. Table reserved.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1000,
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "dayi_cay_ortakligi"
+            ]
+          }
+        },
+        "tr": "Dayın ikna etti. Bin Para karşılığı bebeğe çay bahçesinden yüzde bir pay yazıldı, peçeteye.",
+        "en": "Your uncle won. For 1,000, the baby now owns one percent of a tea garden, written on a napkin.",
+        "coach": [
+          {
+            "tr": "Hisse senedi: peçete.",
+            "en": "Share certificate: napkin.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "money": -1000,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_cay_ortakligi"
+          ]
+        }
+      },
+      "tr": "Bin Para dayında. Dayın her pazar “bebeğin kârı” diye iki poğaça getiriyor.",
+      "en": "Your uncle holds the 1,000. Every Sunday he delivers “the baby's dividend”: two pastries.",
+      "coach": [
+        {
+          "tr": "Getiri: haftada iki poğaça.",
+          "en": "Yield: two pastries a week.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "vazgecir",
+    "slip": {
+      "tr": "İDDİA: Para çay bahçesine gider. — M.",
+      "en": "WAGER: The money ends up at the tea garden. — M."
+    }
+  },
+  "intent": {
+    "setup": "bebek gelmeden eğitim hesabı açmak, dayının parayı çay bahçesine yatırmayı önermesi",
+    "mechanism": "benim zamanımda çay bahçesi",
+    "mechanismId": "callback",
+    "punch": "hisse senedi peçete",
+    "lift": "zarf açıldı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pecete"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

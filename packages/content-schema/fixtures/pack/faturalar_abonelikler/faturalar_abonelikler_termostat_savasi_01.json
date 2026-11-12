@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_termostat_savasi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "dogalgaz",
+    "partner",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Termostatı yine 20'ye mi indirdin? Battaniyenin altındayım, görüyorsun.",
+      "en": "Did you drop the thermostat to 68 again? I'm under a blanket, in case you missed it."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Ben 23 yaptım. Fatura gelince konuşuruz.",
+      "en": "I set it to 73. We'll talk when the bill comes.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "orta",
+      "tr": "Ortada buluşmayı öner",
+      "en": "Propose meeting in the middle",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "battaniye",
+      "tr": "İkinci battaniye al",
+      "en": "Buy a second blanket",
+      "pattern": "generosity"
+    },
+    {
+      "id": "gizli",
+      "tr": "Gece gizlice kıs",
+      "en": "Turn it down at night, quietly",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "orta": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -150,
+          "flags": {
+            "add": [
+              "termostat_anlasmasi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "21,5 derecede anlaştınız. Doğalgaz faturası 150 Para arttı, tartışma bitti.",
+        "en": "You agreed on 71. The gas bill went up 150; the argument went away.",
+        "coach": [
+          {
+            "tr": "150 Para'lık bir ateşkes.",
+            "en": "A 150 ceasefire.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -320,
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "termostat_savasi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Anlaşma tutmadı, termostat günde altı kez el değiştirdi. Fatura 320 Para arttı.",
+        "en": "The truce failed; the thermostat changed hands six times a day. The bill rose 320.",
+        "coach": [
+          {
+            "tr": "Günde altı el değişimi. Kombi tarafsız kaldı.",
+            "en": "Six handovers a day. The boiler stayed neutral.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "battaniye": {
+      "effects": {
+        "money": -280,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ikinci_battaniye"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "İkinci battaniye 280 Para. Termostat 20'de kaldı, partnerin kanepede iki kat oturuyor.",
+      "en": "Blanket number two: 280. The thermostat stays at 68; your partner sits on the couch in two layers.",
+      "coach": [
+        {
+          "tr": "Kombiye zam yok. Kanepeye kat çıkıldı.",
+          "en": "The boiler got no raise. The couch got a second story.",
+          "roast": true
+        }
+      ]
+    },
+    "gizli": {
+      "effects": {
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "termostat_gizli"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Gece üçte termostatı kıstın. Sabah uygulamada 'son değiştiren' satırında adın yazıyordu.",
+      "en": "You turned it down at 3 a.m. By morning the app listed you under 'last changed by.'",
+      "coach": [
+        {
+          "tr": "Uygulama tanıklık etti.",
+          "en": "The app was a witness.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "partnerle kombi termostatını gizlice açıp kısma savaşı",
+    "mechanism": "termostat el değiştirdikçe fatura tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "kanepeye kat çıkıldı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tanik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_kamp_plani_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "dayOfMonth": {
+      "min": 22
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Hafta sonu kamp. Kişi başı 350, ulaşım dahil. Çadırı olan 100 eksik öder.",
+      "en": "Camping this weekend. Three-fifty a head, transport included. Bring a tent, pay a hundred less."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Bir de kömür, buz, yedek gaz var. Liste uzuyor, fiyat sabit. Şimdilik.",
+      "en": "Plus charcoal, ice, spare gas. The list grows, the price holds. For now."
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Git, 350'yi öde",
+      "en": "Go, pay the 350",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "cadir",
+      "tr": "Çadır bul, indirimi kap",
+      "en": "Find a tent, get the discount",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Bu sefer evde kal",
+      "en": "Sit this one out",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "money": -420,
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "butce_kamp_gidildi"
+          ]
+        }
+      },
+      "tr": "Kamp 350 değil 420 tuttu; buz ve gaz sonradan bölüşüldü. Fotoğraflar güzel çıktı.",
+      "en": "Camping came to 420, not 350: ice and gas got split afterward. The photos turned out great.",
+      "coach": [
+        {
+          "tr": "Liste uzadı. Fiyat da uzadı. Fotoğraflar bedava.",
+          "en": "The list grew. So did the price. The photos were free.",
+          "roast": true
+        }
+      ]
+    },
+    "cadir": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -320,
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "butce_kamp_gidildi",
+              "butce_kuzenin_cadiri"
+            ]
+          }
+        },
+        "tr": "Kuzeninden çadır ödünç aldın. 250 artı buz payıyla döndün.",
+        "en": "You borrowed a tent from your cousin and came back having paid 250 plus your share of ice.",
+        "coach": [
+          {
+            "tr": "Çadır yüz Para kazandırdı. Kuzene bir teşekkür borçlusun.",
+            "en": "The tent saved a hundred. Your cousin is owed a thank-you.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -420,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "butce_kamp_gidildi"
+            ]
+          }
+        },
+        "tr": "Ödünç çadırın direği eksik çıktı. İndirim geçersiz sayıldı, gece başkasının çadırında geçti.",
+        "en": "The borrowed tent was missing a pole. The discount got voided, and you spent the night in someone else's tent.",
+        "coach": [
+          {
+            "tr": "İndirim çadırla birlikte çöktü.",
+            "en": "The discount collapsed with the tent.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "butce_kamp_atlandi"
+          ]
+        }
+      },
+      "tr": "Evde kaldın. Pazartesi grup sohbetinde 186 fotoğraf vardı.",
+      "en": "You stayed home. By Monday the group chat had 186 photos.",
+      "coach": [
+        {
+          "tr": "Hesap sağlam. 186 fotoğrafın hiçbirinde etiketin yok.",
+          "en": "The account held. You are untagged in all 186 photos.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cadir",
+    "slip": {
+      "tr": "İDDİA: Ödünç çadır indirimi taşımaz. — M.",
+      "en": "WAGER: The borrowed tent won't hold up the discount. — M."
+    }
+  },
+  "intent": {
+    "setup": "ay sonunda ev arkadaşının kişi başı ücretli hafta sonu kamp planı getirmesi",
+    "mechanism": "sabit fiyat listeyle birlikte büyüyor",
+    "mechanismId": "escalation",
+    "punch": "indirim çadırla çöktü",
+    "lift": "hedef aktifse sayaç satırı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cadir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

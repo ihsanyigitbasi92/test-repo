@@ -1,0 +1,156 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_arayani_oyalamak_01",
+  "tags": [
+    "para",
+    "telefon",
+    "kargo",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 85
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kargo merkezinden arıyorum. Paketiniz adres hatasından bekliyor. Telefona gelen kodu okur musunuz?",
+      "en": "Shipping center calling. Your parcel is held over an address error. Can you read me the code we texted?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Hattan ayrılmayın lütfen, sistem bekliyor.",
+      "en": "Please stay on the line. The system is waiting.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kod",
+      "tr": "Kodu oku",
+      "en": "Read the code",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tursu",
+      "tr": "Turşu tarifini anlatmaya başla",
+      "en": "Start on your pickle recipe",
+      "pattern": "patience"
+    },
+    {
+      "id": "kapat",
+      "tr": "Kapat",
+      "en": "Hang up",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kod": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "kod_verildi"
+          ]
+        },
+        "glossary": "kargo_kodu_oltasi"
+      },
+      "tr": "Kodu okudun. Hesabından 900 Para'lık bir alışveriş geçti, paket hâlâ yoktu.",
+      "en": "You read it out. A 900 purchase went through on your account. Still no parcel.",
+      "coach": [
+        {
+          "tr": "Paket gelmedi. Ekstre geldi.",
+          "en": "No parcel came. The statement did.",
+          "roast": false
+        }
+      ]
+    },
+    "tursu": {
+      "effects": {
+        "stats": {
+          "joy": 5,
+          "brain": 2
+        },
+        "flags": {
+          "add": [
+            "dolandiriciyi_oyaladi"
+          ]
+        },
+        "glossary": "kargo_kodu_oltasi"
+      },
+      "tr": "Kırk dakika anlattın: tuz, sarımsak, nohut, kavanozun ağzı. Arayan sonunda \"teşekkürler, iyi günler\" deyip kendisi kapattı.",
+      "en": "Forty minutes: salt, garlic, chickpeas, how to seal the jar. The caller finally said \"Thank you, good day\" and hung up on you.",
+      "coach": [
+        {
+          "tr": "Kod istedi. Tarifle ayrıldı.",
+          "en": "He came for a code. He left with a recipe.",
+          "roast": false
+        }
+      ]
+    },
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kargo_aramasi_kapatildi"
+          ]
+        },
+        "glossary": "kargo_kodu_oltasi"
+      },
+      "tr": "Kapattın. Aynı numara akşam iki kez daha aradı, sonra sustu.",
+      "en": "You hung up. The same number tried twice more that evening, then gave up.",
+      "coach": [
+        {
+          "tr": "Üç arama, sıfır kod.",
+          "en": "Three calls. Zero codes.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kargo merkezinden aradığını söyleyen kişiyi kırk dakika turşu tarifiyle oyalamak",
+    "mechanism": "kod isteyen kişinin tarifle ayrılması",
+    "mechanismId": "callback",
+    "punch": "kod istedi, tarifle ayrıldı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tarif"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

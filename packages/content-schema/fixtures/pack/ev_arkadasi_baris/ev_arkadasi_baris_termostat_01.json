@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_termostat_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "season": [
+      "winter"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Termostat 27'deydi, kim 20'ye indirmiş? Ben şu an kazakla duş alıyorum.",
+      "en": "The thermostat was on 27. Who dropped it to 20? I'm showering in a sweater right now."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Uzlaşma önerim: 26. Sen fedakârlık yapıyorsun, ben de bir derece veriyorum.",
+      "en": "My compromise: 26. You make a sacrifice, and I give up one whole degree.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "uzlas",
+      "tr": "26'ya razı ol",
+      "en": "Accept 26",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "fatura",
+      "tr": "Faturayla ikna et",
+      "en": "Win with the bill",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "battaniye",
+      "tr": "Ona ısıtmalı battaniye al",
+      "en": "Buy Jordan a heated blanket",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "uzlas": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Termostat 26'da kaldı. Ay sonu ısınma payın 400 Para arttı.",
+      "en": "The thermostat stayed at 26. Your share of the heating bill went up 400.",
+      "coach": [
+        {
+          "tr": "Bir derece Barış'tan, altı derece senden. Fatura ikisini de saydı.",
+          "en": "One degree from Jordan, six from you. The bill counted both.",
+          "roast": true
+        }
+      ]
+    },
+    "fatura": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -100,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "termostat_anlasmasi"
+            ]
+          }
+        },
+        "tr": "Geçen ayın faturasını buzdolabına astın. Barış rakamı görünce 22'ye razı oldu ve kazağını çıkarmadı.",
+        "en": "You taped last month's bill to the fridge. Jordan saw the total, agreed to 22, and kept the sweater on.",
+        "coach": [
+          {
+            "tr": "Bir kâğıt, beş derece. Kazak yerinde kaldı.",
+            "en": "One sheet of paper, five degrees. The sweater stayed.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Barış faturayı okudu ve 'demek ki zaten pahalı, bari ısınalım' dedi. Termostat 27'ye döndü.",
+        "en": "Jordan read the bill and concluded: 'So it's already expensive. Might as well be warm.' Back to 27.",
+        "coach": [
+          {
+            "tr": "Aynı kâğıt. Okuyan başka sonuç çıkardı.",
+            "en": "Same bill. Different reader, different conclusion.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "battaniye": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 4,
+            "memory": "isitmali_battaniye"
+          }
+        ]
+      },
+      "tr": "250 Paralık ısıtmalı battaniye aldın. Barış artık salonda onu pelerin gibi giyip dolaşıyor; termostat 22'de.",
+      "en": "You bought a heated blanket for 250. Jordan now roams the living room wearing it like a cape. Thermostat: 22.",
+      "coach": [
+        {
+          "tr": "Termostat beş derece indi. Barış bir pelerin kazandı.",
+          "en": "Thermostat down five. Jordan up one cape.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "fatura",
+    "slip": {
+      "tr": "İDDİA: Fatura Barış'ı serinletmez. — M.",
+      "en": "WAGER: The bill won't cool Jordan down. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış termostatı 27'ye, sen 20'ye çekiyorsun; kış faturası",
+    "mechanism": "bir derecelik 'fedakârlık' sayılıyor",
+    "mechanismId": "count",
+    "punch": "ben de bir derece veriyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "derece"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

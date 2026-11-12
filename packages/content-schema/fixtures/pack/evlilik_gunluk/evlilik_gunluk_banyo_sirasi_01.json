@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_banyo_sirasi_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Banyo sabah yediyi on geçe ile yirmi beş geçe arası benim. Sonrası için sıcak su garantisi veremem.",
+      "en": "The bathroom is mine from 7:10 to 7:25. After that, I can’t guarantee hot water."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Çizelgeyi aynanın kenarına yapıştırdım. Renkli.",
+      "en": "I taped the schedule to the mirror. Color-coded.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "erken",
+      "tr": "Yarım saat erken kalk",
+      "en": "Get up half an hour earlier",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "aksam",
+      "tr": "Duşu akşama al",
+      "en": "Move your shower to the evening",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Sırayı yeniden pazarlık et",
+      "en": "Renegotiate the schedule",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "erken": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "banyo_erken"
+          ]
+        }
+      },
+      "tr": "Yarım saat erken kalktın. Banyo boştu, mutfak boştu, sen de biraz boştun.",
+      "en": "You got up thirty minutes early. Empty bathroom, empty kitchen, slightly empty you.",
+      "coach": [
+        {
+          "tr": "Sıcak su garantili. Uyku ayrıca satılıyor.",
+          "en": "Hot water guaranteed. Sleep sold separately.",
+          "roast": false
+        }
+      ]
+    },
+    "aksam": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "aksam_dusu"
+          ]
+        }
+      },
+      "tr": "Duş akşama geçti. Sabahlar artık tek kişilik, banyo tartışması kapandı.",
+      "en": "Showers moved to evenings. Mornings are single-occupancy now, and the bathroom dispute is closed.",
+      "coach": [
+        {
+          "tr": "Çizelgede senin rengin akşama taşındı.",
+          "en": "Your color on the chart moved to the evening.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef takvimi: sabahlar açıldı.",
+          "en": "Goal calendar: mornings freed.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "banyo_rotasyon"
+            ]
+          }
+        },
+        "tr": "Yeni çizelge: pazartesi, çarşamba ve cuma ilk sıra sende. Aynaya ikinci kâğıt yapıştırıldı.",
+        "en": "New schedule: Monday, Wednesday and Friday you go first. A second sheet joined the mirror.",
+        "coach": [
+          {
+            "tr": "Yeni sıra, eski ayna.",
+            "en": "New rotation. Same mirror.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "banyo_erken"
+            ]
+          }
+        },
+        "tr": "Pazarlık yirmi dakika sürdü. Banyoya girdiğinde sıcak su bitmişti.",
+        "en": "The negotiation took twenty minutes. By the time you got in, the hot water was gone.",
+        "coach": [
+          {
+            "tr": "Yirmi dakika pazarlık. Su beklemedi.",
+            "en": "Twenty minutes of talks. The water didn’t wait.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Pazarlık sıcak suyu bitirir. — M.",
+      "en": "WAGER: The talks outlast the hot water. — M."
+    }
+  },
+  "intent": {
+    "setup": "evli çiftin tek banyoda sabah sırası",
+    "mechanism": "partner banyo saatini çizelgeyle resmileştiriyor",
+    "mechanismId": "escalation",
+    "punch": "sıcak su garantisi veremem",
+    "lift": "Hedef takvimi: sabahlar açıldı.",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ayna"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

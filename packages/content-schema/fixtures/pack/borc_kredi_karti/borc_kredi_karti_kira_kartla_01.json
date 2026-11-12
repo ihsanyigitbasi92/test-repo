@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_kira_kartla_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "kira",
+    "banka",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Kiranızı kartla ödeyebilirsiniz. Ev sahibinize havale olarak geçer.",
+      "en": "You can pay your rent by card. Your landlord receives it as a bank transfer."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Küçük bir hizmet bedeli var. Ekranda görünmez, ekstrede görünür.",
+      "en": "There's a small service fee. You won't see it on screen. You'll see it on the statement.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kart",
+      "tr": "Kirayı kartla öde",
+      "en": "Put the rent on the card",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "iste",
+      "tr": "Ev sahibinden bir hafta iste",
+      "en": "Ask the landlord for a week",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden ödünç al",
+      "en": "Borrow from Mom",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "kart": {
+      "effects": {
+        "money": -190,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kira_kartla",
+            "kredi_karti_borcu"
+          ]
+        },
+        "glossary": "hizmet_bedeli"
+      },
+      "tr": "Kira zamanında yattı. Ekstrede 190 Para hizmet bedeli ve 2.400 Para'lık yeni bir borç vardı.",
+      "en": "Rent landed on time. The statement showed a 190 service fee and a fresh 2,400 balance.",
+      "coach": [
+        {
+          "tr": "Kira zamanında. Ekstre de.",
+          "en": "Rent on time. Statement too.",
+          "roast": false
+        }
+      ]
+    },
+    "iste": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "kira_ertelendi"
+            ]
+          }
+        },
+        "tr": "Ev sahibi bir haftaya razı oldu. Maaşın yattığı gün kira gönderildi.",
+        "en": "The landlord agreed to a week. Rent went out the day your salary hit.",
+        "coach": [
+          {
+            "tr": "Bir hafta, sıfır komisyon.",
+            "en": "One week. No fees.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -190,
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kira_kartla",
+              "kredi_karti_borcu"
+            ]
+          }
+        },
+        "tr": "Ev sahibi 'kira ayın biri' diye yazdı, dört dakika sonra aynı mesajı tekrar attı. Kira yine karttan çıktı.",
+        "en": "The landlord replied 'rent is due on the first,' then sent it again four minutes later. Rent went on the card anyway.",
+        "coach": [
+          {
+            "tr": "Dört dakikada iki mesaj. Ev sahibi hızlı yazıyor.",
+            "en": "Two texts in four minutes. Your landlord types fast.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 10
+        },
+        "flags": {
+          "add": [
+            "anneye_kira_borcu"
+          ]
+        },
+        "bailoutCheck": true
+      },
+      "tr": "Annen kirayı gönderdi. Açıklamada 'kira' yazıyordu, yanında üç nokta.",
+      "en": "Mom sent the rent. Memo: 'rent...' with the dots doing a lot of work.",
+      "coach": [
+        {
+          "tr": "Üç nokta, faizsiz.",
+          "en": "Three dots. Interest-free.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iste",
+    "slip": {
+      "tr": "İDDİA: Ev sahibi o haftayı vermez. — M.",
+      "en": "WAGER: The landlord won't give you the week. — M."
+    }
+  },
+  "intent": {
+    "setup": "maaş gecikince kirayı komisyonlu kart ödeme hizmetiyle kredi kartından ödemek",
+    "mechanism": "ücret ekranda yok, ekstrede var",
+    "mechanismId": "escalation",
+    "punch": "dört dakikada iki mesaj",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mesaj"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

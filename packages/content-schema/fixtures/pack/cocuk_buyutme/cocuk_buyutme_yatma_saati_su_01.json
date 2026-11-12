@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cocuk_buyutme_yatma_saati_su_01",
+  "tags": [
+    "ebeveynlik",
+    "uyku",
+    "ev",
+    "cocuk_buyutme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "cocuk_buyutme": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 36
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Su istiyorum. Mavi bardakta.",
+      "en": "I want water. In the blue cup."
+    },
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "Şimdi tuvalete gitmem lazım. Çünkü su içtim.",
+      "en": "Now I need the bathroom. Because I drank water.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kural",
+      "tr": "Tek istek kuralı koy",
+      "en": "Introduce a one-request rule",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "matara",
+      "tr": "Başucuna matara koy",
+      "en": "Leave a bottle by the bed",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "getir",
+      "tr": "Her isteği karşıla",
+      "en": "Fetch whatever is asked",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "kural": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "tek_istek_kurali"
+            ]
+          }
+        },
+        "tr": "Kural kabul edildi. Çocuğun tek isteğini \"üç parçalı bir istek\" olarak kullandı ama dokuzu on geçe uyudu.",
+        "en": "Rule accepted. Your kid spent the one request on \"a request with three parts,\" but was asleep by ten past nine.",
+        "coach": [
+          {
+            "tr": "Uyku saati yazıya geçti.",
+            "en": "Bedtime is now in writing.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "tek_istek_kurali"
+            ]
+          }
+        },
+        "tr": "Kural itirazla karşılandı. Müzakere kırk dakika sürdü; ikiniz aynı yatakta uyuyakaldınız.",
+        "en": "The rule was appealed. Talks ran forty minutes. You both fell asleep in the same bed.",
+        "coach": [
+          {
+            "tr": "Kural yürürlükte. Uygulaması yarın.",
+            "en": "The rule is in force. Enforcement starts tomorrow.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "matara": {
+      "effects": {
+        "money": -90,
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "basucu_matara"
+          ]
+        }
+      },
+      "tr": "Başucuna yeni bir matara kondu. Kapağı açıp kapatmak yeni oyun oldu; gece boyunca tık tık sesi geldi.",
+      "en": "A new water bottle went by the bed. Opening and closing the lid became the new game. It clicked all night.",
+      "coach": [
+        {
+          "tr": "Su meselesi kapandı. Kapak meselesi açıldı.",
+          "en": "The water issue is closed. The lid issue is open.",
+          "roast": false
+        }
+      ]
+    },
+    "getir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Koridoru yedi kez yürüdün. Son istek \"yarın için su\" oldu.",
+      "en": "Seven trips down the hallway. The final request: \"water for tomorrow.\"",
+      "coach": [
+        {
+          "tr": "Yarının suyu da hazır.",
+          "en": "Tomorrow's water is ready too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "yatma saatinde çocuğun bitmeyen su ve tuvalet istekleri zinciri",
+    "mechanism": "her istek bir sonrakini doğuruyor",
+    "mechanismId": "escalation",
+    "punch": "yarın için su",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "yarin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

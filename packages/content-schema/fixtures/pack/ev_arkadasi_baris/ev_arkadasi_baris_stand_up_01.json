@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_stand_up_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 34
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Cumartesi açık mikrofon gecesine çıkıyorum. Beş dakika. Konu: ev arkadaşım.",
+      "en": "I'm doing an open mic on Saturday. Five minutes. Topic: my roommate."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Seni çok iyi anlatıyorum. Bulaşık kısmında herkes kendini bulacak.",
+      "en": "I do you really well. Everyone will see themselves in the dishes bit.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Bir de ön sırada oturursan gerçekçilik artar.",
+      "en": "And if you sit in the front row, it adds realism."
+    }
+  ],
+  "choices": [
+    {
+      "id": "on_sira",
+      "tr": "Ön sırada otur",
+      "en": "Sit in the front row",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "mudahale",
+      "tr": "Metni önceden düzelt",
+      "en": "Edit the set beforehand",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gitme",
+      "tr": "O akşam başka planın olsun",
+      "en": "Have other plans that night",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "on_sira": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 4
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3,
+            "memory": "sahne_destegi"
+          }
+        ]
+      },
+      "tr": "Salon en çok bulaşık kısmına güldü. Barış seni sahneden gösterdi, otuz kişi sana döndü.",
+      "en": "The dishes bit killed. Jordan pointed you out from the stage and thirty people turned around.",
+      "coach": [
+        {
+          "tr": "Ön sıra. Otuz baş sana döndü.",
+          "en": "Front row. Thirty heads turned your way.",
+          "roast": false
+        }
+      ]
+    },
+    "mudahale": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "baris_sahne_yazari"
+            ]
+          }
+        },
+        "tr": "Bulaşık kısmını Barış'ın kendi tavasına çevirdin. Gecenin en büyük kahkahası o oldu; Barış seni artık 'metin yazarım' diye tanıtıyor.",
+        "en": "You flipped the dishes bit onto Jordan's own frying pan. Biggest laugh of the night. Jordan now introduces you as 'my writer.'",
+        "coach": [
+          {
+            "tr": "Bir espri yön değiştirdi. Kahkaha da.",
+            "en": "One joke switched targets. So did the laugh.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Düzeltilmiş metin sahnede sustu. Barış son anda eski bulaşık kısmına döndü ve en çok o güldürdü.",
+        "en": "The edited set died on stage. Jordan swerved back to the original dishes bit, and that's what got the laughs.",
+        "coach": [
+          {
+            "tr": "Eski metin kazandı. Bulaşıklar yerinde.",
+            "en": "The original set won. The dishes stay where they are.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gitme": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -3,
+            "memory": "sahneye_gelmedi"
+          }
+        ]
+      },
+      "tr": "Evde kaldın. Barış gece yarısı döndü ve gösterinin videosunu sana iki kez izletti.",
+      "en": "You stayed home. Jordan came back at midnight and made you watch the video twice.",
+      "coach": [
+        {
+          "tr": "Canlı izlemedin. Kayıttan iki kez izledin.",
+          "en": "You skipped it live. You saw it twice on tape.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "mudahale",
+    "slip": {
+      "tr": "İDDİA: Düzeltilen metin sahnede tutmaz. — M.",
+      "en": "WAGER: The edited set won't land. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış açık mikrofon gecesinde seni anlatan beş dakikalık bir gösteri yapıyor",
+    "mechanism": "malzeme olan kişi metne müdahale ediyor; espri sahibine dönüyor",
+    "mechanismId": "reversal",
+    "punch": "ön sırada oturursan gerçekçilik artar",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kayit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

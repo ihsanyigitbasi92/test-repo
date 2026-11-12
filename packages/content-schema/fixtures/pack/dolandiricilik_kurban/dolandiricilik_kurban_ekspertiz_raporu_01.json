@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_ekspertiz_raporu_01",
+  "tags": [
+    "para",
+    "araba",
+    "ikinci_el",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    },
+    "money": {
+      "min": 6000
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ekspertizi yaptırdım bile, tertemiz. Yeğenimin servisi, çok titizdir.",
+      "en": "Already had it inspected. Clean as a whistle. My nephew's garage. Very thorough."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Benim zamanımda araba alınırken kaput açılırdı. Bir de koklanırdı.",
+      "en": "Back in my day, you opened the hood. And you sniffed it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Raporla al",
+      "en": "Buy it on the report",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "servis",
+      "tr": "Kendi servisine götürmek iste",
+      "en": "Ask to take it to your garage",
+      "pattern": "patience",
+      "check": {
+        "base": 6500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayına koklat",
+      "en": "Let your uncle sniff it",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "al": {
+      "effects": {
+        "money": -6000,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 7
+        },
+        "flags": {
+          "add": [
+            "araba",
+            "ekspertizli_araba"
+          ]
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "araba"
+            ]
+          }
+        },
+        "glossary": "tanidik_ekspertiz"
+      },
+      "tr": "Arabayı aldın. İlk serviste usta motora bakıp \"iki kez boyanmış, bir kez de yüzmüş\" dedi.",
+      "en": "You bought it. At its first service, the mechanic said it had been repainted twice and gone swimming once.",
+      "coach": [
+        {
+          "tr": "Rapor tertemizdi. Araba da biraz fazla yıkanmış.",
+          "en": "The report was spotless. The car had just been washed a lot. Underwater.",
+          "roast": true
+        }
+      ]
+    },
+    "servis": [
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "brain": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "ekspertiz_tuzagi_fark"
+            ]
+          },
+          "glossary": "tanidik_ekspertiz"
+        },
+        "tr": "Kendi servisini önerdin. Yeğenin servisi o gün \"kapalıydı\", satıcı da ertesi günden beri telefonu açmıyor.",
+        "en": "You suggested your own garage. The nephew's place was suddenly \"closed today,\" and the seller has not answered since.",
+        "coach": [
+          {
+            "tr": "Satıcı ikinci bir muayeneden kaçtı. Senin yerine.",
+            "en": "The seller dodged a second inspection. On your behalf.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3500,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "araba_hala_yok"
+            ]
+          }
+        },
+        "tr": "Satıcı kabul etti, 300 Para'lık kontrol temiz çıktı. Araba bu arada başkasına satılmıştı.",
+        "en": "The seller agreed. Your 300 check came back clean. Meanwhile, the car had sold to someone else.",
+        "coach": [
+          {
+            "tr": "Araba gerçekten temizmiş. Başkasının garajında.",
+            "en": "The car really was clean. In someone else's garage.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "brain": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_kokladi"
+          ]
+        },
+        "glossary": "tanidik_ekspertiz"
+      },
+      "tr": "Dayın kaputu açıp kokladı, \"rutubet\" dedi. Bagaj halısının altından kum çıktı.",
+      "en": "Your uncle opened the hood, sniffed, and said \"damp.\" There was sand under the trunk mat.",
+      "coach": [
+        {
+          "tr": "Bir burun, bir raporu geçti.",
+          "en": "One nose outperformed one inspection report.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ikinci el araba alırken satıcının kendi yeğeninin servisinde yaptırdığı temiz ekspertiz raporu",
+    "mechanism": "yüzmüş arabayı fazla yıkanmış diye küçültmek",
+    "mechanismId": "understatement",
+    "punch": "biraz fazla yıkanmış",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kum"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

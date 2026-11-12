@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_ayni_gun_dugun_01",
+  "tags": [
+    "iliski",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Bizim oğlan da evleniyor. Tarih on dört haziran. Sizinki de mi on dört? Olsun.",
+      "en": "My boy’s getting married too. June fourteenth. Yours is the fourteenth? Fine."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Akrabalar öğlen bizde, akşam sizde. Benim zamanımda günde üç düğün gezerdik.",
+      "en": "Relatives do ours at lunch, yours at dinner. In my day we did three weddings a day.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kaydir",
+      "tr": "Tarihi bir hafta kaydır",
+      "en": "Move your date a week",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ortak",
+      "tr": "Ortak salon öner",
+      "en": "Suggest sharing one venue",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Tarihinde kal",
+      "en": "Keep your date",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kaydir": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "dugun_kaydi"
+          ]
+        }
+      },
+      "tr": "Düğün bir hafta kaydı, salon 500 Para fark istedi. Dayın “aklı başında” dedi.",
+      "en": "The wedding moved a week. The venue charged a 500 change fee. Your uncle called you “sensible.”",
+      "coach": [
+        {
+          "tr": "Bir hafta, 500 Para, bir iltifat.",
+          "en": "One week, 500, one compliment.",
+          "roast": false
+        }
+      ]
+    },
+    "ortak": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 2000,
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 5
+            }
+          ],
+          "flags": {
+            "add": [
+              "ortak_dugun"
+            ]
+          }
+        },
+        "tr": "İki düğün tek salonda yapıldı, masraf yarıya indi. Pastalar ayrı, halay ortaktı.",
+        "en": "Two weddings, one venue, half the cost. Separate cakes, one shared line dance.",
+        "coach": [
+          {
+            "tr": "İki düğün, tek fatura. Dayın hâlâ kendi pastasının daha büyük olduğunu söylüyor.",
+            "en": "Two weddings, one invoice. Your uncle still says his cake was bigger.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "dugun_cakisti"
+            ]
+          }
+        },
+        "tr": "Dayın teklifi “bizimkinin gölgesinde kalırsınız” diye geri çevirdi. Tarihler çakışık kaldı.",
+        "en": "Your uncle turned it down: “You’d be in our shadow.” The dates still clash.",
+        "coach": [
+          {
+            "tr": "Gölge teklifi reddedildi. Güneş paylaşılmıyor.",
+            "en": "The shadow offer was declined. Sunlight is not shared.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -3,
+            "memory": "ayni_gun"
+          }
+        ],
+        "flags": {
+          "add": [
+            "dugun_cakisti"
+          ]
+        }
+      },
+      "tr": "İki düğün aynı gün yapıldı. Akrabaların yarısı sana tatlıdan sonra, yorgun geldi.",
+      "en": "Both weddings happened the same day. Half your relatives showed up after dessert, exhausted.",
+      "coach": [
+        {
+          "tr": "Yarım akraba, tam düğün.",
+          "en": "Half the relatives. A whole wedding.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ortak",
+    "slip": {
+      "tr": "İDDİA: Dayın salonu paylaşmaz. — M.",
+      "en": "WAGER: Your uncle won’t share a venue. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının oğlunun düğün tarihinin seninkiyle çakışması",
+    "mechanism": "dayı çakışmayı akraba turuna çevirerek büyütüyor",
+    "mechanismId": "escalation",
+    "punch": "günde üç düğün gezerdik",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "halay"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

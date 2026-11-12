@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_ipotek_kaldirma_01",
+  "tags": [
+    "para",
+    "kredi",
+    "konut",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc",
+        "konut_kredisi"
+      ]
+    },
+    "housing": [
+      "mortgage"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "TURNA BANKASI (kurgusal)",
+      "en": "CRANE BANK (fictional)"
+    },
+    "body": {
+      "tr": "Konut kredinizin tamamı ödenmiştir. İpoteğin kaldırılması için yazımız tapu dairesine gönderilmiştir; işlemi şahsen tamamlamanız gerekmektedir.",
+      "en": "Your mortgage has been paid in full. Our letter for the lien release has been sent to the land registry; the process must be completed in person."
+    },
+    "translate": {
+      "tr": {
+        "from": "şahsen tamamlamanız gerekmektedir",
+        "to": "son bir sıra daha"
+      },
+      "en": {
+        "from": "must be completed in person",
+        "to": "one last line to stand in"
+      }
+    },
+    "glossaryKey": "ipotek_kaldirma"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Yirmi yıllık müşterimizsiniz. Bu yazıyı vermek bizim için de mutluluk.",
+      "en": "Twenty years with us. Handing you this letter is a pleasure for us too."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Tapu dairesine kimliğiniz ve bu yazıyla gidin. Fotokopisini de alın.",
+      "en": "Take your ID and this letter to the land registry. Bring a photocopy.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Ertesi sabah tapuya git",
+      "en": "Go to the registry next morning",
+      "pattern": "patience"
+    },
+    {
+      "id": "kutla",
+      "tr": "Önce kutlama yemeği",
+      "en": "Celebrate first",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "ertele",
+      "tr": "Bir ara giderim",
+      "en": "You'll go sometime",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "flags": {
+          "add": [
+            "ipotek_kaldirildi"
+          ],
+          "remove": [
+            "konut_kredisi"
+          ]
+        },
+        "housing": "owned",
+        "status": {
+          "home": {
+            "kind": "owned",
+            "rent": 0
+          }
+        }
+      },
+      "tr": "Sıra kırk dakika sürdü, imza iki saniye. Tapu artık tertemiz.",
+      "en": "Forty minutes in line; two seconds to sign. The deed is clean.",
+      "coach": [
+        {
+          "tr": "Kırk dakika, yirmi yıl.",
+          "en": "Forty minutes. Twenty years.",
+          "roast": false
+        }
+      ]
+    },
+    "kutla": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 5
+        },
+        "flags": {
+          "add": [
+            "ipotek_yazisi_bekliyor"
+          ],
+          "remove": [
+            "konut_kredisi"
+          ]
+        }
+      },
+      "tr": "Kutlama yemeği 900 Para tuttu. Yazı çekmecede, gelecek haftayı bekliyor.",
+      "en": "The celebration dinner came to 900. The letter waits in a drawer for next week.",
+      "coach": [
+        {
+          "tr": "Yirmi yıla bir akşam yemeği.",
+          "en": "One dinner for twenty years.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ipotek_yazisi_bekliyor"
+          ],
+          "remove": [
+            "konut_kredisi"
+          ]
+        }
+      },
+      "tr": "Yazı çekmecede kaldı. Kredi bitti, ipotek kayıtta duruyor.",
+      "en": "The letter stays in the drawer. The loan is gone; the lien is still on record.",
+      "coach": [
+        {
+          "tr": "Bir imza bekliyor.",
+          "en": "One signature outstanding.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "kapanan konut kredisinin ardından ipotek kaldırma yazısıyla tapu dairesine son kez sıraya girmek",
+    "mechanism": "yirmi yıllık borcun sonu kırk dakikalık bir sıra",
+    "mechanismId": "translation",
+    "punch": "kırk dakika sıra, iki saniye imza",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

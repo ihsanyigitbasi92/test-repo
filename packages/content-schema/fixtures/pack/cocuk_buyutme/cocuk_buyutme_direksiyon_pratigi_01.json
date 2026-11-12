@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cocuk_buyutme_direksiyon_pratigi_01",
+  "tags": [
+    "ebeveynlik",
+    "ergen",
+    "araba",
+    "cocuk_buyutme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "cocuk_buyutme": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 56
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Ehliyet kursu yetmiyormuş. Hoca evde de pratik yapsın dedi.",
+      "en": "Driving school isn't enough. The instructor says I need practice at home."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Ben yapmam. Geçen sefer kaldırıma çıkan bendim.",
+      "en": "Not me. I'm the one who hopped the curb last time.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "otopark",
+      "tr": "Boş otoparkta başla",
+      "en": "Start in an empty parking lot",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "kurs",
+      "tr": "Ek ders saati al",
+      "en": "Pay for extra lessons",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sonra",
+      "tr": "Sınavdan sonraya bırak",
+      "en": "Put it off until after the test",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "otopark": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "direksiyon_pratigi"
+            ]
+          }
+        },
+        "tr": "Pazar sabahı boş otoparkta iki saat. Çocuğun park etmeyi senden iyi yaptı ve bundan hiç bahsetmedi.",
+        "en": "Two hours in an empty lot on Sunday morning. Your kid parked better than you, and never brought it up.",
+        "coach": [
+          {
+            "tr": "Park edildi. Yorum yapılmadı.",
+            "en": "Parked. No comments were made.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "direksiyon_pratigi",
+              "tampon_izi"
+            ]
+          }
+        },
+        "tr": "Otoparktaki tek direk bulundu. Hasar yok; tamponda direk şeklinde bir iz var.",
+        "en": "The lot's only pole was located. No damage, apart from a pole-shaped mark on the bumper.",
+        "coach": [
+          {
+            "tr": "Otoparkta tek engel vardı. O da bulundu.",
+            "en": "The lot had one obstacle. It was found.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kurs": {
+      "effects": {
+        "money": -1200,
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "direksiyon_pratigi",
+            "ek_direksiyon_dersi"
+          ]
+        }
+      },
+      "tr": "Dört ek saat 1.200 Para. Hoca dönüşte arabadan \"evde pratik yine şart\" diye seslendi.",
+      "en": "Four extra hours: 1,200. As you left, the instructor called out, \"Home practice is still a must.\"",
+      "coach": [
+        {
+          "tr": "Dört saat satın alındı. Ev ödevi duruyor.",
+          "en": "Four hours purchased. The homework stands.",
+          "roast": false
+        }
+      ]
+    },
+    "sonra": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "baska_egitmen"
+          ]
+        }
+      },
+      "tr": "Pratik ertelendi. Çocuğun pratiği bir arkadaşının ebeveyniyle yaptı ve dönüşte ondan bahsetmeye devam ediyor.",
+      "en": "Practice got postponed. Your kid practiced with a friend's parent instead, and keeps bringing them up.",
+      "coach": [
+        {
+          "tr": "Yedek eğitmen bulundu. Yorumları iyi.",
+          "en": "A substitute instructor was found. Good reviews.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "otopark",
+    "slip": {
+      "tr": "İDDİA: Otoparkın tek direği bulunur. — M.",
+      "en": "WAGER: The lot's one pole gets found. — M."
+    }
+  },
+  "intent": {
+    "setup": "ergen çocuğun ehliyet için evde direksiyon pratiği istemesi",
+    "mechanism": "partnerin kaldırım geçmişi; çocuk ebeveynden iyi park ediyor",
+    "mechanismId": "callback",
+    "punch": "geçen sefer kaldırıma çıkan bendim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "direk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
