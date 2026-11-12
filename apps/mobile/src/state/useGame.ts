@@ -35,6 +35,10 @@ import type { MomentHistory, MomentKind, MomentReason, MomentView } from '../ava
 import { SAVE_KEY, decodeSave, encodeSave, engineShape, feedForSave, saveMatchesContent } from './save';
 import type { SaveV1 } from './save';
 import { readItem, writeItem } from './storage';
+import { ads, registerAdDebug } from '../ads/runtime';
+import { AD_CONFIG } from '../ads/config';
+import { adGameContext, grantMoney, isGriefScene } from '../ads/gameContext';
+import type { Offer } from '../ads/adService';
 
 export type Mood = 'neutral' | 'smirk' | 'shock' | 'sad';
 export type Stage = 'file' | 'play' | 'death';
@@ -88,6 +92,10 @@ export interface Snapshot {
   playerMood: FaceMood;
   /** Full-screen avatar moment ("arada bir efektli an"). Time stops while it is up; tap skips. */
   moment: MomentView | null;
+  /** Ad layer: a rewarded offer waiting for the player's answer (time stops, as for a choice). */
+  offer: Offer | null;
+  /** Ad layer: a full-screen ad / consent view is up, or the return slot is being decided (clock and beats wait). */
+  adBreak: boolean;
 }
 
 /** `hold`: after `run`, the beat queue waits until the moment it opened is dismissed (timer or tap). */
@@ -185,8 +193,10 @@ export class GameController {
       stage: 'file', locale, speed: 'play', auto: false, fastLife: false, view: null, lifeNo: 1, feed: [], floats: [],
       progress: 0, candidate: this.pickName(locale, -1), mood: 'neutral', bigStamp: null, shake: { key: 0, hard: false }, flash: null,
       ageUp: null, death: null, session: null, suggestEnd: false, booting: true, busy: true, unread: 9, typeMs: PLAY.typeMs,
-      draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: 0, look: null, playerMood: 'neutral', moment: null,
+      draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: 0, look: null, playerMood: 'neutral', moment: null, offer: null, adBreak: false,
     };
+    registerAdDebug('offer', () => this.debugOffer());
+    registerAdDebug('returnSlot', (awayHours = 7) => this.enqueue([{ wait: 0, run: () => this.returnSlot(awayHours * 3_600_000), hold: true }]));
   }
 
   // ── store plumbing ────────────────────────────────────────────────────────
@@ -230,6 +240,7 @@ export class GameController {
   uncover = (): void => {
     if (!this.covered) return;
     this.covered = false;
+    for (const w of this.uncoverWaiters.splice(0)) w();
     this.scheduleAuto();
   };
 
@@ -283,6 +294,8 @@ export class GameController {
       feed: [...feed, { id: this.id(), kind: 'coach', ui: { k: 'resumed' } }],
     });
     this.set({ typeMs: this.t().typeMs });
+    // Ad layer return slot (D-084): decided before the first input, while the splash still covers the screen.
+    this.enqueue([{ wait: 0, run: () => this.returnSlot(Date.now() - save.savedAt), hold: true }]);
     this.scheduleAuto();
   }
 
@@ -339,6 +352,15 @@ export class GameController {
         this.appStateSub = AppState.addEventListener('change', (st) => {
           if (st === 'background' && this.snap.stage === 'play') this.drainBeats();          // the app may be killed next
           if (st === 'background' || st === 'inactive') this.persist(true);
+          if (st === 'background') this.backgroundAt ||= Date.now();
+          if (st === 'active' && this.backgroundAt) {                                         // back after a real break: new session, return slot
+            const away = Date.now() - this.backgroundAt;
+            this.backgroundAt = 0;
+            if (away >= AD_CONFIG.session.gapMs) {
+              ads.foreground();
+              if (this.snap.stage === 'play' && !this.snap.adBreak && !this.snap.booting) this.enqueue([{ wait: 0, run: () => this.returnSlot(away), hold: true }]);
+            }
+          }
         });
       } catch { this.appStateSub = null; }
     }
@@ -367,10 +389,10 @@ export class GameController {
   }
   private pump(): void {
     const b = this.queue.shift();
-    if (!b) { this.beatTimer = null; this.set({ busy: false }); this.scheduleAuto(); this.persist(); return; }
+    if (!b) { this.beatTimer = null; this.set({ busy: false }); this.maybeOffer(); this.scheduleAuto(); this.persist(); return; }
     this.beatTimer = setTimeout(() => {
       b.run();
-      if (b.hold && this.snap.moment) { this.beatTimer = null; this.held = true; return; }
+      if (b.hold && (this.snap.moment || this.snap.adBreak)) { this.beatTimer = null; this.held = true; return; }
       this.pump();
     }, b.wait);
   }
@@ -453,6 +475,7 @@ export class GameController {
         case 'SHOW_DAY': {
           const c = e.card;
           const birthday = c.eventId === 'sys_report_card';
+          if (isGriefScene(eventById(c.eventId)?.tags)) ads.noteGrief(st.lifeSeed, st.counters.shownDays);   // quiet zone: no commercial surface around a loss
           beats.push({ wait: 0, run: () => {
             const gap = st.calendar.skippedSinceLast;
             const unread = c.dayIndex <= 1 ? this.snap.unread : Math.min(99, this.snap.unread + unreadGain(gap));
@@ -637,11 +660,12 @@ export class GameController {
 
   private die(st: LifeState): void {
     this.clearAuto();
+    ads.noteDeath();                                                          // D-007: the death flow has no ad surface at all
     const birthYear = Number(st.calendar.startDateISO.slice(0, 4)) - 18;
     const s = CATALOG[this.snap.locale];
     // Auto never carries into the next life: the player picks the next client's name themselves.
     this.set({
-      stage: 'death', mood: 'sad', playerMood: 'dead', moment: null, auto: false, typeMs: (this.snap.speed === 'fast' ? FAST : PLAY).typeMs, progress: 0, suggestEnd: false, session: null, bigStamp: null,
+      stage: 'death', mood: 'sad', playerMood: 'dead', moment: null, offer: null, auto: false, typeMs: (this.snap.speed === 'fast' ? FAST : PLAY).typeMs, progress: 0, suggestEnd: false, session: null, bigStamp: null,
       death: {
         roast: buildRoast(st), name: st.name, birthYear, deathYear: birthYear + (st.death?.age ?? st.calendar.age),
         epitaph: this.lastMotto ? mottoLine(s, this.lastMotto, this.lastReport?.ritual?.motto ?? 0) : null, autoDays: this.autoDays, report: this.lastReport,
@@ -652,10 +676,99 @@ export class GameController {
     this.saveNow();                                                          // the life is over: keep the legacy, drop the life
   }
 
+  // ── ad layer (src/ads, docs/design/15) ────────────────────────────────────
+  private backgroundAt = 0;
+  private uncoverWaiters: (() => void)[] = [];
+  private adGame(): ReturnType<typeof adGameContext> {
+    const s = this.snap;
+    return adGameContext(this.state, { stage: s.stage, busy: s.busy, auto: s.auto, lifeNo: s.lifeNo });
+  }
+
+  /**
+   * Return slot (D-084): the only place an interstitial can come from — the player is back after a long break,
+   * the "where were we" line is up, nothing has been tapped yet. It holds the beat queue (so no choice is on
+   * screen and the clock stands), lets the ad layer pick at most ONE thing (consent step, ATT pre-prompt or the
+   * announced interstitial), then releases. Usually it releases at once: nothing is due.
+   */
+  private returnSlot(awayMs: number): void {
+    this.set({ adBreak: true });
+    void (async () => {
+      try {
+        await ads.ready();
+        if (this.covered) await new Promise<void>((r) => { this.uncoverWaiters.push(r); });
+        const slot = ads.returnSlot(this.adGame(), awayMs);
+        if (!slot) return;
+        if (slot !== 'att') {
+          // Announced, never sudden: the coach says it first (06 §2.4, Google "unexpected full-screen" rule).
+          this.push({ id: this.id(), kind: 'coach', ui: { k: slot === 'interstitial' ? 'adIncoming' : 'adConsentIntro' } });
+          await new Promise<void>((r) => { this.later(AD_CONFIG.interstitial.noticeMs, r); });
+        }
+        if (this.snap.stage === 'play') await ads.runReturnSlot(slot, this.adGame(), awayMs);
+      } catch (e) { console.warn('[ads] return slot failed:', e); }
+      finally { this.endAdBreak(); }
+    })();
+  }
+
+  private endAdBreak(): void {
+    this.set({ adBreak: false });
+    if (this.held) { this.held = false; this.pump(); } else this.scheduleAuto();
+  }
+
+  /** Rewarded offer (D-085 b): on an ordinary payday, once the day's lines are done and no choice is open. */
+  private maybeOffer(): void {
+    if (!this.state || this.snap.offer || this.snap.session || this.snap.adBreak) return;
+    const offer = ads.offer('sponsor', this.adGame());
+    if (offer) this.mountOffer(offer);
+  }
+
+  private mountOffer(offer: Offer): void {
+    this.push({ id: this.id(), kind: 'coach', ui: { k: offer.free ? 'adSponsorFree' : 'adSponsorOffer', a: [offer.amount] } });
+    this.set({ offer });
+  }
+
+  /** Demo / test hook (registered only outside production): the payday trigger is skipped, every cap still applies. */
+  private debugOffer(): unknown {
+    const g = { ...this.adGame(), payday: true };
+    if (g.monthlySalary <= 0) g.monthlySalary = 4000;
+    const why = ads.offerDecision('sponsor', g);
+    const offer = this.snap.offer ? null : ads.offer('sponsor', g);
+    if (offer) this.mountOffer(offer);
+    return offer ?? why;
+  }
+
+  /** [Watch ad → get X]: the reward exists only if the ad was watched to the end (or the no-ads entitlement skips it). */
+  acceptOffer = (): void => {
+    const offer = this.snap.offer, st = this.state;
+    if (!offer || this.snap.adBreak || !st) return;
+    haptic.selection();
+    this.set({ adBreak: true });
+    void ads.claim(offer, this.adGame()).then((r) => {
+      this.set({ offer: null });
+      const now = this.state;
+      if (r.rewarded && now && now.lifeSeed === st.lifeSeed && !now.death) {      // earned → granted, always (06 §2.1 principle 4)
+        this.state = grantMoney(now, offer.amount);
+        this.set({ view: this.state });
+        this.push({ id: this.id(), kind: 'coach', ui: { k: 'adSponsorGranted', a: [offer.amount] } });
+        this.spawnFloats([{ stat: 'money', delta: offer.amount }]);
+        haptic.success();
+      } else if (!r.rewarded) this.push({ id: this.id(), kind: 'coach', ui: { k: r.reason === 'closed' ? 'adClosedEarly' : 'adNoFill' } });
+    }).catch((e) => { console.warn('[ads] claim failed:', e); this.set({ offer: null }); })
+      .finally(() => { this.endAdBreak(); this.persist(true); });
+  };
+
+  /** [No thanks]: the card closes, the coach says nothing (06 §3.2), nothing is lost. */
+  declineOffer = (): void => {
+    if (!this.snap.offer || this.snap.adBreak) return;
+    haptic.selection();
+    this.set({ offer: null });
+    this.scheduleAuto();
+  };
+
   // ── clock (D-066) ─────────────────────────────────────────────────────────
   private tick(): void {
     const s = this.snap, st = this.state;
-    if (s.stage !== 'play' || s.busy || !st || s.ageUp || s.moment || s.session || s.speed === 'pause' || this.covered) return;
+    if (s.stage === 'play' && !this.covered && !s.adBreak && !s.session) ads.tickPlay(TICK);   // play clock since install (first 10 min are ad-free)
+    if (s.stage !== 'play' || s.busy || !st || s.ageUp || s.moment || s.offer || s.adBreak || s.session || s.speed === 'pause' || this.covered) return;
     if (!PHASES_FLOW.has(st.phase)) return;
     const p = s.progress + TICK / this.t().dayFlow;
     if (p >= 1) { this.set({ progress: 1 }); this.nextDay(); } else this.set({ progress: p });
@@ -674,7 +787,8 @@ export class GameController {
   private scheduleAuto(): void {
     this.clearAuto();
     const s = this.snap;
-    if (!s.auto || s.busy || s.speed === 'pause' || s.session || this.covered || s.booting) return;
+    if (s.auto && s.offer) { this.declineOffer(); return; }                  // auto never answers an offer with "watch"
+    if (!s.auto || s.busy || s.adBreak || s.speed === 'pause' || s.session || this.covered || s.booting) return;
     const t = this.t();
     // FTUE only: on the very first Client File auto may keep the name; after a death the player always picks.
     if (s.stage === 'file') { if (s.lifeNo === 1 && !this.meta.legacy.livesCompleted) this.autoTimer = setTimeout(() => this.keepName(), 1800); return; }
@@ -844,7 +958,7 @@ export class GameController {
     this.state = null;
     this.set({
       stage: 'file', view: null, death: null, feed: [], floats: [], busy: false, progress: 0, mood: 'neutral', bigStamp: null, flash: null,
-      ageUp: null, suggestEnd: false, session: null, auto: false, candidate: this.pickName(this.snap.locale, this.snap.candidate.i),
+      ageUp: null, suggestEnd: false, session: null, offer: null, auto: false, candidate: this.pickName(this.snap.locale, this.snap.candidate.i),
       lifeNo: this.meta.legacy.livesCompleted + 1,
       draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: this.snap.lookNonce + 1, look: null, playerMood: 'neutral', moment: null,
     });

@@ -11,12 +11,13 @@
  * Not exercised by unit tests (no native module in node) — see docs/design/15 §9 for the device test plan.
  */
 import { Platform } from 'react-native';
+import type { InterstitialAd, RewardedAd } from 'react-native-google-mobile-ads';
 import { adUnitId, type AdConfig } from './config';
 import type { AdConsentApi, AdFormat, AdProvider, AdRequestPrefs, ConsentInfo, InterstitialResult, RewardedResult, TrackingStatus } from './types';
 
 type Lib = typeof import('react-native-google-mobile-ads');
 type Tracking = typeof import('expo-tracking-transparency');
-type Loaded = InstanceType<Lib['RewardedAd']> | InstanceType<Lib['InterstitialAd']>;
+type Loaded = RewardedAd | InterstitialAd;
 
 const UNKNOWN: ConsentInfo = { status: 'unknown', canRequestAds: false, privacyOptionsRequired: false, personalized: false };
 
@@ -96,7 +97,7 @@ export class AdMobProvider implements AdProvider {
   async showRewarded(): Promise<RewardedResult> {
     if (!this.initialized) return { rewarded: false, reason: 'error' };
     const L = this.lib();
-    const ad = await this.take('rewarded') as InstanceType<Lib['RewardedAd']> | null;
+    const ad = await this.take('rewarded') as RewardedAd | null;
     if (!ad) return { rewarded: false, reason: 'noFill' };
     return new Promise<RewardedResult>((resolve) => {
       let earned = false;
@@ -113,7 +114,7 @@ export class AdMobProvider implements AdProvider {
     const L = this.lib();
     // An interstitial is never worth waiting for: only an already loaded one is shown.
     if (!this.isReady('interstitial')) { this.preload('interstitial'); return { shown: false, reason: 'noFill' }; }
-    const ad = await this.take('interstitial') as InstanceType<Lib['InterstitialAd']> | null;
+    const ad = await this.take('interstitial') as InterstitialAd | null;
     if (!ad) return { shown: false, reason: 'noFill' };
     return new Promise<InterstitialResult>((resolve) => {
       const done = (r: InterstitialResult) => { ad.removeAllListeners(); resolve(r); };

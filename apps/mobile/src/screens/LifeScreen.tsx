@@ -19,6 +19,8 @@ import { DeathFlow } from '../components/DeathFlow';
 import { AvatarMoment } from '../components/AvatarMoment';
 import { SettingsSheet } from '../components/SettingsSheet';
 import { ShopScreen } from './ShopScreen';
+import { AdHost } from '../ads/AdHost';
+import { PrivacyEntry, RewardedOfferButtons } from '../ads/OfferButtons';
 import type { Speed } from '@motto/engine';
 
 export function LifeScreen() {
@@ -51,6 +53,7 @@ export function LifeScreen() {
   } else if (snap.stage === 'play' && ready && v) {
     if (phase === 'day' && v.card) decision = <ChoiceButtons card={v.card} onPick={(id) => game.answer(id)} />;
     else if (phase === 'birthday') decision = <PrimaryButton label={s.cta.oneMoreYear} onPress={game.oneMoreYear} pulse testID="one-more-year" />;
+    else if (snap.offer) decision = snap.adBreak ? null : <RewardedOfferButtons offer={snap.offer} onAccept={game.acceptOffer} onDecline={game.declineOffer} />;   // opt-in rewarded offer (docs/design/15)
     else if (snap.speed === 'pause') decision = <PrimaryButton label={s.cta.nextDay} onPress={game.nextDayManual} testID="next-day" />;
   }
 
@@ -83,9 +86,10 @@ export function LifeScreen() {
           <BigStamp stamp={snap.bigStamp} />
           <AgeUp ageUp={snap.ageUp} />
           {snap.moment && snap.look && <AvatarMoment key={snap.moment.id} moment={snap.moment} look={snap.look} onSkip={game.skipMoment} />}
-          <SessionSheet session={snap.session} onContinue={game.closeSession} onClose={game.closeForToday} />
+          <SessionSheet session={snap.session} onContinue={game.closeSession} onClose={game.closeForToday} footer={<PrivacyEntry />} />
           <SettingsSheet open={settingsOpen} onClose={() => setSettingsOpen(false)} />
           <ShopScreen open={shopOpen} onClose={closeShop} />
+          <AdHost />
           {snap.stage === 'death' && snap.death && <DeathFlow death={snap.death} onNewClient={game.newClient} />}
         </View>
       </View>

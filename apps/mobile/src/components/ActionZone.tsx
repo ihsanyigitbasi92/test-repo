@@ -93,7 +93,7 @@ const st = StyleSheet.create({
   primaryTxt: { fontFamily: fonts.stamp, fontSize: 16, letterSpacing: 1.8, color: colors.limeInk },
   row: { flexDirection: 'row', gap: 8 },
   ghost: { flex: 1, minHeight: 40, borderWidth: 1.5, borderStyle: 'dashed', borderColor: colors.line, borderRadius: 8, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8 },
-  ghostIcon: { flex: 0, width: 44, paddingHorizontal: 0 },
+  ghostIcon: { flexGrow: 0, flexShrink: 0, flexBasis: 44, width: 44, paddingHorizontal: 0 },
   ghostGlyph: { fontSize: 20, lineHeight: 22, fontWeight: '700', color: colors.ink2 },
   ghostOn: { backgroundColor: colors.lime, borderColor: colors.lime, borderStyle: 'solid' },
   ghostHi: { borderColor: colors.note },

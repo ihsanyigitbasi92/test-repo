@@ -28,8 +28,9 @@ export const SFX = {
   money_loss: { variants: 1, gain: 0.45, gapMs: 200, pri: 1 },
   stat_up: { variants: 2, gain: 0.3, gapMs: 150, pri: 0 },
   stat_down: { variants: 2, gain: 0.3, gapMs: 150, pri: 0 },
-  payday: { variants: 1, gain: 0.55, gapMs: 1000, pri: 1 },
-  bill: { variants: 1, gain: 0.5, gapMs: 1000, pri: 1 },
+  // Income / rent lines come every few shown days: softer, and at most one each per ~6 s (the feed line always shows).
+  payday: { variants: 1, gain: 0.42, gapMs: 6000, pri: 1 },
+  bill: { variants: 1, gain: 0.4, gapMs: 6000, pri: 1 },
   phone_ring: { variants: 1, gain: 0.5, gapMs: 1500, pri: 2 },
   page_turn: { variants: 1, gain: 0.5, gapMs: 250, pri: 1 },
   birthday: { variants: 1, gain: 0.55, gapMs: 1000, pri: 2 },

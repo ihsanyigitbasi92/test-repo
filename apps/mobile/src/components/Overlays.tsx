@@ -99,8 +99,10 @@ export function AgeUp({ ageUp }: { ageUp: { from: number; to: number } | null })
  * "Enough for today" (07 §2.2.1): Close and Continue, equal weight — a healthy stop is never the lesser button
  * (playtest 2026-11-12, davranış §5). After Close the sheet turns into the quiet "saved" state.
  */
-export function SessionSheet({ session, onContinue, onClose }: {
+export function SessionSheet({ session, onContinue, onClose, footer }: {
   session: { years: number; days: number; closed?: boolean } | null; onContinue: () => void; onClose: () => void;
+  /** Quiet row under the buttons (the ad layer's "Privacy / ad preferences" entry). */
+  footer?: React.ReactNode;
 }) {
   const { s, locale } = useI18n();
   if (!session) return null;
@@ -123,6 +125,7 @@ export function SessionSheet({ session, onContinue, onClose }: {
             <View style={st.flex1}><PrimaryButton label={s.cta.cont} onPress={onContinue} testID="session-continue" /></View>
           </View>
         )}
+        {footer}
       </View>
     </View>
   );

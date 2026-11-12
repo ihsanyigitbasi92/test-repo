@@ -15,7 +15,7 @@ export const VOLUME_STEPS = [0.35, 0.6, 0.9] as const;
 function Switch({ on, onToggle, label, testID }: { on: boolean; onToggle: () => void; label: string; testID: string }) {
   const { s } = useI18n();
   return (
-    <Pressable onPress={onToggle} accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: on }} testID={testID}
+    <Pressable onPress={onToggle} accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: on }} aria-checked={on} testID={testID}
       style={({ pressed }) => [st.sw, on && st.swOn, pressed && st.pressed]}>
       <Text style={[st.swTxt, on && st.swTxtOn]}>{on ? s.settings.on : s.settings.off}</Text>
     </Pressable>
