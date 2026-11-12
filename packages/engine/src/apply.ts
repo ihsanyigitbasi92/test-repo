@@ -68,7 +68,7 @@ export function applyEffects(
     moneyDelta(st, m);
     out.push({ kind: 'FLOAT_NUM', stat: 'money', delta: m });
   }
-  const wasMarried = st.flags.includes('evli');
+  const wasMarried = st.flags.includes('evli'), hadPartner = st.status.partner !== null;
   for (const f of fx.flags?.add ?? []) addFlag(st, f);
   for (const f of fx.flags?.remove ?? []) removeFlag(st, f);
   for (const n of fx.npc ?? []) {
@@ -99,7 +99,7 @@ export function applyEffects(
     for (const a of s.assets?.add ?? []) if (!st.status.assets.includes(a)) st.status.assets.push(a);
     for (const a of s.assets?.remove ?? []) st.status.assets = st.status.assets.filter((x) => x !== a);
   }
-  relationshipContinuity(st, wasMarried);
+  relationshipContinuity(st, wasMarried, hadPartner);
   const idx = indexContent(content);
   for (const fu of fx.followUp ?? []) {
     const target = idx.byId.get(fu.eventId);
@@ -128,9 +128,18 @@ export function applyEffects(
  * Playtest 2026-11-12 continuity: married tenure counts from the wedding (HUD "Evli · N yıldır" read `since` from the
  * first date), and a single life carries no engagement (a stale `nisanli` let a ring-congratulation fire on "Bekâr").
  */
-function relationshipContinuity(st: LifeState, wasMarried: boolean): void {
+function relationshipContinuity(st: LifeState, wasMarried: boolean, hadPartner: boolean): void {
   const p = st.status.partner;
-  if (!p) { removeFlag(st, 'nisanli'); return; }
+  if (!p) {
+    removeFlag(st, 'nisanli');
+    // a finished breakup / divorce closes the partner role (speaker gate), so "your partner" scenes stop firing;
+    // a divorce still in progress (`bosanma_sureci`) keeps it for its negotiation scenes
+    const done = (st.flags.includes('ayrildi') || st.flags.includes('bosandi')) && !st.flags.includes('bosanma_sureci');
+    const n = st.npcs.find((x) => x.role === 'partner');
+    if (hadPartner && done && n?.alive) n.exists = false;
+    return;
+  }
+  if (!hadPartner) npc(st, 'partner').exists = true;              // a new relationship reopens the role
   if (!wasMarried && st.flags.includes('evli')) {
     st.status.partner = { ...p, since: st.calendar.calendarDay, datingSince: p.datingSince ?? p.since };
     removeFlag(st, 'nisanli');
