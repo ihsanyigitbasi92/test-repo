@@ -16,6 +16,7 @@ import { useEntitlements } from '../monetization/entitlements';
 import { MockIapProvider, type MockDecision, type StoreProduct } from '../monetization/iap';
 import { shop, useShop } from '../monetization/purchases';
 import { AD_CONFIG } from '../ads/config';
+import { PrivacyEntry } from '../ads/OfferButtons';
 import { sfx } from '../state/sound';
 import { UI_SFX } from '../state/sfx';
 
@@ -187,6 +188,8 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
             </Pressable>
           ))}
         </View>
+        {/* Ad layer: persistent consent settings entry (docs/design/15 §5). */}
+        <PrivacyEntry />
       </ScrollView>
 
       {ask && (

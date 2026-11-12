@@ -217,13 +217,20 @@ describe('rewarded — Forma Sponsoru offer (D-039 caps, D-085 shape)', () => {
     tactic = recordGrant(tactic, env(), 'tactic', { lifeId: 'L1', age: 40 });
     expect(why(canOfferRewarded(on, tactic, e, game(), 'tactic'))).toBe('placementDailyCap');
   });
-  it('needs consent for a watched ad, but not for a no-ads owner (nothing is shown to them)', () => {
-    expect(offer(seasoned(), env({ adsAllowed: false }))).toBe('consent');
-    expect(offer(seasoned(), env({ adsAllowed: false, noAds: true }))).toBe('ok');
-    expect(fulfilment(cfg, { noAds: true })).toBe('free');
+  it('no-ads owners keep the same opt-in offer and still watch the ad (default, 06 §2.2.2 / D-038)', () => {
+    expect(AD_CONFIG.rewarded.noAdsMode).toBe('showAd');
+    expect(offer(seasoned(), env({ noAds: true }))).toBe('ok');
+    expect(fulfilment(cfg, { noAds: true })).toBe('ad');
     expect(fulfilment(cfg, { noAds: false })).toBe('ad');
-    const watch = clone(); watch.rewarded.noAdsMode = 'showAd';
-    expect(fulfilment(watch, { noAds: true })).toBe('ad');
+    expect(offer(seasoned(), env({ adsAllowed: false }))).toBe('consent');
+    expect(offer(seasoned(), env({ adsAllowed: false, noAds: true }))).toBe('consent');
+  });
+  it('optional mode `grantWithoutAd`: the reward is granted without an ad, so no ad consent is needed', () => {
+    const free = clone(); free.rewarded.noAdsMode = 'grantWithoutAd';
+    expect(fulfilment(free, { noAds: true })).toBe('free');
+    expect(fulfilment(free, { noAds: false })).toBe('ad');
+    expect(why(canOfferRewarded(free, seasoned(), env({ adsAllowed: false, noAds: true }), game(), 'sponsor'))).toBe('ok');
+    expect(why(canOfferRewarded(free, seasoned(), env({ adsAllowed: false }), game(), 'sponsor'))).toBe('consent');
   });
 });
 
@@ -388,8 +395,24 @@ describe('AdService (mock provider)', () => {
     expect(dry.svc.getLedger()).toMatchObject({ rewardedToday: 0, lastRewardedAt: 0 });
     expect(dry.svc.offer('sponsor', game())).toBeNull();               // and no offer without an ad behind it
   });
-  it('no-ads entitlement: interstitials never show; the rewarded reward is granted without showing an ad', async () => {
+  it('no-ads entitlement (default mode): interstitials never show; the rewarded offer stays opt-in and shows the ad', async () => {
     const h = harness({ noAds: true });
+    await sessions(h, 4);
+    expect(h.svc.returnSlot(game(), 7 * HOUR)).toBe('consent');        // rewarded ads still need the consent step
+    await h.svc.runConsent();
+    expect(h.svc.returnSlot(game(), 7 * HOUR)).toBeNull();
+    expect(await h.svc.showInterstitial(game(), RETURN)).toBe(false);
+    expect(h.svc.interstitialDecision(game(), RETURN)).toEqual({ ok: false, reason: 'noAds' });
+    const offer = h.svc.offer('sponsor', game());
+    expect(offer).toEqual({ placement: 'sponsor', amount: 6000, free: false });
+    expect(h.provider.requests).toEqual([]);                           // nothing until the player taps "watch"
+    expect(await h.svc.claim(offer!, game())).toEqual({ rewarded: true });
+    expect(h.provider.requests.map((r) => r.format)).toEqual(['rewarded']);   // never an interstitial
+    expect(h.svc.privacyStatus()).toMatchObject({ noAds: true, noAdsFree: false });
+  });
+  it('no-ads entitlement (optional `grantWithoutAd` mode): the reward is granted without showing an ad, same caps', async () => {
+    const free = clone(); free.rewarded.noAdsMode = 'grantWithoutAd';
+    const h = harness({ noAds: true, cfg: free });
     await sessions(h, 4);
     expect(h.svc.returnSlot(game(), 7 * HOUR)).toBeNull();             // not even the ad consent card
     expect(await h.svc.showInterstitial(game(), RETURN)).toBe(false);

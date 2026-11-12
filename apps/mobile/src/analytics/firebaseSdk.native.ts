@@ -11,7 +11,7 @@ import type { RemoteConfigSource } from './remoteConfig';
 const has = (name: string): boolean => { try { return TurboModuleRegistry.get(name) != null; } catch { return false; } };
 
 /** The native Firebase core + Analytics modules are in this binary. */
-export const firebaseLinked = (): boolean => has('RNFBAppModule') && (has('NativeRNFBTurboAnalytics') || has('RNFBAnalyticsModule'));
+export const firebaseLinked = (): boolean => has('NativeRNFBTurboApp') && has('NativeRNFBTurboAnalytics');
 
 export async function loadFirebaseSdk(): Promise<FirebaseSdk | null> {
   if (!firebaseLinked()) return null;
@@ -38,7 +38,7 @@ export async function loadFirebaseSdk(): Promise<FirebaseSdk | null> {
 }
 
 export async function loadRemoteConfigSource(): Promise<RemoteConfigSource | null> {
-  if (!has('RNFBAppModule')) return null;
+  if (!has('NativeRNFBTurboApp') || !has('NativeRNFBTurboConfig')) return null;
   try {
     const R = require('@react-native-firebase/remote-config') as typeof import('@react-native-firebase/remote-config');
     const rc = R.getRemoteConfig();

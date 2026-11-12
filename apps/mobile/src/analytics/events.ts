@@ -60,7 +60,7 @@ export const EVENTS = {
   game_session_end: {
     group: 'lifecycle', kpi: 'session length, shown days / session, days / minute, speed mix',
     p: { dur_ms: 'int', shown_days: 'int', birthdays: 'int', answers: 'int', auto_answers: 'int', speed_play: 'int', speed_fast: 'int', speed_auto: 'int',
-      session_no: 'int', end_reason: ['background', 'enough', 'death', 'close'] },
+      session_no: 'int', part: 'int', end_reason: ['background', 'enough', 'death', 'close'] },
   },
   screen_view: { group: 'lifecycle', kpi: 'screen flow', p: { screen_name: SCREENS, screen_class: SCREENS } },
   // ── FTUE (once per install; `ms` = foreground ms since the first launch) ───
