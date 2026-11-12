@@ -1,8 +1,13 @@
 /**
  * LifeFeed: the dated chat-and-calendar stream. Auto-scrolls only while the player is at the bottom
  * (07 §2.2.1); scrolling up to read leaves the position alone.
+ *
+ * Follow rule (playtest 2026-11-12, deneyim #15: at ▶▶ the feed stalled days behind the HUD): only a scroll that
+ * moves UP is the player's; our own scrollToEnd only ever moves down, so while the content grows faster than a
+ * smooth scroll can catch up, the follow is kept instead of being dropped. A birthday report card always pulls
+ * the feed to the bottom, so it is seen before "One More Year".
  */
-import { memo, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import type { NativeScrollEvent, NativeSyntheticEvent, ScrollViewInstance } from 'react-native';
 import type { FeedItem } from '../state/feed';
@@ -31,22 +36,27 @@ const Row = memo(function Row({ item, typeMs }: { item: FeedItem; typeMs: number
 export function Feed({ items, typeMs, footer }: { items: FeedItem[]; typeMs: number; footer?: React.ReactNode }) {
   const ref = useRef<ScrollViewInstance>(null);
   const atBottom = useRef(true);
-  const autoScrollAt = useRef(0);
+  const lastY = useRef(0);
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    // Ignore the scroll events our own smooth scrollToEnd produces; only a player scrolling up stops the follow.
-    if (Date.now() - autoScrollAt.current < 700) return;
     const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
-    atBottom.current = contentOffset.y + layoutMeasurement.height >= contentSize.height - 120;
+    const y = contentOffset.y;
+    if (y + layoutMeasurement.height >= contentSize.height - 120) atBottom.current = true;   // back at the bottom: follow again
+    else if (y < lastY.current - 4) atBottom.current = false;                                 // the player scrolled up to read
+    lastY.current = y;
   };
-  const follow = () => {
-    if (!atBottom.current) return;
-    autoScrollAt.current = Date.now();
-    ref.current?.scrollToEnd({ animated: typeMs > 0 });
-  };
+  // Smooth scrolling only at ▶ (typewriter speed); at ▶▶ items arrive faster than an animated scroll settles.
+  const follow = () => { if (atBottom.current) ref.current?.scrollToEnd({ animated: typeMs >= 10 }); };
+  const last = items[items.length - 1];
+  const reportId = last?.kind === 'report' ? last.id : null;
+  useEffect(() => {
+    if (reportId === null) return;
+    atBottom.current = true;
+    ref.current?.scrollToEnd({ animated: false });
+  }, [reportId]);
   return (
     <ScrollView ref={ref} style={st.feed} contentContainerStyle={st.content} onScroll={onScroll} scrollEventThrottle={64}
       onContentSizeChange={follow} testID="feed">
-      {items.map((it) => <View key={it.id}><Row item={it} typeMs={typeMs} /></View>)}
+      {items.map((it) => <View key={it.id}><Row item={it} typeMs={it.restored ? 0 : typeMs} /></View>)}
       {footer}
     </ScrollView>
   );

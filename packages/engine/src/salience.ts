@@ -7,6 +7,7 @@
 import { TUNING, bandFor } from './tuning';
 import { evalPre, specificity2 } from './pre';
 import { FACES } from './types';
+import type { Pre } from '@motto/content-schema';
 import type { GameEvent, LifeState, MetaState } from './types';
 
 const SAL = TUNING.salience;
@@ -43,13 +44,77 @@ export function requiredSpeakers(ev: GameEvent): readonly string[] {
   return v;
 }
 
-/** Hard gates: per-life cap, age band, implicit speaker precondition (NPC exists ∧ alive), preconditions. */
+/** Roles whose `alive` the precondition tree sets explicitly (anywhere under all/any/none). */
+function preAliveRoles(pre: Pre | undefined, out: Set<string>): Set<string> {
+  if (!pre) return out;
+  for (const [role, c] of Object.entries(pre.npc ?? {})) if (c && c.alive !== undefined) out.add(role);
+  for (const p of [...(pre.all ?? []), ...(pre.any ?? []), ...(pre.none ?? [])]) preAliveRoles(p, out);
+  return out;
+}
+
+const NL = TUNING.npcLife;
+const TAG_ROLE = Object.entries(NL.impliedByTag).filter(([k]) => k !== '$comment') as [string, string][];
+const tagRoleCache = new WeakMap<GameEvent, readonly string[]>();
+/**
+ * NPC aging: roles an event's tags imply must be alive (e.g. `kedi` → cat, `anne` → mom), like the D-062 speaker
+ * gate for narration-only scenes. Skipped for a role the pre sets `alive` for, and for grief-tagged events. Memoised.
+ */
+export function tagImpliedRoles(ev: GameEvent): readonly string[] {
+  let v = tagRoleCache.get(ev);
+  if (v === undefined) {
+    if (ev.tags.some((t) => NL.griefTags.includes(t) || t.startsWith('loss:'))) v = [];
+    else {
+      const explicit = preAliveRoles(ev.pre, new Set());
+      v = [...new Set(TAG_ROLE.filter(([t, r]) => ev.tags.includes(t) && !explicit.has(r)).map(([, r]) => r))];
+    }
+    tagRoleCache.set(ev, v);
+  }
+  return v;
+}
+
+const CH = TUNING.child;
+const childCache = new WeakMap<GameEvent, readonly [number, number] | null>();
+/** Child-age window [min, max] in years (max −1 = open) for an event about the child, else null. Memoised. */
+export function childWindow(ev: GameEvent): readonly [number, number] | null {
+  let v = childCache.get(ev);
+  if (v === undefined) {
+    const about = requiredSpeakers(ev).includes('child') || ev.pre?.npc?.child?.exists === true;
+    if (!about) v = null;
+    else {
+      let lo = -1, hi = -1;                                            // a stage tag wins over the player-age fallback
+      for (const [tag, mn, mx] of CH.byTag as [string, number, number][]) {
+        if (!ev.tags.includes(tag)) continue;
+        lo = Math.max(lo, mn);
+        if (mx >= 0) hi = hi < 0 ? mx : Math.min(hi, mx);
+      }
+      if (lo < 0) lo = Math.max(0, (ev.pre?.age?.min ?? 0) - CH.assumedParentAge);
+      if (hi >= 0 && lo > hi) lo = hi;
+      v = [lo, hi];
+    }
+    childCache.set(ev, v);
+  }
+  return v;
+}
+
+/** Hard gates: per-life cap, age band, implicit speaker / tag precondition (NPC exists ∧ alive), child age, preconditions. */
 export function eligible(ev: GameEvent, st: LifeState, meta: MetaState): boolean {
   if (ev.maxPerLife !== undefined && (st.seen[ev.id] ?? 0) >= ev.maxPerLife) return false;
   if (ev.ageBand && !ev.ageBand.includes(bandFor(st.calendar.age).name as never)) return false;
   for (const role of requiredSpeakers(ev)) {
     const n = st.npcs.find((x) => x.role === role);
     if (!n || !n.exists || !n.alive) return false;
+  }
+  for (const role of tagImpliedRoles(ev)) {
+    const n = st.npcs.find((x) => x.role === role);
+    if (n && n.exists && !n.alive) return false;                        // only a known death closes it
+  }
+  const cw = childWindow(ev);
+  if (cw) {
+    const kid = st.npcs.find((x) => x.role === 'child');
+    if (kid?.bornDay !== undefined) {                                   // legacy children (no bornDay) are not gated
+      const years = Math.floor((st.calendar.calendarDay - kid.bornDay) / 365);
+      if (years < cw[0] || (cw[1] >= 0 && years > cw[1])) return false;
+    }
   }
   return evalPre(ev.pre, st, meta, ev.id);
 }

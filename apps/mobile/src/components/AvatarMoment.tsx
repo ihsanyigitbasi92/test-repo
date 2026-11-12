@@ -15,6 +15,7 @@ import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-nativ
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
+import { jobLabel } from '../i18n/labels';
 import { Avatar, CatSprite } from '../avatar/Avatar';
 import { seededRng } from '../avatar/look';
 import type { Look, Mood, TopStyle } from '../avatar/look';
@@ -204,7 +205,7 @@ export function AvatarMoment({ moment: m, look, onSkip }: Props) {
     }
     case 'promotion': {
       label = s.moment[m.reason === 'retired' ? 'retired' : m.reason === 'promotion' ? 'promotion' : 'newJob'];
-      sub = m.jobTitle ? s.jobTitle[m.jobTitle] ?? m.jobTitle : null;
+      sub = m.jobTitle ? jobLabel(s, locale, m.jobTitle) : null;
       const { old, next } = reduced ? fade(0.4, 0.42) : swap(0.42);
       const flash = v.interpolate({ inputRange: [0, 0.36, 0.42, 0.62, 1], outputRange: [0, 0, 0.95, 0, 0] });
       stage = (

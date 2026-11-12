@@ -2,7 +2,8 @@
  * Birthday report card (02 §2.2.6, D-061, D-121) and the Roast Report data contract (02 §2.5.2).
  * Every number comes from LifeState counters — nothing is invented ("hafıza uydurulmaz").
  */
-import { TUNING } from './tuning';
+import { TUNING, bandFor } from './tuning';
+import { drawInt } from './util';
 import { meanAffinity } from './life';
 import { PATTERNS, POSITIVE_PATTERNS } from './types';
 import type { Grade, LifeState, PatternId, ReportCardData } from './types';
@@ -29,6 +30,22 @@ export const gradeForSpectacle = (cringeSpikes: number): Grade => (cringeSpikes 
 
 const pts = (bp: number) => Math.trunc(bp / 100);
 
+type Bounds = { caps: number[][]; floors: number[][] };
+/**
+ * Playtest 2026-11-12 ("Sağlık 5 iken Sağlık ORTA"): the yearly-delta grade never contradicts the absolute level.
+ * `caps` [[below, maxGrade]] (lowest threshold first: the first row the value is under wins), `floors`
+ * [[atLeast, minGrade]] (highest first). Values in points (money: Para).
+ */
+export function boundGrade(g: Grade, value: number, b: Bounds): Grade {
+  let out: number = g;
+  const cap = b.caps.find((r) => value < r[0]!);
+  if (cap) out = Math.min(out, cap[1]!);
+  const floor = b.floors.find((r) => value >= r[0]!);
+  if (floor) out = Math.max(out, floor[1]!);
+  return out as Grade;
+}
+const ABS = R.absolute as unknown as Record<'health' | 'brain' | 'relationships' | 'money', Bounds>;
+
 function dominant(counts: Partial<Record<PatternId, number>>): PatternId | null {
   let best: PatternId | null = null, n = 0;
   for (const p of PATTERNS) { const c = counts[p] ?? 0; if (c > n) { n = c; best = p; } }
@@ -41,10 +58,10 @@ export function buildReportCard(st: LifeState): ReportCardData {
   return {
     age: st.calendar.age,
     grades: {
-      health: gradeForDelta(pts(st.stats.health - y.startStats.health)),
-      money: gradeForMoney(st.money.balance - y.startMoney, y.spend),
-      relationships: gradeForDelta(meanAffinity(st.npcs) - y.startAffinity),
-      brain: gradeForDelta(pts(st.stats.brain - y.startStats.brain)),
+      health: boundGrade(gradeForDelta(pts(st.stats.health - y.startStats.health)), pts(st.stats.health), ABS.health),
+      money: boundGrade(gradeForMoney(st.money.balance - y.startMoney, y.spend), st.money.balance, ABS.money),
+      relationships: boundGrade(gradeForDelta(meanAffinity(st.npcs) - y.startAffinity), meanAffinity(st.npcs), ABS.relationships),
+      brain: boundGrade(gradeForDelta(pts(st.stats.brain - y.startStats.brain)), pts(st.stats.brain), ABS.brain),
       courage: gradeForCourage(y.riskChoices),
       spectacle: gradeForSpectacle(y.cringeSpikes),
     },
@@ -53,6 +70,37 @@ export function buildReportCard(st: LifeState): ReportCardData {
     envelopeTeaser: open[0]?.teaserKey ?? null,
     decadeReview: (R.decadeAges as number[]).includes(st.calendar.age),
     shownDaysThisYear: st.director.shownThisYear,
+    ritual: { birthday: 0, birthdayBand: bandFor(st.calendar.age).name, motto: 0, noEnvelope: null, noWager: null },
+  };
+}
+
+const RT = TUNING.ritual;
+/** One variant index in [0, n) not among the last `noRepeat` picks of `hist` (cosmetic channel); records it. */
+function pickVariant(st: LifeState, hist: number[], n: number, noRepeat: number): number {
+  const recent = hist.slice(-noRepeat);
+  let pool: number[] = [];
+  for (let i = 0; i < n; i++) if (!recent.includes(i)) pool.push(i);
+  if (!pool.length) pool = Array.from({ length: n }, (_, i) => i);
+  const v = pool[drawInt(st, 'cosmetic', 0, pool.length - 1)]!;
+  hist.push(v);
+  if (hist.length > noRepeat) hist.splice(0, hist.length - noRepeat);
+  return v;
+}
+
+/**
+ * Yearly ritual variants (playtest 2026-11-12: the birthday line, Yılın Mottosu and "Zarf yok" repeated verbatim
+ * every year). Fills `report.ritual` on the `cosmetic` channel (no gameplay stream moves); history in `st.rituals`.
+ */
+export function pickRitual(st: LifeState, report: ReportCardData): void {
+  const h = (st.rituals ??= { birthday: [], motto: {}, noEnvelope: [], noWager: [] });
+  const m = report.mottoCell;
+  const mottoKey = m.dominant ?? (m.netValence > 0 ? 'good' : m.netValence < 0 ? 'bad' : 'none');
+  report.ritual = {
+    birthday: pickVariant(st, h.birthday, RT.birthdayVariants, RT.birthdayNoRepeatYears),
+    birthdayBand: bandFor(st.calendar.age).name,
+    motto: pickVariant(st, (h.motto[mottoKey] ??= []), RT.mottoVariants, RT.mottoNoRepeatYears),
+    noEnvelope: report.envelopeTeaser === null ? pickVariant(st, h.noEnvelope, RT.noEnvelopeVariants, RT.noEnvelopeNoRepeatYears) : null,
+    noWager: report.coachAccuracyYear.total === 0 ? pickVariant(st, h.noWager, RT.noWagerVariants, RT.noWagerNoRepeatYears) : null,
   };
 }
 

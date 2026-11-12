@@ -3,6 +3,9 @@
  * epitaph = last Motto of the Year; no cause) → dry cause line → counted numbers → lifetime patterns →
  * the moment you were right (I WAS WRONG re-stamped) → coach's last word → [NEW CLIENT].
  * Every number is the engine's `buildRoast(state)`; nothing is invented. Tap anywhere to advance.
+ * Scroll (playtest 2026-11-12, deneyim #3): the report opens at its TOP — title, age, cause first. New sections
+ * are only scrolled into view while the title can stay on screen; nothing ever jumps to the NEW CLIENT button,
+ * the player scrolls down to it.
  */
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
@@ -119,7 +122,15 @@ export function DeathFlow({ death, onNewClient }: { death: DeathView; onNewClien
   const { s, locale } = useI18n();
   const [step, setStep] = useState(0);
   const scroll = useRef<ScrollViewInstance>(null);
+  const sheetY = useRef(0);
+  const viewH = useRef(0);
   const r = death.roast;
+  // Keep the roast title pinned at the top of the viewport at most: reveal what fits below it, never scroll past it.
+  const reveal = (contentH: number) => {
+    if (step < 2) { scroll.current?.scrollTo({ y: 0, animated: false }); return; }
+    const y = Math.max(0, Math.min(sheetY.current - 12, contentH - viewH.current));
+    scroll.current?.scrollTo({ y, animated: true });
+  };
   useEffect(() => {
     if (step >= LAST) return;
     const t = setTimeout(() => setStep((x) => x + 1), STEP_MS[step]);
@@ -132,11 +143,12 @@ export function DeathFlow({ death, onNewClient }: { death: DeathView; onNewClien
   return (
     <View style={[StyleSheet.absoluteFill, st.death]} testID="death">
       <Pressable style={{ flex: 1 }} onPress={advance} accessibilityLabel={s.tapToSkip}>
-        <ScrollView ref={scroll} contentContainerStyle={st.content} onContentSizeChange={() => scroll.current?.scrollToEnd({ animated: true })}>
+        <ScrollView ref={scroll} contentContainerStyle={st.content} testID="death-scroll"
+          onLayout={(e) => { viewH.current = e.nativeEvent.layout.height; }} onContentSizeChange={(_, h) => reveal(h)}>
           {step === 0 && <View style={st.ecgBox}><Ecg /></View>}
           {step >= 1 && <Grave d={death} />}
           {step >= 2 && (
-            <View style={st.sheet} testID="roast-report">
+            <View style={st.sheet} testID="roast-report" onLayout={(e) => { sheetY.current = e.nativeEvent.layout.y; }}>
               <Text style={st.title}>{s.roastTitle}</Text>
               <Text style={st.sub}>{upper(locale, s.roastAge(r.ageAtDeath))}</Text>
               <Text style={st.big}>{s.deathCause[cls] ?? s.deathCause.unknown}</Text>

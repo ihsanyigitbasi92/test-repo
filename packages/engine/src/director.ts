@@ -21,6 +21,7 @@ import { currentCivil } from './pre';
 import { seasonOf } from './calendar';
 import { eligible, noveltyPm, salience, salienceCtx } from './salience';
 import { rollLegendary, rollSurprise } from './pity';
+import { killNpc, lossRole } from './mortality';
 import type { ContentBundle, DueItem, Envelope, GameEvent, LifeState, MetaState, SkipSummary } from './types';
 
 const DB = TUNING.dayBudget;
@@ -48,12 +49,15 @@ export function drawGap(st: LifeState): number {
   const remaining = Math.max(1, d.yearBudget - d.shownThisYear);       // birthday included
   const maxGap = bandFor(c.age).maxGap;
   const overCap = d.shownThisYear >= bandFor(c.age).max + DB.capAboveMax - 1;
-  if (remaining <= 1 || overCap) return toBirthday <= maxGap || overCap ? toBirthday : maxGap;
+  const pd = st.pendingDeath;                                          // son perde: never skip past the death day
+  const untilDeath = pd ? Math.max(1, pd.day - c.calendarDay) : Infinity;
+  if (remaining <= 1 || overCap) return Math.min(untilDeath, toBirthday <= maxGap || overCap ? toBirthday : maxGap);
   const meanPm = Math.floor((toBirthday * 1000) / remaining);
   let gap = Math.floor((meanPm * gapMultiplierPm(drawInt(st, 'director', 0, 255)) + 500_000) / 1_000_000);
   gap = clamp(gap, 1, Math.max(1, Math.min(maxGap, toBirthday - (remaining - 1))));
   const due = earliestDue(st);
   if (due !== null && due - c.calendarDay < gap) gap = Math.max(1, due - c.calendarDay);
+  if (untilDeath < gap) gap = untilDeath;
   if (d.momCall.pending) gap = 1;
   return gap;
 }
@@ -119,11 +123,13 @@ function takeForced(st: LifeState, meta: MetaState, content: ContentBundle): { i
  * Remove a due item (played or dropped) and settle what it stands for: a priority-4 item resolves exactly its
  * envelope; a `bankruptcy` item applies the İcra reset (on its card — or immediately when it cannot play).
  */
-export function dropDue(st: LifeState, item: DueItem): void {
+export function dropDue(st: LifeState, item: DueItem, deferLoss = false): void {
   const i = st.dueQueue.indexOf(item);
   if (i >= 0) st.dueQueue.splice(i, 1);
   if (item.priority === 4) { const env = envelopeOf(st, item); if (env) env.resolved = true; }
   if (item.source === 'bankruptcy' && st.flags.includes(BANKRUPTCY_PENDING)) applyBankruptcy(st);
+  const lost = lossRole(item);                                         // played or not, the NPC's time has come
+  if (lost && !deferLoss) killNpc(st, lost);                          // eventDay kills after building the card
 }
 
 /** An event picked freely also settles its own envelope / İcra / bailout due items (no second showing). */

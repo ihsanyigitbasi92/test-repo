@@ -2,7 +2,7 @@
  * Hayat Akışı — the root screen (07 §2.2.1): TopBar · HUD · dated feed · decision zone, plus the juice layers
  * (flash, big stamp, age-up, avatar moments, session sheet) and the death → Roast Report takeover. Pure view over useGame().
  */
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SplashScreen } from './SplashScreen';
 import { Platform, StatusBar as RNStatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { colors } from '../theme';
@@ -30,6 +30,7 @@ export function LifeScreen() {
   const phase = v?.phase;
   const s = i18n.s;
   const [splash, setSplash] = useState(true);
+  const onSplashDone = useCallback(() => { setSplash(false); game.uncover(); }, [game]);
 
   let decision: React.ReactNode = null;
   if (snap.stage === 'file' && ready) {
@@ -46,7 +47,7 @@ export function LifeScreen() {
     <I18nContext.Provider value={i18n}>
       <View style={st.stage}>
         <View style={[st.phone, framed && st.framed]}>
-          {splash && <SplashScreen onDone={() => setSplash(false)} />}
+          {splash && <SplashScreen onDone={onSplashDone} />}
           <Shake shake={snap.shake}>
             <TopBar speed={snap.speed} locale={snap.locale} showSpeed={snap.stage === 'play'} onSpeed={game.setSpeed} onLocale={game.setLocale} />
             {snap.stage === 'play' && v && snap.look && (
@@ -67,7 +68,7 @@ export function LifeScreen() {
           <BigStamp stamp={snap.bigStamp} />
           <AgeUp ageUp={snap.ageUp} />
           {snap.moment && snap.look && <AvatarMoment key={snap.moment.id} moment={snap.moment} look={snap.look} onSkip={game.skipMoment} />}
-          <SessionSheet session={snap.session} onContinue={game.closeSession} />
+          <SessionSheet session={snap.session} onContinue={game.closeSession} onClose={game.closeForToday} />
           {snap.stage === 'death' && snap.death && <DeathFlow death={snap.death} onNewClient={game.newClient} />}
         </View>
       </View>

@@ -10,6 +10,7 @@ import type { LifeState, Speed } from '@motto/engine';
 import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
 import type { Strings } from '../i18n';
+import { statusStrip } from '../i18n/labels';
 import type { FloatItem } from '../state/useGame';
 import { Avatar, CatSprite } from '../avatar/Avatar';
 import { outfitFor } from '../avatar/look';
@@ -84,16 +85,7 @@ export function PlayerAvatar({ view, look, mood, size = 52 }: { view: LifeState;
 export function Hud({ view, look, mood, lifeNo, floats, progress, speed, unread }: Props) {
   const { s, locale } = useI18n();
   const floatsFor = (k: string) => floats.filter((f) => f.stat === k);
-  const job = view.status.job;
-  const home = view.status.home;
-  const homeTxt = home.kind === 'momsHouse' ? s.home.momsHouse : home.kind === 'owned' ? s.home.owned : s.home[home.kind](home.rent);
-  const partner = view.status.partner;
-  const yrs = partner ? Math.floor((view.calendar.calendarDay - partner.since) / 365) : 0;
-  const stage = view.flags.includes('evli') ? 'married' : view.flags.includes('nisanli') ? 'engaged' : 'dating';
-  const kid = view.npcs.some((n) => n.role === 'child' && n.exists && n.alive);
-  const loveTxt = (partner ? s.partner(yrs, stage) : view.flags.includes('bosandi') ? s.divorced : s.single) + (kid ? ` · ${s.kid}` : '');
-  const extras = view.status.assets.filter((a) => a !== 'kedi').map((a) => s.asset[a] ?? a);
-  const catTxt = [view.status.assets.includes('kedi') ? s.catName : s.none, ...extras].join(' · ');
+  const strip = statusStrip(s, locale, view);
   const mom = pts(view.meters.momPressure);
   const momAlive = view.npcs.find((n) => n.role === 'mom')?.alive !== false;
 
@@ -145,10 +137,11 @@ export function Hud({ view, look, mood, lifeNo, floats, progress, speed, unread 
       </View>
 
       <View style={st.life} testID="hud-life">
-        <Text style={st.lifeCell} numberOfLines={1}>{s.status.job}: <Text style={st.lifeB}>{job ? `${s.jobTitle[job.title] ?? job.title} · ${s.num(job.monthly)}${s.perMonth}` : s.jobless}</Text></Text>
-        <Text style={st.lifeCell} numberOfLines={1}>{s.status.home}: <Text style={st.lifeB}>{homeTxt}</Text></Text>
-        <Text style={st.lifeCell} numberOfLines={1}>{s.status.love}: <Text style={st.lifeB}>{loveTxt}</Text></Text>
-        <Text style={st.lifeCell} numberOfLines={1}>{s.status.cat}: <Text style={st.lifeB}>{catTxt}</Text></Text>
+        <Text style={st.lifeCell} numberOfLines={1} testID="hud-job">{s.status.job}: <Text style={st.lifeB}>{strip.job}</Text></Text>
+        <Text style={st.lifeCell} numberOfLines={1} testID="hud-home">{s.status.home}: <Text style={st.lifeB}>{strip.home}</Text></Text>
+        <Text style={st.lifeCell} numberOfLines={1} testID="hud-love">{s.status.love}: <Text style={st.lifeB}>{strip.love}</Text></Text>
+        <Text style={st.lifeCell} numberOfLines={1} testID="hud-cat-name">{s.status.cat}: <Text style={st.lifeB}>{strip.cat}</Text></Text>
+        {strip.assets && <Text style={st.lifeWide} numberOfLines={1} testID="hud-assets">{s.status.assets}: <Text style={st.lifeB}>{strip.assets}</Text></Text>}
       </View>
     </View>
   );
@@ -184,5 +177,6 @@ const st = StyleSheet.create({
   dpFill: { height: 4 },
   life: { flexDirection: 'row', flexWrap: 'wrap', borderTopWidth: 1, borderStyle: 'dashed', borderTopColor: colors.line, paddingTop: 6, rowGap: 3 },
   lifeCell: { width: '50%', fontSize: 11, color: colors.ink2, paddingRight: 6 },
+  lifeWide: { width: '100%', fontSize: 11, color: colors.ink2, paddingRight: 6 },
   lifeB: { color: colors.ink, fontWeight: '600' },
 });

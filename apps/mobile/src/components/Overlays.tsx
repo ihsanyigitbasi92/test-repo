@@ -1,8 +1,8 @@
 /** Full-screen juice layers (07 §2.5): FlashLayer, BigStampOverlay, AgeUpOverlay, session-end sheet. */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
-import { useI18n } from '../i18n';
+import { upper, useI18n } from '../i18n';
 import type { StampResult } from '../state/feed';
 import { PrimaryButton } from './ActionZone';
 import { CalendarLeaf } from './AvatarMoment';
@@ -95,15 +95,32 @@ export function AgeUp({ ageUp }: { ageUp: { from: number; to: number } | null })
   );
 }
 
-export function SessionSheet({ session, onContinue }: { session: { years: number; days: number } | null; onContinue: () => void }) {
-  const { s } = useI18n();
+/**
+ * "Enough for today" (07 §2.2.1): Close and Continue, equal weight — a healthy stop is never the lesser button
+ * (playtest 2026-11-12, davranış §5). After Close the sheet turns into the quiet "saved" state.
+ */
+export function SessionSheet({ session, onContinue, onClose }: {
+  session: { years: number; days: number; closed?: boolean } | null; onContinue: () => void; onClose: () => void;
+}) {
+  const { s, locale } = useI18n();
   if (!session) return null;
   return (
     <View style={[StyleSheet.absoluteFill, st.scrim]} testID="session-sheet">
       <View style={st.sheet}>
-        <Text style={st.sheetTitle}>{s.sessionTitle}</Text>
-        <Text style={st.sheetTxt}>{s.sessionText(session.years, session.days)}</Text>
-        <PrimaryButton label={s.cta.cont} onPress={onContinue} testID="session-continue" />
+        <Text style={st.sheetTitle}>{session.closed ? s.savedTitle : s.sessionTitle}</Text>
+        <Text style={st.sheetTxt} testID={session.closed ? 'session-saved' : undefined}>
+          {session.closed ? s.savedText : s.sessionText(session.years, session.days)}
+        </Text>
+        {session.closed ? (
+          <PrimaryButton label={s.cta.cont} onPress={onContinue} testID="session-continue" />
+        ) : (
+          <View style={st.sheetRow}>
+            <Pressable onPress={onClose} accessibilityRole="button" testID="session-close" style={({ pressed }) => [st.closeBtn, pressed && st.pressed]}>
+              <Text style={st.closeTxt}>{upper(locale, s.cta.close)}</Text>
+            </Pressable>
+            <View style={st.flex1}><PrimaryButton label={s.cta.cont} onPress={onContinue} testID="session-continue" /></View>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -135,4 +152,11 @@ const st = StyleSheet.create({
   sheet: { backgroundColor: colors.paper, borderRadius: 12, borderWidth: 1, borderColor: colors.line, padding: 16, gap: 12, width: '100%', maxWidth: 360 },
   sheetTitle: { fontFamily: fonts.stamp, letterSpacing: 1.4, fontSize: 14, color: colors.lime },
   sheetTxt: { fontFamily: fonts.coach, fontStyle: 'italic', fontSize: 17, lineHeight: 23, color: colors.ink },
+  sheetRow: { flexDirection: 'row', gap: 8 },
+  flex1: { flex: 1 },
+  // Same box as PrimaryButton (minHeight 58, radius 8, stamp font 16) — outlined instead of lime.
+  closeBtn: { flex: 1, minHeight: 58, borderRadius: 8, borderWidth: 2, borderColor: colors.line, backgroundColor: colors.paper2,
+    alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14 },
+  closeTxt: { fontFamily: fonts.stamp, fontSize: 16, letterSpacing: 1.8, color: colors.ink },
+  pressed: { transform: [{ scale: 0.98 }] },
 });

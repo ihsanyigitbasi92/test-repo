@@ -41,11 +41,14 @@ export interface Home { kind: Housing; rent: number; since: number }
 export interface Status {                   // D-067 permanent "Status strip"
   job: Job | null;
   home: Home;
-  partner: { npc: string; since: number } | null;
+  /** `since` = start of the current relationship stage: dating start, reset to the wedding day when `evli` is set
+   *  (HUD "Evli · N yıldır" counts from the wedding); `datingSince` keeps the first date once married. */
+  partner: { npc: string; since: number; datingSince?: number } | null;
   assets: string[];
 }
 
-export interface Npc { role: string; exists: boolean; alive: boolean; affinity: number; memories: string[] }
+/** `bornDay` = calendarDay of birth (negative = born before the 18th birthday); age = (calendarDay − bornDay) / 365. */
+export interface Npc { role: string; exists: boolean; alive: boolean; affinity: number; memories: string[]; bornDay?: number }
 
 export interface WagerEntry {
   dayIndex: number; eventId: string; choiceId: string;
@@ -139,6 +142,12 @@ export interface ReportCardData {
   grades: { health: Grade; money: Grade; relationships: Grade; brain: Grade; courage: Grade; spectacle: Grade };
   coachAccuracyYear: { hits: number; total: number }; mottoCell: { dominant: PatternId | null; netValence: -1 | 0 | 1 };
   envelopeTeaser: string | null; decadeReview: boolean; shownDaysThisYear: number;
+  /**
+   * Yearly ritual variant indices (no repeat within TUNING.ritual.*NoRepeatYears). The app owns the text:
+   * birthday line `birthdayLines[birthdayBand][birthday]`, motto `motto[<dominant|good|bad|none>][motto]`,
+   * `noEnvelope[noEnvelope]` (null when a teaser is shown), `noWager[noWager]` (null when wagers happened).
+   */
+  ritual: { birthday: number; birthdayBand: string; motto: number; noEnvelope: number | null; noWager: number | null };
 }
 
 export interface LifeState {
@@ -161,6 +170,10 @@ export interface LifeState {
   notebook: { kind: 'note' | 'wager'; key: string; dayIndex: number }[];
   diagnoses: string[]; glossary: string[];
   death: { cause: string; channel: 'hazard' | 'scripted'; age: number } | null;
+  /** Son perde: a hazard death already rolled, deferred to calendarDay `day` while omen cards play (hazard.omen). */
+  pendingDeath: { cause: string; day: number } | null;
+  /** Recent ritual variant picks (report.ts pickRitual), newest last. */
+  rituals: { birthday: number[]; motto: Record<string, number[]>; noEnvelope: number[]; noWager: number[] };
   /** Draws already taken on each channel at the current dayIndex (D-101: channels are re-derived each shown day). */
   rng: Partial<Record<Channel, number>>;
 }

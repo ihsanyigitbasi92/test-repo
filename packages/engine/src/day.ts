@@ -11,7 +11,8 @@ import { applyBankruptcy, applyCashflow, BANKRUPTCY_PENDING, startAbs } from './
 import { drawGap, drawYearBudget, dropDue, pickDay, settleFreePlay, skipSummary } from './director';
 import { notePlayed } from './pity';
 import { rollHazard } from './hazard';
-import { buildReportCard, rankPatterns } from './report';
+import { ageNpcs, deferDeath, killNpc, lossRole } from './mortality';
+import { buildReportCard, pickRitual, rankPatterns } from './report';
 import { freshYearStats } from './life';
 import { indexContent } from './content';
 import { openEnvelope } from './apply';
@@ -57,12 +58,14 @@ function retire(st: LifeState): void {
 function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: Omit<DayCard, 'eventId'>, out: Effect[]): void {
   st.calendar.age++;
   if (st.status.job) { st.counters.yearsWorked++; retire(st); }
-  const cause = rollHazard(st);                                   // hazard before the report card: the dead get no card
-  if (cause) { st.card = { ...base, eventId: 'sys_death', choices: [] }; die(st, meta, cause, 'hazard', out); return; }
+  const cause = st.pendingDeath ? null : rollHazard(st);         // hazard before the report card: the dead get no card
+  if (cause && !deferDeath(st, meta, content, cause)) { st.card = { ...base, eventId: 'sys_death', choices: [] }; die(st, meta, cause, 'hazard', out); return; }
+  ageNpcs(st, meta, content);                                     // NPC lifespans (npcLife): may queue a loss card
   bailoutCheck(st, content);                                      // 02 §2.3.6: the pulse may queue tomorrow's offer
   queueMilestones(st, meta, content);                             // D-157 Hayat Yolu
   careerRaise(st);                                                // D-159 career ladder
   const report = buildReportCard(st);
+  pickRitual(st, report);                                         // cosmetic channel: no gameplay stream moves
   st.lastReport = report;
   ensureEnvelope(st, content);
   st.envelopes = st.envelopes.filter((e) => !e.resolved);
@@ -79,7 +82,7 @@ function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: 
 
 function eventDay(st: LifeState, meta: MetaState, content: ContentBundle, base: Omit<DayCard, 'eventId'>, out: Effect[]): void {
   const pick = pickDay(st, meta, content);
-  if (pick.forced) dropDue(st, pick.forced);
+  if (pick.forced) dropDue(st, pick.forced, true);
   const ev = pick.event;
   if (!ev) {                                                      // empty pool (tiny content): a quiet day, no choices
     st.counters.quietDays++;
@@ -104,6 +107,8 @@ function eventDay(st: LifeState, meta: MetaState, content: ContentBundle, base: 
   notePlayed(st, ev, pick.legendary);
   const daily = pick.daily && st.director.daily ? { localDay: st.director.daily.localDay } : undefined;
   st.card = buildEventCard(st, meta, ev, { ...base, legendary: pick.legendary, momCall: pick.momCall, forced: !!pick.forced, surpriseTier: pick.surpriseTier, ...(daily ? { daily } : {}) });
+  const lost = lossRole(pick.forced);                             // the loss card is the NPC's last scene
+  if (lost) killNpc(st, lost);
   st.phase = 'day';
   out.push({ kind: 'SHOW_DAY', card: st.card });
   if (st.card.bubbles.length) out.push({ kind: 'SHOW_DIALOG', bubbles: st.card.bubbles, layer: 'dialog' });
@@ -146,7 +151,12 @@ export function nextDay(st: LifeState, meta: MetaState, content: ContentBundle, 
     dayIndex: c.dayIndex, dateISO: c.dateISO, hour: c.hour, skip, flowLog,
     legendary: false, momCall: false, forced: false, surpriseTier: null, bubbles: [], choices: [], wager: null,
   };
-  if (c.calendarDay >= c.nextBirthdayDay) birthday(st, meta, content, base, out);
+  const pd = st.pendingDeath;
+  if (pd && c.calendarDay >= pd.day) {                            // son perde: the deferred hazard death lands today
+    st.pendingDeath = null;
+    st.card = { ...base, eventId: 'sys_death', choices: [] };
+    die(st, meta, pd.cause, 'hazard', out);
+  } else if (c.calendarDay >= c.nextBirthdayDay) birthday(st, meta, content, base, out);
   else eventDay(st, meta, content, base, out);
   if (!d.endSuggested && st.phase !== 'dead' && d.sessionDayIndex * 1000 >= 850 * Math.max(1, d.expectedSessionDays)) {
     d.endSuggested = true;                                        // 03 §2.3.4 session-end heuristic t ≥ 0.85

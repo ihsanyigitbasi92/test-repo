@@ -12,8 +12,12 @@
  *   on the Client File and kept per life, keyed by `lifeSeed`. The face mood and the full-screen "avatar moments"
  *   (birthday aging, new job, breakup, legendary, I WAS WRONG, death) are read from effects + state transitions,
  *   ≤ 1 per 8 shown days, never over a pending choice except as the intro of a legendary day.
+ * - Save / continue (save.ts): written whenever the beat queue drains (feed and engine state agree there), on
+ *   death, on app background and on "Close"; at launch a valid save resumes the life once its content is loaded.
  */
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
+import { AppState, BackHandler, Platform } from 'react-native';
+import type { NativeEventSubscription } from 'react-native';
 import { buildRoast, emptyMeta, step } from '@motto/engine';
 import type { Action, Effect, LifeState, Locale, MetaState, ReportCardData, RoastReport, Speed, StepResult } from '@motto/engine';
 import { START_AGE, advanceContent, contentReadyFor, eventById, getBundle, prepareContent } from '../content/bundle';
@@ -24,6 +28,9 @@ import { cyclePart, generateLook, outfitFor } from '../avatar/look';
 import type { Look, LookPart, Mood as FaceMood } from '../avatar/look';
 import { emptyMomentHistory, lifeChange, momentCandidates, outcomeMood, pickMoment, recordMoment } from '../avatar/moments';
 import type { MomentHistory, MomentKind, MomentReason, MomentView } from '../avatar/moments';
+import { SAVE_KEY, decodeSave, encodeSave, engineShape, feedForSave, saveMatchesContent } from './save';
+import type { SaveV1 } from './save';
+import { readItem, writeItem } from './storage';
 
 export type Mood = 'neutral' | 'smirk' | 'shock' | 'sad';
 export type Stage = 'file' | 'play' | 'death';
@@ -59,8 +66,11 @@ export interface Snapshot {
   flash: { key: number; color: 'red' | 'lime' | 'gold' } | null;
   ageUp: { from: number; to: number } | null;
   death: DeathView | null;
-  session: { years: number; days: number } | null;
+  /** "Enough for today" sheet; `closed`: the player chose Close — saved, nothing runs until Continue. */
+  session: { years: number; days: number; closed?: boolean } | null;
   suggestEnd: boolean;
+  /** Launch: the save is being read / its content loaded (no Client File, no clock yet). */
+  booting: boolean;
   unread: number;
   /** Ms a coach line takes to type per character at the current speed (0 = instant). */
   typeMs: number;
@@ -78,18 +88,20 @@ export interface Snapshot {
 
 /** `hold`: after `run`, the beat queue waits until the moment it opened is dismissed (timer or tap). */
 interface Beat { wait: number; run: () => void; hold?: boolean }
-interface Timing { typing: number; line: number; bubble: number; outcome: number; stamp: number; coach: number; resume: number; dayFlow: number; autoPick: number; report: number; ageUp: number; typeMs: number; delayScale: number; bigStamp: number; moment: number }
+interface Timing { reportHold: number; typing: number; line: number; bubble: number; outcome: number; stamp: number; coach: number; resume: number; dayFlow: number; autoPick: number; report: number; ageUp: number; typeMs: number; delayScale: number; bigStamp: number; moment: number }
 
 const TICK = 100;
+/** Saves are coalesced: at most one write per this many ms (the last state always lands, trailing). */
+const SAVE_GAP_MS = 1500;
 const MAX_FEED = 90;
 /** HUD cells that show a floating number (ego etc. only appear inline in the outcome line). */
 const FLOAT_STATS = new Set<string>(['health', 'joy', 'brain', 'charm', 'money', 'momPressure', 'cringe']);
 /** Unread counter: +1..3 per shown day depending on the skipped gap (pressure feedback, not a raw day count). */
 const unreadGain = (gap: number) => Math.min(3, 1 + Math.floor(gap / 10));
 /** ▶ 1 day ≈ 6 s all-in, ▶▶ ≈ 2 s (D-066); auto + ▶▶ runs a whole life in a few minutes. */
-const PLAY: Timing = { typing: 380, line: 260, bubble: 420, outcome: 380, stamp: 420, coach: 520, resume: 600, dayFlow: 2600, autoPick: 1500, report: 3200, ageUp: 1100, typeMs: 14, delayScale: 1, bigStamp: 1700, moment: 2600 };
-const FAST: Timing = { typing: 140, line: 90, bubble: 150, outcome: 160, stamp: 260, coach: 220, resume: 250, dayFlow: 900, autoPick: 450, report: 1200, ageUp: 700, typeMs: 4, delayScale: 0.3, bigStamp: 1100, moment: 1800 };
-const TURBO: Timing = { typing: 0, line: 20, bubble: 35, outcome: 40, stamp: 120, coach: 50, resume: 60, dayFlow: 140, autoPick: 120, report: 2800, ageUp: 380, typeMs: 0, delayScale: 0, bigStamp: 650, moment: 1100 };
+const PLAY: Timing = { reportHold: 900, typing: 380, line: 260, bubble: 420, outcome: 380, stamp: 420, coach: 520, resume: 600, dayFlow: 2600, autoPick: 1500, report: 3200, ageUp: 1100, typeMs: 14, delayScale: 1, bigStamp: 1700, moment: 2600 };
+const FAST: Timing = { reportHold: 1100, typing: 140, line: 90, bubble: 150, outcome: 160, stamp: 260, coach: 220, resume: 250, dayFlow: 900, autoPick: 450, report: 1200, ageUp: 700, typeMs: 4, delayScale: 0.3, bigStamp: 1100, moment: 1800 };
+const TURBO: Timing = { reportHold: 1300, typing: 0, line: 20, bubble: 35, outcome: 40, stamp: 120, coach: 50, resume: 60, dayFlow: 140, autoPick: 120, report: 2800, ageUp: 380, typeMs: 0, delayScale: 0, bigStamp: 650, moment: 1100 };
 
 const PHASES_FLOW = new Set(['idle', 'answered']);
 const FAMILY_TAGS = ['aile', 'anne', 'telefon'];
@@ -138,13 +150,20 @@ export class GameController {
   private deferred: { kind: 'promotion' | 'sad'; reason: MomentReason; outfitFrom: ReturnType<typeof outfitFor> } | null = null;
   /** Look per life (engine `lifeSeed` → look). In-memory, like the rest of the session. */
   private looks = new Map<string, Look>();
+  /** Splash / cover is up: the clock and auto wait (LifeScreen calls `uncover`). */
+  private covered = true;
+  private pendingSave: SaveV1 | null = null;
+  private saveTimer: ReturnType<typeof setTimeout> | null = null;
+  private lastSaveAt = 0;
+  private appStateSub: NativeEventSubscription | null = null;
+  private onPageHide: (() => void) | null = null;
 
   constructor() {
     const locale: Locale = 'tr';
     this.snap = {
-      stage: 'file', locale, speed: 'play', auto: false, fastLife: false, view: null, lifeNo: 1, feed: [], floats: [], busy: false,
+      stage: 'file', locale, speed: 'play', auto: false, fastLife: false, view: null, lifeNo: 1, feed: [], floats: [],
       progress: 0, candidate: this.pickName(locale, -1), mood: 'neutral', bigStamp: null, shake: { key: 0, hard: false }, flash: null,
-      ageUp: null, death: null, session: null, suggestEnd: false, unread: 9, typeMs: PLAY.typeMs,
+      ageUp: null, death: null, session: null, suggestEnd: false, booting: true, busy: true, unread: 9, typeMs: PLAY.typeMs,
       draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: 0, look: null, playerMood: 'neutral', moment: null,
     };
   }
@@ -169,8 +188,56 @@ export class GameController {
 
   start(): void {
     if (!this.tickTimer) this.tickTimer = setInterval(() => this.tick(), TICK);
+    this.watchLifecycle();
     if (this.started) { this.scheduleAuto(); return; }
     this.started = true;
+    void this.boot();
+  }
+
+  stop(): void {
+    if (this.tickTimer) clearInterval(this.tickTimer);
+    this.tickTimer = null;
+    this.clearAuto();
+    this.flushSave();
+    this.appStateSub?.remove();
+    this.appStateSub = null;
+    if (this.onPageHide && typeof window !== 'undefined') window.removeEventListener('pagehide', this.onPageHide);
+    this.onPageHide = null;
+  }
+
+  /** The splash is gone: the clock (and auto) may run. */
+  uncover = (): void => {
+    if (!this.covered) return;
+    this.covered = false;
+    this.scheduleAuto();
+  };
+
+  // ── save / continue ───────────────────────────────────────────────────────
+  /** Launch: resume a valid save (content for its age loaded first), else the Client File. Never throws. */
+  private async boot(): Promise<void> {
+    let save: SaveV1 | null = null;
+    try { save = decodeSave(await readItem(SAVE_KEY)); } catch { save = null; }
+    if (save) {
+      // Language, prefs and the legacy survive even when the life itself cannot be resumed.
+      this.meta = save.meta;
+      const locale = save.locale;
+      this.set({ locale, fastLife: save.fastLife, speed: save.speed, auto: false, lifeNo: this.meta.legacy.livesCompleted + 1,
+        candidate: this.pickName(locale, -1) });
+      this.set({ typeMs: this.t().typeMs });
+    }
+    const life = save?.life ?? null;
+    if (save && life) {
+      const age = life.state.calendar.age;
+      try { await prepareContent(age); } catch { /* resolves anyway; checked below */ }
+      if (saveMatchesContent(save, getBundle().contentHash) && contentReadyFor(age)) {
+        try { this.resume(save, life); return; } catch (e) { console.warn('[save] resume failed, starting fresh:', e); this.state = null; }
+      } else console.warn('[save] content changed since the save; starting a new life');
+    }
+    this.freshStart();
+  }
+
+  private freshStart(): void {
+    this.set({ booting: false, stage: 'file', view: null, feed: [] });
     void prepareContent(START_AGE);                                           // packs load while the Client File is up
     this.enqueue([
       { wait: 300, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro1' }, roast: true }) },
@@ -178,10 +245,83 @@ export class GameController {
     ]);
   }
 
-  stop(): void {
-    if (this.tickTimer) clearInterval(this.tickTimer);
-    this.tickTimer = null;
-    this.clearAuto();
+  private resume(save: SaveV1, life: NonNullable<SaveV1['life']>): void {
+    this.state = life.state;
+    const u = life.ui;
+    this.autoDays = u.autoDays; this.lowJoyShown = u.lowJoyShown; this.lastMotto = u.lastMotto; this.lastReport = u.lastReport;
+    this.momentHist = u.momentHist ?? emptyMomentHistory(); this.deferred = null;
+    if (life.look) this.looks.set(life.state.lifeSeed, life.look);
+    const feed = life.feed.filter((f) => f.kind !== 'typing').map((f) => ({ ...f, restored: true }));
+    this.seq = Math.max(this.seq, ...feed.map((f) => f.id + 1));
+    this.dispatch({ type: 'RESUME', localDay: localDay() });                 // new local day → new Günün Günü seed
+    if (this.state.speed !== save.speed) this.dispatch({ type: 'SET_SPEED', speed: save.speed });
+    advanceContent(this.state.calendar.age);
+    this.set({
+      booting: false, stage: 'play', view: this.state, lifeNo: life.lifeNo, look: life.look, unread: u.unread, session: u.session,
+      auto: save.auto, speed: save.speed, progress: 0, busy: false, moment: null, playerMood: 'neutral', mood: 'neutral', suggestEnd: false,
+      feed: [...feed, { id: this.id(), kind: 'coach', ui: { k: 'resumed' } }],
+    });
+    this.set({ typeMs: this.t().typeMs });
+    this.scheduleAuto();
+  }
+
+  private buildSave(): SaveV1 {
+    const s = this.snap, st = this.state;
+    const live = s.stage === 'play' && !!st && st.phase !== 'dead' && !st.death;
+    return {
+      v: 1, savedAt: Date.now(), engine: engineShape(), contentHash: getBundle().contentHash, locale: s.locale, speed: s.speed, auto: s.auto, fastLife: s.fastLife,
+      meta: this.meta,
+      life: live && st ? {
+        state: st, look: this.looks.get(st.lifeSeed) ?? s.look, lifeNo: s.lifeNo, feed: feedForSave(s.feed),
+        ui: { autoDays: this.autoDays, lowJoyShown: this.lowJoyShown, lastMotto: this.lastMotto, lastReport: this.lastReport, unread: s.unread,
+          momentHist: this.momentHist, session: s.session },
+      } : null,
+    };
+  }
+
+  /**
+   * Snapshot now (only where feed and engine agree: no beats in flight), write coalesced. Engine states and feed
+   * arrays are never mutated after `step()` / `set()`, so holding the references until the write is safe.
+   */
+  private persist(now = false): void {
+    if (this.snap.booting) return;
+    if (!this.snap.busy && !this.held) this.pendingSave = this.buildSave();
+    if (!this.pendingSave) return;
+    if (now) { this.flushSave(); return; }
+    if (this.saveTimer) return;
+    this.saveTimer = setTimeout(() => this.flushSave(), Math.max(0, this.lastSaveAt + SAVE_GAP_MS - Date.now()));
+  }
+
+  /** Writes the current state at once, even mid-beat (only for states without a running life: death, new client). */
+  private saveNow(): void {
+    if (this.snap.booting) return;
+    this.pendingSave = this.buildSave();
+    this.flushSave();
+  }
+
+  private flushSave(): void {
+    if (this.saveTimer) clearTimeout(this.saveTimer);
+    this.saveTimer = null;
+    const save = this.pendingSave;
+    if (!save) return;
+    this.pendingSave = null;
+    this.lastSaveAt = Date.now();
+    let raw: string;
+    try { raw = encodeSave(save); } catch (e) { console.warn('[save] encode failed:', e); return; }
+    void writeItem(SAVE_KEY, raw);
+  }
+
+  /** App to background / page hidden: write what we have right away (a killed app must not lose the life). */
+  private watchLifecycle(): void {
+    if (!this.appStateSub) {
+      try {
+        this.appStateSub = AppState.addEventListener('change', (st) => { if (st === 'background' || st === 'inactive') this.persist(true); });
+      } catch { this.appStateSub = null; }
+    }
+    if (!this.onPageHide && Platform.OS === 'web' && typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+      this.onPageHide = () => this.persist(true);
+      window.addEventListener('pagehide', this.onPageHide);
+    }
   }
 
   // ── engine dispatch ───────────────────────────────────────────────────────
@@ -203,7 +343,7 @@ export class GameController {
   }
   private pump(): void {
     const b = this.queue.shift();
-    if (!b) { this.beatTimer = null; this.set({ busy: false }); this.scheduleAuto(); return; }
+    if (!b) { this.beatTimer = null; this.set({ busy: false }); this.scheduleAuto(); this.persist(); return; }
     this.beatTimer = setTimeout(() => {
       b.run();
       if (b.hold && this.snap.moment) { this.beatTimer = null; this.held = true; return; }
@@ -360,6 +500,8 @@ export class GameController {
             this.push({ id: this.id(), kind: 'report', data, motto: this.lastMotto });
             haptic.medium();
           } });
+          // The report card must be on screen before "One More Year" (playtest: at ▶▶ the button beat the card).
+          beats.push({ wait: t.reportHold, run: () => undefined });
           break;
         }
         case 'DEATH':
@@ -436,12 +578,13 @@ export class GameController {
       },
     });
     haptic.heavy();
+    this.saveNow();                                                          // the life is over: keep the legacy, drop the life
   }
 
   // ── clock (D-066) ─────────────────────────────────────────────────────────
   private tick(): void {
     const s = this.snap, st = this.state;
-    if (s.stage !== 'play' || s.busy || !st || s.ageUp || s.moment || s.session || s.speed === 'pause') return;
+    if (s.stage !== 'play' || s.busy || !st || s.ageUp || s.moment || s.session || s.speed === 'pause' || this.covered) return;
     if (!PHASES_FLOW.has(st.phase)) return;
     const p = s.progress + TICK / this.t().dayFlow;
     if (p >= 1) { this.set({ progress: 1 }); this.nextDay(); } else this.set({ progress: p });
@@ -460,7 +603,7 @@ export class GameController {
   private scheduleAuto(): void {
     this.clearAuto();
     const s = this.snap;
-    if (!s.auto || s.busy || s.speed === 'pause' || s.session) return;
+    if (!s.auto || s.busy || s.speed === 'pause' || s.session || this.covered || s.booting) return;
     const t = this.t();
     // FTUE only: on the very first Client File auto may keep the name; after a death the player always picks.
     if (s.stage === 'file') { if (s.lifeNo === 1 && !this.meta.legacy.livesCompleted) this.autoTimer = setTimeout(() => this.keepName(), 1800); return; }
@@ -509,9 +652,10 @@ export class GameController {
     haptic.selection();
     const [name, city] = CATALOG[locale].names[this.snap.candidate.i]!;
     this.set({ locale, candidate: this.snap.stage === 'file' ? { name, city, i: this.snap.candidate.i } : this.snap.candidate });
+    this.persist();
   };
 
-  toggleFastLife = (): void => { haptic.selection(); this.set({ fastLife: !this.snap.fastLife }); };
+  toggleFastLife = (): void => { haptic.selection(); this.set({ fastLife: !this.snap.fastLife }); this.persist(); };
 
   keepName = (): void => {
     if (this.snap.stage !== 'file' || this.waitingContent) return;
@@ -564,6 +708,7 @@ export class GameController {
     this.set({ speed });
     this.set({ typeMs: this.t().typeMs });
     this.scheduleAuto();
+    this.persist();
   };
 
   toggleAuto = (): void => {
@@ -571,6 +716,7 @@ export class GameController {
     this.set({ auto: !this.snap.auto, suggestEnd: false });
     this.set({ typeMs: this.t().typeMs });
     this.scheduleAuto();
+    this.persist();
   };
 
   endSession = (): void => {
@@ -581,9 +727,24 @@ export class GameController {
     this.clearAuto();
     this.set({ session: { years: st.calendar.age - 18, days: st.counters.shownDays }, suggestEnd: false });
     if (r.effects.some((e) => e.kind === 'NOTIFY_PLAN' && e.teaserKeys.length)) this.push({ id: this.id(), kind: 'sys', ui: { k: 'envelopeOpened' } });
+    this.persist();
   };
 
-  closeSession = (): void => { this.dispatch({ type: 'RESUME', localDay: localDay() }); this.set({ session: null }); this.scheduleAuto(); };
+  closeSession = (): void => { this.dispatch({ type: 'RESUME', localDay: localDay() }); this.set({ session: null }); this.scheduleAuto(); this.persist(); };
+
+  /**
+   * "Close" on the Enough-for-today sheet: the stop is honoured — saved at once, nothing runs. Android leaves the
+   * app; iOS / web (no programmatic exit) keep a quiet "notebook closed" sheet until Continue.
+   */
+  closeForToday = (): void => {
+    const s = this.snap.session;
+    if (!s) return;
+    haptic.selection();
+    this.clearAuto();
+    this.set({ session: { ...s, closed: true } });
+    this.persist(true);
+    if (Platform.OS === 'android') { try { BackHandler.exitApp(); } catch { /* stays on the closed sheet */ } }
+  };
 
   newClient = (): void => {
     this.flushBeats();
@@ -598,6 +759,7 @@ export class GameController {
       draftLook: generateLook(randomSeed()), lookChanged: null, lookNonce: this.snap.lookNonce + 1, look: null, playerMood: 'neutral', moment: null,
     });
     haptic.success();
+    this.saveNow();
     this.enqueue([{ wait: 200, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro1' }, roast: true }) }]);
   };
 }

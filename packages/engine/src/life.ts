@@ -46,7 +46,13 @@ export function createLife(seed: string, name: string, contentHash: string, opts
   const patterns = Object.fromEntries(PATTERNS.map((p) => [p, 0])) as Record<PatternId, number>;
   const stats = { ...TUNING.stats.start } as Record<StatId, number>;
   const money = { balance: TUNING.economy.startMoneyPara, debt: 0 };
-  const npcs: Npc[] = FACES.map((role) => ({ role, exists: role !== 'ex' && role !== 'boss', alive: true, affinity: role === 'mom' ? 60 : 20, memories: [] }));
+  const ages = TUNING.npcLife as unknown as Record<string, { ageAtStart?: number } | undefined>;
+  const npcs: Npc[] = FACES.map((role) => {
+    const n: Npc = { role, exists: role !== 'ex' && role !== 'boss', alive: true, affinity: role === 'mom' ? 60 : 20, memories: [] };
+    const a = ages[role]?.ageAtStart;
+    if (a !== undefined) n.bornDay = -a * 365;                    // NPC aging (npcLife): age on the 18th birthday
+    return n;
+  });
   const iso = toISO(start);
   const st: LifeState = {
     schemaVersion: 1, lifeSeed: seed, name, locale: opts.locale ?? 'tr', voice: opts.voice ?? 'normal', contentHash,
@@ -71,7 +77,8 @@ export function createLife(seed: string, name: string, contentHash: string, opts
     },
     yearStats: freshYearStats({ stats, money, npcs, patterns }),
     counters: zeroCounters(),
-    card: null, lastReport: null, notebook: [], diagnoses: [], glossary: [], death: null,
+    card: null, lastReport: null, notebook: [], diagnoses: [], glossary: [], death: null, pendingDeath: null,
+    rituals: { birthday: [], motto: {}, noEnvelope: [], noWager: [] },
     rng: {},
   };
   return st;

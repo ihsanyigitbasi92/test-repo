@@ -68,11 +68,12 @@ export function applyEffects(
     moneyDelta(st, m);
     out.push({ kind: 'FLOAT_NUM', stat: 'money', delta: m });
   }
+  const wasMarried = st.flags.includes('evli');
   for (const f of fx.flags?.add ?? []) addFlag(st, f);
   for (const f of fx.flags?.remove ?? []) removeFlag(st, f);
   for (const n of fx.npc ?? []) {
     const x = npc(st, n.role);
-    if (n.create) x.exists = true;
+    if (n.create) { x.exists = true; if (n.role === 'child' && x.bornDay === undefined) x.bornDay = st.calendar.calendarDay; }
     if (n.kill) x.alive = false;
     if (n.affinity) x.affinity = clamp(x.affinity + n.affinity, 0, 100);
     if (n.memory && !x.memories.includes(n.memory)) x.memories.push(n.memory);
@@ -98,6 +99,7 @@ export function applyEffects(
     for (const a of s.assets?.add ?? []) if (!st.status.assets.includes(a)) st.status.assets.push(a);
     for (const a of s.assets?.remove ?? []) st.status.assets = st.status.assets.filter((x) => x !== a);
   }
+  relationshipContinuity(st, wasMarried);
   const idx = indexContent(content);
   for (const fu of fx.followUp ?? []) {
     const target = idx.byId.get(fu.eventId);
@@ -120,6 +122,19 @@ export function applyEffects(
   if (fx.notebook) st.notebook.push({ kind: 'note', key: fx.notebook.key, dayIndex: st.calendar.dayIndex });
   if (fx.death && st.calendar.age >= TUNING.hazard.scriptedDeathMinAge) return fx.death.cause;
   return null;
+}
+
+/**
+ * Playtest 2026-11-12 continuity: married tenure counts from the wedding (HUD "Evli · N yıldır" read `since` from the
+ * first date), and a single life carries no engagement (a stale `nisanli` let a ring-congratulation fire on "Bekâr").
+ */
+function relationshipContinuity(st: LifeState, wasMarried: boolean): void {
+  const p = st.status.partner;
+  if (!p) { removeFlag(st, 'nisanli'); return; }
+  if (!wasMarried && st.flags.includes('evli')) {
+    st.status.partner = { ...p, since: st.calendar.calendarDay, datingSince: p.datingSince ?? p.since };
+    removeFlag(st, 'nisanli');
+  }
 }
 
 /** Envelope queue (03 §2.8): due 7–45 calendar days; at most 2 open, the lightest drops silently. */

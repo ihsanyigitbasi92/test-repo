@@ -8,6 +8,7 @@ import { Animated, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, speakerColor, speakerFallback } from '../theme';
 import { upper, useI18n } from '../i18n';
 import { uiText } from '../state/feed';
+import { humanizeId } from '../i18n/labels';
 import type { FeedItemOf } from '../state/feed';
 import { useAppear, useTypewriter } from './anim';
 import { Avatar, CatSprite } from '../avatar/Avatar';
@@ -34,9 +35,9 @@ export function NpcFace({ speaker, avatar, age, size = 34 }: { speaker: string; 
 }
 
 export function NpcBubble({ item }: { item: FeedItemOf<'npc'> }) {
-  const { s, text } = useI18n();
+  const { s, text, locale } = useI18n();
   const anim = useAppear('slide');
-  const name = s.speaker[item.speaker] ?? item.speaker.replace(/^npc:/, '').toUpperCase();
+  const name = s.speaker[item.speaker] ?? upper(locale, humanizeId(locale, item.speaker));
   return (
     <Animated.View style={[st.npc, anim]} testID="npc-bubble">
       <NpcFace speaker={item.speaker} avatar={item.avatar} age={item.age} />

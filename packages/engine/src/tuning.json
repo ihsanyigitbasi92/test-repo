@@ -146,7 +146,37 @@
     "ageHardCap": 100,
     "scriptedDeathMinAge": 28,
     "causeClasses": ["circ", "tumor", "resp", "accident", "external", "absurd"],
-    "causeWeightsByAge": [[29, [10, 5, 5, 40, 35, 5]], [44, [25, 20, 5, 25, 20, 5]], [64, [40, 30, 10, 8, 7, 5]], [200, [45, 25, 15, 5, 5, 5]]]
+    "causeWeightsByAge": [[29, [10, 5, 5, 45, 25, 10]], [44, [30, 25, 10, 15, 10, 10]], [64, [42, 32, 12, 6, 3, 5]], [200, [45, 25, 20, 4, 1, 5]]],
+    "causeState": {
+      "$comment": "Playtest 2026-11-12: cause follows state. Per-mille multipliers on the age-band weights. Rows [maxHealthPoints, illnessPm, suddenPm] (illness = circ/tumor/resp, sudden = accident/external); absurd stays as is.",
+      "byHealth": [[19, 5000, 150], [34, 2500, 400], [59, 1000, 1000], [100, 600, 1300]],
+      "stressAbovePoints": 70, "stressCircPm": 1800,
+      "sigaraRespTumorPm": 1800, "sporcuCircPm": 600
+    },
+    "omen": {
+      "$comment": "Son perde: an illness death rolled on a birthday while health < healthBelowPoints or age >= ageFrom is deferred by deathDelayDays and foreshadowed by 1..maxCards 'omen' events (forced, priority 6). No omen event eligible -> immediate death (old behaviour).",
+      "healthBelowPoints": 35, "ageFrom": 70, "maxCards": 2, "secondCardChanceBp": 6000,
+      "deathDelayDays": [45, 150], "firstOmenDays": [3, 20], "omenGapDays": [10, 40],
+      "illnessClasses": ["circ", "tumor", "resp"], "tag": "omen", "flag": "son_perde"
+    }
+  },
+  "npcLife": {
+    "$comment": "NPC aging (playtest 2026-11-12: cat lived 65 years, mom ~100). Each birthday every living NPC in `roles` rolls its yearly death chance (bp) from `hazardBpByAge` [[maxNpcAge, bp]] on the hazard channel (after the player's die). ageAtStart = NPC age on the player's 18th birthday. On a hit one eligible 'loss:<role>' event is queued (priority 6) and the NPC dies when that card is shown (or when the item is dropped). No loss event in the bundle -> no roll.",
+    "roles": ["cat", "mom", "uncle", "neighbor"],
+    "dueDays": [5, 60],
+    "pendingFlagPrefix": "kayip_sirada_",
+    "deadMemory": "vefat",
+    "cat": { "ageAtStart": 2, "hazardBpByAge": [[13, 0], [15, 1500], [17, 2500], [19, 4000], [21, 6000], [200, 10000]] },
+    "mom": { "ageAtStart": 47, "hazardBpByAge": [[73, 0], [79, 300], [84, 700], [89, 1500], [94, 3000], [200, 10000]] },
+    "uncle": { "ageAtStart": 42, "hazardBpByAge": [[71, 0], [77, 400], [82, 900], [87, 1800], [92, 3500], [200, 10000]] },
+    "neighbor": { "ageAtStart": 42, "hazardBpByAge": [[73, 0], [79, 300], [84, 700], [89, 1500], [94, 3000], [200, 10000]] },
+    "impliedByTag": { "$comment": "Implicit NPC gate by tag (like the D-062 speaker gate): an event carrying one of these tags needs the role alive, unless its pre names that role under npc or it carries a grief tag.", "kedi": "cat", "pamuk": "cat", "evcil_pamuk": "cat", "anne": "mom", "cagri_anne": "mom", "dayi": "uncle", "komsu_sukran": "neighbor" },
+    "griefTags": ["veda_kayip", "cenaze_taziye", "miras_vasiyet", "yas"]
+  },
+  "child": {
+    "$comment": "Minimal child-age gate (content schema has no childAge leaf). Child age = (calendarDay - npc.bornDay)/365. Tag rows [tag, minYears, maxYears] (-1 = open); untagged child events need childAge >= pre.age.min - assumedParentAge. Legacy children without bornDay are not gated.",
+    "assumedParentAge": 32,
+    "byTag": [["bebek", 0, 4], ["yeni_ebeveyn", 0, 5], ["cocuk_buyutme", 3, -1], ["okul", 6, -1], ["ergen", 12, -1], ["yetiskin_cocuk", 18, -1], ["bos_yuva", 18, -1], ["torun", 22, -1], ["torunlar", 22, -1]]
   },
   "roast": {
     "topPatterns": 3,
@@ -155,7 +185,21 @@
   "report": {
     "decadeAges": [30, 40, 50, 60],
     "gradeDelta": [10, 3, -2, -9],
-    "moneyRatioPm": [500, 150, -150, -500]
+    "moneyRatioPm": [500, 150, -150, -500],
+    "absolute": {
+      "$comment": "Playtest 2026-11-12: the yearly-delta grade is capped/floored by the absolute level. caps [[belowPoints, maxGrade]] (first match wins, lowest threshold first), floors [[atLeastPoints, minGrade]] (highest first). Grades: 4 A · 3 B · 2 C · 1 D · 0 F. Money in Para.",
+      "health": { "caps": [[10, 0], [20, 1], [35, 2]], "floors": [[90, 4], [80, 3]] },
+      "brain": { "caps": [[10, 0], [20, 1], [35, 2]], "floors": [[90, 4], [80, 3]] },
+      "relationships": { "caps": [[10, 0], [20, 1], [30, 2]], "floors": [[80, 4], [65, 3]] },
+      "money": { "caps": [[-10000, 0], [0, 1]], "floors": [[100000, 2]] }
+    }
+  },
+  "ritual": {
+    "$comment": "Yearly ritual variants (playtest: the birthday line / Yılın Mottosu / 'Zarf yok' repeated verbatim 46x). The engine picks an index on the cosmetic channel, never one used in the last noRepeatYears picks; the app owns the text (apps/mobile i18n). Pool sizes must match the app catalog.",
+    "birthdayVariants": 12, "birthdayNoRepeatYears": 6,
+    "mottoVariants": 6, "mottoNoRepeatYears": 3,
+    "noEnvelopeVariants": 8, "noEnvelopeNoRepeatYears": 4,
+    "noWagerVariants": 6, "noWagerNoRepeatYears": 3
   },
   "milestones": {
     "$comment": "D-157 Hayat Yolu: on each birthday, a stage whose conditions hold rolls chanceBp; on success one eligible 'milestone:<id>' event is queued (priority 6, in dueMin..dueMax days).",
