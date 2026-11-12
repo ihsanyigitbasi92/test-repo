@@ -1,0 +1,162 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_uzatma_kablosu_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Elektriğim kesik, iki saatlik iş. Kabloyu senin prize takabilir miyim?",
+      "en": "My power's out. Two-hour job, tops. Mind if I run a cord from your outlet?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Üçüncü gün, hâlâ iki saatlik iş. Su ısıtıcısını da taktım, çay senden.",
+      "en": "Day three, still a two-hour job. I plugged in the kettle too. Tea's on you.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "pay",
+      "tr": "Elektrik payını iste",
+      "en": "Ask for a share of the bill",
+      "pattern": "pride"
+    },
+    {
+      "id": "cek",
+      "tr": "Kabloyu çek",
+      "en": "Unplug the cord",
+      "pattern": "risk"
+    },
+    {
+      "id": "idare",
+      "tr": "Bir hafta daha idare et",
+      "en": "Let it ride another week",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "pay": {
+      "effects": {
+        "money": 180,
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "esnaf_tiras_borcu"
+          ]
+        }
+      },
+      "tr": "Sayaç farkını hesapladın: 180 Para. Komşu esnaf ödedi, üstüne bir tıraş borçlandı.",
+      "en": "You worked out the meter difference: 180. Your neighbor paid it, plus an IOU for one free haircut.",
+      "coach": [
+        {
+          "tr": "180 Para, bir tıraş.",
+          "en": "180 and one haircut.",
+          "roast": false
+        }
+      ]
+    },
+    "cek": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Kabloyu çektin. Yan dükkânda bir müşteri yarım tıraşla kaldı; komşu akşama kadar seninle konuşmadı.",
+      "en": "You pulled the plug. Next door, a customer was left half-shaved. Your neighbor didn't speak to you until closing.",
+      "coach": [
+        {
+          "tr": "Yarım tıraş, tam küslük.",
+          "en": "A half shave. A full grudge.",
+          "roast": false
+        }
+      ]
+    },
+    "idare": {
+      "effects": {
+        "money": -220,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "esnaf_yedek_kablo"
+          ]
+        }
+      },
+      "tr": "Kablo bir hafta daha uzandı. Elektrik gelince de komşu kabloyu sökmedi, \"yedek\" dedi.",
+      "en": "The cord stayed another week. When the power came back, your neighbor kept it plugged in \"as a backup.\"",
+      "coach": [
+        {
+          "tr": "Kablo kalıcı oldu.",
+          "en": "The cord has tenure now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "yan dükkânın elektriği kesilince komşu esnaf senin prizinden uzatma kablosu çekiyor ve günler uzuyor",
+    "mechanism": "\"iki saatlik iş\" üçüncü güne giriyor",
+    "mechanismId": "literalism",
+    "punch": "üçüncü gün de iki saatlik iş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yedek_kablo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

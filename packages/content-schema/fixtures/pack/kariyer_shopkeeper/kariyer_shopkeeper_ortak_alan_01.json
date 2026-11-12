@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_ortak_alan_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Yönetim duyuru astı. Kaldırım ortak alanmış, sebze sergisi yasak.",
+      "en": "Management posted a notice. The sidewalk is a common area. No produce displays."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Duyuruyu ben yazmadım ama ben astım. Sizin domatesler girişte.",
+      "en": "I didn't write the notice. I did post it. Your tomatoes are in the entryway."
+    },
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "happy",
+      "tr": "Kaldırım ortak alansa topumu da oraya koyabilir miyim?",
+      "en": "If the sidewalk's a common area, can I keep my ball there?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "icer",
+      "tr": "Tezgâhı içeri al",
+      "en": "Bring the stand inside",
+      "pattern": "patience"
+    },
+    {
+      "id": "toplanti",
+      "tr": "Yönetim toplantısına git",
+      "en": "Go to the building meeting",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "domates",
+      "tr": "Yöneticiye domates götür",
+      "en": "Bring the manager tomatoes",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "icer": {
+      "effects": {
+        "money": -400,
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Tezgâh içeride. Sebze satışı düştü, dükkânda yürümek için yan dönmek gerekiyor.",
+      "en": "The stand is indoors now. Produce sales dropped, and getting down the aisle takes a sideways shuffle.",
+      "coach": [
+        {
+          "tr": "Domatesler içeride. Müşteriler yan yan.",
+          "en": "Tomatoes inside. Customers sideways.",
+          "roast": true
+        }
+      ]
+    },
+    "toplanti": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "esnaf_domates_istisnasi"
+            ]
+          }
+        },
+        "tr": "Tezgâhın bir metre geri çekilmesi şartıyla izin çıktı. Tutanağa \"domates istisnası\" diye geçti.",
+        "en": "Permission granted, provided the stand moves back one meter. The minutes call it \"the tomato exception.\"",
+        "coach": [
+          {
+            "tr": "Bir metre geri, bir istisna ileri.",
+            "en": "One meter back. One exception forward.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Toplantıda tek oy sendin. Tezgâh içeri girdi, top kaldırıma çıktı.",
+        "en": "You were the only vote. The stand went inside. The ball went out on the sidewalk.",
+        "coach": [
+          {
+            "tr": "Kaldırımın yeni kiracısı bir top.",
+            "en": "The sidewalk's new tenant is a ball.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "domates": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Yöneticiye bir kasa domates götürdün. Duyuru yerinde kaldı; yöneticinin balkonunda domates kuruyor.",
+      "en": "You brought the manager a crate of tomatoes. The notice stayed up. The tomatoes are now drying on the manager's balcony.",
+      "coach": [
+        {
+          "tr": "Domatesler ortak alana çıkmış. Yöneticinin balkonuna.",
+          "en": "Your tomatoes did reach a common area. The manager's balcony.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "bina yönetiminin kaldırımı ortak alan ilan edip dükkân önündeki sebze tezgâhını yasaklayan duyurusu",
+    "mechanism": "ortak alan kuralını çocuk harfiyen uyguluyor",
+    "mechanismId": "literalism",
+    "punch": "domatesler girişte",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "domates_istisnasi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

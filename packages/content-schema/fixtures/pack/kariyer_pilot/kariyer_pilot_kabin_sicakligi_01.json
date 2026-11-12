@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_kabin_sicakligi_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Ön taraf battaniye istiyor, arka taraf vantilatör. Ortadaki bir yolcu ikisini de.",
+      "en": "Front wants blankets. Back wants a fan. One passenger in the middle wants both."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Ayar sende. Ben son dokunduğumda iki şikâyet formu geldi.",
+      "en": "Your call. Last time I touched it, we got two complaint forms.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ayar",
+      "tr": "İki derecelik ince ayar yap",
+      "en": "Fine-tune it by two degrees",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bolge",
+      "tr": "Önü ve arkayı ayrı ayarla",
+      "en": "Set front and back separately",
+      "pattern": "overwork"
+    },
+    {
+      "id": "birak",
+      "tr": "Kararı kabin amirine bırak",
+      "en": "Leave it to the cabin manager",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ayar": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            },
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "İki derece sonra ön de arka da sustu. Ortadaki yolcu battaniyeyi ve vantilatörü iade etti.",
+        "en": "Two degrees later, front and back both went quiet. The middle passenger returned the blanket and the fan.",
+        "coach": [
+          {
+            "tr": "İki derece. Kabinde barış.",
+            "en": "Two degrees. Peace in the cabin.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Ayardan sonra ön sıralar terledi, arka sıralar battaniye istedi.",
+        "en": "After the change, the front rows started sweating and the back rows asked for blankets.",
+        "coach": [
+          {
+            "tr": "Şikâyetler koltuk değiştirdi. Sayısı aynı.",
+            "en": "The complaints swapped seats. Same headcount.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bolge": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Bölgeleri ayrı ayarladın. Ortadaki yolcu iki bölgenin tam sınırında oturduğunu öğrenince koltuk değiştirmek istedi.",
+      "en": "You set the zones separately. The middle passenger learned they were sitting exactly on the border and asked to move.",
+      "coach": [
+        {
+          "tr": "Kabinde iki iklim, bir sınır yolcusu.",
+          "en": "Two climates on board, and one passenger living on the border.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ],
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Kabin amiri herkese su dağıttı. Şikâyet formlarında \"su soğuktu\" yazıyordu.",
+      "en": "The cabin manager handed everyone water. The complaint forms said, \"The water was cold.\"",
+      "coach": [
+        {
+          "tr": "Sorun çözüldü. Yeni sorun su.",
+          "en": "Problem solved. New problem: the water.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ayar",
+    "slip": {
+      "tr": "İDDİA: Şikâyetler sadece yer değiştirir. — M.",
+      "en": "WAGER: The complaints just change seats. — M."
+    }
+  },
+  "intent": {
+    "setup": "kabin amiri kabin sıcaklığı yüzünden kokpite üçüncü kez geliyor: ön sıralar üşüyor, arka sıralar yanıyor",
+    "mechanism": "her ayar şikâyetin yerini değiştiriyor",
+    "mechanismId": "deadpan_report",
+    "punch": "ortadaki yolcu ikisini de istiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yer_degisti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

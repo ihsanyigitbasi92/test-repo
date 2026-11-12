@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_crypto_ev_kapanisi_01",
+  "tags": [
+    "kariyer",
+    "kripto",
+    "kariyer_crypto"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_crypto": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 54
+    },
+    "career": {
+      "anyOf": [
+        "crypto"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ödemeyi coin'le kabul ederim demiştim. Ama kapanış bugün, fiyat da sabahtan beri düşüyor.",
+      "en": "I said I'd take crypto for the house. But closing is today, and the price has been sliding since morning."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Farkı öğlene kadar tamamlamanız lazım. Tapu memuru çay söyledi, bekliyor.",
+      "en": "You need to cover the difference by noon. The deeds clerk ordered tea. They are waiting.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sabit",
+      "tr": "Sabit fiyatla yeniden yaz",
+      "en": "Rewrite at a fixed price",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "fark",
+      "tr": "Farkı hemen öde",
+      "en": "Cover the gap right now",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "erte",
+      "tr": "Kapanışı ertele",
+      "en": "Postpone the closing",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "sabit": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1500,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kripto_ev_alindi"
+            ]
+          }
+        },
+        "tr": "Sözleşmeyi sabit fiyatla yeniden yazdınız; masraf 1.500 Para. Tapu memuru üçüncü çayında imzaları aldı.",
+        "en": "You rewrote it at a fixed price, 1,500 in fees. The clerk collected signatures over their third tea.",
+        "coach": [
+          {
+            "tr": "Üç çay, bir tapu.",
+            "en": "Three teas, one deed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -6000,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kripto_ev_alindi"
+            ]
+          }
+        },
+        "tr": "Satıcı sabit fiyatı reddetti. Öğlene kadar fark 6.000 Para'ya çıktı; birikimden ödedin.",
+        "en": "The seller refused a fixed price. By noon the gap had grown to 6,000. It came out of your savings.",
+        "coach": [
+          {
+            "tr": "Tapu senin. Öğle saati satıcının.",
+            "en": "The deed is yours. The noon deadline was theirs.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "fark": {
+      "effects": {
+        "money": -4000,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kripto_ev_alindi"
+          ]
+        }
+      },
+      "tr": "Farkı hemen ödedin: 4.000 Para. Ev senin; satıcı çıkarken \"bir dahakine nakit\" dedi.",
+      "en": "You paid the gap on the spot: 4,000. The house is yours. The seller left saying, 'Cash next time.'",
+      "coach": [
+        {
+          "tr": "Ev senin. Sabahki fiyat tarih oldu.",
+          "en": "The house is yours. The morning price is history.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Kapanışı erteledin. Satıcı kaporadan 800 Para kesti ve evi yeniden ilana koydu.",
+      "en": "You postponed. The seller kept 800 of the deposit and relisted the house.",
+      "coach": [
+        {
+          "tr": "İlan yeniden yayında. Arayış da.",
+          "en": "The listing is back up. Your search is too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sabit",
+    "slip": {
+      "tr": "İDDİA: Satıcı sabite yanaşmaz. — M.",
+      "en": "WAGER: The seller won't fix the price. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev kapanışında satıcı ödemeyi coin ile kabul ediyor ama fiyat sabahtan beri düşüyor ve fark öğlene kadar isteniyor",
+    "mechanism": "tapu masası grafiğin insafına kalıyor",
+    "mechanismId": "escalation",
+    "punch": "tapu memuru çay söyledi, bekliyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tapu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

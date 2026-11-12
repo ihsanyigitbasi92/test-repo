@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_accountant_sifreli_ekstre_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "ÖZKAYA TEKSTİL LTD. — MUHASEBE YAZIŞMASI (kurgusal)",
+      "en": "OAKRIDGE TEXTILES LTD. — ACCOUNTS CORRESPONDENCE (fictional)"
+    },
+    "body": {
+      "tr": "Ekte hesap dökümleri yer almaktadır. Dosya şifresi, şirket yetkilisinin doğum tarihidir.",
+      "en": "Please find the account statements attached. The file password is the authorized signatory's date of birth."
+    },
+    "translate": {
+      "tr": {
+        "from": "şirket yetkilisi",
+        "to": "kim olduğunu kimse bilmiyor"
+      },
+      "en": {
+        "from": "authorized signatory",
+        "to": "nobody knows who that is"
+      }
+    },
+    "glossaryKey": "sirket_yetkilisi"
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Dökümler yarına lazım. Şifre yetkilinin doğum günüymüş, müşteriye sor.",
+      "en": "I need those statements by tomorrow. The password's the signatory's birthday. Ask the client."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "typing",
+      "tr": "Müşteriyi aradım. Yetkili üç kişiymiş, hiçbiri dosyayı göndermemiş.",
+      "en": "I called the client. Three people are authorized. None of them sent the file.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "Tarihleri tek tek dene",
+      "en": "Try the birthdays one by one",
+      "pattern": "patience",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sifresiz",
+      "tr": "Şifresiz göndermelerini iste",
+      "en": "Ask for an unlocked copy",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "patron",
+      "tr": "Patrona bırak",
+      "en": "Hand it to your boss",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "glossary": "sirket_yetkilisi"
+        },
+        "tr": "Şirketin sayfasındaki \"kurucumuz\" yazısından tarihi buldun, dosya açıldı. Patron yöntemi sormadı.",
+        "en": "You found a founding date on the company's \"Our Founder\" page, and the file opened. Your boss didn't ask how.",
+        "coach": [
+          {
+            "tr": "Dosya açıldı.",
+            "en": "File unlocked.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "glossary": "sirket_yetkilisi"
+        },
+        "tr": "Üç tarih de tutmadı. Dosyayı gönderen stajyermiş; şifre stajyerin doğum günüymüş.",
+        "en": "None of the three birthdays worked. The file was sent by an intern. The password was the intern's birthday.",
+        "coach": [
+          {
+            "tr": "Yetkili, stajyer çıktı.",
+            "en": "The signatory was the intern.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sifresiz": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "acc_fotograf_dokum"
+          ]
+        },
+        "glossary": "sirket_yetkilisi"
+      },
+      "tr": "Şifresiz dosya geldi, \"güvenlik için\" notuyla: dökümün kâğıt çıktısının fotoğrafı.",
+      "en": "An unlocked copy arrived, labeled \"for security\": a photo of a printout of the statement.",
+      "coach": [
+        {
+          "tr": "Dosya açık. Okunmuyor.",
+          "en": "File unlocked. Not legible.",
+          "roast": false
+        }
+      ]
+    },
+    "patron": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "glossary": "sirket_yetkilisi"
+      },
+      "tr": "Patron müşteriyi aradı, şifre telefonda söylendi. Şifre patronun doğum günüymüş.",
+      "en": "Your boss called the client and got the password over the phone. It was your boss's birthday.",
+      "coach": [
+        {
+          "tr": "Yetkili belli oldu.",
+          "en": "Signatory identified.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "müşterinin gönderdiği hesap dökümünün şifresi şirket yetkilisinin doğum tarihi, yetkilinin kim olduğu belirsiz",
+    "mechanism": "\"şirket yetkilisi\" kim olduğu bilinmeyen kişi",
+    "mechanismId": "translation",
+    "punch": "yetkili üç kişiymiş, hiçbiri göndermemiş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dogum_gunu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

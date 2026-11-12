@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_yarim_saat_seans_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 35
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Merkez olarak yeni modele geçiyoruz. Seanslar elli dakika değil, otuz. Ücret aynı.",
+      "en": "The center's switching models. Sessions go from fifty minutes to thirty. Same price."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Danışanlara \"yoğunlaştırılmış seans\" diyeceğiz. Kulağa daha pahalı geliyor.",
+      "en": "We'll call it a 'concentrated session.' Sounds more expensive.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Yönetime yazılı itiraz et",
+      "en": "File a written objection",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "uy",
+      "tr": "Otuz dakikaya uy",
+      "en": "Go along with thirty",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ayril",
+      "tr": "Danışanlarınla ayrıl",
+      "en": "Leave with your clients",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 4000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "İtirazın kabul edildi; senin danışanların elli dakikada kaldı. Diğer koçlar dilekçeni kopyaladı.",
+        "en": "Objection upheld. Your clients keep their fifty minutes. The other coaches copied your memo.",
+        "coach": [
+          {
+            "tr": "Yirmi dakika geri alındı. Yazıyla.",
+            "en": "Twenty minutes reclaimed. In writing.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: bir basamak.",
+            "en": "Goal counter: one rung.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "İtiraz reddedildi. Seansların otuz dakikaya indi, takvimine iki danışan daha eklendi.",
+        "en": "Objection denied. Your sessions are thirty minutes now, and two more clients landed on your calendar.",
+        "coach": [
+          {
+            "tr": "Süre kısaldı, liste uzadı. Merkez buna verimlilik diyor.",
+            "en": "Shorter sessions, longer list. The center calls this efficiency.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uy": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Otuz dakikaya uydun. Danışanlar her seansın son on dakikasını koridorda, montlarını giyerken konuşuyor.",
+      "en": "You went along. Clients now spend the last ten minutes of each session in the hallway, coats half on.",
+      "coach": [
+        {
+          "tr": "Seans koridorda sürüyor. Ücretsiz bölümü orası.",
+          "en": "The session continues in the hallway. That's the free tier.",
+          "roast": true
+        }
+      ]
+    },
+    "ayril": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "status": {
+          "job": {
+            "title": "serbest hayat koçu",
+            "tier": 1,
+            "monthly": 1600
+          }
+        },
+        "flags": {
+          "add": [
+            "koc_serbest_kafe"
+          ]
+        }
+      },
+      "tr": "Dört danışanla ayrıldın; salı ve perşembe bir kafede çalışıyorsun. İlk ay kira payın 800 Para eksik kaldı.",
+      "en": "You left with four clients and now coach from a café on Tuesdays and Thursdays. Month one, you came up 800 short on rent.",
+      "coach": [
+        {
+          "tr": "Dört danışan, bir kafe masası, saat başı bir çay.",
+          "en": "Four clients, one café table, a tea an hour.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Merkez geri adım atmaz. — M.",
+      "en": "WAGER: The center won't budge. — M."
+    }
+  },
+  "intent": {
+    "setup": "çalıştığın koçluk merkezi seansları elli dakikadan otuza indiriyor, ücreti aynı tutuyor",
+    "mechanism": "kısaltma pahalı bir adla paketleniyor",
+    "mechanismId": "deadpan_report",
+    "punch": "Merkez buna verimlilik diyor",
+    "lift": "hedef sayacı: bir basamak",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "verimlilik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_kosu_hedefi_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 35,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Bize \"hedefini herkese söyle\" demiştiniz. Biz de sizin on kilometrenizi herkese söyledik.",
+      "en": "You told us to announce our goals. So we announced your 10K to everyone."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bitiş çizgisinde pankartla bekleyeceğiz. Adınız büyük harfle yazıyor.",
+      "en": "We'll be at the finish line with a banner. Your name's in capitals.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Koş ve bitir",
+      "en": "Run it and finish",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "yuru",
+      "tr": "Yürüyerek tamamla",
+      "en": "Walk the course",
+      "pattern": "patience"
+    },
+    {
+      "id": "erte",
+      "tr": "Yarışı ertele",
+      "en": "Postpone the race",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "On kilometreyi bitirdin. Pankartta adının altında \"HEDEFİNİ SÖYLEDİ\" yazıyordu; bitişte herkes yüksek sesle okudu.",
+        "en": "You finished the 10K. Under your name the banner read 'SAID IT OUT LOUD.' The whole finish area read it aloud.",
+        "coach": [
+          {
+            "tr": "İlan edildi, koşuldu, bitti.",
+            "en": "Announced, run, done.",
+            "roast": false
+          },
+          {
+            "tr": "Tek Hedef'e on kilometre.",
+            "en": "Ten kilometers logged to the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": -2,
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Yedinci kilometrede baldırın kasıldı. Danışanlar pankartı yola taşıdı ve son üç kilometreyi seninle yürüdü.",
+        "en": "Your calf seized at kilometer seven. Your clients carried the banner onto the course and walked the last three with you.",
+        "coach": [
+          {
+            "tr": "Son üç kilometre grup seansıydı.",
+            "en": "The last three kilometers were a group session.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yuru": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Yürüyerek bitirdin, sondan ikinci. Pankart toplanmıştı ama danışanlar sana bir sandviç bırakmıştı.",
+      "en": "You walked it, second to last. The banner was packed away, but your clients had left you a sandwich.",
+      "coach": [
+        {
+          "tr": "Bitti. Sandviç bekledi.",
+          "en": "Finished. The sandwich waited.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "koc_kosu_ertelendi"
+          ]
+        }
+      },
+      "tr": "Yarışı erteledin. Danışanlar pankartı ofis kapına astı; tarih kısmını boş bırakmışlar.",
+      "en": "You postponed. Your clients hung the banner on your office door, with the date left blank.",
+      "coach": [
+        {
+          "tr": "Tarih boş. Pankart dolu.",
+          "en": "Date blank. Banner full.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "danışanların senin on kilometre koşu hedefini herkese duyurup bitiş çizgisinde pankartla bekliyor",
+    "mechanism": "koçun kendi tavsiyesi koça uygulanıyor",
+    "mechanismId": "callback",
+    "punch": "biz de sizin on kilometrenizi herkese söyledik",
+    "lift": "Tek Hedef'e on kilometre",
+    "target": "coach",
+    "antithesis": false,
+    "closer": "pankart"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

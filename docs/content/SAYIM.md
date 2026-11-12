@@ -6,78 +6,78 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **7.886** / 10.000 (78.9%) |
-| Kotası dolan alan | 4 / 132 |
-| Kotayı aşan alan | 1 |
+| Alan paketlerindeki geçerli olay | **8.406** / 10.000 (84.1%) |
+| Kotası dolan alan | 39 / 132 |
+| Kotayı aşan alan | 4 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **7.934** |
+| Genel toplam geçerli olay | **8.454** |
 | Şema hatalı dosya | 0 |
 
 ## Grup bazında
 
 | Grup | Alan | Sayı | Kota | % |
 |---|---:|---:|---:|---:|
-| egitim | 5 | 280 | 358 | 78.2% |
-| is | 11 | 751 | 945 | 79.5% |
-| kariyer | 24 | 920 | 1142 | 80.6% |
+| egitim | 5 | 358 | 358 | 100% |
+| is | 11 | 945 | 945 | 100% |
+| kariyer | 24 | 1102 | 1142 | 96.5% |
 | para | 8 | 482 | 617 | 78.1% |
 | ev | 8 | 483 | 618 | 78.2% |
-| tanidik_yuzler | 8 | 635 | 814 | 78% |
-| iliski | 7 | 523 | 670 | 78.1% |
+| tanidik_yuzler | 8 | 638 | 814 | 78.4% |
+| iliski | 7 | 550 | 670 | 82.1% |
 | aile | 6 | 331 | 424 | 78.1% |
 | cagrilar | 2 | 132 | 169 | 78.1% |
-| ebeveynlik | 5 | 279 | 359 | 77.7% |
+| ebeveynlik | 5 | 299 | 359 | 83.3% |
 | sosyal | 8 | 421 | 539 | 78.1% |
-| saglik | 9 | 573 | 716 | 80% |
+| saglik | 9 | 577 | 716 | 80.6% |
 | gundelik | 6 | 391 | 501 | 78% |
 | ulasim | 3 | 205 | 234 | 87.6% |
 | teknoloji | 3 | 210 | 268 | 78.4% |
 | burokrasi | 3 | 213 | 273 | 78% |
 | bos_zaman | 4 | 234 | 299 | 78.3% |
 | mevsim | 2 | 127 | 163 | 77.9% |
-| yaslilik | 6 | 330 | 422 | 78.2% |
+| yaslilik | 6 | 342 | 422 | 81% |
 | meta | 4 | 366 | 469 | 78% |
 
 ## Alan bazında
 
 | # | Alan | Grup | Başlık | Sayı | Kota | Kalan | % | İlerleme |
 |---:|---|---|---|---:|---:|---:|---:|---|
-| 1 | `egitim_universite` | egitim | Üniversite hayatı | 111 | 143 | 32 | 77.6% | ████████░░ |
-| 2 | `egitim_sinavlar` | egitim | Sınavlar ve sonuçlar | 61 | 78 | 17 | 78.2% | ████████░░ |
-| 3 | `egitim_kurs_sertifika` | egitim | Kurslar ve sertifikalar | 46 | 59 | 13 | 78% | ████████░░ |
-| 4 | `egitim_lisansustu` | egitim | Lisansüstü ve tez | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 5 | `askerlik_ogrenim_kredisi` | egitim | Askerlik (TR) / Öğrenim kredisi (EN) | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 6 | `is_arama` | is | İş arama ve mülakat | 117 | 150 | 33 | 78% | ████████░░ |
-| 7 | `ilk_isler_yari_zamanli` | is | İlk işler, staj, yarı zamanlı | 91 | 104 | 13 | 87.5% | █████████░ |
-| 8 | `ofis_hayati` | is | Ofis hayatı ve toplantılar | 111 | 143 | 32 | 77.6% | ████████░░ |
-| 9 | `is_yeri_politikasi` | is | İş yeri politikası ve iş arkadaşları | 86 | 111 | 25 | 77.5% | ████████░░ |
-| 10 | `patron_nevin` | is | Nevin Hanım (patron) arkı | 77 | 98 | 21 | 78.6% | ████████░░ |
-| 11 | `maas_terfi_zam` | is | Maaş, zam ve terfi | 66 | 85 | 19 | 77.6% | ████████░░ |
-| 12 | `isten_cikis_issizlik` | is | İşten çıkış ve işsizlik | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 13 | `uzaktan_calisma` | is | Uzaktan ve hibrit çalışma | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 14 | `yan_gelir_girisim` | is | Yan gelir ve küçük girişimler | 46 | 59 | 13 | 78% | ████████░░ |
+| 1 | `egitim_universite` | egitim | Üniversite hayatı | 143 | 143 | 0 | 100% | ██████████ |
+| 2 | `egitim_sinavlar` | egitim | Sınavlar ve sonuçlar | 78 | 78 | 0 | 100% | ██████████ |
+| 3 | `egitim_kurs_sertifika` | egitim | Kurslar ve sertifikalar | 59 | 59 | 0 | 100% | ██████████ |
+| 4 | `egitim_lisansustu` | egitim | Lisansüstü ve tez | 39 | 39 | 0 | 100% | ██████████ |
+| 5 | `askerlik_ogrenim_kredisi` | egitim | Askerlik (TR) / Öğrenim kredisi (EN) | 39 | 39 | 0 | 100% | ██████████ |
+| 6 | `is_arama` | is | İş arama ve mülakat | 150 | 150 | 0 | 100% | ██████████ |
+| 7 | `ilk_isler_yari_zamanli` | is | İlk işler, staj, yarı zamanlı | 104 | 104 | 0 | 100% | ██████████ |
+| 8 | `ofis_hayati` | is | Ofis hayatı ve toplantılar | 143 | 143 | 0 | 100% | ██████████ |
+| 9 | `is_yeri_politikasi` | is | İş yeri politikası ve iş arkadaşları | 111 | 111 | 0 | 100% | ██████████ |
+| 10 | `patron_nevin` | is | Nevin Hanım (patron) arkı | 98 | 98 | 0 | 100% | ██████████ |
+| 11 | `maas_terfi_zam` | is | Maaş, zam ve terfi | 85 | 85 | 0 | 100% | ██████████ |
+| 12 | `isten_cikis_issizlik` | is | İşten çıkış ve işsizlik | 72 | 72 | 0 | 100% | ██████████ |
+| 13 | `uzaktan_calisma` | is | Uzaktan ve hibrit çalışma | 52 | 52 | 0 | 100% | ██████████ |
+| 14 | `yan_gelir_girisim` | is | Yan gelir ve küçük girişimler | 59 | 59 | 0 | 100% | ██████████ |
 | 15 | `is_seyahati` | is | İş seyahati ve konferans | 26 | 26 | 0 | 100% | ██████████ |
-| 16 | `kariyer_degisimi` | is | Kariyer değişimi (orta yaş) | 35 | 45 | 10 | 77.8% | ████████░░ |
-| 17 | `kariyer_waiter` | kariyer | Kariyer: Garson → Şef | 46 | 59 | 13 | 78% | ████████░░ |
-| 18 | `kariyer_courier` | kariyer | Kariyer: Kurye | 46 | 59 | 13 | 78% | ████████░░ |
-| 19 | `kariyer_boilertech` | kariyer | Kariyer: Kombi Ustası | 35 | 45 | 10 | 77.8% | ████████░░ |
-| 20 | `kariyer_driver` | kariyer | Kariyer: Dolmuş Şoförü (TR) / Rideshare (EN) | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 21 | `kariyer_clerk` | kariyer | Kariyer: Memur | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 22 | `kariyer_nurse` | kariyer | Kariyer: Hemşire | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 23 | `kariyer_doctor` | kariyer | Kariyer: Doktor | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 24 | `kariyer_lawyer` | kariyer | Kariyer: Avukat | 38 | 49 | 11 | 77.6% | ████████░░ |
-| 25 | `kariyer_dev` | kariyer | Kariyer: Yazılımcı | 46 | 58 | 12 | 79.3% | ████████░░ |
+| 16 | `kariyer_degisimi` | is | Kariyer değişimi (orta yaş) | 45 | 45 | 0 | 100% | ██████████ |
+| 17 | `kariyer_waiter` | kariyer | Kariyer: Garson → Şef | 59 | 59 | 0 | 100% | ██████████ |
+| 18 | `kariyer_courier` | kariyer | Kariyer: Kurye | 59 | 59 | 0 | 100% | ██████████ |
+| 19 | `kariyer_boilertech` | kariyer | Kariyer: Kombi Ustası | 45 | 45 | 0 | 100% | ██████████ |
+| 20 | `kariyer_driver` | kariyer | Kariyer: Dolmuş Şoförü (TR) / Rideshare (EN) | 52 | 52 | 0 | 100% | ██████████ |
+| 21 | `kariyer_clerk` | kariyer | Kariyer: Memur | 52 | 52 | 0 | 100% | ██████████ |
+| 22 | `kariyer_nurse` | kariyer | Kariyer: Hemşire | 52 | 52 | 0 | 100% | ██████████ |
+| 23 | `kariyer_doctor` | kariyer | Kariyer: Doktor | 52 | 52 | 0 | 100% | ██████████ |
+| 24 | `kariyer_lawyer` | kariyer | Kariyer: Avukat | 49 | 49 | 0 | 100% | ██████████ |
+| 25 | `kariyer_dev` | kariyer | Kariyer: Yazılımcı | 58 | 58 | 0 | 100% | ██████████ |
 | 26 | `kariyer_teacher` | kariyer | Kariyer: Öğretmen | 55 | 55 | 0 | 100% | ██████████ |
 | 27 | `kariyer_academic` | kariyer | Kariyer: Akademisyen | 43 | 42 | 0 | 102.4% | ██████████ |
-| 28 | `kariyer_realtor` | kariyer | Kariyer: Emlakçı | 42 | 45 | 3 | 93.3% | █████████░ |
-| 29 | `kariyer_actor` | kariyer | Kariyer: Dizi Oyuncusu | 35 | 45 | 10 | 77.8% | ████████░░ |
-| 30 | `kariyer_shopkeeper` | kariyer | Kariyer: Esnaf | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 31 | `kariyer_pilot` | kariyer | Kariyer: Pilot | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 32 | `kariyer_accountant` | kariyer | Kariyer: Muhasebeci | 35 | 45 | 10 | 77.8% | ████████░░ |
-| 33 | `kariyer_lifecoach` | kariyer | Kariyer: Hayat Koçu (absürt) | 38 | 49 | 11 | 77.6% | ████████░░ |
-| 34 | `kariyer_influencer` | kariyer | Kariyer: Influencer (absürt) | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 35 | `kariyer_crypto` | kariyer | Kariyer: Kripto Gurusu (absürt) | 33 | 42 | 9 | 78.6% | ████████░░ |
+| 28 | `kariyer_realtor` | kariyer | Kariyer: Emlakçı | 45 | 45 | 0 | 100% | ██████████ |
+| 29 | `kariyer_actor` | kariyer | Kariyer: Dizi Oyuncusu | 45 | 45 | 0 | 100% | ██████████ |
+| 30 | `kariyer_shopkeeper` | kariyer | Kariyer: Esnaf | 52 | 52 | 0 | 100% | ██████████ |
+| 31 | `kariyer_pilot` | kariyer | Kariyer: Pilot | 39 | 39 | 0 | 100% | ██████████ |
+| 32 | `kariyer_accountant` | kariyer | Kariyer: Muhasebeci | 45 | 45 | 0 | 100% | ██████████ |
+| 33 | `kariyer_lifecoach` | kariyer | Kariyer: Hayat Koçu (absürt) | 49 | 49 | 0 | 100% | ██████████ |
+| 34 | `kariyer_influencer` | kariyer | Kariyer: Influencer (absürt) | 52 | 52 | 0 | 100% | ██████████ |
+| 35 | `kariyer_crypto` | kariyer | Kariyer: Kripto Gurusu (absürt) | 42 | 42 | 0 | 100% | ██████████ |
 | 36 | `kariyer_fortune` | kariyer | Kariyer: Kahve Falcısı (TR) / Burç Yazarı (EN) | 31 | 39 | 8 | 79.5% | ████████░░ |
 | 37 | `kariyer_weddingdj` | kariyer | Kariyer: Düğün DJ'i (absürt) | 33 | 42 | 9 | 78.6% | ████████░░ |
 | 38 | `kariyer_hoa` | kariyer | Kariyer: Site Yöneticisi (absürt) | 31 | 39 | 8 | 79.5% | ████████░░ |
@@ -101,15 +101,15 @@
 | 56 | `ev_tamiri_ariza` | ev | Ev arızaları ve tamirat | 71 | 91 | 20 | 78% | ████████░░ |
 | 57 | `ev_isleri` | ev | Ev işleri ve düzen | 56 | 72 | 16 | 77.8% | ████████░░ |
 | 58 | `ev_satin_alma` | ev | Ev satın alma ve tapu | 35 | 45 | 10 | 77.8% | ████████░░ |
-| 59 | `flort_tanisma` | iliski | Flört ve tanışma | 127 | 163 | 36 | 77.9% | ████████░░ |
-| 60 | `ilk_ask_yagmur` | tanidik_yuzler | Yağmur (ilk aşk, eski sevgili) arkı | 77 | 98 | 21 | 78.6% | ████████░░ |
+| 59 | `flort_tanisma` | iliski | Flört ve tanışma | 133 | 163 | 30 | 81.6% | ████████░░ |
+| 60 | `ilk_ask_yagmur` | tanidik_yuzler | Yağmur (ilk aşk, eski sevgili) arkı | 80 | 98 | 18 | 81.6% | ████████░░ |
 | 61 | `iliski_gunluk` | iliski | İlişkide gündelik hayat | 111 | 143 | 32 | 77.6% | ████████░░ |
 | 62 | `ayrilik` | iliski | Ayrılık | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 63 | `nisan_teklif_dugun` | iliski | Evlilik teklifi, nişan, düğün | 56 | 72 | 16 | 77.8% | ████████░░ |
+| 63 | `nisan_teklif_dugun` | iliski | Evlilik teklifi, nişan, düğün | 74 | 72 | 0 | 102.8% | ██████████ |
 | 64 | `evlilik_gunluk` | iliski | Evli hayat | 101 | 130 | 29 | 77.7% | ████████░░ |
 | 65 | `bosanma` | iliski | Boşanma | 31 | 39 | 8 | 79.5% | ████████░░ |
 | 66 | `kayin_aile` | aile | Kayınvalide, kayınpeder, eşin ailesi | 51 | 65 | 14 | 78.5% | ████████░░ |
-| 67 | `gec_ask_yalnizlik` | iliski | Bekâr hayat, geç aşk, yeniden başlamak | 51 | 65 | 14 | 78.5% | ████████░░ |
+| 67 | `gec_ask_yalnizlik` | iliski | Bekâr hayat, geç aşk, yeniden başlamak | 54 | 65 | 11 | 83.1% | ████████░░ |
 | 68 | `anne` | tanidik_yuzler | Anne arkı | 131 | 169 | 38 | 77.5% | ████████░░ |
 | 69 | `cagri_anne` | cagrilar | ANNE ARIYOR (çağrı devralma) | 86 | 111 | 25 | 77.5% | ████████░░ |
 | 70 | `cagri_diger` | cagrilar | Diğer çağrılar (Dayı, Nevin Hanım, Yağmur) | 46 | 58 | 12 | 79.3% | ████████░░ |
@@ -119,7 +119,7 @@
 | 74 | `aile_grubu` | aile | Aile Grubu (mesajlaşma) | 66 | 85 | 19 | 77.6% | ████████░░ |
 | 75 | `buyukanne_buyukbaba` | aile | Büyükanne ve büyükbaba | 31 | 39 | 8 | 79.5% | ████████░░ |
 | 76 | `yaslanan_ebeveyn` | aile | Yaşlanan anneye bakım | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 77 | `bebek_yolda` | ebeveynlik | Bebek kararı ve bebek yolda | 31 | 39 | 8 | 79.5% | ████████░░ |
+| 77 | `bebek_yolda` | ebeveynlik | Bebek kararı ve bebek yolda | 51 | 39 | 0 | 130.8% | ██████████ |
 | 78 | `yeni_ebeveyn` | ebeveynlik | Yeni ebeveyn (bebeklik) | 56 | 72 | 16 | 77.8% | ████████░░ |
 | 79 | `cocuk_buyutme` | ebeveynlik | Okul çağı ve ergen çocuk | 96 | 124 | 28 | 77.4% | ████████░░ |
 | 80 | `bos_yuva` | ebeveynlik | Yetişkin çocuk ve boş yuva | 40 | 52 | 12 | 76.9% | ████████░░ |
@@ -132,10 +132,10 @@
 | 87 | `yabancilar_sokak` | sosyal | Sokakta yabancılar | 51 | 65 | 14 | 78.5% | ████████░░ |
 | 88 | `mahalle_esnaf` | sosyal | Mahalle esnafı | 40 | 52 | 12 | 76.9% | ████████░░ |
 | 89 | `kucuk_rahatsizliklar` | saglik | Küçük rahatsızlıklar | 105 | 117 | 12 | 89.7% | █████████░ |
-| 90 | `doktor_hastane` | saglik | Doktor, check-up, diş, göz | 86 | 111 | 25 | 77.5% | ████████░░ |
+| 90 | `doktor_hastane` | saglik | Doktor, check-up, diş, göz | 88 | 111 | 23 | 79.3% | ████████░░ |
 | 91 | `uyku` | saglik | Uyku | 51 | 65 | 14 | 78.5% | ████████░░ |
 | 92 | `spor_fitness` | saglik | Spor salonu ve egzersiz | 66 | 85 | 19 | 77.6% | ████████░░ |
-| 93 | `kronik_saglik` | saglik | Kronik sağlık (adsız) | 46 | 58 | 12 | 79.3% | ████████░░ |
+| 93 | `kronik_saglik` | saglik | Kronik sağlık (adsız) | 48 | 58 | 10 | 82.8% | ████████░░ |
 | 94 | `yaslanan_beden` | saglik | Yaşlanan beden | 61 | 78 | 17 | 78.2% | ████████░░ |
 | 95 | `ruhsal_yuk_dusuk_keyif` | saglik | Ruhsal yük ve düşük Keyif günleri | 71 | 91 | 20 | 78% | ████████░░ |
 | 96 | `stres_tukenmislik` | saglik | Stres ve tükenmişlik | 56 | 72 | 16 | 77.8% | ████████░░ |
@@ -169,7 +169,7 @@
 | 124 | `emekli_hayati` | yaslilik | Emekli hayatı | 81 | 104 | 23 | 77.9% | ████████░░ |
 | 125 | `yaslilik_gundelik` | yaslilik | Yaşlılık ve gündelik hayat | 86 | 111 | 25 | 77.5% | ████████░░ |
 | 126 | `miras_vasiyet` | yaslilik | Miras, vasiyet ve düzen | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 127 | `veda_kayip` | yaslilik | Vedalar ve kayıplar (sessizlik protokolü) | 35 | 45 | 10 | 77.8% | ████████░░ |
+| 127 | `veda_kayip` | yaslilik | Vedalar ve kayıplar (sessizlik protokolü) | 47 | 45 | 0 | 104.4% | ██████████ |
 | 128 | `tanidik_yuzler_kesisme` | tanidik_yuzler | Tanıdık Yüzler kesişme günleri | 51 | 65 | 14 | 78.5% | ████████░░ |
 | 129 | `tek_hedef_anlari` | meta | Tek Hedef anları | 61 | 78 | 17 | 78.2% | ████████░░ |
 | 130 | `efsane_nadir` | meta | Efsane nadir günler | 77 | 98 | 21 | 78.6% | ████████░░ |

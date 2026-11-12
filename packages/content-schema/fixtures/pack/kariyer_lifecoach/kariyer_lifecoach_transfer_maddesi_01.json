@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_transfer_maddesi_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "Koçluk verdiğin müdür rakip şirkete geçti. Yönetim sözleşmeni gözden geçirmek istiyor.",
+      "en": "The manager you coached just left for a competitor. Leadership wants to review your contract."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Sözleşmede \"çalışan bağlılığını artırmak\" yazıyor. Bağlılık arttı, başka şirkete.",
+      "en": "Your contract says 'increase employee commitment.' Commitment increased. Elsewhere.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "madde",
+      "tr": "Maddeyi yüksek sesle oku",
+      "en": "Read them the actual clause",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Feshi kabul et",
+      "en": "Accept the termination",
+      "pattern": "patience"
+    },
+    {
+      "id": "rakip",
+      "tr": "Rakip şirkete teklif götür",
+      "en": "Pitch the competitor",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "madde": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "koc_sozlesme_yenilendi"
+            ]
+          }
+        },
+        "tr": "Maddede \"şirket içinde\" ifadesi yoktu. Sözleşmen yenilendi; sonuna tek satır eklendi: \"şirket içinde\".",
+        "en": "The clause never said 'internally.' Your contract was renewed, with one new line: 'within this company.'",
+        "coach": [
+          {
+            "tr": "Madde düzeltildi. Sen kaldın.",
+            "en": "Clause amended. You stay.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "career": {
+            "fire": true
+          },
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Hukuk ekibi maddeyi senden önce okumuştu. Sözleşmen ay sonunda feshedildi.",
+        "en": "Legal had read the clause before you did. The contract ends at the end of the month.",
+        "coach": [
+          {
+            "tr": "Sözleşme bitti. Müdür yeni yerinde gayet iyi.",
+            "en": "Contract over. The manager is doing great at the new place.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "money": 2000,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Feshi kabul ettin; son ayın için 2.000 Para ödendi. Masandaki saksıyı yanında götürdün.",
+      "en": "You accepted. Your final month came to 2,000. You took the desk plant with you.",
+      "coach": [
+        {
+          "tr": "Saksı seninle. Şirket kendi yolunda.",
+          "en": "The plant comes with you. The company goes its own way.",
+          "roast": false
+        }
+      ]
+    },
+    "rakip": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "kurumsal koç",
+            "tier": 3,
+            "monthly": 3200
+          }
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "koc_rakip_sirkette"
+          ]
+        }
+      },
+      "tr": "Rakip şirket seni aynı müdürün yeni ekibine koç olarak aldı. İlk toplantıda müdür seni \"eski koçum\" diye tanıttı.",
+      "en": "The competitor hired you to coach the same manager's new team. At the first meeting you were introduced as 'my old coach.'",
+      "coach": [
+        {
+          "tr": "Danışan aynı. Bina farklı.",
+          "en": "Same client. Different building.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "koçluk verdiğin müdür rakip şirkete geçince şirket sözleşmeni feshetmek istiyor",
+    "mechanism": "başarı yanlış adrese teslim ediliyor",
+    "mechanismId": "reversal",
+    "punch": "bağlılık arttı, başka şirkete",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bina"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

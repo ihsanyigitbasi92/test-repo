@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_actor_geciken_odeme_01",
+  "tags": [
+    "kariyer",
+    "oyuncu",
+    "kariyer_actor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_actor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "actor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "annoyed",
+      "tr": "Üç aydır ödeme yok. Ama yapımcıya yeni karavan gelmiş, içinde şömine var.",
+      "en": "No pay for three months. But the producer got a new trailer. It has a fireplace."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Nakit akışı meselesi. Gelecek ay hepsi birden, söz.",
+      "en": "Just a cash-flow thing. Next month, all at once. Promise.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "karavan",
+      "tr": "Yapımcıyla karavanda konuş",
+      "en": "Talk to the producer in the trailer",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yazi",
+      "tr": "Oyuncularla ortak yazı yaz",
+      "en": "Write a joint letter with the cast",
+      "pattern": "risk"
+    },
+    {
+      "id": "bekle",
+      "tr": "Bir ay daha bekle",
+      "en": "Wait one more month",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "karavan": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 7500,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Şöminenin karşısında konuştunuz. Ödemen o akşam yattı; ertesi gün karavan satılığa çıktı.",
+        "en": "You talked in front of the fireplace. Your pay landed that evening. The next day, the trailer was listed for sale.",
+        "coach": [
+          {
+            "tr": "Ödeme geldi.",
+            "en": "Paid in full.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Karavanda bir saat şömine izlediniz. Ödemeyi açtığında yapımcının telefonu çaldı.",
+        "en": "You spent an hour watching the fireplace together. The moment you brought up money, the producer's phone rang.",
+        "coach": [
+          {
+            "tr": "Şömine sıcaktı.",
+            "en": "The fireplace was warm, at least.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yazi": {
+      "effects": {
+        "money": 7500,
+        "career": {
+          "rungDelta": -1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          },
+          {
+            "role": "boss",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "actor_toplu_yazi"
+          ]
+        }
+      },
+      "tr": "Ortak yazıyı on bir oyuncu imzaladı, ödemeler iki haftada geldi. Sonraki sezonun kadro listesinde adın en altta.",
+      "en": "Eleven cast members signed the letter and the money came within two weeks. On next season's cast list, your name is at the very bottom.",
+      "coach": [
+        {
+          "tr": "On bir imza, bir liste.",
+          "en": "Eleven signatures. One list.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "money": 3500,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Bir ay sonra ödemenin yarısı geldi. Karavana jakuzi geldi.",
+      "en": "A month later, half your pay arrived. So did a hot tub for the trailer.",
+      "coach": [
+        {
+          "tr": "Yarısı geldi.",
+          "en": "Half arrived.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "karavan",
+    "slip": {
+      "tr": "İDDİA: Şömine, ücretinden sıcak çıkar. — M.",
+      "en": "WAGER: The fireplace stays warmer than your invoice. — M."
+    }
+  },
+  "intent": {
+    "setup": "yapımcı üç aydır bölüm ücretlerini ödemiyor, sete ise şömineli yeni karavan geliyor",
+    "mechanism": "ödeme gelince karavan satılığa çıkıyor",
+    "mechanismId": "reversal",
+    "punch": "ertesi gün karavan satılıkta",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "satilik_karavan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

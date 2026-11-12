@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_yanlis_alici_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Fırıncının taslağını kuyumcuya göndermişsin. Kuyumcu \"bu ay neden bu kadar un aldım\" diye aradı.",
+      "en": "You sent the baker's draft to the jeweler. The jeweler called asking why they bought so much flour this month."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "Kuyumcu sakin. Fırıncı şimdi kuyumcunun taslağını istiyor.",
+      "en": "The jeweler's calm. Now the baker wants to see the jeweler's draft.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ozur",
+      "tr": "İkisini de arayıp özür dile",
+      "en": "Call both and apologize",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "geri",
+      "tr": "Geri çağırma tuşuna bas",
+      "en": "Hit \"recall message\"",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "anlat",
+      "tr": "Patrona her şeyi anlat",
+      "en": "Tell your boss everything",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ozur": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "İki müşteriden ayrı ayrı özür diledin. Kuyumcu taslağı sildi, fırıncı büroya ekmek gönderdi.",
+        "en": "You apologized to each of them separately. The jeweler deleted the draft. The baker sent the office bread.",
+        "coach": [
+          {
+            "tr": "Bir yanlış e-posta, iki özür, bir ekmek.",
+            "en": "One wrong email. Two apologies. One loaf.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -3
+            }
+          ],
+          "meters": {
+            "cringe": 4
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "acc_ikinci_kontrol"
+            ]
+          }
+        },
+        "tr": "Fırıncıyla konuşurken kuyumcunun cirosunu söylemene ramak kaldı. Patron telefonu elinden aldı.",
+        "en": "Mid-apology, you came within a word of telling the baker the jeweler's revenue. Your boss took the phone out of your hand.",
+        "coach": [
+          {
+            "tr": "Özür telefonu ikinci bir sızıntıya bir kelime kala kapandı.",
+            "en": "Your apology call came one word short of a second leak.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "geri": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_ikinci_kontrol"
+          ]
+        }
+      },
+      "tr": "Geri çağırma yalnızca senin kutundaki kopyayı sildi. Ertesi gün büroda yeni kural: her gönderiye ikinci onay.",
+      "en": "The recall only deleted the copy in your own outbox. Next day, a new office rule: every email gets a second approval.",
+      "coach": [
+        {
+          "tr": "Geri çağırma tuşu yalnızca seni geri çağırdı.",
+          "en": "The recall button recalled exactly one person: you.",
+          "roast": true
+        }
+      ]
+    },
+    "anlat": {
+      "effects": {
+        "meters": {
+          "ego": -3
+        },
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Patron iki müşteriyi kendisi aradı. Sonra sana \"gönder\" tuşunun yerini gösterdi, yavaşça.",
+      "en": "Your boss called both clients personally. Then showed you where the \"send\" button is. Slowly.",
+      "coach": [
+        {
+          "tr": "Tuşun yeri artık belli.",
+          "en": "You now know exactly where the button is.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ozur",
+    "slip": {
+      "tr": "İDDİA: Özür telefonu yeni bir kaza doğurur. — M.",
+      "en": "WAGER: The apology call causes a fresh mishap. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni muhasebeci fırıncının beyan taslağını yanlışlıkla kuyumcuya e-postalıyor",
+    "mechanism": "yanlış alıcı iki müşteriye yayılıyor",
+    "mechanismId": "escalation",
+    "punch": "fırıncı da kuyumcunun taslağını istiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gonder_tusu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
