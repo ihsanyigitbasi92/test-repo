@@ -121,3 +121,8 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - Dalga 3 kapandı: havuz 5.623 paket olayı (%56,2). Üç olayda İngilizce diyalog satırı 110 karakter sınırını aşıyordu, kısaltıldı; kırmızı çizgi taraması "slots" kelimesini kumar deseni olarak yakaladı, "openings" yapıldı. Kontroller yeşil.
 - Dalga 3'ün QA turu limit yüzünden çalışmadı; dalga 4'ün sonundaki QA turu her iki dalgayı örnekleyecek.
 - Dalga 4 başlatıldı: 52 parti, 2.234 olay (kalan kotanın yarısı). Bitince ~7.857.
+
+## 2026-11-12 — İçerik dalga 4
+- Dalga 4 tamamlandı: +2.234 olay, havuz **7.886 / 10.000 (%78,9)**; 4 alan kotası doldu. Şema 0 hata, kırmızı çizgi 0, yakın kopya 0, testler 75/75.
+- QA turu 60 olay okudu, 32 dosya düzeltti: zaman çizelgesi/süreklilik hataları, çeviri kokan İngilizce, tekrarlanan "X gitti, Y kaldı" kapanışı, koşulsuz lift satırları.
+- QA önerisi uygulandı: `validate` artık koşulsuz lift satırını hata sayıyor. Eski dalgalarda 162 satır yakalandı; 2'si hedef koşuluna bağlandı, 160'ında lift işareti kaldırıldı (metin aynı). Kılavuza "X gitti, Y kaldı" kotası eklendi.

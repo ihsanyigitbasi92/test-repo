@@ -296,3 +296,5 @@ Bir olay aşağıdakilerden **birini** içeriyorsa yazılmaz ya da `legal: revie
 - Koç her olayda konuşmak zorunda değil: partinin en az %25'inde koç satırı tek ve kısa olsun, şakayı NPC ya da sonuç metni taşısın.
 - (Dalga 2 QA) **"X. Y de." / "So did …" kapanışı** partide en fazla 3. "denetim", "kayda geçti" koç ağzında partide en fazla 1.
 - `punchOwner: dialog` olan olayda koç satırı roast olmaz; ya sade tanıklık ya da hiç.
+- **"X gitti, Y kaldı" kotası:** bu kapanış partide en fazla 2/40. Dalga 4'te 20 kez görüldü; yerine geri dönüş, ters çevirme, sade tanıklık, soru ya da NPC'ye pas.
+- **Lift satırı otomatik denetlenir:** `lift: true` olan koç satırı; satırın `when.goal`, olayın `pre.goal`/seçimin `check.goal` koşulu ya da sonucun `envelope` etkisi olmadan `validate`'ten geçmez (§4.1).

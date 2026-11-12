@@ -42,6 +42,19 @@ function main(argv: string[]): number {
     if (b.effects?.envelope) refs.add(b.effects.envelope.resolverEventId);
   }
   for (const r of refs) if (!ids.has(r)) console.warn(`! dangling reference: ${r} (not in this set)`);
+  // Kılavuz §4.1: lift satırı yalnızca aktif Tek Hedef ya da açık zarf koşuluna bağlı gösterilir.
+  let liftBad = 0;
+  for (const e of events) {
+    const eventGoal = JSON.stringify((e as any).pre ?? {}).includes('"goal"')
+      || e.choices.some((c) => c.check?.goal || JSON.stringify(c.requires ?? {}).includes('"goal"'));
+    for (const o of Object.values(e.outcomes)) for (const b of Array.isArray(o) ? o : [o]) {
+      const ok = eventGoal || !!b.effects?.envelope;
+      for (const c of b.coach) if (c.lift && !ok && !JSON.stringify(c.when ?? {}).includes('"goal"')) {
+        liftBad++; console.error(`✗ ${e.id}: lift coach line without goal/envelope condition (§4.1)`);
+      }
+    }
+  }
+  errors += liftBad;
   const docs = events.filter((e) => e.type === 'document').length;
   if (events.length >= 20 && docs * 100 > events.length * 15) { errors++; console.error(`✗ document share ${docs}/${events.length} > 15% (L03-03)`); }
   console.log(`${files.length} files, ${events.length} events, ${errors} error(s)`);
