@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uzaktan_calisma_elektrik_payi_01",
+  "tags": [
+    "is",
+    "uzaktan",
+    "fatura",
+    "ev_arkadasi",
+    "uzaktan_calisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "uzaktan_calisma": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Elektrik faturası geldi. Senin iki ekranın, ısıtıcın ve günde sekiz saatin. Bir tablo yaptım.",
+      "en": "Electric bill's in. Your two monitors, your heater, eight hours a day. I made a spreadsheet."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Gündüz ben evde yokum. Tabloya göre payın yüzde altmış.",
+      "en": "I'm out during the day. Per the spreadsheet, your share is sixty percent.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Yüzde altmışı öde",
+      "en": "Pay the sixty percent",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Akşamki ısıtıcıyı hatırlat",
+      "en": "Mention the evening heater use",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sirket",
+      "tr": "Şirketten elektrik desteği iste",
+      "en": "Ask work for a power stipend",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "elektrik_payi"
+          ]
+        }
+      },
+      "tr": "Farkı ödedin: 180 Para. Barış tabloyu buzdolabına astı, başlığına \"Adil\" yazdı.",
+      "en": "You paid the difference: 180. Jordan stuck the spreadsheet on the fridge and titled it \"Fair.\"",
+      "coach": [
+        {
+          "tr": "Buzdolabında bir tablo. Başlığı Adil.",
+          "en": "A spreadsheet on the fridge, titled Fair.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -90,
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "elektrik_payi"
+            ]
+          }
+        },
+        "tr": "Isıtıcının akşamları da çalıştığını hatırlattın. Pay yüzde elliye indi; fark 90 Para.",
+        "en": "You pointed out the heater runs in the evenings too. Down to fifty percent. Difference: ninety.",
+        "coach": [
+          {
+            "tr": "Isıtıcı akşamları da çalışıyor. Tablo bunu bilmiyordu.",
+            "en": "The heater works evenings too. The spreadsheet didn't know.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -180,
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -3
+            }
+          ],
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "elektrik_payi"
+            ]
+          }
+        },
+        "tr": "Barış, akşamları ısıtıcıyı kullanmadığını gösteren ikinci bir tablo hazırladı. Pay altmışta kaldı.",
+        "en": "Jordan produced a second spreadsheet proving they never use the heater at night. Sixty it is.",
+        "coach": [
+          {
+            "tr": "İki tablo, tek oran.",
+            "en": "Two spreadsheets, one ratio.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sirket": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "elektrik_destegi_talebi"
+          ]
+        }
+      },
+      "tr": "Şirkete yazdın. \"Gelecek yılın politikasında değerlendirilecek\" dendi; bu ayın farkını yine sen ödedin.",
+      "en": "You emailed work. \"Will be considered in next year's policy.\" This month's difference: still you.",
+      "coach": [
+        {
+          "tr": "Gelecek yıla bir kalem.",
+          "en": "A line item for next year.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "evden çalışınca ev arkadaşının elektrik faturasını tabloyla bölüştürmesi",
+    "mechanism": "ev arkadaşının veri temelli faturası",
+    "mechanismId": "deadpan_report",
+    "punch": "Bir tablo yaptım.",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "isitici"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_serbest_ilk_fatura_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "serbest_calisma",
+    "ev_arkadasi",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "career": {
+      "employed": false
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Serbest işin ilk faturası ne oldu? Otuz gün demiştin, kırk beş oldu.",
+      "en": "What happened to your first freelance invoice? You said thirty days. It's been forty-five."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Müşteri yine \"muhasebeye ilettim\" yazmış. Muhasebe bir kişi mi, bir yer mi?",
+      "en": "The client wrote \"forwarded to accounting\" again. Is accounting a person or a place?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "hatirlat",
+      "tr": "Resmî bir hatırlatma yaz",
+      "en": "Send a formal reminder",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ara",
+      "tr": "Telefonla ara",
+      "en": "Call them",
+      "pattern": "pride"
+    },
+    {
+      "id": "bekle",
+      "tr": "Bekle, yeni bir iş al",
+      "en": "Wait, take on another job",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "hatirlat": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": 2200,
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "ilk_fatura_odendi"
+            ]
+          }
+        },
+        "tr": "Gecikme maddesini hatırlattın. Ertesi gün 2.200 Para yattı, açıklamada \"özür\" yazıyordu.",
+        "en": "You quoted the late-fee clause. The next day 2,200 arrived. Memo line: \"sorry.\"",
+        "coach": [
+          {
+            "tr": "Bir madde, bir özür, 2.200 Para.",
+            "en": "One clause, one apology, 2,200.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ilk_fatura_bekliyor"
+            ]
+          }
+        },
+        "tr": "Cevap geldi: \"Muhasebe yeni bir sisteme geçiyor.\" Fatura yeni sistemde de bekliyor.",
+        "en": "Reply: \"Accounting is migrating to a new system.\" The invoice is waiting in the new one too.",
+        "coach": [
+          {
+            "tr": "Yeni sistem, aynı fatura.",
+            "en": "New system, same invoice.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ara": {
+      "effects": {
+        "money": 1100,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "ilk_fatura_yarim"
+          ]
+        }
+      },
+      "tr": "Aradın. Muhasebe bir kişiymiş; yarısını bugün, yarısını ay sonunda ödeyecek.",
+      "en": "You called. Accounting turned out to be a person. Half today, half at month-end.",
+      "coach": [
+        {
+          "tr": "Muhasebe bir kişi. Adını artık biliyorsun.",
+          "en": "Accounting is a person. You know their name now.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "ilk_fatura_bekliyor"
+          ]
+        }
+      },
+      "tr": "Yeni bir iş aldın. Artık iki müşteri, sıfır ödeme var; elektrik faturası ise tam vaktinde geldi.",
+      "en": "You took on another job. Two clients now, zero payments. The electric bill arrived right on time.",
+      "coach": [
+        {
+          "tr": "Vaktinde gelen tek kâğıt elektrikten.",
+          "en": "The only punctual paper came from the power company.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "işsizken alınan ilk serbest işin faturasının kırk beş gündür ödenmemesi",
+    "mechanism": "muhasebe kişi mi yer mi sorusu geri döner",
+    "mechanismId": "callback",
+    "punch": "Muhasebe bir kişi mi, bir yer mi?",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "muhasebe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

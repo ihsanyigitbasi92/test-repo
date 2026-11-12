@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bebek_yolda_aile_plani_satiri_01",
+  "tags": [
+    "milestone:bebek",
+    "ebeveynlik",
+    "partner",
+    "bebek",
+    "doktor",
+    "bebek_yolda"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3650,
+    "tags": {
+      "bebek_yolda": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 31
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "bebek_yolda",
+        "bebek_geldi",
+        "bebek_karari_hayir"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Yıllık kontrol formu. Son satır: aile planı. 'Var', 'yok', 'konuşuyoruz'. Birini işaretleyin.",
+      "en": "Annual checkup form. Last line: family plans. 'Yes,' 'no,' 'discussing.' Tick one."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Üç yıldır 'konuşuyoruz'u işaretliyoruz. Doktor artık bizi tanıyor.",
+      "en": "We've ticked 'discussing' three years running. The doctor knows us by now.",
+      "delayMs": 700
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Tanıyorum. Kalemi yine de uzatıyorum.",
+      "en": "I do. I'm still holding out the pen.",
+      "delayMs": 1000
+    }
+  ],
+  "choices": [
+    {
+      "id": "var",
+      "tr": "'Var'ı işaretle",
+      "en": "Tick 'yes'",
+      "pattern": "risk"
+    },
+    {
+      "id": "konusuyoruz",
+      "tr": "Yine 'konuşuyoruz'",
+      "en": "'Discussing,' again",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "yok",
+      "tr": "'Yok'u işaretle",
+      "en": "Tick 'no'",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "var": {
+      "effects": {
+        "flags": {
+          "add": [
+            "bebek_yolda"
+          ]
+        },
+        "stats": {
+          "joy": 5
+        }
+      },
+      "tr": "'Var'ı işaretlediniz. Doktor formu dosyaya koydu ve dosyayı başka renk bir dosyayla değiştirdi.",
+      "en": "You ticked 'yes.' The doctor filed the form and swapped your folder for a different color.",
+      "coach": [
+        {
+          "tr": "Dosya rengi değişti. Gerisi takvimde.",
+          "en": "New folder color. The rest is on the calendar.",
+          "roast": false
+        }
+      ]
+    },
+    "konusuyoruz": {
+      "effects": {
+        "flags": {
+          "add": [
+            "bebek_ertelendi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Dördüncü kez 'konuşuyoruz'. Doktor kenara küçük bir çentik attı; yan yana dört çentik oldu.",
+      "en": "'Discussing,' for the fourth time. The doctor added a small tally mark in the margin. Four in a row.",
+      "coach": [
+        {
+          "tr": "Dört çentik. Konuşma sürüyor.",
+          "en": "Four tally marks. The discussion continues.",
+          "roast": false
+        }
+      ]
+    },
+    "yok": {
+      "effects": {
+        "flags": {
+          "add": [
+            "bebek_karari_hayir"
+          ]
+        },
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "'Yok'u işaretlediniz. Doktor başını salladı; ertesi yılın formunda o satır yoktu.",
+      "en": "You ticked 'no.' The doctor nodded, and next year's form came without that line.",
+      "coach": [
+        {
+          "tr": "Satır kaldırıldı. Soru kapandı.",
+          "en": "Line removed. Question closed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "kilometre taşı günü, iddiaya kapalı"
+  },
+  "intent": {
+    "setup": "yıllık kontrolde doktorun formdaki aile planı satırını sorması",
+    "mechanism": "hayat kararı form kutucuğuna iniyor",
+    "mechanismId": "deadpan_report",
+    "punch": "Kalemi yine de uzatıyorum.",
+    "closer": "form",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

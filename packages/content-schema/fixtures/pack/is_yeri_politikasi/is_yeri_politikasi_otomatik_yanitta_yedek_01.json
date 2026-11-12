@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_otomatik_yanitta_yedek_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Yarından itibaren iki hafta izindeyim! Sana bir şey devretmedim, merak etme.",
+      "en": "Off for two weeks starting tomorrow! Didn't hand you anything, don't worry."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "{name}, müşteri otomatik yanıtı okumuş: 'acil durumda {name}.' Acil durumdaymış.",
+      "en": "{name}, the client read the auto-reply: 'for urgent matters, contact {name}.' It's urgent.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "ustlen",
+      "tr": "Müşteriyle ilgilen",
+      "en": "Handle the client",
+      "pattern": "overwork"
+    },
+    {
+      "id": "ara",
+      "tr": "İzindekini ara",
+      "en": "Call the one on leave",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yonlendir",
+      "tr": "Müşteriyi patrona yönlendir",
+      "en": "Route the client to the boss",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ustlen": {
+      "effects": {
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "yedek_kisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Müşteriyle ilgilendin. İki haftada aynı müşteriden on bir 'acil' mail geldi; hepsini sen yanıtladın.",
+      "en": "You handled it. Over two weeks the same client sent eleven 'urgent' emails. You answered every one.",
+      "coach": [
+        {
+          "tr": "Yedek kişi, iki haftada asıl kişi oldu.",
+          "en": "The backup became the main contact in two weeks.",
+          "roast": true
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Aradın. Plajdan şifreyi ve müşterinin aslında ne istediğini söyledi; iş on dakikada bitti.",
+        "en": "You called. From the beach, they gave you the password and what the client actually wanted. Done in ten minutes.",
+        "coach": [
+          {
+            "tr": "On dakika. Plaj havlusundan teknik destek.",
+            "en": "Ten minutes. Tech support from a beach towel.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Aradın, telefon kapalıydı. Sesli mesajı da aynı cümleyi söyledi: 'Acil durumda {name}.'",
+        "en": "You called. Phone off. Even their voicemail said it: 'For urgent matters, contact {name}.'",
+        "coach": [
+          {
+            "tr": "Adın artık iki kanaldan dağıtılıyor.",
+            "en": "Your name now ships on two channels.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yonlendir": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Müşteriyi Nevin Hanım'a yönlendirdin. Nevin Hanım maili 'bilgi için' notuyla sana geri iletti.",
+      "en": "You routed the client to Ms. Carver. She forwarded it back to you, marked 'FYI.'",
+      "coach": [
+        {
+          "tr": "Mail bir tur atıp eve döndü.",
+          "en": "The email took a lap and came home.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da parti kotası dolu"
+  },
+  "intent": {
+    "setup": "izne çıkan iş arkadaşının otomatik yanıtına haberin olmadan seni yedek kişi yazması",
+    "mechanism": "devredilmeyen iş her kanaldan geliyor",
+    "mechanismId": "escalation",
+    "punch": "acil durumda {name}",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kanal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

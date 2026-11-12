@@ -1,0 +1,279 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_ikinci_gecikme_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 7500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "nevin_son_uyari"
+      ],
+      "none": [
+        "nevin_emekli",
+        "esnek_saat"
+      ]
+    }
+  },
+  "maxPerLife": 1,
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Oturun lütfen. Kart okuyucu bu sabah dokuzu on yedi geçe okumuş.",
+      "en": "Please, sit. The badge reader logged you at 9:17 this morning."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "tired",
+      "tr": "Söylemiştim, İK da odada olacak dedim. Odadayız.",
+      "en": "I did say HR would be in the room. Here we are.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "gercek",
+      "tr": "Gerçek sebebi anlat",
+      "en": "Explain the real reason",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "imzala",
+      "tr": "Yazılı uyarıyı imzala",
+      "en": "Sign the written warning",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "okuyucu",
+      "tr": "Kart okuyucuyu suçla",
+      "en": "Blame the badge reader",
+      "pattern": "shortcut",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "gercek": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "remove": [
+              "nevin_son_uyari"
+            ],
+            "add": [
+              "esnek_saat"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Yeni evinden iki aktarmayla geldiğini anlattın. Nevin Hanım iki aylığına dokuz buçuk başlangıç yazdı.",
+        "en": "You explained the new place means two transfers each way. Ms. Carver wrote you a 9:30 start for two months.",
+        "coach": [
+          {
+            "tr": "Gerçek sebep, bahanelerden kısa sürdü.",
+            "en": "The real reason took less time than the excuses had.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "yazili_uyari"
+            ]
+          }
+        },
+        "tr": "Anlattın. İK 'anlıyoruz' dedi ve yazılı uyarıyı yine de önüne koydu.",
+        "en": "You explained. HR said 'we understand' and slid the written warning across anyway.",
+        "coach": [
+          {
+            "tr": "Anlayış ve imza satırı, aynı masada.",
+            "en": "Understanding and a signature line, same table.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "imzala": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yazili_uyari"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "İmzaladın. Çıkarken Nevin Hanım 'sabah kahvesi benden, yeter ki dokuzda' dedi.",
+      "en": "You signed. On the way out Ms. Carver said, 'Coffee's on me, as long as it's at nine.'",
+      "coach": [
+        {
+          "tr": "Uyarının yanında bir kahve geldi.",
+          "en": "The warning came with a coffee.",
+          "roast": false
+        }
+      ]
+    },
+    "okuyucu": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "remove": [
+              "nevin_son_uyari"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:hr",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Okuyucunun kayıtlarını istedin. O sabah kattaki on iki kişi aynı dakikada okutulmuş; arıza çıktı, uyarı iptal edildi.",
+        "en": "You asked for the reader's logs. Twelve people on your floor had all badged in the same minute. Faulty reader. Warning withdrawn.",
+        "coach": [
+          {
+            "tr": "On iki kişi, aynı dakika. Arıza seni kurtardı.",
+            "en": "Twelve people, one minute. The fault saved you.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -5
+          },
+          "hidden": {
+            "stress": 6
+          },
+          "flags": {
+            "add": [
+              "isten_cikarildi"
+            ],
+            "remove": [
+              "nevin_son_uyari"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "career": {
+            "fire": true
+          },
+          "status": {
+            "job": null
+          }
+        },
+        "tr": "Kayıtlar okuyucunun sağlam olduğunu gösterdi. Görüşme, iş sözleşmenin feshiyle bitti.",
+        "en": "The logs showed the reader worked fine. The meeting ended with your contract being terminated.",
+        "coach": [
+          {
+            "tr": "Zor bir gün.",
+            "en": "A hard day.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gercek",
+    "slip": {
+      "tr": "İDDİA: Gerçek sebep imzayı durdurmaz. — M.",
+      "en": "WAGER: The real reason won't stop the signature. — M."
+    }
+  },
+  "intent": {
+    "setup": "son uyarıdan sonra yeniden geç kalınca İK'lı görüşmeye çağrılmak",
+    "mechanism": "önceki uyarıdaki 'İK da odada olacak' sözü geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "odadayız",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "oda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
