@@ -19,17 +19,20 @@ const byId = new Map(FULL.events.map((e) => [e.id, e]));
 
 it('probe', () => {
   const lines: string[] = [];
-  const agg = { grief: 0, gradeBad: 0, reports: 0, wedBad: 0, weds: 0, singleRing: 0, kidEarly: 0, kids: 0, warn: 0, ritualRep: 0 };
+  const agg = { grief: 0, gradeBad: 0, reports: 0, wedBad: 0, weds: 0, singleRing: 0, kidEarly: 0, kids: 0, warn: 0, ritualRep: 0, lossCards: 0, omenLives: 0, omenCards: 0, uncleDied: 0, nbDied: 0 };
   for (let i = 0; i < 20; i++) {
     const seed = `PROBE-${i}`;
     let catDied: number | null = null, momDied: number | null = null, grief = false, kidBorn: number | null = null, prevEvli = false;
-    let lastTwo: string[] = [];
+    let lastTwo: string[] = []; let omen = 0; let loss = 0; let uncle: number | null = null, nb: number | null = null;
     const ritualHist: string[] = [];
     const run = runLife(seed, FULL, (['first', 'chaotic', 'last'] as const)[i % 3], {
       onStep: (st: LifeState, _a, fx) => {
         const cat = st.npcs.find((n) => n.role === 'cat'), mom = st.npcs.find((n) => n.role === 'mom');
         if (catDied === null && cat && !cat.alive) catDied = st.calendar.age;
         if (momDied === null && mom && !mom.alive) momDied = st.calendar.age;
+        const un = st.npcs.find((n) => n.role === 'uncle'), ne = st.npcs.find((n) => n.role === 'neighbor');
+        if (uncle === null && un && !un.alive) uncle = st.calendar.age;
+        if (nb === null && ne && !ne.alive) nb = st.calendar.age;
         const child = st.npcs.find((n) => n.role === 'child');
         if (kidBorn === null && child?.exists) { kidBorn = st.calendar.calendarDay; agg.kids++; }
         const evli = st.flags.includes('evli');
@@ -40,6 +43,8 @@ it('probe', () => {
             const ev = byId.get(e.card.eventId);
             if (ev) {
               lastTwo = [...lastTwo, ev.id].slice(-3);
+              if (ev.tags.includes('omen')) omen++;
+              if (ev.tags.some((t) => t.startsWith('loss:'))) { loss++; grief = true; }
               if ((catDied !== null || momDied !== null) && ev.tags.some((t) => t === 'veda_kayip' || t === 'cenaze_taziye' || t.startsWith('loss:'))) grief = true;
               if (!st.status.partner && ev.tags.some((t) => ['nisan', 'dugun', 'evlilik_gunluk', 'nisan_teklif_dugun'].includes(t))) agg.singleRing++;
               const kidSp = (ev.dialog ?? []).some((d) => d.speaker === 'child');
@@ -57,8 +62,8 @@ it('probe', () => {
       },
     });
     const st = run.state;
-    if (grief) agg.grief++;
-    lines.push(`${seed} death ${st.death?.age} ${st.death?.cause} h=${Math.trunc(st.stats.health / 100)} stress=${Math.trunc(st.hidden.stress / 100)} cat=${catDied} mom=${momDied} grief=${grief} last=${lastTwo.join(',')}`);
+    if (grief) agg.grief++; agg.lossCards += loss; agg.omenCards += omen; if (omen) agg.omenLives++; if (uncle !== null) agg.uncleDied++; if (nb !== null) agg.nbDied++;
+    lines.push(`${seed} death ${st.death?.age} ${st.death?.cause} h=${Math.trunc(st.stats.health / 100)} stress=${Math.trunc(st.hidden.stress / 100)} cat=${catDied} mom=${momDied} grief=${grief} loss=${loss} omen=${omen} uncle=${uncle} nb=${nb} last=${lastTwo.join(',')}`);
   }
   lines.push(JSON.stringify(agg));
   writeFileSync(join(import.meta.dirname, '..', '..', '..', 'probe-' + (process.env.PROBE ?? 'out') + '.txt'), lines.join('\n'));
