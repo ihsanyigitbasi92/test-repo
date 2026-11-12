@@ -93,7 +93,7 @@ Paket `package.json`'a eklendi. `app.json`'a **plugin eklenmedi** (gerekmiyor). 
 
 | SKU (`productId`) | Tür | Verdiği | Demo fiyatı (₺ / $) | Faz | Bu build'de |
 |---|---|---|---|---|---|
-| `no_ads` — **Reklamsız** | non-consumable | Geçiş (interstitial) reklamları kapalı. Ödüllü reklamlar isteğe bağlı kalır. | 89,99 / 2,99 **(öneri, §8)** | MVP | **Satışta** |
+| `no_ads` — **Reklamsız** | non-consumable | Geçiş (interstitial) reklamları kapalı. Ödüllü teklifler: reklam katmanının moduna göre (§4). | 89,99 / 2,99 **(öneri, §8)** | MVP | **Satışta** |
 | `torpil` — **Torpil** | non-consumable | `no_ads`'in verdiği her şey + sınırsız defter arşivi, 3 kayıt yeri, 6 karne teması, 4 mürekkep, defter dışa aktarımı, Kader, ek kişilik (06 §2.2.1) | 199,99 / 6,99 | MVP | Gerçek mağazada **kapalı**, demo mağazada açık (aşağıya bak) |
 | `tickets_5` — Antrenman Bileti ×5 | consumable | 5 bilet (reklam yerine; tavan açmaz; Fizyoterapi'de geçmez) | 29,99 / 0,99 | Soft launch | Kapalı |
 | `season_2701` — Sezon Paketi 27-1 | non-consumable | 12 kamp, 40 olay, 1 kişilik, 2 karne teması | 119,99 / 3,99 | 1.0 | Kapalı |
@@ -112,7 +112,7 @@ Paket `package.json`'a eklendi. `app.json`'a **plugin eklenmedi** (gerekmiyor). 
 | Ön bilgilendirme | "Satın almadan önce" bloğu: sağlayıcı (D2P Technology), ödemeyi kimin aldığı, toplam bedelin onay ekranındaki tutar olduğu, anında teslim ve cayma hakkı istisnası, iade yolu, hesaba bağlılık. **Metin taslak — §7.** |
 | Geri yükleme (Apple 3.1.1) | "Satın alımları geri yükle" her zaman görünür, katlanmamış; Android'de de aynı yerde. |
 | Sahiplik | Kartta "SENDE" damgası; satın alma düğmesi kalkar. |
-| Çekirdek oyun kilitli değil | Hiçbir ürün stat/para/sağlık vermez (katalog testi); ekranda açık cümle. Mağaza kapalı/ulaşılamazken oyun aynen oynanır. |
+| Çekirdek oyun kilitli değil | Hiçbir ürünün `Feature` listesinde stat/para/sağlık yok (katalog testi); ekranda açık cümle (ödüllü teklif moduna göre iki sürümü var, aşağıya bak). Mağaza kapalı/ulaşılamazken oyun aynen oynanır. |
 | Rastgelelik / kumar | Yok; tip düzeyinde `randomness: false`. Sanal para yok. |
 | Küçükler | "18 yaşından küçüksen velinin izni gerekir" + veliler için mağaza kısıtlaması notu. Yaş doğrulaması **yapılmaz**. |
 | Karanlık desen yok (06 §6.4) | Geri sayım, stok, üstü çizili fiyat, "en popüler", önceden seçili ürün, utandıran ret yok; iptalde koç susar. Metin testi baskı sözcüklerini ve koddaki fiyatı reddeder. |
@@ -120,7 +120,7 @@ Paket `package.json`'a eklendi. `app.json`'a **plugin eklenmedi** (gerekmiyor). 
 | Dokunma hedefi | Tüm düğmeler ≥ 44 pt (ölçüldü: kapat 72×44, satın al 332×52, geri yükle 362×52, linkler ≥ 44 yüksek). |
 | Koşullar / Gizlilik linkleri | Var ama URL'ler **yer tutucu**; yer tutucuyken dokunmak hiçbir şey açmaz. Yayın engelidir (§5 D). |
 
-**Reklam katmanı sözleşmesi:** `hasNoAds()` "zorla gösterilen reklamlar kapalı" demektir. Ödüllü reklamlar isteğe bağlıdır ve sahiplerde de durur (D-038). Ödüllü reklamın Reklamsız sahibine reklamsız verilip verilmeyeceği reklam katmanının kararıdır; mağaza metni "ödüllü reklamlar yerinde durur" der — iki metin birlikte gözden geçirilmeli.
+**Reklam katmanı sözleşmesi ve bir çelişki:** `hasNoAds()` "zorla gösterilen reklamlar kapalı" demektir. Ödüllü tekliflerde sahibin ne göreceğine reklam katmanı karar verir (`src/ads/config.ts → rewarded.noAdsMode`); mağaza kartı o ayarı okur ve hangi mod açıksa onu yazar, böylece kart build'in yapmadığı bir şeyi söylemez. Şu an reklam katmanı `grantWithoutAd` seçmiş: sahip, ödüllü teklifin ödülünü **reklam izlemeden** alır (aynı teklif, aynı tavan). Bu, 06 §2.2.2 / D-038'in "rewarded Torpil'de de yerinde kalır; satın alma stat/para vermez" hükmünden sapar: ödüllerin bir kısmı paradır (Forma Sponsoru). Kart bu modda "Yeni güç satmaz: ödüller ve sınırlar herkesle aynı" der; "stat, para vermez" **demez**. Hangi modun kalacağı ürün kararıdır (§8 D-ÖNERİ-14-07) ve Apple/Reklam Kurulu açısından "pay-to-skip" olarak avukata da sorulmalıdır.
 
 ## 5. Sahibin yapacakları (kurulum listesi)
 
@@ -205,3 +205,4 @@ Web: Playwright ile 390×844'te mağaza aç → iptal (iz yok) → hata (bildiri
 | **D-ÖNERİ-14-04** | Katalog ve depo `packages/engine/monetization` yerine `apps/mobile/src/monetization`'da. | Görev kapsamı motor paketine dokunmamaktı; dosyalar saf TS, sonradan taşınabilir. |
 | **D-ÖNERİ-14-05** | Mağaza girişi üst çubukta çanta düğmesi (06: "Ayarlar › Torpil" ve "Daha" menüsü). | "Daha" menüsü yok; Ayarlar sayfası ses ayarlarına ait. Üst çubukta marka alt yazısı oyun sırasında iki satıra iner. |
 | **D-ÖNERİ-14-06** | Mağaza açılınca oyun duraklatılır. | 06 §2.1/2 "ticari yüzey yalnızca duran zamanda". Yan etki: mağaza açıkken uygulama kapatılırsa kayıtta hız "duraklat" kalır. |
+| **D-ÖNERİ-14-07** | **Karar gerekli:** Reklamsız/Torpil sahibi ödüllü teklifte reklam izler mi (`showAd`, 06'nın hükmü) yoksa ödülü reklamsız mı alır (`grantWithoutAd`, reklam katmanının şu anki seçimi)? | İkincisi satın almayı dolaylı olarak oyun-içi ödüle bağlar (D-038 "güç vermez" ile gerilim); birincisi "aldım, yine reklam" şikâyeti riskini taşır. Mağaza metni iki modu da doğru yazar. |

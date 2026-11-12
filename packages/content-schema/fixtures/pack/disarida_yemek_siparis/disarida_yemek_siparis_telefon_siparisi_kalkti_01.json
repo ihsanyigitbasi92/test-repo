@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_telefon_siparisi_kalkti_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "paket",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 16
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Artık telefonla sipariş almıyoruz. Kapıdaki karekodu okutun.",
+      "en": "We don't take phone orders anymore. Scan the QR code on our door."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "tired",
+      "tr": "Kapıya gelmeniz gerekiyor tabii. Sonra eve dönüp bekleyin.",
+      "en": "You'd have to come to the door, of course. Then go home and wait.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Kapıya git, kodu okut",
+      "en": "Walk over and scan it",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Yeniden ara, ısrar et",
+      "en": "Call back and insist",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "baska",
+      "tr": "Telefon açan başka yer bul",
+      "en": "Find a place that answers",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "money": -230,
+        "stats": {
+          "joy": -1,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "siparis_karekod_ogrenildi"
+          ]
+        }
+      },
+      "tr": "Kapıya yürüdün, kodu okuttun, eve döndün. Pide senden iki dakika sonra geldi.",
+      "en": "You walked over, scanned, walked home. The flatbread arrived two minutes after you did.",
+      "coach": [
+        {
+          "tr": "Yürüyüş bedavaydı. Pide değildi.",
+          "en": "The walk was free. The flatbread was not.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -230,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "siparis_telefon_musterisi"
+            ]
+          }
+        },
+        "tr": "Üçüncü aramada usta açtı: \"Sesinizi tanıdım, yazıyorum.\" Telefonla sipariş veren son müşteri sensin.",
+        "en": "On the third call the owner answered: \"I know your voice. Go ahead.\" You are their last phone customer.",
+        "coach": [
+          {
+            "tr": "Bir kişilik liste. Senin adınla.",
+            "en": "A list of one. Your name on it.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "siparis_karekod_ogrenildi"
+            ]
+          }
+        },
+        "tr": "Telefonu yine çırak açtı ve karekodu bir kez daha, daha yavaş anlattı.",
+        "en": "The apprentice answered again and explained the QR code once more, slower.",
+        "coach": [
+          {
+            "tr": "Daha yavaş anlatıldı. Anlam aynı kaldı.",
+            "en": "Slower this time. Same meaning.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "baska": {
+      "effects": {
+        "money": -260,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "siparis_yeni_pideci"
+          ]
+        }
+      },
+      "tr": "Telefon açan bir pideci buldun, 260 Para. Pide farklıydı, usta da sohbet etmiyordu.",
+      "en": "You found a place that answers the phone: 260. Different flatbread. No small talk.",
+      "coach": [
+        {
+          "tr": "Telefon açıldı. Muhabbet açılmadı.",
+          "en": "The phone picked up. The conversation did not.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da wager kotası"
+  },
+  "intent": {
+    "setup": "yıllardır telefonla sipariş verilen pidecinin yalnızca kapıdaki karekodla sipariş alması",
+    "mechanism": "paket servis için kapıya kadar gitmek",
+    "mechanismId": "bathos",
+    "punch": "sonra eve dönüp bekleyin",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "muhabbet",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

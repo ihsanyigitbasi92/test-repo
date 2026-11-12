@@ -10,7 +10,7 @@ import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
-import { LEGAL_URLS } from '../monetization/config';
+import { LEGAL_URLS, isPlaceholder } from '../monetization/config';
 import { AD_CONFIG } from './config';
 import { getView, hostMounted, resolveView, subscribeView, type AdView, type ChoiceResult, type Presented, type ViewResult } from './uiStore';
 
@@ -99,7 +99,7 @@ function Sheet({ title, children, testID, tag }: { title: string; children: Reac
 function Notice({ done }: { done: Done<'notice'> }) {
   const { s } = useI18n();
   const t = s.ads.consent;
-  const url = LEGAL_URLS.privacy || AD_CONFIG.consent.privacyUrl;
+  const url = LEGAL_URLS.privacy && !isPlaceholder(LEGAL_URLS.privacy) ? LEGAL_URLS.privacy : AD_CONFIG.consent.privacyUrl;
   return (
     <Sheet title={t.noticeTitle} testID="consent-notice">
       <Text style={st.body}>{t.noticeBody}</Text>

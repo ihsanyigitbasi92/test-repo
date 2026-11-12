@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_emekli_masasi_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "lokanta",
+    "arkadas",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 16
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 80
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "smug",
+      "tr": "Geçen ay siz ödediniz, ondan önce köşedeki. Bu ay sıra...",
+      "en": "Last month was you, the month before, the corner seat. This month it is..."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Bir deftere bakayım. Sizinki karışık, benimki değil.",
+      "en": "Let me check my notebook. Yours is a mess. Mine isn't.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Sıranın sende olmadığını savun",
+      "en": "Argue it isn't your turn",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Sorgulamadan öde",
+      "en": "Pay without arguing",
+      "pattern": "generosity"
+    },
+    {
+      "id": "herkes",
+      "tr": "\"Bu ay herkes kendine\" de",
+      "en": "Say \"separate checks this month\"",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "siparis_emekli_masasi"
+            ]
+          }
+        },
+        "tr": "Cebinden geçen ayın fişini çıkardın. Garson defterini düzeltti; hesap köşedekine gitti.",
+        "en": "You produced last month's receipt. The waiter amended the notebook. The check went to the corner.",
+        "coach": [
+          {
+            "tr": "Fiş, defteri yendi.",
+            "en": "The receipt beat the notebook.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -720,
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "siparis_emekli_masasi"
+            ]
+          }
+        },
+        "tr": "Fiş evde kalmıştı. Defter kazandı: 720 Para, altı kişilik öğle yemeği.",
+        "en": "The receipt was at home. The notebook won: 720, lunch for six.",
+        "coach": [
+          {
+            "tr": "Defter haklıydı. Garsonunki.",
+            "en": "The notebook was right. The waiter's.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -720,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "siparis_emekli_masasi",
+            "siparis_lokanta_secimi"
+          ]
+        }
+      },
+      "tr": "Ödedin. Masadakiler gelecek ayın lokantasını seçme hakkını sana verdi.",
+      "en": "You paid. The table granted you the right to pick next month's place.",
+      "coach": [
+        {
+          "tr": "Altı kişilik öğle, bir seçim hakkı.",
+          "en": "Lunch for six buys one vote.",
+          "roast": false
+        }
+      ]
+    },
+    "herkes": {
+      "effects": {
+        "money": -130,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "siparis_emekli_masasi"
+          ]
+        }
+      },
+      "tr": "\"Bu ay herkes kendine\" dedin. Garson defterine bir yıldız koydu; kimse anlamını sormadı.",
+      "en": "\"Separate checks this month,\" you said. The waiter drew a star in the notebook. Nobody asked what it meant.",
+      "coach": [
+        {
+          "tr": "Bir yıldız. Anlamı garsonda saklı.",
+          "en": "One star. Meaning withheld.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da wager kotası"
+  },
+  "intent": {
+    "setup": "emekli arkadaş grubunun aylık öğle yemeğinde hesap sırasını garsonun kendi defterinden takip etmesi",
+    "mechanism": "garsonun defteri grubun hafızası",
+    "mechanismId": "callback",
+    "punch": "sizinki karışık, benimki değil",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "yildiz",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

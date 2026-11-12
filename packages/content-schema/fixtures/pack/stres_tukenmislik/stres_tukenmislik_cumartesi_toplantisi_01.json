@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "stres_tukenmislik_cumartesi_toplantisi_01",
+  "tags": [
+    "saglik",
+    "is",
+    "hafta_sonu",
+    "stres_tukenmislik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "stres_tukenmislik": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Cumartesi onda kısa bir toplantı. Yarım saat, kahveler benden.",
+      "en": "Short meeting Saturday at ten. Half an hour, coffee's on me."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Gelmek zorunda değilsin tabii. Sadece herkes gelecek.",
+      "en": "You don't have to come, of course. It's just that everyone will.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Git",
+      "en": "Go",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "hayir",
+      "tr": "Kibarca gelemem de",
+      "en": "Politely decline",
+      "pattern": "selfCare",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "baglan",
+      "tr": "Telefondan bağlan",
+      "en": "Dial in from your phone",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "hidden": {
+          "stress": 4
+        },
+        "stats": {
+          "joy": -3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Yarım saatlik toplantı üç saat sürdü. Kahve geldi ve ikinci saatin başında bitti.",
+      "en": "The half-hour meeting ran three hours. The coffee arrived and ran out at the top of hour two.",
+      "coach": [
+        {
+          "tr": "Kahveye kadar her şey plana uygundu.",
+          "en": "Everything went to plan until the coffee.",
+          "roast": true
+        }
+      ]
+    },
+    "hayir": [
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": -3
+          },
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "st_cumartesi_hayir"
+            ]
+          }
+        },
+        "tr": "\"Bu cumartesi gelemem\" dedin. Patron tutanağı gönderdi; tutanak iki satırdı.",
+        "en": "\"I can't make it this Saturday,\" you said. The boss sent the minutes. They were two lines long.",
+        "coach": [
+          {
+            "tr": "Üç saatlik toplantı, iki satırlık tutanak. Cumartesi senin.",
+            "en": "Three hours of meeting, two lines of minutes. Saturday stayed yours.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "st_cumartesi_eksik"
+            ]
+          }
+        },
+        "tr": "Gelemeyeceğini söyledin. Pazartesi öğrendin ki alınan dört kararın üçü artık senin işindi.",
+        "en": "You declined. On Monday you learned that three of the four decisions made were now your job.",
+        "coach": [
+          {
+            "tr": "Dört kararın üçü, orada olmayana. İlginç bir dağılım.",
+            "en": "Three of four decisions went to the one who wasn't there. Interesting distribution.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "baglan": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": -1,
+          "health": -1
+        }
+      },
+      "tr": "Pazar yerinden telefonla bağlandın. Üç saat boyunca bir elinde domates, öbüründe kulaklık vardı.",
+      "en": "You dialed in from the farmers market. For three hours, one hand held tomatoes and the other an earbud.",
+      "coach": [
+        {
+          "tr": "Toplantıya da katıldın, pazara da. İkisine yarım.",
+          "en": "You attended the meeting and the market. Half of each.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hayir",
+    "slip": {
+      "tr": "İDDİA: \"Gelemem\" pazartesi geri döner. — M.",
+      "en": "WAGER: \"Can't make it\" comes back on Monday. — M."
+    }
+  },
+  "intent": {
+    "setup": "patronun cumartesi sabahı 'kısa' toplantı çağrısı",
+    "mechanism": "yarım saat üç saate, tutanak iki satıra",
+    "mechanismId": "escalation",
+    "punch": "sadece herkes gelecek",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dagilim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

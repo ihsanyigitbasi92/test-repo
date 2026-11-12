@@ -58,7 +58,7 @@ export function LifeScreen() {
   }
 
   // A decision just appeared: the question / report card above it must be fully on screen (UX playtest #7, #8, #13).
-  const pinKey = snap.stage === 'play' && ready && v && (phase === 'day' || phase === 'birthday') ? `${phase}:${v.calendar.dayIndex}` : null;
+  const pinKey = snap.stage === 'play' && ready && v && (phase === 'day' || phase === 'birthday' || snap.offer) ? `${snap.offer ? 'offer' : phase}:${v.calendar.dayIndex}` : null;
 
   return (
     <I18nContext.Provider value={i18n}>

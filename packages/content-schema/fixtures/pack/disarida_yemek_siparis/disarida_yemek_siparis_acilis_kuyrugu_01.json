@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_acilis_kuyrugu_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "kuyruk",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 16
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "happy",
+      "tr": "İlk elli kişiye dürüm bizden. Sıra şuradan başlıyor.",
+      "en": "First fifty people eat free. The line starts here."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Siz... bir saniye... kırk sekiz misiniz, elli iki mi?",
+      "en": "You're... hang on... forty-eight? Or fifty-two?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sırada bekle",
+      "en": "Hold your spot",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "say",
+      "tr": "Önündekileri yüksek sesle say",
+      "en": "Count the line out loud",
+      "pattern": "pride"
+    },
+    {
+      "id": "ode",
+      "tr": "Bekleme, parasını öde",
+      "en": "Skip it and pay",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "siparis_acilis_bedava"
+            ]
+          }
+        },
+        "tr": "Kırk dokuzuncu çıktın. Dürüm bedava, peçetesine de dükkânın adı basılı.",
+        "en": "You were forty-nine. Free wrap, plus a napkin with the shop's name on it.",
+        "coach": [
+          {
+            "tr": "Kırk dokuz kişi, bir saat, sıfır Para. Saatin değeri tartışmaya açık.",
+            "en": "Forty-nine people, one hour, zero spent. The hour's value is up for debate.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef kasasında 175 Para kaldı.",
+            "en": "The goal fund kept 175.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -160,
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "siparis_acilis_kacti"
+            ]
+          }
+        },
+        "tr": "Elli birinci çıktın. Garson üzgün baktı ve yüzde on indirim yaptı: 160 Para.",
+        "en": "You were fifty-one. The waiter looked sorry and took ten percent off: 160.",
+        "coach": [
+          {
+            "tr": "Elli bir. Bedava dürümle arandaki tek engel bir insandı.",
+            "en": "Fifty-one. A single human stood between you and a free wrap.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "say": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "siparis_acilis_bedava"
+          ]
+        }
+      },
+      "tr": "Saydın: kırk altıncıydın. Arkandakiler de saymaya başladı, sıra iki kez düzeldi.",
+      "en": "You counted: forty-six. The people behind you started counting too. The line corrected itself twice.",
+      "coach": [
+        {
+          "tr": "Bir kişi saydı, elli kişi hizaya girdi.",
+          "en": "One person counted. Fifty fell into line.",
+          "roast": true
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -175,
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Parasını ödedin, 175 Para. Kuyruk hâlâ kırkıncı kişideydi; sen dürümün yarısındaydın.",
+      "en": "You paid: 175. The line was still on person forty. You were halfway through the wrap.",
+      "coach": [
+        {
+          "tr": "Bir saat satın aldın. Etiketi 175 Para.",
+          "en": "You bought an hour. Price tag: 175.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: İlk elliye giremezsin. — M.",
+      "en": "WAGER: You won't make the first fifty. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni açılan dürümcünün \"ilk elli kişiye bedava\" kuyruğunda beklemek",
+    "mechanism": "kuyruk sayımı",
+    "mechanismId": "count",
+    "punch": "kırk dokuz kişi, bir saat, sıfır Para",
+    "lift": "hedef kasasında 175 Para",
+    "target": "decision",
+    "closer": "saatin_degeri",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -15,6 +15,7 @@ import { LEGAL_URLS, SELLER, SHIPPED_FEATURES, isPlaceholder } from '../monetiza
 import { useEntitlements } from '../monetization/entitlements';
 import { MockIapProvider, type MockDecision, type StoreProduct } from '../monetization/iap';
 import { shop, useShop } from '../monetization/purchases';
+import { AD_CONFIG } from '../ads/config';
 
 type Notice = { tone: 'ok' | 'info' | 'warn'; text: string } | null;
 interface Ask { product: StoreProduct; resolve: (d: MockDecision) => void }
@@ -25,6 +26,8 @@ const openUrl = (url: string): void => { if (!isPlaceholder(url)) void Linking.o
 export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { s, locale } = useI18n();
   const t = s.shop;
+  // What owners' rewarded offers do is the ads layer's call; the card states exactly that mode.
+  const rw = t.rewarded[AD_CONFIG.rewarded.noAdsMode];
   const view = useShop();
   const ent = useEntitlements();
   const [notice, setNotice] = useState<Notice>(null);
@@ -129,13 +132,14 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
               {product.kind === 'consumable'
                 ? <Text style={st.feat}>• {t.ticketsGet(product.tickets ?? 0)}</Text>
                 : shipped.map((f) => <Text key={f} style={st.feat}>• {t.feature[f] ?? f}</Text>)}
+              {shipped.includes('ads.interstitial.off') && <Text style={st.feat}>• {rw.feature}</Text>}
               {product.kind === 'non_consumable' && shipped.length < product.grants.length && <Text style={st.hint}>{t.partial}</Text>}
               {state === 'none' && bigger && <Text style={st.hint}>{t.coveredHint(t.name[bigger])}</Text>}
               {state === 'none' && smallerOwned && <Text style={st.hint}>{t.overlapHint(t.name[smallerOwned], t.name[sku])}</Text>}
               <Text style={st.legal}>
                 {product.kind === 'consumable' ? t.termsConsumable : t.terms}
                 {sp ? ` · ${sp.currencyCode === 'TRY' ? t.taxIncluded : t.taxByStore}` : ''}
-                {` · ${t.noPower}`}
+                {` · ${rw.noPower}`}
               </Text>
               {state === 'none' && (sp ? (
                 <Pressable onPress={() => { void buy(sku); }} disabled={busy} accessibilityRole="button" accessibilityLabel={t.buyA11y(t.name[sku], sp.priceString)}
@@ -171,7 +175,7 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
           <Text style={st.infoTxt}>{t.info.delivery}</Text>
           <Text style={st.infoTxt}>{t.info.refund(storeName)}</Text>
           <Text style={st.infoTxt}>{t.info.account}</Text>
-          <Text style={st.infoTxt}>{t.info.free}</Text>
+          <Text style={st.infoTxt}>{rw.free}</Text>
           <Text style={st.infoTxt}>{t.info.minors}</Text>
         </View>
         <View style={st.links}>

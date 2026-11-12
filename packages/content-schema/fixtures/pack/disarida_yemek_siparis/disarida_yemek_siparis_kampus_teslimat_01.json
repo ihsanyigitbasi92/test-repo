@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_kampus_teslimat_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "paket",
+    "kurye",
+    "okul",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 16
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:courier",
+      "avatar": "annoyed",
+      "tr": "Kütüphanenin arka kapısındayım. Burada üç tane arka kapı var.",
+      "en": "I'm at the library's back door. There are three back doors."
+    },
+    {
+      "speaker": "npc:courier",
+      "avatar": "tired",
+      "tr": "Birinin önünde heykel var, birinin önünde kedi. Siz hangisisiniz?",
+      "en": "One has a statue, one has a cat. Which one are you?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tarif",
+      "tr": "Telefonda tarif et",
+      "en": "Talk them in by phone",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kos",
+      "tr": "Kitapları bırak, koş",
+      "en": "Leave your books and run",
+      "pattern": "risk"
+    },
+    {
+      "id": "kedi",
+      "tr": "\"Kedinin olduğu\" de",
+      "en": "Say \"the cat one\"",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "tarif": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "siparis_kampus_teslim"
+            ]
+          }
+        },
+        "tr": "\"Heykelin solu, merdivenin dibi\" dedin. Kurye ilk denemede buldu, yemek sıcaktı.",
+        "en": "\"Left of the statue, foot of the stairs.\" First try. Still hot.",
+        "coach": [
+          {
+            "tr": "Bir tarif, bir sıcak yemek.",
+            "en": "One set of directions. One hot meal.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "siparis_kampus_teslim"
+            ]
+          }
+        },
+        "tr": "Tarifin kuryeyi yan fakültenin arka kapısına götürdü. Yemek yirmi dakika sonra geldi.",
+        "en": "Your directions led to the next building's back door. Dinner arrived twenty minutes later.",
+        "coach": [
+          {
+            "tr": "Tarif bir bina şaştı.",
+            "en": "The directions missed by one building.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kos": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "siparis_kampus_teslim"
+          ]
+        }
+      },
+      "tr": "Kitapları masada bırakıp koştun. Döndüğünde yerine biri oturmuştu, kitapların kenara itilmişti.",
+      "en": "You left your books and ran. When you got back, someone had your seat and your books had been politely relocated.",
+      "coach": [
+        {
+          "tr": "Yemek sende, sandalye onda.",
+          "en": "You have dinner. They have your chair.",
+          "roast": false
+        }
+      ]
+    },
+    "kedi": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "siparis_kampus_teslim"
+          ]
+        }
+      },
+      "tr": "\"Kedinin olduğu\" dedin. Kedi o arada yer değiştirmişti; kurye seni heykelin yanında buldu.",
+      "en": "\"The cat one,\" you said. The cat had moved. The courier found you by the statue.",
+      "coach": [
+        {
+          "tr": "Kedi kötü bir adres. Heykel daha sabit.",
+          "en": "Cats make poor landmarks. Statues hold still.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tarif",
+    "slip": {
+      "tr": "İDDİA: Kurye ilk seferde bulamaz. — M.",
+      "en": "WAGER: The courier won't find you first try. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınav gecesi kampüse sipariş, kuryenin \"kütüphane arka kapı\" konumunu bulamaması",
+    "mechanism": "kurye kapıları nesneyle tarif ediyor",
+    "mechanismId": "deadpan_report",
+    "punch": "birinin önünde kedi",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "heykel",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

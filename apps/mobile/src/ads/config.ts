@@ -89,7 +89,7 @@ export const AD_CONFIG = {
       tactic: { enabled: false, perLocalDay: 2, perLife: null, minCharYearsGap: null, maxAge: null, requiresJob: false, blockInDebt: false, requiresPayday: false },
       /** R1 Ek Antrenman: D-085 (a) ile MVP'den çıktı (kayıp kovalama) → kapalı. */
       extraPractice: { enabled: false, perLocalDay: null, perLife: null, minCharYearsGap: 1, maxAge: null, requiresJob: false, blockInDebt: false, requiresPayday: false },
-    } satisfies Record<PlacementId, RewardedPlacementConfig>,
+    } as Record<PlacementId, RewardedPlacementConfig>,
     /** Forma Sponsoru ödülü: aylık maaş × months × pct / 100. */
     sponsorReward: { pct: 25, months: 6 },
   },

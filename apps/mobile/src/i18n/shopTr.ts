@@ -16,14 +16,14 @@ export const shopTr = {
   name: { no_ads: 'Reklamsız', torpil: 'Torpil', tickets_5: 'Antrenman Bileti ×5', season_2701: 'Sezon Paketi 27-1' } as Record<Sku, string>,
   tagline: { torpil: 'Koçun gözdesi olursun. Hayatın değişmez; menü değişir.' } as Partial<Record<Sku, string>>,
   line: {
-    no_ads: 'Geçiş reklamlarını kapatır. Ödüllü reklamlar yerinde durur; ödülü istersen izlersin, istemezsen kimse sormaz.',
+    no_ads: 'Geçiş reklamlarını kapatır. Araya giren reklam kalmaz; gerisi aşağıda yazıyor.',
     torpil: 'Torpil. Tek seferlik; aşağıda ne yazıyorsa o. Yazmayan şeyi vermez.',
     tickets_5: 'Reklam yerine bilet; aynı kurallar, aynı sınırlar. Fizyoterapi\'de geçmez; o bedava. Biletler bu cihazda saklanır.',
     season_2701: 'On iki yeni kamp, kırk olay, bir koç kişiliği, iki karne teması. İçindekiler yazılı; sürpriz yok.',
   } as Record<Sku, string>,
   gets: 'Ne alırsın',
   feature: {
-    'ads.interstitial.off': 'Geçiş reklamı yok (ödüllü reklamlar istersen durur)',
+    'ads.interstitial.off': 'Geçiş reklamı yok',
     'notebook.archive.unlimited': 'Koçun Defteri: sınırsız arşiv',
     'profiles.3': '3 kayıt yeri',
     'report.themes.torpil': '6 karne teması',
@@ -45,7 +45,22 @@ export const shopTr = {
   termsConsumable: 'Tek seferlik · tüketilir · geri yüklenmez',
   taxIncluded: 'KDV dahil',
   taxByStore: 'vergiler mağazanın gösterdiği gibi',
-  noPower: 'Stat, para, sağlık vermez.',
+  /**
+   * What an owner's rewarded offers do — depends on the ads layer (src/ads/config.ts `rewarded.noAdsMode`), so the
+   * card never claims something the build does not do. `noPower` / `free` are the matching plain statements.
+   */
+  rewarded: {
+    showAd: {
+      feature: 'Ödüllü reklamlar yerinde durur: ödülü istersen izlersin, istemezsen kimse sormaz',
+      noPower: 'Stat, para, sağlık vermez.',
+      free: 'Oyunun tamamı ücretsiz oynanır. Buradaki hiçbir şey stat, para ya da sağlık vermez; hiçbir şey şansa bağlı değildir.',
+    },
+    grantWithoutAd: {
+      feature: 'Ödüllü teklifler reklamsız: aynı teklif, aynı ödül, aynı sınır; yalnızca reklam yok',
+      noPower: 'Yeni güç satmaz: ödüller ve sınırlar herkesle aynı.',
+      free: 'Oyunun tamamı ücretsiz oynanır. Buradaki hiçbir şey, ücretsiz oynayanın alamadığı bir stat, para ya da sağlık vermez; hiçbir şey şansa bağlı değildir.',
+    },
+  },
   buy: (price: string) => `${price} · Satın al`,
   buyA11y: (name: string, price: string) => `${name}, ${price}, satın al`,
   buying: 'Mağaza bekleniyor…',
@@ -79,7 +94,6 @@ export const shopTr = {
     delivery: 'Dijital içerik, satın alma tamamlanır tamamlanmaz teslim edilir. Satın alarak içeriğin hemen teslim edilmesini onaylamış olursun; anında teslim edilen dijital içerikte cayma hakkı kullanılamaz (Mesafeli Sözleşmeler Yönetmeliği m. 15).',
     refund: (store: string) => `İade talepleri ${store} üzerinden, mağazanın iade kurallarına göre yapılır.`,
     account: 'Kalıcı satın almalar mağaza hesabına bağlıdır; yeni cihazda "Satın alımları geri yükle" yeter.',
-    free: 'Oyunun tamamı ücretsiz oynanır. Buradaki hiçbir şey stat, para ya da sağlık vermez; hiçbir şey şansa bağlı değildir.',
     minors: '18 yaşından küçüksen satın alma için velinin izni gerekir. Veliler: satın almaları cihazın mağaza ayarlarından şifreye bağlayabilir ya da kapatabilirsiniz.',
   },
   store: { ios: 'App Store', android: 'Google Play', web: 'deneme mağazası' } as Record<string, string>,
