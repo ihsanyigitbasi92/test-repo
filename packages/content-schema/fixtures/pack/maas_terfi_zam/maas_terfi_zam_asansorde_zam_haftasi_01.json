@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_asansorde_zam_haftasi_01",
+  "tags": [
+    "is",
+    "zam",
+    "patron",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Zam listesi bu hafta kapanıyor. Aklında ol, yeter.",
+      "en": "The raise list closes this week. Just be on her mind. That is all it takes."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Dokuzuncu kat, değil mi? Ben de. Hava da iyice soğudu.",
+      "en": "Ninth floor? Same. It has turned properly cold, has it not.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Kapattığın işi anlat",
+      "en": "Mention the job you closed",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "hava",
+      "tr": "Havadan konuş",
+      "en": "Talk about the weather",
+      "pattern": "patience"
+    },
+    {
+      "id": "in",
+      "tr": "Sonraki katta in",
+      "en": "Get off at the next floor",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "anlat": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "zam_listesinde"
+            ]
+          }
+        },
+        "tr": "Dört katta anlattın. Nevin Hanım yedinci katta telefonuna bir not yazdı; adın zam listesine girdi.",
+        "en": "You told it in four floors. Ms. Carver typed a note into her phone at seven. Your name went on the raise list.",
+        "coach": [
+          {
+            "tr": "Not telefonda. Liste cuma kapanıyor.",
+            "en": "The note is in her phone. The list closes Friday.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir kat çıktı.",
+            "en": "Goal tracker: up one floor.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "stats": {
+            "joy": 0
+          }
+        },
+        "tr": "Cümlenin ortasında asansör altıncı katta durdu, üç kişi bindi. Hikâyeyi onlar da dinledi; biri \"eline sağlık\" dedi.",
+        "en": "Mid-sentence the elevator stopped at six and three people got in. They heard the rest too. One of them said \"nice work.\"",
+        "coach": [
+          {
+            "tr": "Dinleyici sayısı dörde çıktı.",
+            "en": "The audience grew to four.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hava": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Dokuz kat boyunca hava konuşuldu. Nevin Hanım sana mont tavsiye etti.",
+      "en": "Nine floors of weather. Ms. Carver recommended a coat.",
+      "coach": [
+        {
+          "tr": "Mont bilgisi alındı. Liste ayrı konu.",
+          "en": "Coat advice received. The list is a separate matter.",
+          "roast": false
+        }
+      ]
+    },
+    "in": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Üçüncü katta indin, altı kat yürüdün. Masana ondan dört dakika sonra vardın.",
+      "en": "You got off at three and walked up six flights. You reached your desk four minutes after she did.",
+      "coach": [
+        {
+          "tr": "Altı kat merdiven. Sağlık hanesine yazıldı.",
+          "en": "Six flights of stairs. Filed under health.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlat",
+    "slip": {
+      "tr": "İDDİA: Asansör senden önce bitirir. — M.",
+      "en": "WAGER: The elevator finishes before you do. — M."
+    }
+  },
+  "intent": {
+    "setup": "zam listesi haftasında patronla asansörde dokuz kat baş başa kalmak",
+    "mechanism": "konuşma asansörün durduğu her katta dinleyici topluyor",
+    "mechanismId": "escalation",
+    "punch": "hikâyeyi üç kişi daha dinledi",
+    "lift": "hedef sayacı bir kat çıktı",
+    "target": "decision",
+    "closer": "mont",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

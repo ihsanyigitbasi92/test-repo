@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uzaktan_calisma_evdesin_zaten_01",
+  "tags": [
+    "is",
+    "uzaktan",
+    "patron",
+    "mesai",
+    "uzaktan_calisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "uzaktan_calisma": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Saat geç oldu biliyorum ama evdesin zaten. Sunuma bir göz atar mısın? Beş dakika.",
+      "en": "I know it is late, but you are home anyway. Could you glance at the deck? Five minutes."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Yarın sabah yediye toplantı koydum. Yol yok nasılsa, erken başlarız.",
+      "en": "I have put a meeting in for seven tomorrow. No commute, after all. We can start early.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "bak",
+      "tr": "Sunuma şimdi bak",
+      "en": "Look at the deck now",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sinir",
+      "tr": "Mesai saatini yaz",
+      "en": "State your working hours",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "sabah",
+      "tr": "Bildirimleri kapat, sabah bak",
+      "en": "Mute notifications until morning",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "bak": {
+      "effects": {
+        "stats": {
+          "joy": -3,
+          "health": -1
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Sunuma baktın; beş dakika yetmiş dakika sürdü. 23.20'de yeni mesaj geldi: \"Süper, bir de şuna bakalım.\"",
+      "en": "You looked at the deck. Five minutes took seventy. At 11:20 p.m. a new message arrived: \"Great, now let us look at this one.\"",
+      "coach": [
+        {
+          "tr": "Beş dakikanın yetmiş dakikalık sürümü.",
+          "en": "Five minutes, in its seventy-minute edition.",
+          "roast": false
+        }
+      ]
+    },
+    "sinir": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -4
+          },
+          "flags": {
+            "add": [
+              "mesai_siniri"
+            ]
+          }
+        },
+        "tr": "\"Akşam yediden sonra yanıt veremiyorum, sabah ilk iş bakarım\" yazdın. Nevin Hanım \"Anlaşılır\" dedi; toplantı dokuza alındı.",
+        "en": "You wrote \"I am offline after seven in the evening and will look first thing.\" Ms. Carver said \"Understandable.\" The meeting moved to nine.",
+        "coach": [
+          {
+            "tr": "Sınır yazıldı. Karşı taraf okudu.",
+            "en": "A boundary was written down. The other side read it.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Yazdın. Yanıt: \"Tabii, haklısın.\" Sabah yedi toplantısı takvimde kaldı; başlığına \"kısa\" eklendi.",
+        "en": "You wrote it. The reply: \"Of course, fair point.\" The seven a.m. meeting stayed in the calendar. The word \"short\" was added to its title.",
+        "coach": [
+          {
+            "tr": "Toplantı kısa olacakmış. Saati aynı.",
+            "en": "The meeting will be short, reportedly. The hour is unchanged.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sabah": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Bildirimleri kapattın. Sabah altı mesaj, iki cevapsız arama ve çözülmüş bir sunum buldun.",
+      "en": "You muted notifications. In the morning you found six messages, two missed calls and a deck that had sorted itself out.",
+      "coach": [
+        {
+          "tr": "Sunum sensiz çözülmüş. Bu da bir bilgi.",
+          "en": "The deck was solved without you. That is information too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sinir",
+    "slip": {
+      "tr": "İDDİA: Yedi toplantısı yerinden oynamaz. — M.",
+      "en": "WAGER: The seven a.m. meeting does not move. — M."
+    }
+  },
+  "intent": {
+    "setup": "evden çalıştığın için patronun gece mesaj atıp sabah yediye toplantı koyması",
+    "mechanism": "evde olmak her saate müsait olmak sayılıyor",
+    "mechanismId": "understatement",
+    "punch": "yol yok nasılsa, erken başlarız",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "yedi",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

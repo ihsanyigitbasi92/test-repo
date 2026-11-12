@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_durak_cizgisi_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Dolmuş durağı şu çizgide biter, taksi durağı bu çizgide başlar. Arası bilimsel olarak benim.",
+      "en": "Rideshare pickup ends at that line. Taxi rank starts at this one. The gap is, scientifically, mine."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Yirmi yıldır buradayım. Çizgiyi boyayanı bile tanırım, o da önce bana sorar.",
+      "en": "Twenty years I've been here. I know the guy who paints the line. He asks me first.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cekil",
+      "tr": "Bir araç boyu geri çekil",
+      "en": "Back up a car length",
+      "pattern": "patience"
+    },
+    {
+      "id": "tartis",
+      "tr": "Çizgiyi tartış",
+      "en": "Argue the line",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "cay",
+      "tr": "Çay ısmarla, kuralı sor",
+      "en": "Buy him a coffee, ask the rules",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "cekil": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": -1
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Bir araç boyu geri çekildin. Yolcular iki adım fazla yürüdü, şikâyet eden olmadı.",
+      "en": "You backed up one car length. Riders walked two extra steps. No complaints were filed.",
+      "coach": [
+        {
+          "tr": "Bir araç boyu. Huzurun ölçüsü buymuş.",
+          "en": "One car length. Peace turned out to be that long.",
+          "roast": false
+        }
+      ]
+    },
+    "tartis": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Çizgiyi adımla ölçtünüz, taksici yarım metre içerideymiş. Aracını çekti, teorisini çekmedi.",
+        "en": "You paced out the line together. He was a foot and a half over. He moved the cab. He did not move the theory.",
+        "coach": [
+          {
+            "tr": "Yarım metre geri alındı. Teori yerinde.",
+            "en": "A foot and a half reclaimed. The theory stands.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -40,
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Tartışma on iki dakika sürdü. O arada iki yolcun taksiye bindi.",
+        "en": "The argument ran twelve minutes, during which two of your riders took his cab.",
+        "coach": [
+          {
+            "tr": "On iki dakikada iki yolcu taraf değiştirdi.",
+            "en": "Twelve minutes, two defections.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cay": {
+      "effects": {
+        "money": -5,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "sofor_durak_anlasmasi"
+          ]
+        }
+      },
+      "tr": "Çayı içti, kuralı anlattı: yağmurda ara senin, güneşte onun. Kimse yazmamış ama herkes biliyormuş.",
+      "en": "He took the coffee and explained: in rain the gap is yours, in sun it's his. Nobody wrote it down. Everybody knows.",
+      "coach": [
+        {
+          "tr": "Yağmurda ara senin. Hava durumu artık iş konusu.",
+          "en": "In rain, the gap is yours. The forecast is now a work matter.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tartis",
+    "slip": {
+      "tr": "İDDİA: Çizgi yerinden oynamaz. — M.",
+      "en": "WAGER: The line doesn't move. — M."
+    }
+  },
+  "intent": {
+    "setup": "taksici durak önündeki boşluğun kendisine ait olduğunu savunuyor",
+    "mechanism": "mülkiyet iddiası bilime dayandırılıyor",
+    "mechanismId": "literalism",
+    "punch": "bilimsel olarak benim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "cizgi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. TR dolmuş durağı ile taksi durağı arasındaki boşluk; EN rideshare bekleme noktası ile taksi sırası arasındaki boşluk. Taksici teorisi iki kabukta aynı. Uygulama/şirket/marka adı yok."
+  }
+}

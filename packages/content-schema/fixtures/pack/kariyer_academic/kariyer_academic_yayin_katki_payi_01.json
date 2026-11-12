@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_academic_yayin_katki_payi_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "evrak",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "DERGİ EDİTÖRLÜĞÜ · KABUL VE KATKI PAYI YAZISI (kurgusal)",
+      "en": "JOURNAL EDITORIAL OFFICE · ACCEPTANCE AND FEE NOTICE (fictional)"
+    },
+    "body": {
+      "tr": "Makaleniz yayına kabul edilmiştir. Açık erişim katkı payı olan 1.800 Para'nın on gün içinde yatırılması rica olunur.",
+      "en": "Your article has been accepted for publication. Kindly remit the open access contribution of 1,800 within ten days."
+    },
+    "translate": {
+      "tr": {
+        "from": "Açık erişim katkı payı",
+        "to": "okunmanın faturası"
+      },
+      "en": {
+        "from": "open access contribution",
+        "to": "the price of being read"
+      }
+    },
+    "glossaryKey": "acik_erisim_payi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Proje bütçesinden ödenemiyor, kalemi yok. Şahsen öderseniz fatura adınıza kesilir.",
+      "en": "It can't come out of the project budget. No line for it. Pay personally and the invoice is in your name."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Cebinden öde, yayımlat",
+      "en": "Pay it yourself, publish",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "muafiyet",
+      "tr": "Muafiyet talebi yaz",
+      "en": "Apply for a fee waiver",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cek",
+      "tr": "Makaleyi geri çek",
+      "en": "Withdraw the article",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -1800,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 3
+        },
+        "flags": {
+          "add": [
+            "ucretli_yayin"
+          ]
+        },
+        "glossary": "acik_erisim_payi"
+      },
+      "tr": "1.800 Para'yı yatırdın. Makale üç hafta sonra yayımlandı; ilk ay dokuz kez indirildi, üçü sendin.",
+      "en": "You paid the 1,800. The article went live three weeks later. Nine downloads in the first month, three of them yours.",
+      "coach": [
+        {
+          "tr": "İndirme başına 200 Para.",
+          "en": "That's 200 a download.",
+          "roast": false
+        }
+      ]
+    },
+    "muafiyet": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": 2
+          },
+          "glossary": "acik_erisim_payi"
+        },
+        "tr": "Muafiyet formunu doldurdun, gerekçe kutusuna maaşını yazdın. Katkı payı 600 Para'ya indi.",
+        "en": "You filled in the waiver form and put your salary in the justification box. The fee came down to 600.",
+        "coach": [
+          {
+            "tr": "Gerekçe yeterli bulundu.",
+            "en": "Justification accepted.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -1800,
+          "hidden": {
+            "stress": 2
+          },
+          "glossary": "acik_erisim_payi"
+        },
+        "tr": "Muafiyet reddedildi: kurumun 'yüksek gelirli' listesindeymiş. On günün sekizi yazışmayla geçti; 1.800 Para'yı son gün yatırdın.",
+        "en": "Waiver denied. Your institution is on the 'high-income' list. Eight of the ten days went to emails. You paid the 1,800 on the last one.",
+        "coach": [
+          {
+            "tr": "Kurum yüksek gelirli. Liste öyle diyor.",
+            "en": "The institution is high-income. Says the list.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cek": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "glossary": "acik_erisim_payi"
+      },
+      "tr": "Makaleyi geri çekip ücret almayan bir dergiye gönderdin. İlk cevapları: ortalama değerlendirme süresi on bir ay.",
+      "en": "You withdrew it and sent it to a journal that charges nothing. Their first reply: average review time, eleven months.",
+      "coach": [
+        {
+          "tr": "Ücret sıfır. Vade on bir ay.",
+          "en": "Fee: zero. Term: eleven months.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "makalen kabul edildi, dergi açık erişim katkı payı faturası gönderiyor",
+    "mechanism": "katkı payı tercümesi",
+    "mechanismId": "translation",
+    "punch": "açık erişim katkı payı = okunmanın faturası",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "indirme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

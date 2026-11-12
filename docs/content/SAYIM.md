@@ -6,21 +6,21 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **5.623** / 10.000 (56.2%) |
-| Kotası dolan alan | 0 / 132 |
+| Alan paketlerindeki geçerli olay | **6.048** / 10.000 (60.5%) |
+| Kotası dolan alan | 1 / 132 |
 | Kotayı aşan alan | 0 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **5.671** |
+| Genel toplam geçerli olay | **6.096** |
 | Şema hatalı dosya | 0 |
 
 ## Grup bazında
 
 | Grup | Alan | Sayı | Kota | % |
 |---|---:|---:|---:|---:|
-| egitim | 5 | 200 | 358 | 55.9% |
-| is | 11 | 543 | 945 | 57.5% |
-| kariyer | 24 | 631 | 1142 | 55.3% |
+| egitim | 5 | 280 | 358 | 78.2% |
+| is | 11 | 751 | 945 | 79.5% |
+| kariyer | 24 | 768 | 1142 | 67.3% |
 | para | 8 | 342 | 617 | 55.4% |
 | ev | 8 | 343 | 618 | 55.5% |
 | tanidik_yuzler | 8 | 451 | 814 | 55.4% |
@@ -43,34 +43,34 @@
 
 | # | Alan | Grup | Başlık | Sayı | Kota | Kalan | % | İlerleme |
 |---:|---|---|---|---:|---:|---:|---:|---|
-| 1 | `egitim_universite` | egitim | Üniversite hayatı | 79 | 143 | 64 | 55.2% | ██████░░░░ |
-| 2 | `egitim_sinavlar` | egitim | Sınavlar ve sonuçlar | 44 | 78 | 34 | 56.4% | ██████░░░░ |
-| 3 | `egitim_kurs_sertifika` | egitim | Kurslar ve sertifikalar | 33 | 59 | 26 | 55.9% | ██████░░░░ |
-| 4 | `egitim_lisansustu` | egitim | Lisansüstü ve tez | 22 | 39 | 17 | 56.4% | ██████░░░░ |
-| 5 | `askerlik_ogrenim_kredisi` | egitim | Askerlik (TR) / Öğrenim kredisi (EN) | 22 | 39 | 17 | 56.4% | ██████░░░░ |
-| 6 | `is_arama` | is | İş arama ve mülakat | 83 | 150 | 67 | 55.3% | ██████░░░░ |
-| 7 | `ilk_isler_yari_zamanli` | is | İlk işler, staj, yarı zamanlı | 78 | 104 | 26 | 75% | ████████░░ |
-| 8 | `ofis_hayati` | is | Ofis hayatı ve toplantılar | 79 | 143 | 64 | 55.2% | ██████░░░░ |
-| 9 | `is_yeri_politikasi` | is | İş yeri politikası ve iş arkadaşları | 61 | 111 | 50 | 55% | █████░░░░░ |
-| 10 | `patron_nevin` | is | Nevin Hanım (patron) arkı | 55 | 98 | 43 | 56.1% | ██████░░░░ |
-| 11 | `maas_terfi_zam` | is | Maaş, zam ve terfi | 47 | 85 | 38 | 55.3% | ██████░░░░ |
-| 12 | `isten_cikis_issizlik` | is | İşten çıkış ve işsizlik | 39 | 72 | 33 | 54.2% | █████░░░░░ |
-| 13 | `uzaktan_calisma` | is | Uzaktan ve hibrit çalışma | 28 | 52 | 24 | 53.8% | █████░░░░░ |
-| 14 | `yan_gelir_girisim` | is | Yan gelir ve küçük girişimler | 33 | 59 | 26 | 55.9% | ██████░░░░ |
-| 15 | `is_seyahati` | is | İş seyahati ve konferans | 15 | 26 | 11 | 57.7% | ██████░░░░ |
-| 16 | `kariyer_degisimi` | is | Kariyer değişimi (orta yaş) | 25 | 45 | 20 | 55.6% | ██████░░░░ |
-| 17 | `kariyer_waiter` | kariyer | Kariyer: Garson → Şef | 33 | 59 | 26 | 55.9% | ██████░░░░ |
-| 18 | `kariyer_courier` | kariyer | Kariyer: Kurye | 33 | 59 | 26 | 55.9% | ██████░░░░ |
-| 19 | `kariyer_boilertech` | kariyer | Kariyer: Kombi Ustası | 25 | 45 | 20 | 55.6% | ██████░░░░ |
-| 20 | `kariyer_driver` | kariyer | Kariyer: Dolmuş Şoförü (TR) / Rideshare (EN) | 28 | 52 | 24 | 53.8% | █████░░░░░ |
-| 21 | `kariyer_clerk` | kariyer | Kariyer: Memur | 28 | 52 | 24 | 53.8% | █████░░░░░ |
-| 22 | `kariyer_nurse` | kariyer | Kariyer: Hemşire | 28 | 52 | 24 | 53.8% | █████░░░░░ |
-| 23 | `kariyer_doctor` | kariyer | Kariyer: Doktor | 28 | 52 | 24 | 53.8% | █████░░░░░ |
-| 24 | `kariyer_lawyer` | kariyer | Kariyer: Avukat | 27 | 49 | 22 | 55.1% | ██████░░░░ |
-| 25 | `kariyer_dev` | kariyer | Kariyer: Yazılımcı | 33 | 58 | 25 | 56.9% | ██████░░░░ |
-| 26 | `kariyer_teacher` | kariyer | Kariyer: Öğretmen | 31 | 55 | 24 | 56.4% | ██████░░░░ |
-| 27 | `kariyer_academic` | kariyer | Kariyer: Akademisyen | 23 | 42 | 19 | 54.8% | █████░░░░░ |
-| 28 | `kariyer_realtor` | kariyer | Kariyer: Emlakçı | 25 | 45 | 20 | 55.6% | ██████░░░░ |
+| 1 | `egitim_universite` | egitim | Üniversite hayatı | 111 | 143 | 32 | 77.6% | ████████░░ |
+| 2 | `egitim_sinavlar` | egitim | Sınavlar ve sonuçlar | 61 | 78 | 17 | 78.2% | ████████░░ |
+| 3 | `egitim_kurs_sertifika` | egitim | Kurslar ve sertifikalar | 46 | 59 | 13 | 78% | ████████░░ |
+| 4 | `egitim_lisansustu` | egitim | Lisansüstü ve tez | 31 | 39 | 8 | 79.5% | ████████░░ |
+| 5 | `askerlik_ogrenim_kredisi` | egitim | Askerlik (TR) / Öğrenim kredisi (EN) | 31 | 39 | 8 | 79.5% | ████████░░ |
+| 6 | `is_arama` | is | İş arama ve mülakat | 117 | 150 | 33 | 78% | ████████░░ |
+| 7 | `ilk_isler_yari_zamanli` | is | İlk işler, staj, yarı zamanlı | 91 | 104 | 13 | 87.5% | █████████░ |
+| 8 | `ofis_hayati` | is | Ofis hayatı ve toplantılar | 111 | 143 | 32 | 77.6% | ████████░░ |
+| 9 | `is_yeri_politikasi` | is | İş yeri politikası ve iş arkadaşları | 86 | 111 | 25 | 77.5% | ████████░░ |
+| 10 | `patron_nevin` | is | Nevin Hanım (patron) arkı | 77 | 98 | 21 | 78.6% | ████████░░ |
+| 11 | `maas_terfi_zam` | is | Maaş, zam ve terfi | 66 | 85 | 19 | 77.6% | ████████░░ |
+| 12 | `isten_cikis_issizlik` | is | İşten çıkış ve işsizlik | 56 | 72 | 16 | 77.8% | ████████░░ |
+| 13 | `uzaktan_calisma` | is | Uzaktan ve hibrit çalışma | 40 | 52 | 12 | 76.9% | ████████░░ |
+| 14 | `yan_gelir_girisim` | is | Yan gelir ve küçük girişimler | 46 | 59 | 13 | 78% | ████████░░ |
+| 15 | `is_seyahati` | is | İş seyahati ve konferans | 26 | 26 | 0 | 100% | ██████████ |
+| 16 | `kariyer_degisimi` | is | Kariyer değişimi (orta yaş) | 35 | 45 | 10 | 77.8% | ████████░░ |
+| 17 | `kariyer_waiter` | kariyer | Kariyer: Garson → Şef | 46 | 59 | 13 | 78% | ████████░░ |
+| 18 | `kariyer_courier` | kariyer | Kariyer: Kurye | 46 | 59 | 13 | 78% | ████████░░ |
+| 19 | `kariyer_boilertech` | kariyer | Kariyer: Kombi Ustası | 35 | 45 | 10 | 77.8% | ████████░░ |
+| 20 | `kariyer_driver` | kariyer | Kariyer: Dolmuş Şoförü (TR) / Rideshare (EN) | 40 | 52 | 12 | 76.9% | ████████░░ |
+| 21 | `kariyer_clerk` | kariyer | Kariyer: Memur | 40 | 52 | 12 | 76.9% | ████████░░ |
+| 22 | `kariyer_nurse` | kariyer | Kariyer: Hemşire | 40 | 52 | 12 | 76.9% | ████████░░ |
+| 23 | `kariyer_doctor` | kariyer | Kariyer: Doktor | 40 | 52 | 12 | 76.9% | ████████░░ |
+| 24 | `kariyer_lawyer` | kariyer | Kariyer: Avukat | 38 | 49 | 11 | 77.6% | ████████░░ |
+| 25 | `kariyer_dev` | kariyer | Kariyer: Yazılımcı | 46 | 58 | 12 | 79.3% | ████████░░ |
+| 26 | `kariyer_teacher` | kariyer | Kariyer: Öğretmen | 43 | 55 | 12 | 78.2% | ████████░░ |
+| 27 | `kariyer_academic` | kariyer | Kariyer: Akademisyen | 33 | 42 | 9 | 78.6% | ████████░░ |
+| 28 | `kariyer_realtor` | kariyer | Kariyer: Emlakçı | 32 | 45 | 13 | 71.1% | ███████░░░ |
 | 29 | `kariyer_actor` | kariyer | Kariyer: Dizi Oyuncusu | 25 | 45 | 20 | 55.6% | ██████░░░░ |
 | 30 | `kariyer_shopkeeper` | kariyer | Kariyer: Esnaf | 28 | 52 | 24 | 53.8% | █████░░░░░ |
 | 31 | `kariyer_pilot` | kariyer | Kariyer: Pilot | 22 | 39 | 17 | 56.4% | ██████░░░░ |

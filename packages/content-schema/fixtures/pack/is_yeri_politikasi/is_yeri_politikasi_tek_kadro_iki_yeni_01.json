@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_tek_kadro_iki_yeni_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "İkinizin de sözleşmesi ay sonunda bitiyor. Kalıcı kadro bir tane.",
+      "en": "Both your contracts end this month. There is one permanent position."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Karar için 'ekip uyumu'na bakacağız. Bu arada lütfen normal davranın.",
+      "en": "We'll be assessing 'team fit.' In the meantime, please act naturally.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yardim",
+      "tr": "Öbür adaya yardıma devam et",
+      "en": "Keep helping the other candidate",
+      "pattern": "generosity"
+    },
+    {
+      "id": "gorun",
+      "tr": "Her toplantıda söz al",
+      "en": "Speak up in every meeting",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sor",
+      "tr": "Kriterleri yazılı iste",
+      "en": "Ask for the criteria in writing",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "yardim": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "kadro_yarisi"
+          ]
+        }
+      },
+      "tr": "Raporunu birlikte bitirdiniz. Kadro ona çıktı; ilk işi senin sözleşmenin uzatılmasını istemek oldu.",
+      "en": "You finished their report together. They got the position. Their first request was that your contract be extended.",
+      "coach": [
+        {
+          "tr": "Kadro tek kişilikti. Uzatma iki kişinin işi oldu.",
+          "en": "The position was for one. The extension took two.",
+          "roast": false
+        }
+      ]
+    },
+    "gorun": [
+      {
+        "p": 4500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "kadro_yarisi",
+              "kadrolu"
+            ]
+          }
+        },
+        "tr": "On bir toplantıda on bir kez söz aldın. Kadro sana çıktı. Öbür adayın masası cuma günü boşaldı.",
+        "en": "Eleven meetings, eleven comments. The position went to you. The other desk was empty by Friday.",
+        "coach": [
+          {
+            "tr": "Kadro sende. Karşı masa boş.",
+            "en": "The job is yours. The desk across is empty.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 4,
+            "ego": -3
+          },
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kadro_yarisi"
+            ]
+          }
+        },
+        "tr": "On bir toplantıda on bir kez söz aldın. Değerlendirme notu: 'Uyum konusunda fazla istekli.' Kadro öbür adaya gitti; sözleşmen üç ay uzatıldı.",
+        "en": "Eleven meetings, eleven comments. The feedback read: 'Overly eager to fit in.' The position went elsewhere. Your contract got three more months.",
+        "coach": [
+          {
+            "tr": "Üç ay daha. Sayaç yeniden kuruldu.",
+            "en": "Three more months. The clock restarts.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sor": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:hr",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kriterleri yazılı istedin. İK iki gün sonra tek maddelik bir liste gönderdi: 'Ekip uyumu.'",
+      "en": "You asked for written criteria. Two days later HR sent a list with one item: 'Team fit.'",
+      "coach": [
+        {
+          "tr": "Liste geldi. Tek madde, tırnak içinde.",
+          "en": "The list arrived. One item, in quotation marks.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gorun",
+    "slip": {
+      "tr": "İDDİA: Çok söz almak kadro getirmez. — M.",
+      "en": "WAGER: Talking more won't land the job. — M."
+    }
+  },
+  "intent": {
+    "setup": "sözleşmesi biten iki yeni çalışan için tek kalıcı kadro açılması",
+    "mechanism": "uyum ölçülürken normal davranma talimatı",
+    "mechanismId": "literalism",
+    "punch": "lütfen normal davranın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tirnak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

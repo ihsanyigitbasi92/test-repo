@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_taban_puan_yukseldi_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "sonuc",
+    "tercih",
+    "dayi",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 21
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "worried",
+      "tr": "Geçen yıl bu puanla o bölüme giriliyordu. Ben baktım. Bu yıl niye girilmiyor?",
+      "en": "Last year that score got you into that program. I checked. Why not this year?"
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda puanlar yerinde dururdu. Bir yere gitmezdi.",
+      "en": "In my day, scores stayed where you left them. They didn't go wandering off.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikinci",
+      "tr": "İkinci tercihe kaydol",
+      "en": "Enroll in your second choice",
+      "pattern": "patience"
+    },
+    {
+      "id": "seneye",
+      "tr": "Bir yıl daha hazırlan",
+      "en": "Prepare for another year",
+      "pattern": "overwork"
+    },
+    {
+      "id": "ek",
+      "tr": "Ek yerleştirmeyi bekle",
+      "en": "Wait for the supplementary round",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "ikinci": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "ikinci_tercih"
+          ]
+        }
+      },
+      "tr": "İkinci tercihine kaydoldun. İlk hafta sınıfta aynı puanı alan dört kişi daha buldun.",
+      "en": "You enrolled in your second choice. In week one you found four classmates with the exact same score.",
+      "coach": [
+        {
+          "tr": "Beş kişi, aynı puan, aynı sıra.",
+          "en": "Five people. Same score. Same row.",
+          "roast": false
+        }
+      ]
+    },
+    "seneye": {
+      "effects": {
+        "stats": {
+          "joy": -2,
+          "brain": 2
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "ikinci_yil_hazirlik"
+          ]
+        }
+      },
+      "tr": "Kaydolmadın. Masana yeni bir çalışma takvimi asıldı; dayın ilk haftasını kendi doldurdu.",
+      "en": "You didn't enroll. A new study calendar went up over your desk. Your uncle filled in week one himself.",
+      "coach": [
+        {
+          "tr": "Takvim 300 günlük. İlk yedisi dayının el yazısı.",
+          "en": "A 300-day calendar. The first seven are in your uncle's handwriting.",
+          "roast": false
+        }
+      ]
+    },
+    "ek": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "kontenjan_kazandi"
+            ]
+          }
+        },
+        "tr": "Ek yerleştirmede bir kontenjan açıldı; senin puanın yetti. İstediğin bölümdesin, üç hafta geç.",
+        "en": "A seat opened in the supplementary round. Your score covered it. You're in, three weeks late.",
+        "coach": [
+          {
+            "tr": "Üç hafta geç. Sıra hâlâ boştu.",
+            "en": "Three weeks late. The seat was still empty.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -4
+          },
+          "meters": {
+            "momPressure": 6
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "ikinci_yil_hazirlik"
+            ]
+          }
+        },
+        "tr": "Ek yerleştirmede kontenjan açılmadı. İkinci tercihin kayıt süresi de bu arada dolmuştu.",
+        "en": "No seat opened. The enrollment window for your second choice had closed in the meantime.",
+        "coach": [
+          {
+            "tr": "İki kapı vardı. Biri hiç açılmadı, biri bu arada kapandı.",
+            "en": "Two doors. One never opened. The other closed while you waited.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia dışı"
+  },
+  "intent": {
+    "setup": "geçen yılın taban puanını tutturmuşken bu yıl tabanın yükselmesi",
+    "mechanism": "dayının 'benim zamanımda'sı puanlara uzanıyor",
+    "mechanismId": "callback",
+    "punch": "puanlar yerinde dururdu",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "taban"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

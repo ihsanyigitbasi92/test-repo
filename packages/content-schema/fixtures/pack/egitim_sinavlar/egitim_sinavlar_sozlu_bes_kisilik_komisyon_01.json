@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_sozlu_bes_kisilik_komisyon_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "sozlu",
+    "komisyon",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Komisyon beş kişi. Süreniz on iki dakika. Su masada, içebilirsiniz.",
+      "en": "The panel is five people. You have twelve minutes. Water's on the table. You may drink it."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Kendinizi tanıtın, iki dakikayı geçmeyin. Sizden önceki aday çocukluğundan başladı.",
+      "en": "Introduce yourself in under two minutes. The candidate before you started with their childhood.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ezber",
+      "tr": "Ezberlediğin metni oku",
+      "en": "Recite the script you memorized",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "dogal",
+      "tr": "Ezberi bırak, doğal anlat",
+      "en": "Drop the script and just talk",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "is"
+      }
+    },
+    {
+      "id": "kisa",
+      "tr": "Kırk saniyede bitir, soruları bekle",
+      "en": "Wrap up in forty seconds, take questions",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ezber": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sozlu_yapildi"
+          ]
+        }
+      },
+      "tr": "Metni bir dakika elli sekiz saniyede bitirdin. Komisyondan biri ezberdeki bir cümleyi açmanı istedi.",
+      "en": "You finished the script in one minute fifty-eight. A panelist asked you to expand on one of its sentences.",
+      "coach": [
+        {
+          "tr": "Metin iki dakikaya ayarlıydı. Soru ayar dışıydı.",
+          "en": "The script was built for two minutes. The question wasn't in it.",
+          "roast": true
+        }
+      ]
+    },
+    "dogal": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "charm": 3
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "sozlu_yapildi",
+              "sozlu_gecti"
+            ]
+          }
+        },
+        "tr": "Doğal anlattın. Beş kişiden dördü not aldı; beşincisi başını salladı. Sözlüden geçtin.",
+        "en": "You just talked. Four of the five took notes. The fifth nodded. You passed the oral.",
+        "coach": [
+          {
+            "tr": "Dört not, bir baş sallama.",
+            "en": "Four sets of notes. One nod.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir basamak ilerledi.",
+            "en": "Goal counter: one step up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "sozlu_yapildi",
+              "sozlu_yedek"
+            ]
+          }
+        },
+        "tr": "İkinci dakikada lise yıllarındaydın. Görevli kapıdan saati gösterdi. Yedek listedesin.",
+        "en": "At the two-minute mark you were still in high school. The clerk pointed at the clock from the door. You're on the reserve list.",
+        "coach": [
+          {
+            "tr": "Çocukluktan başlamadın. Liseden çıkamadın.",
+            "en": "You didn't start with childhood. You never left high school.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kisa": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sozlu_yapildi"
+          ]
+        }
+      },
+      "tr": "Kırk saniyede bitirdin. Kalan sürede yedi soru geldi; beşini cevapladın, ikisinde su içtin.",
+      "en": "You wrapped up in forty seconds. Seven questions followed. You answered five and drank water through two.",
+      "coach": [
+        {
+          "tr": "Su, tutanağa geçmeyen cevap.",
+          "en": "Water: the answer that stays off the record.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dogal",
+    "slip": {
+      "tr": "İDDİA: İki dakika yetmez. — M.",
+      "en": "WAGER: Two minutes won't be enough. — M."
+    }
+  },
+  "intent": {
+    "setup": "işe alım sözlü sınavında beş kişilik komisyon önünde iki dakikada kendini tanıtmak",
+    "mechanism": "her şey dakikayla ve kişiyle sayılıyor",
+    "mechanismId": "count",
+    "punch": "liseden çıkamadın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "iki_dakika"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

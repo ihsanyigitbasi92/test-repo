@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ilk_isler_yari_zamanli_ezberden_siparis_01",
+  "tags": [
+    "is",
+    "restoran",
+    "ilk_isler_yari_zamanli"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ilk_isler_yari_zamanli": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Beşinci masa senin. Adisyon defteri bitti, siparişi ezberden alacaksın.",
+      "en": "Table five is yours. We're out of order pads. You'll have to take it from memory."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Biri soğansız, biri az pişmiş, biri sosu ayrı, biri glütensiz. Bana fark etmez.",
+      "en": "One no onions, one rare, one sauce on the side, one gluten-free. I'm easy.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ezber",
+      "tr": "Ezberine güven",
+      "en": "Trust your memory",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "pecete",
+      "tr": "Peçeteye yaz",
+      "en": "Write it on a napkin",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "tekrar",
+      "tr": "Siparişi sesli tekrar et",
+      "en": "Read the order back out loud",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ezber": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": 40
+        },
+        "tr": "Beş tabak doğru kişinin önüne gitti. Masa 40 Para bahşiş bıraktı.",
+        "en": "Five plates landed in front of the right five people. The table left a 40 tip.",
+        "coach": [
+          {
+            "tr": "Beş sipariş, sıfır hata. \"Fark etmez\" diyen de doydu.",
+            "en": "Five orders, zero errors. Even \"I'm easy\" got fed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -35,
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Soğansız olan soğanlı, az pişmiş olan iyi pişmiş gitti. İki tabak mutfağa döndü; biri ücretinden düşüldü.",
+        "en": "No-onions got onions. Rare arrived well done. Two plates went back. One came out of your pay.",
+        "coach": [
+          {
+            "tr": "İki tabak mutfağa döndü. Soğan yerini biliyordu.",
+            "en": "Two plates returned to the kitchen. The onions knew exactly where they were going.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "pecete": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Peçeteye yazdın. Mutfak yazıyı okuyamadı, sen okudun; servis dört dakika gecikti.",
+      "en": "You wrote it on a napkin. The kitchen couldn't read it. You could. Service ran four minutes late.",
+      "coach": [
+        {
+          "tr": "Peçete artık resmî evrak.",
+          "en": "The napkin is now an official document.",
+          "roast": true
+        }
+      ]
+    },
+    "tekrar": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 1
+        }
+      },
+      "tr": "Hepsini tek tek tekrar ettin. \"Fark etmez\" diyen müşteri üçüncü tekrarda fikrini değiştirdi.",
+      "en": "You read every item back. On the third pass, \"I'm easy\" changed their mind.",
+      "coach": [
+        {
+          "tr": "Tekrar işe yaradı. Bir sipariş de doğurdu.",
+          "en": "The read-back worked. It also produced a new order.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ezber",
+    "slip": {
+      "tr": "İDDİA: Soğan yanlış tabağa gider. — M.",
+      "en": "WAGER: The onions find the wrong plate. — M."
+    }
+  },
+  "intent": {
+    "setup": "restoranda ilk kez tek başına beş kişilik masadan ezberden sipariş almak",
+    "mechanism": "her müşteri bir koşul daha ekliyor",
+    "mechanismId": "escalation",
+    "punch": "bana fark etmez",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sogan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

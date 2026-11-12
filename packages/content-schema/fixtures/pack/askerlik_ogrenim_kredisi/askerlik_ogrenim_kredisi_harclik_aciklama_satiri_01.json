@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_harclik_aciklama_satiri_01",
+  "tags": [
+    "egitim",
+    "askerlik",
+    "anne",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_anne_taksit_hediyesi_01",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hesabınıza 150 Para geldi. Açıklama: \"ATKINI TAK\".",
+      "en": "You've received 150. Memo: \"WEAR YOUR SCARF.\""
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Dün de 20 Para gelmiş. Açıklama: \"ARAMADIN\".",
+      "en": "Another twenty came in yesterday. Memo: \"YOU DIDN'T CALL.\"",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Anneni ara",
+      "en": "Call Mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "cevap",
+      "tr": "1 Para yolla: \"TAKTIM\"",
+      "en": "Send back 1: \"WEARING IT\"",
+      "pattern": "generosity"
+    },
+    {
+      "id": "biriktir",
+      "tr": "Harçlığı biriktir",
+      "en": "Save the allowance",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ara": {
+      "effects": {
+        "money": 150,
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": -5
+        },
+        "flags": {
+          "add": [
+            "asker_harcligi"
+          ]
+        }
+      },
+      "tr": "Aradın. Annen atkıyı sordu, sonra yemekleri, sonra yine atkıyı. Havale açıklamaları bir hafta durdu.",
+      "en": "You called. Mom asked about the scarf, then the food, then the scarf again. The memos stopped for a week.",
+      "coach": [
+        {
+          "tr": "Mesajlaşma telefona geri döndü.",
+          "en": "Messaging has returned to voice.",
+          "roast": false
+        }
+      ]
+    },
+    "cevap": {
+      "effects": {
+        "money": 154,
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "asker_harcligi",
+            "havale_yazismasi"
+          ]
+        }
+      },
+      "tr": "1 Para yolladın, açıklamaya \"TAKTIM\" yazdın. Ertesi gün 5 Para geldi: \"FOTOĞRAF\".",
+      "en": "You sent back one, memo: \"WEARING IT.\" The next day five arrived: \"PHOTO.\"",
+      "coach": [
+        {
+          "tr": "Kelime başı ücret makul.",
+          "en": "Reasonable rates, per word.",
+          "roast": false
+        }
+      ]
+    },
+    "biriktir": {
+      "effects": {
+        "money": 170,
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "asker_harcligi"
+          ]
+        }
+      },
+      "tr": "Harcamadın. Ay sonunda hesapta 170 Para ve yedi açıklama birikti; yedisi de büyük harfle.",
+      "en": "You didn't spend it. By month's end the account held 170 and seven memos, all in capitals.",
+      "coach": [
+        {
+          "tr": "170 Para ve yedi büyük harfli not.",
+          "en": "170, plus seven notes in capitals.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "annenin asker harçlığı havalelerinin açıklama satırına mesaj yazması",
+    "mechanism": "banka görevlisi annenin büyük harfli notlarını resmî sesle okuyor",
+    "mechanismId": "deadpan_report",
+    "punch": "Açıklama: \"ARAMADIN\"",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "atki"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Askerlik TR’ye özgüdür (localeOnly, D-048); EN tarafında yayınlanmaz, ikizi öğrenim kredisi olayıdır. K7: kaçma/erteleme hilesi seçeneği yok; kurum değil deneyim anlatılıyor."
+  },
+  "l10n": {
+    "onlyLocale": "tr",
+    "mechanismNote": "EN metni yalnızca inceleme içindir; EN oyuncu ikiz olayı (öğrenim kredisi) görür."
+  }
+}

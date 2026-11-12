@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_becayis_teklifi_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "uncommon",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Ben sizin şubeye gelmek istiyorum, siz sahil şubesini soruyormuşsunuz. Becayiş yapalım, iki ayda biter.",
+      "en": "I want your branch. I hear you have been asking about the coast office. A mutual transfer takes two months."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Masam cam kenarı. Sandalye gıcırdıyor ama alışılıyor.",
+      "en": "My desk is by the window. The chair squeaks, but you get used to it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzala",
+      "tr": "Becayiş dilekçesini imzala",
+      "en": "Sign the mutual transfer",
+      "pattern": "risk"
+    },
+    {
+      "id": "gor",
+      "tr": "Önce gidip şubeyi gör",
+      "en": "Visit the office first",
+      "pattern": "patience",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Yerinde kal",
+      "en": "Stay put",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "imzala": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "memur_becayis",
+            "memur_sahil_subesi"
+          ]
+        }
+      },
+      "tr": "Dilekçe verildi, onay iki ay sonra çıktı. Taşınma 800 Para tuttu. Yeni masan cam kenarı, sandalye gıcırdıyor.",
+      "en": "Petition filed, and approval came through in two months. The move cost 800. Your new desk is by the window and the chair squeaks.",
+      "coach": [
+        {
+          "tr": "Cam kenarı doğru çıktı. Gıcırtı da.",
+          "en": "The window was as advertised. So was the squeak.",
+          "roast": false
+        }
+      ]
+    },
+    "gor": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "memur_becayis",
+              "memur_sahil_subesi"
+            ]
+          }
+        },
+        "tr": "Hafta sonu gidip gördün: cam denize bakıyor, çay ocağı iki adım. Pazartesi dilekçeyi imzaladın.",
+        "en": "You went down on the weekend: the window faces the sea and the tea station is two steps away. You signed on Monday.",
+        "coach": [
+          {
+            "tr": "Deniz, anlatılanlar arasında yoktu.",
+            "en": "The sea had not been mentioned.",
+            "roast": false
+          },
+          {
+            "tr": "Sayaçta bir pencere var.",
+            "en": "One window on the counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -100,
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": 1
+          }
+        },
+        "tr": "Hafta sonu gidip gördün: cam otoparka bakıyor, sandalye gıcırdamıyor, bağırıyor. Dilekçeyi imzalamadın.",
+        "en": "You went down on the weekend: the window faces a parking lot and the chair doesn't squeak, it shouts. You did not sign.",
+        "coach": [
+          {
+            "tr": "Yol 100 Para tuttu. Bir karar satın alındı.",
+            "en": "A hundred in travel. One decision purchased.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Teşekkür ettin, yerinde kaldın. Öbür memur becayişi başkasıyla yapmış, sahilden şubeye bir kartpostal geldi.",
+      "en": "You said thanks and stayed. The other clerk swapped with someone else, and a postcard from the coast reached the office.",
+      "coach": [
+        {
+          "tr": "Kartpostal panoya asıldı.",
+          "en": "The postcard went up on the board.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "başka şubedeki memur karşılıklı yer değiştirme için becayiş teklif ediyor",
+    "mechanism": "gıcırdayan sandalye sonuçta geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "gıcırdıyor ama alışılıyor",
+    "lift": "sayaçta bir pencere",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gicirti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

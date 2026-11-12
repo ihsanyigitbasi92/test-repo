@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_degisimi_kidem_sifirlanir_01",
+  "tags": [
+    "is",
+    "kariyer_degisimi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_degisimi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Kendi isteğinizle ayrılırsanız yirmi iki yıllık kıdem tazminatı hakkınız doğmuyor. Bilginize.",
+      "en": "If you resign voluntarily, you forfeit severance on twenty-two years of service. For your information."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "smug",
+      "tr": "Emekliliğe dört yılınız var. Dört yıl çabuk geçer. İlk yirmi iki nasıl geçtiyse.",
+      "en": "You're four years from retirement. Four years go quickly. Just like the first twenty-two did.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kal",
+      "tr": "Dört yıl daha kal",
+      "en": "Stay four more years",
+      "pattern": "patience"
+    },
+    {
+      "id": "git",
+      "tr": "Tazminatsız ayrıl",
+      "en": "Leave without severance",
+      "pattern": "risk"
+    },
+    {
+      "id": "yari",
+      "tr": "Yarı zamanlıya geçmeyi sor",
+      "en": "Ask about going part-time",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "kal": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "aksam_kursu",
+            "gecis_plani"
+          ]
+        }
+      },
+      "tr": "Kaldın. Hafta sonları saat tamiri kursuna yazıldın: 600 Para. Masandaki takvimde dört yıl, kırk sekiz yaprak ediyor.",
+      "en": "You stayed. You signed up for a weekend watch-repair course: 600. On your desk calendar, four years is forty-eight pages.",
+      "coach": [
+        {
+          "tr": "Kırk sekiz yaprak. Biri bugün koptu.",
+          "en": "Forty-eight pages. One came off today.",
+          "roast": false
+        }
+      ]
+    },
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 3
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "status": {
+          "job": {
+            "title": "saatçi çırağı",
+            "tier": 1,
+            "monthly": 1200
+          }
+        },
+        "flags": {
+          "add": [
+            "kariyer_degisti"
+          ]
+        }
+      },
+      "tr": "İstifayı verdin. Tazminat yok, son maaş var. Saatçi ustası seni pazartesi bekliyor, çırak ücretiyle.",
+      "en": "You resigned. No severance, one last paycheck. The watchmaker expects you Monday, at apprentice pay.",
+      "coach": [
+        {
+          "tr": "Tazminat masada kaldı. Tezgâhta bir saat bekliyor.",
+          "en": "The severance stayed on the table. There's a watch waiting on the bench.",
+          "roast": false
+        }
+      ]
+    },
+    "yari": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "yari_zamanli",
+              "gecis_plani"
+            ]
+          }
+        },
+        "tr": "İK onayladı: haftada üç gün, kıdem işlemeye devam. Kalan iki gün saatçide çıraksın.",
+        "en": "HR approved: three days a week, seniority still accruing. The other two days you're the watchmaker's apprentice.",
+        "coach": [
+          {
+            "tr": "Üç gün eski meslek, iki gün yenisi.",
+            "en": "Three days of the old career. Two of the new.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "İK 'pozisyon tam zamanlı tanımlı' dedi ve bir form verdi. Formun adı 'Öneri'. Yanıt süresi altı ay.",
+        "en": "HR said the role is defined as full-time and gave you a form. The form is called 'Suggestion.' Response time: six months.",
+        "coach": [
+          {
+            "tr": "Form dolduruldu. Altı ay sonra okunacak.",
+            "en": "Form completed. To be read in six months.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "dağılım: bu olay iddiasız"
+  },
+  "intent": {
+    "setup": "meslek değiştirmek için istifa edersen kıdem tazminatının yanacağını İK'dan öğrenmek",
+    "mechanism": "dört yıl çabuk geçer, ilk yirmi iki gibi",
+    "mechanismId": "callback",
+    "punch": "ilk yirmi iki nasıl geçtiyse",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yaprak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

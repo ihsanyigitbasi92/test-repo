@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_teacher_veli_mesaj_grubu_01",
+  "tags": [
+    "kariyer",
+    "ogretmen",
+    "kariyer_teacher"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_teacher": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "teacher"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Hocam iyi akşamlar, ödev 46. sayfa mıydı 64 mü? Bizim defterde ikisi de yazıyor.",
+      "en": "Evening, teacher. Was the homework page 46 or 64? Our notebook says both."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Bu arada yarın beden var mı? Eşofman makinede, kuruması lazım mı bilelim.",
+      "en": "Also, is there PE tomorrow? The tracksuit's in the wash. We need to know if it has to dry."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Hocam çevrimiçi görünüyorsunuz.",
+      "en": "Teacher, it says you're online.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "cevapla",
+      "tr": "Hepsine tek tek cevap yaz",
+      "en": "Answer every single one",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sessiz",
+      "tr": "Grubu sessize al, uyu",
+      "en": "Mute the group and sleep",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "kural",
+      "tr": "Mesaj saati kuralı koy",
+      "en": "Set messaging hours",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "cevapla": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Gece yarısına kadar on dokuz mesaja cevap verdin. Sabah yedide yirmincisi geldi: 'Dün gece için teşekkürler hocam, bir şey daha.'",
+      "en": "You answered nineteen messages by midnight. The twentieth arrived at seven: 'Thanks for last night, teacher. One more thing.'",
+      "coach": [
+        {
+          "tr": "On dokuz cevap. Mesai çizelgesinde yok.",
+          "en": "Nineteen replies. None of them on the timesheet.",
+          "roast": false
+        }
+      ]
+    },
+    "sessiz": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Grubu sessize aldın ve uyudun. Sabah elli üç okunmamış mesaj vardı; sonuncusunda sayfayı bulmuşlardı.",
+      "en": "You muted the group and slept. Fifty-three unread by morning. The last one said they'd found the page.",
+      "coach": [
+        {
+          "tr": "Sayfa sensiz bulundu.",
+          "en": "The page was found without you.",
+          "roast": false
+        }
+      ]
+    },
+    "kural": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "veli_grubu_saat_kurali"
+            ]
+          }
+        },
+        "tr": "Mesaj saatlerini yazdın: hafta içi, akşam yediye kadar. Grup bir gün sustu, sonra her şeyi 18.59'da göndermeyi öğrendi.",
+        "en": "You posted the hours: weekdays, until seven. The group went quiet for a day, then learned to send everything at 6:59.",
+        "coach": [
+          {
+            "tr": "Kural tuttu. Trafik bir dakikaya sığıyor.",
+            "en": "The rule held. The traffic now fits in one minute.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Kuralı yazdın. İlk cevap bir veliden geldi: 'Çok doğru hocam.' Saat 23.40'tı.",
+        "en": "You posted the rule. The first reply came from a parent: 'So true, teacher.' It was 11:40 p.m.",
+        "coach": [
+          {
+            "tr": "Kural onaylandı. İhlal edilerek.",
+            "en": "The rule was approved. By being broken.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kural",
+    "slip": {
+      "tr": "İDDİA: Saat kuralı gece yarısını görmez. — M.",
+      "en": "WAGER: The hours rule won't survive past midnight. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınıfın veli mesaj grubunda gece on birde ödev sayfası ve eşofman soruluyor",
+    "mechanism": "sorular tırmanıyor, son mesaj öğretmenin çevrimiçi olduğunu bildiriyor",
+    "mechanismId": "escalation",
+    "punch": "hocam çevrimiçi görünüyorsunuz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "cevrimici"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

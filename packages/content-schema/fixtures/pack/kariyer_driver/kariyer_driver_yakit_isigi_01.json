@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_yakit_isigi_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "Depoyu akşamdan doldur demiştim. Işık yandıysa yirmi kilometren var. Belki on beş.",
+      "en": "I said fill up last night. If the light's on, you've got twelve miles. Maybe nine."
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Hat sonuna kadar zorla",
+      "en": "Push on to the drop-off",
+      "pattern": "risk",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "istasyon",
+      "tr": "Yolcularla istasyona sap",
+      "en": "Detour to the gas station",
+      "pattern": "patience"
+    },
+    {
+      "id": "aktar",
+      "tr": "Yolcuları sonraki araca aktar",
+      "en": "Hand the ride to another driver",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "devam": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Araç son durağa kadar gitti, istasyona ibre dipteyken girdin. Yolcuların haberi olmadı.",
+        "en": "You made the drop-off and rolled into a station with the needle flat. The rider never noticed.",
+        "coach": [
+          {
+            "tr": "İbre dipteydi. Nabız tepede.",
+            "en": "Needle at the bottom. Pulse at the top.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -120,
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "sofor_yolda_kaldi"
+            ]
+          }
+        },
+        "tr": "Köprü çıkışında motor sustu. On bir yolcu indi, ikisi itti. Hat sahibi bidonla geldi, yakıtı yevmiyenden kesti.",
+        "en": "The engine quit on the off-ramp. The rider got out and helped push. The boss arrived with a gas can and billed it to you.",
+        "coach": [
+          {
+            "tr": "Belki on beşmiş.",
+            "en": "It was the 'maybe nine.'",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "istasyon": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "İstasyona saptın, depo doldu. Sefer altı dakika gecikti, iki yolcu saatine baktı, biri çay aldı.",
+      "en": "You pulled into a station and filled up. Six minutes lost. The rider checked the time twice and bought a coffee.",
+      "coach": [
+        {
+          "tr": "Altı dakika. Depo dolu, kimse itmedi.",
+          "en": "Six minutes. Full tank, nobody pushed.",
+          "roast": false
+        }
+      ]
+    },
+    "aktar": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Yolcuları arkadan gelen araca aktardın, ücretleri geri verdin. İstasyona boş ve sakin gittin.",
+      "en": "You handed the ride to a driver nearby and lost the fare. You drove to the station empty and calm.",
+      "coach": [
+        {
+          "tr": "Sefer başkasına yazıldı. Depo sende kaldı.",
+          "en": "The fare went to someone else. The tank stayed with you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "devam",
+    "slip": {
+      "tr": "İDDİA: Depo hat sonunu göremez. — M.",
+      "en": "WAGER: The tank won't see the drop-off. — M."
+    }
+  },
+  "intent": {
+    "setup": "yolcu varken yakıt ışığı yandı, istasyon güzergâh dışında",
+    "mechanism": "patronun tahmini sonuçta geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "belki on beş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ibre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. Yolcu varken yanan yakıt ışığı; TR dolu dolmuş ve hat sonu, EN tek yolculu sefer ve varış noktası. Uygulama/şirket/marka adı yok."
+  }
+}

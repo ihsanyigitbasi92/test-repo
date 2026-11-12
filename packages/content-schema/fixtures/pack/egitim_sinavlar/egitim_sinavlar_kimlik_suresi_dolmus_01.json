@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_kimlik_suresi_dolmus_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "kimlik",
+    "salon",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kimliğinizin geçerlilik süresi geçen salı dolmuş. Fotoğraftaki sizsiniz, tarihteki siz değilsiniz.",
+      "en": "Your ID expired last Tuesday. The photo is you. The date is not."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Geçici belgeyle girebilirsiniz. Büro dokuzda açılıyor, sınav onda başlıyor.",
+      "en": "You can get in with a temporary document. That office opens at nine. The exam starts at ten.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Büroya git, belgeyle dön",
+      "en": "Rush to the office and back",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "tutanak",
+      "tr": "Tutanakla girmeyi iste",
+      "en": "Ask to sit it under a written report",
+      "pattern": "pride"
+    },
+    {
+      "id": "birak",
+      "tr": "Bu oturumu bırak",
+      "en": "Give up this session",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "brain": 1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kimlik_yenilendi"
+            ]
+          }
+        },
+        "tr": "Dokuzu beş geçe sıradaydın, dokuz kırkta salondaydın. Geçici belgendeki fotoğraf o sabah çekildi.",
+        "en": "In line at five past nine, in your seat by nine forty. The photo on the temporary document was taken that morning.",
+        "coach": [
+          {
+            "tr": "Kırk dakikalık bir kimlik.",
+            "en": "An identity, forty minutes old.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kimlik_yenilendi",
+              "sinav_kacti"
+            ]
+          }
+        },
+        "tr": "Büroda numaran altmış birdi. Onu çeyrek geçe döndüğünde salon kapısı kapanmıştı.",
+        "en": "Your ticket at the office was number sixty-one. You got back at quarter past ten. The doors were shut.",
+        "coach": [
+          {
+            "tr": "Belge tamam. Sınav bir sonraki dönem.",
+            "en": "The document is sorted. The exam is next season.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tutanak": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sonuc_beklemede"
+          ]
+        }
+      },
+      "tr": "Salon başkanı tutanak tuttu, sınava aldı. Sonucun, geçerli kimliği gösterene kadar \"beklemede\" görünecek.",
+      "en": "The chief proctor wrote a report and let you in. Your result will show as \"pending\" until you present valid ID.",
+      "coach": [
+        {
+          "tr": "Girdin. Sonuç bir evrak uzakta.",
+          "en": "You're in. The result is one document away.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kimlik_yenilendi",
+            "sinav_kacti"
+          ]
+        }
+      },
+      "tr": "Eve döndün. Öğleden sonra kimliği yeniledin; bir sonraki oturum dört ay sonra.",
+      "en": "You went home. That afternoon you renewed the ID. The next session is in four months.",
+      "coach": [
+        {
+          "tr": "Kimlik on yıl geçerli. Dört ayı beklemeyle geçecek.",
+          "en": "The ID is good for ten years. Four months of that is waiting.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia dışı"
+  },
+  "intent": {
+    "setup": "sınav sabahı kapıda kimlik kartının geçerlilik süresinin dolduğunu öğrenmek",
+    "mechanism": "görevli tarihi kelimesi kelimesine uyguluyor",
+    "mechanismId": "literalism",
+    "punch": "fotoğraftaki sizsiniz, tarihteki değilsiniz",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "tarih"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

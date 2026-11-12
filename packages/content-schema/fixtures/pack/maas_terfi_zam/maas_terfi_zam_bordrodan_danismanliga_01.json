@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_bordrodan_danismanliga_01",
+  "tags": [
+    "is",
+    "maas",
+    "sozlesme",
+    "ik",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Sizi bordrodan danışmanlık modeline almak istiyoruz. Günlük ücretiniz daha yüksek görünecek.",
+      "en": "We would like to move you from payroll to a consulting model. Your day rate will look higher."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Aynı masa, aynı iş. Yalnız yan haklar, izin ve kıdem olmayacak. Özgürlük gibi düşün.",
+      "en": "Same desk, same work. Just no benefits, no leave, no tenure. Think of it as freedom.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Danışmanlığa geç",
+      "en": "Switch to consulting",
+      "pattern": "risk"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Günlük ücreti artırmayı dene",
+      "en": "Push the day rate up",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "red",
+      "tr": "Bordroda kal",
+      "en": "Stay on payroll",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "danışman (sözleşmeli)",
+            "tier": 3,
+            "monthly": 4600
+          }
+        },
+        "money": 400,
+        "hidden": {
+          "stress": 5
+        },
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "serbest_danisman"
+          ]
+        }
+      },
+      "tr": "Sözleşmeyi imzaladın. Günlük ücret arttı; ücretli izin, kıdem ve sağlık poliçesi satırları bordroyla birlikte gitti.",
+      "en": "You signed. The day rate went up. Paid leave, tenure and the health plan left together with the payslip.",
+      "coach": [
+        {
+          "tr": "Günlük ücret yükseldi. Gün sayısı garanti değil.",
+          "en": "The day rate is higher. The number of days is not guaranteed.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "danışman (sözleşmeli)",
+              "tier": 3,
+              "monthly": 5200
+            }
+          },
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "serbest_danisman"
+            ]
+          }
+        },
+        "tr": "Günlük ücreti yüzde on beş artırdın, fesih bildirimini otuz güne çıkarttın. Sonra imzaladın.",
+        "en": "You raised the day rate by fifteen percent and got the termination notice extended to thirty days. Then you signed.",
+        "coach": [
+          {
+            "tr": "Otuz gün bildirim. Kâğıtta yazıyor.",
+            "en": "Thirty days' notice. It is in writing.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Teklif \"son hâli\" notuyla geri geldi. Bordroda kaldın; adın \"modele direnç gösterenler\" listesine yazıldı.",
+        "en": "The offer came back marked \"final.\" You stayed on payroll. Your name went on a list titled \"resistant to the model.\"",
+        "coach": [
+          {
+            "tr": "Bordro yerinde. Liste de.",
+            "en": "The payslip stays. So does the list.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "danismanlik_reddi"
+          ]
+        }
+      },
+      "tr": "Reddettin. Bordron aynı; gelecek dönemin kadro planında pozisyonunun yanında bir soru işareti var.",
+      "en": "You declined. Your payslip is unchanged. On next cycle's headcount plan there is a question mark beside your position.",
+      "coach": [
+        {
+          "tr": "Kıdem sende. Soru işareti onlarda.",
+          "en": "You keep the tenure. They keep the question mark.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "şirketin seni bordrodan sözleşmeli danışmanlığa geçirmek istemesi",
+    "mechanism": "hak kaybı \"özgürlük\" diye sunuluyor",
+    "mechanismId": "understatement",
+    "punch": "özgürlük gibi düşün",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "ozgurluk",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

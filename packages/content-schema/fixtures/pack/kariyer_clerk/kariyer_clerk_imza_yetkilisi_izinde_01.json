@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_imza_yetkilisi_izinde_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Dört saat yoldan geldim. Tek imza eksik demiştiniz. İmza nerede?",
+      "en": "I drove four hours. You said one signature was missing. Where's the signature?"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Şef izinde. Vekili raporlu. Vekilin vekili de şefin kendisi.",
+      "en": "The chief's on leave. The deputy's out sick. The deputy's deputy is the chief.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Şefi izinde ara",
+      "en": "Call the chief on leave",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "posta",
+      "tr": "İmzalanınca postalamayı öner",
+      "en": "Offer to mail it once signed",
+      "pattern": "patience"
+    },
+    {
+      "id": "ust",
+      "tr": "Üst kata, müdüre çık",
+      "en": "Take it upstairs to the director",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ara": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Şef sahilden açtı, 'yarım saate uğrarım' dedi. Terlikle geldi, imzaladı. Vatandaş dosyasıyla döndü.",
+        "en": "The chief picked up from the beach and said, 'Give me half an hour.' Showed up in flip-flops and signed. The citizen left with the file.",
+        "coach": [
+          {
+            "tr": "İmza terlikle atıldı. Geçerli.",
+            "en": "The signature was made in flip-flops. Valid.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Şef açmadı, sonra tek kelime yazdı: 'İzindeyim.' Vatandaş dört saatlik yola imzasız çıktı.",
+        "en": "The chief didn't pick up, then texted two words: 'On leave.' The citizen began the four-hour drive home unsigned.",
+        "coach": [
+          {
+            "tr": "Dört saat geliş, dört saat dönüş. İmza yok.",
+            "en": "Four hours there, four hours back. No signature.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "posta": {
+      "effects": {
+        "money": -25,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "memur_posta_sozu"
+          ]
+        }
+      },
+      "tr": "Adresi aldın, dosyayı 'şef dönünce' gözüne koydun. Altı gün sonra imzalandı, posta ücreti 25 Para senden çıktı.",
+      "en": "You took their address and put the file in the 'when the chief is back' tray. Six days later it was signed, and you paid the postage: twenty-five.",
+      "coach": [
+        {
+          "tr": "Bir söz verildi. Altı günde ve 25 Para'ya tutuldu.",
+          "en": "A promise was made. It was kept in six days, for twenty-five.",
+          "roast": false
+        }
+      ]
+    },
+    "ust": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Müdür 'yetki devri yazısı lazım' dedi. O yazıyı da şef imzalıyor. Vatandaşa çay söyledin.",
+      "en": "The director said that needs a delegation letter, which the chief signs. You ordered the citizen a tea.",
+      "coach": [
+        {
+          "tr": "Yetki bir daire çizip şefe döndü.",
+          "en": "Authority made a full circle back to the chief.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "başka şehirden gelen vatandaşın dosyasında tek imza eksik, imza yetkilisi izinde",
+    "mechanism": "vekâlet zinciri başa dönüyor",
+    "mechanismId": "escalation",
+    "punch": "vekilin vekili şefin kendisi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "vekil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

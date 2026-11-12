@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_yetistirdigin_stajyer_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Stajyerin sunumu çok derli topluydu. Kim çalıştırdı bunu?",
+      "en": "The intern's presentation was very tidy. Who coached them?"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "{name}. Üç prova yaptık. İlkinde slaytları ters sırayla anlatmışım.",
+      "en": "{name}. We did three run-throughs. In the first one I presented the slides backwards.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ov",
+      "tr": "Övgüyü stajyere bırak",
+      "en": "Let the intern keep the praise",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kadro",
+      "tr": "Stajyere kadro öner",
+      "en": "Recommend hiring the intern",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sahiplen",
+      "tr": "'Evet, ben çalıştırdım' de",
+      "en": "Say 'Yes, that was me'",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ov": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "'Kendisi yaptı' dedin. Stajyer çıkışta masana bir not bıraktı: 'Dördüncü provayı da isterim.'",
+      "en": "You said they did it themselves. On the way out the intern left a note on your desk: 'Requesting a fourth run-through.'",
+      "coach": [
+        {
+          "tr": "Not masada. Dördüncü prova takvimde.",
+          "en": "The note's on your desk. Run-through four is on the calendar.",
+          "roast": false
+        }
+      ]
+    },
+    "kadro": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 5
+            },
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "stajyer_kadrolu"
+            ]
+          }
+        },
+        "tr": "Kadro önerdin, müdür onayladı. Stajyer eylülde yan masana tam zamanlı oturdu.",
+        "en": "You recommended a hire. The manager approved. In September the intern took the desk next to yours, full-time.",
+        "coach": [
+          {
+            "tr": "Yan masa doldu. Dolduran sensin.",
+            "en": "The next desk is filled. You filled it.",
+            "roast": false
+          },
+          {
+            "tr": "Sayaçta bir çentik daha.",
+            "en": "One more notch on the counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Kadro önerdin. Müdür 'bütçe gelecek yıl' dedi. Stajyer son gününde referans mektubunu senden istedi.",
+        "en": "You recommended a hire. The manager said 'next year's budget.' On their last day the intern asked you for the reference letter.",
+        "coach": [
+          {
+            "tr": "Kadro çıkmadı. Mektup çıktı, altında adın var.",
+            "en": "No position. There is a letter, with your name under it.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sahiplen": {
+      "effects": {
+        "meters": {
+          "ego": 4
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2,
+            "memory": "stajyer_yetistirdi"
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "'Ben çalıştırdım' dedin. Müdür başını salladı ve gelecek dönemin iki stajyerini de sana yazdı.",
+      "en": "You said it was you. The manager nodded and assigned you both of next term's interns.",
+      "coach": [
+        {
+          "tr": "Bir cümle, iki stajyer.",
+          "en": "One sentence. Two interns.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz ya da düşük riskli gün"
+  },
+  "intent": {
+    "setup": "çalıştırdığın stajyerin ilk sunumunun müdürden övgü alması",
+    "mechanism": "sahiplenilen övgü iki yeni stajyere dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "bir cümle, iki stajyer",
+    "lift": "sayaçta bir çentik",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "prova"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

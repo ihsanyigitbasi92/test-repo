@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_arama_eski_bordro_talebi_01",
+  "tags": [
+    "is",
+    "teklif",
+    "maas",
+    "is_arama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "is_arama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Teklif hazırlamadan önce son üç bordronuzu rica ediyoruz. Standart süreç.",
+      "en": "Before we prepare an offer we'll need your last three payslips. Standard process."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Teklifimizi önceki ücretinize göre \"adil\" kurguluyoruz.",
+      "en": "We build a \"fair\" offer around your previous pay.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "gonder",
+      "tr": "Bordroları gönder",
+      "en": "Send the payslips",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "beklenti",
+      "tr": "Bordro yerine beklentini söyle",
+      "en": "Give your number, not your payslips",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kacamak",
+      "tr": "\"Arşivde, bulamadım\" de",
+      "en": "Say \"they're archived, can't find them\"",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "gonder": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -2,
+          "momPressure": -6
+        },
+        "flags": {
+          "add": [
+            "calisiyor"
+          ],
+          "remove": [
+            "is_ariyor"
+          ]
+        },
+        "status": {
+          "job": {
+            "title": "finans uzmanı",
+            "tier": 2,
+            "monthly": 2600
+          }
+        }
+      },
+      "tr": "Gönderdin. Teklif eski maaşının yüz Para üstünde geldi; kabul ettin.",
+      "en": "You sent them. The offer came in a hundred above your old salary. You accepted.",
+      "coach": [
+        {
+          "tr": "Adil teklif: eski maaş artı yüz. Adaletin ölçü birimi bordroymuş.",
+          "en": "The fair offer: old salary plus a hundred. Fairness, it turns out, is measured in payslips.",
+          "roast": true
+        }
+      ]
+    },
+    "beklenti": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 3,
+            "momPressure": -7
+          },
+          "flags": {
+            "add": [
+              "calisiyor"
+            ],
+            "remove": [
+              "is_ariyor"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "finans uzmanı",
+              "tier": 2,
+              "monthly": 3000
+            }
+          }
+        },
+        "tr": "Bordro yerine pozisyonun ücret aralığını konuştun. Teklif beklentine yakın geldi.",
+        "en": "Instead of payslips you talked about the range for the role. The offer landed close to your number.",
+        "coach": [
+          {
+            "tr": "Bordro çekmecede kaldı. Rakam masaya geldi.",
+            "en": "The payslips stayed in the drawer. The number came to the table.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": 2,
+            "momPressure": 2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "\"Süreç gereği\" diye ısrar ettiler. Vermedin; süreç sensiz devam etti.",
+        "en": "\"It's process,\" they insisted. You declined. The process continued without you.",
+        "coach": [
+          {
+            "tr": "Süreç standart kaldı. Aday listesi bir isim kısaldı.",
+            "en": "The process stayed standard. The shortlist got one name shorter.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kacamak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "alt_sinir_teklifi"
+          ]
+        }
+      },
+      "tr": "Bulamadığını söyledin. İK \"sorun değil\" dedi ve teklifi ilandaki aralığın alt sınırından hazırladı.",
+      "en": "You said you couldn't find them. HR said \"no problem\" and built the offer at the bottom of the advertised range.",
+      "coach": [
+        {
+          "tr": "Bordro yoktu. Alt sınır vardı.",
+          "en": "No payslips available. A lower bound was.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "beklenti",
+    "slip": {
+      "tr": "İDDİA: Bordrosuz teklif gelmez. — M.",
+      "en": "WAGER: No payslips, no offer. — M."
+    }
+  },
+  "intent": {
+    "setup": "teklif öncesi İK'nın eski maaş bordrolarını istemesi",
+    "mechanism": "\"adil\" sözcüğü eski maaşa bağlanıyor",
+    "mechanismId": "reversal",
+    "punch": "adaletin ölçü birimi bordro",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bordro"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

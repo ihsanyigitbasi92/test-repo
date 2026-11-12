@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_ofis_gunu_oylamasi_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Hibrit düzende her ekip haftada iki ortak ofis günü seçecek. Oy birliğiyle.",
+      "en": "Under the hybrid policy each team picks two shared office days. Unanimously."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "annoyed",
+      "tr": "Pazartesi olmaz, cuma olmaz. Çarşamba seramik kursum var. Salıya da güvenmiyorum.",
+      "en": "Not Monday, not Friday. Wednesday I have pottery. And I just don't trust Tuesdays.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "anket",
+      "tr": "Anket aç",
+      "en": "Start a poll",
+      "pattern": "patience"
+    },
+    {
+      "id": "fedakar",
+      "tr": "Kendi evden gününü ver",
+      "en": "Give up your own home day",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ilan",
+      "tr": "'Salı-perşembe' yaz, kapat",
+      "en": "Type 'Tuesday–Thursday,' done",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "anket": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Anket açtın. Yedi kişiden yedi farklı kombinasyon geldi. İkinci tur anketinin tarihi için ayrı bir anket açıldı.",
+      "en": "You started a poll. Seven people produced seven different combinations. A poll was opened to schedule the second poll.",
+      "coach": [
+        {
+          "tr": "Anketler çoğalıyor. Gün hâlâ seçilmedi.",
+          "en": "The polls are multiplying. The days remain unpicked.",
+          "roast": true
+        }
+      ]
+    },
+    "fedakar": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ofis_gunu_persembe"
+          ]
+        }
+      },
+      "tr": "Evden çalıştığın perşembeyi verdin. Günler salı ve perşembe oldu; ilk perşembe ofiste dört kişiydiniz.",
+      "en": "You gave up your home Thursday. The days became Tuesday and Thursday. On the first Thursday, four of you showed up.",
+      "coach": [
+        {
+          "tr": "Yedi oy verildi. Dört sandalye doldu.",
+          "en": "Seven votes cast. Four chairs filled.",
+          "roast": true
+        }
+      ]
+    },
+    "ilan": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "ofis_gunu_persembe"
+            ]
+          }
+        },
+        "tr": "'Salı-perşembe' yazıp konuyu kapattın. Kimse itiraz etmedi. İki kişi özelden teşekkür etti.",
+        "en": "You typed 'Tuesday–Thursday' and closed the thread. No objections. Two people thanked you privately.",
+        "coach": [
+          {
+            "tr": "İtiraz gelmedi. Teşekkür özelden geldi.",
+            "en": "No objections. The thanks came by private message.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "'Salı-perşembe' yazdın. On dakikada on dokuz yanıt geldi. Karar İK'ya havale edildi; İK pazartesi ve cumayı seçti.",
+        "en": "You typed 'Tuesday–Thursday.' Nineteen replies arrived in ten minutes. The decision was escalated to HR. HR picked Monday and Friday.",
+        "coach": [
+          {
+            "tr": "İK seçti. Kimsenin istemediği iki günü.",
+            "en": "HR chose. The two days nobody wanted.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz ya da düşük riskli gün"
+  },
+  "intent": {
+    "setup": "hibrit düzende ekibin ortak ofis günlerini oy birliğiyle seçmesi",
+    "mechanism": "anket için anket açılıyor",
+    "mechanismId": "escalation",
+    "punch": "salıya güvenmiyorum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "anket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

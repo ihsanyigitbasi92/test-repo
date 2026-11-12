@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_ilk_atif_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Sana atıf bildirimi gelmiş, gördüm. İlk mi? Tatlı senden.",
+      "en": "You got a citation alert, I saw. Your first? Dessert's on you, then."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Okudum da. 'Önceki çalışmanın aksine' diye başlıyor. Önceki çalışma sensin.",
+      "en": "I read it, by the way. It starts 'contrary to earlier work.' You're the earlier work.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "say",
+      "tr": "Atıf atıftır, kutla",
+      "en": "A citation is a citation",
+      "pattern": "pride"
+    },
+    {
+      "id": "yanit",
+      "tr": "Yanıt makalesi yaz",
+      "en": "Write a response paper",
+      "pattern": "overwork",
+      "check": {
+        "base": 4000,
+        "stat": "brain",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "yaz",
+      "tr": "Yazara teşekkür maili at",
+      "en": "Email the author to say thanks",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "say": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 3
+        }
+      },
+      "tr": "Atıf sayın sıfırdan bire çıktı. Ofise 60 Para'lık tatlı aldın, profil sayfanı o gün dört kez yeniledin.",
+      "en": "Your citation count went from zero to one. You bought the office 60 worth of dessert and refreshed your profile four times that day.",
+      "coach": [
+        {
+          "tr": "Sayaç bir gösteriyor. Yönünü yazmıyor.",
+          "en": "The counter says one. It doesn't say which way.",
+          "roast": false
+        }
+      ]
+    },
+    "yanit": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "atif_tartismasi"
+            ]
+          }
+        },
+        "tr": "Yanıtın yayımlandı. Onlar da yanıta yanıt yazdı; atıf sayın üçe çıktı, üçü de aynı tartışmadan.",
+        "en": "Your response was published. They responded to the response. You now have three citations, all from the same argument.",
+        "coach": [
+          {
+            "tr": "Üç atıf, tek tartışma.",
+            "en": "Three citations, one argument.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: üç atıf.",
+            "en": "Goal counter: three citations.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1,
+            "brain": 1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Yanıtı yazarken verilerini yeniden hesapladın. Üçüncü tabloda haklı olan onlardı; dergiye düzeltme notu gönderdin.",
+        "en": "While drafting the response you reran your numbers. On table three, they were right. You sent the journal a correction.",
+        "coach": [
+          {
+            "tr": "Düzeltme de bir yayın.",
+            "en": "A correction is also a publication.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yaz": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "atif_ortagi"
+          ]
+        }
+      },
+      "tr": "Teşekkür ettin. Yazar aynı gün cevap verip ortak bir çalışma önerdi: iki sonucu da açıklayacak üçüncü bir deney.",
+      "en": "You wrote to say thanks. The author replied the same day proposing a joint study: a third experiment to explain both results.",
+      "coach": [
+        {
+          "tr": "İlk atıf bir ortakla geldi.",
+          "en": "Your first citation came with a collaborator.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "makalene ilk atıf geliyor, atıf senin sonucunu çürütmek için yapılmış",
+    "mechanism": "kutlanan atıf aslında itiraz",
+    "mechanismId": "reversal",
+    "punch": "önceki çalışma sensin",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sayac"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

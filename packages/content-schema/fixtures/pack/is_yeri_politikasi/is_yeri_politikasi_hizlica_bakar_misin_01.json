@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_hizlica_bakar_misin_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Hızlıca bir bakar mısın? İki dakikanı alır. Bir tablo. On dört sekme.",
+      "en": "Could you take a quick look? Two minutes. It's a spreadsheet. Fourteen tabs."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Geçen haftaki 'hızlıca'yı çok güzel yapmıştın. Bu da ondan.",
+      "en": "You did such a nice job on last week's quick look. This is one of those.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bak",
+      "tr": "Bak, iki saatini ver",
+      "en": "Look, lose two hours",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sinir",
+      "tr": "'Yarım saatim var' de",
+      "en": "Offer exactly thirty minutes",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "geri",
+      "tr": "'Bu hafta bakamam' de",
+      "en": "Say 'Not this week'",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "bak": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": -1,
+          "health": -1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "İki dakika iki saat on dakika sürdü. Kendi raporun ertesi sabaha kaldı. Teşekkür mesajında üç gülen yüz vardı.",
+      "en": "Two minutes took two hours and ten. Your own report slid to tomorrow. The thank-you message contained three smiley faces.",
+      "coach": [
+        {
+          "tr": "Üç gülen yüz. Saat başına bir buçuk.",
+          "en": "Three smileys. That's one and a half per hour.",
+          "roast": true
+        }
+      ]
+    },
+    "sinir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yarim_saat_kurali"
+          ]
+        }
+      },
+      "tr": "Yarım saat verdin, üç sekmeye baktın, kalanını işaretleyip geri yolladın. İş arkadaşın gerisini kendi bitirdi.",
+      "en": "You gave thirty minutes, checked three tabs, flagged the rest and sent it back. Your colleague finished it without you.",
+      "coach": [
+        {
+          "tr": "Otuz dakika doldu, sen kalktın.",
+          "en": "Thirty minutes ran out. You stood up.",
+          "roast": false
+        }
+      ]
+    },
+    "geri": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "'Bu hafta bakamam' dedin. İş arkadaşın tabloyu kendi çözdü; perşembe günü 'aslında zor değilmiş' dedi.",
+        "en": "You said you couldn't this week. Your colleague solved it alone. On Thursday they told you it 'wasn't actually that hard.'",
+        "coach": [
+          {
+            "tr": "On dört sekme zor değilmiş. Bilgi ilk elden.",
+            "en": "Fourteen tabs, not that hard. Straight from the source.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "'Bakamam' dedin. Tablo müdüre gitti, müdür 'ekip içinde çözün' diye sana yolladı. Bu kez konu satırında 'ACİL' yazıyordu.",
+        "en": "You said you couldn't. The spreadsheet went to the manager, who sent it to you with 'sort it out as a team.' The subject line now said URGENT.",
+        "coach": [
+          {
+            "tr": "Aynı tablo, yeni konu satırı.",
+            "en": "Same spreadsheet. New subject line.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "geri",
+    "slip": {
+      "tr": "İDDİA: Tablo sana geri döner. — M.",
+      "en": "WAGER: The spreadsheet comes back to you. — M."
+    }
+  },
+  "intent": {
+    "setup": "iş arkadaşının kendi tablosunu hızlıca bir bak diyerek sana yıkması",
+    "mechanism": "iki dakikanın saat hesabı",
+    "mechanismId": "count",
+    "punch": "saat başına bir buçuk gülen yüz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sekme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

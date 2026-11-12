@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_teacher_ozel_okul_teklifi_01",
+  "tags": [
+    "kariyer",
+    "ogretmen",
+    "kariyer_teacher"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_teacher": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "teacher"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Maaş şu ankinin bir buçuk katı. Öğle yemeği dahil. Tek beklentimiz veli memnuniyeti.",
+      "en": "Pay is one and a half times what you make now. Lunch included. All we ask for is parent satisfaction."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Veliler sizi doğrudan arayabiliyor. Numaranızı karneye basıyoruz.",
+      "en": "Parents can call you directly. We print your number on the report card.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Teklifi kabul et",
+      "en": "Take the offer",
+      "pattern": "risk"
+    },
+    {
+      "id": "kal",
+      "tr": "Okulunda kal",
+      "en": "Stay at your school",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Numara şartını pazarlık et",
+      "en": "Negotiate the phone clause",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "ego",
+        "goal": "kariyer"
+      }
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "ozel_okul_ogretmeni"
+          ]
+        },
+        "status": {
+          "job": {
+            "title": "Özel okul öğretmeni",
+            "tier": 3,
+            "monthly": 3000
+          }
+        }
+      },
+      "tr": "Sözleşmeyi imzaladın. Maaş ayda 3.000 Para oldu; telefonun ilk hafta otuz bir kez çaldı.",
+      "en": "You signed. Pay is now 3,000 a month, and your phone rang thirty-one times in the first week.",
+      "coach": [
+        {
+          "tr": "Yeni iş, yeni zil sesi.",
+          "en": "New job, new ringtone.",
+          "roast": false
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Teklifi geri çevirdin. Müdür duymuş; ertesi günkü nöbet çizelgesinde bir günün eksilmişti.",
+      "en": "You turned it down. The principal had heard. The next day's duty roster had you down for one day fewer.",
+      "coach": [
+        {
+          "tr": "Kaldın. Çizelge fark etti.",
+          "en": "You stayed. The roster noticed.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ozel_okul_ogretmeni"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "Özel okul öğretmeni",
+              "tier": 3,
+              "monthly": 2800
+            }
+          }
+        },
+        "tr": "Numaran karneden çıktı, yerine okul santrali yazıldı. Karşılığında maaş 2.800 Para'ya indi; imzaladın.",
+        "en": "Your number came off the report card and the switchboard went on. In exchange the pay dropped to 2,800. You signed.",
+        "coach": [
+          {
+            "tr": "Ayda 200 Para'ya sessiz akşamlar. Fiyatı sen koydun.",
+            "en": "Quiet evenings at 200 a month. You set the price.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef: yeni iş, sessiz telefon.",
+            "en": "Goal: new job, quiet phone.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -2
+          }
+        },
+        "tr": "Şart değişmedi, teklif bir hafta sonra başka birine gitti. Okulunda aynı sınıf, aynı zil.",
+        "en": "The clause stayed, and a week later the offer went to someone else. Same classroom, same bell.",
+        "coach": [
+          {
+            "tr": "Teklif gitti. Numaran sende kaldı.",
+            "en": "The offer left. Your number stayed yours.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "özel bir okul daha yüksek maaşla ama veli memnuniyeti şartıyla iş teklif ediyor",
+    "mechanism": "teklifin küçük ayrıntısı: telefon numaran karnede",
+    "mechanismId": "understatement",
+    "punch": "numaranızı karneye basıyoruz",
+    "lift": "hedef: yeni iş",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zil_sesi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

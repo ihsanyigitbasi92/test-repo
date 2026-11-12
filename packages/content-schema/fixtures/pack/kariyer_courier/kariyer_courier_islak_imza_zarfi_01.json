@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_islak_imza_zarfi_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Bu zarf 16.30'da karşı yakadaki ofiste olacak. Islak imza. Saat şu an 16.11.",
+      "en": "This envelope has to be at the office across town by 4:30. Wet signature. It's 4:11 now."
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Kabul et, ara sokaklardan git",
+      "en": "Take it, use the back streets",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "durust",
+      "tr": "Yetişmeyeceğini söyle",
+      "en": "Say it won't make it",
+      "pattern": "patience"
+    },
+    {
+      "id": "ucret",
+      "tr": "Önce acil ücretini konuş",
+      "en": "Settle the rush fee first",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "git": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 90,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "kurye_ofis_musterisi"
+            ]
+          }
+        },
+        "tr": "16.28'de zarfı teslim ettin, kırmızıların hepsinde durarak. Ofis 90 Para acil ücreti ve bir kartvizit verdi.",
+        "en": "You handed it over at 4:28, having stopped at every red. The office paid a ninety rush fee and gave you a business card.",
+        "coach": [
+          {
+            "tr": "On yedi dakikalık yol, on yedi dakikada. Zarf terlemedi.",
+            "en": "A seventeen-minute ride in seventeen minutes. The envelope didn't sweat.",
+            "roast": false
+          },
+          {
+            "tr": "Sayaçta bir kartvizit var.",
+            "en": "One business card on the counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": 30,
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "16.36'da vardın. Karşı ofis zarfı aldı, sürenin uzatıldığını söyledi. Ücret normal tarife, 30 Para.",
+        "en": "You got there at 4:36. The other office took it and mentioned the deadline had been extended. Standard fee: thirty.",
+        "coach": [
+          {
+            "tr": "Altı dakika geç. Süre senden önce esnemiş.",
+            "en": "Six minutes late. The deadline had already stretched without you.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "durust": {
+      "effects": {
+        "money": 30,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kurye_ofis_musterisi"
+          ]
+        }
+      },
+      "tr": "Yetişmeyeceğini söyledin. Ofis karşı tarafı aradı, süre yarına alındı. Zarfı sabah sen götürüyorsun.",
+      "en": "You said it couldn't be done. The office called ahead and got the deadline moved to tomorrow. You're taking it in the morning.",
+      "coach": [
+        {
+          "tr": "On dokuz dakika yarına yayıldı.",
+          "en": "Nineteen minutes, spread out until tomorrow.",
+          "roast": false
+        }
+      ]
+    },
+    "ucret": {
+      "effects": {
+        "money": 90,
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Acil ücreti 90 Para'da anlaştınız, konuşma üç dakika sürdü. 16.33'te vardın, ücret yine de ödendi.",
+      "en": "You agreed on a ninety rush fee. The talking took three minutes. You arrived at 4:33 and got paid anyway.",
+      "coach": [
+        {
+          "tr": "Konuşmanın üç dakikası yolda eksik çıktı.",
+          "en": "The three minutes of talking were later missed on the road.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "git",
+    "slip": {
+      "tr": "İDDİA: Zarf 16.30'u göremez. — M.",
+      "en": "WAGER: The envelope won't see 4:30. — M."
+    }
+  },
+  "intent": {
+    "setup": "iki ofis arasında on dokuz dakikada yetişmesi gereken ıslak imzalı zarf",
+    "mechanism": "dakikalar tek tek sayılıyor",
+    "mechanismId": "escalation",
+    "punch": "zarf terlemedi",
+    "lift": "sayaçta bir kartvizit",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zarf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

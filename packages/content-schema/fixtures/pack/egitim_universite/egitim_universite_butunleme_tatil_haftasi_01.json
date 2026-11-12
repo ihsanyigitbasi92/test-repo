@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_butunleme_tatil_haftasi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "butunleme",
+    "tatil",
+    "kardes",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    },
+    "season": [
+      "summer"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Otobüs biletleri alındı, pansiyon ayarlandı. Senin bütünleme ne zamandı? Aynı hafta deme.",
+      "en": "Bus tickets are booked, the guesthouse is sorted. When's your resit? Don't say that week."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Annem \"O gelmezse denize girmem\" dedi. Ben girerim, baştan söyleyeyim.",
+      "en": "Mom says she won't go in the sea without you. I will. Just so we're clear.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kal",
+      "tr": "Tatile gitme, çalış",
+      "en": "Skip the trip and study",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sahil",
+      "tr": "Git, notları sahile götür",
+      "en": "Go, and bring your notes to the beach",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gec",
+      "tr": "Sınavdan çık, iki gün geç katıl",
+      "en": "Sit the exam, join two days late",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kal": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": -2,
+          "brain": 3
+        },
+        "flags": {
+          "add": [
+            "butunleme_gecti"
+          ]
+        }
+      },
+      "tr": "Bilet yandı: 300 Para. Sınavı geçtin. Kardeşin her gün bir deniz fotoğrafı gönderdi, toplam yedi.",
+      "en": "The ticket was nonrefundable: 300. You passed the resit. Your sibling sent one sea photo a day. Seven total.",
+      "coach": [
+        {
+          "tr": "Yedi fotoğraf, bir geçer not.",
+          "en": "Seven photos. One passing grade.",
+          "roast": false
+        }
+      ]
+    },
+    "sahil": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "brain": 2
+          },
+          "flags": {
+            "add": [
+              "butunleme_gecti"
+            ]
+          }
+        },
+        "tr": "Şemsiyenin altında iki konu bitirdin. Dönüş gecesi otobüste kalanını okudun; sınav geçti.",
+        "en": "You finished two topics under a beach umbrella and the rest on the night bus home. You passed.",
+        "coach": [
+          {
+            "tr": "Notlarda kum var. Karnede yok.",
+            "en": "Sand in the notes. None on the transcript.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "dersten_kaldi"
+            ]
+          }
+        },
+        "tr": "Notlar çantadan bir kez çıktı, rüzgâr üç sayfasını aldı. Ders gelecek yıla kaldı.",
+        "en": "The notes left the bag once. The wind took three pages. The course rolls over to next year.",
+        "coach": [
+          {
+            "tr": "Üç sayfa denizde, dersin tamamı seneye.",
+            "en": "Three pages at sea. The whole course next year.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gec": {
+      "effects": {
+        "money": -120,
+        "stats": {
+          "joy": 2,
+          "brain": 2
+        },
+        "flags": {
+          "add": [
+            "butunleme_gecti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Sınavdan çıkıp gece otobüsüne bindin. İki gün geç vardın; annen ilk kez o gün denize girdi.",
+      "en": "You sat the exam and took the night bus. You arrived two days late. Mom went in the sea that day, not before.",
+      "coach": [
+        {
+          "tr": "Annen sözünü tuttu. İki gün kıyıda bekledi.",
+          "en": "Mom kept her word. Two days on the shore.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia dışı"
+  },
+  "intent": {
+    "setup": "bütünleme sınavının aile tatiliyle aynı haftaya denk gelmesi",
+    "mechanism": "kardeş destek olmak yerine denize gireceğini bildiriyor",
+    "mechanismId": "reversal",
+    "punch": "ben girerim, baştan söyleyeyim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "deniz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

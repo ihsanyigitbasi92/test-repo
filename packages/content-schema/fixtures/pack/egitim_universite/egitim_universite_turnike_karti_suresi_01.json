@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_turnike_karti_suresi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "uzatma",
+    "kart",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 26
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kartınız turnikeyi açmıyor. Ekranda \"azami süre doldu\" yazıyor. Ben seni tanıyorum, sistem tanımıyor.",
+      "en": "Your card won't open the turnstile. Screen says \"maximum period exceeded.\" I know you. The system doesn't."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Ziyaretçi defterine yaz. \"Kimi ziyaret ediyorsunuz\" kısmına dersin kodunu yaz.",
+      "en": "Sign the visitor log. Under \"Who are you visiting,\" put the course code.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ziyaretci",
+      "tr": "Ziyaretçi olarak imzala",
+      "en": "Sign in as a visitor",
+      "pattern": "patience"
+    },
+    {
+      "id": "yenile",
+      "tr": "Öğrenci işlerine git, kartı yenilet",
+      "en": "Go get the card renewed",
+      "pattern": "overwork"
+    },
+    {
+      "id": "rica",
+      "tr": "\"Bu seferlik\" diye rica et",
+      "en": "Ask for a one-time pass",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "ziyaretci": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "kampus_ziyaretcisi"
+          ]
+        }
+      },
+      "tr": "Deftere adını yazdın, yakana \"Ziyaretçi\" kartı takıldı. Kendi dersine misafir olarak girdin.",
+      "en": "You signed the log and got a \"Visitor\" badge. You attended your own class as a guest.",
+      "coach": [
+        {
+          "tr": "Sekiz yıllık kampüs, bir günlük yaka kartı.",
+          "en": "Eight years on this campus. A one-day badge.",
+          "roast": false
+        }
+      ]
+    },
+    "yenile": {
+      "effects": {
+        "money": -60,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kart_yenilendi"
+          ]
+        }
+      },
+      "tr": "Kart yenilendi: 60 Para, yeni fotoğraf, yeni son kullanma tarihi. Derse yirmi beş dakika geç girdin.",
+      "en": "Card renewed: 60, new photo, new expiration date. You were twenty-five minutes late to class.",
+      "coach": [
+        {
+          "tr": "Yeni tarih: bir dönem sonrası.",
+          "en": "New expiration: one semester out.",
+          "roast": false
+        }
+      ]
+    },
+    "rica": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "charm": 1
+          }
+        },
+        "tr": "Görevli yan kapıyı açtı. \"Haftaya yine buradayım\" dedi; sen de öyle.",
+        "en": "The guard opened the side gate. \"I'll be here next week too,\" they said. So will you.",
+        "coach": [
+          {
+            "tr": "Yan kapı açıldı. Kart hâlâ kapalı.",
+            "en": "The side gate opened. The card is still closed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "kampus_ziyaretcisi"
+            ]
+          }
+        },
+        "tr": "Görevli \"Kamera var\" dedi ve defteri uzattı. Ziyaret nedeni kutusuna \"mezuniyet\" yazdın.",
+        "en": "The guard said, \"There's a camera,\" and slid the log over. Under reason for visit you wrote \"graduation.\"",
+        "coach": [
+          {
+            "tr": "Ziyaret nedeni doğru beyan edildi.",
+            "en": "Reason for visit: accurately declared.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia dışı"
+  },
+  "intent": {
+    "setup": "uzatmada öğrenci kartının süresi dolunca kampüs turnikesinden geçememek",
+    "mechanism": "öğrenci kendi okuluna ziyaretçi oluyor",
+    "mechanismId": "reversal",
+    "punch": "ben seni tanıyorum, sistem tanımıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ziyaretci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

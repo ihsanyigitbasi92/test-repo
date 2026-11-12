@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_lab_onlugu_unutuldu_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "laboratuvar",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Önlüksüz laboratuvara giriş yok. Kural kapıda yazıyor, ben yalnızca okuyorum.",
+      "en": "No lab coat, no entry. The rule is on the door. I'm just reading it out."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Ödünç önlük var, bir tane. Sol kolu mavi. Neden mavi, kimse bilmiyor.",
+      "en": "We have a loaner coat. One. The left sleeve is blue. Nobody knows why.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "odunc",
+      "tr": "Mavi kollu önlüğü giy",
+      "en": "Wear the blue-sleeved loaner",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kos",
+      "tr": "Yurda koş, önlüğü al",
+      "en": "Sprint back for your coat",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "telafi",
+      "tr": "Telafi deneyine yazıl",
+      "en": "Sign up for the make-up lab",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "odunc": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "brain": 2
+        },
+        "meters": {
+          "cringe": 2
+        }
+      },
+      "tr": "Ödünç önlükle girdin. Deney bitti; sol kolun dirseğe kadar maviydi.",
+      "en": "You went in wearing the loaner. The experiment finished. Your left arm was blue to the elbow.",
+      "coach": [
+        {
+          "tr": "Mavinin kaynağı bulundu. Çıkmıyor.",
+          "en": "Source of the blue: located. It doesn't wash off.",
+          "roast": false
+        }
+      ]
+    },
+    "kos": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 1,
+            "brain": 2
+          }
+        },
+        "tr": "On bir dakikada gidip geldin. Deney başlamıştı; grubun ilk ölçümü sana saklamış.",
+        "en": "There and back in eleven minutes. The experiment had started. Your group saved you the first reading.",
+        "coach": [
+          {
+            "tr": "On bir dakika. Grup bekledi.",
+            "en": "Eleven minutes. The group waited.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "lab_telafi"
+            ]
+          }
+        },
+        "tr": "Yirmi dakikada döndün. Kapı kapanmıştı; devam çizelgesine \"yok\" yazıldı.",
+        "en": "You were back in twenty minutes. The door was shut. The log says \"absent.\"",
+        "coach": [
+          {
+            "tr": "Önlük elinde, kapı kapalı.",
+            "en": "Coat in hand. Door closed.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "telafi": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "lab_telafi"
+          ]
+        }
+      },
+      "tr": "Telafi deneyi cumartesi sabahına yazıldı. O gün laboratuvarda sen, görevli ve mavi kollu önlük vardı.",
+      "en": "The make-up lab was set for Saturday morning. Present: you, the technician, and the blue-sleeved coat.",
+      "coach": [
+        {
+          "tr": "Cumartesi, üç kişilik kadro.",
+          "en": "Saturday. A cast of three.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: Kapı senden önce kapanır. — M.",
+      "en": "WAGER: The door closes before you're back. — M."
+    }
+  },
+  "intent": {
+    "setup": "laboratuvar önlüğünü yurtta unutup kapıdan içeri alınmamak",
+    "mechanism": "görevli kuralı okuyor, ödünç önlüğün gizemi",
+    "mechanismId": "deadpan_report",
+    "punch": "neden mavi, kimse bilmiyor",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "mavi_kol"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
