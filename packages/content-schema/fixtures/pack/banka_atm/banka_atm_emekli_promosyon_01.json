@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_emekli_promosyon_01",
+  "tags": [
+    "para",
+    "banka",
+    "emekli",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 70
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Emekli maaşınızı bize taşırsanız 1.600 Para promosyon. Üç yıl kalmak şartıyla.",
+      "en": "Move your pension to us and get 1,600 as a welcome bonus. Three-year stay required."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Eski bankanız 1.900 mü dedi? Bir dakika, müdürü arıyorum.",
+      "en": "Your old bank said 1,900? One moment, I'm calling my manager.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasi",
+      "tr": "Hemen taşı",
+      "en": "Switch right now",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Müdürü bekle",
+      "en": "Wait for the manager",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Eski bankada kal",
+      "en": "Stay where you are",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "tasi": {
+      "effects": {
+        "money": 1600,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "emekli_promosyon"
+          ]
+        }
+      },
+      "tr": "1.600 Para yattı. Üç yıl bu bankadasın; imzaladığın sözleşme on üç sayfa.",
+      "en": "1,600 landed. You're theirs for three years. The contract you signed runs thirteen pages.",
+      "coach": [
+        {
+          "tr": "On üç sayfa imza. Sayfa başı yüz yirmi üç Para.",
+          "en": "Thirteen pages signed. About a hundred twenty-three a page.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": 2000,
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "emekli_promosyon"
+            ]
+          }
+        },
+        "tr": "Müdür geldi, 2.000 dedi. Bir de çay ısmarladı.",
+        "en": "The manager came out and said 2,000. Tea included.",
+        "coach": [
+          {
+            "tr": "Bir telefon, dört yüz Para. Çay ikram.",
+            "en": "One phone call, four hundred more. Tea on the house.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": 1600,
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "emekli_promosyon"
+            ]
+          }
+        },
+        "tr": "Müdür toplantıdaymış. Bankacı 1.600'de kaldı, sen de taşıdın.",
+        "en": "The manager was in a meeting. The banker held at 1,600, and you switched anyway.",
+        "coach": [
+          {
+            "tr": "Toplantı kazandı.",
+            "en": "The meeting won.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "money": 900,
+        "flags": {
+          "add": [
+            "promosyon_reddetti"
+          ]
+        },
+        "glossary": "emekli_promosyonu"
+      },
+      "tr": "Eski bankanda kaldın. Ertesi hafta onlar arayıp 'sadakat' için 900 Para teklif etti.",
+      "en": "You stayed put. The next week your old bank called with 900 'for loyalty.'",
+      "coach": [
+        {
+          "tr": "Yerinden kıpırdamadın, yine ödendin.",
+          "en": "You didn't move an inch and still got paid.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "emekli maaşını taşıman için bankaların promosyon teklifiyle yarışması",
+    "mechanism": "teklif müdür telefonuyla tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "bir dakika, müdürü arıyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "toplanti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Emekli maaşı promosyonu TR bankacılığına özgü; EN'de 'pension switching bonus' olarak okunur, kurum adı yok."
+  }
+}

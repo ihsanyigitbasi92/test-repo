@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_komisyon_pazarligi_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_satin_alma": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 12000
+    },
+    "flags": {
+      "all": [
+        "ev_teklif_kabul"
+      ],
+      "none": [
+        "ev_satin_alindi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Komisyon iki taraftan da alınır. Kapıyı ben açtım, malum.",
+      "en": "Commission is charged to both sides. I did open the door, after all."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "İki kere açtım aslında. İlk gezide anahtar uymamıştı.",
+      "en": "Twice, actually. The key didn't fit on the first viewing.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Komisyonu pazarlık et",
+      "en": "Haggle over the commission",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "İtirazsız öde",
+      "en": "Pay without a word",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "partner",
+      "tr": "Pazarlığı partner yapsın",
+      "en": "Let your partner haggle",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "money": -1800,
+          "flags": {
+            "add": [
+              "komisyon_indi"
+            ]
+          }
+        },
+        "tr": "Komisyonu yarıya indirdin: 1.800 Para. Emlakçı kapıyı üçüncü kez, bu sefer çıkışta açtı.",
+        "en": "You talked the commission down by half: 1,800. The agent opened the door a third time, on your way out.",
+        "coach": [
+          {
+            "tr": "Üçüncü kapı. En ucuzu.",
+            "en": "Third door. The cheapest one.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "money": -3600,
+          "flags": {
+            "add": [
+              "komisyon_odendi"
+            ]
+          }
+        },
+        "tr": "Emlakçı \"piyasa böyle\" dedi, komisyonun tamamı ödendi: 3.600 Para.",
+        "en": "The agent said 'that's the market,' and the full commission was paid: 3,600.",
+        "coach": [
+          {
+            "tr": "İki kapı, 3.600 Para.",
+            "en": "Two doors. 3,600.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -3600,
+        "flags": {
+          "add": [
+            "komisyon_odendi"
+          ]
+        }
+      },
+      "tr": "Komisyonu itirazsız ödedin: 3.600 Para. Emlakçı sana logosu büyük bir anahtarlık hediye etti.",
+      "en": "You paid the 3,600 without a word. The agent gave you a keychain with a very large logo.",
+      "coach": [
+        {
+          "tr": "3.600 Para'lık anahtarlık.",
+          "en": "A 3,600 keychain.",
+          "roast": false
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -2700,
+        "flags": {
+          "add": [
+            "komisyon_indi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Pazarlığı partner yaptı, komisyon dörtte bir indi: 2.700 Para. Sen o sırada kahveni bitirdin.",
+      "en": "Your partner handled it and the commission dropped by a quarter: 2,700. You finished your coffee.",
+      "coach": [
+        {
+          "tr": "Dörtte bir indirim. Kahve dahil.",
+          "en": "A quarter off. Coffee included.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Komisyon kapı başına hesaplanır, inmez. — M.",
+      "en": "WAGER: The commission is per door. It won't budge. — M."
+    }
+  },
+  "intent": {
+    "setup": "teklif kabul edildikten sonra emlakçı iki taraflı komisyon faturası çıkarıyor",
+    "mechanism": "emlakçı açtığı kapıları sayıyor",
+    "mechanismId": "escalation",
+    "punch": "iki kere açtım aslında",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

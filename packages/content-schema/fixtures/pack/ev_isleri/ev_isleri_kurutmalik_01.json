@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_isleri_kurutmalik_01",
+  "tags": [
+    "ev",
+    "ev_isi",
+    "ev_isleri"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_isleri": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Kurutmalık artık benim gardırobum. Sabahları oradan giyiniyorum.",
+      "en": "The drying rack is my wardrobe now. I get dressed straight off it."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Kuruyanı alıyorum, ıslağı asıyorum. Sistem kendi kendine dönüyor.",
+      "en": "Dry stuff comes off, wet stuff goes on. The system runs itself.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Salonu geri iste",
+      "en": "Ask for the living room back",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kendi",
+      "tr": "Kendi kurutmalığını kur",
+      "en": "Set up your own rack",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "katla",
+      "tr": "Çamaşırlarını katla",
+      "en": "Fold their laundry",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "salon_bos"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Ev arkadaşın çamaşırları toplayıp odasına taşıdı. Salonda kanepe yeniden göründü.",
+        "en": "Your roommate gathered the laundry and moved it to their room. The couch has reappeared.",
+        "coach": [
+          {
+            "tr": "Kanepe geri döndü. Beş gün sonra.",
+            "en": "The couch is back. Five days later.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "koridor_kurutmalik"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Ev arkadaşın kurutmalığı odasına değil, koridora taşıdı. Eve girerken artık çorapların arasından geçiyorsun.",
+        "en": "Your roommate moved the rack, just not to their room. Coming home now means walking through a corridor of socks.",
+        "coach": [
+          {
+            "tr": "Gardırop taşındı. Koridora.",
+            "en": "The wardrobe moved. To the hallway.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kendi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "iki_kurutmalik"
+          ]
+        }
+      },
+      "tr": "Kendi kurutmalığını odana kurdun. Evde artık iki gardırop, sıfır askı var.",
+      "en": "You set up your own rack in your room. The flat now has two wardrobes and zero hangers.",
+      "coach": [
+        {
+          "tr": "Herkes kendi kurutmalığında.",
+          "en": "Everyone on their own rack now.",
+          "roast": false
+        }
+      ]
+    },
+    "katla": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "katlayan_sensin"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Çamaşırları katlayıp kapısının önüne bıraktın. Ertesi hafta kurutmalıkta yeni bir yığın bekliyordu.",
+      "en": "You folded the laundry and left it outside their door. The next week a fresh pile was waiting on the rack.",
+      "coach": [
+        {
+          "tr": "Hizmet bir kez verildi. Talep sürüyor.",
+          "en": "Service rendered once. Demand continues.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: Kurutmalık taşınır, odaya değil. — M.",
+      "en": "WAGER: The rack moves. Just not to their room. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının kurutmalığı beş gündür salonda, gardıroba dönüşmüş",
+    "mechanism": "kurutmalık kendi kendine dönen bir sisteme dönüşüyor",
+    "mechanismId": "literalism",
+    "punch": "kurutmalık benim gardırobum",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "koridor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

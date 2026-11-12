@@ -1,0 +1,167 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_numara_tasima_01",
+  "tags": [
+    "para",
+    "telefon",
+    "operator",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Taşıma 24 saat içinde biter. Bu sürede hattınız iki operatörde de yok.",
+      "en": "Porting finishes within twenty-four hours. Until then, your number exists at neither carrier."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Onay kodları eski hattınıza gider. Eski hattınız da yok.",
+      "en": "Verification codes go to your old line. Your old line no longer exists.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Bir gün telefonsuz yaşa",
+      "en": "Live a day without a phone",
+      "pattern": "patience"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Taşımayı iptal et",
+      "en": "Cancel the port",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "partner",
+      "tr": "Partnerin telefonunu ödünç al",
+      "en": "Borrow your partner's phone",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yeni_operator_hat"
+          ]
+        }
+      },
+      "tr": "Hat ertesi öğlen açıldı. Yeni tarife ayda 60 Para ucuz, bir gün de sessiz geçti.",
+      "en": "The line came back at noon the next day. The new plan is sixty cheaper a month, and the day itself was quiet.",
+      "coach": [
+        {
+          "tr": "Bir gün sinyalsiz. Karşılığı ayda 60 Para.",
+          "en": "One day without signal. Sixty a month in return.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "money": -150,
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "cringe": 1
+        },
+        "glossary": "numara_tasima"
+      },
+      "tr": "İptal için cayma bedeli 150 Para istendi. Eski tarifeye dönüldü.",
+      "en": "Canceling triggered a 150 withdrawal fee. Back to the old plan.",
+      "coach": [
+        {
+          "tr": "150 Para'ya başladığın yere dönüş.",
+          "en": "150 to end up where you started.",
+          "roast": false
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yeni_operator_hat",
+            "anne_partner_yazisiyor"
+          ]
+        }
+      },
+      "tr": "Bir gün partnerin telefonunu taşıdın. Annenin üç mesajı partnere gitti, partner hepsine cevap verdi.",
+      "en": "You carried your partner's phone for a day. Three texts from your mom reached your partner, who answered all of them.",
+      "coach": [
+        {
+          "tr": "Üç mesaj. Yeni bir yazışma hattı açıldı.",
+          "en": "Three texts. A new channel has opened.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "numara taşıma sırasında hattın bir gün hiçbir operatörde olmaması ve onay kodlarının kaybolan hatta gitmesi",
+    "mechanism": "her açıklama bir önceki kapıyı da kapatıyor",
+    "mechanismId": "escalation",
+    "punch": "eski hattınız da yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sinyal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

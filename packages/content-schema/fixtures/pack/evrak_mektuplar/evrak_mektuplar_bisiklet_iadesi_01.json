@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_bisiklet_iadesi_01",
+  "tags": [
+    "burokrasi",
+    "ulasim",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "GÖKSU PAYLAŞIMLI BİSİKLET SİSTEMİ (kurgusal)",
+      "en": "RIVERSIDE BIKE SHARE (fictional)"
+    },
+    "body": {
+      "tr": "Kiraladığınız 4471 numaralı bisiklet 14 saattir iade edilmemiştir. Kullanım bedeli işlemeye devam etmektedir.",
+      "en": "Bike no. 4471, rented by you, has not been returned for 14 hours. Usage charges continue to accrue."
+    },
+    "translate": {
+      "tr": {
+        "from": "iade edilmemiştir",
+        "to": "istasyon kilidi seni duymadı"
+      },
+      "en": {
+        "from": "has not been returned",
+        "to": "the dock wasn't listening"
+      }
+    },
+    "glossaryKey": "kullanim_bedeli"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "İstasyon kaydında bisiklet takılı görünmüyor. Fotoğrafınız var mı, saatli?",
+      "en": "The dock log doesn't show the bike. Do you have a photo? With a timestamp?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "foto",
+      "tr": "Saatli fotoğrafı gönder",
+      "en": "Send the timestamped photo",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Ödeyip kapat",
+      "en": "Pay it and move on",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "istasyon",
+      "tr": "İstasyona gidip bisikleti bul",
+      "en": "Go find the bike at the dock",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "foto": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -40,
+          "stats": {
+            "joy": 1
+          },
+          "glossary": "kullanim_bedeli"
+        },
+        "tr": "Fotoğrafta bisiklet istasyondaydı. Bedel 40 Para’ya indi, 4471 sistemde hâlâ kayıp.",
+        "en": "The photo showed the bike in the dock. The charge dropped to 40. Bike 4471 is still listed as missing.",
+        "coach": [
+          {
+            "tr": "Bisiklet yerinde. Sistem başka yerde.",
+            "en": "The bike was there. The system was elsewhere.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -620,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "bisiklet_borcu_itiraz"
+            ]
+          }
+        },
+        "tr": "Fotoğrafta istasyon numarası okunmuyordu. 620 Para kesildi, itiraz dosyası açıldı.",
+        "en": "The station number wasn't legible in the photo. 620 was charged and an appeal file was opened.",
+        "coach": [
+          {
+            "tr": "On dört saatlik kira. Eve yürüyerek dönmüştün.",
+            "en": "Fourteen hours of rental. You walked home.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -620,
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "bisiklet_odendi"
+          ]
+        }
+      },
+      "tr": "620 Para ödedin. Ertesi sabah 4471’i aynı istasyonda, başka birinin altında gördün.",
+      "en": "You paid 620. Next morning you saw 4471 in the same dock, under someone else.",
+      "coach": [
+        {
+          "tr": "Bisiklet bulundu. Para bulunmadı.",
+          "en": "The bike turned up. The money did not.",
+          "roast": true
+        }
+      ]
+    },
+    "istasyon": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "bisiklet_bulundu"
+          ]
+        }
+      },
+      "tr": "Bisiklet istasyondaydı, kilidi yarım takılı. Görevli kilidi bastırıp kapattı ve bedeli 40 Para’ya düşürdü.",
+      "en": "The bike was in the dock, half-latched. An attendant pushed the latch shut and knocked the charge down to 40.",
+      "coach": [
+        {
+          "tr": "Bir bastırış, beş yüz seksen Para.",
+          "en": "One push, five hundred eighty saved.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "paylaşımlı bisikleti istasyona bıraktığın hâlde on dört saattir iade edilmemiş görünmesi",
+    "mechanism": "sistem bisikleti görmeden kesinti yazıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "bisiklet yerinde, sistem başka yerde",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bastiris"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

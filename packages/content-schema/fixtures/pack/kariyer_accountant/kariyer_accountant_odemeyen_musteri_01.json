@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_odemeyen_musteri_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "Kaya Tekstil dört aydır ücret ödemiyor. Şimdi de yıl sonu için ek iş istiyor.",
+      "en": "Kaya Textiles hasn't paid in four months. Now they want extra year-end work."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Sen konuş, sen sevilen tarafsın. Ben öbür tarafım.",
+      "en": "You talk to them. You're the likeable one. I'm the other one.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "iste",
+      "tr": "Önce ödemeyi iste",
+      "en": "Ask for payment first",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yap",
+      "tr": "Ek işi yap, sonra konuş",
+      "en": "Do the work, talk later",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "birak",
+      "tr": "Hizmeti sonlandırma yazısı yaz",
+      "en": "Draft a termination letter",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "iste": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 500,
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Firma iki aylık ücreti hemen yatırdı, kalanı taksite bağlandı. Patron primine 500 Para ekledi.",
+        "en": "The client paid two months on the spot and set up a plan for the rest. The boss added 500 to your bonus.",
+        "coach": [
+          {
+            "tr": "İki ay tahsil, iki ay takvimde.",
+            "en": "Two months collected. Two on the calendar.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Firma 'nakit akışı' dedi ve ek işi yeniden sordu. Toplantı notuna 'iyi niyet' yazıldı, para yazılmadı.",
+        "en": "They said 'cash flow' and asked about the extra work again. The minutes say 'goodwill.' They don't say money.",
+        "coach": [
+          {
+            "tr": "İyi niyet, tutanakta.",
+            "en": "Goodwill: minuted.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yap": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_kaya_alacak"
+          ]
+        }
+      },
+      "tr": "Ek işi bitirdin. Fatura yığının üstüne eklendi, alacak beşinci ayına girdi.",
+      "en": "You did the extra work. The invoice joined the pile. Five months outstanding now.",
+      "coach": [
+        {
+          "tr": "Alacak, beşinci ayında.",
+          "en": "Receivable: month five.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_kaya_ayrilik"
+          ]
+        }
+      },
+      "tr": "Hizmet sonlandırma yazısını gönderdin. Firma ertesi gün bir aylık ödemeyi yaptı ve 'konuşalım' yazdı.",
+      "en": "You sent a termination letter. Next day they paid one month and wrote: 'Let's talk.'",
+      "coach": [
+        {
+          "tr": "Bir yazı, bir aylık tahsilat.",
+          "en": "One letter. One month collected.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iste",
+    "slip": {
+      "tr": "İDDİA: Birisi 'nakit akışı' der. — M.",
+      "en": "WAGER: Someone says 'cash flow.' — M."
+    }
+  },
+  "intent": {
+    "setup": "dört aydır ödeme yapmayan müşteri firma yıl sonu için ek iş istiyor",
+    "mechanism": "patron tahsilatı sevilen tarafa bırakıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "sen sevilen tarafsın, ben öbür tarafım",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tahsil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

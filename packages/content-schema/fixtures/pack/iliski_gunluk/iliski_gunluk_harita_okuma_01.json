@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_harita_okuma_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Telefon kapandı. Torpidoda kâğıt harita var. Ben okurum.",
+      "en": "Phone died. There's a paper map in the glove box. I'll navigate."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Şu an tam katlama yerindeyiz. Yol iki sayfa arasında kayboldu.",
+      "en": "We're right on the fold. The road disappears between two panels.",
+      "delayMs": 1000
+    }
+  ],
+  "choices": [
+    {
+      "id": "guven",
+      "tr": "Tarife güven",
+      "en": "Trust the directions",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sor",
+      "tr": "Benzinliğe sor",
+      "en": "Ask at the gas station",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "al",
+      "tr": "Haritayı sen al",
+      "en": "Take the map yourself",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "guven": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "harita_rotasi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "'Sağa' dedi, döndün. Kumsala ilk varan siz oldunuz.",
+        "en": "They said right, you turned. You were first at the beach.",
+        "coach": [
+          {
+            "tr": "Kâğıt bir puan aldı.",
+            "en": "Point to paper.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "money": -150,
+          "flags": {
+            "add": [
+              "harita_rotasi",
+              "koy_bali"
+            ]
+          }
+        },
+        "tr": "Bir köy meydanına çıktınız. Yol tarif eden amca size 150 Para'lık bal sattı.",
+        "en": "You ended up in a village square. The man who gave directions also sold you 150 worth of honey.",
+        "coach": [
+          {
+            "tr": "Yolda bal bulundu.",
+            "en": "Found honey, at least.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -40
+      },
+      "tr": "Benzinlikte sordun. Görevli haritayı ters tuttuğunuzu söyledi. 40 Para'lık su aldınız.",
+      "en": "You asked at the gas station. The attendant said the map was upside down. You bought 40 worth of water.",
+      "coach": [
+        {
+          "tr": "Kuzey düzeltildi.",
+          "en": "North restored.",
+          "roast": false
+        }
+      ]
+    },
+    "al": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Haritayı aldın. Partnerin direksiyona geçti; sen aynı katlama yerinde takıldın.",
+      "en": "You took the map. They took the wheel. You got stuck on the same fold.",
+      "coach": [
+        {
+          "tr": "Katlama yeri taraf tutmuyor.",
+          "en": "The fold doesn't pick sides.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "guven",
+    "slip": {
+      "tr": "İDDİA: Haritayla varamazsınız. — M.",
+      "en": "WAGER: The map won't get you there. — M."
+    }
+  },
+  "intent": {
+    "setup": "tatilde kiralık arabada telefon kapanınca partnerin kâğıt haritayla yol tarif etmesi",
+    "mechanism": "yol tam katlama yerinde kayboluyor",
+    "mechanismId": "reversal",
+    "punch": "Yol iki sayfa arasında kayboldu.",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "katlama"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

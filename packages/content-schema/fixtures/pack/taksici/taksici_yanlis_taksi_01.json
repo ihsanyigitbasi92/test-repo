@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_yanlis_taksi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Telefonun titredi: \"Sürücünüz kapıda, dört dakikadır bekliyor.\" Sen o sırada üç sokak ötede, başka birinin taksisindesin.",
+      "en": "Your phone buzzes: \"Your driver is outside. Waiting four minutes.\" You are three blocks away, in somebody else's cab."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Deniz, çarşı tarafı değil mi? Sesinden tanıdım, telefonda biraz daha kalındı.",
+      "en": "Deniz, right? Downtown? I knew your voice. It was deeper on the phone."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Telefonda herkesin sesi kalınlaşır. Benim teorim, hat ağırlık yapıyor.",
+      "en": "Everyone sounds deeper on the phone. My theory: the line adds weight.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "Deniz olmadığını söyle",
+      "en": "Confess you're not Deniz",
+      "pattern": "patience"
+    },
+    {
+      "id": "sus",
+      "tr": "Yol aynı, sesini çıkarma",
+      "en": "Same direction. Say nothing.",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "in",
+      "tr": "Işıkta inip geri yürü",
+      "en": "Hop out at the light",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "itiraf": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "taksici_yanlis_yolcu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Taksici güldü, seni geri götürüp gerçek Deniz'i aldı. İki adres arasındaki 180 Para sana yazıldı.",
+      "en": "He laughed, drove you back and picked up the real Deniz. The 180 between the two addresses went on your tab.",
+      "coach": [
+        {
+          "tr": "Gerçek Deniz arka koltukta, sen kaldırımda. Herkes yerli yerinde.",
+          "en": "The real Deniz in the back, you on the curb. Everyone where they belong.",
+          "roast": false
+        }
+      ]
+    },
+    "sus": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -260,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "taksici_yanlis_yolcu"
+            ]
+          }
+        },
+        "tr": "Çarşıda indin, ücreti ödedin. Gerçek Deniz uygulamaya tek yıldız ve uzun bir yorum bıraktı.",
+        "en": "You got out downtown and paid. The real Deniz left a one-star review. A long one.",
+        "coach": [
+          {
+            "tr": "Yolculuk tamam. Kimlik kısa süreliğine kiralandı.",
+            "en": "Trip complete. Identity rented short-term.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -260,
+          "meters": {
+            "cringe": 4
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "taksici_yanlis_yolcu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Gerçek Deniz taksiciyi aradı. Taksici telefonu sana uzatıp \"Kendiniz anlaşın\" dedi; ücret 260 Para.",
+        "en": "The real Deniz called him. He passed you the phone, said \"Sort it out between yourselves,\" and charged 260.",
+        "coach": [
+          {
+            "tr": "Aynı hatta iki Deniz. Biri ödedi.",
+            "en": "Two Denizes on one call. One of them paid.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "in": {
+      "effects": {
+        "money": -90,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Işıkta indin, 90 Para bıraktın. Asıl taksin kapıda beş dakika daha bekleyip gitti; yenisi on iki dakika uzakta.",
+      "en": "You hopped out at the light and left 90. Your real cab waited five more minutes and left. The next one is twelve minutes away.",
+      "coach": [
+        {
+          "tr": "Bir taksi gitti, biri yolda. Arada sen yürüyorsun.",
+          "en": "One cab gone, one on the way. You, walking in between.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sus",
+    "slip": {
+      "tr": "İDDİA: Gerçek Deniz arar. — M.",
+      "en": "WAGER: The real Deniz calls. — M."
+    }
+  },
+  "intent": {
+    "setup": "uygulamayla çağrılan taksi yerine başkasının taksisine binip yanlış isimle çağrılmak",
+    "mechanism": "taksici yanlış yolcunun sesini telefon hattının ağırlığıyla açıklıyor",
+    "mechanismId": "reversal",
+    "punch": "hat ağırlık yapıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "deniz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

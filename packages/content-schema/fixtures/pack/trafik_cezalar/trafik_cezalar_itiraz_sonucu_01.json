@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "trafik_cezalar_itiraz_sonucu_01",
+  "tags": [
+    "ulasim",
+    "trafik",
+    "trafik_cezalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "trafik_cezalar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "araba_var",
+        "itiraz_bekliyor"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "İtirazınız kabul edilmiş. Ceza, plakası bir harf farklı olan kırmızı araca aktarıldı.",
+      "en": "Your appeal was accepted. The fine has been moved to the red car whose plate is one letter off."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Kırmızı araba benim. Ben de gri bir arabanın cezası için gelmiştim.",
+      "en": "The red car is mine. I came in about a fine for a gray car.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "gul",
+      "tr": "Birlikte gülün",
+      "en": "Laugh about it together",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "yardim",
+      "tr": "Onun itirazına yardım et",
+      "en": "Help with their appeal",
+      "pattern": "generosity"
+    },
+    {
+      "id": "cik",
+      "tr": "Belgeni al, sessizce çık",
+      "en": "Take your paper and slip out",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "gul": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "yanlis_ceza_iptal"
+          ],
+          "remove": [
+            "itiraz_bekliyor"
+          ]
+        }
+      },
+      "tr": "Gişenin önünde iki kişi aynı anda güldü, memur gülmedi. İptal yazını aldın.",
+      "en": "Two people laughed at the window at once. The clerk did not. You took your cancellation letter.",
+      "coach": [
+        {
+          "tr": "İptal yazısı cebinde.",
+          "en": "Cancellation letter in your pocket.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef dosyasında bir ceza kapandı.",
+          "en": "One fine closed in the goal file.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "yardim": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yanlis_ceza_iptal",
+            "plaka_ikizi"
+          ],
+          "remove": [
+            "itiraz_bekliyor"
+          ]
+        }
+      },
+      "tr": "Onun dilekçesine senin arabanın fotoğraflarını ekledin. İki dosya aynı zımbayla birleştirildi.",
+      "en": "You added photos of your car to their appeal. Both files were stapled together.",
+      "coach": [
+        {
+          "tr": "İki dosya, tek zımba.",
+          "en": "Two files. One staple.",
+          "roast": false
+        }
+      ]
+    },
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yanlis_ceza_iptal"
+          ],
+          "remove": [
+            "itiraz_bekliyor"
+          ]
+        }
+      },
+      "tr": "Belgeni alıp çıktın. Kapıda kırmızı arabanın, seninkinin tam arkasına park ettiğini gördün.",
+      "en": "You took your paper and left. Outside, the red car was parked right behind yours.",
+      "coach": [
+        {
+          "tr": "Kırmızı ve gri, aynı kaldırımda.",
+          "en": "Red and gray. Same curb.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "yanlış plaka cezasına yapılan yazılı itirazın sonucunu gişede almak; kırmızı arabanın sahibiyle karşılaşmak",
+    "mechanism": "iki plaka ikizi aynı gişede birbirinin cezası için",
+    "mechanismId": "callback",
+    "punch": "ben de gri bir arabanın cezası için gelmiştim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "zimba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

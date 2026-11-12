@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_developer_ilk_satis_01",
+  "tags": [
+    "kariyer",
+    "muteahhit",
+    "kariyer_developer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_developer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 34
+    },
+    "career": {
+      "anyOf": [
+        "developer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Müşterim krediyi aldı. İndirim olursa bugün imzalıyor, olmazsa \"düşünecek\".",
+      "en": "My client's loan is approved. With a discount they sign today. Without one, they'll \"think about it.\""
+    },
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "İlk dairenin fiyatı bütün listeyi belirler. Birinde inersen kırkında inersin.",
+      "en": "The first unit sets the whole price list. Drop it on one, you drop it on forty.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dur",
+      "tr": "Fiyatta dur",
+      "en": "Hold the price",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "indir",
+      "tr": "İndirimi ver",
+      "en": "Give the discount",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "mutfak",
+      "tr": "Fiyat aynı, mutfak hediye",
+      "en": "Same price, kitchen on the house",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "dur": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 6000,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Alıcı akşamüstü liste fiyatına imzaladı. Kapora yattı, satış tablosunun ilk hücresi yeşile döndü.",
+        "en": "The buyer signed at list price late that afternoon. Deposit cleared, and the first cell on the sales sheet turned green.",
+        "coach": [
+          {
+            "tr": "İlk hücre yeşil. Kırk hücre beyaz.",
+            "en": "One green cell. Forty white ones.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir daire ilerledi.",
+            "en": "Goal counter: one unit closer.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Alıcı \"düşünmeye\" gitti ve karşı projeden daire aldı. Satış tablosu bir hafta daha beyaz kaldı.",
+        "en": "The buyer went off to \"think\" and bought across the street. The sales sheet stayed blank another week.",
+        "coach": [
+          {
+            "tr": "Fiyat sağlam kaldı. Alıcı yürüdü.",
+            "en": "The price held firm. The buyer walked.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "indir": {
+      "effects": {
+        "money": 5400,
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "İmza bir saatte atıldı. Ertesi gün iki alıcı daha \"ilk daireye verilen indirimi\" istedi.",
+      "en": "Signed within the hour. The next day two more buyers asked for \"the first-unit discount.\"",
+      "coach": [
+        {
+          "tr": "İndirimin artık bir adı var. Ürün oldu.",
+          "en": "The discount has a name now. It's a product.",
+          "roast": true
+        }
+      ]
+    },
+    "mutfak": {
+      "effects": {
+        "money": 5600,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Liste fiyatı korundu, mutfak dolapları hediye edildi. Dolap ustası faturayı sana kesti.",
+      "en": "List price protected, kitchen cabinets thrown in. The cabinet maker invoiced you.",
+      "coach": [
+        {
+          "tr": "Hediyeyi alan sevindi. Ödeyen sensin.",
+          "en": "Someone got a gift. You're the one who paid for it.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dur",
+    "slip": {
+      "tr": "İDDİA: İlk alıcı indirimsiz imzalamaz. — M.",
+      "en": "WAGER: The first buyer won't sign at list price. — M."
+    }
+  },
+  "intent": {
+    "setup": "satış ofisinde ilk dairenin alıcısının imza için indirim beklemesi",
+    "mechanism": "tek indirim bütün listeye yayılıyor",
+    "mechanismId": "escalation",
+    "punch": "indirimin artık bir adı var",
+    "lift": "hedef sayacı bir daire",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hucre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

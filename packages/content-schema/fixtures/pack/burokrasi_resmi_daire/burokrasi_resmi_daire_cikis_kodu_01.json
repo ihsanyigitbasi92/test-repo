@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_cikis_kodu_01",
+  "tags": [
+    "burokrasi",
+    "issizlik",
+    "odenek",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": false
+    },
+    "flags": {
+      "any": [
+        "isten_cikarildi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Çıkış kodunuz istifa görünüyor. İstifa edene ödenek yok.",
+      "en": "Your exit code says you resigned. No benefit for resignations."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Eski işyeriniz düzeltirse sistem görür. Biz düzeltemiyoruz.",
+      "en": "If your former employer corrects it, the system will see. We can’t.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Eski İK’yı ara",
+      "en": "Call your old HR",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "dilekce",
+      "tr": "Gişede itiraz yaz",
+      "en": "File an objection here",
+      "pattern": "pride"
+    },
+    {
+      "id": "birak",
+      "tr": "Bırak, iş aramaya dön",
+      "en": "Drop it, back to job hunting",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ara": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "money": 2800,
+          "flags": {
+            "add": [
+              "issizlik_odenegi"
+            ]
+          },
+          "glossary": "cikis_kodu"
+        },
+        "tr": "Eski İK hatayı kabul edip kodu düzeltti. İlk ödenek 2.800 Para olarak yattı.",
+        "en": "Your old HR admitted the mistake and fixed the code. First payment: 2,800.",
+        "coach": [
+          {
+            "tr": "Bir kod değişti, ay kurtuldu.",
+            "en": "One code changed. The month is saved.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef bütçesi nefes aldı.",
+            "en": "The goal budget can breathe.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "cikis_kodu_acik"
+            ]
+          }
+        },
+        "tr": "Eski İK “ilgili arkadaş izinde” dedi. Başvuru süren dolmak üzere: on gün.",
+        "en": "Your old HR said “the person handling that is on leave.” Your application window: ten days.",
+        "coach": [
+          {
+            "tr": "On gün, bir izin dönüşü.",
+            "en": "Ten days. One return from leave.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dilekce": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "cikis_kodu_itirazi"
+          ]
+        },
+        "glossary": "cikis_kodu"
+      },
+      "tr": "İtiraz dilekçesi verdin; eski işyerine resmî yazı gidecek. Cevap süresi on beş iş günü.",
+      "en": "You filed an objection. An official letter goes to your old employer. Response time: fifteen business days.",
+      "coach": [
+        {
+          "tr": "Yazı yolda. Kira yolda değil.",
+          "en": "The letter's in the mail. The rent isn't.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Başvuruyu bıraktın. Bir hafta sonra aynı İK’dan anket geldi: “Ayrılık sürecinizde bir sorun yaşadınız mı?”",
+      "en": "You dropped it. A week later the same HR sent a survey: “Did you experience any issues during your departure?”",
+      "coach": [
+        {
+          "tr": "Anket dört soruluk. Senin cevabın bir.",
+          "en": "The survey has four questions. You have one answer.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "işten çıkarıldıktan sonra işsizlik ödeneği başvurusunda çıkış kodunun istifa görünmesi",
+    "mechanism": "yanlış kodu ancak hatayı yapan düzeltebiliyor",
+    "mechanismId": "deadpan_report",
+    "punch": "bir sorun yaşadınız mı anketi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "anket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

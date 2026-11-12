@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_tatil_plani_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "tatil_plani"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 3000
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Tatil için iki seçenek: sen deniz istiyorsun, ben müze. Tablo yaptım. Puanlar eşit.",
+      "en": "Two vacation options: you want beach, I want museums. Made a spreadsheet. Dead tie."
+    }
+  ],
+  "choices": [
+    {
+      "id": "deniz",
+      "tr": "Denizde ısrar et",
+      "en": "Hold out for the beach",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "muze",
+      "tr": "Müzeyi kabul et",
+      "en": "Accept the museums",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ikisi",
+      "tr": "Kıyıda bir müze bul",
+      "en": "Find a seaside museum",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "deniz": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -3200,
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "tatil_plani",
+              "deniz_tatili"
+            ]
+          }
+        },
+        "tr": "Deniz kazandı. Partnerin şezlongda üç müze broşürü okudu.",
+        "en": "Beach won. Your partner read three museum brochures on the lounger.",
+        "coach": [
+          {
+            "tr": "Deniz seçildi. Müze çantada geldi.",
+            "en": "Beach chosen. The museums came along in a tote bag.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -3000,
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "tatil_plani",
+              "muze_tatili"
+            ]
+          }
+        },
+        "tr": "Puanlar yeniden sayıldı, müze bir puan öne geçti. Sen her müzenin kafesini puanladın.",
+        "en": "The scores were recounted; museums pulled ahead by a point. You rated every museum café.",
+        "coach": [
+          {
+            "tr": "Müze kazandı. Kafeler ayrı ligde yarıştı.",
+            "en": "Museums won. The cafés competed in their own league.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "muze": {
+      "effects": {
+        "money": -3000,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "tatil_plani",
+            "muze_tatili"
+          ]
+        }
+      },
+      "tr": "Dört günde altı müze. Son akşam partnerin 'yarın deniz' dedi, uçak sabahtı.",
+      "en": "Six museums in four days. On the last evening your partner said, 'Beach tomorrow.' The flight was at dawn.",
+      "coach": [
+        {
+          "tr": "Deniz bir sonraki tabloya kaldı.",
+          "en": "The beach moves to next year's spreadsheet.",
+          "roast": true
+        }
+      ]
+    },
+    "ikisi": {
+      "effects": {
+        "money": -3100,
+        "stats": {
+          "joy": 3,
+          "brain": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "tatil_plani",
+            "kiyi_muzesi"
+          ]
+        }
+      },
+      "tr": "Bir kıyı kasabasında deniz müzesi buldunuz. Sabahları salonlar, öğleden sonraları kum.",
+      "en": "You found a maritime museum in a beach town. Galleries in the morning, sand in the afternoon.",
+      "coach": [
+        {
+          "tr": "Tabloya yeni sütun eklendi: ikisi.",
+          "en": "The spreadsheet gained a column: both.",
+          "roast": true
+        },
+        {
+          "tr": "Tatil fonu: 3.100 harcandı.",
+          "en": "Vacation fund: 3,100 spent.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "evli çiftin tatilde deniz mi müze mi seçimi ve puan tablosu",
+    "mechanism": "berabere tablo tersine dönüp son gün denizi istiyor",
+    "mechanismId": "reversal",
+    "punch": "yarın deniz, uçak sabahtı",
+    "closer": "sutun",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "Tatil fonu: 3.100 harcandı."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

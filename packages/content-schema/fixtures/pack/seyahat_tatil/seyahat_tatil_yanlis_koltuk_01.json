@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "seyahat_tatil_yanlis_koltuk_01",
+  "tags": [
+    "bos_zaman",
+    "otobus",
+    "yol",
+    "seyahat_tatil"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "seyahat_tatil": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Pardon, 14 benim. Biletimde öyle yazıyor.",
+      "en": "Excuse me, fourteen's mine. It says so on my ticket."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "O zaman ben 15'teyim. Ama 15'te de biri oturuyor.",
+      "en": "Then I'm in fifteen. Except someone's already sitting in fifteen.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ben 16'dayım ve kalkmıyorum. Bu otobüs yarım saattir böyle.",
+      "en": "I'm in sixteen and I'm not moving. This bus has been like this for half an hour.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bilet",
+      "tr": "Biletine bak",
+      "en": "Check your ticket",
+      "pattern": "patience"
+    },
+    {
+      "id": "kal",
+      "tr": "Yerinde kal, diret",
+      "en": "Stay put, hold your ground",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "degis",
+      "tr": "Koridora geç, zinciri kır",
+      "en": "Take the aisle, break the chain",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "bilet": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "otobus_arka_sira"
+          ]
+        }
+      },
+      "tr": "Biletinde 41 yazıyordu. Tuvaletin yanındaki arka sıraya geçtin, sıra bir dakikada yerine oturdu.",
+      "en": "Your ticket said forty-one. You moved to the back row by the restroom, and the whole bus settled in a minute.",
+      "coach": [
+        {
+          "tr": "Bir rakam ters okunmuş. Otobüs düzeldi.",
+          "en": "One number, read backwards. The bus has recovered.",
+          "roast": false
+        }
+      ]
+    },
+    "kal": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "Muavin listeye baktı: 14 gerçekten seninmiş, sistem iki bilet kesmiş. Sıranın yarısı sana teşekkür etti.",
+        "en": "The attendant checked the list. Fourteen really was yours; the system had sold it twice. Half the row thanked you.",
+        "coach": [
+          {
+            "tr": "Liste senden yana çıktı.",
+            "en": "The list took your side.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 4
+          }
+        },
+        "tr": "Muavin biletine baktı: 41. Otobüsün önünden arkasına, herkesin gözü önünde yürüdün.",
+        "en": "The attendant read your ticket: forty-one. You walked from the front of the bus to the back with everyone watching.",
+        "coach": [
+          {
+            "tr": "Ön sıradan arka sıraya: yirmi yedi sıra.",
+            "en": "Front to back: twenty-seven rows.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "degis": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 1
+        }
+      },
+      "tr": "Cam kenarını bırakıp koridora geçtin. Zincir çözüldü, kimin aslında nerede olduğunu kimse öğrenmedi.",
+      "en": "You gave up the window for the aisle. The chain came loose, and nobody ever found out who belonged where.",
+      "coach": [
+        {
+          "tr": "Zinciri sen kırdın. Kimse fark etmedi.",
+          "en": "You broke the chain. Nobody noticed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kal",
+    "slip": {
+      "tr": "İDDİA: Koltuk senin çıkmaz. — M.",
+      "en": "WAGER: That seat isn't yours. — M."
+    }
+  },
+  "intent": {
+    "setup": "şehirlerarası otobüste yanlış koltuğa oturunca bütün sıranın kayması",
+    "mechanism": "her yolcu bir sonrakinin yerinde",
+    "mechanismId": "escalation",
+    "punch": "bu otobüs yarım saattir böyle",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "zincir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

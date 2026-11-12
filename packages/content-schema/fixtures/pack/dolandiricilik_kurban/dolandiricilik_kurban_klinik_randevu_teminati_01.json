@@ -1,0 +1,162 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_klinik_randevu_teminati_01",
+  "tags": [
+    "para",
+    "saglik",
+    "mesaj",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 60
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Yarın 09.30 randevunuz için 250 Para teminat yatırınız. Teminat muayene sonrası iade edilir.",
+      "en": "To hold tomorrow's 9:30 appointment, please send a 250 deposit. Refundable after your exam."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Benim de orada randevum vardı. Benimkini de sen öde, benim telefon kart kabul etmiyor.",
+      "en": "I had an appointment there too. Pay mine as well. My phone won't take cards."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "İki teminatı da öde",
+      "en": "Pay both deposits",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ara",
+      "tr": "Polikliniğin sabit hattını ara",
+      "en": "Call the clinic's landline",
+      "pattern": "patience"
+    },
+    {
+      "id": "git",
+      "tr": "Ödemeden randevuya git",
+      "en": "Show up without paying",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -500,
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "randevu_teminati_odendi"
+          ]
+        },
+        "glossary": "randevu_teminati"
+      },
+      "tr": "500 Para gitti. Sabah poliklinikteki görevli \"biz teminat almayız\" dedi; randevular zaten duruyordu.",
+      "en": "500 gone. In the morning the receptionist said, \"We don't take deposits.\" Both appointments were already there.",
+      "coach": [
+        {
+          "tr": "İki randevu, iki teminat, tek alıcı.",
+          "en": "Two appointments, two deposits, one taker.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "klinik_teyit"
+          ]
+        },
+        "glossary": "randevu_teminati"
+      },
+      "tr": "Sabit hattaki görevli mesajı ilk kez duymuyordu. Annenin randevusunu da teyit etti, ikisini yan yana aldı.",
+      "en": "The receptionist had heard about that message before. They confirmed Mom's slot too, and booked you side by side.",
+      "coach": [
+        {
+          "tr": "Tek telefon, iki randevu.",
+          "en": "One call. Two appointments.",
+          "roast": false
+        }
+      ]
+    },
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "randevuya_odemeden_gidildi"
+          ]
+        }
+      },
+      "tr": "Ödemeden gittin. Randevu yerindeydi, teminat soran olmadı. Mesaj öğleden sonra bir kez daha geldi.",
+      "en": "You went without paying. The appointment was there. Nobody mentioned a deposit. The message came again that afternoon.",
+      "coach": [
+        {
+          "tr": "Teminat sıfır. Muayene tam.",
+          "en": "Deposit: zero. Exam: complete.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kurgusal poliklinikten randevu teminatı mesajı, annenin de ödenmesini istemesi",
+    "mechanism": "sahte teminat talebi annenin randevusuna da yayılıyor",
+    "mechanismId": "escalation",
+    "punch": "benimkini de sen öde",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "teminat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

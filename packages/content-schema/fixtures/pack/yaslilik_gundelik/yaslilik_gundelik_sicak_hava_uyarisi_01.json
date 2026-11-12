@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_sicak_hava_uyarisi_01",
+  "tags": [
+    "yaslilik",
+    "saglik",
+    "aile",
+    "mevsim",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 70,
+      "max": 95
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "Bugün otuz sekiz derece. Öğlen dışarı çıkma, perdeleri kapat, su iç.",
+      "en": "It's going to be a hundred degrees today. Don't go out at noon, close the curtains, drink water."
+    },
+    {
+      "speaker": "child",
+      "avatar": "typing",
+      "tr": "Bir saat sonra yine arıyorum. Açmazsan komşuyu yollarım.",
+      "en": "I'll call again in an hour. If you don't pick up, I'm sending the neighbor.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "evde",
+      "tr": "Evde kal, perdeyi kapat",
+      "en": "Stay in, curtains shut",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazar",
+      "tr": "Sabah erkenden pazara çık",
+      "en": "Hit the market early",
+      "pattern": "risk",
+      "check": {
+        "base": 6500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşunun serin salonuna geç",
+      "en": "Go sit at the neighbor's",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "evde": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "sicak_gun_atlatildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Gün boyu perdeler kapalı kaldı, çocuğun dört kez aradı. Dördüncüde telefonu açar açmaz 'su içtim' dedin.",
+      "en": "Curtains shut all day. Your kid called four times. On the fourth you picked up and said, \"I drank water.\"",
+      "coach": [
+        {
+          "tr": "Rapor hazırdı.",
+          "en": "The report was ready.",
+          "roast": false
+        }
+      ]
+    },
+    "pazar": [
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -120,
+          "flags": {
+            "add": [
+              "sicak_gun_atlatildi"
+            ]
+          }
+        },
+        "tr": "Yedide pazardaydın, dokuzda evde. Domatesler henüz serindi.",
+        "en": "At the market by seven, home by nine. The tomatoes were still cool.",
+        "coach": [
+          {
+            "tr": "Dokuzda iş bitti.",
+            "en": "Done by nine.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": -1,
+            "health": -3
+          },
+          "money": -120,
+          "npc": [
+            {
+              "role": "npc:neighborKid",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Dönüşte başın döndü, bir gölgede oturdun. Komşu çocuğu fileni eve kadar taşıdı.",
+        "en": "On the way back you got dizzy and sat in the shade. The neighbor's kid carried your bag home.",
+        "coach": [
+          {
+            "tr": "Gölge işini yaptı.",
+            "en": "The shade did its job.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "sicak_gun_atlatildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Öğleden sonrayı komşunun zemin kattaki serin salonunda geçirdin. Çocuğun aradığında telefonu komşu açtı.",
+      "en": "You spent the afternoon in the neighbor's cool ground-floor living room. When your kid called, the neighbor answered.",
+      "coach": [
+        {
+          "tr": "Telefona yedek açtı.",
+          "en": "The backup answered.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazar",
+    "slip": {
+      "tr": "İDDİA: Pazar dönüşü gölgede biter. — M.",
+      "en": "WAGER: The market run ends in the shade. — M."
+    }
+  },
+  "intent": {
+    "setup": "yaz sıcağında yetişkin çocuğun saat başı arayıp talimat vermesi",
+    "mechanism": "talimatlar tehdide tırmanıyor: açmazsan komşuyu yollarım",
+    "mechanismId": "escalation",
+    "punch": "açmazsan komşuyu yollarım",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rapor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

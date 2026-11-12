@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_isleri_cop_jengasi_01",
+  "tags": [
+    "ev",
+    "ev_isi",
+    "ev_isleri"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_isleri": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Çöp dolu değil. Biraz bastırırsan bir şey daha alır.",
+      "en": "The bin isn't full. Press it down and it takes one more."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Dün üstüne pizza kutusu koydum. Dengede duruyor.",
+      "en": "Yesterday I balanced a pizza box on top. Holding steady.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cikar",
+      "tr": "Çöpü yine sen çıkar",
+      "en": "Take it out yourself again",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kural",
+      "tr": "\"Son parçayı koyan çıkarır\" de",
+      "en": "Propose 'last piece in takes it out'",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ekle",
+      "tr": "Sen de üstüne bir şey koy",
+      "en": "Add something to the top",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cikar": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "copcu_sen"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Çöpü yine sen çıkardın. Ev arkadaşın kapıdan \"tam ben çıkaracaktım\" dedi.",
+      "en": "You took the trash out again. Your roommate said 'I was just about to,' from the doorway.",
+      "coach": [
+        {
+          "tr": "Tam çıkaracaktı. Kapıdan.",
+          "en": "Just about to. From the doorway.",
+          "roast": false
+        }
+      ]
+    },
+    "kural": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "son_parca_kurali"
+            ]
+          }
+        },
+        "tr": "Kural kabul edildi. Ertesi gün ev arkadaşın çöpü kendisi çıkardı ve bunu iki kez duyurdu.",
+        "en": "The rule passed. The next day your roommate took the trash out and announced it twice.",
+        "coach": [
+          {
+            "tr": "Bir kural, bir torba, iki duyuru.",
+            "en": "One rule, one bag, two announcements.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "tezgah_copu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kural kabul edildi. Ertesi sabah kutuya kimse bir şey koymadı, çöpler tezgahta birikti.",
+        "en": "The rule passed. The next morning nobody put anything in the bin. The trash piled up on the counter instead.",
+        "coach": [
+          {
+            "tr": "Kural işledi. Çöp yer değiştirdi.",
+            "en": "The rule worked. The trash relocated.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Sen de üstüne bir yoğurt kabı yerleştirdin. Kule akşam devrildi, kimse sahiplenmedi.",
+      "en": "You placed a yogurt cup on top. The tower fell that evening. Nobody claimed it.",
+      "coach": [
+        {
+          "tr": "Kule devrildi. Mimarlar kayıp.",
+          "en": "The tower fell. The architects are missing.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kural",
+    "slip": {
+      "tr": "İDDİA: Kural işler, çöp tezgaha taşınır. — M.",
+      "en": "WAGER: The rule works. The trash just moves to the counter. — M."
+    }
+  },
+  "intent": {
+    "setup": "öğrenci evinde taşan çöp kovası, herkes üstüne bir şey daha yerleştiriyor",
+    "mechanism": "çöp kovası dengede duran bir kuleye dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "pizza kutusu dengede duruyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kule"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

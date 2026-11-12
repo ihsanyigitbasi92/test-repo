@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_dis_on_odeme_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "dayOfMonth": {
+      "min": 24
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Diş kliniği aradı. İkinci seans için 900 ön ödeme istiyorlar.",
+      "en": "The dental clinic called. They want 900 up front for the second session."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Ayın 26'sı. Bu tarihleri bilerek mi seçiyorlar?",
+      "en": "It's the 26th. Do they pick these dates on purpose?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Ön ödemeyi yap",
+      "en": "Pay up front",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "ertele",
+      "tr": "Seansı maaşa ertele",
+      "en": "Push it to payday",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "taksit",
+      "tr": "Klinikten taksit iste",
+      "en": "Ask the clinic for installments",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Ön ödeme yapıldı, seans perşembeye yazıldı. Ayın kalanı çorba ve yoğurtla geçti.",
+      "en": "Prepayment made, session booked for Thursday. The rest of the month ran on soup and yogurt.",
+      "coach": [
+        {
+          "tr": "Ay sonu menüsü dişe göre ayarlandı.",
+          "en": "The month-end menu is now tooth-approved.",
+          "roast": true
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "butce_dis_ertelendi"
+          ]
+        }
+      },
+      "tr": "Seans ayın 3'üne kaydırıldı. Bir hafta boyunca soğuk su yalnızca sol taraftan içildi.",
+      "en": "The session moved to the 3rd. For a week, cold drinks went down the left side only.",
+      "coach": [
+        {
+          "tr": "Bir hafta, tek taraf.",
+          "en": "One week, one side.",
+          "roast": true
+        }
+      ]
+    },
+    "taksit": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Klinik üç taksite böldü, ilk taksit 300. Sekreter ödeme günlerini senin maaş gününe göre ayarladı.",
+        "en": "The clinic split it into three, first payment 300. The receptionist lined the dates up with your payday.",
+        "coach": [
+          {
+            "tr": "Takvim sana uydu. Bir kereliğine.",
+            "en": "The calendar bent for you. Just this once.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Klinik taksidi yalnızca \"tedavi tamamlandıktan sonra\" yaptığını söyledi. Ön ödeme yine 900.",
+        "en": "The clinic said installments only start \"once treatment is complete.\" Prepayment: still 900.",
+        "coach": [
+          {
+            "tr": "Taksit, ağrı bittikten sonra başlıyor.",
+            "en": "Installments begin once it stops hurting.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "taksit",
+    "slip": {
+      "tr": "İDDİA: Kliniğin takvimi senin için eğilmez. — M.",
+      "en": "WAGER: The clinic's calendar won't bend for you. — M."
+    }
+  },
+  "intent": {
+    "setup": "ay sonunda diş tedavisinin ikinci seansı için ön ödeme istenmesi",
+    "mechanism": "klinik takvimi ay sonunu seçiyor",
+    "mechanismId": "understatement",
+    "punch": "menü dişe göre ayarlandı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "agri"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

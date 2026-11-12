@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_cocuga_pesinat_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 48,
+      "max": 60
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "pesinat_karari"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "child": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 8000
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "Ev alacağım ama peşinat eksik. Size sormak istemiyordum. Soruyorum.",
+      "en": "I'm buying a place but I'm short on the down payment. I didn't want to ask. I'm asking."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Emeklilik birikimi orada duruyor. Durmak için orada ama.",
+      "en": "The retirement savings are sitting right there. Sitting is their whole job.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Birikimden ver",
+      "en": "Give it from savings",
+      "pattern": "generosity"
+    },
+    {
+      "id": "borc",
+      "tr": "Borç olarak ver",
+      "en": "Lend it, with terms",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "Bu sefer hayır de",
+      "en": "Say no this time",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "money": -8000,
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 5
+          }
+        ],
+        "flags": {
+          "add": [
+            "pesinat_karari",
+            "cocuga_pesinat"
+          ]
+        }
+      },
+      "tr": "8.000 Para çocuğunun peşinatına gitti. Emeklilik planındaki 'deniz kenarı' satırı silindi.",
+      "en": "8,000 went to your kid's down payment. The 'seaside' row in the retirement plan got deleted.",
+      "coach": [
+        {
+          "tr": "Onların evi büyüdü. Emekliliğiniz bir oda küçüldü.",
+          "en": "Their home grew. Your retirement lost a room.",
+          "roast": true
+        },
+        {
+          "tr": "Birikim: eksi 8.000.",
+          "en": "Savings: down 8,000.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "borc": {
+      "effects": {
+        "money": -8000,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "pesinat_karari",
+            "cocuk_borclu"
+          ]
+        }
+      },
+      "tr": "Ödeme planı yazıldı ve imzalandı. İlk taksit bir ay gecikti, yanında bir kekle geldi.",
+      "en": "A repayment plan was written up and signed. The first installment arrived a month late, with a cake.",
+      "coach": [
+        {
+          "tr": "Taksit gecikti. Faiz kek olarak ödendi.",
+          "en": "Installment late. Interest paid in cake.",
+          "roast": true
+        },
+        {
+          "tr": "Emeklilik fonu: geri dönüşte.",
+          "en": "Retirement fund: on its way back.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -3
+          },
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "pesinat_karari"
+          ]
+        }
+      },
+      "tr": "Çocuğun daha küçük bir daire buldu. Taşınma günü sizi yine de çağırdı.",
+      "en": "Your kid found a smaller place. Still invited you on moving day.",
+      "coach": [
+        {
+          "tr": "Peşinat yok. Koli taşıma görevi var.",
+          "en": "No down payment. Box-carrying duty instead.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "yetişkin çocuğun ev peşinatı için emeklilik birikiminizi istemesi",
+    "mechanism": "birikimin işi durmak, o iş bozuluyor",
+    "mechanismId": "understatement",
+    "punch": "durmak için orada",
+    "closer": "koli",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "Emeklilik fonu: geri dönüşte."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

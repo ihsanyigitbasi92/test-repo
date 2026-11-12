@@ -1,0 +1,235 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_depozito_elden_zarf_01",
+  "tags": [
+    "ev",
+    "depozito",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Depozitoyu nakit, zarfta getir. Makbuz işi karışık, biz güvenle yürüyoruz.",
+      "en": "Bring the deposit in cash, in an envelope. Receipts get complicated. We run on trust."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "typing",
+      "tr": "Zarfın üstüne adını da yaz. Ben unuturum.",
+      "en": "Write your name on the envelope. I forget things.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "zarf",
+      "tr": "Zarfı hazırla",
+      "en": "Prepare the envelope",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "dekont",
+      "tr": "Havale ve imzalı makbuz iste",
+      "en": "Ask for a transfer and a receipt",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm",
+        "goal": "ev"
+      }
+    },
+    {
+      "id": "video",
+      "tr": "Teslimi videoya çek",
+      "en": "Film the handover",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "zarf": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "money": -2000,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 2000
+          }
+        },
+        "flags": {
+          "add": [
+            "depozito_makbuzsuz"
+          ]
+        }
+      },
+      "tr": "Zarf 2.000 Para ile teslim edildi. Ev sahibi saymadan çekmeceye koydu, anahtarı verdi.",
+      "en": "Envelope delivered: 2,000. The landlord dropped it in a drawer uncounted and handed you the keys.",
+      "coach": [
+        {
+          "tr": "Güven var, belge yok. Çekmece de konuşmuyor.",
+          "en": "Trust: yes. Paperwork: no. The drawer isn't talking either.",
+          "roast": true
+        }
+      ]
+    },
+    "dekont": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -2000,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 2000
+            }
+          },
+          "flags": {
+            "add": [
+              "depozito_belgeli"
+            ]
+          }
+        },
+        "tr": "Ev sahibi homurdanarak hesap numarasını verdi. Dekont da makbuz da sende.",
+        "en": "The landlord grumbled and gave you account details. Bank slip and receipt: both yours.",
+        "coach": [
+          {
+            "tr": "İki kâğıt. Çekmeceye gerek kalmadı.",
+            "en": "Two pieces of paper. No drawer required.",
+            "roast": false
+          },
+          {
+            "tr": "Dekont dosyada. Hedef kirası güvende.",
+            "en": "Slip on file. Goal rent: safe.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ev_aramaya_devam"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"bana güvenmeyen bana kiracı olmaz\" dedi. Daire zarfla gelen bir sonraki adaya gitti.",
+        "en": "\"If you don't trust me, you can't rent from me,\" said the landlord. The flat went to the next applicant, envelope in hand.",
+        "coach": [
+          {
+            "tr": "Makbuzu istedin. Adresin aynı kaldı.",
+            "en": "You asked for a receipt. Your address stayed the same.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "video": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "money": -2000,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 2000
+          }
+        },
+        "flags": {
+          "add": [
+            "depozito_makbuzsuz",
+            "depozito_video"
+          ]
+        }
+      },
+      "tr": "Telefonu kaldırınca ev sahibi zarfı kameraya doğru saydı, sonra sana gücenik baktı. Video 41 saniye.",
+      "en": "When you raised your phone, the landlord counted the cash at the camera, then gave you a wounded look. Video length: forty-one seconds.",
+      "coach": [
+        {
+          "tr": "Kırk bir saniyelik belgesel. Başrol gücenik.",
+          "en": "A forty-one-second documentary. The lead is offended.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dekont",
+    "slip": {
+      "tr": "İDDİA: Makbuz istersen ev gider. — M.",
+      "en": "WAGER: Ask for a receipt, lose the flat. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibinin depozitoyu makbuzsuz nakit zarfta istemesi",
+    "mechanism": "güvene dayalı sistem; belge yok",
+    "mechanismId": "deadpan_report",
+    "punch": "çekmece de konuşmuyor",
+    "lift": "dekont dosyada",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cekmece"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

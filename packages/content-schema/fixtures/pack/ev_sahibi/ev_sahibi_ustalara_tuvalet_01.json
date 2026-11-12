@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_ustalara_tuvalet_01",
+  "tags": [
+    "ev",
+    "tadilat",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Üstte kendi dairemi yeniletiyorum. Ustaların tuvaleti yok, bir iki gün sizinkini kullansınlar.",
+      "en": "I'm renovating my flat upstairs. The crew has no toilet. They'll use yours for a day or two."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Bugün on birinci gün. Ustalardan biri kahvesini de artık bizde içiyor.",
+      "en": "It's day eleven. One of them now has his morning coffee here too.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "acik",
+      "tr": "Kapıyı açık bırakmaya devam et",
+      "en": "Keep leaving the door open",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sinir",
+      "tr": "Saat ve bitiş günü koy",
+      "en": "Set hours and an end date",
+      "pattern": "pride"
+    },
+    {
+      "id": "indirim",
+      "tr": "Bu ay kira indirimi iste",
+      "en": "Ask for a rent cut this month",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "acik": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "ustalar_evde"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Tadilat altı hafta sürdü. Ustalar giderken banyoya yeni bir sabunluk taktılar.",
+      "en": "The renovation took six weeks. On their way out, the crew installed a new soap dish.",
+      "coach": [
+        {
+          "tr": "Altı hafta, bir sabunluk.",
+          "en": "Six weeks. One soap dish.",
+          "roast": false
+        }
+      ]
+    },
+    "sinir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "usta_saatleri"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kapıya \"Ustalar: 09.00–17.00, cuma son gün\" yazdın. Cuma geldi, üstüne bir pazartesi daha eklendi.",
+      "en": "You posted a sign: \"Crew hours 9 to 5. Friday is the last day.\" Friday came, plus one bonus Monday.",
+      "coach": [
+        {
+          "tr": "Tabela işledi. Bir pazartesi kaçtı.",
+          "en": "The sign worked. One Monday slipped through.",
+          "roast": false
+        }
+      ]
+    },
+    "indirim": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "money": 400,
+          "flags": {
+            "add": [
+              "ustalar_evde",
+              "tadilat_indirimi"
+            ]
+          }
+        },
+        "tr": "Ev sahibi bu ay 400 Para indirdi. Ustalar teşekkür olarak kapı kolunuzu da sıktı.",
+        "en": "The landlord took 400 off this month. As thanks, the crew tightened your door handle.",
+        "coach": [
+          {
+            "tr": "400 Para ve sağlam bir kapı kolu.",
+            "en": "Four hundred off and a firm door handle.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ustalar_evde"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Ev sahibi \"tuvalet aslında benim\" diye hatırlattı. İndirim olmadı.",
+        "en": "\"Technically, it's my toilet,\" the landlord reminded you. No discount.",
+        "coach": [
+          {
+            "tr": "Mülkiyet netleşti.",
+            "en": "Ownership: clarified.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "ev sahibinin üst kattaki tadilatında ustaların kiracının tuvaletini kullanması",
+    "mechanism": "\"bir iki gün\" on bir güne uzuyor",
+    "mechanismId": "understatement",
+    "punch": "bir iki gün sizinkini kullansınlar",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sabunluk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_kaza_krokisi_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "araba",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 58
+    },
+    "career": {
+      "employed": true
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Karşı taraf krokiyi kendisi çiziyor. Bizim araba orada kibrit kutusu kadar.",
+      "en": "The other driver's drawing the sketch. Our car's the size of a matchbox in it."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Onlarınki otobüs gibi. Bir de yolun ortasına ağaç çizmiş. Orada ağaç yok.",
+      "en": "Theirs looks like a bus. And there's a tree in the middle of the road. There is no tree.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ciz",
+      "tr": "Krokiyi kendin yeniden çiz",
+      "en": "Redraw the sketch yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      },
+      "swipe": "left"
+    },
+    {
+      "id": "imzala",
+      "tr": "İmzala, sigortalar çözsün",
+      "en": "Sign it, let the insurers sort it",
+      "pattern": "avoidance",
+      "swipe": "right"
+    }
+  ],
+  "outcomes": {
+    "ciz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "kaza_tutanagi"
+            ]
+          }
+        },
+        "tr": "Krokiyi baştan çizdin: ağaç silindi, arabalar aynı boya geldi. Sigorta kusuru karşı tarafa yazdı.",
+        "en": "You redrew it: tree gone, cars to scale. The insurer put the fault on the other driver.",
+        "coach": [
+          {
+            "tr": "Ölçekli çizim, temiz dosya.",
+            "en": "Drawn to scale. Clean file.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -250,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kaza_tutanagi"
+            ]
+          },
+          "glossary": "kaza_tespit_tutanagi"
+        },
+        "tr": "Senin çizimin de anlaşılmadı; iki kroki birden dosyaya girdi. Kusur yarı yarıya bölündü, muafiyet payın 250 Para.",
+        "en": "Nobody could read your version either, so both sketches went in the file. Fault split down the middle. Your deductible: 250.",
+        "coach": [
+          {
+            "tr": "İki ressam, bir dosya.",
+            "en": "Two artists, one file.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "imzala": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kaza_tutanagi"
+          ]
+        }
+      },
+      "tr": "İmzaladın. Sigorta, var olmayan ağaca dayanarak kusurun çoğunu sana yazdı; muafiyetin 400 Para.",
+      "en": "You signed. Citing the nonexistent tree, the insurer put most of the fault on you. Deductible: 400.",
+      "coach": [
+        {
+          "tr": "Ağaç artık resmi kayıtta.",
+          "en": "The tree is on the official record now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ciz",
+    "slip": {
+      "tr": "İDDİA: Senin krokin de okunmaz. — M.",
+      "en": "WAGER: Nobody can read your sketch either. — M."
+    }
+  },
+  "intent": {
+    "setup": "küçük bir trafik kazası sonrası ortak kaza tutanağının krokisinde anlaşamamak",
+    "mechanism": "karşı tarafın çiziminde olmayan bir ağaç beliriyor",
+    "mechanismId": "escalation",
+    "punch": "orada ağaç yok",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "agac"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

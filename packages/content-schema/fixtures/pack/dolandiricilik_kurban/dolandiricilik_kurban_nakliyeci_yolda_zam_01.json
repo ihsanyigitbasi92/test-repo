@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_nakliyeci_yolda_zam_01",
+  "tags": [
+    "para",
+    "tasinma",
+    "nakliye",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Eşyanın yarısı kamyonda. Hesap değişti hocam; merdiven çok, buzdolabı ağırmış.",
+      "en": "Half your stuff's on the truck. Price changed, boss. Lots of stairs. Heavy fridge."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "3.500 değil 6.000. Yoksa kamyon depoya döner, depo da günlük ücretli.",
+      "en": "Not 3,500. Six thousand. Or the truck goes back to the depot, and the depot charges by the day."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Farkı öde, bitsin",
+      "en": "Pay up, just end it",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "teklif",
+      "tr": "Yazılı teklifi göster",
+      "en": "Show the written quote",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "minibus",
+      "tr": "Kalanı kiralık minibüsle taşı",
+      "en": "Move the rest in a rented van",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -6000,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "nakliyeci_fazla_aldi"
+          ]
+        },
+        "glossary": "yolda_zam"
+      },
+      "tr": "6.000 Para ödedin. Buzdolabı yeni evde, kapısı bir milim eğik.",
+      "en": "You paid 6,000. The fridge made it to the new place, door one millimeter crooked.",
+      "coach": [
+        {
+          "tr": "Fark ödendi. Eğiklik hediye.",
+          "en": "Difference paid. The crooked door was free.",
+          "roast": false
+        }
+      ]
+    },
+    "teklif": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -3500,
+          "stats": {
+            "brain": 2,
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "nakliyeci_sozlesme"
+            ]
+          },
+          "glossary": "yolda_zam"
+        },
+        "tr": "Mesajdaki teklifi büyütüp gösterdin. Ekip sessizce kalan eşyayı yükledi, ücret 3.500'de kaldı.",
+        "en": "You zoomed in on the quote and held it up. The crew silently loaded the rest. The price stayed at 3,500.",
+        "coach": [
+          {
+            "tr": "En ağır eşya, ekran görüntüsüydü.",
+            "en": "The heaviest thing you moved was a screenshot.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -4800,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "nakliyeci_fazla_aldi"
+            ]
+          }
+        },
+        "tr": "Teklifte \"yaklaşık\" yazıyordu. 4.800'de anlaştınız, buzdolabı son anda bindi.",
+        "en": "The quote said \"approximately.\" You settled at 4,800. The fridge got on at the last minute.",
+        "coach": [
+          {
+            "tr": "\"Yaklaşık\" kelimesi 1.300 Para tuttu.",
+            "en": "The word \"approximately\" cost 1,300.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "minibus": {
+      "effects": {
+        "money": -2950,
+        "stats": {
+          "health": -2,
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "nakliyeci_yarida_birakildi"
+          ]
+        },
+        "glossary": "yolda_zam"
+      },
+      "tr": "Yarım ücreti verip ekibi gönderdin. Kalanı kiralık minibüsle sen taşıdın, iki gün merdiven indin çıktın.",
+      "en": "You paid half and sent the crew off. You hauled the rest in a rented van. Two days of stairs.",
+      "coach": [
+        {
+          "tr": "Ekip gitti. Merdivenler kaldı.",
+          "en": "The crew left. The stairs stayed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "teklif",
+    "slip": {
+      "tr": "İDDİA: Kâğıt, kamyonu yenemeyecek. — M.",
+      "en": "WAGER: Paperwork won't beat the truck. — M."
+    }
+  },
+  "intent": {
+    "setup": "taşınmanın ortasında nakliyecinin eşyayı kamyonda tutup fiyatı ikiye katlaması",
+    "mechanism": "hizmet veren, eşyayı rehin alan tarafa dönüşüyor",
+    "mechanismId": "reversal",
+    "punch": "kamyon depoya döner",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "merdiven"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

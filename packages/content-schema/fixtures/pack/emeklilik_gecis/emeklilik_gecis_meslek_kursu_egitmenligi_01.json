@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "emeklilik_gecis_meslek_kursu_egitmenligi_01",
+  "tags": [
+    "yaslilik",
+    "emekli",
+    "ikinci_kariyer",
+    "egitim",
+    "emeklilik_gecis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "emeklilik_gecis": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 70
+    },
+    "career": {
+      "employed": false
+    },
+    "flags": {
+      "all": [
+        "emekli"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Mahalle meslek kursumuz dönemlik eğitmen arıyor. Otuz yıl sahada çalışmışsınız.",
+      "en": "Our community trade course needs an instructor for the term. You worked in the field thirty years."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Öğrenciler on sekiz yaşında. Ders salı ve perşembe. Projektör bazen açılıyor.",
+      "en": "The students are eighteen. Classes Tuesday and Thursday. The projector sometimes turns on.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Dönemi kabul et",
+      "en": "Take the term",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "deneme",
+      "tr": "Önce bir derse misafir ol",
+      "en": "Guest-teach one class first",
+      "pattern": "patience"
+    },
+    {
+      "id": "ret",
+      "tr": "Emeklilikte kal",
+      "en": "Stay retired",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "status": {
+            "job": {
+              "title": "kurs eğitmeni",
+              "tier": 1,
+              "monthly": 900
+            }
+          },
+          "flags": {
+            "add": [
+              "kurs_egitmeni"
+            ]
+          }
+        },
+        "tr": "İlk ders kırk dakika gecikti, projektör açılmadı. Tahtaya çizdiğin şemayı herkes telefonuyla çekti; dönem senin.",
+        "en": "The first class started forty minutes late; the projector never turned on. Every phone in the room photographed the diagram you drew on the board. The term is yours.",
+        "coach": [
+          {
+            "tr": "Tebeşir projektörü yendi.",
+            "en": "Chalk beat the projector.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacına bir dönem eklendi.",
+            "en": "Goal counter: one term added.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "status": {
+            "job": {
+              "title": "kurs eğitmeni",
+              "tier": 1,
+              "monthly": 900
+            }
+          },
+          "flags": {
+            "add": [
+              "kurs_egitmeni",
+              "kurs_ilk_ders_zor"
+            ]
+          }
+        },
+        "tr": "İlk derste bir öğrenci 'bunu artık makine yapıyor' dedi. Kalan iki saat, neden yapamadığını anlatmakla geçti.",
+        "en": "In the first class a student said, 'Machines do that now.' The remaining two hours went to explaining why they can't.",
+        "coach": [
+          {
+            "tr": "Uzun bir dönem olacak.",
+            "en": "It's going to be a long term.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "deneme": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "kurs_misafir_egitmen"
+          ]
+        }
+      },
+      "tr": "Bir derse misafir oldun. Çıkışta iki öğrenci numaranı istedi, biri staj sordu.",
+      "en": "You guest-taught one class. On the way out two students asked for your number and one asked about internships.",
+      "coach": [
+        {
+          "tr": "Bir ders, iki numara, bir staj sorusu.",
+          "en": "One class. Two numbers. One internship question.",
+          "roast": false
+        }
+      ]
+    },
+    "ret": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kurs_reddi"
+          ]
+        }
+      },
+      "tr": "Teşekkür edip reddettin. Memur adını 'yedek eğitmen' listesine yazdı; listede iki isim vardı.",
+      "en": "You thanked them and declined. The clerk added you to the 'backup instructor' list. The list had two names.",
+      "coach": [
+        {
+          "tr": "Yedek listesinde ikinci isim.",
+          "en": "Second name on the backup list.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kabul",
+    "slip": {
+      "tr": "İDDİA: İlk ders senden yana bitmez. — M.",
+      "en": "WAGER: The first class doesn't go your way. — M."
+    }
+  },
+  "intent": {
+    "setup": "emeklilikten sonra mahalle meslek kursunun dönemlik eğitmenlik teklif etmesi",
+    "mechanism": "otuz yıllık uzmanlık bozuk projektöre karşı",
+    "mechanismId": "reversal",
+    "punch": "projektör bazen açılıyor",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tebesir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

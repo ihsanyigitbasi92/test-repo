@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_actor_yemek_sirasi_01",
+  "tags": [
+    "kariyer",
+    "oyuncu",
+    "kariyer_actor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 650,
+    "tags": {
+      "kariyer_actor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "actor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Yemek sırası çağrı listesine göre. Başroller, konuklar, sonra siz.",
+      "en": "Lunch goes by call sheet. Leads, guest stars, then you."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Mercimek bitti ama pilav var. Pilav da bitebilir, hızlı olun.",
+      "en": "Lentils are gone, but there's rice. Rice could go too. Be quick."
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sıranda bekle",
+      "en": "Wait your turn",
+      "pattern": "patience"
+    },
+    {
+      "id": "sohbet",
+      "tr": "Başrolle sohbet ederek öne geç",
+      "en": "Chat your way up with a lead",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "evden",
+      "tr": "Ertesi gün yemeğini getir",
+      "en": "Bring lunch from home next day",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Sıra sana geldiğinde pilav vardı, kaşık yoktu. Çay kaşığıyla yedin.",
+      "en": "When your turn came there was rice but no spoons. You ate with a teaspoon.",
+      "coach": [
+        {
+          "tr": "Pilav vardı. Çay kaşığı yetti.",
+          "en": "There was rice. A teaspoon coped.",
+          "roast": false
+        }
+      ]
+    },
+    "sohbet": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Başrol oyuncusuyla sahneyi konuşarak sıraya girdin. Son mercimek tabağı senindi.",
+        "en": "You talked through the scene with a lead and slipped into line beside them. The last plate of lentils was yours.",
+        "coach": [
+          {
+            "tr": "Son mercimek. Sohbetle kazanıldı.",
+            "en": "The last lentils. Won by small talk.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Başrol oyuncusu seni dinledi, sonra asistanına \"Bu kim?\" diye sordu. Sıranın sonuna döndün.",
+        "en": "The lead listened politely, then asked their assistant, \"Who is this?\" You went back to the end of the line.",
+        "coach": [
+          {
+            "tr": "Sıra yine sondan başladı.",
+            "en": "The line restarted from the back.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "evden": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -50,
+        "flags": {
+          "add": [
+            "sefer_tasi"
+          ]
+        }
+      },
+      "tr": "Ertesi gün sefer tasıyla geldin. Öğlen iki başrol oyuncusu tasın kapağını kaldırıp ne olduğunu sordu.",
+      "en": "Next day you brought a stacked lunch tin. At noon two leads lifted the lid to ask what was inside.",
+      "coach": [
+        {
+          "tr": "Bir sefer tası, iki meraklı başrol.",
+          "en": "One lunch tin. Two curious leads.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "sette öğle yemeği sırası rol büyüklüğüne göre, sen sonlardasın",
+    "mechanism": "yemek sırası çağrı listesinin aynası",
+    "mechanismId": "deadpan_report",
+    "punch": "pilav da bitebilir",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "pilav"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

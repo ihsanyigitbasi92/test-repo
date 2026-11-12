@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_arka_koltuk_toplantisi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Toplantıya taksiden bağlandın. Mikrofon açık. Taksici radyoyu kıstı, kendi sesini kısmadı.",
+      "en": "You dial into the meeting from the back seat. Mic on. He turned the radio down. Not himself."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Sunum uzun olmuş. Ben derim ki son slayttan başlasınlar, sonuç orada.",
+      "en": "Long presentation. I say start from the last slide. That's where the answer is."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Söyleyin onlara. Taksici dedi deyin.",
+      "en": "Go on, tell them. Say the cab driver said so.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Mikrofonu kapat, devam et",
+      "en": "Mute and carry on",
+      "pattern": "patience"
+    },
+    {
+      "id": "aktar",
+      "tr": "Önerisini toplantıya aktar",
+      "en": "Pitch his idea to the meeting",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "in",
+      "tr": "Kenarda in, kaldırımdan bağlan",
+      "en": "Get out, finish on the sidewalk",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "money": -380,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Mikrofonu kapattın. Toplantı bitene kadar taksici öneriyi üç kez tekrarladı, yalnızca sana.",
+      "en": "You muted. By the end he had repeated the idea three times, to an audience of you.",
+      "coach": [
+        {
+          "tr": "Toplantı iki odada sürdü. Birinde taksimetre vardı.",
+          "en": "The meeting ran in two rooms. One had a meter.",
+          "roast": true
+        }
+      ]
+    },
+    "aktar": [
+      {
+        "p": 3000,
+        "effects": {
+          "money": -380,
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "taksici_fikri_gecti"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": 3
+            },
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "\"Son slayttan başlayalım\" dedin. Toplantı on beş dakika erken bitti, patron fikri senin adına not etti.",
+        "en": "You suggested starting from the last slide. The meeting ended fifteen minutes early, and the boss credited you.",
+        "coach": [
+          {
+            "tr": "Fikrin sahibi direksiyonda. Teşekkür arka koltukta.",
+            "en": "The idea's owner is at the wheel. The credit is in the back seat.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "money": -380,
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Öneri sessizlikle karşılandı. Sonra biri sordu: \"Arkadaki ses kimin?\"",
+        "en": "Silence. Then someone asked: \"Whose voice is that in the background?\"",
+        "coach": [
+          {
+            "tr": "Katılımcı sayısı davetliden bir fazla.",
+            "en": "Attendance: one more than invited.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "in": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Kaldırımda, bir fırının önünde bağlandın. Arka planda tepsi sesleri vardı; toplantı bunu kabul etti.",
+      "en": "You finished on the sidewalk outside a bakery. Trays clattered in the background. The meeting accepted it.",
+      "coach": [
+        {
+          "tr": "Fırın toplantıda söz almadı.",
+          "en": "The bakery did not ask to speak.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "taksinin arka koltuğundan telefon toplantısına katılmak, taksicinin araya girmesi",
+    "mechanism": "taksici toplantıya fikir veriyor; mikrofon açık",
+    "mechanismId": "escalation",
+    "punch": "toplantı iki odada sürdü, birinde taksimetre vardı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "slayt"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

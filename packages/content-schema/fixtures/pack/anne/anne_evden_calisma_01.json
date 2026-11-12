@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_evden_calisma_01",
+  "tags": [
+    "tanidik_yuzler",
+    "is",
+    "anne"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "anne": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "typing",
+      "tr": "Evdesin ya, müsaitsin. Bir şey soracağım. Kısa.",
+      "en": "You're home, so you're free. Quick question. Short."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Ekranda kim var? Müdürün mü? Selam söyle. Ben beklerim.",
+      "en": "Who's on your screen? Your boss? Say hi. I'll wait.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sessiz",
+      "tr": "Sessize al, ikisini yürüt",
+      "en": "Mute and run both calls",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "toplanti",
+      "tr": "\"Toplantıdayım\" de",
+      "en": "Say you're in a meeting",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "tanistir",
+      "tr": "Annenle ekip tanışsın",
+      "en": "Introduce Mom to the team",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "sessiz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 1
+          },
+          "meters": {
+            "momPressure": -1
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Sessizdeydin, iki konuşmayı da yürüttün. Kısa soru kırk dakika sürdü: perde rengi.",
+        "en": "On mute, you ran both conversations. The quick question took forty minutes: curtain colors.",
+        "coach": [
+          {
+            "tr": "İki toplantı, tek gündem maddesi: perde.",
+            "en": "Two meetings. One agenda item: curtains.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 5
+          },
+          "flags": {
+            "add": [
+              "anne_toplantida"
+            ]
+          }
+        },
+        "tr": "Sessiz tuşu kapalıymış. Ekip perde tartışmasını senin oyunla birlikte dinledi.",
+        "en": "Mute was off. The team heard the entire curtain debate, including your vote.",
+        "coach": [
+          {
+            "tr": "Perde önergesi oybirliğiyle geçti.",
+            "en": "The curtain motion passed unanimously.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "toplanti": {
+      "effects": {
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "anne_mesai_saati"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "\"Toplantıdayım\" dedin. Annen \"ama evdesin\" yazdı ve öğle arasına kadar üç kez daha aradı.",
+      "en": "You said you were in a meeting. Mom texted, \"But you're home,\" and called three more times before lunch.",
+      "coach": [
+        {
+          "tr": "Konum anlaşmazlığı sürüyor.",
+          "en": "Location remains in dispute.",
+          "roast": false
+        }
+      ]
+    },
+    "tanistir": {
+      "effects": {
+        "meters": {
+          "cringe": 3,
+          "momPressure": -3
+        },
+        "flags": {
+          "add": [
+            "anne_ekiple_tanisti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          },
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annen ekiple tanıştı, müdürüne \"çok çalıştırmayın\" dedi. Müdürün güldü, ertesi gün sana iki dosya daha verdi.",
+      "en": "Mom met the team and told your boss, \"Don't overwork them.\" Your boss laughed and handed you two more files the next day.",
+      "coach": [
+        {
+          "tr": "Rica alındı, işleme konmadı.",
+          "en": "Request received. Not processed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sessiz",
+    "slip": {
+      "tr": "İDDİA: Sessiz tuşu seni yarı yolda bırakır. — M.",
+      "en": "WAGER: The mute button betrays you. — M."
+    }
+  },
+  "intent": {
+    "setup": "evden çalışırken annenin \"evdesin, müsaitsin\" diyerek toplantı ortasında araması",
+    "mechanism": "evde olmak müsait olmak demek",
+    "mechanismId": "literalism",
+    "punch": "evdesin ya, müsaitsin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "perde"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

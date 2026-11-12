@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_bebek_arabasi_01",
+  "tags": [
+    "para",
+    "taksit",
+    "bebek",
+    "anne",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Dokuz taksit mi? Bana söyleseydin ben alırdım. Söylemedin.",
+      "en": "Nine installments? I'd have bought it if you'd asked. You didn't ask."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Rengini de sormadın. Neyse, alınmış artık.",
+      "en": "You didn't ask about the color either. Well, it's bought now.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "anne",
+      "tr": "Kalan taksitleri anne ödesin",
+      "en": "Let Mom pay off the rest",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "devam",
+      "tr": "Taksitlere devam",
+      "en": "Keep paying",
+      "pattern": "pride"
+    },
+    {
+      "id": "sandalye",
+      "tr": "Mama sandalyesini anneye bırak",
+      "en": "Leave the high chair to Mom",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_taksit_kapatti"
+          ]
+        }
+      },
+      "tr": "Anne kalan altı taksidi kapattı. Bebek arabası artık 'anneannenin arabası' diye anılıyor.",
+      "en": "Your mom paid off the last six installments. The stroller is now known as 'Grandma's stroller.'",
+      "coach": [
+        {
+          "tr": "Altı taksit kapandı. İsim hakkı devredildi.",
+          "en": "Six installments cleared. Naming rights transferred.",
+          "roast": false
+        }
+      ]
+    },
+    "devam": {
+      "effects": {
+        "money": -520,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "bebek_taksidi"
+          ]
+        }
+      },
+      "tr": "Taksit ayda 520 Para, altı ay kaldı. Anne her ziyarette arabanın tekerlerine bakıyor.",
+      "en": "520 a month, six months to go. Your mom inspects the stroller's wheels at every visit.",
+      "coach": [
+        {
+          "tr": "Ayda 520 Para ve bir tekerlek denetimi.",
+          "en": "520 a month, plus a wheel inspection.",
+          "roast": false
+        }
+      ]
+    },
+    "sandalye": {
+      "effects": {
+        "money": -520,
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_mama_sandalyesi"
+          ]
+        }
+      },
+      "tr": "Mama sandalyesini anne aldı, rengini de o seçti. Taksitler sürüyor, ziyaretler sakin.",
+      "en": "Your mom bought the high chair and chose the color. The installments continue. Visits are calm.",
+      "coach": [
+        {
+          "tr": "Bir renk kararı, bir sakin ziyaret.",
+          "en": "One color decision. One calm visit.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "bebek arabasını dokuz taksitle alınca annenin kendisine sorulmadığına alınması",
+    "mechanism": "annenin sitemi taksitten renge yükseliyor",
+    "mechanismId": "escalation",
+    "punch": "rengini de sormadın",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "renk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

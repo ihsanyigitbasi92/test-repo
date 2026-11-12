@@ -1,0 +1,172 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kronik_saglik_direksiyon_arasi_01",
+  "tags": [
+    "saglik",
+    "ilac",
+    "araba",
+    "partner",
+    "kronik_saglik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 450,
+    "tags": {
+      "kronik_saglik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 80
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "any": [
+        "araba_var",
+        "araba_sahipligi"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Bu ilaç ilk iki hafta uyku hali yapabilir. Bu sürede direksiyona geçmeyin.",
+      "en": "This one can make you drowsy for the first two weeks. No driving during that time."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "İki hafta ben süreceğim. Radyo da benim, koltuk ayarı da.",
+      "en": "I drive for two weeks, then. My radio. My seat settings.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "partner",
+      "tr": "Partner sürsün",
+      "en": "Let your partner drive",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "otobus",
+      "tr": "Otobüse geç",
+      "en": "Take the bus instead",
+      "pattern": "patience"
+    },
+    {
+      "id": "ertele",
+      "tr": "Yeni ilacı iki hafta ertele",
+      "en": "Put off the new pill",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "partner": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sofor_partner"
+          ]
+        },
+        "diagnosis": "uyku_hali_yan_etkisi"
+      },
+      "tr": "İki hafta yolcu koltuğunda oturdun. Radyo hep aynı istasyondaydı, koltuk hâlâ onun ayarında.",
+      "en": "Two weeks in the passenger seat. Same radio station throughout. The seat is still set for them.",
+      "coach": [
+        {
+          "tr": "İki hafta yolcu. Koltuk hâlâ işgalde.",
+          "en": "Two weeks a passenger. The seat remains occupied.",
+          "roast": false
+        }
+      ]
+    },
+    "otobus": {
+      "effects": {
+        "stats": {
+          "health": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -120,
+        "flags": {
+          "add": [
+            "otobus_donemi"
+          ]
+        }
+      },
+      "tr": "Otobüse geçtin, iki haftada 120 Para. Durakta her sabah aynı üç kişiyle selamlaşır oldun.",
+      "en": "You switched to the bus: 120 over two weeks. Now you nod to the same three people at the stop every morning.",
+      "coach": [
+        {
+          "tr": "Üç yeni selam, sıfır park yeri.",
+          "en": "Three new nods. Zero parking.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "health": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ilac_ertelendi"
+          ]
+        }
+      },
+      "tr": "Kontrolde doktor değerlere baktı ve \"başladınız mı\" diye sormadı bile. Yeni başlangıç tarihi takvime yazıldı.",
+      "en": "At the checkup the doctor looked at your numbers and didn't even ask whether you'd started. A new start date went on the calendar.",
+      "coach": [
+        {
+          "tr": "Değerler senden önce konuştu.",
+          "en": "The numbers spoke first.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "yeni ilaç yüzünden doktorun iki hafta araba kullanmayı yasaklaması",
+    "mechanism": "partnerin şoförlükle gelen talepleri",
+    "mechanismId": "escalation",
+    "punch": "radyo da benim, koltuk ayarı da",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koltuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

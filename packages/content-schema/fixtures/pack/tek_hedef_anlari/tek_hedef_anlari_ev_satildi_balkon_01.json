@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_ev_satildi_balkon_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "ev",
+    "kira",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "samePlace"
+      ]
+    },
+    "housing": [
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Daireyi ben aldım. Siz kalın, balkonu ben kullanırım.",
+      "en": "I bought the flat. You stay. I'll take the balcony."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Salıları saksılarımı sularım. Kira da biraz değişir.",
+      "en": "Tuesdays I water my plants. Rent changes a bit, too.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kal",
+      "tr": "Şartları kabul et",
+      "en": "Accept the terms",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Balkonsuz, sabit kira iste",
+      "en": "Ask for fixed rent, no balcony deal",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "samePlace"
+      }
+    },
+    {
+      "id": "tasin",
+      "tr": "Taşınmaya karar ver",
+      "en": "Decide to move",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "balkon_ortak"
+          ]
+        },
+        "status": {
+          "rentDelta": 300
+        }
+      },
+      "tr": "Kaldın. Kira 300 Para arttı; salıları balkonda iki saksı ve bir yabancı var.",
+      "en": "You stayed. Rent went up by 300. On Tuesdays the balcony has two pots and a stranger.",
+      "coach": [
+        {
+          "tr": "Hiçbir şey değişmedi. Salı hariç.",
+          "en": "Nothing changed. Except Tuesdays.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "kira_sabit"
+            ]
+          }
+        },
+        "tr": "Balkonu ona bırakmadın ve kira sabit kaldı. Yeni ev sahibi salıları kapıyı çalmadan geçiyor.",
+        "en": "You kept the balcony and the rent stayed put. The new owner walks past on Tuesdays without knocking.",
+        "coach": [
+          {
+            "tr": "Kira aynı, kapı aynı.",
+            "en": "Same rent, same door.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "balkon_ortak"
+            ]
+          },
+          "status": {
+            "rentDelta": 450
+          }
+        },
+        "tr": "Pazarlık ters döndü. Kira 450 Para arttı, balkon da onun oldu.",
+        "en": "The negotiation backfired. Rent up 450, and the balcony is theirs.",
+        "coach": [
+          {
+            "tr": "Balkon gitti, kira geldi.",
+            "en": "Balcony out, rent up.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tasin": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "tasinma_karari"
+          ]
+        }
+      },
+      "tr": "Taşınma kararı aldın. İlk iş olarak koli fiyatı sordun.",
+      "en": "You decided to move. First thing, you priced moving boxes.",
+      "coach": [
+        {
+          "tr": "Hedef: hiçbir şeyi değiştirme. Koliler sayılıyor.",
+          "en": "Goal: change nothing. Boxes being counted.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Balkon pazarlıkta gider. — M.",
+      "en": "WAGER: The balcony goes in the deal. — M."
+    }
+  },
+  "intent": {
+    "setup": "hiçbir şeyi değiştirmeme hedefinde kiradaki evin satılması; yeni sahip balkonu istiyor",
+    "mechanism": "değişmeme hedefi değişikliğe çarpıyor",
+    "mechanismId": "reversal",
+    "punch": "balkonu ben kullanırım",
+    "lift": "kira aynı",
+    "target": "decision",
+    "closer": "sali",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

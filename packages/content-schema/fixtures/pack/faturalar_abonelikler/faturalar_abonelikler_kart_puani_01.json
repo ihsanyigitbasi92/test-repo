@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_kart_puani_01",
+  "tags": [
+    "para",
+    "fatura",
+    "ev_arkadasi",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Bütün faturaları benim kart ödüyor. Sizin için zahmete giriyorum.",
+      "en": "My card pays every bill in this place. I go to a lot of trouble for you two."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Puanlar da zahmet bedeli. Geçen ay onlarla tost makinesi aldım.",
+      "en": "The points are my handling fee. Last month they bought me a sandwich press.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Payını öde, ses etme",
+      "en": "Pay your share, say nothing",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "puan",
+      "tr": "Puanların üçte birini iste",
+      "en": "Ask for a third of the points",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ustlen",
+      "tr": "Faturaları sen üstlen",
+      "en": "Take over the bills yourself",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -420,
+        "flags": {
+          "add": [
+            "kart_puani_sessiz"
+          ]
+        }
+      },
+      "tr": "Payın 420 Para, ev arkadaşına gönderildi. Tost makinesi mutfakta, kullanımı serbest.",
+      "en": "Your 420 share went over. The sandwich press is in the kitchen, open to all.",
+      "coach": [
+        {
+          "tr": "Puanlar onda. Tostlar ortak.",
+          "en": "The points are theirs. The toast is communal.",
+          "roast": false
+        }
+      ]
+    },
+    "puan": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -420,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "puan_paylasimi"
+            ]
+          }
+        },
+        "tr": "Puan paylaşımı kabul edildi. İlk ödemen bir kahve kuponu olarak geldi.",
+        "en": "Point-sharing approved. Your first payout arrived as one coffee coupon.",
+        "coach": [
+          {
+            "tr": "Bir kupon. Ortaklık resmen kuruldu.",
+            "en": "One coupon. The partnership is official.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -420,
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Ev arkadaşı puanları 'kişisel veri' ilan etti. Payın yine 420 Para.",
+        "en": "Your roommate declared the points 'personal data.' Your share is still 420.",
+        "coach": [
+          {
+            "tr": "Kişisel veri. Tost makinesi de öyle.",
+            "en": "Personal data. So is the sandwich press.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ustlen": {
+      "effects": {
+        "money": -420,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "faturalar_sende"
+          ]
+        }
+      },
+      "tr": "Faturalar artık senin kartından ödeniyor. Her ay iki kişiden para toplamak da sende.",
+      "en": "The bills now run through your card. So does chasing two people for money every month.",
+      "coach": [
+        {
+          "tr": "Puanlar sende, takip de sende. Ayda iki hatırlatma.",
+          "en": "The points are yours. So is the chasing. Two reminders a month.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının ev faturalarını kendi kartıyla ödeyip puanları kendine saklaması",
+    "mechanism": "zahmet diye sunulan hizmet aslında puan geliri çıkıyor",
+    "mechanismId": "reversal",
+    "punch": "puanlar da zahmet bedeli",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "tost"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

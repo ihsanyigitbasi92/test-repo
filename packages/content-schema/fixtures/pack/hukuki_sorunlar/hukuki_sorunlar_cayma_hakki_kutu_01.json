@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_cayma_hakki_kutu_01",
+  "tags": [
+    "burokrasi",
+    "tuketici",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "Ambalajı açılmış üründe cayma hakkı yok. Kutunun bandı kesilmiş.",
+      "en": "No returns on opened items. The tape on this box has been cut."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda kutuyu açmadan ne aldığını bilemezdin. Kanun da öyle der, bak.",
+      "en": "In my day you couldn't know what you'd bought without opening the box. That's the law, look.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "madde",
+      "tr": "Yönetmelik maddesini okuyup göster",
+      "en": "Read them the actual regulation",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayıyı mağazaya götür",
+      "en": "Bring your uncle to the store",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "sat",
+      "tr": "Ürünü tut, ikinci ele koy",
+      "en": "Keep it and resell it",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "madde": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": 1350,
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "cayma_hakki_kullanildi"
+            ]
+          },
+          "glossary": "cayma_hakki"
+        },
+        "tr": "Yönetmelikte \"ürünü inceleme\" hakkı yazıyordu. Mağaza 1.350 Para’yı iade etti, bandı da sen yapıştırdın.",
+        "en": "The regulation said you had the right to inspect the product. The store refunded 1,350, and you taped the box back up yourself.",
+        "coach": [
+          {
+            "tr": "Bant kesilmişti. Hak kesilmemiş.",
+            "en": "The tape was cut. The right was intact.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı geri yerinde.",
+            "en": "Goal counter back where it was.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": 1150,
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "cayma_kismi"
+            ]
+          }
+        },
+        "tr": "Mağaza \"kullanım izi\" gerekçesiyle 200 Para kesip kalanını iade etti. İz, kutuyu açarken kırılan tırnağındandı.",
+        "en": "Citing \"signs of use,\" the store kept 200 and refunded the rest. The sign was a fingernail you broke opening the box.",
+        "coach": [
+          {
+            "tr": "İki yüz Para ve bir tırnak.",
+            "en": "Two hundred and one fingernail.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "money": 1350,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "cayma_hakki_kullanildi"
+          ]
+        }
+      },
+      "tr": "Dayın kasada yirmi dakika \"benim zamanımda\" anlattı. Müdür iadeyi onaylayıp kapıyı bizzat açtı.",
+      "en": "Your uncle gave the register twenty minutes of \"in my day.\" The manager approved the refund and personally held the door.",
+      "coach": [
+        {
+          "tr": "İade yirmi dakikada geldi. Dayının anlatacakları bitmemişti.",
+          "en": "The refund took twenty minutes. Your uncle had material left.",
+          "roast": false
+        }
+      ]
+    },
+    "sat": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "ikinci_el_ilan"
+          ]
+        }
+      },
+      "tr": "Ürünü ikinci el ilana koydun ve \"kutusu açıldı\" notuyla, 250 Para eksiğine sattın.",
+      "en": "You listed it secondhand and sold it for 250 under retail, with a note: \"box opened.\"",
+      "coach": [
+        {
+          "tr": "Açık kutunun fiyatı iki yüz elli.",
+          "en": "An open box costs two hundred fifty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "internetten alıp kutusunu açtığın ürün için satıcının cayma hakkını tanımaması",
+    "mechanism": "dayı kanunu kendi zamanına göre okuyor",
+    "mechanismId": "literalism",
+    "punch": "kanun da öyle der, bak",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bant"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

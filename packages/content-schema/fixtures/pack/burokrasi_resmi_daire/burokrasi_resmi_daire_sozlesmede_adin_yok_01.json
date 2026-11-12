@@ -1,0 +1,169 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_sozlesmede_adin_yok_01",
+  "tags": [
+    "burokrasi",
+    "ikamet",
+    "ev_arkadasi",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kira sözleşmesinde adınız yok. Orada oturduğunuzu nereden bileceğiz?",
+      "en": "Your name isn't on the lease. How would we know you live there?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Ev sahibinin imzası, ev arkadaşının beyanı, bir de fatura. Üçü birlikte.",
+      "en": "Landlord's signature, roommate's statement, and a utility bill. All three, together.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "topla",
+      "tr": "Üçünü de topla",
+      "en": "Collect all three",
+      "pattern": "patience"
+    },
+    {
+      "id": "fatura",
+      "tr": "İnterneti kendi adına geçir",
+      "en": "Put the internet in your name",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "eski",
+      "tr": "Kaydı annede bırak",
+      "en": "Leave it registered at Mom's",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "topla": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ikamet_kaydi"
+          ]
+        }
+      },
+      "tr": "Ev sahibine üç kez, ev arkadaşına bir kez rica ettin. Dördüncü gün kayıt yapıldı.",
+      "en": "You asked the landlord three times and your roommate once. On day four the registration went through.",
+      "coach": [
+        {
+          "tr": "Dört gün, dört rica, bir adres.",
+          "en": "Four days. Four favors. One address.",
+          "roast": false
+        }
+      ]
+    },
+    "fatura": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "ikamet_kaydi",
+            "internet_adina"
+          ]
+        }
+      },
+      "tr": "İnternet aboneliğini adına geçirdin, devir 150 Para. Kayıt ertesi gün yapıldı; arızalar da artık senin adına.",
+      "en": "You moved the internet into your name: 150 transfer fee. Registered next day. The outages are also in your name now.",
+      "coach": [
+        {
+          "tr": "Adres geldi. Modem de.",
+          "en": "You got the address. And the router.",
+          "roast": false
+        }
+      ]
+    },
+    "eski": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "adres_annede"
+          ]
+        }
+      },
+      "tr": "Kaydı annenin evinde bıraktın. Resmî mektuplar oraya gidiyor; annen hepsini açıp telefonda sesli okuyor.",
+      "en": "Your registration stays at Mom’s. Every official letter goes there. She opens each one and reads it to you over the phone.",
+      "coach": [
+        {
+          "tr": "Postacın artık annen.",
+          "en": "Your mail carrier is now your mom.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "kira sözleşmesinde adı olmadığı için yeni adrese ikamet kaydı yaptıramamak",
+    "mechanism": "oturduğun ev için üç ayrı tanık isteniyor",
+    "mechanismId": "escalation",
+    "punch": "orada oturduğunuzu nereden bileceğiz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "posta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

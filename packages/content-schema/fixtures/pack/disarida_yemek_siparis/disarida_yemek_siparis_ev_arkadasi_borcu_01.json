@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_ev_arkadasi_borcu_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "ev_arkadasi",
+    "para",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Seninkiyle sipariş verdim, benim kart evde. Yani burada ama cüzdanda. Sonra atarım.",
+      "en": "I ordered on your card. Mine's at home. Well, it's here, but in my wallet. I'll send it later."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Geçen haftakiyle beraber atarım. Bir de ondan önceki.",
+      "en": "I'll send it with last week's. And the one before that.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "iste",
+      "tr": "Toplamı şimdi iste",
+      "en": "Ask for the total now",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "liste",
+      "tr": "Buzdolabına borç listesi as",
+      "en": "Post a tab on the fridge",
+      "pattern": "patience"
+    },
+    {
+      "id": "birak",
+      "tr": "Boş ver, sıradakini o alsın",
+      "en": "Drop it; they buy next time",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "iste": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": 540,
+          "flags": {
+            "add": [
+              "siparis_borc_kapandi"
+            ]
+          }
+        },
+        "tr": "Üç siparişin toplamı olan 540 Para'yı istedin. Ev arkadaşın telefonunu çıkarıp oracıkta gönderdi.",
+        "en": "You asked for the full 540 across three orders. Your roommate pulled out their phone and sent it on the spot.",
+        "coach": [
+          {
+            "tr": "540 Para eve döndü.",
+            "en": "540 came home.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": 180,
+          "flags": {
+            "add": [
+              "siparis_borc_yarim"
+            ]
+          }
+        },
+        "tr": "Ev arkadaşın 180 Para gönderdi, \"kalanı maaşta\" dedi. Maaş ayın on beşinde.",
+        "en": "Your roommate sent 180 and said \"the rest on payday.\" Payday is the fifteenth.",
+        "coach": [
+          {
+            "tr": "Üçte biri geldi.",
+            "en": "A third arrived.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "liste": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "siparis_borc_listesi"
+          ]
+        }
+      },
+      "tr": "Buzdolabına bir borç listesi astın. Ev arkadaşın listenin altına kendi el yazısıyla \"yakında\" yazdı.",
+      "en": "You posted a tab on the fridge. Your roommate added \"soon\" at the bottom in their own handwriting.",
+      "coach": [
+        {
+          "tr": "Listeye bir kelime eklendi.",
+          "en": "One word added to the tab.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "siparis_siradaki_onda"
+          ]
+        }
+      },
+      "tr": "Konuyu kapattın. Sıradaki siparişi ev arkadaşın ısmarladı ve en ucuz menüyü seçti.",
+      "en": "You let it go. Your roommate bought the next order and picked the cheapest combo.",
+      "coach": [
+        {
+          "tr": "Borç ödendi, indirimli.",
+          "en": "Debt repaid. At a discount.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iste",
+    "slip": {
+      "tr": "İDDİA: Para bu ay dönmez. — M.",
+      "en": "WAGER: That money isn't coming back this month. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının siparişi senin kartınla verip 'sonra atarım' demesi, borcun birikmesi",
+    "mechanism": "ev arkadaşının borçları zincir hâlinde eklemesi",
+    "mechanismId": "escalation",
+    "punch": "bir de ondan önceki",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "yakinda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

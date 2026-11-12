@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_su_faturasi_kacak_01",
+  "tags": [
+    "yaslilik",
+    "ev",
+    "para",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 70,
+      "max": 95
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sayaç bu ay üç katı yazmış. Ya kaçak var ya bahçe suluyorsunuz.",
+      "en": "Your meter's showing triple this month. Either there's a leak or you're watering a garden."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bahçeniz yok ama, değil mi? Ben de öyle düşünmüştüm.",
+      "en": "You don't have a garden, though, do you? That's what I thought.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kontrol",
+      "tr": "Muslukları kontrol et",
+      "en": "Check every tap",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "itiraz",
+      "tr": "İdareye itiraz et",
+      "en": "File a complaint",
+      "pattern": "pride"
+    },
+    {
+      "id": "ode",
+      "tr": "Öde, uğraşma",
+      "en": "Just pay it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kontrol": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -40,
+          "flags": {
+            "add": [
+              "sifon_tamiri"
+            ]
+          }
+        },
+        "tr": "Klozetin sifonu üç aydır sessizce akıyormuş. 40 Paralık bir parça; sonraki fatura normal geldi.",
+        "en": "The toilet had been running silently for three months. The fix was one part, 40. The next bill was back to normal.",
+        "coach": [
+          {
+            "tr": "Sifon itiraf etti.",
+            "en": "The cistern confessed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -600,
+          "flags": {
+            "add": [
+              "duvar_kacagi"
+            ]
+          }
+        },
+        "tr": "Musluklar sağlam çıktı. Tesisatçı kaçağı duvarın içinde buldu, 600 Para.",
+        "en": "The taps were fine. The plumber found the leak inside the wall: 600.",
+        "coach": [
+          {
+            "tr": "Duvar konuştu.",
+            "en": "The wall spoke up.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "itiraz": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -300,
+        "flags": {
+          "add": [
+            "su_itirazi"
+          ]
+        }
+      },
+      "tr": "Dilekçe yazdın. İdare 'ortalama tüketim' üzerinden yeniden hesapladı, fark yarıya indi.",
+      "en": "You filed a complaint. The utility recalculated on \"average usage\" and the difference was halved.",
+      "coach": [
+        {
+          "tr": "Yarısı geri döndü.",
+          "en": "Half came back.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -900,
+        "flags": {
+          "add": [
+            "kacak_suruyor"
+          ]
+        }
+      },
+      "tr": "Faturayı ödedin, 900 Para. Bir sonraki ay da aynısı geldi.",
+      "en": "You paid the bill: 900. Next month's was the same.",
+      "coach": [
+        {
+          "tr": "Kaçak devam ediyor.",
+          "en": "The leak continues.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "sayaç okuyucunun su faturasının üç katı geldiğini, bahçe de olmadığını söylemesi",
+    "mechanism": "görevlinin kuru çıkarımı: bahçe yok, demek ki kaçak",
+    "mechanismId": "deadpan_report",
+    "punch": "bahçeniz yok ama, değil mi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sifon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

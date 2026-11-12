@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_depo_borusu_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Dükkânın arkasından su sesi geliyor. Ben söyleyeyim de.",
+      "en": "There's water running behind your shop. Just saying."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Boru eski. Yamarım, iki ay gider. Ya da hepsini değiştiririz, iki gün kapalısınız.",
+      "en": "Old pipe. I can patch it, buys you two months. Or we replace the lot and you're closed two days.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Bizim apartmanda da böyle başlamıştı. Sonra bodrum havuz oldu, kedi yüzmeyi öğrendi.",
+      "en": "That's how it started in our building. Then the basement became a pool. The cat learned to swim.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yama",
+      "tr": "Yamat, idare et",
+      "en": "Patch it and hope",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "degis",
+      "tr": "Tamamını değiştir, iki gün kapat",
+      "en": "Replace it all, close two days",
+      "pattern": "patience"
+    },
+    {
+      "id": "kendin",
+      "tr": "Contayı kendin değiştir",
+      "en": "Swap the seal yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "yama": {
+      "effects": {
+        "money": -400,
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "esnaf_boru_yama"
+          ]
+        }
+      },
+      "tr": "Boru yamandı, 400 Para. Un çuvallarını rafın üst gözüne taşıdın.",
+      "en": "Pipe patched: 400. The flour sacks moved to the top shelf.",
+      "coach": [
+        {
+          "tr": "Yama tuttu. İki aylık süre başladı.",
+          "en": "The patch holds. The two-month clock is running.",
+          "roast": false
+        }
+      ]
+    },
+    "degis": {
+      "effects": {
+        "money": -2200,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "İki gün kapalı kaldın, borular yenilendi: 2.200 Para. Depo kuru, çuvallar yeniden zeminde.",
+      "en": "Closed two days, new pipes: 2,200. The stockroom is dry and the sacks are back on the floor.",
+      "coach": [
+        {
+          "tr": "İki gün kepenk, yirmi yıl boru.",
+          "en": "Two days shuttered. Twenty years of pipe.",
+          "roast": false
+        }
+      ]
+    },
+    "kendin": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -150,
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Bir videoya bakarak contayı değiştirdin. Su durdu.",
+        "en": "You watched a video and swapped the seal. The leak stopped.",
+        "coach": [
+          {
+            "tr": "150 Para, bir conta.",
+            "en": "150 and one seal.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Conta yerine vanayı söktün. Tesisatçı geri geldi ve faturaya 'söküm' kalemi ekledi.",
+        "en": "You removed the valve instead of the seal. The plumber came back and added a line: 'disassembly.'",
+        "coach": [
+          {
+            "tr": "Sökümü sen yaptın, takmayı o faturaladı.",
+            "en": "You did the taking apart. They billed the putting back.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "dükkân deposunda eski su borusu sızdırıyor, yama mı değişim mi",
+    "mechanism": "komşunun bodrum hikâyesi büyüyor",
+    "mechanismId": "escalation",
+    "punch": "kedi yüzmeyi öğrendi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "conta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

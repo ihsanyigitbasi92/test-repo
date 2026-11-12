@@ -1,0 +1,170 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_emlak_iadesi_01",
+  "tags": [
+    "para",
+    "vergi",
+    "ev",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 48,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Evet, iki kez ödemişsiniz. İade için dilekçe, dekont ve kimlik fotokopisi gerekli.",
+      "en": "Yes, you paid twice. For a refund we need a petition, the receipt, and a copy of your ID."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Fotokopi makinemiz bozuk. Karşıdaki kırtasiye çok iyidir.",
+      "en": "Our copier's broken. The stationery shop across the street is very good.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dilekce",
+      "tr": "Dilekçeyi hemen yaz",
+      "en": "Write the petition now",
+      "pattern": "patience"
+    },
+    {
+      "id": "mahsup",
+      "tr": "Gelecek yıla mahsup ettir",
+      "en": "Roll it into next year",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "partner",
+      "tr": "İşi partnerine bırak",
+      "en": "Hand the errand to your partner",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "dilekce": {
+      "effects": {
+        "money": 640,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "emlak_iade"
+          ]
+        }
+      },
+      "tr": "Kırtasiyede fotokopi 2 Para tuttu. Üç hafta sonra 640 Para hesabına yattı.",
+      "en": "The photocopy cost two. Three weeks later, 640 landed in your account.",
+      "coach": [
+        {
+          "tr": "İki Paralık fotokopi, altı yüz kırk Paralık iade. Kırtasiye de memnun.",
+          "en": "A two-coin photocopy for a 640 refund. The stationery shop's happy too.",
+          "roast": true
+        }
+      ]
+    },
+    "mahsup": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "emlak_mahsup"
+          ]
+        },
+        "glossary": "vergi_mahsubu"
+      },
+      "tr": "Fazla ödeme gelecek yıla sayıldı. Gelecek yıl bu kalemden borcun yok.",
+      "en": "The overpayment rolls into next year. Next year, that line is already paid.",
+      "coach": [
+        {
+          "tr": "Bir yılı bir yıl önceden ödedin. Dakiklik fazlası.",
+          "en": "You paid a year a year early. Punctual to a fault.",
+          "roast": true
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "money": 640,
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "emlak_iade"
+          ]
+        }
+      },
+      "tr": "Partnerin dilekçeyi verdi; kırtasiyedeki sırayı sana üç kez anlattı. 640 Para üç hafta sonra yattı.",
+      "en": "Your partner filed it, then told you about the stationery-shop line three times. The 640 arrived three weeks later.",
+      "coach": [
+        {
+          "tr": "İade sana, hikâye partnere kaldı.",
+          "en": "You got the refund. Your partner got the story.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "iki kez ödenen emlak vergisinin iadesi için dilekçe vermek",
+    "mechanism": "iadenin fotokopiye bağlanması",
+    "mechanismId": "bathos",
+    "punch": "fotokopi makinemiz bozuk",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hikaye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

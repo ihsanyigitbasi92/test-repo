@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bos_yuva_kopru_borcu_01",
+  "tags": [
+    "ebeveynlik",
+    "para",
+    "yetiskin_cocuk",
+    "bos_yuva"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "bos_yuva": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Bu ay kira ile maaş arasında dört gün var. 1.500 lazım, maaş yatınca geri veririm.",
+      "en": "This month there's a four-day gap between rent and payday. I need 1,500. I'll pay it back on payday."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Harçlık defterini hâlâ saklıyorum. Son satır: \"borç, 30 Para, ödenmedi.\"",
+      "en": "I still have the allowance notebook. Last line: \"loan, 30, unpaid.\"",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Ver, tarih sorma",
+      "en": "Lend it, no questions",
+      "pattern": "generosity"
+    },
+    {
+      "id": "senet",
+      "tr": "Yazılı geri ödeme tarihi iste",
+      "en": "Ask for a repayment date in writing",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "eski",
+      "tr": "Önce eski 30'u iste",
+      "en": "Collect the old 30 first",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kopru_borcu_kapandi"
+          ]
+        }
+      },
+      "tr": "1.500 Para gönderildi. On bir gün sonra 1.500 Para ve bir kutu kurabiye olarak geri geldi.",
+      "en": "1,500 sent. Eleven days later it came back: 1,500 and a box of cookies.",
+      "coach": [
+        {
+          "tr": "Faiz kurabiyeyle ödendi.",
+          "en": "Interest paid in cookies.",
+          "roast": true
+        }
+      ]
+    },
+    "senet": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "kopru_borcu_kapandi"
+            ]
+          }
+        },
+        "tr": "Çocuğun bir kâğıda tarih yazıp imzaladı. Para tam o gün döndü, kâğıdın altına \"ödendi\" yazıldı.",
+        "en": "Your kid wrote a date on a sheet of paper and signed it. The money came back that exact day, with \"PAID\" underneath.",
+        "coach": [
+          {
+            "tr": "İlk kredi notu: kusursuz.",
+            "en": "First credit rating: spotless.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1500,
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "kopru_borcu_gecikti"
+            ]
+          }
+        },
+        "tr": "Kâğıttaki tarih geçti. Çocuğun \"maaş bir hafta kaydı\" diye yazdı, altına bir sarılma simgesi koydu.",
+        "en": "The date passed. Your kid texted, \"Payday slipped a week,\" followed by a hug emoji.",
+        "coach": [
+          {
+            "tr": "Senet hazırladın. Sarılmayla ödendi.",
+            "en": "You drafted a contract. It was settled in hugs.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "eski": {
+      "effects": {
+        "money": -1470,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "kopru_borcu_verildi"
+          ]
+        }
+      },
+      "tr": "Önce eski 30 Para'yı istedin. Çocuğun anında gönderdi, açıklamaya \"harçlık defteri kapandı\" yazdı; ardından 1.500'ü sen gönderdin.",
+      "en": "You asked for the old 30 first. Your kid sent it instantly, memo: \"allowance notebook closed.\" Then you sent the 1,500.",
+      "coach": [
+        {
+          "tr": "Bir defter kapandı. Yenisi açıldı.",
+          "en": "One ledger closed. A new one opened.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "senet",
+    "slip": {
+      "tr": "İDDİA: Kâğıttaki tarih kayar. — M.",
+      "en": "WAGER: The date on that paper slips. — M."
+    }
+  },
+  "intent": {
+    "setup": "yetişkin çocuğun kira ile maaş günü arasındaki dört gün için ebeveynden köprü borç istemesi",
+    "mechanism": "çocukluk harçlık defterindeki ödenmemiş borç geri geliyor",
+    "mechanismId": "callback",
+    "punch": "borç, 30 Para, ödenmedi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "defter"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

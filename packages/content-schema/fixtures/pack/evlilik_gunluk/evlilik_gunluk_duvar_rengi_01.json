@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_duvar_rengi_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "duvar_boyandi"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Salonu boyuyoruz. Rengi seçtim: 'Sabah Sisi'. Kartelada çok sakin duruyordu.",
+      "en": "We're painting the living room. I picked the color: 'Morning Mist.' Very calm on the swatch."
+    }
+  ],
+  "choices": [
+    {
+      "id": "boya",
+      "tr": "Sabah Sisi'ni sür",
+      "en": "Roll on the Morning Mist",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "deneme",
+      "tr": "Önce deneme kutusu al",
+      "en": "Buy a sample pot first",
+      "pattern": "patience"
+    },
+    {
+      "id": "usta",
+      "tr": "Boyacı çağır",
+      "en": "Hire a painter",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "boya": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "duvar_boyandi"
+            ]
+          }
+        },
+        "tr": "Duvar gerçekten sabah sisine benzedi. Partnerin kahvaltıyı salona taşıdı.",
+        "en": "The wall really did look like morning mist. Your partner moved breakfast in there.",
+        "coach": [
+          {
+            "tr": "Renk tuttu. Kahvaltı odası değişti.",
+            "en": "The color held. Breakfast changed rooms.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "duvar_boyandi",
+              "havuz_salon"
+            ]
+          }
+        },
+        "tr": "Duvarda sis yok, havuz suyu var. İkinci kat da aynı çıktı.",
+        "en": "No mist on the wall. Pool water. The second coat agreed.",
+        "coach": [
+          {
+            "tr": "Sabah Sisi, öğleden sonra havuz.",
+            "en": "Morning Mist. Afternoon swimming pool.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "deneme": {
+      "effects": {
+        "money": -650,
+        "stats": {
+          "joy": 2,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "duvar_boyandi"
+          ]
+        }
+      },
+      "tr": "Deneme kutusu duvarda havuz suyu gibi durdu. Bir ton açığı alındı, sorun kalmadı.",
+      "en": "The sample looked like pool water on the wall. You went one shade lighter. Problem solved.",
+      "coach": [
+        {
+          "tr": "Bir deneme kutusu, bir duvarı kurtardı.",
+          "en": "One sample pot saved one wall.",
+          "roast": false
+        },
+        {
+          "tr": "Salon tamam. Kalan oda: üç.",
+          "en": "Living room done. Rooms left: three.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "usta": {
+      "effects": {
+        "money": -1600,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "duvar_boyandi"
+          ]
+        }
+      },
+      "tr": "Boyacı kutuyu görünce 'bunu sis diye mi aldınız' diye sordu ve bir ton açtı. 1.600 Para.",
+      "en": "The painter looked at the can, asked if you'd really bought this as 'mist,' and mixed it lighter. 1,600.",
+      "coach": [
+        {
+          "tr": "Ustalık ücreti bir soru dahil.",
+          "en": "Expert fee. One question included.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "boya",
+    "slip": {
+      "tr": "İDDİA: Duvar sise benzemez. — M.",
+      "en": "WAGER: That wall won't look like mist. — M."
+    }
+  },
+  "intent": {
+    "setup": "evli çiftin salonu kartela adına güvenerek boyaması",
+    "mechanism": "renk adı kelimesi kelimesine okunuyor, duvar başka şey söylüyor",
+    "mechanismId": "literalism",
+    "punch": "sabah sisi öğleden sonra havuz",
+    "closer": "sis",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "Salon tamam. Kalan oda: üç."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

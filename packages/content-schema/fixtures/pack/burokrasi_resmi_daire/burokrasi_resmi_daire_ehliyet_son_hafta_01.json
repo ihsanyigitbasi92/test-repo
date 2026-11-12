@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_ehliyet_son_hafta_01",
+  "tags": [
+    "burokrasi",
+    "ehliyet",
+    "sira",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "flags": {
+      "any": [
+        "araba_var",
+        "ehliyet"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Siz de mi son haftaya kaldınız? Bu salon üç haftadır “son hafta”.",
+      "en": "You left it to the last week too? This hall has been ‘the last week’ for three weeks."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Eski tip belgeler cuma sona eriyor. Fotoğraf yeni, sağlık formu yeni.",
+      "en": "Old-style licenses expire Friday. New photo, new medical form.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sıraya gir, bugün bitir",
+      "en": "Queue up, finish today",
+      "pattern": "patience"
+    },
+    {
+      "id": "sabah",
+      "tr": "Sabah altıda gel",
+      "en": "Come back at six a.m.",
+      "pattern": "overwork",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "cuma",
+      "tr": "Cumayı bekle",
+      "en": "Wait for Friday",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": -650,
+        "flags": {
+          "add": [
+            "yeni_ehliyet"
+          ]
+        }
+      },
+      "tr": "Dört saat bekledin, harç 650 Para. Yeni kart iki hafta içinde postayla gelecek.",
+      "en": "Four hours in line, 650 in fees. The new card arrives by mail within two weeks.",
+      "coach": [
+        {
+          "tr": "Dört saat, bir makbuz.",
+          "en": "Four hours. One receipt.",
+          "roast": false
+        }
+      ]
+    },
+    "sabah": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "money": -650,
+          "flags": {
+            "add": [
+              "yeni_ehliyet"
+            ]
+          }
+        },
+        "tr": "Altıda kapıdaydın ve ikinciydin. Birinci kişi akşamdan gelmişti.",
+        "en": "At the door by six, you were second. The person in front had arrived the night before.",
+        "coach": [
+          {
+            "tr": "İkincilik, bir gece farkla.",
+            "en": "Second place, by one night.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "money": -650,
+          "flags": {
+            "add": [
+              "yeni_ehliyet"
+            ]
+          }
+        },
+        "tr": "Altıda geldin, kırk dördüncüydün. Öndekiler termostan kahvaltı ediyordu.",
+        "en": "You arrived at six and were forty-fourth. The people ahead were having breakfast from thermoses.",
+        "coach": [
+          {
+            "tr": "Kahvaltılı sıra, kırk dört kişilik.",
+            "en": "Breakfast queue, forty-four seats.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cuma": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ehliyet_suresi_doldu"
+          ]
+        }
+      },
+      "tr": "Cuma salonda iki yüz kişi vardı. Belgenin süresi pazartesi doldu.",
+      "en": "On Friday there were two hundred people in the hall. Your license expired on Monday.",
+      "coach": [
+        {
+          "tr": "Cuma gerçekten sonmuş.",
+          "en": "Friday was, in fact, the last day.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "eski tip ehliyetin değişim süresinin son haftasında salonun dolu olması",
+    "mechanism": "son hafta haftalardır sürüyor",
+    "mechanismId": "callback",
+    "punch": "bu salon üç haftadır son hafta",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sonhafta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

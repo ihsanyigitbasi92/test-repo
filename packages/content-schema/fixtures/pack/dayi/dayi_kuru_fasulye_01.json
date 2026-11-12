@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_kuru_fasulye_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "yemek",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Bir yemek bil, hayatta kalırsın. Benim zamanımda bu tencere bir haftalık erzaktı.",
+      "en": "Know one dish and you'll survive. In my day this pot was a week of rations."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Soğanı ağlamadan doğra. Ağlarsan fasulye anlar.",
+      "en": "Chop the onion without crying. If you cry, the beans can tell.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ogren",
+      "tr": "Not alarak öğren",
+      "en": "Take notes and learn",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "izle",
+      "tr": "Kenardan izle",
+      "en": "Watch from the side",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "dagit",
+      "tr": "Yarısını komşulara dağıt",
+      "en": "Give half to the neighbors",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ogren": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "kuru_fasulye_tarifi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3,
+              "memory": "tarifi_aldi"
+            }
+          ]
+        },
+        "tr": "Tarifi yazdın. İkinci denemen dayınınkine benzedi; dayın “tuzu az” dedi ve bir kaşık daha aldı.",
+        "en": "You wrote it down. Attempt two tasted like his. He said “needs salt” and went back for more.",
+        "coach": [
+          {
+            "tr": "Bir tarif, iki deneme, bir kaşık daha.",
+            "en": "One recipe, two attempts, one more spoonful.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "kuru_fasulye_denemesi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Notlarında “biraz”, “göz kararı” ve “anlarsın” yazıyor. Fasulye anlamadı.",
+        "en": "Your notes say “a bit,” “eyeball it,” and “you’ll know.” The beans did not know.",
+        "coach": [
+          {
+            "tr": "Tarif üç ifadeden ibaret. Hiçbiri ölçü birimi değil.",
+            "en": "The recipe is three phrases. None of them is a unit of measure.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "izle": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": 200,
+        "flags": {
+          "add": [
+            "kuru_fasulye_tenceresi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Tencere altı gün yetti. Market harcaman durdu, oda arkadaşın pencereyi açık tuttu.",
+      "en": "The pot lasted six days. Your grocery spending stopped. Your roommate kept the window open.",
+      "coach": [
+        {
+          "tr": "Altı gün, sıfır market, bir açık pencere.",
+          "en": "Six days, zero groceries, one open window.",
+          "roast": true
+        }
+      ]
+    },
+    "dagit": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "komsuya_fasulye"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1,
+            "memory": "fasulye_dagitti"
+          }
+        ]
+      },
+      "tr": "Yarısını komşulara verdin. Dayın tencerenin neden hafif olduğunu sordu, iki kez.",
+      "en": "You gave half to the neighbors. He asked why the pot felt light. Twice.",
+      "coach": [
+        {
+          "tr": "Komşular tok. Dayın şüpheli.",
+          "en": "Neighbors: fed. Uncle: suspicious.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ogren",
+    "slip": {
+      "tr": "İDDİA: Tarif ikinci denemeye ulaşmaz. — M.",
+      "en": "WAGER: The recipe won't survive a second attempt. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının öğrenci evine gelip tek bilmen gereken yemek diye dev tencerede kuru fasulye pişirmesi",
+    "mechanism": "ölçüsüz tarif; tencerenin haftalara yayılması",
+    "mechanismId": "count",
+    "punch": "ağlarsan fasulye anlar",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kasik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

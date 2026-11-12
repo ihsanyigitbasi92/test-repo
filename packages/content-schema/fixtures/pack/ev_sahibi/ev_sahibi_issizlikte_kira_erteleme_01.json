@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_issizlikte_kira_erteleme_01",
+  "tags": [
+    "ev",
+    "issizlik",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "worried",
+      "tr": "İşten ayrıldığını komşudan duydum. Kirayı bir konuşalım mı?",
+      "en": "Heard from the neighbor you're between jobs. Shall we talk about rent?"
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Ben de bir kere işsiz kaldım. O zamanki ev sahibim bana bir ay verdi.",
+      "en": "I was out of work once. My landlord back then gave me a month.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ertele",
+      "tr": "İki ay yarım kira iste",
+      "en": "Ask for two months at half rent",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Birikimden tam öde",
+      "en": "Pay in full from savings",
+      "pattern": "pride"
+    },
+    {
+      "id": "tamir",
+      "tr": "Kira karşılığı tamirat öner",
+      "en": "Offer repairs toward rent",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ertele": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "money": -900,
+          "flags": {
+            "add": [
+              "kira_ertelendi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Ev sahibi iki ay yarım kiraya razı oldu, farkı iş bulunca taksitle ödeyeceksin. Anlaşma tek sayfaya yazıldı.",
+        "en": "The landlord agreed to two months at half rent, the rest repaid once you're working. It's all on one page.",
+        "coach": [
+          {
+            "tr": "İki ay nefes. Borç da yazılı.",
+            "en": "Two months of air. The debt is in writing too.",
+            "roast": false
+          },
+          {
+            "tr": "Yarım kira. Hedef ayakta.",
+            "en": "Half rent. Goal still standing.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -1800,
+          "flags": {
+            "add": [
+              "kira_tam_odendi"
+            ]
+          }
+        },
+        "tr": "Ev sahibi kendi kredi dökümünü gösterip \"şimdilik olmaz\" dedi. Bu ay tam ödedin, 1.800 Para.",
+        "en": "The landlord showed you their own loan statement and said, \"Not right now.\" You paid this month in full: 1,800.",
+        "coach": [
+          {
+            "tr": "İki taraf da hesabını gösterdi.",
+            "en": "Both sides showed their math.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -1800,
+        "flags": {
+          "add": [
+            "kira_tam_odendi"
+          ]
+        }
+      },
+      "tr": "Birikimden 1.800 Para ödedin. Ev sahibi makbuzun altına \"zorlanırsan söyle\" yazdı.",
+      "en": "You paid 1,800 from savings. On the receipt, the landlord wrote: \"Tell me if it gets hard.\"",
+      "coach": [
+        {
+          "tr": "Birikim bir ay kısaldı.",
+          "en": "Savings: one month shorter.",
+          "roast": false
+        }
+      ]
+    },
+    "tamir": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "health": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -1200,
+        "flags": {
+          "add": [
+            "tamir_karsiligi_kira"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Ev sahibinin üç kapısını ve bir dolabını onardın. Bu ayın kirası 600 Para indi.",
+      "en": "You fixed three of the landlord's doors and a cabinet. This month's rent dropped by 600.",
+      "coach": [
+        {
+          "tr": "Üç kapı, bir dolap, 600 Para.",
+          "en": "Three doors, one cabinet, six hundred.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "işini kaybedince ev sahibiyle kira ertelemesi konuşmak",
+    "mechanism": "ev sahibi kendi işsizlik anısını anlatıyor",
+    "mechanismId": "understatement",
+    "punch": "o zamanki ev sahibim bana bir ay verdi",
+    "lift": "yarım kira, hedef ayakta",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "nefes"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

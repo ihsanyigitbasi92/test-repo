@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_balkon_paneli_01",
+  "tags": [
+    "para",
+    "elektrik",
+    "gunes",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Fazla üretimi satmak için mahsuplaşma başvurusu lazım. Ekleri on bir kalem.",
+      "en": "To sell back your surplus, you need a net-metering application. It has eleven attachments."
+    }
+  ],
+  "choices": [
+    {
+      "id": "basvur",
+      "tr": "Başvuruyu eksiksiz hazırla",
+      "en": "Prepare the full application",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kullan",
+      "tr": "Satma, kendin kullan",
+      "en": "Skip selling, use it yourself",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "danisman",
+      "tr": "Danışmana yaptır",
+      "en": "Pay a consultant to file it",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "basvur": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 90,
+          "stats": {
+            "brain": 2
+          },
+          "flags": {
+            "add": [
+              "panel_mahsup"
+            ]
+          }
+        },
+        "tr": "Başvuru ilk seferde kabul edildi. Faturaya her ay ortalama 90 Para eksi satır düşüyor.",
+        "en": "Approved on the first try. Each bill now carries a negative line of about ninety.",
+        "coach": [
+          {
+            "tr": "Faturada ilk eksi işaret. Çerçevelik.",
+            "en": "The first minus sign on a bill. Frame-worthy.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "cringe": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "panel_basvuru_eksik"
+            ]
+          }
+        },
+        "tr": "Başvuru 'imzasız ek 7' nedeniyle iade edildi. Panel bu arada elektrik üretmeye devam ediyor.",
+        "en": "Application returned over an 'unsigned Attachment 7.' The panel keeps making electricity regardless.",
+        "coach": [
+          {
+            "tr": "Ek 7. Güneş imzayı bekliyor.",
+            "en": "Attachment 7. The sun awaits a signature.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kullan": {
+      "effects": {
+        "money": 50,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "panel_kendi"
+          ]
+        }
+      },
+      "tr": "Panel doğrudan evi besliyor. Fatura ayda 50 Para düştü, çamaşır günü öğleden sonraya alındı.",
+      "en": "The panel feeds the house directly. Bills dropped fifty a month, and laundry moved to the afternoon.",
+      "coach": [
+        {
+          "tr": "Güneş vardiyası başladı. Çamaşır makinesi öğle mesaisinde.",
+          "en": "The sun shift has begun. The washer now works afternoons.",
+          "roast": true
+        }
+      ]
+    },
+    "danisman": {
+      "effects": {
+        "money": -900,
+        "flags": {
+          "add": [
+            "panel_mahsup"
+          ]
+        }
+      },
+      "tr": "Danışman başvuruyu iki haftada 900 Para'ya bitirdi. Eksi satır faturada.",
+      "en": "A consultant filed it in two weeks for 900. The negative line is on the bill.",
+      "coach": [
+        {
+          "tr": "900 Para'ya on bir ek. Panel ilk on ayını danışmana çalışacak.",
+          "en": "Eleven attachments for 900. The panel's first ten months go to the consultant.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "basvur",
+    "slip": {
+      "tr": "İDDİA: Başvuru geri döner. — M.",
+      "en": "WAGER: The application bounces. — M."
+    }
+  },
+  "intent": {
+    "setup": "balkona küçük güneş paneli takıp fazla üretimi satmak için on bir ekli başvuru hazırlamak",
+    "mechanism": "güneş bedava, evrak değil; ek sayısı büyüyor",
+    "mechanismId": "escalation",
+    "punch": "ekleri on bir kalem",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gunes"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

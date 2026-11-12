@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_uc_yillik_teklif_01",
+  "tags": [
+    "ev",
+    "pazarlik",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 60
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Kira 2.500. Her yıl kiracı değişiyor, her yıl boya yaptırıyorum.",
+      "en": "Rent's 2,500. Every year a new tenant, every year I repaint."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "tired",
+      "tr": "Boyacının çocuğunu neredeyse ben okuttum.",
+      "en": "I've practically put the painter's kid through school.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "teklif",
+      "tr": "Üç yıla 2.200 öner",
+      "en": "Offer three years at 2,200",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain",
+        "goal": "ev"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "2.500'e imzala",
+      "en": "Sign at 2,500",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "dusun",
+      "tr": "Bir hafta düşün",
+      "en": "Think it over for a week",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "teklif": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "money": -2200,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 2200
+            }
+          },
+          "flags": {
+            "add": [
+              "uc_yillik_sozlesme"
+            ]
+          }
+        },
+        "tr": "Ev sahibi üç yıla 2.200'den imza attı. Sonra boyacıyı arayıp üç yıl izin verdi.",
+        "en": "The landlord signed three years at 2,200, then called the painter: three years off.",
+        "coach": [
+          {
+            "tr": "Boyacı izinde. Sen ayda 300 Para öndesin.",
+            "en": "The painter's on leave. You're three hundred a month ahead.",
+            "roast": true
+          },
+          {
+            "tr": "Üç yıl sabit. Hedef bütçe rahat.",
+            "en": "Three fixed years. Goal budget breathing.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": -2500,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 2500
+            }
+          },
+          "flags": {
+            "add": [
+              "uc_yillik_sozlesme"
+            ]
+          }
+        },
+        "tr": "Ev sahibi üç yıla \"evet\", 2.200'e \"hayır\" dedi. Üç yıl, 2.500.",
+        "en": "Three years: yes. 2,200: no. You're at 2,500 for three years.",
+        "coach": [
+          {
+            "tr": "Sadakat kabul edildi, indirim reddedildi.",
+            "en": "Loyalty accepted. Discount declined.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -2500,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 2500
+          }
+        },
+        "flags": {
+          "add": [
+            "yillik_sozlesme"
+          ]
+        }
+      },
+      "tr": "2.500'e bir yıllık sözleşme imzaladın. Ev sahibi boyacıyı şimdiden gelecek yaza ayırttı.",
+      "en": "You signed one year at 2,500. The landlord has already booked the painter for next summer.",
+      "coach": [
+        {
+          "tr": "Boyacının takviminde adın var.",
+          "en": "You're in the painter's calendar.",
+          "roast": true
+        }
+      ]
+    },
+    "dusun": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Bir hafta düşündün. Daire beşinci gün üç yıl isteyen başka bir kiracıya gitti.",
+      "en": "You thought it over for a week. On day five, the flat went to someone offering three years.",
+      "coach": [
+        {
+          "tr": "Sen yedi gün düşündün. Biri beş günde bitirdi.",
+          "en": "You took seven days to think. Someone else finished in five.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "teklif",
+    "slip": {
+      "tr": "İDDİA: Üç yıl teklifi indirim getirmez. — M.",
+      "en": "WAGER: Three years won't buy you a discount. — M."
+    }
+  },
+  "intent": {
+    "setup": "her yıl kiracı değiştiren ev sahibine uzun süreli sözleşme karşılığı indirim teklifi",
+    "mechanism": "istikrar indirimle değiş tokuş ediliyor",
+    "mechanismId": "deadpan_report",
+    "punch": "boyacının çocuğunu ben okuttum",
+    "lift": "üç yıl sabit",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "boyaci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

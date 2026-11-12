@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_tuzlu_kahve_01",
+  "tags": [
+    "iliski",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 52
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli",
+        "tuzlu_kahve"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Yaşınız kaç olursa olsun, kahveyi tuzlu getirecekler. Usul bu. Yüzünü bozmadan içeceksin.",
+      "en": "However old you two are, they'll bring the coffee salted. It's tradition. You drink it with a straight face."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Geçen sefer kuzenin öksürdü. Hâlâ anılıyor.",
+      "en": "Last time, your cousin coughed. They still talk about it.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ic",
+      "tr": "Yüzünü bozmadan iç",
+      "en": "Drink it straight-faced",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "iste",
+      "tr": "İkinci fincan iste",
+      "en": "Ask for a second cup",
+      "pattern": "risk"
+    },
+    {
+      "id": "soyle",
+      "tr": "Tuzu fark ettiğini söyle",
+      "en": "Say you can taste the salt",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "ic": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "momPressure": -6
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "tuzlu_kahve"
+            ]
+          }
+        },
+        "tr": "Fincanı son yudumuna kadar içtin. Partnerinin ailesi seni 'sağlam' olarak sınıflandırdı.",
+        "en": "You drained the cup. Your partner's family has classified you as 'sturdy.'",
+        "coach": [
+          {
+            "tr": "Fincan boş. Sınıflandırma tamam.",
+            "en": "Cup empty. Classification complete.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "cringe": 4,
+            "momPressure": 2
+          },
+          "flags": {
+            "add": [
+              "tuzlu_kahve"
+            ]
+          }
+        },
+        "tr": "İkinci yudumda gözlerin doldu. Masadakiler bunu duygusallık sandı, sen düzeltmedin.",
+        "en": "Your eyes watered on the second sip. The table read it as emotion. You let them.",
+        "coach": [
+          {
+            "tr": "Gözyaşı yanlış okundu. Lehine.",
+            "en": "Tears misread. In your favor.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "iste": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 3,
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "tuzlu_kahve",
+            "ikinci_fincan"
+          ]
+        }
+      },
+      "tr": "İkinci fincanı da istedin. Mutfakta tuz bitmişti, şeker koydular.",
+      "en": "You asked for a second cup. The kitchen was out of salt, so they used sugar.",
+      "coach": [
+        {
+          "tr": "İkinci fincan tatlı geldi.",
+          "en": "The second cup came sweet.",
+          "roast": false
+        }
+      ]
+    },
+    "soyle": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "tuzlu_kahve",
+            "tarif_degisti"
+          ]
+        }
+      },
+      "tr": "Tuzu söyledin. Partnerinin annesi 'ilk kez biri söyledi' diye güldü ve tarifi değiştirdi.",
+      "en": "You named the salt. Your partner's mother laughed, said nobody had ever said it out loud, and changed the recipe.",
+      "coach": [
+        {
+          "tr": "Gelenek bir cümleyle güncellendi.",
+          "en": "One sentence, and the tradition got a patch.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "ileri yaşta nişanda partnerin ailesinin geleneksel tuzlu kahvesi",
+    "mechanism": "gelenek yaş dinlemiyor, kural harfiyen uygulanıyor",
+    "mechanismId": "literalism",
+    "punch": "geçen sefer kuzenin öksürdü hâlâ anılıyor",
+    "closer": "fincan",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Tuzlu kahve: nişan/söz öncesi aile ziyaretinde ikram edilen tuzlu kahve geleneği. EN'de 'aile sınav kahvesi' olarak anlatılır; dinî öge yok."
+  }
+}

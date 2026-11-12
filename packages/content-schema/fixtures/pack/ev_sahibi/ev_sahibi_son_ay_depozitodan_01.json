@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_son_ay_depozitodan_01",
+  "tags": [
+    "ev",
+    "depozito",
+    "cikis",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Son ayı depozitodan düşmek mi? Olmaz. Depozito hasar içindir, kira kira içindir.",
+      "en": "Use the deposit for the last month? No. The deposit is for damages. Rent is for rent."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Önce kirayı yatır, çıkışta evi gezeriz, sonra bakarız.",
+      "en": "Pay the rent first. We tour the flat at move-out. Then we'll see.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Son kirayı da öde",
+      "en": "Pay the last month",
+      "pattern": "patience"
+    },
+    {
+      "id": "teklif",
+      "tr": "Bir hafta önce ortak gezi öner",
+      "en": "Propose a walkthrough a week early",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yatirma",
+      "tr": "Son kirayı yatırma",
+      "en": "Skip the last payment",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -2200,
+        "flags": {
+          "add": [
+            "depozito_bekleniyor"
+          ]
+        }
+      },
+      "tr": "Son kirayı, 2.200 Para'yı yatırdın. Depozito iadesi \"sonra bakarız\" aşamasında.",
+      "en": "You paid the last month: 2,200. The deposit refund is at the \"we'll see\" stage.",
+      "coach": [
+        {
+          "tr": "Para gitti. Bakılması bekleniyor.",
+          "en": "Money gone. Seeing pending.",
+          "roast": true
+        }
+      ]
+    },
+    "teklif": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "depozito_mahsup"
+            ]
+          }
+        },
+        "tr": "Bir hafta önceden evi birlikte gezdiniz, hasar çıkmadı. Son ay depozitodan düşüldü.",
+        "en": "You toured the flat together a week early. No damage. The last month came out of the deposit.",
+        "coach": [
+          {
+            "tr": "\"Sonra bakarız\" bir hafta öne çekildi.",
+            "en": "\"We'll see\" got moved up a week.",
+            "roast": false
+          },
+          {
+            "tr": "Depozito döndü. Hedef bütçe tam.",
+            "en": "Deposit recovered. Goal budget intact.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -2200,
+          "flags": {
+            "add": [
+              "depozito_bekleniyor"
+            ]
+          }
+        },
+        "tr": "Gezide ev sahibi balkon kapısının gıcırtısını \"yeni bir ses\" diye not etti. Kirayı ödedin, depozito beklemede.",
+        "en": "On the walkthrough, the landlord logged the balcony door's squeak as \"a new sound.\" You paid the rent. Deposit pending.",
+        "coach": [
+          {
+            "tr": "Gıcırtı on iki yaşında. Bugün doğdu.",
+            "en": "That squeak is twelve years old. Today it was born.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yatirma": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "son_kira_odenmedi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -5
+          }
+        ]
+      },
+      "tr": "Son kirayı yatırmadın. Ev sahibi her gün bir mesajla \"depozito hasar içindir\" cümlesini hatırlattı.",
+      "en": "You skipped the last payment. Every day, the landlord texted to remind you the deposit is for damages.",
+      "coach": [
+        {
+          "tr": "Otuz gün, otuz hatırlatma.",
+          "en": "Thirty days. Thirty reminders.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "teklif",
+    "slip": {
+      "tr": "İDDİA: Erken gezi depozitoyu kurtarmaz. — M.",
+      "en": "WAGER: An early walkthrough won't save the deposit. — M."
+    }
+  },
+  "intent": {
+    "setup": "taşınırken son ay kirasını depozitodan düşmek isteyince ev sahibinin reddetmesi",
+    "mechanism": "\"sonra bakarız\" depozitoyu askıya alıyor",
+    "mechanismId": "reversal",
+    "punch": "önce kirayı yatır, sonra bakarız",
+    "lift": "depozito döndü",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bakariz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

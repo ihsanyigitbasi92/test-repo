@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_weddingdj_ekipman_taksidi_01",
+  "tags": [
+    "kariyer",
+    "dugun_dj",
+    "kariyer_weddingdj"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_weddingdj": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 24
+    },
+    "career": {
+      "anyOf": [
+        "weddingDJ"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Ekipman borcu düğünle ödenir. Doğum gününden sadece balon kalır.",
+      "en": "Gear gets paid off with weddings. Birthday parties pay in balloons."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Bu ay kaç düğünün var? Bir mi? Taksit on iki tane.",
+      "en": "How many weddings this month? One? You've got twelve installments.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "her_is",
+      "tr": "Gelen her işi al",
+      "en": "Take every gig going",
+      "pattern": "overwork"
+    },
+    {
+      "id": "kirala",
+      "tr": "Hoparlörleri kiraya ver",
+      "en": "Rent your speakers out",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayından borç iste",
+      "en": "Borrow from your uncle",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "her_is": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "health": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "money": 900,
+        "flags": {
+          "add": [
+            "dj_her_is"
+          ]
+        }
+      },
+      "tr": "Bir ayda bir düğün, üç doğum günü ve bir dükkân açılışı çaldın. Taksit ödendi, kulaklarında balon patlama sesi kaldı.",
+      "en": "One wedding, three birthdays and a store opening this month. Installment paid. Your ears still hear balloons popping.",
+      "coach": [
+        {
+          "tr": "Beş iş, bir taksit. Balonlar da katkı yaptı.",
+          "en": "Five gigs, one installment. The balloons chipped in.",
+          "roast": true
+        }
+      ]
+    },
+    "kirala": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 1
+          },
+          "money": 600
+        },
+        "tr": "Hoparlörleri hafta sonu kiraladın, sağlam döndüler. Kira taksitin yarısını karşıladı.",
+        "en": "You rented the speakers out for the weekend. They came back intact and covered half the payment.",
+        "coach": [
+          {
+            "tr": "Bu hafta hoparlör senden çok çalıştı.",
+            "en": "The speakers worked harder than you this week.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -400,
+          "flags": {
+            "add": [
+              "dj_hoparlor_tamirde"
+            ]
+          }
+        },
+        "tr": "Hoparlörler döndü; birinin içinden pasta çıktı. Tamir ücreti kira gelirini geçti.",
+        "en": "The speakers came back. One had cake inside. Repairs cost more than the rental.",
+        "coach": [
+          {
+            "tr": "Pasta içeride. Bas sesi tatlandı.",
+            "en": "Cake in the woofer. Sweetest bass in town.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "meters": {
+          "ego": -2
+        },
+        "money": 1000,
+        "flags": {
+          "add": [
+            "dj_dayi_borcu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Dayın parayı verdi; karşılığında kuzeninin düğününü bedava çalacaksın.",
+      "en": "Your uncle lent you the money. In exchange, you're playing your cousin's wedding for free.",
+      "coach": [
+        {
+          "tr": "Faiz yok. Bir düğün var.",
+          "en": "No interest. One wedding.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kirala",
+    "slip": {
+      "tr": "İDDİA: Hoparlör hasarlı döner. — M.",
+      "en": "WAGER: The speakers come back damaged. — M."
+    }
+  },
+  "intent": {
+    "setup": "taksitle aldığın hoparlör setinin ilk ayında yalnızca bir düğün bulabilmek",
+    "mechanism": "taksit sayısı düğün sayısını geçiyor",
+    "mechanismId": "escalation",
+    "punch": "doğum gününden sadece balon kalır",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "balon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

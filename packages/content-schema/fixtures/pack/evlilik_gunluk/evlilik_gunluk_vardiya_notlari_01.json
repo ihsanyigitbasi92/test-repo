@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_vardiya_notlari_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "vardiya_karari"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Gece vardiyasına geçtim, sen gündüzdesin. Haftada iki saat aynı evdeyiz. Uyanık olarak yarım saat.",
+      "en": "I'm on nights now, you're on days. We overlap two hours a week. Awake, thirty minutes."
+    }
+  ],
+  "choices": [
+    {
+      "id": "not",
+      "tr": "Buzdolabına not bırak",
+      "en": "Leave notes on the fridge",
+      "pattern": "patience"
+    },
+    {
+      "id": "uyan",
+      "tr": "Sabah dörtte kalk",
+      "en": "Get up at four",
+      "pattern": "generosity"
+    },
+    {
+      "id": "izin",
+      "tr": "Ortak bir izin günü ayarla",
+      "en": "Book a shared day off",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "not": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "vardiya_karari",
+            "buzdolabi_notlari"
+          ]
+        }
+      },
+      "tr": "Bir ayda otuz sekiz not birikti. En uzunu: 'Süt bitti. Seni özledim. Süt.'",
+      "en": "Thirty-eight notes in a month. The longest: 'Out of milk. Miss you. Milk.'",
+      "coach": [
+        {
+          "tr": "Otuz sekiz not. Süt iki kez geçiyor, özlem bir kez.",
+          "en": "Thirty-eight notes. Milk comes up twice. Missing you, once.",
+          "roast": false
+        }
+      ]
+    },
+    "uyan": {
+      "effects": {
+        "stats": {
+          "health": -3,
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "vardiya_karari"
+          ]
+        }
+      },
+      "tr": "Dörtte kalkıp kahvaltı hazırladın. Partnerin kahvaltıdan sonra yattı, sen işe gittin.",
+      "en": "You got up at four and made breakfast. Your partner ate, then went to bed. You went to work.",
+      "coach": [
+        {
+          "tr": "Bir kahvaltı, iki ayrı gün.",
+          "en": "One breakfast. Two separate days.",
+          "roast": false
+        }
+      ]
+    },
+    "izin": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "vardiya_karari",
+              "ortak_izin"
+            ]
+          }
+        },
+        "tr": "Ayda bir pazartesi ikiniz de izinlisiniz. İlkini yan yana uyuyarak geçirdiniz.",
+        "en": "One Monday a month, you're both off. You spent the first one asleep, side by side.",
+        "coach": [
+          {
+            "tr": "Ortak gün: ayda bir. Uyuyarak kullanıldı.",
+            "en": "Shared day: one a month. Used for sleeping.",
+            "roast": false
+          },
+          {
+            "tr": "Ortak takvim: ayda bir gün.",
+            "en": "Shared calendar: one day a month.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "vardiya_karari"
+            ]
+          }
+        },
+        "tr": "İki iş yeri de o günü vermedi. Ortak takvimde bir satır boş kaldı.",
+        "en": "Neither workplace would give up the day. One row of the shared calendar stayed empty.",
+        "coach": [
+          {
+            "tr": "Satır boş. Takvim bekliyor.",
+            "en": "Row empty. The calendar can wait.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "eşlerden birinin gece vardiyasına geçmesi ve neredeyse hiç karşılaşmamanız",
+    "mechanism": "evlilik buzdolabı notlarına sıkışıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "süt bitti seni özledim süt",
+    "closer": "not",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "Ortak takvim: ayda bir gün."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

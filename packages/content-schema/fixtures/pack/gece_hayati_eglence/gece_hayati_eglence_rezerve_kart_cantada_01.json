@@ -1,0 +1,175 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gece_hayati_eglence_rezerve_kart_cantada_01",
+  "tags": [
+    "sosyal",
+    "gece",
+    "mekan",
+    "masa",
+    "gece_hayati_eglence"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "gece_hayati_eglence": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "annoyed",
+      "tr": "Bu masa rezerve. Üstünde kart duruyordu.",
+      "en": "This table's reserved. There was a card on it."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Kartı ben çantama koydum. Masa boş görünsün diye.",
+      "en": "I put the card in my bag. So the table would look free.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Rezervasyon gelene kadar otur",
+      "en": "Stay until the booking shows",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kalk",
+      "tr": "Kartı geri koy, kalk",
+      "en": "Return the card, get up",
+      "pattern": "patience"
+    },
+    {
+      "id": "baska",
+      "tr": "Başka mekâna geç",
+      "en": "Try another place",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -180
+        },
+        "tr": "Garson saat ona kadar izin verdi. Rezervasyon dokuzu elli geçe geldi; iki saat masa sizindi.",
+        "en": "The waiter gave you until ten. The booking arrived at nine-fifty. Two hours of table, yours.",
+        "coach": [
+          {
+            "tr": "Masa iki saat sizindi. Kart çantada kaldı.",
+            "en": "Two hours of table. The card stayed in the bag.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "money": -180
+        },
+        "tr": "Kapının yanındaki ayakta masaya yönlendirildiniz. Gece boyunca kapı her açıldığında üşüdünüz.",
+        "en": "You were moved to a standing table by the door. Every time it opened, so did the cold.",
+        "coach": [
+          {
+            "tr": "Kapı yanı. Rüzgârı da dahil.",
+            "en": "Door-side. Draft included.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kalk": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "gece_rezerve_karti"
+          ]
+        }
+      },
+      "tr": "Kartı masaya geri koydun. Barın önünde ayakta iki saat geçti, ayakların gece yarısı pes etti.",
+      "en": "You put the card back. Two hours standing at the bar. Your feet clocked out at midnight.",
+      "coach": [
+        {
+          "tr": "Ayakta iki saat. Kart yerinde.",
+          "en": "Two hours on your feet. Card back where it lives.",
+          "roast": false
+        }
+      ]
+    },
+    "baska": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -120
+      },
+      "tr": "Yandaki mekâna geçtiniz. Oradaki masaların hepsinde kart vardı; bu sefer kimse dokunmadı.",
+      "en": "You moved next door. Every table there had a card too. This time nobody touched them.",
+      "coach": [
+        {
+          "tr": "Yeni mekân, yeni kartlar. Çanta boş.",
+          "en": "New place, new cards. Bag empty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Masa sizin kalmaz. — M.",
+      "en": "WAGER: That table won't stay yours. — M."
+    }
+  },
+  "intent": {
+    "setup": "rezerve kartını çantaya saklayıp masaya oturmak ve garsonun gelmesi",
+    "mechanism": "ev arkadaşının itirafı durumu büyütüyor",
+    "mechanismId": "escalation",
+    "punch": "masa boş görünsün diye",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kart"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "miras_vasiyet_mezar_yeri_kardes_01",
+  "tags": [
+    "yaslilik",
+    "kardes",
+    "buro",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 55,
+      "max": 60
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "İki yer var, yan yana. Biri ağaç altında, biri yol kenarında.",
+      "en": "There are two plots, side by side. One under a tree, one by the path."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Ağaç altının fiyatı farklı. Gölge ayrıca ücretlendiriliyor.",
+      "en": "The tree one is priced differently. Shade is billed separately.",
+      "delayMs": 700
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Ben ağaç altını alırım. Sen güneşi seversin zaten.",
+      "en": "I'll take the tree. You always liked the sun anyway.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "birak",
+      "tr": "Ağaç altını kardeşe bırak",
+      "en": "Let your sibling have the tree",
+      "pattern": "generosity"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Gölge ücretine itiraz et",
+      "en": "Contest the shade fee",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "erte",
+      "tr": "Sonra konuşalım de",
+      "en": "Say you'll talk later",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "birak": {
+      "effects": {
+        "money": -3000,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "mezar_yeri_alindi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Yol kenarındaki yer senin oldu: 3.000 Para. Kardeşin ağacın fotoğrafını aile grubuna attı.",
+      "en": "The plot by the path is yours: 3,000. Your sibling posted a photo of the tree to the family group.",
+      "coach": [
+        {
+          "tr": "Yol kenarı. Ziyaret kolay.",
+          "en": "By the path. Easy to visit.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -2600,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "mezar_yeri_alindi"
+            ]
+          },
+          "glossary": "golge_bedeli"
+        },
+        "tr": "Memur gölge bedelini tarifeden sildi. Payın 2.600 Para'ya indi.",
+        "en": "The clerk struck the shade fee from the tariff. Your share dropped to 2,600.",
+        "coach": [
+          {
+            "tr": "Gölge bedeli sıfır. Dört yüz geri.",
+            "en": "Shade fee: zero. Four hundred back.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -3400,
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "mezar_yeri_alindi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "İtiraz kabul edilmedi. Gölge bedeline dilekçe harcı da eklendi: 3.400 Para.",
+        "en": "The objection was denied. A petition fee joined the shade fee: 3,400.",
+        "coach": [
+          {
+            "tr": "Dilekçe de ücretliymiş. Artık biliniyor.",
+            "en": "Petitions cost money too. Now it's known.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "erte": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "mezar_yeri_kardeste"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Konu kapandı. Kardeşin iki yeri de ayırttı ve sana \"birini ayırdım\" diye yazdı.",
+      "en": "Topic closed. Your sibling reserved both plots and texted you, \"Saved you one.\"",
+      "coach": [
+        {
+          "tr": "Yer ayrıldı. Senin adına, senden önce.",
+          "en": "A plot is reserved. In your name, before you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Gölge tarifeden çıkmaz. — M.",
+      "en": "WAGER: The shade stays on the bill. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşle yan yana iki mezar yeri; ağaç altı ve yol kenarı",
+    "mechanism": "gölgenin ayrıca faturalanması",
+    "mechanismId": "literalism",
+    "punch": "gölge ayrıca ücretlendiriliyor",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "golge",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

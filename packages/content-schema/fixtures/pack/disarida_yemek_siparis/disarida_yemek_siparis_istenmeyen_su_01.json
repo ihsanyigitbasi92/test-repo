@@ -1,0 +1,151 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_istenmeyen_su_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "restoran",
+    "hesap",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "happy",
+      "tr": "Suyunuz. Dağ kaynağından, cam şişede.",
+      "en": "Your water. Mountain spring, glass bottle."
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Hesaptan çıkarılmasını iste",
+      "en": "Ask them to take it off the bill",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      },
+      "swipe": "right"
+    },
+    {
+      "id": "ode",
+      "tr": "Bir şey deme, öde",
+      "en": "Say nothing, pay",
+      "pattern": "avoidance",
+      "swipe": "left"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -620,
+          "flags": {
+            "add": [
+              "siparis_su_itirazi"
+            ]
+          }
+        },
+        "tr": "Garson \"haklısınız\" deyip suyu hesaptan çıkardı. Şişe masada kaldı.",
+        "en": "The waiter said \"fair enough\" and took it off the bill. The bottle stayed on the table.",
+        "coach": [
+          {
+            "tr": "Dağ kaynağı bu akşam ikram.",
+            "en": "Mountain spring, on the house tonight.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -800,
+          "flags": {
+            "add": [
+              "siparis_dag_suyu"
+            ]
+          }
+        },
+        "tr": "Garson şişenin açılmış olduğunu hatırlattı. 180 Para hesapta kaldı.",
+        "en": "The waiter pointed out that the bottle had been opened. The 180 stayed on the bill.",
+        "coach": [
+          {
+            "tr": "Şişe açıldı, dava kapandı.",
+            "en": "The bottle was opened. The case was closed.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -800,
+        "flags": {
+          "add": [
+            "siparis_dag_suyu"
+          ]
+        }
+      },
+      "tr": "Hesapta 180 Para'lık su vardı, ödedin. Şişeyi eve götürüp çeşmeden doldurdun.",
+      "en": "The bill had 180 for water. You paid it, took the bottle home and refilled it from the tap.",
+      "coach": [
+        {
+          "tr": "Dağ kaynağı artık evde. Kaynak: musluk.",
+          "en": "The mountain spring lives at home now. Source: the tap.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Su hesapta kalır. — M.",
+      "en": "WAGER: The water stays on the bill. — M."
+    }
+  },
+  "intent": {
+    "setup": "garsonun sormadan şık şişe su getirmesi ve hesaba yazması",
+    "mechanism": "dağ kaynağı ifadesinin musluğa dönmesi",
+    "mechanismId": "callback",
+    "punch": "dağ kaynağından, cam şişede",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "musluk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

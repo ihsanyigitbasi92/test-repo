@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_kopek_teklifi_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "cat": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Barınakta bir köpek var. Adı Fasulye. Pamuk'la anlaşırlar.",
+      "en": "There's a dog at the shelter. Name's Bean. Bean and Pamuk would get along."
+    },
+    {
+      "speaker": "cat",
+      "avatar": "neutral",
+      "tr": "(Pamuk masaya çıktı ve telefondaki fotoğrafa uzun uzun baktı.)",
+      "en": "(Pamuk climbs onto the table and stares at the photo on the phone for a long time.)",
+      "delayMs": 900
+    },
+    {
+      "speaker": "cat",
+      "avatar": "annoyed",
+      "tr": "Miyav.",
+      "en": "Meow.",
+      "delayMs": 1200
+    }
+  ],
+  "choices": [
+    {
+      "id": "ziyaret",
+      "tr": "Barınağa gidin",
+      "en": "Visit the shelter",
+      "pattern": "generosity",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "pamuk",
+      "tr": "Pamuk'a danış",
+      "en": "Consult Pamuk",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "'Şimdilik hayır' de",
+      "en": "Say 'not right now'",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ziyaret": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "money": -500,
+          "flags": {
+            "add": [
+              "kopek_var"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 4
+            },
+            {
+              "role": "cat",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Fasulye ilk gün kucağında uyudu. Barınak bağışı 500 Para; Pamuk bir hafta buzdolabının üstünden inmedi.",
+        "en": "Bean napped in your lap on day one. Shelter donation: 500. Pamuk stayed on top of the fridge for a week.",
+        "coach": [
+          {
+            "tr": "Ev kalabalıklaştı.",
+            "en": "The house got fuller.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "kopek_tanisma"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Fasulye sana havladı, partnerine kuyruk salladı. Barınak bir hafta daha ziyaret istedi.",
+        "en": "Bean barked at you and wagged at your partner. The shelter asked for another week of visits.",
+        "coach": [
+          {
+            "tr": "Bir hafta daha.",
+            "en": "One more week.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "pamuk": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kopek_ertelendi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          },
+          {
+            "role": "cat",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Pamuk'u fotoğrafın yanına oturttunuz. Telefonu masadan aşağı itti.",
+      "en": "You sat Pamuk next to the photo. Pamuk pushed the phone off the table.",
+      "coach": [
+        {
+          "tr": "Pamuk görüş bildirdi.",
+          "en": "Pamuk has submitted feedback.",
+          "roast": false
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kopek_ertelendi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Şimdilik hayır dedin. Partnerin Fasulye'nin fotoğrafını kilit ekranı yaptı.",
+      "en": "You said not right now. They made Bean their lock screen.",
+      "coach": [
+        {
+          "tr": "Fasulye ekranda.",
+          "en": "Bean is on the lock screen.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz, düşük gerilimli ya da sessizlik günü"
+  },
+  "intent": {
+    "setup": "evde kedi varken partnerin barınaktan köpek sahiplenmek istemesi",
+    "mechanism": "kedinin tek kelimelik vetosu",
+    "mechanismId": "reversal",
+    "punch": "Miyav.",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "miyav"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

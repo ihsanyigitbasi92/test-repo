@@ -1,0 +1,169 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "trafik_cezalar_ehliyet_kaybi_01",
+  "tags": [
+    "ulasim",
+    "trafik",
+    "trafik_cezalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "trafik_cezalar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kayıp ehliyet için kayıp beyanı, fotoğraf, harç dekontu ve eski ehliyetin fotokopisi lazım.",
+      "en": "For a lost license: a loss statement, a photo, the fee receipt and a copy of the old license."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Fotokopi yoksa beyana \"fotokopisi de kayıp\" yazın.",
+      "en": "No copy? Write \"copy also lost\" on the statement.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "yaz",
+      "tr": "\"Fotokopisi de kayıp\" yaz",
+      "en": "Write \"copy also lost\"",
+      "pattern": "patience"
+    },
+    {
+      "id": "ev",
+      "tr": "Eve dönüp fotokopiyi ara",
+      "en": "Go home and look for the copy",
+      "pattern": "pride"
+    },
+    {
+      "id": "cuzdan",
+      "tr": "Cüzdanı son kez yokla",
+      "en": "Check your wallet one last time",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "yaz": {
+      "effects": {
+        "money": -280,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ehliyet_ikinci_nusha"
+          ]
+        }
+      },
+      "tr": "Beyana \"fotokopisi de kayıp\" yazdın, memur damgaladı. Yeni ehliyet on gün sonra geldi; 280 Para.",
+      "en": "You wrote \"copy also lost\" and the clerk stamped it. The new license arrived ten days later. 280.",
+      "coach": [
+        {
+          "tr": "Tek beyan iki kaybı birden kapattı.",
+          "en": "One statement covered both losses.",
+          "roast": true
+        }
+      ]
+    },
+    "ev": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ehliyet_bulundu"
+          ]
+        }
+      },
+      "tr": "Evde fotokopiyi bulamadın, ehliyetin kendisini buldun: kışlık ceketin iç cebinde. Gişeye dönmene gerek kalmadı.",
+      "en": "You didn't find the copy. You found the license itself, in the inside pocket of your winter coat. No need to go back.",
+      "coach": [
+        {
+          "tr": "Arama başarılı. Fotokopi hâlâ kayıp.",
+          "en": "Search successful. The copy is still missing.",
+          "roast": true
+        },
+        {
+          "tr": "280 Para hedef kumbarasında kaldı.",
+          "en": "280 stays in the goal jar.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "cuzdan": {
+      "effects": {
+        "money": -280,
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "ehliyet_ikinci_nusha",
+            "kutuphane_karti_suresi_doldu"
+          ]
+        }
+      },
+      "tr": "Cüzdanda yalnızca süresi dolmuş bir kütüphane kartı çıktı. Başvurunu yaptın; memur kartı \"Bunu da yenileyin\" diyerek geri verdi.",
+      "en": "Your wallet held only an expired library card. You applied anyway, and the clerk handed the card back with, \"Renew this one too.\"",
+      "coach": [
+        {
+          "tr": "Bir gişe, iki yenileme.",
+          "en": "One window. Two renewals.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kaybolan ehliyetin yerine yenisini çıkarmak için gişede istenen belge zinciri",
+    "mechanism": "kayıp belgenin kayıp fotokopisi de beyana yazılıyor",
+    "mechanismId": "escalation",
+    "punch": "fotokopisi de kayıp",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "fotokopi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gece_hayati_eglence_sahte_dogum_gunu_01",
+  "tags": [
+    "sosyal",
+    "gece",
+    "restoran",
+    "dogum_gunu",
+    "gece_hayati_eglence"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "gece_hayati_eglence": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Garsona bugün doğum günün olduğunu söyledim. Tatlı bedava çıkıyor.",
+      "en": "Told the waiter it's your birthday. Free dessert."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "happy",
+      "tr": "Bütün salon hep birlikte, doğum günü olan arkadaşımız için!",
+      "en": "Everybody, all together, for our birthday friend!"
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Kimliğinize bakabilir miyim? Kampanya için tarih gerekiyor.",
+      "en": "Could I see some ID? The offer needs a date on file.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "Doğrusunu söyle",
+      "en": "Come clean",
+      "pattern": "patience"
+    },
+    {
+      "id": "kimlik",
+      "tr": "Kimliği uzat, belki bakmaz",
+      "en": "Hand over ID, hope for the best",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kac",
+      "tr": "Lavaboya kaç",
+      "en": "Hide in the restroom",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "money": -140
+      },
+      "tr": "Doğum gününün ekimde olduğunu söyledin. Tatlı yine geldi, hesaba yazılı olarak: 140 Para.",
+      "en": "You admitted your birthday is in October. Dessert came anyway, on the bill: 140.",
+      "coach": [
+        {
+          "tr": "Tatlı geldi. Faturalı.",
+          "en": "Dessert arrived. Itemized.",
+          "roast": false
+        }
+      ]
+    },
+    "kimlik": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "gece_sahte_kutlama"
+            ]
+          }
+        },
+        "tr": "Garson kimliğe uzun uzun baktı, \"Yakın sayılır\" dedi ve maytap yaktı.",
+        "en": "The waiter studied the ID, said \"close enough,\" and lit a sparkler.",
+        "coach": [
+          {
+            "tr": "\"Yakın sayılır\" kabul edildi.",
+            "en": "\"Close enough\" was accepted.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 6
+          },
+          "money": -140
+        },
+        "tr": "Garson tarihi yüksek sesle okudu. Salon şarkının yarısında sustu, tatlı hesaba yazıldı.",
+        "en": "The waiter read the date out loud. The room stopped mid-song. Dessert went on the bill.",
+        "coach": [
+          {
+            "tr": "Şarkı yarıda kaldı. Hesap tamamlandı.",
+            "en": "The song stopped halfway. The bill did not.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kac": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        }
+      },
+      "tr": "Lavabodan döndüğünde şarkı bitmiş, mum erimişti. Tatlıyı ev arkadaşın yemişti.",
+      "en": "By the time you came back, the song was over and the candle had melted. Your roommate ate the dessert.",
+      "coach": [
+        {
+          "tr": "Tatlı yendi. Kutlanan yoktu.",
+          "en": "Dessert eaten. Nobody celebrated.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının bedava tatlı için garsona sahte doğum günü söylemesi ve kimlik istenmesi",
+    "mechanism": "şarkıdan kimlik kontrolüne tırmanış",
+    "mechanismId": "escalation",
+    "punch": "kampanya için tarih gerekiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fatura"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "dolandiricilik_kurban_alacak_takip_tehdidi_01",
+  "tags": [
+    "para",
+    "borc",
+    "mesaj",
+    "evrak",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 60
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ALACAK TAKİP VE TAHSİLAT BÜROSU (kurgusal)",
+      "en": "DEBT RECOVERY & COLLECTIONS OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "Adınıza kayıtlı 4.870 Para tutarındaki borç nedeniyle hakkınızda yasal süreç başlatılmak üzeredir. Bugün saat 17.00'ye kadar ödeme yapılması hâlinde dosyanız kapatılacaktır.",
+      "en": "Due to a debt of 4,870 registered in your name, legal action is about to begin. If payment is received by 5 p.m. today, your file will be closed."
+    },
+    "translate": {
+      "tr": {
+        "from": "dosyanız kapatılacaktır",
+        "to": "biz ortadan kaybolacağız"
+      },
+      "en": {
+        "from": "your file will be closed",
+        "to": "we will vanish"
+      }
+    },
+    "glossaryKey": "sahte_alacak_takibi"
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Senin adına borç mu var? Ben sana demedim mi o kartı kes diye.",
+      "en": "There's a debt in your name? Didn't I tell you to cut up that card?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Saat beşten önce öde",
+      "en": "Pay before five",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "kaynak",
+      "tr": "Borcun kaynağını sor",
+      "en": "Ask what the debt is for",
+      "pattern": "pride"
+    },
+    {
+      "id": "kayit",
+      "tr": "Kendi hesaplarını kontrol et",
+      "en": "Check your own accounts",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -4870,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 6
+        },
+        "flags": {
+          "add": [
+            "sahte_borc_odendi"
+          ]
+        },
+        "glossary": "sahte_alacak_takibi"
+      },
+      "tr": "4.870 Para'yı yolladın. Ertesi gün aynı büro \"dosya masrafı\" için tekrar yazdı.",
+      "en": "You sent the 4,870. The next day, the same office wrote again about \"file fees.\"",
+      "coach": [
+        {
+          "tr": "Dosya kapanmadı. Yenisi açıldı, adı sensin.",
+          "en": "File not closed. A new one opened. It's you.",
+          "roast": true
+        }
+      ]
+    },
+    "kaynak": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sahte_borc_soruldu"
+          ]
+        },
+        "glossary": "sahte_alacak_takibi"
+      },
+      "tr": "Borcun nereden doğduğunu sordun. Cevap: \"Telefonda konuşamayız, önce ödeme.\" Saat beş geçti, arayan olmadı.",
+      "en": "You asked what the debt was for. Answer: \"We can't discuss that by phone. Payment first.\" Five came and went. Nobody called.",
+      "coach": [
+        {
+          "tr": "Son saat geçti. Dünya dönmeye devam etti.",
+          "en": "The deadline passed. The planet kept turning.",
+          "roast": false
+        }
+      ]
+    },
+    "kayit": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "borc_yok_teyit"
+          ]
+        },
+        "glossary": "sahte_alacak_takibi"
+      },
+      "tr": "Bütün hesaplarına baktın: borç sıfır. Annene gösterdin, annen yine de kartı kesmeni istedi.",
+      "en": "You checked every account: zero debt. You showed Mom. She still wants the card cut up.",
+      "coach": [
+        {
+          "tr": "Borç sıfır. Annenin şüphesi sabit.",
+          "en": "Debt: zero. Mom's suspicion: holding steady.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef bütçesine dokunulmadı.",
+          "en": "Goal budget: untouched.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "kurgusal alacak bürosundan saat beşe kadar öde yoksa yasal süreç mesajı",
+    "mechanism": "\"dosyanız kapatılacaktır\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "dosyanız kapatılacaktır",
+    "lift": "hedef bütçesi",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dosya"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

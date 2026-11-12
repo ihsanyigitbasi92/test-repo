@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_sinav_kapanis_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Sınavın cumartesi, biliyorum. Ay sonu kapanışı da cumartesi. Takvim böyle, kimsenin suçu yok.",
+      "en": "I know your exam is Saturday. So is month-end close. That's the calendar. Nobody's fault."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Ben geçen yıl sınava kapanış dosyasıyla girdim. Cevap kâğıdına mizan yazmışım.",
+      "en": "Last year I took the exam with the close file in my bag. Wrote a trial balance on the answer sheet.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikisi",
+      "tr": "İkisini de yetiştir",
+      "en": "Do both",
+      "pattern": "overwork",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "izin",
+      "tr": "Cumartesi izni iste",
+      "en": "Ask for Saturday off",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "devret",
+      "tr": "Kapanışı iş arkadaşına bırak",
+      "en": "Hand the close to a coworker",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ikisi": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "brain": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "career": {
+            "rungDelta": 1
+          },
+          "flags": {
+            "add": [
+              "acc_sinav_gecti"
+            ]
+          }
+        },
+        "tr": "Gece ikiye kadar kapanış, sabah dokuzda sınav. İkisi de geçti; cevap kâğıdında mizan yok.",
+        "en": "Close until 2 a.m., exam at nine. Both passed. No trial balance on the answer sheet.",
+        "coach": [
+          {
+            "tr": "İki teslim, bir uykusuz gece.",
+            "en": "Two deadlines. One sleepless night.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef kartında bir kutu doldu.",
+            "en": "One box ticked on the goal card.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 6
+          },
+          "flags": {
+            "add": [
+              "acc_sinav_tekrar"
+            ]
+          }
+        },
+        "tr": "Kapanış yetişti, sınav yetişmedi: iki puanla kaldın. Bir sonraki sınav altı ay sonra.",
+        "en": "The close made it. The exam didn't. Missed by two points. Next sitting: six months.",
+        "coach": [
+          {
+            "tr": "İki puan. Altı ay.",
+            "en": "Two points. Six months.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "izin": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "brain": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_sinav_girildi"
+          ]
+        }
+      },
+      "tr": "Patron izni 'bu seferlik' diyerek verdi. Sınavdan çıktığında telefonunda kapanışla ilgili on dokuz mesaj vardı.",
+      "en": "The boss gave you the day, 'just this once.' After the exam: nineteen messages about the close.",
+      "coach": [
+        {
+          "tr": "On dokuz mesaj, bir 'bu seferlik'.",
+          "en": "Nineteen texts. One 'just this once.'",
+          "roast": false
+        }
+      ]
+    },
+    "devret": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "memory": "kapanis_borcu"
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_sinav_girildi"
+          ]
+        }
+      },
+      "tr": "Kapanışı iş arkadaşın yaptı. Bir sonraki sınav döneminde aynı iyiliği isteyeceğini takvimine yazdı.",
+      "en": "Your coworker did the close. Then put it on their calendar that they'll want the same favor next exam season.",
+      "coach": [
+        {
+          "tr": "İyilik borcu, vadeli.",
+          "en": "One favor owed. Due date set.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikisi",
+    "slip": {
+      "tr": "İDDİA: Cumartesi ikisinden birini seçer. — M.",
+      "en": "WAGER: Saturday picks one of the two. — M."
+    }
+  },
+  "intent": {
+    "setup": "genç muhasebecinin meslek sınavı ile ay sonu kapanışı aynı cumartesiye düşüyor",
+    "mechanism": "geçen yılki cevap kâğıdına mizan yazma hikâyesi",
+    "mechanismId": "escalation",
+    "punch": "cevap kâğıdına mizan yazmışım",
+    "lift": "hedef kartında bir kutu",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "puan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

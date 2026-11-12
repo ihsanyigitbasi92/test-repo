@@ -1,0 +1,155 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_cihaz_taksidi_01",
+  "tags": [
+    "para",
+    "telefon",
+    "taahhut",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Telefon bugün peşinatsız sizin. Faturanıza küçük bir satır ekleniyor, o kadar.",
+      "en": "The phone's yours today, nothing down. Your bill just gets one small extra line, that's all."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Satır 24 ay sürüyor. Bu sürede hat başka yere taşınamıyor.",
+      "en": "The line runs twenty-four months. Your number can't move carriers until then.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzala",
+      "tr": "İmzala, telefonu al",
+      "en": "Sign, take the phone",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "eski_model",
+      "tr": "Eski modeli peşin al",
+      "en": "Buy last year's model outright",
+      "pattern": "patience"
+    },
+    {
+      "id": "devam",
+      "tr": "Eski telefonla devam",
+      "en": "Stick with your old phone",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "imzala": {
+      "effects": {
+        "money": -310,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "cihaz_taksidi_24"
+          ]
+        }
+      },
+      "tr": "Telefon elinde. Fatura satırı ayda 310 Para, son ödeme iki yıl sonra.",
+      "en": "Phone in hand. The bill line is 310 a month, final payment two years out.",
+      "coach": [
+        {
+          "tr": "Yirmi dört satır. Biri ödendi.",
+          "en": "Twenty-four lines. One paid.",
+          "roast": false
+        }
+      ]
+    },
+    "eski_model": {
+      "effects": {
+        "money": -4200,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "pesin_telefon"
+          ]
+        }
+      },
+      "tr": "Geçen yılın modeli 4.200 Para'ya peşin alındı. Hat taahhütsüz kaldı.",
+      "en": "Last year's model, 4,200 up front. Your line stays contract-free.",
+      "coach": [
+        {
+          "tr": "Bir yaş büyük telefon. Sıfır ek satır.",
+          "en": "A phone one year older. Zero extra lines.",
+          "roast": false
+        }
+      ]
+    },
+    "devam": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "glossary": "cihaz_taksidi",
+        "flags": {
+          "add": [
+            "eski_telefon"
+          ]
+        }
+      },
+      "tr": "Eski telefonla devam. Pil öğlene kadar dayanıyor, şarj aleti artık çantada yaşıyor.",
+      "en": "Old phone it is. The battery lasts till noon, so the charger now lives in your bag.",
+      "coach": [
+        {
+          "tr": "Öğlen şarj molası. Faturada yeni satır yok.",
+          "en": "A noon charging break. No new line on the bill.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "yeni telefonun 24 aylık cihaz taksidinin hat faturasına eklenip hattı bağlaması",
+    "mechanism": "satıcının 'küçük satır' dediği şey iki yıllık bağ",
+    "mechanismId": "understatement",
+    "punch": "küçük bir satır, o kadar",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "satir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

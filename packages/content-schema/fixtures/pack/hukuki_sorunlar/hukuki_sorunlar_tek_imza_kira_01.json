@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_tek_imza_kira_01",
+  "tags": [
+    "burokrasi",
+    "kira",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Sözleşmede tek imza var, o da sizin. Arkadaşınız taşınmış, kira taşınmamış.",
+      "en": "There's one signature on the lease, and it's yours. Your friend moved out. The rent didn't."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Ayın beşine kadar tamamını bekliyorum. İsterseniz yeni kiracıyı da siz bulun.",
+      "en": "I expect the full amount by the fifth. You are welcome to find the next tenant yourself.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Bu ay kiranın tamamını öde",
+      "en": "Pay the full rent this month",
+      "pattern": "patience"
+    },
+    {
+      "id": "senet",
+      "tr": "Arkadaşından yazılı borç kabulü al",
+      "en": "Get your friend's IOU in writing",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yeni",
+      "tr": "Yeni ev arkadaşını kendin bul",
+      "en": "Find a new roommate yourself",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -1400,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "tek_imza_kira"
+          ]
+        },
+        "glossary": "kira_sozlesmesi_taraf"
+      },
+      "tr": "Kiranın tamamını, 2.800 Para’yı ödedin, payın 1.400’dü. Eski ev arkadaşın mesajına ertesi gün \"ay çok kötü\" diye döndü.",
+      "en": "You paid the full 2,800 when your share was 1,400. Your ex-roommate replied a day later: \"oh no, that's awful.\"",
+      "coach": [
+        {
+          "tr": "Sözleşmede bir imza, mesajda bir cümle.",
+          "en": "One signature on the lease. One sentence in the text.",
+          "roast": false
+        }
+      ]
+    },
+    "senet": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1400,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "ev_arkadasi_borc_senedi"
+            ]
+          }
+        },
+        "tr": "Kirayı ödedin, eski ev arkadaşın payını üç taksitte ödeyeceğini yazıp imzaladı. İlk taksit geldi.",
+        "en": "You paid the rent, and your ex-roommate signed a note to repay their share in three installments. The first one arrived.",
+        "coach": [
+          {
+            "tr": "Kâğıt imzalı. Taksitler yolda.",
+            "en": "Paper signed. Installments en route.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1400,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_arkadasi_alacak"
+            ]
+          }
+        },
+        "tr": "Mesajların \"görüldü\" olarak kaldı. Pay senden çıktı, alacağın yazısız bir alacak olarak duruyor.",
+        "en": "Your messages stayed on \"seen.\" The share came out of your pocket, and the debt stays unwritten.",
+        "coach": [
+          {
+            "tr": "Görüldü. Ödenmedi.",
+            "en": "Seen. Not paid.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yeni": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yeni_ev_arkadasi"
+          ]
+        }
+      },
+      "tr": "Bir haftada yeni ev arkadaşı buldun, ev sahibi onun adını da sözleşmeye ekledi. Arada kalan yarım ay 700 Para’ya patladı.",
+      "en": "You found a new roommate within a week, and the landlord added their name to the lease. The half-month gap cost you 700.",
+      "coach": [
+        {
+          "tr": "Sözleşmede artık iki imza var.",
+          "en": "Two signatures on the lease now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "ev arkadaşı taşınınca kira sözleşmesindeki tek imza senin olduğu için kiranın tamamının senden istenmesi",
+    "mechanism": "imzanın tekliği kiranın tamamına dönüşüyor",
+    "mechanismId": "reversal",
+    "punch": "arkadaş taşınmış, kira taşınmamış",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "iki_imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

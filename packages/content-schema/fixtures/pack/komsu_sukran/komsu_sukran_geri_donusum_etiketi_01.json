@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_geri_donusum_etiketi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "cop",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Poşetini kapına bıraktım canım. Kâğıtların arasında yoğurt kabı vardı.",
+      "en": "I left your bag at your door, dear. There was a yogurt cup in with the paper."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Etiket de yaptım. Mavi kâğıt, sarı plastik. Bir daha karışmaz.",
+      "en": "I made labels, too. Blue for paper, yellow for plastic. Won't happen again.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ayikla",
+      "tr": "Poşeti yeniden ayıkla",
+      "en": "Re-sort the bag",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Kabın senin olmadığını söyle",
+      "en": "Say the cup isn't yours",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kutu",
+      "tr": "Üç bölmeli kutu al",
+      "en": "Buy a three-section bin",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "ayikla": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3,
+            "memory": "poseti_ayikladi"
+          }
+        ],
+        "flags": {
+          "add": [
+            "sukran_geri_donusum"
+          ]
+        }
+      },
+      "tr": "Poşeti yeniden ayıkladın. Ertesi sabah kapında yeni bir etiket vardı: \"Aferin.\"",
+      "en": "You re-sorted the bag. Next morning there was a new label on your door: \"Good job.\"",
+      "coach": [
+        {
+          "tr": "Bir poşet, üç etiket. Etiketler önde gidiyor.",
+          "en": "One bag, three labels. The labels are pulling ahead.",
+          "roast": true
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Kap üst katınmış. Şükran Teyze etiketleri toplayıp bir kat yukarı çıktı.",
+        "en": "The cup belonged upstairs. Mrs. Dale gathered her labels and went up a floor.",
+        "coach": [
+          {
+            "tr": "Etiketler terfi etti. Sen yerinde kaldın.",
+            "en": "The labels got promoted a floor. You stayed put.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2,
+              "memory": "yogurt_kabi_inkari"
+            }
+          ]
+        },
+        "tr": "Kabın dibinden senin market fişin çıktı. Etiketler kapında bir hafta kaldı.",
+        "en": "Your grocery receipt was stuck to the bottom of the cup. The labels stayed on your door for a week.",
+        "coach": [
+          {
+            "tr": "Fiş karşı tarafa ifade verdi.",
+            "en": "The receipt testified for the other side.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kutu": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "uc_bolmeli_kutu"
+          ]
+        }
+      },
+      "tr": "Üç bölmeli çöp kutusu aldın: 250 Para. Şükran Teyze gelip bölmelerin yerini değiştirdi.",
+      "en": "You bought a three-section bin: 250. Mrs. Dale came over and rearranged the sections.",
+      "coach": [
+        {
+          "tr": "Sistem kuruldu. Yöneticisi zaten belliydi.",
+          "en": "The system's up. Management was pre-installed.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Kap senin çıkar. — M.",
+      "en": "WAGER: The cup turns out to be yours. — M."
+    }
+  },
+  "intent": {
+    "setup": "komşu senin geri dönüşüm poşetini lobide ayıklayıp etiketleyerek kapına geri bırakıyor",
+    "mechanism": "ayıklanmış poşet etiketlerle geri geliyor",
+    "mechanismId": "count",
+    "punch": "kâğıdın içinde yoğurt kabı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "etiket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

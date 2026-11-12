@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_emekli_kefil_cocuk_01",
+  "tags": [
+    "ev",
+    "kefil",
+    "emekli",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 65
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "worried",
+      "tr": "Emeklisiniz, değil mi? O zaman bir kefil isteyeceğim. Çalışan biri.",
+      "en": "You're retired, right? Then I'll need a guarantor. Someone with a job."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Çocuğunuz çalışıyor mu? O kefil olsun, sizi o tanır.",
+      "en": "Does your kid work? They can co-sign. They know you.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cocuk",
+      "tr": "Çocuğundan kefil olmasını iste",
+      "en": "Ask your kid to co-sign",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "birikim",
+      "tr": "Birikimini göster",
+      "en": "Show your savings",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "depozito",
+      "tr": "Çift depozito öner",
+      "en": "Offer a double deposit",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "cocuk": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -1600,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "flags": {
+          "add": [
+            "cocuk_kefil"
+          ]
+        }
+      },
+      "tr": "Çocuğun kefil formunu imzaladı. Altına \"düzenli arayacağım\" diye bir not ekledi.",
+      "en": "Your kid signed as guarantor and added a note at the bottom: \"Will call regularly.\"",
+      "coach": [
+        {
+          "tr": "Kefil oldu. Aramalar da sözleşmede.",
+          "en": "Co-signed. Phone calls now contractual.",
+          "roast": false
+        }
+      ]
+    },
+    "birikim": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "money": -1600,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1600
+            }
+          },
+          "flags": {
+            "add": [
+              "kefilsiz_kira"
+            ]
+          }
+        },
+        "tr": "Hesap dökümünü gösterdin. Ev sahibi kefil şartını kaldırdı, \"ben de emekliyim aslında\" dedi.",
+        "en": "You showed your bank statement. The landlord dropped the guarantor and admitted, \"I'm retired myself.\"",
+        "coach": [
+          {
+            "tr": "Kefil yok. İki emekli var.",
+            "en": "No guarantor. Two retirees.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ev_aramaya_devam"
+            ]
+          }
+        },
+        "tr": "Ev sahibi dökümü \"bugün var, yarın?\" diye geri verdi. Sonraki daireye geçtin.",
+        "en": "The landlord handed the statement back: \"That's today. And tomorrow?\" You moved on to the next flat.",
+        "coach": [
+          {
+            "tr": "Bakiye bugünlük sayıldı.",
+            "en": "Balance valid for today only.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "depozito": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -4800,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "flags": {
+          "add": [
+            "cift_depozito"
+          ]
+        }
+      },
+      "tr": "İki depozito ve ilk kira: 4.800 Para. Ev sahibi kefil konusunu bir daha açmadı.",
+      "en": "Two deposits plus first month: 4,800. The landlord never mentioned guarantors again.",
+      "coach": [
+        {
+          "tr": "Kefilin yerine 3.200 Para oturdu.",
+          "en": "3,200 is now standing in for a guarantor.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "emekli kiracıdan çalışan kefil, yani kendi çocuğunun kefilliğinin istenmesi",
+    "mechanism": "ebeveyn için çocuğun kefil olması",
+    "mechanismId": "reversal",
+    "punch": "sizi o tanır",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kefil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

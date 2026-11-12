@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "miras_vasiyet_sagken_pay_01",
+  "tags": [
+    "yaslilik",
+    "aile",
+    "para",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 56,
+      "max": 60
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 9000
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "Şimdi mi? Vasiyete kalmayacak mı yani?",
+      "en": "Now? It's not waiting for the will?"
+    },
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Kardeşim araba bakmaya başladı bile. Ben ev için tutarım.",
+      "en": "My sibling is already looking at cars. I'd save mine for a home.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "esit",
+      "tr": "İkisine eşit ver",
+      "en": "Give both an equal share",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sartli",
+      "tr": "Ev şartıyla ver",
+      "en": "Give it on a housing condition",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Vasiyete kalsın",
+      "en": "Let it wait for the will",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "esit": {
+      "effects": {
+        "money": -8000,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "sagken_pay_verildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "İki çocuğuna dörder bin Para gönderdin. Biri ertesi gün araba fotoğrafı attı, diğeri bir kira kontratı.",
+      "en": "You sent each kid four thousand. The next day one sent a car photo, the other a lease.",
+      "coach": [
+        {
+          "tr": "İki fotoğraf, iki yön. Hesap aynı.",
+          "en": "Two photos, two directions. Same math.",
+          "roast": false
+        }
+      ]
+    },
+    "sartli": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -8000,
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "sartli_pay_tuttu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Şartlı payı verdin. İki çocuk da parayı peşinata ekledi.",
+        "en": "You gave the conditional share. Both kids put it toward a down payment.",
+        "coach": [
+          {
+            "tr": "İki peşinat. Şart çalıştı.",
+            "en": "Two down payments. The condition held.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -8000,
+          "stats": {
+            "joy": 0
+          },
+          "flags": {
+            "add": [
+              "sartli_pay_karavan"
+            ]
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Şartlı payı verdin. Biri peşinata ekledi, diğeri bir karavan aldı ve \"ev\" dedi.",
+        "en": "You gave the conditional share. One made a down payment. The other bought an RV and called it \"a home.\"",
+        "coach": [
+          {
+            "tr": "Karavanın tapusu yok. Kapısı var.",
+            "en": "The RV has no deed. It does have a door.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "pay_vasiyete"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Para hesapta kaldı. Çocuklar konuyu bir daha açmadı; araba fotoğrafı yine de geldi.",
+      "en": "The money stayed in the account. The kids never raised it again. The car photo arrived anyway.",
+      "coach": [
+        {
+          "tr": "Hesap dolu. Telefon bir fotoğraf aldı.",
+          "en": "The account is full. The phone got one photo.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sartli",
+    "slip": {
+      "tr": "İDDİA: Şart kâğıtta kalır. — M.",
+      "en": "WAGER: The condition stays on paper. — M."
+    }
+  },
+  "intent": {
+    "setup": "sağken birikimin bir kısmını çocuklara dağıtmak",
+    "mechanism": "ev şartı harfiyen yorumlanıyor",
+    "mechanismId": "literalism",
+    "punch": "karavan aldı ve ev dedi",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "karavan",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

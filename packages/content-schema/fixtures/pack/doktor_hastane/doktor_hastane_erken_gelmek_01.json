@@ -1,0 +1,170 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_erken_gelmek_01",
+  "tags": [
+    "saglik",
+    "randevu",
+    "bekleme",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66,
+      "max": 85
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Randevunuz on bir buçukta. Saat daha on.",
+      "en": "Your appointment's at eleven-thirty. It's ten."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Oturun, çağırırız. Kantinde çay da var.",
+      "en": "Have a seat, we'll call you. There's tea in the cafeteria.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Salonda bekle",
+      "en": "Wait in the lobby",
+      "pattern": "patience"
+    },
+    {
+      "id": "kantin",
+      "tr": "Kantinde çay iç",
+      "en": "Have tea in the cafeteria",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sor",
+      "tr": "Erken alınmayı sor",
+      "en": "Ask to be seen early",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Bir buçuk saat bekledin. Bu sürede iki kişiye randevu saatini sen söyledin.",
+      "en": "You waited an hour and a half. In that time you told two other people when their appointments were.",
+      "coach": [
+        {
+          "tr": "Danışmaya bir gönüllü katıldı.",
+          "en": "The front desk gained a volunteer.",
+          "roast": false
+        }
+      ]
+    },
+    "kantin": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Kantinde çay içtin, 40 Para. Kantinci seni kırk yıllık müdavim sandı.",
+      "en": "Tea in the cafeteria: 40. The server took you for a regular of forty years.",
+      "coach": [
+        {
+          "tr": "Unvan çayla geldi.",
+          "en": "The title came with the tea.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -2
+          }
+        },
+        "tr": "Bir iptal vardı. On dakika sonra içerideydin.",
+        "en": "There had been a cancellation. Ten minutes later you were in.",
+        "coach": [
+          {
+            "tr": "İptal senin hanene yazıldı.",
+            "en": "The cancellation went your way.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "erkenci_hasta"
+            ]
+          }
+        },
+        "tr": "Görevli listeyi gösterdi. Senden önce erken gelmiş üç kişi daha vardı.",
+        "en": "The clerk showed you the list. Three other early birds were ahead of you.",
+        "coach": [
+          {
+            "tr": "Erkenciler arasında dördüncü sıra.",
+            "en": "Fourth in line among the early birds.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "ileri yaşta hastane randevusuna bir buçuk saat erken gitmek",
+    "mechanism": "erken gelen hasta salonun gayriresmi danışmasına dönüşüyor",
+    "mechanismId": "deadpan_report",
+    "punch": "iki kişiye randevu saatini sen söyledin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "gonullu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

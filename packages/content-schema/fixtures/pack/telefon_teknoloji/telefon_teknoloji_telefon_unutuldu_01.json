@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "telefon_teknoloji_telefon_unutuldu_01",
+  "tags": [
+    "teknoloji",
+    "telefon",
+    "yol",
+    "telefon_teknoloji"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "telefon_teknoloji": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Alo, telefonunuz bende. Koltuğun arasına düşmüş.",
+      "en": "Hello, I have your phone. It fell between the seats."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bu arada “Diş Hekimi” aradı. Randevunuzu perşembeye aldım.",
+      "en": "Also, “Dentist” called. I moved you to Thursday.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kargo",
+      "tr": "Kargoyla göndermesini iste",
+      "en": "Ask them to ship it",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bulus",
+      "tr": "Şehrin öbür ucuna git, al",
+      "en": "Cross town to collect it",
+      "pattern": "patience"
+    },
+    {
+      "id": "yeni",
+      "tr": "Yenisini al",
+      "en": "Buy a new phone",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "kargo": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -80,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "telefon_kargoyla_geldi"
+            ]
+          }
+        },
+        "tr": "Yabancı telefonu ertesi gün kargoladı. Kutuda bir de not vardı: “Perşembeyi unutmayın.”",
+        "en": "The stranger shipped it the next day. Inside the box, a note: “Don’t forget Thursday.”",
+        "coach": [
+          {
+            "tr": "Telefon 80 Para’ya döndü. Randevu ücretsiz geldi.",
+            "en": "The phone came back for 80. The appointment was free.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -2400,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "yeni_telefon"
+              ]
+            }
+          },
+          "flags": {
+            "add": [
+              "telefon_kayboldu"
+            ]
+          }
+        },
+        "tr": "“Yarın gönderirim” dedi; bir hafta sonra telefon kapandı. Yenisini 2.400 Para’ya aldın, perşembe randevusuna yine de gittin.",
+        "en": "“I’ll ship it tomorrow,” said the stranger. A week later, the phone went dark. A new one: 2,400. You still made Thursday.",
+        "coach": [
+          {
+            "tr": "Telefon gitti. Randevu sağlam kaldı.",
+            "en": "One phone lost. One appointment kept.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bulus": {
+      "effects": {
+        "money": -120,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "telefon_geri_alindi"
+          ]
+        }
+      },
+      "tr": "İki aktarmayla şehrin öbür ucuna gittin. Yabancı telefonu bir poşette, şarjı dolu verdi.",
+      "en": "Two transfers to the far side of town. The stranger handed it over in a bag, fully charged.",
+      "coach": [
+        {
+          "tr": "İki aktarma, yüzde yüz şarj.",
+          "en": "Two transfers. One hundred percent battery.",
+          "roast": false
+        }
+      ]
+    },
+    "yeni": {
+      "effects": {
+        "money": -2400,
+        "stats": {
+          "joy": 1
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "yeni_telefon"
+            ]
+          }
+        },
+        "flags": {
+          "add": [
+            "eski_telefon_yabancida"
+          ]
+        }
+      },
+      "tr": "Yeni telefon 2.400 Para. Perşembe sabahı eski numarandan bir mesaj geldi: “Bugün dişçi.”",
+      "en": "New phone: 2,400. Thursday morning, a text from your old number: “Dentist today.”",
+      "coach": [
+        {
+          "tr": "Eski telefon sekreterliğe terfi etti.",
+          "en": "Your old phone has been promoted to assistant.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kargo",
+    "slip": {
+      "tr": "İDDİA: O telefon kargoya hiç verilmez. — M.",
+      "en": "WAGER: That phone never reaches a courier. — M."
+    }
+  },
+  "intent": {
+    "setup": "şehirlerarası otobüste koltuk arasında unutulan telefonu bulan yabancının randevunu ertelemesi",
+    "mechanism": "bulan yabancı kendini sekreter ilan ediyor",
+    "mechanismId": "bathos",
+    "punch": "diş hekimi aradı, randevunuzu perşembeye aldım",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

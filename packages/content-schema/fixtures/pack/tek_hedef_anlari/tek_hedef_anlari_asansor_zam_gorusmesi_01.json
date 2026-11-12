@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_asansor_zam_gorusmesi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "is",
+    "zam",
+    "nevin",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "raise"
+      ]
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Zam konuşmamızı asansörde yapalım. Bant görüşmesini iki kata sığdırırız.",
+      "en": "Let's have our raise chat in the elevator. We can fit the band discussion into two floors."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Ben dokuzda iniyorum. Proaktif olun.",
+      "en": "I get off at nine. Be proactive.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "iki_kat",
+      "tr": "İki katta anlat",
+      "en": "Pitch it in two floors",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain",
+        "goal": "raise"
+      }
+    },
+    {
+      "id": "merdiven",
+      "tr": "Merdiveni öner",
+      "en": "Suggest the stairs",
+      "pattern": "patience"
+    },
+    {
+      "id": "toplanti",
+      "tr": "Resmi toplantı iste",
+      "en": "Ask for a real meeting",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "iki_kat": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "zam_alindi"
+            ]
+          }
+        },
+        "tr": "Dokuzuncu kata kadar üç rakam söyledin. Nevin Hanım kapı açılırken \"yazılı gönderin\" dedi; yazı onaylandı.",
+        "en": "By floor nine you'd named three figures. As the doors opened Ms. Carver said, \"Send it in writing.\" It was approved.",
+        "coach": [
+          {
+            "tr": "Zam istendi. Kutucuk dolu.",
+            "en": "Raise requested. Box ticked.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "zam_ertelendi"
+            ]
+          }
+        },
+        "tr": "Yedinci katta asansör durdu ve biri bindi. Konuşma \"sonra devam ederiz\"de kaldı.",
+        "en": "The elevator stopped on seven and someone got on. The talk froze at \"let's pick this up later.\"",
+        "nearMiss": {
+          "tr": "Sekizinci katta rakamı söylemek üzereydin.",
+          "en": "You were about to name the number on eight."
+        },
+        "coach": [
+          {
+            "tr": "Bir yolcu bindi, zam indi.",
+            "en": "Someone got on. The raise got off.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "merdiven": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "zam_merdiven"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Merdiveni önerdin. Nevin Hanım kabul etti; dördüncü katta zam konuşması nefes konuşmasına döndü.",
+      "en": "You suggested the stairs. Ms. Carver agreed. By the fourth floor the raise talk had become a breathing talk.",
+      "coach": [
+        {
+          "tr": "Zam görüşmesi kardiyoya döndü.",
+          "en": "The raise talk turned into cardio.",
+          "roast": true
+        }
+      ]
+    },
+    "toplanti": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "zam_toplantisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Toplantı istedin. Takvime üç hafta sonrası için yarım saatlik bir \"gelişim sohbeti\" düştü.",
+      "en": "You asked for a meeting. A thirty-minute \"growth chat\" landed on the calendar, three weeks out.",
+      "coach": [
+        {
+          "tr": "Üç hafta sonra, otuz dakika, yeni isim.",
+          "en": "Three weeks out, thirty minutes, new name.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iki_kat",
+    "slip": {
+      "tr": "İDDİA: İki kat bir zam talebine yetmez. — M.",
+      "en": "WAGER: Two floors can't hold a raise request. — M."
+    }
+  },
+  "intent": {
+    "setup": "zam isteme hedefinde patronun görüşmeyi asansöre sığdırması",
+    "mechanism": "kat sayısı pazarlık süresi oluyor",
+    "mechanismId": "bathos",
+    "punch": "iki kata sığdırırız",
+    "lift": "kutucuk dolu",
+    "target": "decision",
+    "closer": "kardiyo",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_senetsiz_borc_01",
+  "tags": [
+    "burokrasi",
+    "borc",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Senet yok, havale açıklamasında \"pizza\" yazıyor. Yazışmalarınız var mı?",
+      "en": "No promissory note, and the transfer memo says \"pizza.\" Do you have the messages?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Yazışmada \"geri veririm\" geçiyorsa işe yarar. \"Sağ ol, kurtardın\" tek başına yetmez.",
+      "en": "\"I'll pay you back\" in writing helps. \"Thanks, you saved me\" on its own won't do.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "arabulucu",
+      "tr": "Arabulucuya başvur",
+      "en": "Go to mediation",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sil",
+      "tr": "Borcu sil, arkadaşlığı kurtar",
+      "en": "Forgive it, save the friendship",
+      "pattern": "generosity"
+    },
+    {
+      "id": "hatirlat",
+      "tr": "Bir kez daha kibarca hatırlat",
+      "en": "Send one more polite reminder",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "arabulucu": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 3000,
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "alacak_tahsil"
+            ]
+          },
+          "glossary": "arabuluculuk"
+        },
+        "tr": "Mesajlarda üç kez \"ayın on beşinde veririm\" çıktı. Arkadaşın 3.000 Para’yı iki taksitte ödemeyi kabul etti.",
+        "en": "The messages said \"I'll pay you on the fifteenth\" three times. Your friend agreed to repay the 3,000 in two installments.",
+        "coach": [
+          {
+            "tr": "Üç ayrı on beşten biri sonunda geldi.",
+            "en": "One of the three fifteenths finally showed up.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -250,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "alacak_kayip"
+            ]
+          }
+        },
+        "tr": "Mesajlarda yalnızca \"pizza\" ve iki gülen yüz vardı. Arabuluculuk anlaşmasız bitti, 250 Para masraf kaldı.",
+        "en": "The messages only had \"pizza\" and two smiley faces. Mediation ended with no deal, and you are out 250 in fees.",
+        "coach": [
+          {
+            "tr": "Dosyada iki gülen yüz. İkisi de karşı tarafın.",
+            "en": "Two smiley faces on file. Both on their side.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sil": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "alacak_silindi"
+          ]
+        }
+      },
+      "tr": "Borcu sildiğini yazdın. Arkadaşın teşekkür etti ve aynı akşam tatil fotoğrafı paylaştı.",
+      "en": "You texted that the debt was forgiven. Your friend said thanks and posted vacation photos that evening.",
+      "coach": [
+        {
+          "tr": "Arkadaşlık kurtuldu. Tatil de kurtuldu.",
+          "en": "The friendship was saved. The vacation, too.",
+          "roast": true
+        }
+      ]
+    },
+    "hatirlat": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "alacak_bekliyor"
+          ]
+        }
+      },
+      "tr": "Kibar bir hatırlatma gönderdin. Cevap geldi: \"Tabii ki, ayın on beşinde.\"",
+      "en": "You sent a polite reminder. The reply: \"Of course, on the fifteenth.\"",
+      "coach": [
+        {
+          "tr": "Dördüncü on beş.",
+          "en": "The fourth fifteenth.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "arabulucu",
+    "slip": {
+      "tr": "İDDİA: \"Pizza\" delil sayılmaz. — M.",
+      "en": "WAGER: \"Pizza\" won't hold up. — M."
+    }
+  },
+  "intent": {
+    "setup": "arkadaşa senetsiz verilen borcu geri isterken elde delil olarak yalnızca mesajların olması",
+    "mechanism": "tekrarlanan ödeme sözü sayılıyor",
+    "mechanismId": "count",
+    "punch": "dördüncü on beş",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "on_bes"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_kurs_kaporasi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "para",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 2500
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Barista kursuna yazılıyorum. Kapora 2.000. Ay sonunda geri veririm, maaş girince.",
+      "en": "I'm signing up for a barista course. Deposit's 2,000. You'll get it back at month-end, when I'm paid."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Mezun olunca senin kahven ömür boyu bedava. Bu da faizi olsun.",
+      "en": "Once I graduate, your coffee's free for life. Call that the interest.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "2.000 Para ver",
+      "en": "Lend the 2,000",
+      "pattern": "generosity",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "yarisi",
+      "tr": "Yarısını ver",
+      "en": "Lend half",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "Kibarca hayır de",
+      "en": "Politely decline",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ver": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 4,
+              "memory": "kurs_borcu_odendi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "baris_barista"
+            ]
+          }
+        },
+        "tr": "Barış ayın yirmi sekizinde 2.000 Para'yı geri verdi. Üstüne ilk denemesi olan acı bir kahve.",
+        "en": "On the twenty-eighth, Jordan paid back the 2,000. Plus their first attempt at a very bitter coffee.",
+        "coach": [
+          {
+            "tr": "Borç kapandı. Kahve açık kaldı.",
+            "en": "Debt closed. The coffee tab is open.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -2000,
+          "stats": {
+            "joy": 0
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1,
+              "memory": "kurs_borcu_2000"
+            }
+          ],
+          "flags": {
+            "add": [
+              "baris_borclu_kurs"
+            ]
+          }
+        },
+        "tr": "Ay sonu geldi, para gelmedi. Barış her sabah özür olarak süt köpüğüne kalp çiziyor; kalpler gelişiyor.",
+        "en": "Month-end came; the money didn't. Every morning Jordan draws a foam heart as an apology. The hearts are improving.",
+        "coach": [
+          {
+            "tr": "Kalpler gelişiyor. Bakiye yerinde.",
+            "en": "The hearts improve. The balance doesn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yarisi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "baris_barista"
+          ]
+        }
+      },
+      "tr": "1.000 Para verdin. Barış kalanını ayarladı, kursu bitirdi ve borcunu üç kahve ve bir banknotla ödedi.",
+      "en": "You lent 1,000. Jordan found the rest, finished the course, and paid you back in three coffees and one bill.",
+      "coach": [
+        {
+          "tr": "Yarısı verildi. Yarısı içildi.",
+          "en": "Half lent. Half drunk.",
+          "roast": false
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Hayır dedin. Barış kursu üç ay erteledi; buzdolabına 'Barista: Mart' diye bir kâğıt astı.",
+      "en": "You said no. Jordan pushed the course back three months and taped 'Barista: March' to the fridge.",
+      "coach": [
+        {
+          "tr": "Kâğıt asıldı. Mart da bir gün gelir.",
+          "en": "The note is up. March does come, eventually.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ver",
+    "slip": {
+      "tr": "İDDİA: O 2.000 ay sonunu görmez. — M.",
+      "en": "WAGER: That 2,000 doesn't come back by month-end. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış barista kursu kaporası için senden 2.000 Para borç istiyor",
+    "mechanism": "borç ödenemeyince köpük kalpleri gelişiyor, bakiye aynı",
+    "mechanismId": "deadpan_report",
+    "punch": "kalpler gelişiyor",
+    "target": "decision",
+    "closer": "bakiye",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

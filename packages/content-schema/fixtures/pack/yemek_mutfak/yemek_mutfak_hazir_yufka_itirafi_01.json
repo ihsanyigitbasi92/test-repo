@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_hazir_yufka_itirafi_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "komsu",
+    "misafir",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Bu yufkayı kendin mi açtın? Tarifini yaz bana. Benimkiler hep yırtılıyor.",
+      "en": "Did you roll this pastry yourself? Write down the recipe for me. Mine always tears."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Hazır yufka kullanan da var tabii. Ben hemen anlarım, kenarı başka olur.",
+      "en": "Some people use store-bought sheets, of course. I can always tell. The edges give it away.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "Hazır olduğunu söyle",
+      "en": "Admit it was store-bought",
+      "pattern": "patience"
+    },
+    {
+      "id": "uydur",
+      "tr": "Bir tarif uydur",
+      "en": "Invent a recipe on the spot",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "konu",
+      "tr": "Konuyu çaya getir",
+      "en": "Steer the talk to tea",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_hazir_yufka_itiraf"
+          ]
+        }
+      },
+      "tr": "Hazır olduğunu söyledin. Komşu kenara bir daha baktı ve \"ben de öyle düşünmüştüm\" dedi.",
+      "en": "You confessed. The neighbor re-examined the edge and said, \"That's what I thought.\"",
+      "coach": [
+        {
+          "tr": "Kenar sustu, sen konuştun.",
+          "en": "The edge stayed quiet. You didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "uydur": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_uydurma_tarif"
+            ]
+          }
+        },
+        "tr": "Bir tarif uydurdun: un, su, sabır. Komşu not alıp kenarın gerçekten başka olduğunu onayladı.",
+        "en": "You made one up: flour, water, patience. The neighbor wrote it down and confirmed the edges were different.",
+        "coach": [
+          {
+            "tr": "Tarif artık kâğıtta yaşıyor.",
+            "en": "The recipe lives on paper now.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_yufka_ortaya_cikti"
+            ]
+          }
+        },
+        "tr": "Ertesi gün komşu çöp kutunda aynı yufka paketini gördü. O haftadan sonra börek sorulmadı.",
+        "en": "The next day the neighbor spotted the pastry box in your trash. Pastry hasn't come up since.",
+        "coach": [
+          {
+            "tr": "Çöp kutusu tanıklık etti.",
+            "en": "The trash can testified.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "konu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yemek_yufka_sorusu_acik"
+          ]
+        }
+      },
+      "tr": "Çay koydun, konu değişti. Komşu kapıdan çıkarken \"tarifi unutma\" dedi.",
+      "en": "You poured tea and the subject changed. On the way out, the neighbor said, \"Don't forget the recipe.\"",
+      "coach": [
+        {
+          "tr": "Soru kapıdan çıktı. Geri dönüş tarihi belirsiz.",
+          "en": "The question left. Return date unknown.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "uydur",
+    "slip": {
+      "tr": "İDDİA: Uydurma tarif çöpte yakalanır. — M.",
+      "en": "WAGER: The made-up recipe dies in the trash. — M."
+    }
+  },
+  "intent": {
+    "setup": "misafir komşunun börek tarifini istemesi, yufkanın hazır olması",
+    "mechanism": "her şeyi anladığını söyleyen komşu anlamıyor",
+    "mechanismId": "reversal",
+    "punch": "ben hemen anlarım, kenarı başka olur",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "cop"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

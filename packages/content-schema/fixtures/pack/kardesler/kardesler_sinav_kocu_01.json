@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_sinav_kocu_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "egitim",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "tired",
+      "tr": "Haftada iki gün ders verir misin? Ücret yok ama sana çay demlerim.",
+      "en": "Can you tutor me twice a week? No pay, but I'll brew you tea."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Kardeşin senden çalışkan, sen de ondan sabırlısın. Sabırlısın, değil mi?",
+      "en": "Your sibling's the hard worker, you're the patient one. You are patient, aren't you?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ders",
+      "tr": "Düzenli ders ver",
+      "en": "Tutor them properly",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "notlar",
+      "tr": "Eski notlarını ver",
+      "en": "Hand over your old notes",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ucret",
+      "tr": "Saat ücreti iste",
+      "en": "Ask for an hourly rate",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ders": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "kardes_sinav_hocasi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 6,
+              "memory": "sinav_hocasi"
+            }
+          ]
+        },
+        "tr": "Kardeşinin son deneme puanı senin yıllar önceki puanını geçti. Annen iki puanı yan yana buzdolabına astı.",
+        "en": "Your sibling's last practice score beat yours from years ago. Mom posted both side by side on the fridge.",
+        "coach": [
+          {
+            "tr": "Öğrenci hocayı geçti. Buzdolabı belgeliyor.",
+            "en": "The student passed the teacher. The fridge has the paperwork.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "kardes_hoca_degisti"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Puanlar yerinde saydı. Kardeşin “anlatış tarzın” dedi ve internetten başka bir hoca buldu.",
+        "en": "The scores stalled. Your sibling cited “teaching style” and found a tutor online.",
+        "coach": [
+          {
+            "tr": "Sekiz haftada bir öğrenci kaybettin.",
+            "en": "Eight weeks. One student lost.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "notlar": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kardes_notlari_aldi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2,
+            "memory": "karalama_notlar"
+          }
+        ]
+      },
+      "tr": "Notların üç yıllık. Kardeşin kenardaki karalamalarını yüksek sesle okudu, sorulara hiç bakmadı.",
+      "en": "Your notes are three years old. Your sibling read your margin doodles aloud and skipped the questions.",
+      "coach": [
+        {
+          "tr": "Notların ders vermedi. Güldürdü.",
+          "en": "Your notes taught nothing. They got laughs.",
+          "roast": true
+        }
+      ]
+    },
+    "ucret": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "money": 600,
+        "flags": {
+          "add": [
+            "kardes_ucretli_ders"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -3,
+            "memory": "ucretli_ders"
+          }
+        ]
+      },
+      "tr": "Kardeşin 600 Para ödedi. Parayı annenden aldı.",
+      "en": "Your sibling paid you 600. They got it from Mom.",
+      "coach": [
+        {
+          "tr": "600 Para. Finansman annenden.",
+          "en": "600 earned. Mom financed it.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ders",
+    "slip": {
+      "tr": "İDDİA: Öğrenci hocayı geçemez. — M.",
+      "en": "WAGER: The student won't beat the teacher. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınava hazırlanan kardeşine ders verip denemede onun puanının seninkini geçmesi",
+    "mechanism": "öğretmenin öğrenciye yenilmesi ve annenin bunu belgelemesi",
+    "mechanismId": "deadpan_report",
+    "punch": "buzdolabında yan yana iki puan",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "buzdolabi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

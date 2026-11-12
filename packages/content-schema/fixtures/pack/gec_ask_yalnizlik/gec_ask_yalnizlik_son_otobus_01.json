@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gec_ask_yalnizlik_son_otobus_01",
+  "tags": [
+    "iliski",
+    "gec_ask_yalnizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "gec_ask_yalnizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    },
+    "flags": {
+      "none": [
+        "otobus_tanisma",
+        "flort"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "otobus",
+      "tr": "Gece yarısı, son otobüs. Yanına oturan kişi çantasından senin okuduğun kitabın aynısını çıkardı. Aynı sayfada.",
+      "en": "Midnight, last bus. The person who sits next to you pulls the same book you're reading out of their bag. Same page."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Sizde de otuz ikinci bölümde kahraman ortadan kayboluyor mu? Bende kayboluyor.",
+      "en": "Does the hero vanish in chapter thirty-two in yours too? Mine does."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bu arada ben iki durak sonra iniyorum.",
+      "en": "I get off in two stops, by the way.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "numara",
+      "tr": "Numarasını iste",
+      "en": "Ask for their number",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sonu",
+      "tr": "Kitabın sonunu söyle",
+      "en": "Spoil the ending",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "oku",
+      "tr": "Okumaya devam et",
+      "en": "Keep reading",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "numara": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 6,
+            "charm": 1
+          },
+          "flags": {
+            "add": [
+              "otobus_tanisma",
+              "flort"
+            ]
+          }
+        },
+        "tr": "Numarasını kitabının ayracına yazıp verdi. İndiği duraktan otobüs kalkana kadar el salladı.",
+        "en": "They wrote their number on their bookmark and handed it over. Waved from the stop until the bus pulled away.",
+        "coach": [
+          {
+            "tr": "Bir ayraç, bir numara. Kitap artık iki kişilik.",
+            "en": "One bookmark, one number. That book has two readers now.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "otobus_tanisma"
+            ]
+          }
+        },
+        "tr": "\"Ayracım var ama numaram yok\" dedi, gülümseyip indi. Kitabın sonu yine de iyiydi.",
+        "en": "\"I have a bookmark, not a number,\" they said, smiled, and got off. The ending was still good.",
+        "coach": [
+          {
+            "tr": "Sohbet iki durak sürdü. Kitap otuz sayfa daha.",
+            "en": "The conversation lasted two stops. The book, thirty more pages.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sonu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 4
+        },
+        "flags": {
+          "add": [
+            "otobus_tanisma"
+          ]
+        }
+      },
+      "tr": "Sonunu söyledin. Yolcu kitabı kapattı, \"Demek kahraman dönmüyor\" dedi ve kitabı sana uzattı: \"Al, ben artık okumam.\"",
+      "en": "You spoiled it. They closed the book. \"So the hero doesn't come back.\" Then handed it to you: \"Keep it. I'm done.\"",
+      "coach": [
+        {
+          "tr": "İki durakta bir kitap kazandın, bir okur kaybettin.",
+          "en": "Two stops: one book gained, one reader lost.",
+          "roast": true
+        }
+      ]
+    },
+    "oku": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "otobus_tanisma"
+          ]
+        }
+      },
+      "tr": "İkiniz de okudunuz. Yolcu inerken kitabını hafifçe havaya kaldırdı, sen de kaldırdın.",
+      "en": "You both kept reading. Getting off, they raised their book slightly. You raised yours.",
+      "coach": [
+        {
+          "tr": "İki kitap havada. Selam sayılır.",
+          "en": "Two books raised. That counts as hello.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "numara",
+    "slip": {
+      "tr": "İDDİA: Ayraca numara yazılmaz. — M.",
+      "en": "WAGER: No number on that bookmark. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece son otobüste yanına oturan yabancının aynı kitabı aynı sayfada okuması",
+    "mechanism": "tesadüf; kitap ayraç numara ilişkisi tersine dönüyor",
+    "mechanismId": "reversal",
+    "punch": "ayracım var ama numaram yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ayrac"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

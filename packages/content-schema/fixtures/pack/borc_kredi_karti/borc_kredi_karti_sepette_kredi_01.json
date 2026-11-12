@@ -1,0 +1,159 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_sepette_kredi_01",
+  "tags": [
+    "para",
+    "borc",
+    "alisveris",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Otuz saniyede kredi mi verdiler? Ben kütüphane kartı için iki hafta bekledim.",
+      "en": "They approved a loan in thirty seconds? My library card took two weeks."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Hoparlör güzel ama. Sesi açarsın, taksitleri duymazsın.",
+      "en": "Nice speaker, though. Turn it up and you won't hear the installments.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "onayla",
+      "tr": "Sepetteki krediyi onayla",
+      "en": "Approve the checkout loan",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "bosalt",
+      "tr": "Sepeti boşalt",
+      "en": "Empty the cart",
+      "pattern": "patience"
+    },
+    {
+      "id": "bekle",
+      "tr": "İstek listesine at, bekle",
+      "en": "Wishlist it, wait a month",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "onayla": {
+      "effects": {
+        "money": -290,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sepette_kredi",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Hoparlör ertesi gün geldi. Kredi dokuz ay sürecek, ilk taksit 290 Para.",
+      "en": "The speaker arrived the next day. The loan runs nine months, first installment 290.",
+      "coach": [
+        {
+          "tr": "Hoparlör bir günde geldi. Kredi dokuz ayda gidecek.",
+          "en": "The speaker took a day to arrive. The loan takes nine months to leave.",
+          "roast": false
+        }
+      ]
+    },
+    "bosalt": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "sepet_bosaltildi"
+          ]
+        }
+      },
+      "tr": "Sepet boşaldı. Uygulama üç gün boyunca sepette ürün unuttuğunu hatırlattı.",
+      "en": "Cart emptied. For three days, the app kept reminding you that you'd left something behind.",
+      "coach": [
+        {
+          "tr": "Üç gün hatırlatma. Unutulmadı.",
+          "en": "Three days of reminders. Not forgotten.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "money": -2100,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "istek_listesi_alindi"
+          ]
+        }
+      },
+      "tr": "Bir ay sonra hoparlör indirime girdi ve peşin alındı. Kredi gerekmedi.",
+      "en": "A month later the speaker went on sale and you bought it outright. No loan required.",
+      "coach": [
+        {
+          "tr": "Bir ay bekleme, sıfır taksit.",
+          "en": "One month of waiting. Zero installments.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "alışveriş uygulamasında ödeme adımında otuz saniyede onaylanan sepette kredi teklifi",
+    "mechanism": "kredi kütüphane kartından hızlı çıkıyor",
+    "mechanismId": "bathos",
+    "punch": "ben kütüphane kartı için iki hafta bekledim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hoparlor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

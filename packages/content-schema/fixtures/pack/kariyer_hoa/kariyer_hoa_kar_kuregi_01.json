@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_hoa_kar_kuregi_01",
+  "tags": [
+    "kariyer",
+    "site_yonetici",
+    "kariyer_hoa"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_hoa": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66,
+      "max": 76
+    },
+    "career": {
+      "anyOf": [
+        "hoa"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "happy",
+      "tr": "Tuz firması gelmemiş. Ben kürekliyim. Kapı başı elli Para, yönetime indirim yok.",
+      "en": "The salt company didn't show. I've got a shovel. Fifty per doorway. No discount for management."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Bu kaldırımda düşersem ilk sizi ararım, haberiniz olsun.",
+      "en": "If I slip on that sidewalk, you're my first call.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cocuk",
+      "tr": "İşi çocuğa ver",
+      "en": "Hire the kid",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kendin",
+      "tr": "Küreği kendin al",
+      "en": "Shovel it yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Firmayı bekle",
+      "en": "Wait for the contractor",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "cocuk": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "hoa_kar_cocugu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:neighborKid",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Çocuk sekiz kapıyı iki saatte açtı ve fatura kesti: el yazısı, kareli kâğıt. Toplam 400 Para.",
+      "en": "The kid cleared eight doorways in two hours and issued an invoice: handwritten, on graph paper. Total: 400.",
+      "coach": [
+        {
+          "tr": "Fatura usulüne uygundu.",
+          "en": "The invoice was in order.",
+          "roast": false
+        }
+      ]
+    },
+    "kendin": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "health": 1
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Kaldırımı kendin açtın. Komşular pencereden izleyip çay getirdi, çocuk seni \"rakip\" diye not etti.",
+        "en": "You cleared it yourself. Neighbors watched from windows and brought tea. The kid wrote you down as \"competition.\"",
+        "coach": [
+          {
+            "tr": "Kaldırım açık. Rekabet başladı.",
+            "en": "Sidewalk clear. Market competitive.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 0,
+            "health": -4
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -400
+        },
+        "tr": "Yarı yolda nefesin kesildi, küreği çocuğa devrettin. Çocuk tam ücret aldı, \"yarısı bitti\" itirazını kabul etmedi.",
+        "en": "Halfway through you ran out of breath and handed the kid the shovel. Full rate charged. \"Half done\" was not accepted.",
+        "coach": [
+          {
+            "tr": "Devir teslim, tam ücretle.",
+            "en": "Handover complete. Full rate.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "hoa_tuz_gecikti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Firma ertesi öğlen geldi, kaldırımı tuzladı. Kar o sırada zaten eriyordu.",
+      "en": "The contractor arrived the next afternoon and salted the sidewalk. The snow was already melting.",
+      "coach": [
+        {
+          "tr": "Tuz dakikti. Kar erken gitti.",
+          "en": "The salt was punctual. The snow left early.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kendin",
+    "slip": {
+      "tr": "İDDİA: Kürek seni yarı yolda bırakır. — M.",
+      "en": "WAGER: The shovel wins by halftime. — M."
+    }
+  },
+  "intent": {
+    "setup": "kar günü tuzlama firması gelmeyince site çocuğunun kapı başı ücretle kürek teklif etmesi",
+    "mechanism": "çocuk yönetime indirim yapmıyor",
+    "mechanismId": "bathos",
+    "punch": "yönetime indirim yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kurek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

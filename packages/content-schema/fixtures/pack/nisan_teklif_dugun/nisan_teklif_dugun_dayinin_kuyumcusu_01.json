@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_dayinin_kuyumcusu_01",
+  "tags": [
+    "iliski",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "flags": {
+      "none": [
+        "nisanli",
+        "evli",
+        "teklif_yuzugu"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Yüzük mü? Benim zamanımda herkes Necmi Usta'dan alırdı. Seni götüreyim.",
+      "en": "A ring? In my day everyone went to Old Man Hollis. I'll take you."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "worried",
+      "tr": "Burasıydı. Necmi Usta'nın yerinde telefon kılıfı satıyorlar. Neyse, girelim.",
+      "en": "This was the place. They sell phone cases now. Well, let's go in anyway.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "yeni",
+      "tr": "Yeni bir dükkândan al",
+      "en": "Buy from a proper shop",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Dayın pazarlık etsin",
+      "en": "Let your uncle haggle",
+      "pattern": "leanOnFamily",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Bir ay daha biriktir",
+      "en": "Save for one more month",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "yeni": {
+      "effects": {
+        "money": -3800,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "teklif_yuzugu"
+          ]
+        }
+      },
+      "tr": "Yüzük 3.800 Para. Dayın eve kadar eski dükkânın vitrinini anlattı.",
+      "en": "The ring: 3,800. Your uncle described the old shop window all the way home.",
+      "coach": [
+        {
+          "tr": "Yüzük cebinde. Eski vitrin dayının hafızasında, kira ödemeden duruyor.",
+          "en": "The ring's in your pocket. The old shop window lives in your uncle's head, rent-free.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -3100,
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "teklif_yuzugu",
+              "dayi_pazarligi"
+            ]
+          }
+        },
+        "tr": "Kuyumcu Necmi Usta'nın eski çırağı çıktı. Dayın 700 Para indirim ve bir saatlik anı aldı.",
+        "en": "The jeweler turned out to be Hollis's old apprentice. Your uncle got 700 off and an hour of memories.",
+        "coach": [
+          {
+            "tr": "700 indirim, bir saat anı. Saat başı ücret makul.",
+            "en": "700 off, one hour of reminiscing. Reasonable hourly rate.",
+            "roast": true
+          },
+          {
+            "tr": "Teklif fonu: 700 Para ileride.",
+            "en": "Proposal fund: 700 ahead.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -3800,
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "teklif_yuzugu"
+            ]
+          }
+        },
+        "tr": "Dayın Necmi Usta'nın adını üç kez andı. Fiyat değişmedi, kuyumcu ona kahve ısmarladı.",
+        "en": "Your uncle invoked Hollis three times. The price held. The jeweler bought him a coffee.",
+        "coach": [
+          {
+            "tr": "Fiyat sabit. Kahve ikram. Dayın bunu zafer sayıyor.",
+            "en": "Price unchanged. Coffee complimentary. Your uncle is calling it a win.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yuzuk_birikimi"
+          ]
+        }
+      },
+      "tr": "Teklif bir ay ertelendi. Dayın bu arada iki eski kuyumcu daha hatırladı.",
+      "en": "The proposal slipped a month. Meanwhile your uncle remembered two more old jewelers.",
+      "coach": [
+        {
+          "tr": "Bir ay kazandın. Dayın iki adres kazandı, ikisi de kapalı.",
+          "en": "You gained a month. Your uncle gained two addresses, both closed.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Usta adı indirim getirmez. — M.",
+      "en": "WAGER: Name-dropping won't move the price. — M."
+    }
+  },
+  "intent": {
+    "setup": "teklif yüzüğü için dayının seni kapanmış eski kuyumcusuna götürmesi",
+    "mechanism": "dayının zamanı dükkânla birlikte değişmiş",
+    "mechanismId": "callback",
+    "punch": "yerinde telefon kılıfı satıyorlar",
+    "closer": "vitrin",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "Teklif fonu: 700 Para ileride."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

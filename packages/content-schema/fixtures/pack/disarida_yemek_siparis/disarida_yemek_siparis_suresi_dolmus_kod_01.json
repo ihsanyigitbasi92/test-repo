@@ -1,0 +1,163 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_suresi_dolmus_kod_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "ev_arkadasi",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "İndirim kodu buldum: İLKSİPARİŞ40. Sepeti kırk Para indirime göre doldurdum, tatlı da ekledim.",
+      "en": "Found a code: FIRSTORDER40. I built the whole cart around the forty off. Added dessert."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Ödeme ekranı \"kodun süresi dolmuş\" diyor. Dün gece dolmuş. Biz dün gece de uyanıktık.",
+      "en": "Checkout says the code expired. Last night. We were awake last night.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Yine de öde",
+      "en": "Pay anyway",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "cikar",
+      "tr": "Sepetten tatlıyı çıkar",
+      "en": "Pull the dessert",
+      "pattern": "patience"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Vazgeç, makarna haşla",
+      "en": "Cancel, boil pasta",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -320,
+        "flags": {
+          "add": [
+            "siparis_kodsuz_fiyat"
+          ]
+        }
+      },
+      "tr": "Tam fiyat ödediniz, kişi başı 320 Para. Tatlıya kimse dokunmadı, buzdolabında bekliyor.",
+      "en": "Full price: 320 each. Nobody touched the dessert; it's waiting in the fridge.",
+      "coach": [
+        {
+          "tr": "Kodsuz fiyat, sahipsiz tatlı.",
+          "en": "Full price. Orphaned dessert.",
+          "roast": true
+        }
+      ]
+    },
+    "cikar": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -260,
+        "flags": {
+          "add": [
+            "siparis_tatlisiz_sepet"
+          ]
+        }
+      },
+      "tr": "Tatlıyı çıkardınız, kişi başı 260 Para. Ev arkadaşın tatlının ekran görüntüsünü kaydetti.",
+      "en": "Dessert removed: 260 each. Your roommate saved a screenshot of it.",
+      "coach": [
+        {
+          "tr": "Tatlı artık galeride yaşıyor.",
+          "en": "The dessert lives on, in the camera roll.",
+          "roast": true
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "health": 1
+        },
+        "money": -30,
+        "flags": {
+          "add": [
+            "siparis_terk_edilen_sepet"
+          ]
+        }
+      },
+      "tr": "Sepeti bırakıp makarna haşladınız. Ertesi sabah uygulamadan \"sepetin seni bekliyor\" bildirimi geldi.",
+      "en": "You abandoned the cart and boiled pasta. Next morning the app pinged: \"Your cart misses you.\"",
+      "coach": [
+        {
+          "tr": "Sepet seni özlüyor. Makarna özlemedi.",
+          "en": "The cart misses you. The pasta moved on.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da düşük gerilim"
+  },
+  "intent": {
+    "setup": "ödeme ekranında indirim kodunun süresinin dolmuş çıkması, sepetin koda göre doldurulmuş olması",
+    "mechanism": "kodla kurulan sepetin kodsuz kalması",
+    "mechanismId": "deadpan_report",
+    "punch": "biz dün gece de uyanıktık",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sepet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

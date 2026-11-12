@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_influencer_kod_pidecide_01",
+  "tags": [
+    "kariyer",
+    "influencer",
+    "kariyer_influencer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_influencer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    },
+    "career": {
+      "anyOf": [
+        "influencer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Eski numaran artık köşedeki pidecinin. Hesabının kodu orada.",
+      "en": "Your old number belongs to the pizza place on the corner now. Your login code goes there."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Bu numaraya her gün altı haneli kod geliyor. Pideciyiz biz, kod yemiyoruz.",
+      "en": "This number gets a six-digit code every day. We make pizza. We do not take codes.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "rica",
+      "tr": "Pideciden kodu iste",
+      "en": "Ask the pizza place for the code",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sifirdan",
+      "tr": "Yeni hesap aç, sıfırdan başla",
+      "en": "Start a new account from zero",
+      "pattern": "risk"
+    },
+    {
+      "id": "destek",
+      "tr": "Destek ekibine yaz, bekle",
+      "en": "Email support and wait",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "rica": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -120,
+          "flags": {
+            "add": [
+              "influencer_pideci_kodu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Kod geldi, hesap açıldı. İki pide aldın; kod her gelişinde ustanın seni araması kararlaştırıldı.",
+        "en": "Code received, account unlocked. You bought two pizzas, and the owner agreed to call whenever a code comes in.",
+        "coach": [
+          {
+            "tr": "Hesap açık. Güvenlik bedeli iki pide.",
+            "en": "Account restored. Security cost: two pizzas.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -120
+        },
+        "tr": "Usta kodu okudu ama yanlış sırayla. Üç deneme bitti, hesap bir hafta daha kilitli.",
+        "en": "The owner read the code out, in the wrong order. Three attempts gone; the account stays locked another week.",
+        "coach": [
+          {
+            "tr": "Üç deneme, bir hafta. Pideler sıcaktı.",
+            "en": "Three attempts, one more week. The pizzas were hot.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sifirdan": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "ego": -4
+        },
+        "flags": {
+          "add": [
+            "influencer_ikinci_hesap"
+          ]
+        },
+        "career": {
+          "rungDelta": -1
+        }
+      },
+      "tr": "Yeni hesap açtın. Takipçi sayın dokuz: annen, ev arkadaşın ve pidecinin yedi müdavimi.",
+      "en": "New account. Followers: nine. Your mom, your roommate and seven regulars from the pizza place.",
+      "coach": [
+        {
+          "tr": "Dokuz takipçi. Yedisi pide için orada.",
+          "en": "Nine followers. Seven are there for the pizza.",
+          "roast": false
+        }
+      ]
+    },
+    "destek": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -300,
+        "flags": {
+          "add": [
+            "influencer_destek_bekliyor"
+          ]
+        }
+      },
+      "tr": "Destek ekibi on bir gün sonra döndü: \"Talebiniz alındı.\" Aradaki sponsorlu paylaşım başka hesaba gitti.",
+      "en": "Support replied eleven days later: \"We've received your request.\" The sponsored post went to someone else in the meantime.",
+      "coach": [
+        {
+          "tr": "On bir gün, tek cümle. Sponsor beklemedi.",
+          "en": "Eleven days, one sentence. The sponsor didn't wait.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rica",
+    "slip": {
+      "tr": "İDDİA: Usta kodu doğru okumaz. — M.",
+      "en": "WAGER: The code gets read out wrong. — M."
+    }
+  },
+  "intent": {
+    "setup": "eski telefon numaran pideciye geçince doğrulama kodları oraya gidiyor ve hesabın kilitleniyor",
+    "mechanism": "pideci kodu yiyecek gibi anlatıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "pideciyiz, kod yemiyoruz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "pide"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

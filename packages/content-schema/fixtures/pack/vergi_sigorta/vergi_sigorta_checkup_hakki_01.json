@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "vergi_sigorta_checkup_hakki_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "saglik",
+    "evrak",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 72
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "DEFNE SİGORTA · POLİÇE HATIRLATMASI (kurgusal)",
+      "en": "LAUREL INSURANCE · POLICY REMINDER (fictional)"
+    },
+    "body": {
+      "tr": "Poliçenizdeki yıllık sağlık kontrolü hakkınızı henüz kullanmadınız. Hakkınız ay sonunda sona erecektir.",
+      "en": "You have not yet used your annual health check benefit. It expires at the end of the month."
+    },
+    "translate": {
+      "tr": {
+        "from": "henüz kullanmadınız",
+        "to": "üç yıldır ödüyorsun, bir kez bile gelmedin"
+      },
+      "en": {
+        "from": "not yet used",
+        "to": "paid for three years running, never collected"
+      }
+    },
+    "glossaryKey": "yillik_saglik_kontrolu"
+  },
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Randevu al, git",
+      "en": "Book it and go",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "erte",
+      "tr": "Ay sonuna bırak",
+      "en": "Leave it till month's end",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "devir",
+      "tr": "Hakkı devretmeyi sor",
+      "en": "Ask to roll it over",
+      "pattern": "pride",
+      "check": {
+        "base": 2500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "health": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "checkup_yapildi"
+          ]
+        }
+      },
+      "tr": "Yarım günde on bir tetkik yapıldı. Sonuçlar temiz çıktı, bir de ücretsiz kahvaltı verdiler.",
+      "en": "Eleven tests in half a day. Results clear, and they threw in a free breakfast.",
+      "coach": [
+        {
+          "tr": "Üç yıllık prim: bir kahvaltı ve iyi haber.",
+          "en": "Three years of premiums: one breakfast and good news.",
+          "roast": false
+        },
+        {
+          "tr": "Sağlık sayacı üç puan yukarıda.",
+          "en": "Health meter up three.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "checkup_yandi"
+          ]
+        },
+        "glossary": "yillik_saglik_kontrolu"
+      },
+      "tr": "Ay bitti, hak yandı. Ertesi ay aynı mektup, gelecek yılın tarihiyle geldi.",
+      "en": "The month ended and the benefit lapsed. The next month, the same letter arrived with next year's date.",
+      "coach": [
+        {
+          "tr": "Mektup sabırlı. Her yıl geliyor.",
+          "en": "The letter is patient. It comes every year.",
+          "roast": false
+        }
+      ]
+    },
+    "devir": [
+      {
+        "p": 2500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "checkup_devir"
+            ]
+          }
+        },
+        "tr": "Temsilci bir aylık uzatma tanımladı. Randevu gelecek ayın ilk gününe yazıldı.",
+        "en": "The rep granted a one-month extension. Your appointment: the first of next month.",
+        "coach": [
+          {
+            "tr": "Bir ay ek süre, takvimde.",
+            "en": "One extra month, on the calendar.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "checkup_yandi"
+            ]
+          }
+        },
+        "tr": "Temsilci 'hak devredilmez' dedi ve aynı gün için boş bir saat önerdi: 16.30.",
+        "en": "The rep said benefits don't roll over, then offered a slot that same day: 4:30.",
+        "coach": [
+          {
+            "tr": "16.30 hâlâ boş.",
+            "en": "4:30 is still open.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "sağlık poliçesindeki ücretsiz yıllık kontrol hakkının ay sonunda yanacağını bildiren mektup",
+    "mechanism": "'henüz kullanmadınız' tercümesi",
+    "mechanismId": "translation",
+    "punch": "henüz kullanmadınız = üç yıldır ödüyorsun",
+    "lift": "sağlık sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kahvalti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

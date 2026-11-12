@@ -1,0 +1,153 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_teslimat_uyeligi_01",
+  "tags": [
+    "para",
+    "abonelik",
+    "yemek",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Teslimat bedavayken mutfağa girmek israf. Ben öyle görüyorum.",
+      "en": "Cooking when delivery's free is just wasteful. That's how I see it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kal",
+      "tr": "Üyelikte kal",
+      "en": "Keep the membership",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "iptal",
+      "tr": "İptal et, ocağa dön",
+      "en": "Cancel, back to the stove",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "ortak",
+      "tr": "Ev arkadaşıyla ortak kullan",
+      "en": "Share it with your roommate",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kal": {
+      "effects": {
+        "money": -640,
+        "stats": {
+          "joy": 1,
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "teslimat_uyeligi"
+          ]
+        }
+      },
+      "tr": "Bu ay 19 sipariş verildi, teslimat ücreti sıfır. Yemeklerin kendisi 640 Para tuttu.",
+      "en": "Nineteen orders this month, zero delivery fees. The food itself came to 640.",
+      "coach": [
+        {
+          "tr": "Teslimat bedavaydı. On dokuz kez.",
+          "en": "Delivery was free. Nineteen times.",
+          "roast": true
+        }
+      ]
+    },
+    "iptal": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "health": 1,
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "teslimat_iptal"
+          ]
+        }
+      },
+      "tr": "Üyelik iptal edildi. Buzdolabında üç gün aynı tencere makarna durdu.",
+      "en": "Membership canceled. The same pot of pasta held the fridge for three days.",
+      "coach": [
+        {
+          "tr": "Üç gün, tek tencere. Tencere dayandı.",
+          "en": "Three days, one pot. The pot held up.",
+          "roast": false
+        }
+      ]
+    },
+    "ortak": {
+      "effects": {
+        "money": -380,
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ortak_teslimat"
+          ]
+        }
+      },
+      "tr": "Üyelik ortak kullanılıyor. Bedeli ikiye bölündü, sipariş sayısı ikiye katlandı.",
+      "en": "The membership is shared now. The fee got split in half. The order count doubled.",
+      "coach": [
+        {
+          "tr": "Yarı fiyat, iki kat sipariş. Matematik yerinde sayıyor.",
+          "en": "Half the fee, twice the orders. The math is jogging in place.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "yemek uygulamasının ücretsiz teslimat üyeliğinden sonra sipariş sayısının patlaması",
+    "mechanism": "bedava teslimat harcamayı artırıyor; sayı koç ağzında",
+    "mechanismId": "count",
+    "punch": "teslimat bedavaydı, on dokuz kez",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "siparis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

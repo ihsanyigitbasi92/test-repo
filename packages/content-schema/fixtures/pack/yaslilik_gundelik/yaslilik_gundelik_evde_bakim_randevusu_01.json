@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "yaslilik_gundelik_evde_bakim_randevusu_01",
+  "tags": [
+    "yaslilik",
+    "evrak",
+    "saglik",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 72,
+      "max": 95
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇINARALTI SEMT SAĞLIK MERKEZİ — Evde Bakım Birimi (kurgusal)",
+      "en": "ELMSIDE DISTRICT HEALTH CENTER — Home Care Unit (fictional)"
+    },
+    "body": {
+      "tr": "Evde sağlık ziyaretiniz salı günü 09.00–17.00 saatleri arasında gerçekleştirilecektir. Ziyaret süresince evde bulunmanız rica olunur.",
+      "en": "Your home health visit will take place on Tuesday between 9 a.m. and 5 p.m. Please remain at home for the duration of the visit."
+    },
+    "translate": {
+      "tr": {
+        "from": "09.00–17.00 saatleri arasında",
+        "to": "bütün gün, kapının dibinde"
+      },
+      "en": {
+        "from": "between 9 a.m. and 5 p.m.",
+        "to": "all day, within earshot of the door"
+      }
+    },
+    "glossaryKey": "evde_bakim"
+  },
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "O gün ben gelemem. Komşuya söyle, zil çalarsa sana haber versin.",
+      "en": "I can't come that day. Tell the neighbor to let you know if the bell rings."
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Bütün gün evde bekle",
+      "en": "Wait at home all day",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Arayıp saat iste",
+      "en": "Call and ask for a time",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "not",
+      "tr": "Kapıya not, komşuya haber",
+      "en": "Note on door, tell neighbor",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "health": 2
+        },
+        "flags": {
+          "add": [
+            "evde_bakim_kaydi"
+          ]
+        }
+      },
+      "tr": "Zil 16.52'de çaldı. Hemşire on iki dakika kaldı; sen yedi saat beklemiştin.",
+      "en": "The bell rang at 4:52. The nurse stayed twelve minutes. You'd waited seven hours.",
+      "coach": [
+        {
+          "tr": "Yedi saat, on iki dakika.",
+          "en": "Seven hours. Twelve minutes.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "health": 2
+          },
+          "flags": {
+            "add": [
+              "evde_bakim_kaydi"
+            ]
+          }
+        },
+        "tr": "Birimi aradın, kibar bir pazarlıkla 10.00–12.00 arasına yazıldın. Hemşire 10.40'ta geldi.",
+        "en": "You called the unit and politely negotiated a ten-to-noon window. The nurse arrived at 10:40.",
+        "coach": [
+          {
+            "tr": "İki saatlik pencere tuttu.",
+            "en": "The two-hour window held.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": 2
+          },
+          "flags": {
+            "add": [
+              "evde_bakim_kaydi"
+            ]
+          }
+        },
+        "tr": "Hatta yirmi dakika bekledin. 'Sistem saat vermiyor' dediler; zil yine 16.30'da çaldı.",
+        "en": "Twenty minutes on hold. \"The system doesn't assign times.\" The bell rang at 4:30 anyway.",
+        "coach": [
+          {
+            "tr": "Sistem kararlı.",
+            "en": "The system is consistent.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "not": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": 2
+        },
+        "flags": {
+          "add": [
+            "evde_bakim_kaydi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "glossary": "evde_bakim"
+      },
+      "tr": "Kapıya 'ZİL BOZUK, SERT VURUN' yazıp komşuya haber verdin. Hemşire hem kapıya vurdu hem komşunun zilini çaldı.",
+      "en": "You taped BELL BROKEN, KNOCK HARD to the door and told the neighbor. The nurse knocked and rang the neighbor's bell too.",
+      "coach": [
+        {
+          "tr": "İki kanaldan ulaşıldı.",
+          "en": "Reached via two channels.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "sağlık merkezinin evde bakım ziyareti için 09.00–17.00 arası tüm günlük bir saat aralığı bildirmesi",
+    "mechanism": "'09.00–17.00 arası' = 'bütün gün kapının dibinde' tercümesi",
+    "mechanismId": "translation",
+    "punch": "yedi saat bekleyiş, on iki dakika ziyaret",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "pencere"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

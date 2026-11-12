@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_kiraci_mulakati_01",
+  "tags": [
+    "kariyer",
+    "emlakci",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 650,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Kiracıyı ben seçerim. Sorularım hazır: hobisi ne, ayakkabıyla girer mi, perdeyi ne renk asar.",
+      "en": "I pick the tenant. My questions are ready: hobbies, shoes indoors or not, curtain color."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Bir de davul. Davul çalan olmasın. Flüt olur, flüt sessizdir.",
+      "en": "And drums. No drummers. A flute is fine. Flutes are quiet."
+    }
+  ],
+  "choices": [
+    {
+      "id": "uygula",
+      "tr": "Soruları adaylara sor",
+      "en": "Ask the applicants his questions",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sadelestir",
+      "tr": "Soruları ikiye indir",
+      "en": "Talk him down to two questions",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Mülakatı ev sahibine bırak",
+      "en": "Let the owner run interviews",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "uygula": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "money": 500,
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Altı adaya perde rengini sordun. Ev, perdesi zaten bej olan adaya kiralandı; payın 500 Para.",
+      "en": "You asked six applicants about curtain color. The flat went to the one whose curtains were already beige. Your cut: 500.",
+      "coach": [
+        {
+          "tr": "Altı aday, bir bej perde.",
+          "en": "Six applicants. One beige curtain.",
+          "roast": false
+        }
+      ]
+    },
+    "sadelestir": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": 500,
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Ev sahibi yalnızca davul ve ayakkabıda ısrar etti. Ev ilk gün kiralandı.",
+        "en": "The owner kept only drums and shoes. The flat was rented on day one.",
+        "coach": [
+          {
+            "tr": "İki soru, bir sözleşme.",
+            "en": "Two questions. One lease.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Ev sahibi listeyi kısaltmadı, bir soru ekledi: \"Bitki sulamayı bilir mi?\"",
+        "en": "The owner didn't shorten the list. He added one: \"Can they water plants?\"",
+        "coach": [
+          {
+            "tr": "Liste saksıya kadar uzadı.",
+            "en": "The list now reaches the houseplants.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "kiraci_flut"
+          ]
+        }
+      },
+      "tr": "Mülakatları ev sahibi kendisi yaptı. Üç hafta sonra flüt çalan bir kiracı buldu, komşular ilk akşam kapıyı çaldı.",
+      "en": "The owner ran the interviews. Three weeks later he found a flautist. The neighbors knocked on the first evening.",
+      "coach": [
+        {
+          "tr": "Flüt sessiz sayılmadı.",
+          "en": "The flute was ruled not quiet.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sadelestir",
+    "slip": {
+      "tr": "İDDİA: Liste kısalmaz, uzar. — M.",
+      "en": "WAGER: The list grows instead. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi kiracı adaylarıyla hobi, ayakkabı ve perde rengi soran bir mülakat yapmak istiyor",
+    "mechanism": "ev sahibinin soru listesi her cümlede büyüyor",
+    "mechanismId": "escalation",
+    "punch": "flüt sessizdir",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "flut"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tasinma_kirli_teslim_01",
+  "tags": [
+    "ev",
+    "temizlik",
+    "tasinma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tasinma": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Fırının içine baktın mı? Bakma. Yani bak ama oturarak bak.",
+      "en": "Did you look inside the oven? Don't. Well, look, but sit down first."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Önceki kiracı bunu böyle mi bırakmış? Ben çamaşır suyuyla geliyorum, yolda bir de eldiven alırım.",
+      "en": "Did the last tenant leave it like this? I'm coming with bleach. I'll grab gloves on the way.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ev_sahibi",
+      "tr": "Ev sahibinden temizlik parası iste",
+      "en": "Ask the landlord to cover cleaning",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annenle birlikte temizle",
+      "en": "Clean it with your mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "firma",
+      "tr": "Temizlik ekibi tut",
+      "en": "Hire a cleaning crew",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "ev_sahibi": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 400,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "kirli_teslim_fotolu"
+            ]
+          }
+        },
+        "tr": "Ev sahibi fotoğrafları görünce ilk kiradan 400 Para düştü.",
+        "en": "The landlord saw the photos and knocked 400 off the first month.",
+        "coach": [
+          {
+            "tr": "Fotoğraflar iş gördü. Fırın hâlâ kirli ama.",
+            "en": "The photos did the job. The oven's still filthy, though.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": -1
+          },
+          "flags": {
+            "add": [
+              "kirli_teslim_fotolu"
+            ]
+          }
+        },
+        "tr": "Ev sahibi 'ben gördüğümde temizdi' dedi. Fırını üç gün sen ovaladın.",
+        "en": "The landlord said 'it was clean when I saw it.' You scrubbed the oven for three days.",
+        "coach": [
+          {
+            "tr": "Üç gün, bir fırın. Fırın kazandı.",
+            "en": "Three days versus one oven. The oven won.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": -1
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Annenle sekiz saat temizlediniz. Annen fırının içinden ev sahibinin eski kira makbuzunu çıkardı.",
+      "en": "Eight hours of cleaning with your mom. She pulled an old rent receipt out of the oven.",
+      "coach": [
+        {
+          "tr": "Sekiz saat. Fırın bir de arşiv çıkardı.",
+          "en": "Eight hours. The oven turned out to be an archive.",
+          "roast": true
+        }
+      ]
+    },
+    "firma": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 2
+        }
+      },
+      "tr": "Temizlik ekibi 900 Para'ya dört saatte bitirdi. Ekip başı ayrılırken fırına bir kez daha baktı ve başını salladı.",
+      "en": "A crew did it in four hours for 900. The lead took one last look at the oven on the way out and shook their head.",
+      "coach": [
+        {
+          "tr": "900 Para. Fırın profesyonelleri de şaşırttı.",
+          "en": "Nine hundred. The oven impressed the professionals.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ev_sahibi",
+    "slip": {
+      "tr": "İDDİA: Ev sahibi tek kuruş düşmez. — M.",
+      "en": "WAGER: The landlord won't knock off a thing. — M."
+    }
+  },
+  "intent": {
+    "setup": "önceki kiracı yeni tuttuğun evi kirli bırakmış, en kötüsü fırın",
+    "mechanism": "fırın her seçenekte biraz daha büyük bir rakibe dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "fırın profesyonelleri de şaşırttı",
+    "target": "situation",
+    "closer": "firin",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

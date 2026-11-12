@@ -1,0 +1,232 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_otuz_yillik_yatak_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 85
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "yatak_karari"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "neighbor": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Bu yatak galiba bizden önce evliydi. Ortası çökük, ikimiz de oraya kayıyoruz.",
+      "en": "I think this mattress was married before we were. It sags in the middle and we both slide in."
+    }
+  ],
+  "choices": [
+    {
+      "id": "yeni",
+      "tr": "Yeni yatak al",
+      "en": "Buy a new mattress",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "cevir",
+      "tr": "Yatağı ters çevir",
+      "en": "Flip it over",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "tahta",
+      "tr": "Altına tahta koy",
+      "en": "Put a board under it",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "yeni": {
+      "effects": {
+        "money": -3500,
+        "stats": {
+          "health": 3,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yatak_karari",
+            "yeni_yatak"
+          ]
+        }
+      },
+      "tr": "Yeni yatak geldi, 3.500 Para. İlk gece ikiniz de yine ortada uyandınız.",
+      "en": "New mattress: 3,500. First night, you both woke up in the middle anyway.",
+      "coach": [
+        {
+          "tr": "Çukur gitti. Alışkanlık kaldı.",
+          "en": "The dip is gone. The habit stayed.",
+          "roast": true
+        },
+        {
+          "tr": "Yatak hedefi: tamam.",
+          "en": "Mattress goal: done.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "cevir": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "yatak_karari"
+            ]
+          }
+        },
+        "tr": "Yatak çevrildi. Altından eski bir fatura ve iki kayıp çorap çıktı.",
+        "en": "Mattress flipped. Underneath: an ancient bill and two missing socks.",
+        "coach": [
+          {
+            "tr": "Otuz yıllık arşiv: bir fatura, iki çorap.",
+            "en": "Thirty years of archives: one bill, two socks.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": -4,
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "yatak_karari"
+            ]
+          }
+        },
+        "tr": "Yatak yarı yolda kaldı, bir ucu duvarda. Komşu çağrıldı, birlikte indirdiniz.",
+        "en": "The mattress got stuck halfway, one end against the wall. The neighbor was summoned to help lower it.",
+        "coach": [
+          {
+            "tr": "Yatak bir süre dikey yaşadı.",
+            "en": "The mattress spent a while living vertically.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tahta": {
+      "effects": {
+        "money": -120,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yatak_karari",
+            "tahta_cozumu"
+          ]
+        }
+      },
+      "tr": "Altına bir tahta kondu, 120 Para. Çukur kalktı, gıcırtı başladı.",
+      "en": "A plywood board went underneath: 120. The dip vanished. The squeak arrived.",
+      "coach": [
+        {
+          "tr": "Çukur kapandı, ses açıldı.",
+          "en": "Dip closed. Squeak opened.",
+          "roast": true
+        },
+        {
+          "tr": "Uyku sayacı: gıcırtılı ama düz.",
+          "en": "Sleep: flat, if squeaky.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "ileri yaşta çiftin otuz yıllık çökük yatağı",
+    "mechanism": "yatağın evlilik geçmişi sayılıyor, her çözüm bir yan etki doğuruyor",
+    "mechanismId": "count",
+    "punch": "bu yatak bizden önce evliydi",
+    "closer": "cukur",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "Uyku sayacı: gıcırtılı ama düz."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

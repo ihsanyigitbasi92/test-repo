@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_kayip_rezervasyon_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "restoran",
+    "partner",
+    "yildonumu",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "worried",
+      "tr": "Sistemde sizi göremiyorum. Ama sistem dün biraz kırgındı, birkaç kaydı sildi.",
+      "en": "I don't see you in the system. To be fair, the system was in a mood yesterday. It deleted a few people."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Onay mesajını sana iletmiştim. Sen de kalp atmıştın.",
+      "en": "I forwarded you the confirmation. You hearted it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Garsonu ikna et",
+      "en": "Talk the waiter into a table",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "baska",
+      "tr": "Başka bir yer ara",
+      "en": "Find somewhere else",
+      "pattern": "patience"
+    },
+    {
+      "id": "eve",
+      "tr": "Eve dön, sipariş ver",
+      "en": "Go home and order in",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -850,
+          "flags": {
+            "add": [
+              "siparis_mutfak_kapisi_masasi"
+            ]
+          }
+        },
+        "tr": "Garson mutfak kapısının yanına bir masa kurdu. Akşam boyunca her tabağı herkesten önce siz gördünüz.",
+        "en": "The waiter set up a table by the kitchen door. All night, you saw every dish before anyone else did.",
+        "coach": [
+          {
+            "tr": "Mutfak kapısı, ön sıra.",
+            "en": "Kitchen door. Front row.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -300,
+          "flags": {
+            "add": [
+              "siparis_ayakta_yildonumu"
+            ]
+          }
+        },
+        "tr": "Masa çıkmadı. Yıldönümünü köşedeki dürümcüde, ayakta kutladınız.",
+        "en": "No table. You celebrated your anniversary standing at the wrap stand on the corner.",
+        "coach": [
+          {
+            "tr": "Ayakta da olsa kutlandı.",
+            "en": "Standing, but celebrated.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "baska": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -600,
+        "flags": {
+          "add": [
+            "siparis_yedek_restoran"
+          ]
+        }
+      },
+      "tr": "Yirmi dakika yürüyüp açık bir yer buldunuz. Menü daha kısa, masa daha sessizdi.",
+      "en": "Twenty minutes of walking found you an open place. Shorter menu, quieter table.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika yürüyüş, sessiz bir masa.",
+          "en": "A twenty-minute walk. A quiet table.",
+          "roast": false
+        }
+      ]
+    },
+    "eve": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "siparis_evde_yildonumu"
+          ]
+        }
+      },
+      "tr": "Eve dönüp sipariş verdiniz. Yıldönümü yemeği karton kutularda geldi, iyi tabaklarda servis edildi.",
+      "en": "You went home and ordered in. Anniversary dinner arrived in cardboard and was served on the good plates.",
+      "coach": [
+        {
+          "tr": "Karton kutu, iyi tabak.",
+          "en": "Cardboard boxes. Good plates.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Bu akşam masa çıkmaz. — M.",
+      "en": "WAGER: No table tonight. — M."
+    }
+  },
+  "intent": {
+    "setup": "yıldönümü rezervasyonunun restoranın sisteminde görünmemesi",
+    "mechanism": "garsonun sistemi küskün bir insan gibi anlatması",
+    "mechanismId": "literalism",
+    "punch": "sistem dün biraz kırgındı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kalp"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

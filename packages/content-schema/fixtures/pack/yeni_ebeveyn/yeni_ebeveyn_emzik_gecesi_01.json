@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yeni_ebeveyn_emzik_gecesi_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "uyku",
+    "gece",
+    "yeni_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yeni_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "emzik_stogu",
+        "emziksiz_gece"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Emzik yok. Yatağın altında yok, beşiğin arkasında yok, cebimde yok.",
+      "en": "The pacifier's gone. Not under the bed, not behind the crib, not in my pocket."
+    },
+    {
+      "speaker": "child",
+      "avatar": "annoyed",
+      "tr": "(emziğin yerini bilen birinin sakinliğiyle ağlar)",
+      "en": "(cries with the calm of someone who knows exactly where it is)",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Feneri al, ara",
+      "en": "Grab a flashlight and search",
+      "pattern": "patience"
+    },
+    {
+      "id": "emziksiz",
+      "tr": "Emziksiz uyutmayı dene",
+      "en": "Try without it",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "market",
+      "tr": "Gece açık markete koş",
+      "en": "Run to the all-night store",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "emzik_haritasi"
+          ]
+        }
+      },
+      "tr": "Emzik kırk dakika sonra çorap çekmecesinden çıktı. Oraya nasıl gittiğini kimse bilmiyor.",
+      "en": "Forty minutes later the pacifier turned up in the sock drawer. No one knows how it got there.",
+      "coach": [
+        {
+          "tr": "Kırk dakikalık arama, tek çekmece. Dosya kapandı.",
+          "en": "A forty-minute search, one drawer. Case closed.",
+          "roast": true
+        }
+      ]
+    },
+    "emziksiz": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "emziksiz_gece"
+            ]
+          }
+        },
+        "tr": "Bebek yirmi dakika söylendikten sonra emziksiz uyudu. Sabah emzik senin yastığının altından çıktı.",
+        "en": "After twenty minutes of complaints, the baby fell asleep without it. In the morning it turned up under your pillow.",
+        "coach": [
+          {
+            "tr": "Emzik senin yastığında saklanıyormuş. Bebek biliyordu.",
+            "en": "The pacifier was hiding under your pillow. The baby knew.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "health": -2,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "emzik_haritasi"
+            ]
+          }
+        },
+        "tr": "Bebek üç saat itiraz etti. Saat beşte emzik bebeğin kendi battaniyesinin içinden çıktı.",
+        "en": "The baby objected for three hours. At five a.m. the pacifier fell out of the baby's own blanket.",
+        "coach": [
+          {
+            "tr": "Üç saat, bir battaniye. Kanıt baştan beri içerideymiş.",
+            "en": "Three hours, one blanket. The evidence was inside all along.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "market": {
+      "effects": {
+        "money": -210,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "emzik_stogu"
+          ]
+        }
+      },
+      "tr": "Gece marketinden on iki emzik aldın, 210 Para. Bir hafta sonra on ikisinin dördü kayıp.",
+      "en": "You bought twelve pacifiers at the all-night store for 210. A week later, four of the twelve are missing.",
+      "coach": [
+        {
+          "tr": "On iki emzik. Dördü kayıp, sekizi görevde.",
+          "en": "Twelve pacifiers. Four missing, eight on duty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "gece ikide tek emziğin kaybolması",
+    "mechanism": "emzik, saat ve kayıp sayımı",
+    "mechanismId": "count",
+    "punch": "dördü kayıp, sekizi görevde",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "emzik",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_hoa_yonetmelik_okuyan_01",
+  "tags": [
+    "kariyer",
+    "site_yonetici",
+    "kariyer_hoa"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_hoa": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 52
+    },
+    "career": {
+      "anyOf": [
+        "hoa"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Yeni taşındım. Site yönetmeliğini baştan sona okudum, kırk sayfa. Birkaç sorum var.",
+      "en": "I just moved in. I read the bylaws cover to cover, all forty pages. A few questions."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Madde 14: kapı önüne paspas konmaz. Sizin kapınızda iki tane var.",
+      "en": "Section 14: no doormats in hallways. You have two.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kaldir",
+      "tr": "Paspasları kaldır",
+      "en": "Take the doormats in",
+      "pattern": "patience"
+    },
+    {
+      "id": "savun",
+      "tr": "Maddenin yorumunu tartış",
+      "en": "Argue the interpretation",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gundem",
+      "tr": "Maddeyi genel kurula götür",
+      "en": "Put the rule on the agenda",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "kaldir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": -2
+        },
+        "flags": {
+          "add": [
+            "hoa_paspas_yok"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Paspasları kaldırdın. Yeni sakin on bir madde daha işaretleyip kapına bıraktı.",
+      "en": "You took them in. The new resident left eleven more highlighted sections at your door.",
+      "coach": [
+        {
+          "tr": "On bir madde daha. İşaretli.",
+          "en": "Eleven more sections. Highlighted.",
+          "roast": false
+        }
+      ]
+    },
+    "savun": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 2
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "Maddenin \"ortak koridor\" dediğini, kapı önünün tapuna dahil olduğunu gösterdin. Yeni sakin ikna oldu ve kendine paspas aldı.",
+        "en": "You showed the rule covers \"common corridors,\" and your doorstep is on your deed. The new resident agreed and bought a doormat.",
+        "coach": [
+          {
+            "tr": "Yorum kazandı. Paspas sayısı arttı.",
+            "en": "Interpretation won. Doormat population grew.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Yeni sakin yönetmeliğin ekindeki krokiyi açtı. Kapı önün koridor sayılıyormuş; paspaslar kalktı.",
+        "en": "The new resident produced the floor plan from the appendix. Your doorstep counts as corridor. The mats went.",
+        "coach": [
+          {
+            "tr": "Kroki ekteymiş.",
+            "en": "It was in the appendix.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gundem": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "hoa_paspas_gundemi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Madde gündeme alındı. Genel kurulda paspas meselesi bütçeden uzun konuşuldu ve paspas serbest bırakıldı.",
+      "en": "The rule went on the agenda. The doormat debate outlasted the budget discussion, and mats were legalized.",
+      "coach": [
+        {
+          "tr": "Paspas serbest. Bütçe yarım kaldı.",
+          "en": "Mats legal. Budget pending.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "savun",
+    "slip": {
+      "tr": "İDDİA: Yönetmelik yeni gelenden yana çıkar. — M.",
+      "en": "WAGER: The bylaws side with the new resident. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni taşınan sakinin kırk sayfalık site yönetmeliğini okuyup yöneticinin kapı paspasına itiraz etmesi",
+    "mechanism": "kural yöneticiye uygulanıyor",
+    "mechanismId": "reversal",
+    "punch": "sizin kapınızda iki tane var",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "madde"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

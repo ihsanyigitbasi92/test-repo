@@ -1,0 +1,230 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tanidik_yuzler_kesisme_dayi_baris_buzdolabi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "dayi",
+    "baris",
+    "ev",
+    "tanidik_yuzler_kesisme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tanidik_yuzler_kesisme": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      },
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "BU BUZDOLABI VİNTAGE. KESİN ALAN ÇIKAR.",
+      "en": "THIS FRIDGE IS VINTAGE. SURE THING SOMEONE BUYS IT."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "annoyed",
+      "tr": "Eskiden o dolaba koca bir kuzu sığardı. Satılık değil, emanet.",
+      "en": "Back then that fridge used to hold a whole lamb. It's not for sale. It's on loan.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "sat",
+      "tr": "Barış ilan versin",
+      "en": "Let Jordan list it",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "emanet",
+      "tr": "Emanete dokunma",
+      "en": "Leave the loan alone",
+      "pattern": "patience"
+    },
+    {
+      "id": "sor",
+      "tr": "Dayına sor",
+      "en": "Ask your uncle",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "sat": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 600,
+          "flags": {
+            "add": [
+              "dayi_dolabi_satildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -2
+            },
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Dolap bir kafeye 1.200 Para'ya gitti, yarısı senin. Dayın kafenin önünden her geçişinde içeri bakıyor.",
+        "en": "A café bought the fridge for 1,200. Half is yours. Your uncle looks inside every time he walks past.",
+        "coach": [
+          {
+            "tr": "Dolap vitrinde. Dayın da camda.",
+            "en": "The fridge is on display. So is your uncle, at the window.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -150,
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "dolap_geri_cikti"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            },
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "İlana kimse yazmadı. Barış dolabı indirmek için iki kişi tuttu; sonra dolabı geri çıkardılar.",
+        "en": "Nobody answered the ad. Jordan hired two people to carry it down. Then they carried it back up.",
+        "coach": [
+          {
+            "tr": "İki kat aşağı, iki kat yukarı. Hamal payı 150.",
+            "en": "Two floors down, two floors up. Movers: 150.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "emanet": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "dolap_emanet"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          },
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Dolap salonda kaldı. Barış üstüne \"emanet\" etiketi yapıştırdı ve içine kendi içeceklerini dizdi.",
+      "en": "The fridge stayed in the living room. Jordan stuck an ON LOAN label on it and stocked it with their own drinks.",
+      "coach": [
+        {
+          "tr": "Etiket emanet diyor. İçi Barış'ın.",
+          "en": "The label says on loan. The contents say Jordan.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kiralik_buzdolabi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          },
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Dayın \"satma, kiraya ver\" dedi. Barış ilanı \"kiralık buzdolabı\" olarak güncelledi.",
+      "en": "Your uncle said, \"Don't sell it, rent it out.\" Jordan updated the ad to \"Fridge for rent.\"",
+      "coach": [
+        {
+          "tr": "Kiralık buzdolabı. İlanda.",
+          "en": "Fridge for rent. Now listed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sat",
+    "slip": {
+      "tr": "İDDİA: O dolap bu evden çıkmaz. — M.",
+      "en": "WAGER: That fridge never leaves this flat. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının emanet bıraktığı eski buzdolabını ev arkadaşının satmak istemesi",
+    "mechanism": "satış fikri kiralamaya dönüyor",
+    "mechanismId": "reversal",
+    "punch": "satılık değil, emanet",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "etiket",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

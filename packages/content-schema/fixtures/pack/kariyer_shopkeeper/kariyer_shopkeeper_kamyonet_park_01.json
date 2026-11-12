@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_kamyonet_park_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Beş dakika duracağım. Karşı apartmana yük boşaltıyorum.",
+      "en": "Five minutes, tops. Just unloading for the building across the street."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Bu kamyonet sabahtan beri orada. Dükkân görünmüyor, ben de kapalı sandım.",
+      "en": "That van's been there since morning. Couldn't see your shop. I assumed you were closed.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Şoförle konuş",
+      "en": "Talk to the driver",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tabela",
+      "tr": "Kaldırıma 'AÇIĞIZ' tabelası koy",
+      "en": "Put an OPEN sign on the sidewalk",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "bekle",
+      "tr": "Öğlene kadar bekle",
+      "en": "Wait it out till noon",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 40,
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Şoför kamyoneti on metre ileri çekti. Teşekkür olarak iki ayran aldı.",
+        "en": "The driver pulled up thirty feet. Bought two sodas to say thanks.",
+        "coach": [
+          {
+            "tr": "On metre, iki ayran.",
+            "en": "Thirty feet, two sodas.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -200,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Şoför 'beş dakika' dedi, dört saat kaldı. Öğlene kadar gelen tek kişi Şükran Teyze'ydi, o da bozuk para için.",
+        "en": "The driver said five minutes and stayed four hours. Your only visitor by noon was Mrs. Dale, and she wanted change.",
+        "coach": [
+          {
+            "tr": "Beş dakika, şoför saatiyle dört saat.",
+            "en": "Five minutes, in driver time, is four hours.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tabela": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "esnaf_ayakli_tabela"
+          ]
+        }
+      },
+      "tr": "Kaldırıma 'AÇIĞIZ' tabelası koydun. Üç müşteri geldi, biri tabelanın kaç para olduğunu sordu.",
+      "en": "You put an OPEN sign on the sidewalk. Three customers came in. One asked how much the sign was.",
+      "coach": [
+        {
+          "tr": "Tabela çalıştı. Satılık sanıldı.",
+          "en": "The sign worked. Someone tried to buy it.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "money": -300,
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Kamyonet öğlen gitti. Sabahın cirosu da onunla gitti: 300 Para eksik.",
+      "en": "The van left at noon and took the morning's sales with it: down 300.",
+      "coach": [
+        {
+          "tr": "Sabah kamyonetindi. Öğleden sonra senin.",
+          "en": "The morning belonged to the van. The afternoon is yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: 'Beş dakika' beş dakika sürmez. — M.",
+      "en": "WAGER: 'Five minutes' won't be five minutes. — M."
+    }
+  },
+  "intent": {
+    "setup": "dükkânın önüne park eden kamyonet vitrini kapatıyor, sabah müşteri gelmiyor",
+    "mechanism": "beş dakika dört saate uzuyor",
+    "mechanismId": "escalation",
+    "punch": "beş dakika, şoför saatiyle dört saat",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "metre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

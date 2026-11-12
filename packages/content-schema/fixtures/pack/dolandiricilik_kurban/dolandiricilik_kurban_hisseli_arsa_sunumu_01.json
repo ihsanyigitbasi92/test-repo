@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_hisseli_arsa_sunumu_01",
+  "tags": [
+    "para",
+    "yatirim",
+    "arsa",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Akşam yemeği bizden, siz sadece haritaya bakın. Buradan otoyol geçecek, şuradan raylı sistem.",
+      "en": "Dinner's on us. Just look at the map. A highway goes through here, a rail line there."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Hisseli ama hisse dediğin ne ki. Bin metrekarenin otuzu sizin. Kaparo 5.000.",
+      "en": "It's a shared plot, but shared is just a word. Thirty of the thousand square meters are yours. Deposit: 5,000."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Benim zamanımda arsa alan kazandı. Ben almadım, o yüzden biliyorum.",
+      "en": "In my day, whoever bought land got rich. I didn't buy any. That's how I know.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapora",
+      "tr": "5.000 kaporayı ver",
+      "en": "Put down the 5,000",
+      "pattern": "risk"
+    },
+    {
+      "id": "kayit",
+      "tr": "Parselin kayıtlarına bak",
+      "en": "Check the parcel records",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yemek",
+      "tr": "Yemeği ye, imzalamadan çık",
+      "en": "Eat, then leave without signing",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kapora": {
+      "effects": {
+        "money": -5000,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 7
+        },
+        "flags": {
+          "add": [
+            "hisseli_arsa_kapora"
+          ]
+        },
+        "glossary": "hisseli_arsa"
+      },
+      "tr": "5.000 Para kaparoyu verdin. Haritadaki otoyol iki yıl sonra hâlâ haritadaydı.",
+      "en": "You paid the 5,000. Two years later, the highway was still only on the map.",
+      "coach": [
+        {
+          "tr": "Yol yapıldı. Kâğıt üzerinde.",
+          "en": "The road got built. On paper.",
+          "roast": false
+        }
+      ]
+    },
+    "kayit": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "hisseli_arsa_fark"
+            ]
+          },
+          "glossary": "hisseli_arsa"
+        },
+        "tr": "Kayıtta parselin üç yüz kırk hissedarı vardı ve tarım arazisiydi. Tatlı gelmeden ayrıldın.",
+        "en": "The records showed three hundred forty co-owners, on farmland. You left before dessert.",
+        "coach": [
+          {
+            "tr": "Üç yüz kırk komşu. Hiçbirinin yolu yok.",
+            "en": "Three hundred forty neighbors. Not one road.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -2500,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "hisseli_arsa_kapora"
+            ]
+          },
+          "glossary": "hisseli_arsa"
+        },
+        "tr": "Kayıt sitesi o akşam açılmadı. Satıcı \"yarısını verin, yer tutalım\" dedi, 2.500 Para verdin.",
+        "en": "The records site was down that night. The seller said, \"Pay half, we'll hold your spot.\" You paid 2,500.",
+        "coach": [
+          {
+            "tr": "Yer tutuldu. Yer olmadan.",
+            "en": "Your spot is held. There is no spot.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yemek": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "arsa_yemegi_yendi"
+          ]
+        }
+      },
+      "tr": "Üç çeşit yemek yedin, broşürü peçete gibi katladın. Satıcı tatlıda iki kez masana geldi.",
+      "en": "Three courses eaten, brochure folded like a napkin. The seller visited your table twice during dessert.",
+      "coach": [
+        {
+          "tr": "Arsa yok. Tatlı vardı.",
+          "en": "No land. There was dessert.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kayit",
+    "slip": {
+      "tr": "İDDİA: Kayıtlara o akşam ulaşamayacaksın. — M.",
+      "en": "WAGER: You won't reach those records tonight. — M."
+    }
+  },
+  "intent": {
+    "setup": "ücretsiz yemekli hisseli arsa yatırım sunumu",
+    "mechanism": "büyük harita vaadi, otuz metrekarelik gerçek",
+    "mechanismId": "bathos",
+    "punch": "bin metrekarenin otuzu sizin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tatli"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

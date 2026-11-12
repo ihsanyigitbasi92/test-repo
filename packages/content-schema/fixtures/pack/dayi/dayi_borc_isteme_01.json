@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_borc_isteme_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "para",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    },
+    "money": {
+      "min": 3000
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Sana bir şey soracağım ama annene söyleme. Tekneye yeni motor lazım.",
+      "en": "I need to ask you something. Don't tell your mother. The boat needs a new motor."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "tired",
+      "tr": "Üç bin. Ay başında öderim. Hangi ay olduğunu sonra konuşuruz.",
+      "en": "Three thousand. I'll pay you back on the first of the month. We'll discuss which month later.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Üç bini ver",
+      "en": "Lend the three thousand",
+      "pattern": "generosity",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "yarim",
+      "tr": "Yarısını ver",
+      "en": "Lend half",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "Nazikçe geri çevir",
+      "en": "Gently say no",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ver": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "dayi_borc_kapandi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 5,
+              "memory": "borcunu_odedi"
+            }
+          ]
+        },
+        "tr": "Dayın ay başında zarfı getirdi. Üç bin tam, üstüne bir kavanoz bal.",
+        "en": "He brought the envelope on the first. Three thousand on the nose, plus a jar of honey.",
+        "coach": [
+          {
+            "tr": "Zarf tam geldi. Bal ekstra.",
+            "en": "The envelope came back full. The honey was extra.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -3000,
+          "flags": {
+            "add": [
+              "dayi_borc_acik"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Ay başı geldi, dayın tekneyle geldi. Motor çalışıyor, para konusu açılmadı.",
+        "en": "The first of the month came. So did your uncle, by boat. The motor runs. The money hasn't come up.",
+        "coach": [
+          {
+            "tr": "Motor çalışıyor. Hesap bekliyor.",
+            "en": "The motor works. The account waits.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yarim": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -1500,
+        "flags": {
+          "add": [
+            "dayi_borc_yarim"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Bin beş yüz verdin. Dayın kalanını kuzeninden aldı ve motoru “ikisinin ortaklığı” diye tanıtıyor.",
+      "en": "You lent fifteen hundred. He got the rest from your cousin and now introduces the motor as “a joint venture.”",
+      "coach": [
+        {
+          "tr": "Yarım motor senin. Hangi yarısı belirsiz.",
+          "en": "Half a motor is yours. Which half is unclear.",
+          "roast": false
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "dayi_borc_reddi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -4,
+            "memory": "borc_vermedi"
+          },
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Hayır dedin. Dayın “haklısın” dedi, sonra annene ne kadar haklı olduğunu anlattı.",
+      "en": "You said no. He said “You’re right,” then called your mom to explain exactly how right you were.",
+      "coach": [
+        {
+          "tr": "Haklı çıktın. Duyuru annene gitti.",
+          "en": "You were right. Mom got the bulletin.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ver",
+    "slip": {
+      "tr": "İDDİA: O ay takvimde yok. — M.",
+      "en": "WAGER: That month isn't on any calendar. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının ilk kez senden borç istemesi ve geri ödeme ayını belirsiz bırakması",
+    "mechanism": "ay başı var, ay yok; motorun ortaklığa dönmesi",
+    "mechanismId": "understatement",
+    "punch": "hangi ay olduğunu sonra konuşuruz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bal"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

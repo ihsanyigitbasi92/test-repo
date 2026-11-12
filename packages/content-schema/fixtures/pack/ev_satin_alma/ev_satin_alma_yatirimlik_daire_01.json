@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_yatirimlik_daire_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_satin_alma": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ],
+    "money": {
+      "min": 20000
+    },
+    "flags": {
+      "all": [
+        "ev_satin_alindi"
+      ],
+      "none": [
+        "yatirimlik_daire"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Mevcut evinizi teminat göstererek ikinci bir daire alabilirsiniz.",
+      "en": "You can put up your current home as collateral and buy a second flat."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Kiracı kirayı öder, kira krediyi öder. Herkes birbirini öder.",
+      "en": "The tenant pays the rent, the rent pays the loan. Everyone pays everyone.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "İkinci daireyi al",
+      "en": "Buy the second flat",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dosyala",
+      "tr": "Teklifi dosyala",
+      "en": "File the offer away",
+      "pattern": "patience"
+    },
+    {
+      "id": "birikim",
+      "tr": "Birikimi olduğu gibi bırak",
+      "en": "Leave the savings as they are",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "al": [
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "money": -9000,
+          "flags": {
+            "add": [
+              "yatirimlik_daire",
+              "kiraci_var"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "kiralik_daire"
+              ]
+            }
+          }
+        },
+        "tr": "İkinci daireyi aldın, ilk ay kiracı bulundu. Kira, taksitten üç gün önce yatıyor.",
+        "en": "You bought the second flat and found a tenant in month one. The rent lands three days before the installment.",
+        "coach": [
+          {
+            "tr": "Üç gün tampon. Çark dönüyor.",
+            "en": "A three-day buffer. The wheel turns.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "money": -9000,
+          "flags": {
+            "add": [
+              "yatirimlik_daire",
+              "bos_daire"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "kiralik_daire"
+              ]
+            }
+          }
+        },
+        "tr": "İkinci daireyi aldın. Dört ay kiracı çıkmadı, taksiti iki evin aidatıyla birlikte sen ödedin.",
+        "en": "You bought the second flat. No tenant for four months, so you covered the installment plus two sets of building fees.",
+        "coach": [
+          {
+            "tr": "Herkes birbirini öder. Bu ay sen.",
+            "en": "Everyone pays everyone. This month, you.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dosyala": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yatirim_ertelendi"
+          ]
+        }
+      },
+      "tr": "Teklifi dosyaladın. Bankacı üç ayda bir arayıp teminatının hâlâ yerinde durduğunu hatırlatıyor.",
+      "en": "You filed the offer. The banker calls every three months to remind you your collateral is still there.",
+      "coach": [
+        {
+          "tr": "Teminat yerinde. Telefon da.",
+          "en": "Collateral: present. Phone: ringing.",
+          "roast": false
+        }
+      ]
+    },
+    "birikim": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "nakit_kaldi"
+          ]
+        }
+      },
+      "tr": "Birikimi bankada bıraktın. Her ay ekstreye bakıp hiçbir şey yapmamış olmanın sakinliğini yaşıyorsun.",
+      "en": "You left the savings where they were. Each month you check the statement and enjoy the calm of having done nothing.",
+      "coach": [
+        {
+          "tr": "Hiçbir şey yapılmadı. Bilerek.",
+          "en": "Nothing was done. On purpose.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "al",
+    "slip": {
+      "tr": "İDDİA: Kiracı geç gelir, taksit gelmez. — M.",
+      "en": "WAGER: The tenant is late. The installment never is. — M."
+    }
+  },
+  "intent": {
+    "setup": "bankacı mevcut evi teminat gösterip kiraya verilecek ikinci daire öneriyor",
+    "mechanism": "herkesin herkesi ödediği zincir",
+    "mechanismId": "escalation",
+    "punch": "herkes birbirini öder",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zincir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

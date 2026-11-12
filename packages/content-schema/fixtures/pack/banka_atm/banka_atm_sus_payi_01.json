@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_sus_payi_01",
+  "tags": [
+    "para",
+    "banka",
+    "havale",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Gönderiminiz incelemede. Açıklama kısmına 'sus payı' yazmışsınız.",
+      "en": "Your transfer is under review. The description field says 'hush money.'"
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "Neyin susması olduğunu öğrenebilir miyim? Sistem merak ediyor.",
+      "en": "May I ask what's being hushed? The system is curious.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "acikla",
+      "tr": "Pizza borcu olduğunu anlat",
+      "en": "Explain it was pizza money",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "iptal",
+      "tr": "İptal et, yeniden gönder",
+      "en": "Cancel and resend",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "israr",
+      "tr": "Şakada ısrar et",
+      "en": "Commit to the bit",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "acikla": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "aciklama_incelemesi"
+          ]
+        },
+        "glossary": "islem_aciklamasi"
+      },
+      "tr": "On dört dakika boyunca hangi pizza olduğunu anlattın. Transfer onaylandı.",
+      "en": "You spent fourteen minutes describing the pizza. The transfer was approved.",
+      "coach": [
+        {
+          "tr": "Onaylandı.",
+          "en": "Approved.",
+          "roast": false
+        }
+      ]
+    },
+    "iptal": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "aciklama_incelemesi"
+          ]
+        }
+      },
+      "tr": "İptal edip açıklamasız gönderdin. Bu kez 'açıklama eksik' diye incelemeye düştü.",
+      "en": "You cancelled and resent it blank. This time it went to review for 'missing description.'",
+      "coach": [
+        {
+          "tr": "İki inceleme, bir pizza.",
+          "en": "Two reviews, one pizza.",
+          "roast": false
+        }
+      ]
+    },
+    "israr": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Bankacı güldü, 'bir dahakine pizza yazın' dedi. Transfer geçti.",
+        "en": "The banker laughed and said, 'Next time, just write pizza.' It went through.",
+        "coach": [
+          {
+            "tr": "Bir insan güldü. Sistem gülmedi.",
+            "en": "A person laughed. The system didn't.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "hesap_kisitli"
+            ]
+          }
+        },
+        "tr": "Hesabın üç iş günü 'kontrol' için kısıtlandı. Pizza parası da içeride kaldı.",
+        "en": "Your account was restricted for three business days 'for review.' The pizza money stayed inside.",
+        "coach": [
+          {
+            "tr": "Üç iş günü. Pizza soğudu.",
+            "en": "Three business days. The pizza went cold.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "ev arkadaşına borç gönderirken açıklamaya 'sus payı' yazınca transferin incelemeye takılması",
+    "mechanism": "şaka açıklama harfiyen okunuyor",
+    "mechanismId": "literalism",
+    "punch": "sistem merak ediyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pizza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

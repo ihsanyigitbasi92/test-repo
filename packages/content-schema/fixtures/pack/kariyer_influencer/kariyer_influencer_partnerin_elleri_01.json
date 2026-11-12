@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_influencer_partnerin_elleri_01",
+  "tags": [
+    "kariyer",
+    "influencer",
+    "kariyer_influencer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_influencer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 35
+    },
+    "career": {
+      "anyOf": [
+        "influencer"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "typing",
+      "tr": "Yorumların yarısı kadrajın kenarında görünen eller hakkında. Kimin elleri?",
+      "en": "Half your comments are about the hands at the edge of the frame. Whose hands?"
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Bir saat markası o ellere teklif yaptı. Yüzü istemiyorlar, sadece bilekten aşağısı.",
+      "en": "A watch brand made an offer for those hands. Not the face. Wrist down only.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ilet",
+      "tr": "Teklifi partnerine ilet",
+      "en": "Pass the offer to your partner",
+      "pattern": "generosity"
+    },
+    {
+      "id": "gizle",
+      "tr": "Partnerini kadrajdan çıkar",
+      "en": "Crop your partner out",
+      "pattern": "pride"
+    },
+    {
+      "id": "ikili",
+      "tr": "İkili paket öner",
+      "en": "Pitch a two-person deal",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "ilet": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": -3
+        },
+        "money": 1400,
+        "flags": {
+          "add": [
+            "influencer_partner_elleri"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Partnerin kabul etti. Ellerin sahibi senin bir aylık kazancını üç günde geçti.",
+      "en": "Your partner said yes. The hands out-earned your month in three days.",
+      "coach": [
+        {
+          "tr": "Kanal senin. Gelir bilekten aşağı.",
+          "en": "Your channel. The income is wrist-down.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacı iki kişiyle döndü.",
+          "en": "Goal counter moved for two.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "gizle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "money": -300,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kadrajı daralttın. Etkileşim düştü, yorumlarda \"eller nerede\" başlığı açıldı.",
+      "en": "You tightened the frame. Engagement dropped, and the comments started a thread: \"where are the hands.\"",
+      "coach": [
+        {
+          "tr": "Kadraj küçüldü. Soru büyüdü.",
+          "en": "Smaller frame. Bigger question.",
+          "roast": true
+        }
+      ]
+    },
+    "ikili": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "money": 2200,
+          "flags": {
+            "add": [
+              "influencer_ikili_paket"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Marka ikili paketi aldı: sen konuşuyorsun, partnerin saati takıyor. Ücret ikiye bölündü, eşit değil.",
+        "en": "The brand bought the duo deal: you talk, your partner wears the watch. The fee was split in two, unevenly.",
+        "coach": [
+          {
+            "tr": "İkiye bölündü. Büyük parça bilekte.",
+            "en": "Split in two. The bigger half is on the wrist.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Marka yalnızca elleri istedi. Partnerin teklifi senin aracılığınla reddetti.",
+        "en": "The brand only wanted the hands. Your partner declined, through you.",
+        "coach": [
+          {
+            "tr": "Aracı oldun. Komisyonsuz.",
+            "en": "You were the middleman. Zero commission.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "kadrajın kenarında görünen partnerinin ellerine saat markası teklif yapıyor",
+    "mechanism": "kanal senin, ilgi ellerde",
+    "mechanismId": "understatement",
+    "punch": "yüzü istemiyorlar, bilekten aşağısı",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "eller"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

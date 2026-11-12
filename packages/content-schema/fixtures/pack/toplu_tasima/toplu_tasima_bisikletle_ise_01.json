@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "toplu_tasima_bisikletle_ise_01",
+  "tags": [
+    "ulasim",
+    "yol",
+    "toplu_tasima"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "toplu_tasima": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Yarın bisikletle gel. Yirmi dakika. Yokuş da yok sayılır.",
+      "en": "Bike in tomorrow. Twenty minutes. The hill barely counts."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Yokuş dediğim küçük olan. Ofisin önündeki.",
+      "en": "The hill I mean is the little one. Right outside the office.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "yokus",
+      "tr": "Yokuşu inmeden çık",
+      "en": "Ride the hill without stopping",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "it",
+      "tr": "Yokuşta in, it",
+      "en": "Walk the bike up",
+      "pattern": "patience"
+    },
+    {
+      "id": "otobus",
+      "tr": "Otobüse devam",
+      "en": "Stick with the bus",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "yokus": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -60,
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "bisikletli_sabah"
+            ]
+          }
+        },
+        "tr": "Yokuşu inmeden çıktın. Kiralık bisiklet 60 Para, ofise terli ama zamanında vardın.",
+        "en": "You made the hill without stopping. Rental: 60. Sweaty, but on time.",
+        "coach": [
+          {
+            "tr": "Yokuş sayıldı.",
+            "en": "The hill counts.",
+            "roast": false
+          },
+          {
+            "tr": "Hedefe bir sabah eklendi.",
+            "en": "One morning added to the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -60,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "bisikletli_sabah"
+            ]
+          }
+        },
+        "tr": "Yokuşun yarısında indin. Bisikleti iterken iş arkadaşın el sallayarak yanından geçti.",
+        "en": "You stopped halfway up. Your coworker waved as they rode past you pushing.",
+        "coach": [
+          {
+            "tr": "\"Yok sayılır\" denmişti. Sayıldı.",
+            "en": "\"Barely counts,\" they said. It counted.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "it": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 0
+        },
+        "flags": {
+          "add": [
+            "bisikletli_sabah"
+          ]
+        }
+      },
+      "tr": "Yokuşta inip bisikleti ittin. Ofise beş dakika geç vardın.",
+      "en": "You walked the bike up the hill and got in five minutes late.",
+      "coach": [
+        {
+          "tr": "Beş dakika geç, nefes yerinde.",
+          "en": "Five minutes late. Lungs intact.",
+          "roast": false
+        }
+      ]
+    },
+    "otobus": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "bisiklet_teklifi_reddedildi"
+          ]
+        }
+      },
+      "tr": "Otobüsle geldin. İş arkadaşın öğle yemeğinde yokuşu dört kez anlattı.",
+      "en": "You took the bus. At lunch, your coworker described the hill four times.",
+      "coach": [
+        {
+          "tr": "Yokuş dinleyerek de çıkılıyor.",
+          "en": "Turns out you can climb a hill by listening.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yokus",
+    "slip": {
+      "tr": "İDDİA: O yokuşta inersin. — M.",
+      "en": "WAGER: You'll be off that bike on the hill. — M."
+    }
+  },
+  "intent": {
+    "setup": "iş arkadaşının ikna etmesiyle bir günlüğüne kiralık bisikletle işe gitmek",
+    "mechanism": "\"yok sayılır\" yokuş sayılıyor",
+    "mechanismId": "reversal",
+    "punch": "yokuş da yok sayılır",
+    "lift": "Hedefe bir sabah eklendi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yokus"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

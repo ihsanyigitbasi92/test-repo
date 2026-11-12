@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_aile_hekimi_kayit_01",
+  "tags": [
+    "saglik",
+    "kayit",
+    "tasinma",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Adresiniz sistemde eski görünüyor. Yeni adresle gelin.",
+      "en": "Your address shows the old one. Come back with the new one."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Yeni adres sistemde yok mu? O zaman eski adresle gelin.",
+      "en": "The new address isn't in the system? Then come back with the old one.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sistemin güncellenmesini bekle",
+      "en": "Wait for the system to update",
+      "pattern": "patience"
+    },
+    {
+      "id": "eski",
+      "tr": "Eski hekimde kal",
+      "en": "Stay with your old doctor",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "ikna",
+      "tr": "Kira sözleşmesini göster",
+      "en": "Show your lease",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "aile_hekimi_yeni"
+          ]
+        }
+      },
+      "tr": "Üç gün sonra sistem güncellendi, kayıt tamamlandı.",
+      "en": "Three days later the system updated. Registration done.",
+      "coach": [
+        {
+          "tr": "Üç gün. Sistem yetişti.",
+          "en": "Three days. The system caught up.",
+          "roast": false
+        }
+      ]
+    },
+    "eski": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "eski_hekim_uzak"
+          ]
+        }
+      },
+      "tr": "Eski hekimde kaldın. Her kontrol artık iki aktarmalı bir yolculuk.",
+      "en": "You stayed with your old doctor. Every checkup is now a two-transfer trip.",
+      "coach": [
+        {
+          "tr": "İki aktarma, aynı hekim.",
+          "en": "Two transfers. Same doctor.",
+          "roast": false
+        }
+      ]
+    },
+    "ikna": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "aile_hekimi_yeni"
+            ]
+          }
+        },
+        "tr": "Kira sözleşmesi işe yaradı. Kayıt aynı gün yapıldı.",
+        "en": "The lease did it. Registered the same day.",
+        "coach": [
+          {
+            "tr": "Sözleşme ikinci kez işe yaradı.",
+            "en": "The lease earned its keep twice.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Görevli sözleşmeye bakıp \"sistemde yok\" dedi. Sözleşme çantaya, sen sıraya döndün.",
+        "en": "The clerk glanced at the lease: \"Not in the system.\" The lease went back in your bag, and you went back in line.",
+        "coach": [
+          {
+            "tr": "Sözleşme çantada, sen sırada.",
+            "en": "Lease in the bag. You in the line.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "taşındıktan sonra yeni mahalledeki aile hekimine kayıt olmak",
+    "mechanism": "görevli iki talimatla seni çıkış olmayan bir döngüye alıyor",
+    "mechanismId": "callback",
+    "punch": "yeni adres yoksa eski adresle gelin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "aktarma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

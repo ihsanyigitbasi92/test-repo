@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_kredi_sigortasi_01",
+  "tags": [
+    "para",
+    "kredi",
+    "sigorta",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Sigorta isteğe bağlıydı, evet. İsteğiniz de dosyada, burada, imzanızla.",
+      "en": "Yes, the insurance was optional. And your choice is on file, right here, with your signature."
+    }
+  ],
+  "choices": [
+    {
+      "id": "iade",
+      "tr": "Sigortayı iptal et, iade iste",
+      "en": "Cancel it, ask for a refund",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kalsin",
+      "tr": "Kalsın, belki lazım olur",
+      "en": "Keep it, might come in handy",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "oku",
+      "tr": "Bütün dosyayı oku",
+      "en": "Read the whole file",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "iade": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 1350,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "sigorta_iadesi"
+            ]
+          }
+        },
+        "tr": "Sigorta iptal edildi, kalan prim 1.350 Para olarak hesaba döndü.",
+        "en": "Insurance canceled. The unused premium, 1,350, went back into your account.",
+        "coach": [
+          {
+            "tr": "İmza geri alınamaz. Prim alınabiliyor.",
+            "en": "A signature can't be taken back. A premium can.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "sigorta_devam"
+            ]
+          }
+        },
+        "tr": "İptal 'kredi süresince zorunlu' maddesine takıldı. O madde de dosyada, imzanın hemen üstünde.",
+        "en": "The cancellation hit a clause: 'mandatory for the loan term.' That clause is in the file too, right above your signature.",
+        "coach": [
+          {
+            "tr": "Bir imza, birçok madde.",
+            "en": "One signature. Many clauses.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kalsin": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "sigorta_devam"
+          ]
+        }
+      },
+      "tr": "Sigorta yerinde kaldı. Poliçe e-postayla geldi, açılmadı.",
+      "en": "The insurance stays. The policy arrived by email, unopened.",
+      "coach": [
+        {
+          "tr": "Poliçe gelen kutusunda yaşıyor.",
+          "en": "The policy lives in your inbox now.",
+          "roast": false
+        }
+      ]
+    },
+    "oku": {
+      "effects": {
+        "money": 400,
+        "stats": {
+          "brain": 2
+        },
+        "glossary": "kredi_sigortasi",
+        "flags": {
+          "add": [
+            "dosya_okundu"
+          ]
+        }
+      },
+      "tr": "Dosya otuz bir sayfa. Sigortanın yanında bir de 'hesap bakım ücreti' çıktı, iptal edildi, 400 Para geri geldi.",
+      "en": "The file ran thirty-one pages. Next to the insurance sat an 'account maintenance fee.' Canceled, and 400 came back.",
+      "coach": [
+        {
+          "tr": "Otuz bir sayfa, 400 Para iade.",
+          "en": "Thirty-one pages. 400 back.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iade",
+    "slip": {
+      "tr": "İDDİA: İmza kazanır. — M.",
+      "en": "WAGER: The signature wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "ihtiyaç kredisine habersiz eklenen hayat sigortasını fark edip iade istemek",
+    "mechanism": "isteğe bağlı olanın isteği de imzayla dosyada",
+    "mechanismId": "reversal",
+    "punch": "isteğiniz de dosyada, imzanızla",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

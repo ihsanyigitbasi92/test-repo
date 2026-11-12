@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_film_cekimi_duyurusu_01",
+  "tags": [
+    "burokrasi",
+    "belediye",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "MİNECİK BELEDİYESİ İZİN VE RUHSAT BİRİMİ (kurgusal)",
+      "en": "MINT HOLLOW PERMITS OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "Sokağınızda 3 gün boyunca dizi çekimi yapılacaktır. Çekim saatlerinde (06.00–23.00) araç park edilmemesi ve balkonlara çıkılmaması rica olunur.",
+      "en": "A TV series will film on your street for three days. During filming hours (6 a.m. to 11 p.m.), please do not park on the street or step onto your balcony."
+    },
+    "translate": {
+      "tr": {
+        "from": "balkonlara çıkılmaması",
+        "to": "üç gün evde ücretsiz figüransın"
+      },
+      "en": {
+        "from": "step onto your balcony",
+        "to": "you are an unpaid extra, indoors"
+      }
+    },
+    "glossaryKey": "cekim_izni"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Çekim ekibi sakinlere kahvaltı ikram edecek. Kahvaltı saati 05.30.",
+      "en": "The crew will offer residents breakfast. Breakfast is at 5:30 a.m."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Balkondaki çamaşırlar sahneye uyuyorsa kalabilir. Uymuyorsa ekip toplar.",
+      "en": "Laundry on balconies may stay if it suits the scene. If not, the crew will collect it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "figuran",
+      "tr": "Figüranlığa yazıl",
+      "en": "Sign up as an extra",
+      "pattern": "pride"
+    },
+    {
+      "id": "kacis",
+      "tr": "Üç gün annende kal",
+      "en": "Stay at your mom's for three days",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "itiraz",
+      "tr": "İtiraz dilekçesi ver",
+      "en": "File an objection",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "figuran": {
+      "effects": {
+        "money": 300,
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "figuran_oldu"
+          ]
+        },
+        "glossary": "cekim_izni"
+      },
+      "tr": "Günlüğü 300 Para’dan figüran oldun. Sahnede ekmek alıp geçen kişi sensin, ekmeği çekimden sonra geri verdin.",
+      "en": "You signed on as an extra for 300 a day. You are the person who walks past with bread. You gave the bread back after the take.",
+      "coach": [
+        {
+          "tr": "Kadrajda dört saniye.",
+          "en": "Four seconds in frame.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe üç yüz Para.",
+          "en": "Three hundred toward the goal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kacis": {
+      "effects": {
+        "money": -90,
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "cekimden_kacti"
+          ]
+        }
+      },
+      "tr": "Üç gün annende kaldın. Döndüğünde balkondaki sardunyanın yerinde yeşil boyalı bir saksı vardı.",
+      "en": "You spent three days at your mom's. When you got back, the geranium on your balcony had been swapped for a green-painted pot.",
+      "coach": [
+        {
+          "tr": "Saksın sahneye uymamış.",
+          "en": "Your pot didn't suit the scene.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "cekim_itirazi"
+          ]
+        }
+      },
+      "tr": "Dilekçen kayda alındı. Cevap çekim bittikten iki gün sonra geldi: \"Çekim tamamlanmıştır.\"",
+      "en": "Your objection was logged. The reply came two days after filming wrapped: \"Filming has been completed.\"",
+      "coach": [
+        {
+          "tr": "Cevap doğru.",
+          "en": "Accurate reply.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "sokakta üç gün dizi çekimi yapılacağını ve balkona çıkılmamasını isteyen belediye duyurusu",
+    "mechanism": "ikram ve çamaşır kuralı adım adım büyüyor",
+    "mechanismId": "escalation",
+    "punch": "çamaşır sahneye uymuyorsa ekip toplar",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kadraj"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

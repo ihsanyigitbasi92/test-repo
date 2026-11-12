@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_takip_oncesi_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "gecikme",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ALTINKAYA FİNANS — TAHSİLAT BİRİMİ (kurgusal)",
+      "en": "GOLDCLIFF FINANCIAL — COLLECTIONS UNIT (fictional)"
+    },
+    "body": {
+      "tr": "Kartınızın asgari ödemesi 60 gündür yapılmamıştır. 90. günde borcunuz kayıtlara gecikmiş olarak işlenecektir. Sizinle bir çözüm bulmak için sabırsızlanıyoruz.",
+      "en": "The minimum payment on your card is sixty days overdue. On day ninety, the debt will be reported as delinquent. We can't wait to find a solution with you."
+    },
+    "translate": {
+      "tr": {
+        "from": "Sizinle bir çözüm bulmak için sabırsızlanıyoruz.",
+        "to": "Sabrımızın 30 günü kaldı."
+      },
+      "en": {
+        "from": "We can't wait to find a solution with you.",
+        "to": "Our patience has thirty days left."
+      }
+    },
+    "glossaryKey": "gecikme_kaydi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bugün asgariyi öderseniz kayıt işlenmez. Yarın öderseniz de işlenmez. 30 gün sonra işlenir.",
+      "en": "Pay the minimum today and nothing's reported. Tomorrow works too. In thirty days, it gets reported."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Asgariyi bugün öde",
+      "en": "Pay the minimum today",
+      "pattern": "patience"
+    },
+    {
+      "id": "yapilandir",
+      "tr": "Yapılandırma iste",
+      "en": "Ask to restructure",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayıdan yardım iste",
+      "en": "Ask your uncle for help",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "uncle": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -680,
+        "hidden": {
+          "stress": -2
+        },
+        "stats": {
+          "joy": 0
+        },
+        "glossary": "gecikme_kaydi",
+        "flags": {
+          "add": [
+            "asgari_odendi"
+          ]
+        }
+      },
+      "tr": "680 Para asgari ödendi, kayıt işlenmedi. Kalan borç yerinde, ayın on ikisinde.",
+      "en": "Paid the 680 minimum. Nothing reported. The rest of the debt is still there, due on the twelfth.",
+      "coach": [
+        {
+          "tr": "Kayıt yok. Borç var.",
+          "en": "No report. Still debt.",
+          "roast": false
+        }
+      ]
+    },
+    "yapilandir": {
+      "effects": {
+        "money": -200,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yapilandirma",
+            "kartsiz"
+          ]
+        }
+      },
+      "tr": "Borç on sekiz aya yayıldı, ilk taksit 200 Para. Kart kullanıma kapatıldı.",
+      "en": "The debt was spread over eighteen months, first installment 200. The card was closed for use.",
+      "coach": [
+        {
+          "tr": "On sekiz ay, kartsız.",
+          "en": "Eighteen months, no card.",
+          "roast": false
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1,
+            "memory": "kart_borcunu_kapatti"
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayiya_borc"
+          ]
+        }
+      },
+      "tr": "Dayın 680 Para'yı yatırdı. Karşılığında her aile yemeğinde 'kart' kelimesini vurgulayarak söylüyor.",
+      "en": "Your uncle covered the 680. In return, he now leans hard on the word 'card' at every family dinner.",
+      "coach": [
+        {
+          "tr": "680 Para, ömür boyu vurgu.",
+          "en": "680, plus lifelong emphasis.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "kart asgari ödemesi altmış gün gecikince gelen kibar tahsilat uyarısı",
+    "mechanism": "sabırsızlanıyoruz cümlesinin tercümesi",
+    "mechanismId": "translation",
+    "punch": "sizinle bir çözüm bulmak için sabırsızlanıyoruz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "vurgu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_sistem_yok_01",
+  "tags": [
+    "burokrasi",
+    "gise",
+    "izin_gunu",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Sistem yok. Ne zaman gelir bilmiyorum. Gelince ekran söylemez, ben söylerim.",
+      "en": "The system's down. No idea when it's back. The screen won't tell you. I will."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Geçen salı da gitmişti. On birde geldi, on bir beşte yine gitti.",
+      "en": "It went last Tuesday too. Back at eleven, gone again by five past.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Salonda bekle",
+      "en": "Wait in the hall",
+      "pattern": "patience",
+      "check": {
+        "base": 4000
+      }
+    },
+    {
+      "id": "don",
+      "tr": "İşe dön, başka gün gel",
+      "en": "Back to work, try another day",
+      "pattern": "overwork"
+    },
+    {
+      "id": "yan",
+      "tr": "Diğer şubeye git",
+      "en": "Try the other branch",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "islem_tamam"
+            ]
+          }
+        },
+        "tr": "Sistem 10.52’de geldi. Memur “şimdi” dedi; işlem dört dakikada bitti.",
+        "en": "The system came back at 10:52. The clerk said “now.” Your transaction took four minutes.",
+        "coach": [
+          {
+            "tr": "Dört dakikalık işlem, iki saatlik nöbet.",
+            "en": "A four-minute job. A two-hour vigil.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "izin_gunu_yandi"
+            ]
+          }
+        },
+        "tr": "Sistem gelmedi. Öğlen salon boşaltıldı; izin günün de onunla gitti.",
+        "en": "The system never came back. The hall was cleared at noon, and your day off went with it.",
+        "coach": [
+          {
+            "tr": "İzin kullanıldı. İşlem kullanılmadı.",
+            "en": "Leave: used. Transaction: unused.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "don": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "islem_ertelendi"
+          ]
+        }
+      },
+      "tr": "İşe döndün. Akşam sistemin sen çıktıktan on dakika sonra geldiğini öğrendin.",
+      "en": "You went back to work. That evening you learned the system had come back ten minutes after you left.",
+      "coach": [
+        {
+          "tr": "On dakika.",
+          "en": "Ten minutes.",
+          "roast": false
+        }
+      ]
+    },
+    "yan": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -60
+      },
+      "tr": "Taksiyle diğer şubeye geçtin, 60 Para. Orada da sistem yoktu; aynı sistemmiş.",
+      "en": "You took a cab to the other branch: 60. No system there either. It’s the same system.",
+      "coach": [
+        {
+          "tr": "Şube iki, sistem bir.",
+          "en": "Two branches. One system.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Sistem bugün gelmez. — M.",
+      "en": "WAGER: The system stays down today. — M."
+    }
+  },
+  "intent": {
+    "setup": "izin alınan gün gişede sistemin çökmesi ve ne zaman geleceğinin bilinmemesi",
+    "mechanism": "sistemin gelişini ekran değil memur duyuruyor",
+    "mechanismId": "understatement",
+    "punch": "gelince ekran söylemez, ben söylerim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sistem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

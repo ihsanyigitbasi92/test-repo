@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "sosyal_medya_gorusmeci_profili_01",
+  "tags": [
+    "teknoloji",
+    "sosyal",
+    "is_arama",
+    "sosyal_medya"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "sosyal_medya": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Görüşmecinin profiline üç kez bakmışsın. Ona bildirim gidiyor, biliyorsun.",
+      "en": "You looked at your interviewer’s profile three times. They get notified, you know."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Ben olsam dördüncüyü de bakardım. Kararlılık gösterir.",
+      "en": "I’d go for four. Shows commitment.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "mesaj",
+      "tr": "Kısa bir mesaj at",
+      "en": "Send a short message",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sus",
+      "tr": "Hiçbir şey yapma",
+      "en": "Do nothing",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "gizli",
+      "tr": "Gizli moddan bir daha bak",
+      "en": "Look again incognito",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "mesaj": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "gorusmeci_tanisti"
+            ]
+          }
+        },
+        "tr": "“Görüşmeye hazırlanıyordum” yazdın. Görüşmeci “ben de sizinkine baktım, iki kez” diye cevap verdi.",
+        "en": "You wrote: “Just preparing for our interview.” They replied: “I looked at yours too. Twice.”",
+        "coach": [
+          {
+            "tr": "Skor üçe iki. Görüşme dengede başlıyor.",
+            "en": "Score: three views to two. The interview opens level.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "gorusmeci_mesaj_okundu"
+            ]
+          }
+        },
+        "tr": "Mesaj okundu, cevap gelmedi. Görüşmenin ilk sorusu “bizi nereden tanıyorsunuz” oldu.",
+        "en": "Message read. No reply. The interview’s first question: “So, how do you know us?”",
+        "coach": [
+          {
+            "tr": "Mesaj okundu. Soru hazırdı.",
+            "en": "Message read. Question prepared.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sus": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "gorusmeci_profili"
+          ]
+        }
+      },
+      "tr": "Hiçbir şey yapmadın. Görüşmede görüşmeci gülümseyip “profilimi beğendiniz mi” diye sordu.",
+      "en": "You did nothing. At the interview, they smiled and asked, “Did you enjoy my profile?”",
+      "coach": [
+        {
+          "tr": "Üç bakış, tek soru.",
+          "en": "Three views. One question.",
+          "roast": false
+        }
+      ]
+    },
+    "gizli": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 1
+        },
+        "flags": {
+          "add": [
+            "gizli_mod"
+          ]
+        }
+      },
+      "tr": "Gizli moda geçip dördüncü kez baktın; bu sefer iz kalmadı. Görüşmecinin son paylaşımı “Profilime bakan adaylar” başlıklı bir yazıydı.",
+      "en": "You went incognito and looked a fourth time. No trace. Their latest post was an essay titled “Candidates Who Check My Profile.”",
+      "coach": [
+        {
+          "tr": "Dördüncü bakış görünmedi. Yazı herkese açıktı.",
+          "en": "View four went unseen. The essay was public.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "mesaj",
+    "slip": {
+      "tr": "İDDİA: O mesaja cevap gelmez. — M.",
+      "en": "WAGER: That message gets no reply. — M."
+    }
+  },
+  "intent": {
+    "setup": "iş görüşmesinden önce görüşmecinin profiline üç kez bakıp iz bırakmak",
+    "mechanism": "görüşmeci de adaya bakmış, skor tutuluyor",
+    "mechanismId": "reversal",
+    "punch": "üç kez bakmışsın, ona bildirim gidiyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "skor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
