@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_guvenlik_sorusu_ilk_evcil_01",
+  "tags": [
+    "egitim",
+    "kredi",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_ranza_sirasi_01",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Güvenlik sorunuz: ilk evcil hayvanınızın adı.",
+      "en": "Your security question: name of your first pet."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Cevap büyük-küçük harfe duyarlıdır. Üç hakkınız var, biri kullanıldı.",
+      "en": "Answers are case-sensitive. You have three attempts. One is used.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tahmin",
+      "tr": "İki tahminle dene",
+      "en": "Try your two guesses",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annene sor",
+      "en": "Call Mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "posta",
+      "tr": "Postayla sıfırlama iste",
+      "en": "Request a reset by mail",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "tahmin": [
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "kredi_hesabi_acildi"
+            ]
+          }
+        },
+        "tr": "İkinci denemede tuttu: hepsi büyük harf. On sekiz yaşında öyle yazmışsın.",
+        "en": "Second try worked: all caps. Apparently that’s how you typed at eighteen.",
+        "coach": [
+          {
+            "tr": "On sekiz yaşındaki sen büyük harfle yazıyormuş.",
+            "en": "Eighteen-year-old you typed in all caps.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kredi_hesabi_kilitli"
+            ]
+          }
+        },
+        "tr": "Hesap kilitlendi. Kilit açma talebi için kimlik fotokopisi istendi.",
+        "en": "Account locked. Unlocking it requires a copy of your ID.",
+        "coach": [
+          {
+            "tr": "Üç hak, üç cevap. Kilit tek.",
+            "en": "Three tries, three answers. One lock.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": -3
+        },
+        "flags": {
+          "add": [
+            "kredi_hesabi_acildi"
+          ]
+        }
+      },
+      "tr": "Annen “balığın adı Balık’tı, sen koymuştun” dedi. Cevap “Balık”, baş harf büyük.",
+      "en": "Mom said the fish was named Fish and you named it. The answer was “Fish,” capital F.",
+      "coach": [
+        {
+          "tr": "Annen hatırladı. Büyük harfi de.",
+          "en": "Mom remembered. Capital letter included.",
+          "roast": false
+        }
+      ]
+    },
+    "posta": {
+      "effects": {
+        "flags": {
+          "add": [
+            "kredi_hesabi_acildi"
+          ]
+        }
+      },
+      "tr": "Sıfırlama kodu on iş günü sonra posta kutuna geldi. Bu sürede taksit otomatik çekildi.",
+      "en": "The reset code arrived by mail ten business days later. The installment auto-paid in the meantime.",
+      "coach": [
+        {
+          "tr": "Kod kâğıtta geldi. Taksit beklemedi.",
+          "en": "The code came on paper. The payment didn’t wait.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "öğrenim kredisi hesabında hatırlanmayan güvenlik sorusu",
+    "mechanism": "harfe duyarlı cevap ve harcanmış hak",
+    "mechanismId": "literalism",
+    "punch": "büyük-küçük harfe duyarlı; biri kullanıldı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "harf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "EN-only ikiz (D-048): askerlik yerine öğrenim kredisi. TR bundle’ına girmez. Faiz oranı/kurum adı yok (K17)."
+  },
+  "l10n": {
+    "onlyLocale": "en",
+    "mechanismNote": "TR metni yalnızca inceleme içindir; TR oyuncu askerlik ikizini görür."
+  }
+}

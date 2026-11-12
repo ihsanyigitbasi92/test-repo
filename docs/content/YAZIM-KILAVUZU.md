@@ -298,3 +298,12 @@ Bir olay aşağıdakilerden **birini** içeriyorsa yazılmaz ya da `legal: revie
 - `punchOwner: dialog` olan olayda koç satırı roast olmaz; ya sade tanıklık ya da hiç.
 - **"X gitti, Y kaldı" kotası:** bu kapanış partide en fazla 2/40. Dalga 4'te 20 kez görüldü; yerine geri dönüş, ters çevirme, sade tanıklık, soru ya da NPC'ye pas.
 - **Lift satırı otomatik denetlenir:** `lift: true` olan koç satırı; satırın `when.goal`, olayın `pre.goal`/seçimin `check.goal` koşulu ya da sonucun `envelope` etkisi olmadan `validate`'ten geçmez (§4.1).
+
+## Hayat Yolu etiketleri (D-157)
+Hayatı ileri taşıyan geçiş olayları `tags` içine kilometre taşı etiketi alır; motor bunları yaş gününde öne çeker:
+- `milestone:sevgili` — partner yok; bir sonucu `effects.status.partner = {npc:"partner"}` yapar (ve `flort` bayrağını kaldırır).
+- `milestone:teklif` — partner var, `nisanli`/`evli` yok; bir sonucu `flags.add: ["nisanli"]`.
+- `milestone:dugun` — `nisanli` var; bir sonucu `flags.add: ["evli"]`, `remove: ["nisanli"]`.
+- `milestone:bebek` — `evli`; bir sonucu `flags.add: ["bebek_yolda"]`.
+- `milestone:dogum` — `bebek_yolda`; bir sonucu `npc: [{role:"child", create:true}]` ve `flags.add: ["bebek_geldi"]`.
+Her zaman bir "şimdi değil" seçeneği olur; reddetmek de hayatı değiştirir (bayrak/ilişki etkisi).

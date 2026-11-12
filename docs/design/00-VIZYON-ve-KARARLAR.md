@@ -593,3 +593,11 @@ Kaynak: `docs/design/13-ELESTIRI-ve-REVIZYON-NOTLARI.md` (altı lens: Publisher,
 |---|---|---|---|
 | **D-155** | **1.0 hedefi: en az 10.000 benzersiz, gerçek hayata benzeyen olay (TR+EN).** Taksonomi `docs/content/taxonomy.json` (~100 yaşam alanı, alan başına kota, yaş bandı, konuşmacılar). Üretim dalgalar hâlinde: her alan için önce benzersiz durum tohumları, sonra 40'lık partiler hâlinde yazım + şema doğrulama + kırmızı çizgi taraması + yakın-kopya ayıklama. Her dalga sonunda sayım raporu ve demo güncellemesi. | Sahip: "en az 10000 olay çeşidi olsun, gerçek hayata benzer." | D-112 / 00 §14 içerik hacmi tablosu (900 + 40 zincir) |
 | **D-156** | **İçerik paketleme:** 10.000 olay JS paketine statik gömülmez. Build adımı yazım metadatasını (`intent`, `review`) atar, alan başına sıkıştırılmış paket üretir; uygulama yaş bandına göre paketleri tembel yükler (web: fetch, native: asset). Bellek bütçesi düşük segment Android'de ≤ 40 MB içerik. | 10.000 × ~3,5 KB ≈ 35 MB ham JSON; JS paketine sığmaz. | 10 §2.3 içerik yükleme |
+
+### D-157 — Hayat Yolu (ilişki/aile kilometre taşları)
+**Sorun:** 10.000 olaylık havuzda hayatı ileri taşıyan az sayıdaki geçiş olayı (sevgili olmak, teklif, düğün, bebek) kayboluyordu. 30 simüle hayatta 8 sevgili, 1 nişan, **0 evlilik** ölçüldü; ~250 evlilik/çocuk olayı pratikte hiç görünmüyordu.
+**Karar:** Her yaş gününde koşulu tutan aşama (`tuning.json → milestones.stages`: sevgili → teklif → düğün → bebek → doğum) bir kez zar atar; tutarsa `milestone:<aşama>` etiketli uygun bir olay 20–200 gün içine zorunlu gün kartı olarak planlanır. Yılda en fazla bir kilometre taşı. Kararı yine oyuncu verir (olayın seçenekleri: "evet / şimdi değil"). Aday yoksa RNG çekilmez (golden hash korunur).
+**Sonuç (30 hayat):** sevgili 27, nişan 21, evlilik 20 (%67), çocuk 7. HUD artık "Sevgili / Nişanlı / Evli · N yıldır", "Boşanmış" ve "Çocuklu" gösterir.
+
+### D-158 — Açılış kapağı ve şirket adı
+Uygulama açılışında ~2,6 sn'lik kapak: MOTTO damga logosu, slogan, altında **"by D2P Technology"** (dokununca geçilir). Yerel (iOS/Android) splash görseli aynı logo + "by D2P Technology". iOS telif satırı: "© 2026 D2P Technology".

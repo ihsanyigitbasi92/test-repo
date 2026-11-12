@@ -2,7 +2,8 @@
  * Hayat Akışı — the root screen (07 §2.2.1): TopBar · HUD · dated feed · decision zone, plus the juice layers
  * (flash, big stamp, age-up, avatar moments, session sheet) and the death → Roast Report takeover. Pure view over useGame().
  */
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { SplashScreen } from './SplashScreen';
 import { Platform, StatusBar as RNStatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { colors } from '../theme';
 import { I18nContext, makeI18n } from '../i18n';
@@ -28,6 +29,7 @@ export function LifeScreen() {
   const ready = !snap.busy;
   const phase = v?.phase;
   const s = i18n.s;
+  const [splash, setSplash] = useState(true);
 
   let decision: React.ReactNode = null;
   if (snap.stage === 'file' && ready) {
@@ -44,6 +46,7 @@ export function LifeScreen() {
     <I18nContext.Provider value={i18n}>
       <View style={st.stage}>
         <View style={[st.phone, framed && st.framed]}>
+          {splash && <SplashScreen onDone={() => setSplash(false)} />}
           <Shake shake={snap.shake}>
             <TopBar speed={snap.speed} locale={snap.locale} showSpeed={snap.stage === 'play'} onSpeed={game.setSpeed} onLocale={game.setLocale} />
             {snap.stage === 'play' && v && snap.look && (

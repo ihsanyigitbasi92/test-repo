@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_yanlislik_davet_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Takvimde seni yönetim strateji toplantısında görüyorum. Bilerek mi?",
+      "en": "Your calendar has you in the leadership strategy session. On purpose?"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Davet sana gelmiş. Gitmezsen 'reddetti' yazar. Gidersen sandalye yok.",
+      "en": "The invite's yours. Skip it and it says 'declined.' Go and there's no chair.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Git, en arkaya otur",
+      "en": "Go, sit at the back",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Kibarca reddet",
+      "en": "Decline politely",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "sor",
+      "tr": "Davet edene sor",
+      "en": "Ask whoever sent it",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "git": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "strateji_toplantisi_goruldu"
+            ]
+          }
+        },
+        "tr": "Bir saat dinledin, tek soru sordun. Çıkışta direktör adını bir kenara yazdı.",
+        "en": "You listened for an hour and asked one question. On the way out, the director wrote down your name.",
+        "coach": [
+          {
+            "tr": "Bir saat, bir soru, bir isim.",
+            "en": "One hour, one question, one name.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "cringe": 4
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "İlk dakikada biri 'siz kimdiniz?' diye sordu. Kalan elli dokuz dakikayı koridorda geçirdin.",
+        "en": "One minute in, someone asked who you were. You spent the other fifty-nine in the hallway.",
+        "coach": [
+          {
+            "tr": "Davet gerçekti. Koridor daha yakındı.",
+            "en": "The invite was real. The hallway was closer.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Reddettin. Takvim kibarca 'belki bir dahaki sefere' notunu ekledi.",
+      "en": "Declined. The calendar helpfully added 'maybe next time.'",
+      "coach": [
+        {
+          "tr": "Reddedildi, kibarca.",
+          "en": "Declined, politely.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Daveti gönderen asistan özür diledi ve seni listeden çıkardı. Yerine stajyeri ekledi.",
+      "en": "The assistant who sent it apologized and removed you. Then added the intern instead.",
+      "coach": [
+        {
+          "tr": "Sandalye el değiştirdi.",
+          "en": "The chair changed hands.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "git",
+    "slip": {
+      "tr": "İDDİA: İlk dakikada koridordasın. — M.",
+      "en": "WAGER: You're in the hallway within a minute. — M."
+    }
+  },
+  "intent": {
+    "setup": "üst yönetim strateji toplantısına takvim hatasıyla davet edilmek",
+    "mechanism": "hata davet tırmanarak stajyere geçiyor",
+    "mechanismId": "escalation",
+    "punch": "gidersen sandalye yok",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sandalye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

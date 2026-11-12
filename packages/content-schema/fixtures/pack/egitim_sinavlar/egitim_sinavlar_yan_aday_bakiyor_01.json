@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_yan_aday_bakiyor_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "Herkes kendi kâğıdına baksın. Bakışlar da kurallara dahil.",
+      "en": "Eyes on your own paper, everyone. Glances are covered by the rules too."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Kâğıdını kolunla kapat",
+      "en": "Cover your paper with your arm",
+      "pattern": "pride"
+    },
+    {
+      "id": "gozetmen",
+      "tr": "Görevliye işaret et",
+      "en": "Signal the clerk",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "gormezden",
+      "tr": "Görmezden gel",
+      "en": "Ignore it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "stats": {
+          "health": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kagit_kolla_korundu"
+          ]
+        }
+      },
+      "tr": "Kâğıdı kolunla kapattın. Yazarken kolun da kâğıdın üstündeydi; son on soruyu yan yatarak çözdün.",
+      "en": "You shielded your paper with your arm, which was also your writing arm. You did the last ten questions sideways.",
+      "coach": [
+        {
+          "tr": "Kâğıt korundu. Dirsek feda edildi.",
+          "en": "Paper protected. Elbow sacrificed.",
+          "roast": true
+        }
+      ]
+    },
+    "gozetmen": [
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": -2
+          },
+          "stats": {
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "gozetmen_tasidi"
+            ]
+          }
+        },
+        "tr": "Görevli yan adayı ön sıraya aldı. Kalan süre boyunca senin tek derdin sorulardı.",
+        "en": "The clerk moved the other candidate to the front. For the rest of the exam your only problem was the questions.",
+        "coach": [
+          {
+            "tr": "Bir sorun azaldı. Kırk soru aynı.",
+            "en": "One problem fewer. Forty questions unchanged.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "uyari_aldin"
+            ]
+          }
+        },
+        "tr": "Görevli işaretini yanlış anladı ve sana “konuşmak yasak” uyarısı verdi.",
+        "en": "The clerk misread your signal and warned you that talking is not allowed.",
+        "coach": [
+          {
+            "tr": "Şikâyetçi uyarıldı. Kayıt düzgün tutuluyor.",
+            "en": "The complainant got the warning. Paperwork is tidy.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gormezden": {
+      "effects": {
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "benzerlik_incelemesi"
+          ]
+        }
+      },
+      "tr": "Sınavdan sonra iki kâğıt benzerlik incelemesine alındı. Biri seninki.",
+      "en": "After the exam, two papers were flagged for similarity review. One was yours.",
+      "coach": [
+        {
+          "tr": "Sen bakmadın. İnceleme bakıyor.",
+          "en": "You didn’t look. The review will.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gozetmen",
+    "slip": {
+      "tr": "İDDİA: Uyarıyı sen yersin. — M.",
+      "en": "WAGER: You’re the one who gets warned. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınavda yan adayın kâğıdına bakması",
+    "mechanism": "korunmaya çalışan aday cezayı kendisi alıyor",
+    "mechanismId": "reversal",
+    "punch": "şikâyetçi uyarıldı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dirsek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

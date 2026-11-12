@@ -88,7 +88,10 @@ export function Hud({ view, look, mood, lifeNo, floats, progress, speed, unread 
   const home = view.status.home;
   const homeTxt = home.kind === 'momsHouse' ? s.home.momsHouse : home.kind === 'owned' ? s.home.owned : s.home[home.kind](home.rent);
   const partner = view.status.partner;
-  const loveTxt = partner ? s.partner(Math.floor((view.calendar.calendarDay - partner.since) / 365)) : s.single;
+  const yrs = partner ? Math.floor((view.calendar.calendarDay - partner.since) / 365) : 0;
+  const stage = view.flags.includes('evli') ? 'married' : view.flags.includes('nisanli') ? 'engaged' : 'dating';
+  const kid = view.npcs.some((n) => n.role === 'child' && n.exists && n.alive);
+  const loveTxt = (partner ? s.partner(yrs, stage) : view.flags.includes('bosandi') ? s.divorced : s.single) + (kid ? ` · ${s.kid}` : '');
   const extras = view.status.assets.filter((a) => a !== 'kedi').map((a) => s.asset[a] ?? a);
   const catTxt = [view.status.assets.includes('kedi') ? s.catName : s.none, ...extras].join(' · ');
   const mom = pts(view.meters.momPressure);

@@ -4,6 +4,7 @@
  * (rent card, İcra card) → birthday pulse | today's event card.
  */
 import { TUNING, bandFor } from './tuning';
+import { queueMilestones } from './milestones';
 import { birthdayAfterYears, civilFromDays, parseISO, toISO, daysFromCivil } from './calendar';
 import { applyDrift } from './drift';
 import { applyBankruptcy, applyCashflow, BANKRUPTCY_PENDING, startAbs } from './cashflow';
@@ -59,6 +60,7 @@ function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: 
   const cause = rollHazard(st);                                   // hazard before the report card: the dead get no card
   if (cause) { st.card = { ...base, eventId: 'sys_death', choices: [] }; die(st, meta, cause, 'hazard', out); return; }
   bailoutCheck(st, content);                                      // 02 §2.3.6: the pulse may queue tomorrow's offer
+  queueMilestones(st, meta, content);                             // D-157 Hayat Yolu
   const report = buildReportCard(st);
   st.lastReport = report;
   ensureEnvelope(st, content);

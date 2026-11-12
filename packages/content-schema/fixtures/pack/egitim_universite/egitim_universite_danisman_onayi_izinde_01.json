@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_danisman_onayi_izinde_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "ders_kaydi",
+    "danisman",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Hocam yurt dışında kongrede. Sistemde onay butonu sadece onda var.",
+      "en": "The professor is at a conference abroad. Only they have the approve button."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "E-posta atın, belki cevap verir. Kongrede insanlar çok boş oluyor, bilirsiniz.",
+      "en": "Send an email, they might reply. People at conferences have lots of free time, you know.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "eposta",
+      "tr": "Kibar bir e-posta at",
+      "en": "Send a polite email",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bolum",
+      "tr": "Bölüm başkanına çık",
+      "en": "Go to the department chair",
+      "pattern": "pride"
+    },
+    {
+      "id": "bekle",
+      "tr": "Kayıt sonuna kadar bekle",
+      "en": "Wait until registration ends",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "eposta": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "danisman_onayladi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:clerk",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Cevap gece üçte geldi: \"Onaylandı.\" Saat farkı yüzünden e-posta kongrenin kahve arasına denk gelmiş.",
+        "en": "The reply came at 3 a.m.: \"Approved.\" Time zones put your email right in the conference coffee break.",
+        "coach": [
+          {
+            "tr": "Kahve arası senin tarafındaydı.",
+            "en": "The coffee break was on your side.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kayit_gecikti"
+            ]
+          }
+        },
+        "tr": "Otomatik cevap geldi: \"Ofis dışındayım, döndüğümde yanıtlayacağım.\" Dönüş tarihi kayıttan iki gün sonra.",
+        "en": "An auto-reply arrived: \"Out of office, will respond on return.\" The return date is two days after registration closes.",
+        "coach": [
+          {
+            "tr": "Otomatik cevap hızlıydı. Hem de çok.",
+            "en": "The auto-reply was prompt. Very prompt.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bolum": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "danisman_onayladi"
+          ]
+        }
+      },
+      "tr": "Bölüm başkanı onayı verdi, sonra danışmanına bilgi notu yazdı. Not seni de CC'ledi.",
+      "en": "The chair approved it, then wrote your advisor a heads-up. You were CC'd.",
+      "coach": [
+        {
+          "tr": "Onay geldi, yanında bir CC.",
+          "en": "Approval, with a CC attached.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "kayit_gecikti"
+          ]
+        },
+        "money": -300
+      },
+      "tr": "Kayıt süresi bitti. Geç kayıt harcı 300 Para; istediğin seçmelide yer kalmadı, sana \"Arşiv Yönetimi\" düştü.",
+      "en": "Registration closed. The late fee was 300, and your elective filled up. You got \"Records Management.\"",
+      "coach": [
+        {
+          "tr": "Arşiv Yönetimi. Bir dönem boyunca dosyalar senin.",
+          "en": "Records Management. The files are yours for a semester.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "eposta",
+    "slip": {
+      "tr": "İDDİA: Kongredekiler e-posta okumaz. — M.",
+      "en": "WAGER: Nobody at a conference reads email. — M."
+    }
+  },
+  "intent": {
+    "setup": "ders kaydında danışman onayı gerekirken danışmanın kongrede olması",
+    "mechanism": "memur kongreyi boş vakit sanıyor; kahve arası kurtarıcı",
+    "mechanismId": "reversal",
+    "punch": "kongrede insanlar çok boş oluyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "arsiv"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

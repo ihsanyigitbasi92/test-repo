@@ -27,7 +27,12 @@ export const en: Strings = {
     wide: (r: number) => `Big flat · rent ${n(r)}/mo`, mortgage: (r: number) => `Mortgage ${n(r)}/mo`, owned: 'Your own place',
   },
   single: 'Single',
-  partner: (years: number) => (years < 1 ? 'Partner · new' : `Partner · ${years} yr${years === 1 ? '' : 's'}`),
+  partner: (years: number, stage: 'dating' | 'engaged' | 'married' = 'dating') => {
+    const w = stage === 'married' ? 'Married' : stage === 'engaged' ? 'Engaged' : 'Dating';
+    return stage === 'engaged' ? w : years < 1 ? `${w} · new` : `${w} · ${years} yr${years === 1 ? '' : 's'}`;
+  },
+  divorced: 'Divorced',
+  kid: 'Kid',
   catName: 'Biscuit',
   none: '—',
   jobTitle: { ofis: 'Office Associate', kafe: 'Barista', kurye: 'Courier', cagri: 'Call Center', emekli: 'Retired' },

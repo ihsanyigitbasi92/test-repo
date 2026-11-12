@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_kulaklik_tek_taraf_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "dil",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kulaklık değişimi yalnızca bölüm başlamadan önce yapılır.",
+      "en": "Headsets can only be swapped before the section begins."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bölüm başladı. Başlayalı dört saniye oldu.",
+      "en": "The section has begun. Four seconds ago.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "el",
+      "tr": "Yine de el kaldır",
+      "en": "Raise your hand anyway",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tek",
+      "tr": "Tek kulakla dinle",
+      "en": "Listen with one ear",
+      "pattern": "patience"
+    },
+    {
+      "id": "ters",
+      "tr": "Kulaklığı ters tak",
+      "en": "Wear it backwards",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "el": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "dinleme_kulaklik_degisti"
+            ]
+          }
+        },
+        "tr": "Yedek kulaklık geldi. İlk iki soruyu kaçırdın, kalan otuz sekizi iki kulakla duydun.",
+        "en": "A spare headset arrived. You missed the first two questions and heard the other thirty-eight in stereo.",
+        "coach": [
+          {
+            "tr": "İki soru gitti. Stereo geldi.",
+            "en": "Two questions lost. Stereo gained.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "dinleme_yarim"
+            ]
+          }
+        },
+        "tr": "Görevli kuralı bir kez daha, bu kez yavaşça okudu. O sırada üçüncü soru geçti.",
+        "en": "The clerk read the rule again, slower this time. Question three went by meanwhile.",
+        "coach": [
+          {
+            "tr": "Kural iki kez okundu. Soru bir kez.",
+            "en": "The rule played twice. The question, once.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tek": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "dinleme_yarim"
+          ]
+        }
+      },
+      "tr": "Sağ kulakla dinledin. Konuşmacılardan biri hep soldan konuşuyormuş.",
+      "en": "You listened with your right ear. One of the speakers was apparently mixed hard left.",
+      "coach": [
+        {
+          "tr": "Diyalog sınavı. Monolog olarak dinlendi.",
+          "en": "A dialogue section. Heard as a monologue.",
+          "roast": false
+        }
+      ]
+    },
+    "ters": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "dinleme_yarim"
+          ]
+        }
+      },
+      "tr": "Kulaklığı ters taktın. Çalışan taraf bu kez sol kulağına geldi; sorular aynı hızla geçti.",
+      "en": "You flipped the headset, so now the working side was on your left. The questions kept the same pace.",
+      "coach": [
+        {
+          "tr": "Kulak değişti. Kulaklık aynı.",
+          "en": "New ear. Same headset.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "el",
+    "slip": {
+      "tr": "İDDİA: Yeni kulaklık gelmez. — M.",
+      "en": "WAGER: No spare headset shows up. — M."
+    }
+  },
+  "intent": {
+    "setup": "dil sınavı dinleme bölümünde kulaklığın bir tarafının çalışmaması",
+    "mechanism": "görevli kuralı saniye hesabıyla uyguluyor",
+    "mechanismId": "deadpan_report",
+    "punch": "başlayalı dört saniye oldu",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kulak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

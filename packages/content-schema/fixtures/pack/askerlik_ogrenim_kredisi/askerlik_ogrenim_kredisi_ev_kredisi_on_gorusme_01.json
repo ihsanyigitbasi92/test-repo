@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_ev_kredisi_on_gorusme_01",
+  "tags": [
+    "egitim",
+    "kredi",
+    "ev",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_askerlik_borclanmasi_01",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 32
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Ev kredisi için geliriniz yeterli. Öğrenim krediniz dahil edilince yeterli değil.",
+      "en": "Your income qualifies for a mortgage. Once we include your student loan, it doesn’t."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Öğrenim kredinizi kapatırsanız yeniden görüşürüz. Kapatmanız için de kredi verebiliriz.",
+      "en": "Pay off the student loan and we can talk again. We can also lend you the money to pay it off.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ek",
+      "tr": "Ek ödeme planı yap",
+      "en": "Start an extra-payment plan",
+      "pattern": "patience"
+    },
+    {
+      "id": "bekle",
+      "tr": "Bir yıl bekle",
+      "en": "Wait a year",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenin kefil olmasını sor",
+      "en": "Ask Mom to co-sign",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "ek": {
+      "effects": {
+        "money": -2000,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ev_kredisi_sekiz_ay",
+            "kredi_ek_odeme_plani"
+          ]
+        }
+      },
+      "tr": "Her ay 200 Para ek ödemeye başladın; ilk ay ekstra 2.000 Para da yatırdın. Ev kredisi görüşmesi sekiz ay sonraya yazıldı.",
+      "en": "You started paying 200 extra a month and put in an extra 2,000 up front. The mortgage meeting is booked eight months out.",
+      "coach": [
+        {
+          "tr": "Sekiz ay sonra yeniden. Bu kez daha hafif.",
+          "en": "Back in eight months. Lighter this time.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ev_kredisi_ertelendi"
+          ]
+        }
+      },
+      "tr": "Bir yıl beklemeye karar verdin. Kiradaki evin sözleşmesini bir yıl daha uzattın.",
+      "en": "You decided to wait a year and renewed your lease for another twelve months.",
+      "coach": [
+        {
+          "tr": "Bir yıl daha kira. Takvim yeniden kuruldu.",
+          "en": "Another year of rent. Calendar reset.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": 6
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ev_kredisi_anne_kefil"
+          ]
+        }
+      },
+      "tr": "Annen “tabii olurum” dedi, ardından evin kaç oda olacağını, balkonun yönünü ve kendi odasının nerede olacağını sordu.",
+      "en": "Mom said of course, then asked how many rooms, which way the balcony faces, and where her room would be.",
+      "coach": [
+        {
+          "tr": "Kefil bulundu. Bir oda talebiyle.",
+          "en": "Co-signer found. With a room request attached.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "ev kredisi ön görüşmesinde öğrenim kredisinin geliri yetersiz göstermesi",
+    "mechanism": "banka sorunu çözmek için aynı sorunu teklif ediyor",
+    "mechanismId": "reversal",
+    "punch": "kapatmanız için de kredi verebiliriz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ev"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "EN-only ikiz (D-048): askerlik yerine öğrenim kredisi. TR bundle’ına girmez. Faiz oranı/kurum adı yok (K17)."
+  },
+  "l10n": {
+    "onlyLocale": "en",
+    "mechanismNote": "TR metni yalnızca inceleme içindir; TR oyuncu askerlik ikizini görür."
+  }
+}

@@ -127,3 +127,10 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - QA turu 60 olay okudu, 32 dosya düzeltti: zaman çizelgesi/süreklilik hataları, çeviri kokan İngilizce, tekrarlanan "X gitti, Y kaldı" kapanışı, koşulsuz lift satırları.
 - QA önerisi uygulandı: `validate` artık koşulsuz lift satırını hata sayıyor. Eski dalgalarda 162 satır yakalandı; 2'si hedef koşuluna bağlandı, 160'ında lift işareti kaldırıldı (metin aynı). Kılavuza "X gitti, Y kaldı" kotası eklendi.
 - Demo 7.886 olayla yeniden derlendi, duman testi hatasız, yayımlandı. Son dalga (5) başlatıldı: 54 parti, 2.115 olay — tüm kalan kotalar.
+
+## 2026-11-12 — Evlilik zinciri düzeltmesi (D-157) ve açılış kapağı (D-158)
+- Sahibin sorusu ("kız arkadaş, evlenme yok mu?") üzerine ölçüm: içerik vardı (~680 ilişki/evlilik/çocuk olayı) ama 30 simüle hayatta **0 evlilik** çıktı; geçiş olayları havuzda kayboluyordu.
+- Motor: "Hayat Yolu" kilometre taşı sistemi (sevgili → teklif → düğün → bebek → doğum). 33 mevcut geçiş olayı etiketlendi. Sonuç: 30 hayatta 27 sevgili, 20 evlilik, 7 çocuk.
+- HUD: Sevgili / Nişanlı / Evli · N yıldır, Boşanmış, Çocuklu.
+- Açılış kapağı: MOTTO logosu + slogan + "by D2P Technology"; yerel splash görseli ve iOS telif satırı.
+- Testler: motor 56/56, uygulama 31/31, içerik kontrolleri yeşil.

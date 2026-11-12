@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "is_arama_saglik_raporu_ibaresi_01",
+  "tags": [
+    "is",
+    "evrak",
+    "ise_giris",
+    "is_arama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "is_arama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KESTANE LOJİSTİK İŞE GİRİŞ BELGE LİSTESİ (kurgusal)",
+      "en": "CHESTNUT LOGISTICS ONBOARDING CHECKLIST (fictional)"
+    },
+    "body": {
+      "tr": "Sağlık raporunuzda \"ağır ve tehlikeli işlerde çalışabilir\" ibaresi bulunması zorunludur. Pozisyon: Ofis Asistanı.",
+      "en": "Your medical certificate must state \"fit for heavy and hazardous work.\" Position: Office Assistant."
+    },
+    "translate": {
+      "tr": {
+        "from": "ağır ve tehlikeli işlerde çalışabilir",
+        "to": "fotokopi makinesinin kâğıt sıkışmasına girebilir"
+      },
+      "en": {
+        "from": "fit for heavy and hazardous work",
+        "to": "cleared to reach into the jammed copier"
+      }
+    },
+    "glossaryKey": "agir_tehlikeli_ibare"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Standart form, herkese aynısını gönderiyoruz. Forkliftçilere de.",
+      "en": "It is a standard form. Everyone gets the same one. The forklift drivers too."
+    }
+  ],
+  "choices": [
+    {
+      "id": "rapor",
+      "tr": "Raporu olduğu gibi al",
+      "en": "Get the report as written",
+      "pattern": "patience"
+    },
+    {
+      "id": "sor",
+      "tr": "İbare gerekli mi diye sor",
+      "en": "Ask if the wording is needed",
+      "pattern": "pride"
+    },
+    {
+      "id": "kopya",
+      "tr": "Eski raporu tara, gönder",
+      "en": "Scan an old report instead",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "rapor": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "status": {
+          "job": {
+            "title": "ofis asistanı",
+            "tier": 1,
+            "monthly": 1500
+          }
+        },
+        "flags": {
+          "add": [
+            "calisiyor"
+          ],
+          "remove": [
+            "is_ariyor"
+          ]
+        },
+        "glossary": "agir_tehlikeli_ibare"
+      },
+      "tr": "Doktor ibareyi okuyup sana baktı, \"ofis mi?\" dedi ve imzaladı. Evraklar tamam, pazartesi başlıyorsun.",
+      "en": "The doctor read the line, looked at you, said \"office?\" and signed. Paperwork complete. You start Monday.",
+      "coach": [
+        {
+          "tr": "Belgeye göre forklift de sürebilirsin.",
+          "en": "On paper, you may also drive a forklift.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "status": {
+          "job": {
+            "title": "ofis asistanı",
+            "tier": 1,
+            "monthly": 1500
+          }
+        },
+        "flags": {
+          "add": [
+            "calisiyor"
+          ],
+          "remove": [
+            "is_ariyor"
+          ]
+        },
+        "glossary": "agir_tehlikeli_ibare"
+      },
+      "tr": "İK sordu, sordu, döndü: \"Gerekli.\" Rapor iki gün gecikti, başlangıç çarşambaya kaydı.",
+      "en": "HR asked around and came back: \"Required.\" The report ran two days late. Start date slid to Wednesday.",
+      "coach": [
+        {
+          "tr": "İki gün, bir cevap: gerekli.",
+          "en": "Two days. One answer: required.",
+          "roast": false
+        }
+      ]
+    },
+    "kopya": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ise_giris_bekliyor"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "is_arama_ilk_gun_kapi_karti_01",
+            "delayDays": [
+              7,
+              10
+            ]
+          }
+        ]
+      },
+      "tr": "Eski rapor \"spor yapabilir\" diyordu. Sistem reddetti; yenisini alana kadar başlangıç bir hafta ertelendi.",
+      "en": "The old report said \"fit for sports.\" The system rejected it. Start date pushed a week until the new one came.",
+      "coach": [
+        {
+          "tr": "Spor yapabilirsin. Ofise henüz giremezsin.",
+          "en": "You are cleared for sports. Not yet for the office.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "ofis işi için sağlık raporunda ağır ve tehlikeli işler ibaresi istenmesi",
+    "mechanism": "\"ağır ve tehlikeli\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "fotokopi sıkışmasına girebilir",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "forklift"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

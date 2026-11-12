@@ -32,7 +32,12 @@ export const tr = {
     wide: (r: number) => `Geniş daire · kira ${n(r)}/ay`, mortgage: (r: number) => `Kredili ev ${n(r)}/ay`, owned: 'Kendi evin',
   },
   single: 'Bekâr',
-  partner: (years: number) => (years < 1 ? 'Sevgili · yeni' : `Sevgili · ${years} yıldır`),
+  partner: (years: number, stage: 'dating' | 'engaged' | 'married' = 'dating') => {
+    const w = stage === 'married' ? 'Evli' : stage === 'engaged' ? 'Nişanlı' : 'Sevgili';
+    return stage === 'engaged' ? w : years < 1 ? `${w} · yeni` : `${w} · ${years} yıldır`;
+  },
+  divorced: 'Boşanmış',
+  kid: 'Çocuklu',
   catName: 'Pamuk',
   none: '—',
   jobTitle: { ofis: 'Ofis Elemanı', kafe: 'Barista', kurye: 'Kurye', cagri: 'Çağrı Merkezi', emekli: 'Emekli' } as Record<string, string>,
