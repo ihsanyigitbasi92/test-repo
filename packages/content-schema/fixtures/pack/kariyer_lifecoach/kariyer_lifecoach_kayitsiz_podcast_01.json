@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_kayitsiz_podcast_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 36
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Harikaydı. Bir saatte hayatımı üç kez değiştirdiniz.",
+      "en": "That was incredible. You changed my life three times in an hour."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Yalnız kayıt ışığı yanmıyormuş. Baştan alabilir miyiz? Aynı enerjiyle.",
+      "en": "Only, the record light was off. Could we go again? Same energy.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "bastan",
+      "tr": "Baştan anlat",
+      "en": "Do it all again",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ozet",
+      "tr": "Yazılı özet gönder",
+      "en": "Send a written summary",
+      "pattern": "patience"
+    },
+    {
+      "id": "cik",
+      "tr": "Teşekkür et, çık",
+      "en": "Thank them and leave",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "bastan": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "koc_podcast_yayinda"
+            ]
+          }
+        },
+        "tr": "İkinci kayıt elli dakika sürdü ve yayınlandı. Sunucu girişte ilk kaydın daha iyi olduğunu söyledi.",
+        "en": "Take two ran fifty minutes and aired. The host's intro mentions the first one was better.",
+        "coach": [
+          {
+            "tr": "İkinci kayıt birinciyle yarıştı ve kaybetti. Birinciyi yalnızca sunucu dinledi.",
+            "en": "Take two lost to take one. Take one had an audience of one.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef kartına bir yayın eklendi.",
+            "en": "One broadcast added to the goal card.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "İkinci kayıtta birincinin cümlelerini hatırlamaya çalıştın. Sunucu bölümü on iki dakikaya kesip 'bonus içerik' dedi.",
+        "en": "Take two was you trying to remember take one. The host cut it to twelve minutes and called it 'bonus content.'",
+        "coach": [
+          {
+            "tr": "Bir saatlik hayat değişimi, on iki dakikalık bonus oldu.",
+            "en": "An hour of life change, now a twelve-minute bonus.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ozet": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "koc_podcast_notlari"
+          ]
+        }
+      },
+      "tr": "Özeti gece yazıp yolladın. Sunucu metni kendi sesiyle okudu ve bölüm onun adıyla çıktı.",
+      "en": "You wrote the summary that night. The host read it in their own voice, and the episode went out under their name.",
+      "coach": [
+        {
+          "tr": "Fikirlerin yayında, başka bir sesle.",
+          "en": "Your ideas aired in someone else's voice.",
+          "roast": true
+        }
+      ]
+    },
+    "cik": {
+      "effects": {
+        "meters": {
+          "ego": 1
+        },
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Teşekkür edip çıktın. Bölüm hiç yayınlanmadı; sunucu seni artık 'kayıt dışı konuk' diye anıyor.",
+      "en": "You thanked them and left. The episode never aired. The host now calls you 'the off-the-record guest.'",
+      "coach": [
+        {
+          "tr": "Kayıt dışı. Kelimenin tam anlamıyla.",
+          "en": "Off the record. Literally.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bastan",
+    "slip": {
+      "tr": "İDDİA: İkinci kayıt birinciye yetişemez. — M.",
+      "en": "WAGER: Take two won't match take one. — M."
+    }
+  },
+  "intent": {
+    "setup": "podcast konukluğu bitince sunucu kayıt tuşuna basmadığını fark ediyor",
+    "mechanism": "aynı bir saat ikinci kez isteniyor",
+    "mechanismId": "deadpan_report",
+    "punch": "birinciyi yalnızca sunucu dinledi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tek_dinleyici"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

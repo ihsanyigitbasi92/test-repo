@@ -4,10 +4,117 @@
  * and coach lines the UI owns (FTUE intro, birthday card, mottos). en.ts must mirror every key (type-checked).
  */
 import { groupDigits, lowerTr } from './format';
+import { sfx } from './trSuffix';
 
 const n = (x: number) => groupDigits(x, '.');   // 2.000 — dot grouping, no currency sign (D-033)
 
+
+/** Variant pick by engine index (wraps if a pool is ever shorter than TUNING.ritual). */
+const pick = <T,>(pool: readonly T[], i: number): T => pool[((i % pool.length) + pool.length) % pool.length]!;
+
+const RITUAL = {
+  /**
+   * Yearly rituals (engine `ReportCardData.ritual`, no-repeat picks): pool sizes must equal TUNING.ritual
+   * (birthdayVariants per band, mottoVariants per key, noEnvelopeVariants, noWagerVariants) — test/ritual.test.ts.
+   * Never put a suffix right after `${a}` (Turkish vowel harmony): "${a} oldun", "Yaş ${a}".
+   */
+  birthdayLines: {
+    warmup: [
+      (a: number) => `Doğum günün. ${a} oldun. Pasta yok; dayın aradı, "para göndermedim" demek için.`,
+      (a: number) => `${a} oldun. Mum sayısı arttı, tecrübe sayısı aynı. Üfle, dilek tut, unutma.`,
+      (a: number) => `Doğum günü. Yaş ${a}. Annen bir pasta yaptı; üstüne "yine mi" yazmış.`,
+      (a: number) => `${a} yaşındasın. Bu yaşta herkes bir şey olmuş. Sen de bir şey oldun: ${a}.`,
+      (a: number) => `Yaş ${a}. Barış hediye aldı; fişini de ekledi. Güven ilişkisi böyle kurulur.`,
+      (a: number) => `${a} oldun. Kimlik kartındaki fotoğraf artık sana benzemiyor. O şanslı.`,
+      (a: number) => `Doğum günün. ${a}. Komşu duvarın arkasından "iyi ki doğdun" diye bağırdı. Duvar ince, sevgi kalın.`,
+      (a: number) => `${a} oldun. Hayat planın hâlâ taslak klasöründe. Kaydet tuşunu buldun mu?`,
+      (a: number) => `Yaş ${a}. Bir yıl daha, bir seminer daha. Ben anlatırım, sen dinlemezsin. Gelenek.`,
+      (a: number) => `${a} oldun. Grupta 14 kişi "iyi ki doğdun" yazdı; 13'ü otomatik tamamlamaydı.`,
+      (a: number) => `Doğum günü. ${a} mum. Yangın alarmı çalmadı; bu yılın ilk başarısı.`,
+      (a: number) => `${a} yaşındasın. Gençlik hâlâ seninle. Biraz uzakta yürüyor ama seninle.`,
+    ],
+    season: [
+      (a: number) => `${a} oldun. Sırt ağrın senden önce uyandı ve kutlamayı başlattı.`,
+      (a: number) => `Doğum günü. Yaş ${a}. Annen "senin yaşındayken ben..." diye başladı. Cümle bir saat sürdü.`,
+      (a: number) => `${a} yaşındasın. Mumları üflemek için iki nefes lazım oldu. Not aldım.`,
+      (a: number) => `${a} oldun. Hediye: bel yastığı. Kimse espri yapmadı; asıl korkutucu olan bu.`,
+      (a: number) => `Yaş ${a}. Kutlama mesajlarının yarısı iş grubundan. Diğer yarısı fatura hatırlatması.`,
+      (a: number) => `${a} oldun. "Daha gençsin" diyenlerin sayısı azaldı. Sesleri de kısıldı.`,
+      (a: number) => `Doğum günün. ${a}. Pasta geldi, sen gelmedin; mesaideydin. Pasta da anladı.`,
+      (a: number) => `${a} yaşındasın. Saat on bir oldu mu uykun geliyor. Kutlama ona göre planlandı.`,
+      (a: number) => `Yaş ${a}. Dayın aradı. Para yok ama tavsiye bol. Faizsiz, iadesiz.`,
+      (a: number) => `${a} oldun. Hayat koçu olarak söylüyorum: tam ortadasın. Neyin ortası, bilmiyorum.`,
+      (a: number) => `Doğum günü. ${a}. Aynaya baktın, ayna da sana baktı. Kimse ilk konuşmak istemedi.`,
+      (a: number) => `${a} yaşındasın. Dilek tutmak yerine yapılacaklar listesi tuttun. Olgunluk bu.`,
+    ],
+    secondHalf: [
+      (a: number) => `${a} oldun. Mum koymadılar; itfaiyeyi rahatsız etmek istemediler.`,
+      (a: number) => `Doğum günü. Yaş ${a}. Doktorun da kutladı. Tahlil sonuçlarıyla birlikte.`,
+      (a: number) => `${a} yaşındasın. Gözlüğünü ararken gözlüğün kafandaydı. Pasta da masada; onu buldun.`,
+      (a: number) => `${a} oldun. Gençler sana "abi/abla" değil "efendim" demeye başladı. Terfi gibi; maaşsız.`,
+      (a: number) => `Yaş ${a}. Bir yıl daha geçti. Defter kalınlaştı, sen inceldin. Biri doğru gidiyor.`,
+      (a: number) => `${a} oldun. Hediye paketini açmak için makas aradın. Bulduğunda konu değişmişti.`,
+      (a: number) => `Doğum günün. ${a}. Eski fotoğraflara baktın; saçın orada, sen buradasın.`,
+      (a: number) => `${a} yaşındasın. Dizlerin hava durumunu benden iyi biliyor. Yarın yağmur.`,
+      (a: number) => `Yaş ${a}. Kutlamada herkes erken kalktı. Sen hepsinden erken.`,
+      (a: number) => `${a} oldun. "Bu yaşta mı?" sorusu artık her şeye soruluyor. Cevap: evet, bu yaşta.`,
+      (a: number) => `Doğum günü. ${a}. Pastanın şekeri ayrı tabakta. Pasta da sen de buna alıştınız.`,
+      (a: number) => `${a} yaşındasın. Hâlâ buradasın. Bunu seminerde anlatırdım ama seminer bitti.`,
+    ],
+    overtime: [
+      (a: number) => `${a} oldun. Defterin son sayfaları değil; ben öyle diyorum, defter susuyor.`,
+      (a: number) => `Doğum günü. Yaş ${a}. Torunlar mum saymayı bıraktı; matematik zor geldi.`,
+      (a: number) => `${a} yaşındasın. Herkes yavaş konuşuyor. Sen değil; onlar yavaşladı.`,
+      (a: number) => `${a} oldun. Pasta yumuşak, sohbet uzun, öğle uykusu kesin.`,
+      (a: number) => `Yaş ${a}. Eskiden "sonra" derdin. Şimdi "şimdi" diyorsun. Geç ama doğru.`,
+      (a: number) => `${a} oldun. Kutlama kısa sürdü; sen uyudun, misafirler bulaşığı yıkadı. Kazan-kazan.`,
+      (a: number) => `Doğum günün. ${a}. Hatırladığın doğum günleri azaldı; bu da hatırlanmaya değer.`,
+      (a: number) => `${a} yaşındasın. Bir mum yeter dediler. Sen ikincisini istedin. Hâlâ inatçısın; iyi.`,
+      (a: number) => `Yaş ${a}. Telefonun yazı boyutu en büyükte. Mesajlar artık bağırarak geliyor.`,
+      (a: number) => `${a} oldun. Ben hâlâ koçunum. Sen hâlâ dinlemiyorsun. Uzun bir ilişki bu.`,
+      (a: number) => `Doğum günü. ${a}. Komşu çocuğu sana yaşını sordu; söyleyince "vay" dedi. Hak ettin.`,
+      (a: number) => `${a} yaşındasın. Saat yavaşladı. Ya da sen hızlandın; ben karıştırıyorum artık.`,
+    ],
+  } as Record<string, ((a: number) => string)[]>,
+  noEnvelope: [
+    'Zarf yok. Bu yıl sessiz geçti; şüpheli.',
+    'Zarf gelmedi. Postacı da gelmedi. Tesadüf mü, bilmiyorum.',
+    'Masada zarf yok. Masada sadece sen varsın. Bu da bir mesaj.',
+    'Bu yıl zarf çıkmadı. Defter boş satırı sever; ben sevmem.',
+    'Zarf yok. Ya hayat seni unuttu ya da sana bir mola verdi. İkisi de olur.',
+    'Zarf kutusu boş. İçine baktım; boşluk da bana baktı.',
+    'Zarf yok. Sürpriz yok. Sürprizsizlik de bir sürpriz, sayılır.',
+    'Bu yıl zarfsız. Kâğıttan tasarruf ettik; çevreci bir yıl.',
+  ],
+  noWager: [
+    'Bu yıl iddia yok. Ben de şaşırdım.',
+    'İddia defteri boş. Kendime bile tahmin yürütmedim; sıkıcıydı.',
+    'Bu yıl beni haksız çıkarma fırsatın olmadı. Şanslıyım.',
+    'Hiç iddia yok. Tahmin yeteneğim paslandı; sen de yorulmadın.',
+    'Defterde iddia sayfası bembeyaz. Sakin bir yıl ya da çekingen bir koç.',
+    'Bu yıl kimse kimseye "dedim sana" demedi. Tarihî bir yıl.',
+  ],
+  motto: {
+    procrastination: ['Plan vardı. Pazartesi de vardı.', 'Yarın başlarız. Yarın da bunu söyledi.', 'Takvim doldu, yapılacaklar listesi değişmedi.', 'Erteledin. Ertelemek de seni erteledi.', 'Son tarih geldi, sen gelmedin.', 'Başlamak için doğru anı bekledin. An da seni bekledi; sıkıldı.'],
+    avoidance: ['Görüldü. Cevap yok. Yıl bitti.', 'Kapıyı açmadın. Kapı da seni affetmedi.', 'Sorun gitmedi; sen bakmadın, o seni bekledi.', 'Telefon çaldı. Sen de çaldın; kaçış zamanını.', 'Bilmiyormuş gibi yaptın. Herkes biliyordu.', 'Gözünü kapattın, yıl yine de geçti.'],
+    impulseSpend: ['Para gitti, ders kaldı. Dersi de unuttun.', 'Sepete ekledin. Hayatını sepete ekledin.', 'İndirim seni buldu. Sen de bakiyeni kaybettin.', 'Aldın, kullanmadın, sakladın. Klasik üçlü.', 'Cüzdan inceldi, dolap kalınlaştı.', '"Bir kere"den yıllık rapor çıktı.'],
+    peoplePleasing: ['Herkes memnun. Sen hariç.', 'Evet dedin. Sonra yine evet dedin. Sonra yoruldun.', 'Herkesin derdini taşıdın; kendi derdin kargoda kaldı.', 'Kimse kırılmadı. Sen biraz çatladın.', 'Hayır demeyi denedin; "tabii" çıktı ağzından.', 'Yılın elemanı: herkes için. Kendin için: devamsız.'],
+    risk: ['Cesaret Pekiyi, bakiye Zayıf.', 'Atladın. Paraşüt sonra düşünülecekti.', 'Kalbin hızlı attı, hesabın yavaş doldu.', 'Risk aldın. Risk de senden bir şeyler aldı.', 'Ya hep ya hiç dedin. Bu yıl "hiç" kazandı; seneye bakarız.', 'Gözü kara bir yıl. Göz doktoru randevusu da kara.'],
+    selfCare: ['Uyudun. Bu yıl buna zafer diyoruz.', 'Kendine baktın. Ayna teşekkür etti.', 'Su içtin, yürüdün, erken yattın. Bu kim?', 'Mola verdin; dünya yıkılmadı. Not alındı.', 'Kendini birinci sıraya koydun. Sıra şaşırdı ama alıştı.', 'Bu yıl bedenin sana kızmadı. Nadir bir barış.'],
+    overwork: ['Yorgun ama kararlı. Daha çok yorgun.', 'Mesai bitti. Sen bitmedin; az kaldı.', 'İş seni sevdi. Sen işi sevdin. Kimse seni sevmeye vakit bulamadı.', 'Fazla mesai: fazla. Mesai: her yer.', 'Takvimin dolu, ruhun yedek parça bekliyor.', 'Çok çalıştın. Maaş bunu duymadı.'],
+    leanOnFamily: ['Annen kazandı. Annen hep kazanır.', 'Aile yanında. Sen de yanlarında; çünkü kira yok.', 'Annen aradı, sorun çözüldü, sen küçüldün.', 'Ailene yaslandın. Aile de biraz eğildi.', 'Ev yemeği, ev kuralları, ev esprileri. Paket servis.', 'Bu yıl en güçlü yatırım aracın: annen.'],
+    shortcut: ['Kestirme uzun ama hızlı.', 'Kısa yoldan gittin; uzun hikâye oldu.', 'Kestirmenin sonu yine bu yıl çıktı.', 'Kolayını buldun. Kolay da seni buldu.', 'Yolu kısalttın, tecrübeyi de.', 'Bu yıl hep arka kapıdan girdin. Ön kapı alındı.'],
+    pride: ['Hayır demeyi öğrendin. Aynaya.', 'Gururun sağlam. Gerisi tamirde.', 'Özür dilemedin. Kimse de dilemedi. Eşitlik.', 'Başın dik. Boynun ağrıyor ama dik.', 'Haklıydın. Yalnızdın da; ikisi bir arada gelir.', 'Kimseden yardım istemedin. Yardım da kibar davrandı, gelmedi.'],
+    generosity: ['Verdin, verdin. Kimse saymadı; ben saydım.', 'Elin açık, cüzdanın daha açık.', 'Herkese ikram ettin. Sana kalan: güzel bir his ve boş tabak.', 'Paylaştın. Dünya biraz düzeldi; bakiyen biraz bozuldu.', 'Cömertlik Pekiyi. Muhasebe seninle konuşmak istiyor.', 'Bu yıl çok kişinin günü sende güzelleşti. Seninki de bir ara.'],
+    patience: ['Bekledin. Bazen gerçekten geldi.', 'Sabrettin. Sabır da seni takdir etti; sessizce.', 'Sıra sana gelecek dedin. Sıra yolda.', 'Acele etmedin. Hayat da etmedi; anlaştınız.', 'Bekleme salonunda yılın elemanı.', 'Sabır taşı çatlamadı. Sen biraz.'],
+    none: ['Başladı. Teknik olarak.', 'Bir yıl geçti. Belgelendi, onaylandı, dosyalandı.', 'Kalıp yok. Bu da bir kalıp.', 'Ne iyi ne kötü. Ortalama; tam koçluk malzemesi.', 'Bu yıl sessizdi. Defter bile esnedi.', 'Hiçbir şey olmadı. Profesyonelce oldu ama.'],
+    good: ['Potansiyel: var. Kanıt: yavaş yavaş.', 'İyi bir yıl. Kimseye söyleme; nazar değer.', 'Bu yıl beni şaşırttın. Seminere örnek olacaksın.', 'Bir şeyler yolunda. Hangisi, sen de bilmiyorsun.', 'Grafik yukarı bakıyor. Sen de bak.', 'Bu yıl hayat sana kaş göz etti. Olumlu anlamda.'],
+    bad: ['Bu yıl da olmadı; ama az kaldı.', 'Zor bir yıl. Yıl da senden şikâyetçi.', 'Düştün. Kalkmak seneye kaldı.', 'Kötü geçti. En azından kısa sürdü: bir yıl.', 'Defter bu yılı kırmızı kalemle yazdı.', 'Hayat sana ders verdi; sen sınava girmedin.'],
+  } as Record<string, string[]>,
+};
+
 export const tr = {
+  ...RITUAL,
   langName: 'TR',
   brandSub: 'Sertifikasız Hayat Koçu',
   // HUD
@@ -21,7 +128,7 @@ export const tr = {
   ageUnit: 'yaş',
   lifeN: (k: number) => `${k}. hayat`,
   num: n,
-  money: (x: number) => `${x < 0 ? '−' : ''}◆ ${n(x)}`,
+  money: (x: number) => `◆ ${x < 0 ? '−' : ''}${n(x)}`,   // UX #19: sign after the icon ("◆ −21.701"), red in the HUD
   // clock (D-109: no year on the top bar)
   dayWord: 'Gün',
   weekdays: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
@@ -45,6 +152,8 @@ export const tr = {
   kid: 'Çocuklu',
   kidNamed: (names: string) => `Çocuk: ${names}`,
   catName: 'Pamuk',
+  /** The cat NPC died (engine npcLife): shown in the HUD instead of the name. */
+  catGone: 'Pamuk (anısına)',
   none: '—',
   /** Engine job titles (`status.job.title`): content ids and the engine's own (emekli). Unknown titles are humanized (labels.ts). */
   jobTitle: {
@@ -163,15 +272,14 @@ export const tr = {
   envTeaserDefault: 'Deftere bir zarf eklendi. Açmadım. Hâlâ.',
   lowJoy: 'Bu bir oyun. Gerçek hayatta destek istersen yakınındaki birine ya da bir uzmana ulaş.',
   // birthday + report card (D-061, 07 §2.2.3)
-  birthdayLine: (a: number) => `Doğum günün. ${a} oldun. Pasta yok; dayın aradı, "para göndermedim" demek için.`,
+  birthdayLine: (a: number, band = 'warmup', i = 0) => pick(RITUAL.birthdayLines[band] ?? RITUAL.birthdayLines.warmup!, i)(a),
   agingLbl: 'YAŞLANIYORSUN',
   reportTitle: 'KARNE',
   gradeNames: { health: 'Sağlık', money: 'Para', relationships: 'İlişkiler', brain: 'Kafa', courage: 'Cesaret', spectacle: 'Gösteri' },
   grades: ['Zayıf', 'Geçer', 'Orta', 'İyi', 'Pekiyi'],
-  coachAccuracy: (h: number, t: number) => (t ? `Koçun isabeti: ${h}/${t}` : 'Bu yıl iddia yok. Ben de şaşırdım.'),
+  coachAccuracy: (h: number, t: number, i = 0) => (t ? `Koçun isabeti: ${h}/${t}` : pick(RITUAL.noWager, i)),
   mottoLbl: 'YILIN MOTTOSU',
   decade: 'ONYIL KARNESİ',
-  noEnvelope: 'Zarf yok. Bu yıl sessiz geçti; şüpheli.',
   // CTAs (07 §2.2.1 budgets)
   cta: {
     nextDay: 'Ertesi Gün', oneMoreYear: 'Bir Yıl Daha', cont: 'Devam', auto: 'Otomatik', autoOn: 'Otomatik: açık', enough: 'Bugünlük yeter', close: 'Kapat',
@@ -247,10 +355,12 @@ export const tr = {
     wagerWin: 'HAKSIZ ÇIKTIM', wagerLbl: 'MOTTO YANILDI', death: 'SON SAYFA',
     skip: 'dokun: geç',
   },
+  /** Player name pools (same length in both catalogs: the Client File keeps the index across a language switch).
+   *  No first name the content uses for an NPC (roommate, partner, colleagues) — test/ritual.test.ts. */
   names: [
-    ['Deniz Ertelemez', 'Kadıköy'], ['Ece Sonradan', 'Bornova'], ['Kerem Bellibelirsiz', 'Çankaya'], ['Selin Yarınbaşlar', 'Nilüfer'],
-    ['Mert Hemenşimdi', 'Karşıyaka'], ['Burak Boşverir', 'Beylikdüzü'], ['Ayla Haftaya', 'Konak'], ['Cem Birazdan', 'Tepebaşı'],
-    ['Zeynep Pazartesi', 'Atakum'], ['Onur Halledecek', 'Muratpaşa'],
+    ['Doruk Ertelemez', 'Kadıköy'], ['Sevda Sonradan', 'Bornova'], ['Berk Bellibelirsiz', 'Çankaya'], ['Pelin Yarınbaşlar', 'Nilüfer'],
+    ['Ozan Hemenşimdi', 'Karşıyaka'], ['Burak Boşverir', 'Beylikdüzü'], ['Ayla Haftaya', 'Konak'], ['Cem Birazdan', 'Tepebaşı'],
+    ['Zeynep Pazartesi', 'Atakum'], ['Bora Halledecek', 'Muratpaşa'],
   ] as [string, string][],
   // death → Roast Raporu → new client (07 §2.2.7)
   deathCause: {
@@ -270,7 +380,7 @@ export const tr = {
   patTitle: 'Ömür boyu kalıpların',
   times: 'kez',
   rightMoment: 'Haklı çıktığın an',
-  rightMomentLine: (d: number, p: number) => `Gün ${d}. Oran %${p}'ti. Olmaz dedim; oldu.`,
+  rightMomentLine: (d: number, p: number) => `Gün ${d}. Oran %${sfx(p, 'ydi')}. Olmaz dedim; oldu.`,
   noRightMoment: 'Beni hiç haksız çıkarmadın. Bu bir iltifat değil.',
   lastWord: 'Koçun son sözü',
   lastWordLine: (k: number, p: string) => `${k} kez ${lowerTr(p)}. Kimseye söyleme ama iyiydi.`,
@@ -283,13 +393,6 @@ export const tr = {
     procrastination: 'Erteleme', avoidance: 'Kaçınma', impulseSpend: 'Anlık harcama', peoplePleasing: 'Herkesi memnun etme',
     risk: 'Gözü karalık', selfCare: 'Kendine bakma', overwork: 'Fazla mesai', leanOnFamily: 'Aileye yaslanma', shortcut: 'Kestirme',
     pride: 'Gurur', generosity: 'Cömertlik', patience: 'Sabır',
-  } as Record<string, string>,
-  motto: {
-    procrastination: 'Plan vardı. Pazartesi de vardı.', avoidance: 'Görüldü. Cevap yok. Yıl bitti.', impulseSpend: 'Para gitti, ders kaldı. Dersi de unuttun.',
-    peoplePleasing: 'Herkes memnun. Sen hariç.', risk: 'Cesaret Pekiyi, bakiye Zayıf.', selfCare: 'Uyudun. Bu yıl buna zafer diyoruz.',
-    overwork: 'Yorgun ama kararlı. Daha çok yorgun.', leanOnFamily: 'Annen kazandı. Annen hep kazanır.', shortcut: 'Kestirme uzun ama hızlı.',
-    pride: 'Hayır demeyi öğrendin. Aynaya.', generosity: 'Verdin, verdin. Kimse saymadı; ben saydım.', patience: 'Bekledin. Bazen gerçekten geldi.',
-    none: 'Başladı. Teknik olarak.', good: 'Potansiyel: var. Kanıt: yavaş yavaş.', bad: 'Bu yıl da olmadı; ama az kaldı.',
   } as Record<string, string>,
 };
 

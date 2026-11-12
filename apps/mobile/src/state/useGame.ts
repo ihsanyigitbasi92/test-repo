@@ -21,7 +21,7 @@ import type { NativeEventSubscription } from 'react-native';
 import { buildRoast, emptyMeta, step } from '@motto/engine';
 import type { Action, Effect, LifeState, Locale, MetaState, ReportCardData, RoastReport, Speed, StepResult } from '@motto/engine';
 import { START_AGE, advanceContent, contentReadyFor, eventById, getBundle, prepareContent } from '../content/bundle';
-import { CATALOG } from '../i18n';
+import { CATALOG, mottoLine } from '../i18n';
 import { haptic } from './haptics';
 import { HEALTH_DANGER } from '../components/hudConst';
 import type { CardVariant, Delta, FeedItem, StampResult } from './feed';
@@ -319,11 +319,14 @@ export class GameController {
   private watchLifecycle(): void {
     if (!this.appStateSub) {
       try {
-        this.appStateSub = AppState.addEventListener('change', (st) => { if (st === 'background' || st === 'inactive') this.persist(true); });
+        this.appStateSub = AppState.addEventListener('change', (st) => {
+          if (st === 'background' && this.snap.stage === 'play') this.drainBeats();          // the app may be killed next
+          if (st === 'background' || st === 'inactive') this.persist(true);
+        });
       } catch { this.appStateSub = null; }
     }
     if (!this.onPageHide && Platform.OS === 'web' && typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
-      this.onPageHide = () => this.persist(true);
+      this.onPageHide = () => { if (this.snap.stage === 'play') this.drainBeats(); this.persist(true); };
       window.addEventListener('pagehide', this.onPageHide);
     }
   }
@@ -343,7 +346,7 @@ export class GameController {
   private enqueue(beats: Beat[]): void {
     this.queue.push(...beats);
     if (!this.snap.busy) this.set({ busy: true });
-    if (!this.beatTimer && !this.held) this.pump();
+    if (!this.beatTimer && !this.held && !this.draining) this.pump();
   }
   private pump(): void {
     const b = this.queue.shift();
@@ -354,6 +357,27 @@ export class GameController {
       this.pump();
     }, b.wait);
   }
+  /**
+   * Plays every queued beat at once (no waits, moments skipped) so feed and engine agree right now — used before a
+   * save that cannot wait for the queue to drain (Close, app background / page hide).
+   */
+  private draining = false;
+  private drainBeats(): void {
+    this.draining = true;
+    if (this.beatTimer) clearTimeout(this.beatTimer);
+    this.beatTimer = null;
+    this.held = false;
+    for (let guard = 0; guard < 500 && this.queue.length; guard++) {
+      const b = this.queue.shift()!;
+      b.run();
+      if (this.snap.moment) this.set({ moment: null });
+    }
+    this.queue = [];
+    this.draining = false;
+    if (this.snap.moment) this.set({ moment: null });
+    this.set({ busy: false });
+  }
+
   private flushBeats(): void {
     if (this.beatTimer) clearTimeout(this.beatTimer);
     this.beatTimer = null;
@@ -423,7 +447,7 @@ export class GameController {
           const momsHouse = st.status.home.kind === 'momsHouse';
           if (c.flowLog.length) beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'flow', lines: c.flowLog, momsHouse }) });
           if (birthday) {
-            beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'birthdayLine', a: [st.calendar.age] }, roast: true }) });
+            beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'birthdayLine', a: [st.calendar.age, report?.data.ritual?.birthdayBand ?? 'warmup', report?.data.ritual?.birthday ?? 0] }, roast: true }) });
           } else if (c.eventId === 'sys_quiet') {
             beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'mundane', ui: { k: 'quiet' } }) });
           } else if (c.eventId !== 'sys_death') {
@@ -586,7 +610,7 @@ export class GameController {
       stage: 'death', mood: 'sad', playerMood: 'dead', moment: null, auto: false, typeMs: (this.snap.speed === 'fast' ? FAST : PLAY).typeMs, progress: 0, suggestEnd: false, session: null, bigStamp: null,
       death: {
         roast: buildRoast(st), name: st.name, birthYear, deathYear: birthYear + (st.death?.age ?? st.calendar.age),
-        epitaph: this.lastMotto ? s.motto[this.lastMotto] ?? null : null, autoDays: this.autoDays, report: this.lastReport,
+        epitaph: this.lastMotto ? mottoLine(s, this.lastMotto, this.lastReport?.ritual?.motto ?? 0) : null, autoDays: this.autoDays, report: this.lastReport,
         look: this.looks.get(st.lifeSeed) ?? this.snap.look, outfit: outfitFor({ job: st.status.job, age: st.calendar.age }),
       },
     });
@@ -762,7 +786,8 @@ export class GameController {
     if (!s) return;
     haptic.selection();
     this.clearAuto();
-    this.set({ session: { ...s, closed: true } });
+    this.drainBeats();
+    this.set({ session: { ...this.snap.session ?? s, closed: true } });
     this.persist(true);
     if (Platform.OS === 'android') { try { BackHandler.exitApp(); } catch { /* stays on the closed sheet */ } }
   };

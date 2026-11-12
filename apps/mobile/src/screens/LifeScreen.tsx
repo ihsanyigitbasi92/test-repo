@@ -43,6 +43,9 @@ export function LifeScreen() {
     else if (snap.speed === 'pause') decision = <PrimaryButton label={s.cta.nextDay} onPress={game.nextDayManual} testID="next-day" />;
   }
 
+  // A decision just appeared: the question / report card above it must be fully on screen (UX playtest #7, #8, #13).
+  const pinKey = snap.stage === 'play' && ready && v && (phase === 'day' || phase === 'birthday') ? `${phase}:${v.calendar.dayIndex}` : null;
+
   return (
     <I18nContext.Provider value={i18n}>
       <View style={st.stage}>
@@ -53,7 +56,7 @@ export function LifeScreen() {
             {snap.stage === 'play' && v && snap.look && (
               <Hud view={v} look={snap.look} mood={snap.playerMood} lifeNo={snap.lifeNo} floats={snap.floats} progress={snap.progress} speed={snap.speed} unread={snap.unread} onUnread={game.explainUnread} />
             )}
-            <PlayerLookContext.Provider value={snap.look}><Feed items={snap.feed} typeMs={snap.typeMs} /></PlayerLookContext.Provider>
+            <PlayerLookContext.Provider value={snap.look}><Feed items={snap.feed} typeMs={snap.typeMs} pinKey={pinKey} /></PlayerLookContext.Provider>
             <View style={zone.wrap}>
               {decision}
               {snap.stage === 'play' && (

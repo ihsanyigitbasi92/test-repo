@@ -5,7 +5,108 @@ import type { Strings } from './tr';
 const n = (x: number) => groupDigits(x, ',');
 const ord = (k: number) => (k % 100 >= 11 && k % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][k % 10] ?? 'th');
 
+
+/** Variant pick by engine index (wraps if a pool is ever shorter than TUNING.ritual). */
+const pick = <T,>(pool: readonly T[], i: number): T => pool[((i % pool.length) + pool.length) % pool.length]!;
+
+const RITUAL = {
+  birthdayLines: {
+    warmup: [
+      (a: number) => `Your birthday. You're ${a}. No cake; your uncle called to say he didn't send money.`,
+      (a: number) => `${a}. More candles, same amount of experience. Blow, wish, forget.`,
+      (a: number) => `Birthday. Age ${a}. Mom baked a cake and iced "again?" on top.`,
+      (a: number) => `You're ${a}. Everyone your age has become something. You became ${a}.`,
+      (a: number) => `Age ${a}. Your roommate got you a gift and taped the receipt to it. That's trust.`,
+      (a: number) => `${a} today. Your ID photo no longer looks like you. Lucky photo.`,
+      (a: number) => `Happy birthday. ${a}. The neighbor yelled "happy birthday" through the wall. Thin walls, thick affection.`,
+      (a: number) => `${a}. Your life plan is still in Drafts. Found the save button yet?`,
+      (a: number) => `Age ${a}. Another year, another seminar. I talk, you don't listen. Tradition.`,
+      (a: number) => `${a}. Fourteen people in the group chat said happy birthday. Thirteen were autocomplete.`,
+      (a: number) => `Birthday. ${a} candles. The smoke alarm stayed quiet: first win of the year.`,
+      (a: number) => `You're ${a}. Youth is still with you. Walking a few steps behind, but with you.`,
+    ],
+    season: [
+      (a: number) => `${a}. Your back woke up before you and started the party.`,
+      (a: number) => `Birthday. Age ${a}. Mom opened with "when I was your age". It ran an hour.`,
+      (a: number) => `You're ${a}. It took two breaths to blow out the candles. I made a note.`,
+      (a: number) => `${a} today. Gift: a lumbar pillow. Nobody made a joke. That's the scary part.`,
+      (a: number) => `Age ${a}. Half your birthday messages came from the work chat. The other half were bills.`,
+      (a: number) => `${a}. Fewer people say "you're still young". The ones who do say it quieter.`,
+      (a: number) => `Happy birthday. ${a}. The cake showed up, you didn't; overtime. The cake understood.`,
+      (a: number) => `You're ${a}. You get sleepy at eleven. The party was planned around it.`,
+      (a: number) => `Age ${a}. Your uncle called. No money, plenty of advice. Interest-free, non-refundable.`,
+      (a: number) => `${a}. Speaking as your life coach: you're right in the middle. Of what, unclear.`,
+      (a: number) => `Birthday. ${a}. You looked in the mirror; it looked back. Nobody wanted to speak first.`,
+      (a: number) => `You're ${a}. Instead of a wish you made a to-do list. That's maturity.`,
+    ],
+    secondHalf: [
+      (a: number) => `${a}. No candles this year; nobody wanted to bother the fire department.`,
+      (a: number) => `Birthday. Age ${a}. Your doctor sent wishes. Attached: lab results.`,
+      (a: number) => `You're ${a}. You looked for your glasses; they were on your head. The cake you found.`,
+      (a: number) => `${a} today. Young people started calling you "sir" or "ma'am". A promotion, unpaid.`,
+      (a: number) => `Age ${a}. Another year. The notebook got thicker, you got thinner. One of you is on track.`,
+      (a: number) => `${a}. You went looking for scissors to open a gift. By the time you found them, the topic had changed.`,
+      (a: number) => `Happy birthday. ${a}. Old photos: your hair is there, you are here.`,
+      (a: number) => `You're ${a}. Your knees forecast weather better than I do. Rain tomorrow.`,
+      (a: number) => `Age ${a}. Everyone left the party early. You left first.`,
+      (a: number) => `${a}. "At your age?" now applies to everything. Answer: yes, at my age.`,
+      (a: number) => `Birthday. ${a}. The sugar comes on a separate plate now. You and the cake have adjusted.`,
+      (a: number) => `You're ${a}. Still here. I'd put that in a seminar, but the seminars ended.`,
+    ],
+    overtime: [
+      (a: number) => `${a}. These are not the notebook's last pages. I say so; the notebook says nothing.`,
+      (a: number) => `Birthday. Age ${a}. The grandkids stopped counting candles; the math got hard.`,
+      (a: number) => `You're ${a}. Everyone talks slowly now. Not you. They slowed down.`,
+      (a: number) => `${a} today. Soft cake, long chat, guaranteed nap.`,
+      (a: number) => `Age ${a}. You used to say "later". Now you say "now". Late, but correct.`,
+      (a: number) => `${a}. The party was short: you dozed off, the guests did the dishes. Everybody wins.`,
+      (a: number) => `Happy birthday. ${a}. You remember fewer birthdays. This one is worth remembering.`,
+      (a: number) => `You're ${a}. They said one candle is plenty. You asked for a second. Still stubborn; good.`,
+      (a: number) => `Age ${a}. Your phone font is set to maximum. Messages now arrive shouting.`,
+      (a: number) => `${a}. I'm still your coach. You still don't listen. It's a long relationship.`,
+      (a: number) => `Birthday. ${a}. The neighbor's kid asked your age, heard it, said "whoa". Earned.`,
+      (a: number) => `You're ${a}. The clock slowed down. Or you sped up; I mix them up now.`,
+    ],
+  } as Record<string, ((a: number) => string)[]>,
+  noEnvelope: [
+    'No envelope. A quiet year; suspicious.',
+    'No envelope arrived. Neither did the mail carrier. Coincidence? Unclear.',
+    'No envelope on the table. Just you. That is also a message.',
+    'No envelope this year. The notebook likes blank lines; I don\'t.',
+    'No envelope. Either life forgot you or it gave you a break. Both happen.',
+    'The envelope tray is empty. I looked inside; the emptiness looked back.',
+    'No envelope, no surprise. No surprise counts as a surprise, technically.',
+    'An envelope-free year. We saved paper. Very green of us.',
+  ],
+  noWager: [
+    'No wagers this year. Even I was surprised.',
+    'The prediction page is empty. I didn\'t even make calls for myself. Dull.',
+    'No chance to prove me wrong this year. Lucky me.',
+    'Zero predictions. My instincts got rusty; you got some rest.',
+    'The wager page is spotless. A calm year, or a shy coach.',
+    'Nobody told anybody "I told you so" this year. Historic.',
+  ],
+  motto: {
+    procrastination: ['There was a plan. There was also a Monday.', 'We start tomorrow. Tomorrow said the same.', 'The calendar filled up. The to-do list didn\'t move.', 'You postponed. Postponing postponed you back.', 'The deadline showed up. You didn\'t.', 'You waited for the right moment. The moment waited too, then got bored.'],
+    avoidance: ['Seen. No reply. Year over.', 'You didn\'t open the door. The door took it personally.', 'The problem didn\'t leave. You didn\'t look; it waited.', 'The phone rang. You let it. All year.', 'You acted like you didn\'t know. Everyone knew.', 'You closed your eyes. The year went by anyway.'],
+    impulseSpend: ['The money left. The lesson stayed. You forgot the lesson.', 'Added to cart. Added your life to cart.', 'The sale found you. Your balance didn\'t survive it.', 'Bought it, never used it, kept it. The classic trio.', 'Thinner wallet, fuller closet.', '"Just this once" now has an annual report.'],
+    peoplePleasing: ['Everyone is happy. Except you.', 'You said yes. Then yes again. Then you got tired.', 'You carried everyone\'s problems. Yours are still in shipping.', 'Nobody got hurt. You cracked a little.', 'You tried saying no. "Sure" came out.', 'Employee of the year: for everyone else. For yourself: absent.'],
+    risk: ['Courage A, balance F.', 'You jumped. The parachute was a later problem.', 'Heart rate up, savings down.', 'You took a risk. The risk took something back.', 'All or nothing. This year "nothing" won; check back next year.', 'A fearless year. Your accountant is fearful.'],
+    selfCare: ['You slept. This year we call that a win.', 'You looked after yourself. The mirror said thanks.', 'Water, walks, early nights. Who is this?', 'You took a break. The world did not collapse. Noted.', 'You put yourself first. The line was confused but adjusted.', 'Your body didn\'t yell at you this year. A rare truce.'],
+    overwork: ['Tired but determined. Mostly tired.', 'The shift ended. You didn\'t. Almost.', 'Work loved you. You loved work. Nobody else found the time.', 'Overtime: over. Time: everywhere.', 'Calendar full, soul waiting on spare parts.', 'You worked hard. Your paycheck didn\'t hear about it.'],
+    leanOnFamily: ['Mom won. Mom always wins.', 'Family has your back. You have their couch; no rent.', 'Mom called, problem solved, you shrank a size.', 'You leaned on family. Family leaned a little too.', 'Home cooking, house rules, house jokes. Full package.', 'Your best-performing asset this year: Mom.'],
+    shortcut: ['The shortcut is long, but fast.', 'You took the short way. It became a long story.', 'The shortcut ended up right here again.', 'You found the easy way. The easy way found you back.', 'You cut the road short. And the experience.', 'Back door all year. The front door has been notified.'],
+    pride: ['You learned to say no. To the mirror.', 'Pride: intact. Everything else: in repair.', 'You didn\'t apologize. Nobody did. Equality.', 'Head held high. Neck sore, but high.', 'You were right. You were also alone. They come as a set.', 'You never asked for help. Help politely stayed away.'],
+    generosity: ['You gave and gave. Nobody counted; I did.', 'Open hand, even more open wallet.', 'You treated everyone. You kept a warm feeling and an empty plate.', 'You shared. The world got a bit better; your balance didn\'t.', 'Generosity A. Accounting would like a word.', 'You made a lot of people\'s day this year. Yours is pending.'],
+    patience: ['You waited. Sometimes it actually came.', 'You were patient. Patience appreciated it, quietly.', 'Your turn is coming, you said. It\'s on its way.', 'You didn\'t rush. Neither did life. You reached an agreement.', 'Employee of the year, waiting room division.', 'Your patience held. You cracked a little.'],
+    none: ['Started. Technically.', 'A year went by. Documented, approved, filed.', 'No pattern. That is also a pattern.', 'Not good, not bad. Average: perfect coaching material.', 'A quiet year. Even the notebook yawned.', 'Nothing happened. Very professionally, though.'],
+    good: ['Potential: present. Evidence: arriving slowly.', 'A good year. Don\'t tell anyone; it might hear.', 'You surprised me this year. You\'re going in the seminar.', 'Something is going right. You don\'t know what either.', 'The chart points up. Look up too.', 'Life winked at you this year. In a good way.'],
+    bad: ['Not this year either. Close, though.', 'A hard year. The year has complaints about you too.', 'You fell. Getting up is scheduled for next year.', 'It went badly. At least it was short: one year.', 'The notebook wrote this year in red pen.', 'Life gave you a lesson. You skipped the exam.'],
+  } as Record<string, string[]>,
+};
+
 export const en: Strings = {
+  ...RITUAL,
   langName: 'EN',
   brandSub: 'Uncertified Life Coach',
   stat: { health: 'Health', joy: 'Joy', brain: 'Brain', charm: 'Looks' },
@@ -18,7 +119,7 @@ export const en: Strings = {
   ageUnit: 'yrs',
   lifeN: (k: number) => `${k}${ord(k)} life`,
   num: n,
-  money: (x: number) => `${x < 0 ? '−' : ''}◆ ${n(x)}`,
+  money: (x: number) => `◆ ${x < 0 ? '−' : ''}${n(x)}`,   // UX #19: sign after the icon ("◆ −21.701"), red in the HUD
   dayWord: 'Day',
   weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
   months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -39,6 +140,7 @@ export const en: Strings = {
   kid: 'Kid',
   kidNamed: (names: string) => `Kid: ${names}`,
   catName: 'Biscuit',
+  catGone: 'Biscuit (in memory)',
   none: '—',
   /** Engine job titles (`status.job.title`): content ids and the engine's own (emekli). Unknown titles are humanized (labels.ts). */
   jobTitle: {
@@ -133,7 +235,7 @@ export const en: Strings = {
   flow: {
     payday: (x: number) => `Payday. +${n(x)}. In the account, soon out of it.`,
     allowance: (x: number) => `Allowance from Mom: +${n(x)}. Advice included.`,
-    rentMom: (x: number) => `House chip-in to Mom: −${n(x)}. "It's not rent, it's a contribution." Same thing.`,
+    rentMom: (x: number) => `Your share of Mom's bills: −${n(x)}. "It's not rent, it's a contribution." Same thing.`,
     rent: (x: number) => `Rent day. −${n(x)}. The landlord said "no rush"; the standing order didn't hear him.`,
     daily: (x: number) => `Daily costs: ${x < 0 ? '−' : '+'}${n(x)}. Cat food included.`,
   },
@@ -153,15 +255,14 @@ export const en: Strings = {
   },
   envTeaserDefault: "An envelope got added to the notebook. Haven't opened it. Still.",
   lowJoy: 'This is a game. If you want support in real life, reach out to someone close or a professional.',
-  birthdayLine: (a: number) => `Your birthday. You're ${a}. No cake; your uncle called to say he didn't send money.`,
+  birthdayLine: (a: number, band = 'warmup', i = 0) => pick(RITUAL.birthdayLines[band] ?? RITUAL.birthdayLines.warmup!, i)(a),
   agingLbl: 'AGING',
   reportTitle: 'REPORT CARD',
   gradeNames: { health: 'Health', money: 'Money', relationships: 'Relationships', brain: 'Brain', courage: 'Courage', spectacle: 'Spectacle' },
   grades: ['F', 'D', 'C', 'B', 'A'],
-  coachAccuracy: (h: number, t: number) => (t ? `Coach accuracy: ${h}/${t}` : 'No wagers this year. Even I was surprised.'),
+  coachAccuracy: (h: number, t: number, i = 0) => (t ? `Coach accuracy: ${h}/${t}` : pick(RITUAL.noWager, i)),
   mottoLbl: 'MOTTO OF THE YEAR',
   decade: 'DECADE REVIEW',
-  noEnvelope: 'No envelope. A quiet year; suspicious.',
   cta: {
     nextDay: 'Next Day', oneMoreYear: 'One More Year', cont: 'Continue', auto: 'Auto', autoOn: 'Auto: on', enough: 'Enough for today', close: 'Close',
     share: 'Share', shuffle: 'Shuffle', keep: 'This one', newClient: 'NEW CLIENT', fastLife: 'Live fast', skip: 'Skip ›',
@@ -235,9 +336,11 @@ export const en: Strings = {
     wagerWin: 'I WAS WRONG', wagerLbl: 'MOTTO WAS WRONG', death: 'LAST PAGE',
     skip: 'tap: skip',
   },
+  /** Player name pools (same length in both catalogs: the Client File keeps the index across a language switch).
+   *  No first name the content uses for an NPC (roommate, partner, colleagues) — test/ritual.test.ts. */
   names: [
-    ['Alex Tomorrow', 'Cleveland'], ['Sam Eventually', 'Leeds'], ['Jordan Nextweek', 'Tacoma'], ['Morgan Someday', 'Adelaide'],
-    ['Riley Rightaway', 'Halifax'], ['Casey Whatever', 'Reno'], ['Taylor Laterish', 'Dayton'], ['Drew Monday', 'Bristol'],
+    ['Alex Tomorrow', 'Cleveland'], ['Jamie Eventually', 'Leeds'], ['Parker Nextweek', 'Tacoma'], ['Rowan Someday', 'Adelaide'],
+    ['Reese Rightaway', 'Halifax'], ['Skyler Whatever', 'Reno'], ['Taylor Laterish', 'Dayton'], ['Drew Monday', 'Bristol'],
     ['Avery Almost', 'Fresno'], ['Quinn Shortly', 'Hobart'],
   ],
   deathCause: {
@@ -269,12 +372,5 @@ export const en: Strings = {
     procrastination: 'Procrastination', avoidance: 'Avoidance', impulseSpend: 'Impulse spending', peoplePleasing: 'People-pleasing',
     risk: 'Recklessness', selfCare: 'Self-care', overwork: 'Overwork', leanOnFamily: 'Leaning on family', shortcut: 'Shortcuts',
     pride: 'Pride', generosity: 'Generosity', patience: 'Patience',
-  },
-  motto: {
-    procrastination: 'There was a plan. There was also a Monday.', avoidance: 'Seen. No reply. Year over.', impulseSpend: 'The money left. The lesson stayed. You forgot the lesson.',
-    peoplePleasing: 'Everyone is happy. Except you.', risk: 'Courage A, balance F.', selfCare: 'You slept. This year we call that a win.',
-    overwork: 'Tired but determined. Mostly tired.', leanOnFamily: 'Mom won. Mom always wins.', shortcut: 'The shortcut is long, but fast.',
-    pride: 'You learned to say no. To the mirror.', generosity: 'You gave and gave. Nobody counted; I did.', patience: 'You waited. Sometimes it actually came.',
-    none: 'Started. Technically.', good: 'Potential: present. Evidence: arriving slowly.', bad: 'Not this year either. Close, though.',
   },
 };

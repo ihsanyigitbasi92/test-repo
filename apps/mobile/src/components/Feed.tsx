@@ -33,16 +33,20 @@ const Row = memo(function Row({ item, typeMs }: { item: FeedItem; typeMs: number
   }
 });
 
-export function Feed({ items, typeMs, footer }: { items: FeedItem[]; typeMs: number; footer?: React.ReactNode }) {
+/** `pinKey`: changes whenever a decision appears (choices / One More Year) — the feed then snaps to the newest line. */
+export function Feed({ items, typeMs, footer, pinKey = null }: { items: FeedItem[]; typeMs: number; footer?: React.ReactNode; pinKey?: string | null }) {
   const ref = useRef<ScrollViewInstance>(null);
   const atBottom = useRef(true);
   const lastY = useRef(0);
+  const lastH = useRef(0);
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
     const y = contentOffset.y;
     if (y + layoutMeasurement.height >= contentSize.height - 120) atBottom.current = true;   // back at the bottom: follow again
-    else if (y < lastY.current - 4) atBottom.current = false;                                 // the player scrolled up to read
+    // The player scrolled up to read — not a clamp from content shrinking (typing line removed, old items trimmed).
+    else if (y < lastY.current - 4 && contentSize.height >= lastH.current) atBottom.current = false;
     lastY.current = y;
+    lastH.current = contentSize.height;
   };
   // Smooth scrolling only at ▶ (typewriter speed); at ▶▶ items arrive faster than an animated scroll settles.
   const follow = () => { if (atBottom.current) ref.current?.scrollToEnd({ animated: typeMs >= 10 }); };
@@ -51,6 +55,11 @@ export function Feed({ items, typeMs, footer }: { items: FeedItem[]; typeMs: num
   const onLayout = () => { if (atBottom.current) ref.current?.scrollToEnd({ animated: false }); };
   const last = items[items.length - 1];
   const reportId = last?.kind === 'report' ? last.id : null;
+  useEffect(() => {
+    if (pinKey === null) return;
+    atBottom.current = true;
+    ref.current?.scrollToEnd({ animated: false });
+  }, [pinKey]);
   useEffect(() => {
     if (reportId === null) return;
     atBottom.current = true;

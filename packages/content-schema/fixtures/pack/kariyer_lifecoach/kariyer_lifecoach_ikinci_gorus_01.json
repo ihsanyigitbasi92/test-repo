@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_ikinci_gorus_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bugün yanımda biri var. O da koç. İkinci görüş almak istedim.",
+      "en": "I brought someone today. Also a coach. I wanted a second opinion."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ben sadece dinleyeceğim. Saatimi danışana fatura ediyorum, merak etmeyin.",
+      "en": "I'll just listen. I'm billing my hour to the client, don't worry.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikisi",
+      "tr": "Seansı ikisine birden yap",
+      "en": "Coach them both",
+      "pattern": "generosity"
+    },
+    {
+      "id": "soru",
+      "tr": "Rakip koça soru sor",
+      "en": "Question the other coach",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "erte",
+      "tr": "Seansı ertele",
+      "en": "Reschedule",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ikisi": {
+      "effects": {
+        "money": 300,
+        "meters": {
+          "ego": -2
+        },
+        "flags": {
+          "add": [
+            "koc_ucuz_secildi"
+          ]
+        }
+      },
+      "tr": "Seans iki koçla bitti. Danışan iki faturayı yan yana koyup ucuz olanı, yani seni seçti.",
+      "en": "The session ended with two coaches. The client compared both invoices and kept the cheaper one: you.",
+      "coach": [
+        {
+          "tr": "Seçildin. Fiyatla.",
+          "en": "You were chosen. On price.",
+          "roast": false
+        }
+      ]
+    },
+    "soru": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 900,
+          "stats": {
+            "brain": 1
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "Rakip koça kendi hedefini sordun. Cevap uzun sürdü; danışan gelecek ayın paketini senden aldı.",
+        "en": "You asked the other coach about their own goals. The answer ran long. The client bought next month's package from you.",
+        "coach": [
+          {
+            "tr": "Bir soru, bir aylık paket.",
+            "en": "One question. One month's package.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": 300,
+          "meters": {
+            "ego": -3,
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "koc_paylasilan_danisan"
+            ]
+          }
+        },
+        "tr": "Rakip koç soruyu sana geri çevirdi ve danışan bunu çok beğendi. Paket ikiye bölündü.",
+        "en": "The other coach turned the question back on you, and the client loved it. The package is now split two ways.",
+        "coach": [
+          {
+            "tr": "Paket yarıya indi.",
+            "en": "Half a package.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "erte": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Seansı haftaya aldın. Danışan haftaya iki koçla değil, üç koçla geleceğini yazdı.",
+      "en": "You moved it to next week. The client texted back: next week they're bringing three coaches.",
+      "coach": [
+        {
+          "tr": "Haftaya kurul toplanıyor.",
+          "en": "Next week: a full panel.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "soru",
+    "slip": {
+      "tr": "İDDİA: Rakip koça soru sormak paketi böler. — M.",
+      "en": "WAGER: Questioning the rival splits the package. — M."
+    }
+  },
+  "intent": {
+    "setup": "danışan seansa ikinci görüş için başka bir koç getiriyor",
+    "mechanism": "danışan iki koçu fiyatla kıyaslıyor",
+    "mechanismId": "reversal",
+    "punch": "ucuz olanı, yani seni seçti",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "fiyat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

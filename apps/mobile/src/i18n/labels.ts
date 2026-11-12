@@ -59,8 +59,9 @@ export function statusStrip(s: Strings, locale: Locale, view: LifeState): Status
   const kidNames = kids.map(nameOf).filter((x): x is string => !!x);
   const kidTxt = !kids.length ? '' : ` · ${kidNames.length ? s.kidNamed(kidNames.join(', ')) : s.kid}`;
   const love = (partner ? s.partner(yrs, stage, pName ?? null) : view.flags.includes('bosandi') ? s.divorced : s.single) + kidTxt;
-  const catAlive = view.npcs.find((n) => n.role === 'cat')?.alive !== false;
-  const cat = view.status.assets.includes('kedi') && catAlive ? s.catName : s.none;          // the cat's name is localized (Pamuk / Biscuit)
+  // The cat's name is localized (Pamuk / Biscuit). NPCs can die (engine npcLife): a dead cat is remembered, not listed alive.
+  const catNpc = view.npcs.find((n) => n.role === 'cat');
+  const cat = catNpc?.alive === false ? s.catGone : view.status.assets.includes('kedi') ? s.catName : s.none;
   const own = view.status.assets.filter((a) => a !== 'kedi');
   const shown = own.slice(-HUD_ASSETS).reverse().map((a) => assetLabel(s, locale, a));
   const more = own.length - shown.length;

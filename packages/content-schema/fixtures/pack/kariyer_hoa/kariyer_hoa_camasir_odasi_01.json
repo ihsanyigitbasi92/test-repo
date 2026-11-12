@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_hoa_camasir_odasi_01",
+  "tags": [
+    "kariyer",
+    "site_yonetici",
+    "kariyer_hoa"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_hoa": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 35,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "hoa"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Makinede üç gündür biri çamaşır bekletiyor. Islak. Kimin olduğunu biliyorum ama söylemem.",
+      "en": "Someone's left laundry in the machine for three days. Wet. I know whose it is, but I won't say."
+    },
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "neutral",
+      "tr": "Mavi çorap bizim değil. Bizim çoraplar çizgili.",
+      "en": "The blue sock isn't ours. Ours are striped.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "not",
+      "tr": "Makineye not yapıştır",
+      "en": "Tape a note to the machine",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "kural",
+      "tr": "Alma süresi kuralı koy",
+      "en": "Propose a pickup time limit",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sepet",
+      "tr": "Çamaşırı sepete aktar",
+      "en": "Move the laundry to a basket",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "not": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Notu yapıştırdın. Ertesi gün notun altına ikinci bir not çıktı: ‘Kimin yazdığını biliyorum.’",
+      "en": "You taped up a note. The next day a second note appeared beneath it: 'I know who wrote this.'",
+      "coach": [
+        {
+          "tr": "Notlar çoğalıyor. Çamaşır yerinde.",
+          "en": "The notes are multiplying. The laundry hasn't moved.",
+          "roast": false
+        }
+      ]
+    },
+    "kural": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "hoa_camasir_kurali"
+            ]
+          }
+        },
+        "tr": "Kural oy çokluğuyla geçti. Makinenin üstüne laminasyonlu bir tabela asıldı, ilk ay hiç sorun çıkmadı.",
+        "en": "The rule passed by majority. A laminated sign went up over the machine, and the first month passed without incident.",
+        "coach": [
+          {
+            "tr": "Laminasyon tutuyor.",
+            "en": "The lamination is holding.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "ego": -2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kural oylamada reddedildi. Çamaşırın sahibi oyunu kullandı, sonra çamaşırını aldı.",
+        "en": "The rule was voted down. The laundry's owner cast a vote, then finally collected the laundry.",
+        "coach": [
+          {
+            "tr": "Çamaşır alındı. Kural sırada bekliyor.",
+            "en": "Laundry collected. Rule pending.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sepet": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ],
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "hoa_kayip_esya_sepeti"
+          ]
+        }
+      },
+      "tr": "Çamaşırı bir sepete aktarıp üstüne ‘sahibini bekliyor’ yazdın. Sepet bir haftada sitenin kayıp eşya merkezine döndü.",
+      "en": "You moved the laundry to a basket labeled 'awaiting owner.' Within a week the basket had become the complex's lost and found.",
+      "coach": [
+        {
+          "tr": "Sepet büyüyor. İçinde iki teki kayıp çorap var.",
+          "en": "The basket is growing. It now holds two unmatched socks.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kural",
+    "slip": {
+      "tr": "İDDİA: Kural oylamadan geçmez. — M.",
+      "en": "WAGER: The rule won't pass the vote. — M."
+    }
+  },
+  "intent": {
+    "setup": "ortak çamaşır odasındaki makinede bir sakinin ıslak çamaşırını üç gün bekletmesi",
+    "mechanism": "notun altına karşı not çıkıyor; sorun büyüdükçe kâğıt artıyor",
+    "mechanismId": "escalation",
+    "punch": "kimin yazdığını biliyorum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "laminasyon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

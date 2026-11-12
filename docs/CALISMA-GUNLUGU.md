@@ -140,3 +140,11 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - Üç uzman testi (UX, davranış, deneyim) başlatıldı; davranış (6/10) ve deneyim (6,5/10) raporları geldi: docs/playtest/.
 - Ortak kritik bulgular simülasyonla doğrulandı ve düzeltildi: kira döngüsü, maaşı aşan kiralar, terfi yok, sürpriz havuzu 3 olay, sağlığın stresle çökmesi, anne baskısının 100'de donması.
 - Golden hash bilinçli olarak güncellendi (ekonomi değişti). Testler: motor 56/56, uygulama 31/31, içerik yeşil.
+
+## 2026-11-12 — Denge sprinti 2: üç uzman raporunun düzeltmeleri
+- UX raporu (6/10) da geldi. Üç rapordaki bulgular üç paralel ajanla düzeltildi:
+  - Uygulama: kayıt/devam (yenileyince hayat sürüyor), ham id'ler etiketlendi, HUD %29 → %16, dokunma hedefleri 44 pt, sağlık uyarısı, "−0" kaldırıldı, tarih başlığı, viewport, Kapat butonu, ritüel cümle havuzları (TR/EN), TR sayı eki, isim havuzu çakışmaları.
+  - Motor: mutlak karne sınırları, ritüel varyantları (tekrar yasağı), duruma bağlı ölüm + "son perde" uyarı kartları, kedi/anne/dayı/komşu yaşlanması ve yas kartları, evlilik süresi düğünden, çocuk yaş kapısı.
+  - İçerik: textlint (ham id, TR ek uyumu, EN'de TR isim, yazım), 310 koç satırı persona, ~320 EN isim/çeviri düzeltmesi.
+- Testler: uygulama 57/57, motor 56/56, içerik 81/81 + check yeşil. Demo yeniden yayımlandı.
+- Açık: anne ölünce "annenin evi"; ölen kedinin yerine yenisi; hız kontrolünü başparmak bölgesine taşıma; native cihaz testi.

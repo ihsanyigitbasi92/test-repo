@@ -6,7 +6,7 @@
 import { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
-import { upper, useI18n } from '../i18n';
+import { mottoLine, noEnvelopeLine, upper, useI18n } from '../i18n';
 import type { FeedItemOf } from '../state/feed';
 import { useAppear, useReducedMotion, useSlam, useTypewriter } from './anim';
 
@@ -30,7 +30,8 @@ export function ReportCard({ item, typeMs }: { item: FeedItemOf<'report'>; typeM
   const anim = useAppear('pop', 320);
   const filed = useSlam(true, '-6deg', 2.6, useReducedMotion());
   const d = item.data;
-  const motto = useTypewriter(s.motto[item.motto] ?? s.motto.none!, typeMs * 3);
+  const r = d.ritual as Partial<NonNullable<typeof d.ritual>> | undefined;      // saves from before the ritual pools: undefined
+  const motto = useTypewriter(mottoLine(s, item.motto, r?.motto ?? 0), typeMs * 3);
   const teaser = d.envelopeTeaser ? s.envTeaser[d.envelopeTeaser] ?? s.envTeaserDefault : null;
   return (
     <Animated.View style={[st.karne, anim]} testID="report-card">
@@ -40,14 +41,14 @@ export function ReportCard({ item, typeMs }: { item: FeedItemOf<'report'>; typeM
       <View style={st.grades}>
         {ORDER.map((k, i) => <Grade key={k} name={s.gradeNames[k]} grade={d.grades[k]} i={i} />)}
       </View>
-      <View style={st.row}><Text style={st.rowTxt}>{s.coachAccuracy(d.coachAccuracyYear.hits, d.coachAccuracyYear.total)}</Text></View>
+      <View style={st.row}><Text style={st.rowTxt}>{s.coachAccuracy(d.coachAccuracyYear.hits, d.coachAccuracyYear.total, r?.noWager ?? 0)}</Text></View>
       <View style={st.motto}>
         <Text style={st.mottoLbl}>{s.mottoLbl}</Text>
         <Text style={st.mottoTxt}>“{motto}”</Text>
       </View>
       <View style={st.env}>
         <View style={st.envIc} />
-        <Text style={st.envTxt}>{teaser ?? s.noEnvelope}</Text>
+        <Text style={st.envTxt}>{teaser ?? noEnvelopeLine(s, r?.noEnvelope ?? 0)}</Text>
       </View>
       <Animated.View pointerEvents="none" style={[st.filed, filed]}><Text style={st.filedTxt}>{s.stampFiled}</Text></Animated.View>
     </Animated.View>

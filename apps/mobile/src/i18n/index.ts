@@ -26,3 +26,10 @@ export function makeI18n(locale: Locale): I18n {
 export const I18nContext = createContext<I18n>(makeI18n('tr'));
 export const useI18n = (): I18n => useContext(I18nContext);
 export { upperTr, upper, groupDigits } from './format';
+
+/** Motto of the Year: the engine's ritual variant of the pool for `key` (pattern | good | bad | none). */
+export function mottoLine(s: Strings, key: string, i = 0): string {
+  const pool = s.motto[key] ?? s.motto.none!;
+  return pool[((i % pool.length) + pool.length) % pool.length] ?? '';
+}
+export const noEnvelopeLine = (s: Strings, i = 0): string => s.noEnvelope[((i % s.noEnvelope.length) + s.noEnvelope.length) % s.noEnvelope.length]!;
