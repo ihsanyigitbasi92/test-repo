@@ -25,7 +25,8 @@ function npc(st: LifeState, role: string) {
 function setJobNpc(st: LifeState, employed: boolean): void { npc(st, 'boss').exists = employed; }
 
 function setHome(st: LifeState, kind: Housing, rent?: number): void {
-  st.status.home = { kind, rent: rent ?? TUNING.economy.housing[kind].rent, since: st.calendar.calendarDay };
+  const h = TUNING.economy.housing[kind];
+  st.status.home = { kind, rent: clamp(rent ?? h.rent, Math.min(h.rent, h.maxRent), h.maxRent), since: st.calendar.calendarDay };   // D-159 rent band
   if (kind === 'momsHouse') addFlag(st, 'anne_evinde'); else removeFlag(st, 'anne_evinde');
 }
 
@@ -81,7 +82,7 @@ export function applyEffects(
     if (fx.career.fire && st.status.job) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); }
     if (fx.career.set) { st.status.job = { title: fx.career.set, tier: st.status.job?.tier ?? 1, monthly: st.status.job?.monthly ?? tiers[1]!, since: st.calendar.calendarDay }; setJobNpc(st, true); }
     if (fx.career.rungDelta && st.status.job) {
-      const tier = clamp(st.status.job.tier + fx.career.rungDelta, 0, tiers.length - 1);
+      const tier = clamp(st.status.job.tier + fx.career.rungDelta, 1, tiers.length - 1);   // D-159: a job never pays 0
       st.status.job = { ...st.status.job, tier, monthly: tiers[tier]! };
     }
   }
@@ -91,7 +92,7 @@ export function applyEffects(
     if (s.job === null) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); }
     else if (s.job) { st.status.job = { ...s.job, since: st.calendar.calendarDay }; removeFlag(st, 'is_ariyor'); setJobNpc(st, true); }
     if (s.home) setHome(st, s.home.kind, s.home.rent);
-    if (s.rentDelta) st.status.home.rent = Math.max(0, st.status.home.rent + s.rentDelta);
+    if (s.rentDelta) st.status.home.rent = clamp(st.status.home.rent + s.rentDelta, 0, TUNING.economy.housing[st.status.home.kind].maxRent);
     if (s.partner === null) st.status.partner = null;
     else if (s.partner) st.status.partner = { npc: s.partner.npc, since: st.calendar.calendarDay };
     for (const a of s.assets?.add ?? []) if (!st.status.assets.includes(a)) st.status.assets.push(a);

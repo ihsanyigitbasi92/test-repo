@@ -34,7 +34,11 @@ export function indexContent(bundle: ContentBundle): ContentIndex {
   const free = pool.filter((e) => e.type !== 'call');
   const idx: ContentIndex = {
     bundle, byId, pool, free,
-    surprise: { nice: free.filter((e) => e.tags.includes('surprise.nice')), great: free.filter((e) => e.tags.includes('surprise.great')) },
+    // D-159: tagged surprises plus every uncommon/rare positive event (the pack never used the tags: pool was 3)
+    surprise: {
+      nice: free.filter((e) => e.tags.includes('surprise.nice') || (!e.tags.includes('surprise.great') && e.valence >= 1 && e.rarity !== 'common')),
+      great: free.filter((e) => e.tags.includes('surprise.great') || (e.valence >= 2 && (e.rarity === 'rare' || !!e.wow))),
+    },
     legendary: bundle.events.filter((e) => e.rarity === 'legendary'),
     shared: free.filter((e) => e.shared).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
     skipLines: bundle.skipLines,

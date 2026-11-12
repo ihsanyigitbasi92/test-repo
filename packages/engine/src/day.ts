@@ -4,7 +4,7 @@
  * (rent card, İcra card) → birthday pulse | today's event card.
  */
 import { TUNING, bandFor } from './tuning';
-import { queueMilestones } from './milestones';
+import { queueMilestones, careerRaise } from './milestones';
 import { birthdayAfterYears, civilFromDays, parseISO, toISO, daysFromCivil } from './calendar';
 import { applyDrift } from './drift';
 import { applyBankruptcy, applyCashflow, BANKRUPTCY_PENDING, startAbs } from './cashflow';
@@ -61,6 +61,7 @@ function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: 
   if (cause) { st.card = { ...base, eventId: 'sys_death', choices: [] }; die(st, meta, cause, 'hazard', out); return; }
   bailoutCheck(st, content);                                      // 02 §2.3.6: the pulse may queue tomorrow's offer
   queueMilestones(st, meta, content);                             // D-157 Hayat Yolu
+  careerRaise(st);                                                // D-159 career ladder
   const report = buildReportCard(st);
   st.lastReport = report;
   ensureEnvelope(st, content);
@@ -111,7 +112,9 @@ function eventDay(st: LifeState, meta: MetaState, content: ContentBundle, base: 
 /** Rent shortfall and İcra become forced day cards for today (02 §2.3.2 / §2.3.4); never silent gap effects. */
 function queueObligations(st: LifeState, content: ContentBundle, rentShortfall: boolean): void {
   const idx = indexContent(content), day = st.calendar.calendarDay;
-  if (rentShortfall && idx.byId.has(RENT_EVENT) && !st.dueQueue.some((d) => d.eventId === RENT_EVENT))
+  const lastRent = st.cooldowns.self[RENT_EVENT];
+  const rentCardOk = lastRent === undefined || day - lastRent >= E.rentCard.minGapDays;   // D-159: no rent-card loop
+  if (rentShortfall && rentCardOk && idx.byId.has(RENT_EVENT) && !st.dueQueue.some((d) => d.eventId === RENT_EVENT))
     st.dueQueue.push({ day, eventId: RENT_EVENT, priority: 7, valence: idx.byId.get(RENT_EVENT)!.valence, deferredOnce: false, source: 'rent' });
   if (!st.flags.includes(BANKRUPTCY_PENDING) || st.dueQueue.some((d) => d.source === 'bankruptcy')) return;
   const icra = idx.byId.get(E.bankruptcy.eventId);

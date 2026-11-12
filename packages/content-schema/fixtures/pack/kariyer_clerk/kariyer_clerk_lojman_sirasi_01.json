@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_lojman_sirasi_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Lojman listesi açıklandı, adın üçüncü sırada. Önündeki iki kişi vazgeçerse daire senin.",
+      "en": "The staff housing list is out. You're third. If the two ahead of you pass, the flat's yours."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Birinci sıradaki her yıl taşınacağım der, taşınmaz. İkinci emekli oldu ama listeden çıkmadı.",
+      "en": "Number one says every year they'll move in, and never does. Number two retired but never came off the list.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sıranı bekle",
+      "en": "Wait your turn",
+      "pattern": "patience"
+    },
+    {
+      "id": "dilekce",
+      "tr": "Liste güncellemesi iste",
+      "en": "Petition to update the list",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain",
+        "goal": "ev"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Kirada kal",
+      "en": "Stay in your rental",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "lojman_sirasi"
+          ]
+        }
+      },
+      "tr": "Liste bir yıl daha aynı kaldı. Birinci sıradaki bu yıl da taşınacağını duyurdu.",
+      "en": "The list stayed put another year. Number one announced they'd be moving in this year, too.",
+      "coach": [
+        {
+          "tr": "Üçüncü sıra. Bir yıl daha üçüncü.",
+          "en": "Third in line. Another year of third.",
+          "roast": true
+        }
+      ]
+    },
+    "dilekce": [
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 600
+            }
+          },
+          "stats": {
+            "joy": 5
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "lojmanda"
+            ]
+          }
+        },
+        "tr": "İkinci sıradaki emekli listeden düşürüldü, birinci yine taşınmadı. Lojman sana çıktı: kira 600 Para, tavanda eski bir avize.",
+        "en": "Number two got dropped for being retired, and number one didn't move again. The flat came to you: rent 600, old chandelier included.",
+        "coach": [
+          {
+            "tr": "Hedef tamam. Avize hediye.",
+            "en": "Goal met. Chandelier included.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "meters": {
+            "ego": -1
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Dilekçen 'liste dönemi dışında' diye bekletildi. Birinci sıradaki bu arada perdelerini ölçtürdü.",
+        "en": "Your petition was held as 'outside the listing period.' Meanwhile, number one had their curtains measured.",
+        "nearMiss": {
+          "tr": "Dilekçe kabul edildi; bir sonraki dönem işleme alınacak.",
+          "en": "Petition accepted; it'll be processed next cycle."
+        },
+        "coach": [
+          {
+            "tr": "Perde ölçüldü. Taşınma ölçülmedi.",
+            "en": "Curtains measured. Move-in, unmeasured.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Adını listeden çekip kiradaki evinde kaldın. Bir ay sonra daire dördüncü sıradakine çıktı.",
+      "en": "You pulled your name and stayed in your rental. A month later the flat went to number four.",
+      "coach": [
+        {
+          "tr": "Dördüncü sıra taşındı. Sen kiradasın.",
+          "en": "Number four moved in. You're still renting.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dilekce",
+    "slip": {
+      "tr": "İDDİA: Liste yerinden oynamaz. — M.",
+      "en": "WAGER: The list doesn't budge. — M."
+    }
+  },
+  "intent": {
+    "setup": "lojman listesinde üçüncü sıradasın, önündekiler ne taşınıyor ne çıkıyor",
+    "mechanism": "liste yıllardır yerinden oynamıyor; koç sırayı tekrar ediyor",
+    "mechanismId": "understatement",
+    "punch": "taşınacağım der, taşınmaz",
+    "lift": "hedef tamam, avize hediye",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "avize"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

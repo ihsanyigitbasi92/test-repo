@@ -8,7 +8,7 @@ import { BUNDLE } from './helpers/content';
  * every JS engine (Hermes, V8, JSC). Changing engine rules or tuning legitimately changes it — update the literal
  * in the same commit and say why.
  */
-const GOLDEN = '26b29d05e7650c8a6584ec8ea4537d01';
+const GOLDEN = '03580e0a123e268de4b114a8f5d73c2f';   // D-159 economy rebalance (lifestyle 30%, rent band, career ladder)
 
 describe('golden state hash (AC-10-03)', () => {
   it('seed GOLDEN-1, 250 days, always the first open choice, a session end every 20 days', () => {

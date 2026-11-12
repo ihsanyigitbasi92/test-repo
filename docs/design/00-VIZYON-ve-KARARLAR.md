@@ -601,3 +601,8 @@ Kaynak: `docs/design/13-ELESTIRI-ve-REVIZYON-NOTLARI.md` (altı lens: Publisher,
 
 ### D-158 — Açılış kapağı ve şirket adı
 Uygulama açılışında ~2,6 sn'lik kapak: MOTTO damga logosu, slogan, altında **"by D2P Technology"** (dokununca geçilir). Yerel (iOS/Android) splash görseli aynı logo + "by D2P Technology". iOS telif satırı: "© 2026 D2P Technology".
+
+### D-159 — Denge sprinti 1 (uzman testlerinden)
+Davranış ve deneyim uzmanı testleri (docs/playtest/2026-11-12-*) ve 9 hayatlık simülasyon aynı kritik hatayı gösterdi: kira krizi kartı bir hayatta 230 kez çıkıyordu (her açık ayda yeniden kuyruğa giriyordu), içerik kiraları maaşı aşıyordu, terfi yoktu, sürpriz havuzu 8.000 olaydan yalnızca 3 olaydı.
+**Karar:** kira kartı en sık 150 günde bir (diğer açıklar yalnızca borç satırı); ev türüne göre kira tavanı (oda 550, daire 900, geniş 1.300, kredili 1.400); yaş gününde terfi zarı (aynı kademede ≥ 2 yıl, %30, en çok 5. kademe); iş asla 0 ödemez; gelire bağlı yaşam gideri %30; sürpriz havuzu = etiketliler + tüm nadir/olumlu olaylar; demo sürprizleri hayat başına 3; stres→sağlık cezası yumuşatıldı; yerleşik hayatta anne baskısı yılda 5 puan azalır; "Yarısını öde" stresi azaltır.
+**Sonuç (9 hayat):** en sık olay 230 → ≤ 40 (kira) / ≤ 6 (diğer); kariyer 1 → 5–6. kademeye çıkabiliyor; ölüm yaşı ortalaması ~70 → ~78.

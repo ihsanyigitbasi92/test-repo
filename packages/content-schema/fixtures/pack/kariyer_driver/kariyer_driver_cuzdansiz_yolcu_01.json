@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_cuzdansiz_yolcu_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Cüzdanımı evde unutmuşum. Numaranızı verin, akşam gönderirim. Söz.",
+      "en": "I left my wallet at home. Give me your number and I'll pay you tonight. Promise."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bakın, kartvizitim. Diş hekimiyim, kaçacak yerim yok.",
+      "en": "Here's my card. I'm a dentist. I can't exactly disappear.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "guven",
+      "tr": "Numaranı ver",
+      "en": "Give them your number",
+      "pattern": "generosity",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bedava",
+      "tr": "Bu seferlik ücret alma",
+      "en": "Waive the fare this once",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "indir",
+      "tr": "İndirip ücreti iste",
+      "en": "Ask them to get out",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "guven": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": 50,
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Akşam ücretin üç katı geldi, yanında bir not: 'İkisi gecikme payı.'",
+        "en": "That night three times the fare came through, with a note: 'Two of those are a late fee.'",
+        "coach": [
+          {
+            "tr": "Üç kat ücret. Kartvizit gerçek çıktı.",
+            "en": "Triple fare. The business card checked out.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -1
+          }
+        },
+        "tr": "Para gelmedi. Kartvizitteki numara bir pastaneye çıktı; pastane kibarca hiçbir diş hekimi tanımadığını söyledi.",
+        "en": "No payment. The number on the card belonged to a bakery, which politely denied knowing any dentists.",
+        "coach": [
+          {
+            "tr": "Kartvizit pastaneye çıktı. Kayıp küçük, hikâye büyük.",
+            "en": "The card led to a bakery. Small loss, good story.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bedava": {
+      "effects": {
+        "money": -20,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "flags": {
+          "add": [
+            "dis_kontrol_kuponu"
+          ]
+        }
+      },
+      "tr": "Ücreti almadın. Yolcu inerken kartvizitin arkasına 'bir diş kontrolü bedava' yazıp bıraktı.",
+      "en": "You waved off the fare. Getting out, the rider wrote 'one free checkup' on the back of the card.",
+      "coach": [
+        {
+          "tr": "Bir ücret verdin. Bir dolgu kazanmış olabilirsin.",
+          "en": "You gave away one fare. You may have won a filling.",
+          "roast": true
+        }
+      ]
+    },
+    "indir": {
+      "effects": {
+        "money": 20,
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Yolcu sonraki durakta inip yürüdü. Bir hafta sonra aynı yolcu bindi ve iki ücreti birden ödedi.",
+      "en": "The rider got out at the next stop and walked. A week later the same rider got in and paid for both trips.",
+      "coach": [
+        {
+          "tr": "Yolcuyu indirdin. Para bir hafta sonra bindi.",
+          "en": "You put them out. The money got back in a week later.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "guven",
+    "slip": {
+      "tr": "İDDİA: Akşam para gelmez. — M.",
+      "en": "WAGER: The money never shows. — M."
+    }
+  },
+  "intent": {
+    "setup": "yolcu cüzdanını unutmuş, ücreti akşam göndermeyi kartvizitle vaat ediyor",
+    "mechanism": "kartvizitin güvenilirliği yolcunun mesleğine dayandırılıyor",
+    "mechanismId": "understatement",
+    "punch": "diş hekimiyim, kaçacak yerim yok",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kartvizit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. TR'de dolmuş ücreti, EN'de rideshare ücreti; ödeme sonradan, uygulama adı yok. Uygulama/şirket/marka adı yok."
+  }
+}

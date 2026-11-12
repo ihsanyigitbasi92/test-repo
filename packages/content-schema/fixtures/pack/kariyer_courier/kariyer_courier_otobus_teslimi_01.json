@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_otobus_teslimi_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Ben otobüsteyim, hareket hâlindeyim. Bir sonraki durakta camdan alırım.",
+      "en": "I'm on the bus, currently moving. I'll grab it through the window at the next stop."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Sonraki durak olmazsa ondan sonraki. Otobüs yeşil, ben ortadayım.",
+      "en": "If not the next stop, the one after. The bus is green. I'm in the middle.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kovala",
+      "tr": "Otobüsü durakta yakala",
+      "en": "Catch the bus at a stop",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "son",
+      "tr": "Son durakta bekle",
+      "en": "Wait at the last stop",
+      "pattern": "patience"
+    },
+    {
+      "id": "iptal",
+      "tr": "'Teslim edilemedi' yaz",
+      "en": "Mark it undeliverable",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kovala": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 30,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "Işıklarda durarak, üçüncü durakta yetiştin. Paket camdan değil kapıdan verildi; şoför kornayla onayladı.",
+        "en": "Stopping at every light, you caught it at the third stop. The bag went in through the door, not the window, and the driver honked approval.",
+        "coach": [
+          {
+            "tr": "Üç durak, bir yeşil otobüs. Kural içinde.",
+            "en": "Three stops, one green bus. All by the book.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -2
+          }
+        },
+        "tr": "Otobüs iki durağı atladı, sen kırmızı ışıkta bekledin. Müşteri 'indim, sen neredesin' yazdı.",
+        "en": "The bus skipped two stops while you sat at a red light. The customer texted: 'Got off. Where are you?'",
+        "coach": [
+          {
+            "tr": "Kırmızıda durdun. Otobüs durmadı.",
+            "en": "You stopped at the red. The bus did not.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "son": {
+      "effects": {
+        "money": 20,
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Son durakta bekledin; müşteri otobüste uyuyakalmış, şoför uyandırdı. Paket ve yolcu aynı anda teslim edildi.",
+      "en": "You waited at the end of the line. The customer had dozed off, and the driver woke them. Package and passenger, delivered together.",
+      "coach": [
+        {
+          "tr": "Son durak hiç yer değiştirmez.",
+          "en": "The last stop never moves.",
+          "roast": false
+        }
+      ]
+    },
+    "iptal": {
+      "effects": {
+        "money": -15,
+        "meters": {
+          "ego": -1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Sipariş iptale düştü, paket başı ücretin kesildi. Müşteri yorumuna 'kurye otobüse yetişemedi' yazdı.",
+      "en": "The order got canceled, and your per-drop fee went with it. The review said: 'Courier couldn't keep up with a bus.'",
+      "coach": [
+        {
+          "tr": "Bir yorum, bir kesinti.",
+          "en": "One review, one deduction.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kovala",
+    "slip": {
+      "tr": "İDDİA: Otobüs senden hızlı çıkar. — M.",
+      "en": "WAGER: The bus wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "müşteri siparişi hareket hâlindeki otobüste camdan teslim almak istiyor",
+    "mechanism": "müşteri durakları ve otobüs rengini ekleyerek talebi büyütüyor",
+    "mechanismId": "escalation",
+    "punch": "otobüs yeşil, ben ortadayım",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "durak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

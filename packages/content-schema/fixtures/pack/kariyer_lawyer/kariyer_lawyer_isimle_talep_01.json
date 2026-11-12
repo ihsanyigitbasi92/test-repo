@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lawyer_isimle_talep_01",
+  "tags": [
+    "kariyer",
+    "avukat",
+    "kariyer_lawyer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lawyer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "lawyer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Büyük müşteri dosyayı sana vermemizi istedi. İsmen. Toplantıda adını iki kez söylediler.",
+      "en": "The big client asked for you on the file. By name. They said it twice in the meeting."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Ücreti ben konuşurum. Ya da sen konuş. Ama ben konuşayım.",
+      "en": "I'll handle the fee. Or you could. But I'll handle it."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ucret",
+      "tr": "Ücret toplantısına sen gir",
+      "en": "Take the fee meeting yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "terfi"
+      }
+    },
+    {
+      "id": "patron",
+      "tr": "Patrona bırak",
+      "en": "Leave it to the boss",
+      "pattern": "patience"
+    },
+    {
+      "id": "ekip",
+      "tr": "Kendi ekibini iste",
+      "en": "Ask for your own team",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ucret": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 1500,
+          "career": {
+            "rungDelta": 1
+          },
+          "meters": {
+            "ego": 4
+          }
+        },
+        "tr": "Ücreti sen konuştun, patronun rakamının üstünde anlaştın. Ay sonu primin 1.500 Para, kapına \"kıdemli\" yazıldı.",
+        "en": "You ran the fee talk and closed above the boss's number. Month-end bonus: fifteen hundred. \"Senior\" went up on your door.",
+        "coach": [
+          {
+            "tr": "Terfi hedefi: bir basamak yukarıda.",
+            "en": "Promotion goal: up one rung.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Müşteri rakamı duyunca \"bunu bir ortakla konuşalım\" dedi. Patron içeri girdi ve aynı rakamı daha yavaş söyledi.",
+        "en": "The client heard the number and said, \"Let's discuss this with a partner.\" The boss walked in and said the same number, slower.",
+        "coach": [
+          {
+            "tr": "Aynı rakam, yarı hızda. Tuttu.",
+            "en": "Same number, half speed. It worked.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "patron": {
+      "effects": {
+        "money": 500,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Ücreti patron konuştu. Sana bir pay ve dosyanın ilk sayfasındaki \"sorumlu avukat\" satırı düştü.",
+      "en": "The boss handled the fee. You got a cut and the \"lead counsel\" line on page one.",
+      "coach": [
+        {
+          "tr": "İlk sayfa senin, rakam onun.",
+          "en": "Page one is yours. The number is theirs.",
+          "roast": true
+        }
+      ]
+    },
+    "ekip": {
+      "effects": {
+        "meters": {
+          "ego": 3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "lawyer_ekip_talep"
+          ]
+        }
+      },
+      "tr": "Sana bir stajyer ve yarım kâtip verildi. Yarım kâtip öğleden sonraları senin.",
+      "en": "You got one intern and half a clerk. The half is yours in the afternoons.",
+      "coach": [
+        {
+          "tr": "Yarım kâtip, tam beklenti.",
+          "en": "Half a clerk. Full expectations.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ucret",
+    "slip": {
+      "tr": "İDDİA: Rakamı sonunda patron söyler. — M.",
+      "en": "WAGER: The boss ends up saying the number. — M."
+    }
+  },
+  "intent": {
+    "setup": "büyük kurumsal müşteri dosya için avukatı ismen istiyor, ücret pazarlığı",
+    "mechanism": "patron ücreti bırakır gibi yapıp bırakmıyor",
+    "mechanismId": "escalation",
+    "punch": "ama ben konuşayım",
+    "lift": "terfi hedefi: bir basamak yukarıda",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rakam"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

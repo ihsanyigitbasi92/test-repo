@@ -1,0 +1,178 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_unutulan_kimlik_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Kimliğim evde kalmış. Sınava kimliksiz almıyorlar. Kırk dakikam var.",
+      "en": "My ID's at home. They won't let me in without it. I have forty minutes."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Dönersek yetişir miyiz? Yetişiriz değil mi? Yetişiriz.",
+      "en": "If we go back, will we make it? We'll make it, right? We'll make it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "don",
+      "tr": "Geri dön, kurallara uyarak",
+      "en": "Go back, by the book",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "getirt",
+      "tr": "Kimliği birine getirt",
+      "en": "Have someone bring it",
+      "pattern": "patience"
+    },
+    {
+      "id": "devam",
+      "tr": "Güzergâhta devam et",
+      "en": "Stay on route",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "don": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 80,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Ara yollardan, her ışıkta durarak döndünüz; sınav kapısına beş dakika kala vardınız. Yolcu ücretin iki katını bıraktı.",
+        "en": "Back streets, full stops at every light, and you pulled up five minutes before the doors closed. The rider paid double.",
+        "coach": [
+          {
+            "tr": "Beş dakika pay. Sınavı ilk geçen sen oldun.",
+            "en": "Five minutes to spare. You passed first.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": 40,
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Dönüşte önünüze bir okul servisi girdi ve her durakta durdu. Kapı kapanırken vardınız; yolcu bir sonraki oturuma yazıldı.",
+        "en": "On the way back a school bus pulled in front of you and stopped at every stop. You arrived as the doors shut, and the rider got moved to the next session.",
+        "coach": [
+          {
+            "tr": "Okul servisi yine kazandı. Durak durak.",
+            "en": "The school bus wins again, stop by stop.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "getirt": {
+      "effects": {
+        "money": 30,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Yolcunun ev arkadaşı kimliği taksiyle yolladı. Kimlik sınava yolcudan önce vardı.",
+      "en": "The rider's roommate sent the ID over by cab. The ID got to the exam before the rider did.",
+      "coach": [
+        {
+          "tr": "Kimlik ilk geldi. Daha hızlı bir araçla.",
+          "en": "The ID arrived first. It took a faster car.",
+          "roast": true
+        }
+      ]
+    },
+    "devam": {
+      "effects": {
+        "money": 20,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Güzergâhta devam ettin; yolcu sonraki durakta inip eve koştu. Akşam arka koltukta sınav giriş belgesini buldun.",
+      "en": "You stayed on route; the rider jumped out at the next stop and ran home. That night you found their exam admission slip on the back seat.",
+      "coach": [
+        {
+          "tr": "Belge burada. Sınav oradaydı.",
+          "en": "The slip is here. The exam was there.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "don",
+    "slip": {
+      "tr": "İDDİA: Kapı sen varmadan kapanır. — M.",
+      "en": "WAGER: The doors close before you get there. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınava giden yolcu yarı yolda kimliğini evde unuttuğunu fark ediyor",
+    "mechanism": "yolcunun panik soruları kendi cevabına dönüşüyor; koç kapı ve durak sayıyor",
+    "mechanismId": "escalation",
+    "punch": "yetişiriz değil mi, yetişiriz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. TR'de dolmuş yolcusu, EN'de rideshare yolcusu sınava yetişmeye çalışıyor; trafik kuralı ihlali seçeneği yok. Uygulama/şirket/marka adı yok."
+  }
+}

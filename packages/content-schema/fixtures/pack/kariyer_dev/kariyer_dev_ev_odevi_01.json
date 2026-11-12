@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_dev_ev_odevi_01",
+  "tags": [
+    "kariyer",
+    "yazilimci",
+    "kariyer_dev"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_dev": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "dev"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Teknik aşama için küçük bir ev ödevi. En fazla iki saat sürer.",
+      "en": "For the technical stage, a small take-home. Two hours, max."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Testleri, dokümantasyonu ve kısa bir tanıtım videosunu da ekleyin. Hafta sonuna kadar.",
+      "en": "Please include tests, docs, and a short video walkthrough. By end of weekend."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Geçen \"iki saatlik\" ödevde pazar kahvaltısına gelmemiştin.",
+      "en": "Last \"two-hour\" assignment, you missed Sunday breakfast.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tam",
+      "tr": "Hepsini yap",
+      "en": "Do all of it",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "iki_saat",
+      "tr": "Tam iki saat çalış",
+      "en": "Stop at exactly two hours",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "red",
+      "tr": "Ödevi reddet",
+      "en": "Decline the assignment",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "tam": [
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "Yazılım geliştirici",
+              "tier": 3,
+              "monthly": 3400
+            }
+          },
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Hafta sonu bitti, ödev de bitti. Pazartesi teklif geldi; videoyu hâlâ kimse izlememiş.",
+        "en": "The weekend ended, and so did the assignment. Monday: an offer. Nobody had watched the video.",
+        "coach": [
+          {
+            "tr": "Video arşivde, teklif masada.",
+            "en": "Video archived. Offer on the table.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 5
+          }
+        },
+        "tr": "Ödevi teslim ettin. Üç hafta sonra cevap geldi: \"Başka bir adayla ilerliyoruz.\" Videonun izlenme sayısı bir.",
+        "en": "You submitted. Three weeks later: \"We've decided to move forward with another candidate.\" Video views: one.",
+        "coach": [
+          {
+            "tr": "Bir izlenme. Büyük ihtimalle sen.",
+            "en": "One view. Probably you.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "iki_saat": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "dev_sonraki_tur"
+          ]
+        }
+      },
+      "tr": "Alarm çaldı, bilgisayarı kapattın. Ödevin yarısını \"iki saatte bu kadar\" notuyla gönderdin; şirket bir sonraki tura çağırdı.",
+      "en": "Alarm rang, laptop closed. You sent half with a note: \"This is two hours.\" They invited you to the next round.",
+      "coach": [
+        {
+          "tr": "Yarım ödev, bütün bir sonraki tur.",
+          "en": "Half the work. A whole next round.",
+          "roast": false
+        }
+      ]
+    },
+    "red": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:hr",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Ödevi kibarca reddettin. İnsan kaynakları \"tamamen anlıyoruz\" dedi ve bir daha aramadı.",
+      "en": "You declined politely. HR said they \"completely understood\" and never called again.",
+      "coach": [
+        {
+          "tr": "Anlayış tam. Telefon sessiz.",
+          "en": "Fully understood. Fully silent.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tam",
+    "slip": {
+      "tr": "İDDİA: Hafta sonu bir \"başka aday\"a gider. — M.",
+      "en": "WAGER: The weekend goes to \"another candidate.\" — M."
+    }
+  },
+  "intent": {
+    "setup": "iş görüşmesinde iki saatlik denen ev ödevi bütün hafta sonuna yayılıyor",
+    "mechanism": "ödev ekleriyle büyüyor",
+    "mechanismId": "understatement",
+    "punch": "en fazla iki saat sürer",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "video"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

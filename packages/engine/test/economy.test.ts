@@ -10,6 +10,7 @@ describe('cash flow (02 §2.3, D-067)', () => {
     const st = createLife('CASH', 'x', 'h');
     st.status.job = { title: 't', tier: 1, monthly: 1000, since: 0 };
     st.status.home = { kind: 'flat', rent: 500, since: 0 };
+    st.money.balance = 100_000;                                     // D-159: tier-1 pay no longer covers a flat; keep this test debt-free
     const before = st.money.balance;
     const r = applyCashflow(st, 0, 365);
     const get = (k: keyof typeof r.detail) => r.detail[k] ?? 0;

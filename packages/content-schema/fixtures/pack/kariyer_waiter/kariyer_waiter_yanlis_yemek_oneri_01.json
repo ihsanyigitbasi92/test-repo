@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_waiter_yanlis_yemek_oneri_01",
+  "tags": [
+    "kariyer",
+    "restoran",
+    "kariyer_waiter"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_waiter": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "waiter"
+      ],
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "kurulum",
+      "tr": "Mutfak dokuz numaraya yanlış yemek çıkardı: sipariş tavuk, tabakta mantarlı risotto.",
+      "en": "The kitchen sent the wrong dish to table nine: they ordered chicken, the plate is mushroom risotto."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "annoyed",
+      "tr": "Geri getirme. Yeni tavuk yirmi dakika. Şefin önerisi diye sat.",
+      "en": "Don't bring it back. New chicken is twenty minutes. Sell it as the chef's suggestion."
+    }
+  ],
+  "choices": [
+    {
+      "id": "oner",
+      "tr": "'Şefin önerisi' diye sun",
+      "en": "Present it as the chef's pick",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "durust",
+      "tr": "Hatayı söyle, tatlı ikram et",
+      "en": "Own it, comp a dessert",
+      "pattern": "generosity"
+    },
+    {
+      "id": "bekle",
+      "tr": "Tavuğu bekle",
+      "en": "Wait for the chicken",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "oner": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 80,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Müşteri risottoya bayıldı ve haftaya yine sipariş etmek için adını sordu. Menüde yok.",
+        "en": "The guest loved the risotto and asked its name so they could order it next week. It's not on the menu.",
+        "coach": [
+          {
+            "tr": "Var olmayan bir yemeğin ilk müdavimi.",
+            "en": "First regular of a dish that doesn't exist.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": -3,
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "sef_onerisi_uydurdu"
+            }
+          ]
+        },
+        "tr": "Müşteri 'ben mantar yemem' deyip şefi çağırdı. Şef, hiçbir şey önermediğini bütün salona duyurdu.",
+        "en": "The guest said, 'I don't eat mushrooms,' and asked for the chef. The chef announced to the whole room that no suggestion had been made.",
+        "coach": [
+          {
+            "tr": "Şef önerdi. Şef inkâr etti. Salon dinledi.",
+            "en": "The chef suggested. The chef denied. The room listened.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "durust": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "charm": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Hatayı söyleyip tatlı ikram ettin. Masa tavuğu beklerken tatlıyı bitirdi, sonra tavuğa yer kalmadı.",
+      "en": "You owned it and comped dessert. The table finished dessert while waiting, then had no room for chicken.",
+      "coach": [
+        {
+          "tr": "Ters sıralı menü. Açılış tatlıyla.",
+          "en": "Reverse-order dining. Dessert first.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "money": 20,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Yirmi beş dakika beklediniz. Tavuk geldi, masa saatine bakarak yedi ve 20 Para bahşiş bıraktı.",
+      "en": "Twenty-five minutes of waiting. The chicken arrived, the table ate while checking the time, and left a twenty tip.",
+      "coach": [
+        {
+          "tr": "Doğru tavuk, yanlış dakika.",
+          "en": "Right chicken. Wrong minute.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "oner",
+    "slip": {
+      "tr": "İDDİA: Masa şefi çağırır. — M.",
+      "en": "WAGER: The table asks for the chef. — M."
+    }
+  },
+  "intent": {
+    "setup": "mutfağın yanlış çıkardığı yemeği şefin önerisi diye sunma baskısı",
+    "mechanism": "hata öneriye dönüşüyor, öneri hataya",
+    "mechanismId": "reversal",
+    "punch": "var olmayan yemeğin müdavimi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tavuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_nurse_kampus_tasinmasi_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Servisimiz yeni kampüse taşınıyor. Yeni kampüs şehrin öbür ucunda, iki aktarma.",
+      "en": "Our ward is moving to the new campus. It's across town. Two transfers."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Servis aracı olacak. Saat altıda kalkıyor, kimseyi beklemiyor.",
+      "en": "There'll be a shuttle. Leaves at six sharp. Waits for no one."
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasin",
+      "tr": "Yeni kampüse geç",
+      "en": "Move with the ward",
+      "pattern": "patience"
+    },
+    {
+      "id": "tayin",
+      "tr": "Yakın bir hastaneye tayin iste",
+      "en": "Request a transfer nearby",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "klinik",
+      "tr": "Mahalle kliniğine geç",
+      "en": "Take the neighborhood clinic job",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "tasin": {
+      "effects": {
+        "stats": {
+          "joy": -2,
+          "health": -1
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Servis aracına üç gün yetiştin. Dördüncü gün aracın arka camı sana el salladı.",
+      "en": "You made the shuttle three days running. On day four, the rear window waved goodbye.",
+      "coach": [
+        {
+          "tr": "Altıda kalkıyor demişlerdi. Kalktı.",
+          "en": "They said six sharp. They meant it.",
+          "roast": true
+        }
+      ]
+    },
+    "tayin": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "nurse_tayin_yakin"
+            ]
+          }
+        },
+        "tr": "Tayinin çıktı: yürüme mesafesinde bir hastane. Yeni dolabın kapının hemen yanında.",
+        "en": "Transfer approved: a hospital within walking distance. Your new locker is right by the door.",
+        "coach": [
+          {
+            "tr": "Yürüme mesafesi. Sabah altı yok.",
+            "en": "Walking distance. No six a.m.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "nurse_tayin_bekliyor"
+            ]
+          }
+        },
+        "tr": "Dilekçen sıraya girdi, önünde yirmi iki dilekçe var. Bu arada servis aracı.",
+        "en": "Your request joined the queue, twenty-two ahead of it. Meanwhile, the shuttle.",
+        "coach": [
+          {
+            "tr": "Yirmi üçüncü sıra. Araç yine altıda.",
+            "en": "Twenty-third in line. Shuttle still at six.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "klinik": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "Klinik hemşiresi",
+            "tier": 2,
+            "monthly": 2100
+          }
+        },
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -4
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Mahalle kliniğinde başladın. Maaş biraz düştü, yol on dakikaya indi, öğle yemeği artık evde.",
+      "en": "You started at the neighborhood clinic. Pay dipped a little. The commute shrank to ten minutes, and lunch is at home now.",
+      "coach": [
+        {
+          "tr": "Daha az para, daha çok öğle.",
+          "en": "Less pay. More lunch.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tayin",
+    "slip": {
+      "tr": "İDDİA: Tayin dilekçesi sırada bekler. — M.",
+      "en": "WAGER: The transfer request waits in line. — M."
+    }
+  },
+  "intent": {
+    "setup": "servis şehrin öbür ucundaki yeni kampüse taşınıyor, kıdemli hemşirenin yolu uzuyor",
+    "mechanism": "iki aktarma, sonra kimseyi beklemeyen araç",
+    "mechanismId": "escalation",
+    "punch": "servis aracı altıda kalkıyor, beklemiyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "servis_araci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

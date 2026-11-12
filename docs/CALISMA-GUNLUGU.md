@@ -135,3 +135,8 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - Açılış kapağı: MOTTO logosu + slogan + "by D2P Technology"; yerel splash görseli ve iOS telif satırı.
 - Testler: motor 56/56, uygulama 31/31, içerik kontrolleri yeşil.
 - 50 yeni Hayat Yolu olayı (sevgili 12, teklif 10, düğün 8, bebek 12, doğum 8). Yeniden ölçüm (30 hayat): sevgili 23, evlilik 22, çocuk 14 (önce 7). Kontroller yeşil.
+
+## 2026-11-12 — Uzman testleri ve denge sprinti 1 (D-159)
+- Üç uzman testi (UX, davranış, deneyim) başlatıldı; davranış (6/10) ve deneyim (6,5/10) raporları geldi: docs/playtest/.
+- Ortak kritik bulgular simülasyonla doğrulandı ve düzeltildi: kira döngüsü, maaşı aşan kiralar, terfi yok, sürpriz havuzu 3 olay, sağlığın stresle çökmesi, anne baskısının 100'de donması.
+- Golden hash bilinçli olarak güncellendi (ekonomi değişti). Testler: motor 56/56, uygulama 31/31, içerik yeşil.

@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_degisimi_ders_toplanti_cakismasi_01",
+  "tags": [
+    "is",
+    "kariyer_degisimi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_degisimi": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 33,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "kurulum",
+      "tr": "Perşembe akşamları, yeni meslek için kimseye söylemeden gittiğin sertifika programının dersi var.",
+      "en": "Thursday nights are your certificate class for the new career. Nobody at work knows."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Perşembe akşamı küçük bir strateji toplantısı yapalım. Yedide, yemekli.",
+      "en": "Let's do a little strategy session Thursday evening. Seven o'clock, dinner included."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Sen de gelirsin tabii. Perşembe akşamları ne işin olabilir ki?",
+      "en": "You'll come, of course. What could you possibly have on a Thursday night?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "ders",
+      "tr": "Derse git, bahane bul",
+      "en": "Go to class, invent an excuse",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "toplanti",
+      "tr": "Toplantıya git",
+      "en": "Go to the meeting",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "soyle",
+      "tr": "Dersi açıkça söyle",
+      "en": "Tell them about the class",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ders": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "sertifika_devam"
+            ]
+          }
+        },
+        "tr": "'Dişçi randevum var' dedin, patron geçmiş olsun dedi. O akşam derste ilk sunumunu yaptın.",
+        "en": "You said 'dentist appointment.' The boss wished you well. That night you gave your first presentation in class.",
+        "coach": [
+          {
+            "tr": "Randevu kurgusal. Sunum gerçek.",
+            "en": "The appointment was fiction. The presentation wasn't.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "persembe_disci"
+            }
+          ],
+          "flags": {
+            "add": [
+              "sertifika_devam"
+            ]
+          }
+        },
+        "tr": "Bahane tuttu, ama ertesi sabah patron dişini sordu. Üç hafta daha dişçiye gitmen gerekecek.",
+        "en": "The excuse worked. Next morning the boss asked about your tooth. You now have three more weeks of dentist.",
+        "coach": [
+          {
+            "tr": "Bir bahane, üç haftalık tedavi planı.",
+            "en": "One excuse. A three-week treatment plan.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "toplanti": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "sertifika_devamsizlik"
+          ]
+        }
+      },
+      "tr": "Toplantı tatlıda bitti, karar çıkmadı. Sertifika programından ilk devamsızlık uyarın geldi.",
+      "en": "The meeting ended at dessert with no decisions. The certificate program sent your first attendance warning.",
+      "coach": [
+        {
+          "tr": "Strateji çıkmadı. Devamsızlık çıktı.",
+          "en": "No strategy. One absence.",
+          "roast": false
+        }
+      ]
+    },
+    "soyle": {
+      "effects": {
+        "meters": {
+          "ego": 3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "memory": "kariyer_degisimini_biliyor"
+          }
+        ],
+        "flags": {
+          "add": [
+            "sertifika_devam"
+          ]
+        }
+      },
+      "tr": "Patron 'ne güzel, bize de anlatırsın' dedi. Toplantı cumaya kaydı ve gündemin ilk maddesi sen oldun.",
+      "en": "The boss said, 'How lovely, you'll present it to us.' The meeting moved to Friday. You are agenda item one.",
+      "coach": [
+        {
+          "tr": "Gündem maddesi oldun. Ders yerinde.",
+          "en": "You're the agenda now. Class still on.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ders",
+    "slip": {
+      "tr": "İDDİA: Bahaneye ertesi gün soru gelir. — M.",
+      "en": "WAGER: The excuse gets a follow-up question. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni meslek için gizli akşam dersinin patronun mesai sonrası toplantısıyla çakışması",
+    "mechanism": "masum soru, bahane zinciri büyüyor",
+    "mechanismId": "escalation",
+    "punch": "perşembe akşamları ne işin olabilir",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "randevu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

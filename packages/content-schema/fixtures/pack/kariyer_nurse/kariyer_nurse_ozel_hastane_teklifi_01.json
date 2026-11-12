@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_nurse_ozel_hastane_teklifi_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Özel hastanemizde gece nöbeti ayda dört. Kahve makinemiz de çalışıyor.",
+      "en": "At our private hospital, nights are four a month. And our coffee machine works."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Maaşı konuşalım. Ama önce şunu bilin: koridorlarımızda halı var.",
+      "en": "Let’s talk pay. But first, you should know our hallways are carpeted."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Gidersen gece nöbetlerin bana kalır. Ama halı güzelmiş.",
+      "en": "If you go, your nights land on me. The carpet does sound nice.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Maaşta pazarlık et",
+      "en": "Negotiate the salary",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Hemen kabul et",
+      "en": "Accept on the spot",
+      "pattern": "risk"
+    },
+    {
+      "id": "kal",
+      "tr": "Kalmayı seç",
+      "en": "Stay where you are",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "Özel hastane hemşiresi",
+              "tier": 3,
+              "monthly": 2900
+            }
+          },
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Teklif bir basamak yükseldi. Pazartesi halının üstünde başlıyorsun.",
+        "en": "The offer went up a notch. You start Monday, on carpet.",
+        "coach": [
+          {
+            "tr": "Yeni iş, yeni zemin.",
+            "en": "New job. New flooring.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "Özel hastane hemşiresi",
+              "tier": 2,
+              "monthly": 2500
+            }
+          },
+          "meters": {
+            "ego": -2
+          },
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Rakam yerinden oynamadı, \"bütçemiz net\" dediler. Yine de kabul ettin; halı konusu açılmadı.",
+        "en": "The number didn't budge: 'Our budget is firm.' You took it anyway. The carpet was non-negotiable.",
+        "coach": [
+          {
+            "tr": "Rakam yerinde saydı.",
+            "en": "The number stood still.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "Özel hastane hemşiresi",
+            "tier": 2,
+            "monthly": 2500
+          }
+        },
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "İmzaladın. Eski servisin veda pastasını nöbet çizelgenin fotokopisinin üstüne koydu.",
+      "en": "You signed. Your old ward set the farewell cake down on a photocopy of your night schedule.",
+      "coach": [
+        {
+          "tr": "Çizelge pastanın altında kaldı.",
+          "en": "The schedule ended up under a cake.",
+          "roast": false
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Kalmayı seçtin. Başhemşire bunu duydu ve ertesi ay ilk izin gününü seçme hakkını sana verdi.",
+      "en": "You stayed. Word got to the head nurse, and next month you got first pick of days off.",
+      "coach": [
+        {
+          "tr": "Bir izin günü, ilk sırada.",
+          "en": "One day off, first pick.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Rakam yerinden oynamaz. — M.",
+      "en": "WAGER: The number won't move. — M."
+    }
+  },
+  "intent": {
+    "setup": "özel hastaneden daha az nöbetli iş teklifi, pazarlık fırsatı",
+    "mechanism": "teklifin en büyük kozu halı",
+    "mechanismId": "understatement",
+    "punch": "koridorlarımızda halı var",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hali"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

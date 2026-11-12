@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_kanepe_kiralama_01",
+  "tags": [
+    "is",
+    "yan_gelir",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yan_gelir_girisim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Salondaki kanepeyi gecelik kiraya verelim. Turistler bayılır, ilan hazır.",
+      "en": "Let's rent out the living room couch by the night. Tourists love that. Listing's ready."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "İlan başlığı: 'Şehir manzaralı loft.' Pencereden bir parça şehir görünüyor.",
+      "en": "Listing title: 'Loft with city views.' You can see a sliver of city from the window."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Tek kural: misafir uyurken buzdolabını sessizce açacağız.",
+      "en": "One rule: we open the fridge quietly while the guest sleeps.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ortak",
+      "tr": "Ortak ol, yarı yarıya",
+      "en": "Go halves on it",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kural",
+      "tr": "Önce ev kuralları yaz",
+      "en": "Write house rules first",
+      "pattern": "patience"
+    },
+    {
+      "id": "red",
+      "tr": "Kanepe benim akşamlarım",
+      "en": "That couch is my evenings",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ortak": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 900,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kanepe_kirada"
+            ]
+          }
+        },
+        "tr": "İlk misafir üç gece kaldı ve yorumda kanepeye 'dürüst' dedi. Payın 900 Para.",
+        "en": "The first guest stayed three nights and reviewed the couch as 'honest.' Your share: 900.",
+        "coach": [
+          {
+            "tr": "Kanepe senden önce yorum aldı.",
+            "en": "The couch got a review before you did.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": 200,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kanepe_kirada"
+            ]
+          }
+        },
+        "tr": "Misafir sabah beşte valiziyle duş sırasına girdi. Bir haftada kazanç 200 Para, uykusuzluk iki kişilik.",
+        "en": "The guest joined the shower line at 5 a.m., suitcase in hand. A week's take: 200. Sleep lost: double occupancy.",
+        "coach": [
+          {
+            "tr": "Kanepe kazandı. Salon kaybetti.",
+            "en": "The couch made money. The living room didn't.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kural": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "ev_kurallari"
+          ]
+        }
+      },
+      "tr": "On bir maddelik liste yazdın. Ev arkadaşın ilana 'kurallar mevcuttur' ekledi, ilgi yarıya düştü.",
+      "en": "You wrote an eleven-point list. Your roommate added 'house rules apply' to the listing. Interest halved.",
+      "coach": [
+        {
+          "tr": "On bir madde. Misafir yok, düzen var.",
+          "en": "Eleven rules. No guests. Excellent order.",
+          "roast": false
+        }
+      ]
+    },
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Kanepe evde kaldı, ilan taslakta. Ev arkadaşın akşam yemeğinde 'loft' kelimesini iki kez iç çekerek söyledi.",
+      "en": "The couch stays, the listing stays in drafts. At dinner your roommate sighed the word 'loft' twice.",
+      "coach": [
+        {
+          "tr": "Akşamlar senin. İç çekişler onun.",
+          "en": "Your evenings are safe. The sighs are theirs.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ortak",
+    "slip": {
+      "tr": "İDDİA: Misafir senden erken kalkar. — M.",
+      "en": "WAGER: The guest wakes up before you do. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının salondaki kanepeyi gecelik misafire kiralamak istemesi",
+    "mechanism": "ilan dili salonu loft yapıyor; gerçek salon küçük",
+    "mechanismId": "bathos",
+    "punch": "pencereden bir parça şehir",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "aksam"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_sira_bekleme_01",
+  "tags": [
+    "is",
+    "yan_gelir",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yan_gelir_girisim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Yarın sabah evrak kuyruğu var, bende toplantı. Yerime sıra bekler misin? Saatini öderim.",
+      "en": "There's a paperwork line tomorrow morning and I have a meeting. Hold my place? I'll pay by the hour."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kapı dokuzda açılıyor ama millet yedide geliyor. Termos getir.",
+      "en": "Doors open at nine, but people show up at seven. Bring a thermos."
+    }
+  ],
+  "choices": [
+    {
+      "id": "erken",
+      "tr": "Altıda git",
+      "en": "Go at six",
+      "pattern": "overwork"
+    },
+    {
+      "id": "yedi",
+      "tr": "Yedide git",
+      "en": "Go at seven",
+      "pattern": "risk",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "zam",
+      "tr": "Ücreti ikiye katla",
+      "en": "Double your rate",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "erken": {
+      "effects": {
+        "money": 350,
+        "stats": {
+          "health": -2
+        },
+        "flags": {
+          "add": [
+            "sira_bekleyici"
+          ]
+        }
+      },
+      "tr": "Altıda kapıdaydın; senden önce gelen iki kişi de başkası için bekliyordu. Dört saatte 350 Para.",
+      "en": "You were at the door by six. The two people ahead of you were also holding places for someone else. Four hours: 350.",
+      "coach": [
+        {
+          "tr": "Kuyruğun ilk üçü taşeron.",
+          "en": "The first three in line were all subcontractors.",
+          "roast": false
+        }
+      ]
+    },
+    "yedi": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": 300,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "sira_bekleyici"
+            ]
+          }
+        },
+        "tr": "Onuncu sıradaydın. Müşteri dokuz buçukta gelip yerine geçti ve termos için teşekkür etti.",
+        "en": "You were tenth in line. Your client showed up at nine-thirty, took your spot, and thanked you for the thermos.",
+        "coach": [
+          {
+            "tr": "Üç saat. Termos boş.",
+            "en": "Three hours. Empty thermos.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": 100,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Yedide kuyruk köşeyi dönmüştü ve gişe öğlen kapandı. Adam yarım ücret ödeyip 'yarın altıda' dedi.",
+        "en": "By seven the line wrapped around the corner, and the window shut at noon. He paid half and said, 'Tomorrow, six.'",
+        "coach": [
+          {
+            "tr": "Yarın altıda. Aynı kuyruk.",
+            "en": "Tomorrow at six. Same line.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "zam": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Ücreti ikiye katlayınca adam başka birini buldu: kendi annesini. Kadın dokuza kadar kuyruktaki herkesle tanıştı.",
+      "en": "When you doubled the rate he found someone else: his mother. By nine she'd met everyone in line.",
+      "coach": [
+        {
+          "tr": "Ücretin ikiye katlandı. Müşteri sayın tersine.",
+          "en": "Your rate doubled. Your client count did the opposite.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "bir yabancı için ücret karşılığı sabah evrak kuyruğunda sıra beklemek",
+    "mechanism": "kuyruğun önü zaten başkası için bekleyenlerle dolu",
+    "mechanismId": "reversal",
+    "punch": "ilk üçü taşeron",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "termos"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

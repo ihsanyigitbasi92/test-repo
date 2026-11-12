@@ -31,3 +31,12 @@ export function queueMilestones(st: LifeState, meta: MetaState, content: Content
     return;                                                       // one milestone per year
   }
 }
+
+/** D-159 career ladder: an employed life that stayed ≥ minYearsInTier in its tier rolls for a raise each birthday. */
+export function careerRaise(st: LifeState): void {
+  const L = TUNING.economy.careerLadder, job = st.status.job, tiers = TUNING.economy.tiersMonthlyPara;
+  if (!job || job.tier >= L.maxTier || st.calendar.calendarDay - job.since < L.minYearsInTier * 365) return;
+  if (!drawChanceBp(st, 'director', L.chanceBp)) return;
+  const tier = Math.max(1, job.tier + 1);
+  st.status.job = { ...job, tier, monthly: tiers[tier]!, since: st.calendar.calendarDay };
+}

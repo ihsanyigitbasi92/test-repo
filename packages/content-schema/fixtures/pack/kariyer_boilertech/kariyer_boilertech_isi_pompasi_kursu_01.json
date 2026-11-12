@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_boilertech_isi_pompasi_kursu_01",
+  "tags": [
+    "kariyer",
+    "kombi",
+    "kariyer_boilertech"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_boilertech": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "boilerTech"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Isı pompası eğitimi açıldı, üç hafta sonu. Sertifikayı alan yeni işlere bakacak.",
+      "en": "There's heat pump training, three weekends. Whoever gets certified takes the new jobs."
+    },
+    {
+      "speaker": "npc:boilerTech",
+      "avatar": "smug",
+      "tr": "Eğitmen yirmi sekiz yaşında. İlk ders: 'Kombi diye bir şey bildiğinizi unutun.'",
+      "en": "The instructor is twenty-eight. Lesson one: 'Forget you ever knew what a boiler was.'",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "katil",
+      "tr": "Eğitime katıl",
+      "en": "Sign up",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain",
+        "goal": "sertifika"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Kombiyle emekli olurum de",
+      "en": "Say you'll retire on boilers",
+      "pattern": "pride"
+    },
+    {
+      "id": "cirak",
+      "tr": "Yerine çırağı gönder",
+      "en": "Send your apprentice",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "katil": [
+      {
+        "p": 5500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "money": -200,
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "isi_pompasi_sertifikasi"
+            ]
+          }
+        },
+        "tr": "Üç hafta sonu sınıfın en yaşlısıydın ve sınavda ikinci en yüksek notu aldın. Sertifika geldi, yeni işler listende.",
+        "en": "Three weekends as the oldest in the room, and the second-highest score on the exam. Certificate in, new jobs on your list.",
+        "coach": [
+          {
+            "tr": "Sertifika tamam. Kademe yükseldi.",
+            "en": "Certificate in. One rung up.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -200,
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "ego": -2
+          }
+        },
+        "tr": "Pratik sınavda bağlantıyı ters yaptın; cihaz sınıfı soğutmaya başladı. Bir sonraki sınav dönemine kaldın.",
+        "en": "In the practical you plumbed it backward, and the unit started cooling the classroom. You're held over to the next exam window.",
+        "nearMiss": {
+          "tr": "İki puanla kaldın. Sonraki sınav dönemi otuz gün sonra.",
+          "en": "Missed by two points. Next exam window in thirty days."
+        },
+        "coach": [
+          {
+            "tr": "Ters bağlantı. Serin bir sınıf.",
+            "en": "Backward plumbing. A nicely chilled classroom.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kombide kalmaya karar verdin. Yeni işler çırağa gitti, kombi listesi tamamen sana kaldı.",
+      "en": "You stuck with boilers. The new jobs went to the apprentice, and the boiler list is all yours.",
+      "coach": [
+        {
+          "tr": "Kombi listesi tümüyle senin.",
+          "en": "The boiler list, fully yours.",
+          "roast": false
+        }
+      ]
+    },
+    "cirak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Çırak eğitime gitti; ilk ısı pompası işinde seni yardımcı olarak yanına aldı.",
+      "en": "The apprentice took the course, then brought you along as the helper on their first heat pump job.",
+      "coach": [
+        {
+          "tr": "Roller değişti. Alet çantası aynı.",
+          "en": "Roles swapped. Same toolbox.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "katil",
+    "slip": {
+      "tr": "İDDİA: Pratik sınav seni bir dönem bekletir. — M.",
+      "en": "WAGER: The practical holds you over a term. — M."
+    }
+  },
+  "intent": {
+    "setup": "kıdemli usta ısı pompası sertifika eğitiminde sınıfın en yaşlısı",
+    "mechanism": "genç eğitmen ilk derste kombiyi unutmayı istiyor",
+    "mechanismId": "deadpan_report",
+    "punch": "kombi diye bir şey unutun",
+    "lift": "sertifika tamam, kademe yükseldi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ters"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

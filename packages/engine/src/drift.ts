@@ -50,6 +50,7 @@ export function applyDrift(st: LifeState, gap: number): void {
     const add = Math.min(yearly(perYear, gap), Math.max(0, S.momYearCapBp - st.yearStats.momAccruedBp));
     st.yearStats.momAccruedBp += add;
     st.meters.momPressure = clamp(st.meters.momPressure + add, 0, 10000);
+    if (perYear === 0) st.meters.momPressure = clamp(st.meters.momPressure - yearly(S.momReliefYearBp, gap), 0, 10000);   // D-159: settled life → mom eases off
   }
   // 4) hidden: stress decay, luck reversion ×0.85^(gap/365)
   let ds = yearly(S.stressDecayYearBp, gap);

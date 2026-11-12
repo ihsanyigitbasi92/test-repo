@@ -1,0 +1,227 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_dev_olay_analizi_01",
+  "tags": [
+    "kariyer",
+    "yazilimci",
+    "kariyer_dev"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_dev": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "dev"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bu suçlamasız bir olay analizi. Kimseyi suçlamıyoruz.",
+      "en": "This is a blameless postmortem. We're not blaming anyone."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Sadece gece ikide o komutu kim çalıştırdı, onu anlamak istiyoruz. İsim değil, rol olarak.",
+      "en": "We just want to understand who ran that command at 2 a.m. Not by name. By role."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Gece ikide nöbetçi rolünde tek kişi vardı.",
+      "en": "At 2 a.m., the on-call role had one person in it.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "cizelge",
+      "tr": "Zaman çizelgesini sun",
+      "en": "Present the timeline",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ustlen",
+      "tr": "Hatayı üstlen",
+      "en": "Own the mistake",
+      "pattern": "patience"
+    },
+    {
+      "id": "esik",
+      "tr": "Alarm eşiğini göster",
+      "en": "Point at the alert threshold",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "cizelge": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Çizelge komutun dokümanda yazdığı gibi çalıştırıldığını gösterdi. Eylem maddesi: doküman güncellenecek.",
+        "en": "The timeline showed the command was run exactly as documented. Action item: update the documentation.",
+        "coach": [
+          {
+            "tr": "Suçlu doküman çıktı.",
+            "en": "The documentation did it.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Çizelgede on bir dakikalık bir boşluk çıktı. Boşluğun yanına \"nöbetçi rol kahve aldı\" yazıldı.",
+        "en": "The timeline had an eleven-minute gap. It was labeled \"on-call role got coffee.\"",
+        "coach": [
+          {
+            "tr": "Rol kahve almış.",
+            "en": "The role got coffee.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ustlen": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Hatayı üstlendin. Toplantı on dakika erken bitti, eylem maddelerinin hepsi senin adına yazıldı; rol olarak.",
+      "en": "You owned it. The meeting ended ten minutes early. Every action item was assigned to you. By role.",
+      "coach": [
+        {
+          "tr": "Eylem maddeleri: hepsi rolünde.",
+          "en": "Action items: all yours. By role.",
+          "roast": false
+        }
+      ]
+    },
+    "esik": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "dev_alarm_esigi"
+          ]
+        }
+      },
+      "tr": "Alarm eşiğinin yanlış ayarlandığını gösterdin. Eşiği kimin ayarladığına bakıldı; kayıtlarda yine senin rolün çıktı, üç yıl öncesinden.",
+      "en": "You showed the alert threshold was misconfigured. Who set it? The logs said your role, three years ago.",
+      "coach": [
+        {
+          "tr": "Üç yıl önceki rol de senmişsin.",
+          "en": "Three years ago, the role was also you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cizelge",
+    "slip": {
+      "tr": "İDDİA: Çizelgede bir boşluk çıkar. — M.",
+      "en": "WAGER: The timeline has a gap. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece kesintisi sonrası suçlamasız olay analizi toplantısında tek nöbetçi aranıyor",
+    "mechanism": "isim değil rol, ama rolde tek kişi var",
+    "mechanismId": "literalism",
+    "punch": "isim değil, rol olarak",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "rol"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
