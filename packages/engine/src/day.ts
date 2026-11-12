@@ -58,6 +58,8 @@ function retire(st: LifeState): void {
 function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: Omit<DayCard, 'eventId'>, out: Effect[]): void {
   st.calendar.age++;
   if (st.status.job) { st.counters.yearsWorked++; retire(st); }
+  const start = parseISO(st.calendar.startDateISO);
+  st.calendar.nextBirthdayDay = daysFromCivil(birthdayAfterYears(start, st.calendar.age - TUNING.calendar.startAge + 1)) - startAbs(st);   // before the die: son perde needs the year's end
   const cause = st.pendingDeath ? null : rollHazard(st);         // hazard before the report card: the dead get no card
   if (cause && !deferDeath(st, meta, content, cause)) { st.card = { ...base, eventId: 'sys_death', choices: [] }; die(st, meta, cause, 'hazard', out); return; }
   ageNpcs(st, meta, content);                                     // NPC lifespans (npcLife): may queue a loss card
@@ -73,8 +75,6 @@ function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: 
   st.wagerLog.thisYear = 0;
   st.director.shownThisYear = 0;
   st.director.yearBudget = drawYearBudget(st);
-  const start = parseISO(st.calendar.startDateISO);
-  st.calendar.nextBirthdayDay = daysFromCivil(birthdayAfterYears(start, st.calendar.age - TUNING.calendar.startAge + 1)) - startAbs(st);
   st.card = { ...base, eventId: 'sys_report_card', choices: [] };
   st.phase = 'birthday';
   out.push({ kind: 'SHOW_DAY', card: st.card }, { kind: 'REPORT_CARD', data: report });

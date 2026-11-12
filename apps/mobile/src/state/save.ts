@@ -29,6 +29,7 @@ export interface SavedLife {
   ui: {
     autoDays: number;
     lowJoyShown: boolean;
+    healthWarned?: boolean;
     lastMotto: string | null;
     lastReport: ReportCardData | null;
     unread: number;

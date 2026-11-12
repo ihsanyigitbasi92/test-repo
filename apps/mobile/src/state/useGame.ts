@@ -23,6 +23,7 @@ import type { Action, Effect, LifeState, Locale, MetaState, ReportCardData, Roas
 import { START_AGE, advanceContent, contentReadyFor, eventById, getBundle, prepareContent } from '../content/bundle';
 import { CATALOG } from '../i18n';
 import { haptic } from './haptics';
+import { HEALTH_DANGER } from '../components/hudConst';
 import type { CardVariant, Delta, FeedItem, StampResult } from './feed';
 import { cyclePart, generateLook, outfitFor } from '../avatar/look';
 import type { Look, LookPart, Mood as FaceMood } from '../avatar/look';
@@ -140,6 +141,9 @@ export class GameController {
   private contentTried = false;
   private autoDays = 0;
   private lowJoyShown = false;
+  /** One coach warning per life when health enters the HUD danger zone (UX playtest #6). */
+  private healthWarned = false;
+  private unreadInfoAt = 0;
   private lastMotto: string | null = null;
   private lastReport: ReportCardData | null = null;
   /** The beat queue is paused on a `hold` beat until the moment closes. */
@@ -248,7 +252,7 @@ export class GameController {
   private resume(save: SaveV1, life: NonNullable<SaveV1['life']>): void {
     this.state = life.state;
     const u = life.ui;
-    this.autoDays = u.autoDays; this.lowJoyShown = u.lowJoyShown; this.lastMotto = u.lastMotto; this.lastReport = u.lastReport;
+    this.autoDays = u.autoDays; this.lowJoyShown = u.lowJoyShown; this.healthWarned = !!u.healthWarned; this.lastMotto = u.lastMotto; this.lastReport = u.lastReport;
     this.momentHist = u.momentHist ?? emptyMomentHistory(); this.deferred = null;
     if (life.look) this.looks.set(life.state.lifeSeed, life.look);
     const feed = life.feed.filter((f) => f.kind !== 'typing').map((f) => ({ ...f, restored: true }));
@@ -273,7 +277,7 @@ export class GameController {
       meta: this.meta,
       life: live && st ? {
         state: st, look: this.looks.get(st.lifeSeed) ?? s.look, lifeNo: s.lifeNo, feed: feedForSave(s.feed),
-        ui: { autoDays: this.autoDays, lowJoyShown: this.lowJoyShown, lastMotto: this.lastMotto, lastReport: this.lastReport, unread: s.unread,
+        ui: { autoDays: this.autoDays, lowJoyShown: this.lowJoyShown, healthWarned: this.healthWarned, lastMotto: this.lastMotto, lastReport: this.lastReport, unread: s.unread,
           momentHist: this.momentHist, session: s.session },
       } : null,
     };
@@ -410,7 +414,8 @@ export class GameController {
             const gap = st.calendar.skippedSinceLast;
             const unread = c.dayIndex <= 1 ? this.snap.unread : Math.min(99, this.snap.unread + unreadGain(gap));
             this.set({ view: st, mood: 'neutral', playerMood: c.legendary ? 'shock' : 'neutral', progress: 0, unread });
-            this.push({ id: this.id(), kind: 'date', dayIndex: c.dayIndex, dateISO: c.dateISO, birthday });
+            this.push({ id: this.id(), kind: 'date', dayIndex: c.dayIndex, calendarDay: st.calendar.calendarDay, dateISO: c.dateISO, birthday });
+            this.warnHealth(st);                                                // drift lowers health between scenes too
           } });
           // Legendary day: the one moment allowed over a pending choice — as the intro, before the card.
           if (pick === 'legendary') beats.push({ wait: t.line, run: () => this.openMoment(st, 'legendary'), hold: true });
@@ -466,6 +471,7 @@ export class GameController {
                 this.lowJoyShown = true;
                 this.push({ id: this.id(), kind: 'sys', ui: { k: 'lowJoy' } });
               }
+              this.warnHealth(st);
             } });
           } else {
             for (const b of e.bubbles) {
@@ -535,9 +541,16 @@ export class GameController {
     this.enqueue(beats);
   }
 
+  private warnHealth(st: LifeState): void {
+    if (this.healthWarned || st.phase === 'dead' || Math.round(st.stats.health / 100) >= HEALTH_DANGER) return;
+    this.healthWarned = true;
+    this.push({ id: this.id(), kind: 'coach', ui: { k: 'lowHealth' }, roast: false, lift: true });
+  }
+
   private spawnFloats(deltas: Delta[]): void {
     if (!deltas.length) return;
-    const items = deltas.filter((d) => FLOAT_STATS.has(d.stat)).map((d) => ({ id: this.id(), stat: d.stat, delta: d.delta }));
+    // A delta that rounds to 0 on the HUD would float "−0" (UX playtest #10): not shown.
+    const items = deltas.filter((d) => FLOAT_STATS.has(d.stat) && (d.stat === 'money' ? d.delta !== 0 : Math.round(d.delta / 100) !== 0)).map((d) => ({ id: this.id(), stat: d.stat, delta: d.delta }));
     if (!items.length) return;
     this.set({ floats: [...this.snap.floats, ...items] });
     const ids = new Set(items.map((x) => x.id));
@@ -671,7 +684,7 @@ export class GameController {
     if (!r) return;
     this.dispatch({ type: 'RESUME', localDay: localDay() });                 // Günün Günü seed only (D-050)
     if (this.snap.speed !== 'play') this.dispatch({ type: 'SET_SPEED', speed: this.snap.speed });
-    this.autoDays = 0; this.lowJoyShown = false; this.lastMotto = null; this.lastReport = null;
+    this.autoDays = 0; this.lowJoyShown = false; this.healthWarned = false; this.lastMotto = null; this.lastReport = null;
     this.momentHist = emptyMomentHistory(); this.deferred = null;
     const look = this.snap.draftLook;
     this.looks.set(r.state.lifeSeed, look);
@@ -697,6 +710,14 @@ export class GameController {
   };
 
   oneMoreYear = (): void => { if (this.state?.phase === 'birthday') { haptic.medium(); this.nextDay(); } };
+
+  /** HUD "Unread" chip: Motto explains it in the feed (UX playtest #11), at most once every 20 s. */
+  explainUnread = (): void => {
+    if (this.snap.stage !== 'play' || Date.now() - this.unreadInfoAt < 20000) return;
+    this.unreadInfoAt = Date.now();
+    haptic.selection();
+    this.push({ id: this.id(), kind: 'coach', ui: { k: 'unreadInfo' } });
+  };
 
   /** Manual mode (⏸): the Next Day button. */
   nextDayManual = (): void => { haptic.selection(); this.nextDay(); };

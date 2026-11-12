@@ -211,8 +211,8 @@ export function typoHits(text: string, loc: Loc, typos: Typo[]): TextHit[] {
 
 /** Motto persona markers (01 §2.1): seminars, the formula, the notebook/pen/stamp kit, the uncertified self-own. */
 export const PERSONA: Record<Loc, RegExp> = {
-  tr: /semin[eo]r|ben olsam|sen bilirsin|sertifika(?:sız|m)|flipchart|balo salon|soğuk börek|başarının 7 sırrı|sinerji|kalem bende|silgi|koçun defteri|defterim|damga|koçluk/iu,
-  en: /seminar|i'd (?:pick|take|go|try|say|stay|wait|keep|sign|skip|do)|if i were you|your call|uncertified|certificat|flip ?chart|ballroom|cold pastr|7 secrets|synergy|eraser|my notebook|coaching|the stamp/iu,
+  tr: /semin[eo]r|ben olsam|sen bilirsin|sertifika(?:sız|m)|flipchart|balo salon|soğuk börek|başarının 7 sırrı|sinerji|kalem bende|silgi|koçun defteri|defterim|damga|koçluk|basılmamış kitab/iu,
+  en: /seminar|i'd (?:pick|take|go|try|say|stay|wait|keep|sign|skip|do)|if i were you|your call|uncertified|certificat|flip ?chart|ballroom|cold pastr|7 secrets|synergy|eraser|my notebook|coaching|the stamp|unpublished book|i'd have/iu,
 };
 
 export const isPersona = (tr: string, en: string): boolean => PERSONA.tr.test(tr) || PERSONA.en.test(en);

@@ -9,7 +9,7 @@ import { dateLabel } from './Hud';
 export function DateLine({ item }: { item: FeedItemOf<'date'> }) {
   const { s, locale } = useI18n();
   const anim = useAppear('rise', 250);
-  const base = dateLabel(s, locale, item.dayIndex, item.dateISO);
+  const base = dateLabel(s, locale, item.calendarDay ?? item.dayIndex, item.dateISO);
   const label = item.birthday ? `${base.split(' · ').slice(0, 1).join('')} · ${upper(locale, s.birthdayTag)}` : base;
   return (
     <Animated.View style={[st.date, item.birthday && st.dateBday, anim]} testID={item.birthday ? 'dateline-birthday' : 'dateline'}>

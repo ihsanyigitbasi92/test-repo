@@ -14,10 +14,10 @@ import {
 
 /** Rules start as warnings; a rule becomes an error once the pool is clean for it (see git history). */
 export const SEVERITY: Record<RuleId, 'error' | 'warn'> = {
-  'raw-id': 'warn',
-  'tr-suffix': 'warn',
-  'en-tr-name': 'warn',
-  'typo': 'warn',
+  'raw-id': 'error',
+  'tr-suffix': 'error',
+  'en-tr-name': 'error',
+  'typo': 'error',
 };
 
 /** A persona phrasing (first 4 folded words of the TR line) may repeat at most this often in the pool. */

@@ -7,7 +7,7 @@ import type { GapLine, MeterId, ReportCardData, StatId, WagerOffer } from '@mott
 import type { Strings } from '../i18n';
 
 /** A UI-catalog line: key of a string (or formatter) in tr.ts/en.ts + its arguments. */
-export type UiKey = 'intro1' | 'intro2' | 'nameRoast' | 'birthdayLine' | 'quiet' | 'envelopeOpened' | 'lowJoy' | 'suggestEnd' | 'resumed';
+export type UiKey = 'intro1' | 'intro2' | 'nameRoast' | 'birthdayLine' | 'quiet' | 'envelopeOpened' | 'lowJoy' | 'suggestEnd' | 'resumed' | 'unreadInfo' | 'lowHealth';
 export interface UiLine { k: UiKey; a?: (string | number)[] }
 
 export function uiText(s: Strings, line: UiLine): string {
@@ -22,7 +22,7 @@ export interface Delta { stat: StatId | MeterId | 'money'; delta: number }
 
 /** `restored`: the item came back from a save — shown at once (no typewriter replay). */
 export type FeedItem = { restored?: boolean } & (
-  | { id: number; kind: 'date'; dayIndex: number; dateISO: string; birthday: boolean }
+  | { id: number; kind: 'date'; dayIndex: number; /** engine calendarDay (older saves: absent) */ calendarDay?: number; dateISO: string; birthday: boolean }
   | { id: number; kind: 'skip'; key: string; params?: Params }
   | { id: number; kind: 'flow'; lines: GapLine[]; momsHouse: boolean }
   | { id: number; kind: 'typing'; speaker: string }

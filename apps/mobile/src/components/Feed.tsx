@@ -46,6 +46,9 @@ export function Feed({ items, typeMs, footer }: { items: FeedItem[]; typeMs: num
   };
   // Smooth scrolling only at ▶ (typewriter speed); at ▶▶ items arrive faster than an animated scroll settles.
   const follow = () => { if (atBottom.current) ref.current?.scrollToEnd({ animated: typeMs >= 10 }); };
+  // The decision zone grows (choices, One More Year) after the last bubble landed: the feed viewport shrinks with
+  // no content change, so re-pin to the bottom here — the latest line stays fully visible above the panel (UX #7/#8).
+  const onLayout = () => { if (atBottom.current) ref.current?.scrollToEnd({ animated: false }); };
   const last = items[items.length - 1];
   const reportId = last?.kind === 'report' ? last.id : null;
   useEffect(() => {
@@ -55,7 +58,7 @@ export function Feed({ items, typeMs, footer }: { items: FeedItem[]; typeMs: num
   }, [reportId]);
   return (
     <ScrollView ref={ref} style={st.feed} contentContainerStyle={st.content} onScroll={onScroll} scrollEventThrottle={64}
-      onContentSizeChange={follow} testID="feed">
+      onContentSizeChange={follow} onLayout={onLayout} testID="feed">
       {items.map((it) => <View key={it.id}><Row item={it} typeMs={it.restored ? 0 : typeMs} /></View>)}
       {footer}
     </ScrollView>

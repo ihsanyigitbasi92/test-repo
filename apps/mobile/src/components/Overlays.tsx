@@ -115,9 +115,11 @@ export function SessionSheet({ session, onContinue, onClose }: {
           <PrimaryButton label={s.cta.cont} onPress={onContinue} testID="session-continue" />
         ) : (
           <View style={st.sheetRow}>
-            <Pressable onPress={onClose} accessibilityRole="button" testID="session-close" style={({ pressed }) => [st.closeBtn, pressed && st.pressed]}>
-              <Text style={st.closeTxt}>{upper(locale, s.cta.close)}</Text>
-            </Pressable>
+            <View style={st.flex1}>
+              <Pressable onPress={onClose} accessibilityRole="button" testID="session-close" style={({ pressed }) => [st.closeBtn, pressed && st.pressed]}>
+                <Text style={st.closeTxt}>{upper(locale, s.cta.close)}</Text>
+              </Pressable>
+            </View>
             <View style={st.flex1}><PrimaryButton label={s.cta.cont} onPress={onContinue} testID="session-continue" /></View>
           </View>
         )}
@@ -155,7 +157,7 @@ const st = StyleSheet.create({
   sheetRow: { flexDirection: 'row', gap: 8 },
   flex1: { flex: 1 },
   // Same box as PrimaryButton (minHeight 58, radius 8, stamp font 16) — outlined instead of lime.
-  closeBtn: { flex: 1, minHeight: 58, borderRadius: 8, borderWidth: 2, borderColor: colors.line, backgroundColor: colors.paper2,
+  closeBtn: { minHeight: 58, borderRadius: 8, borderWidth: 2, borderColor: colors.line, backgroundColor: colors.paper2,
     alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14 },
   closeTxt: { fontFamily: fonts.stamp, fontSize: 16, letterSpacing: 1.8, color: colors.ink },
   pressed: { transform: [{ scale: 0.98 }] },

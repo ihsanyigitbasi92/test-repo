@@ -41,7 +41,7 @@ function PartPicker({ part, label, value, pos, onCycle, prev, next }: { part: Lo
   const a11yValue = { text: `${value} (${pos})` };
   return (
     <View style={st.part}>
-      <Pressable onPress={() => onCycle(part, -1)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`${label} ${prev}`} accessibilityValue={a11yValue} testID={`look-${part}-prev`}
+      <Pressable onPress={() => onCycle(part, -1)} hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }} accessibilityRole="button" accessibilityLabel={`${label} ${prev}`} accessibilityValue={a11yValue} testID={`look-${part}-prev`}
         style={({ pressed }) => [st.arrow, pressed && st.pressed]}>
         <Text style={st.arrowTxt}>‹</Text>
       </Pressable>
@@ -49,7 +49,7 @@ function PartPicker({ part, label, value, pos, onCycle, prev, next }: { part: Lo
         <Text style={st.partLbl} numberOfLines={1}>{label}</Text>
         <Text style={st.partVal} numberOfLines={1} testID={`look-${part}-value`}>{value}</Text>
       </View>
-      <Pressable onPress={() => onCycle(part, 1)} hitSlop={6} accessibilityRole="button" accessibilityLabel={`${label} ${next}`} accessibilityValue={a11yValue} testID={`look-${part}-next`}
+      <Pressable onPress={() => onCycle(part, 1)} hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }} accessibilityRole="button" accessibilityLabel={`${label} ${next}`} accessibilityValue={a11yValue} testID={`look-${part}-next`}
         style={({ pressed }) => [st.arrow, pressed && st.pressed]}>
         <Text style={st.arrowTxt}>›</Text>
       </Pressable>
@@ -101,7 +101,7 @@ export function ClientFile({ name, city, lifeNo, fastLife, look, lookChanged, lo
           <Text style={[st.btnTxt, st.keepTxt]}>{upper(locale, s.cta.keep)}</Text>
         </Pressable>
       </View>
-      <Pressable onPress={onFastLife} accessibilityRole="switch" accessibilityState={{ checked: fastLife }} style={[st.chip, fastLife && st.chipOn]} testID="fast-life">
+      <Pressable onPress={onFastLife} accessibilityRole="switch" accessibilityState={{ checked: fastLife }} hitSlop={10} style={[st.chip, fastLife && st.chipOn]} testID="fast-life">
         <Text style={[st.chipTxt, fastLife && { color: colors.limeInk }]}>{fastLife ? '✓ ' : ''}{s.cta.fastLife}</Text>
       </Pressable>
     </Animated.View>
@@ -120,7 +120,7 @@ const st = StyleSheet.create({
   lookBtnTxt: { fontSize: 11.5, fontWeight: '700', color: colors.ink },
   parts: { flex: 1, gap: 5 },
   part: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: 8, backgroundColor: colors.paper, minHeight: 30 },
-  arrow: { width: 34, minHeight: 30, alignItems: 'center', justifyContent: 'center' },
+  arrow: { width: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
   arrowTxt: { fontSize: 20, lineHeight: 22, color: colors.lime, fontWeight: '700' },
   partMid: { flex: 1, alignItems: 'center', paddingVertical: 2 },
   partLbl: { textAlign: 'center', fontSize: 9.5, fontWeight: '700', letterSpacing: 0.8, color: colors.ink2 },
@@ -138,7 +138,7 @@ const st = StyleSheet.create({
   btnTxt: { fontSize: 15, fontWeight: '600', color: colors.ink },
   keepTxt: { fontFamily: fonts.stamp, letterSpacing: 1.4, color: colors.limeInk, fontWeight: '400' },
   pressed: { transform: [{ scale: 0.97 }] },
-  chip: { alignSelf: 'flex-start', borderWidth: 1, borderColor: colors.line, borderRadius: 999, paddingVertical: 4, paddingHorizontal: 10 },
+  chip: { alignSelf: 'flex-start', minHeight: 44, justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: 999, paddingVertical: 4, paddingHorizontal: 14 },
   chipOn: { backgroundColor: colors.lime, borderColor: colors.lime },
-  chipTxt: { fontSize: 11, fontWeight: '700', color: colors.ink2 },
+  chipTxt: { fontSize: 13, fontWeight: '700', color: colors.ink2 },
 });
