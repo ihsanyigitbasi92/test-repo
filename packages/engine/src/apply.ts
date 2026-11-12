@@ -73,7 +73,14 @@ export function applyEffects(
   for (const f of fx.flags?.remove ?? []) removeFlag(st, f);
   for (const n of fx.npc ?? []) {
     const x = npc(st, n.role);
-    if (n.create) { x.exists = true; if (n.role === 'child' && x.bornDay === undefined) x.bornDay = st.calendar.calendarDay; }
+    if (n.create) {
+      if (!x.alive && n.role === 'cat') {                         // a new cat after the old one died (same role, fresh life)
+        x.alive = true; x.affinity = 20; x.memories = []; x.bornDay = st.calendar.calendarDay - 365;
+        removeFlag(st, 'pamuk_vefat');
+        if (!st.status.assets.includes('kedi')) st.status.assets.push('kedi');
+      }
+      x.exists = true; if (n.role === 'child' && x.bornDay === undefined) x.bornDay = st.calendar.calendarDay;
+    }
     if (n.kill) x.alive = false;
     if (n.affinity) x.affinity = clamp(x.affinity + n.affinity, 0, 100);
     if (n.memory && !x.memories.includes(n.memory)) x.memories.push(n.memory);

@@ -110,7 +110,7 @@ export function applyCashflow(st: LifeState, fromDay: number, toDay: number): Ca
     switch (due.kind) {
       case 'payday':
         if (st.status.job) { moneyDelta(st, st.status.job.monthly, log, 'payday'); st.yearStats.paydays++; }
-        else if (st.status.home.kind === 'momsHouse') moneyDelta(st, E.allowanceMomsHouse, log, 'allowance');
+        else if (st.status.home.kind === 'momsHouse' && st.npcs.some((n) => n.role === 'mom' && n.alive)) moneyDelta(st, E.allowanceMomsHouse, log, 'allowance');
         break;
       case 'rent': {
         const rent = st.status.home.rent;
