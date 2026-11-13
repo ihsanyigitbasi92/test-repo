@@ -111,17 +111,15 @@ function Notice({ done }: { done: Done<'notice'> }) {
   );
 }
 
-/** The two switches of the explicit-consent card; both start as given (OFF on first ask). */
+/** The explicit-consent switch (OFF on first ask). A minor (age gate) gets no switch at all: personalisation is locked off. */
 function ChoiceFields({ minor, value, onChange }: { minor: boolean; value: ChoiceResult; onChange: (v: ChoiceResult) => void }) {
   const { s } = useI18n();
   const t = s.ads.consent;
-  if (minor) return <Text style={st.body}>{s.ads.privacy.minor}</Text>;
+  if (minor) return <Text style={st.body} testID="consent-minor-locked">{s.ads.privacy.minor}</Text>;
   return (
     <>
-      <Switch label={t.adult} hint={t.adultHint} value={value.adult} testID="consent-adult"
-        onChange={(adult) => onChange({ adult, personalized: adult && value.personalized })} />
-      <Switch label={t.personalized} hint={t.personalizedHint} value={value.personalized} disabled={!value.adult} testID="consent-personalized"
-        onChange={(personalized) => onChange({ ...value, personalized })} />
+      <Switch label={t.personalized} hint={t.personalizedHint} value={value.personalized} testID="consent-personalized"
+        onChange={(personalized) => onChange({ adult: true, personalized })} />
     </>
   );
 }
@@ -172,7 +170,7 @@ function Privacy({ view, done }: { view: ViewOf<'privacy'>; done: Done<'privacy'
   const { s } = useI18n();
   const t = s.ads.privacy;
   const p = view.status;
-  const [value, setValue] = useState<ChoiceResult>({ adult: p.adult, personalized: p.adult && p.personalized });
+  const [value, setValue] = useState<ChoiceResult>({ adult: !p.minor, personalized: !p.minor && p.personalized });
   return (
     <Sheet title={t.title} testID="privacy-sheet">
       <Text style={st.body} testID="privacy-status">{!p.resolved ? t.statusPending : p.personalized ? t.statusPersonal : t.statusNonPersonal}</Text>

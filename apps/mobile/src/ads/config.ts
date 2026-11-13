@@ -39,6 +39,12 @@ export const AD_CONFIG = {
   /** FTUE: ilk oturumda ve kurulumdan beri ilk 10 dk oyun süresinde HİÇBİR reklam yüzeyi (D-039, D-ÖNERİ-06-04). */
   ftue: { minSessionCount: 2, minPlayMs: 10 * MIN, /** ilk hayatta bu yaştan önce teklif yok (elle yazılmış ilk yıl) */ firstLifeMinAge: 19 },
 
+  /**
+   * Nötr yaş kapısı (D-104 a, 07 §2.3.5): yalnız doğum yılı sorulur, olası en küçük yaş esas alınır.
+   * minAge altı → oyun açılmaz; minAge..adultAge-1 → reşit olmayan (kişiselleştirme kilitli, yaş etiketi açık, ATT yok).
+   */
+  ageGate: { minAge: 16, adultAge: 18, maxAge: 110 },
+
   /** Sessiz bölgeler: yas / kayıp / düşük Keyif / negatif seri (06 §2.1 ilke 3, D-052, D-115, davranış raporu d.2). */
   quiet: {
     /** Yas sahnesinden sonra bu kadar gösterilen gün hiçbir ticari yüzey yok. */

@@ -6,12 +6,12 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **9.229** / 10.000 (92.3%) |
-| Kotası dolan alan | 83 / 132 |
-| Kotayı aşan alan | 10 |
+| Alan paketlerindeki geçerli olay | **9.590** / 10.000 (95.9%) |
+| Kotası dolan alan | 104 / 132 |
+| Kotayı aşan alan | 13 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **9.277** |
+| Genel toplam geçerli olay | **9.638** |
 | Şema hatalı dosya | 0 |
 
 ## Grup bazında
@@ -23,20 +23,20 @@
 | kariyer | 24 | 1175 | 1142 | 102.9% |
 | para | 8 | 617 | 617 | 100% |
 | ev | 8 | 618 | 618 | 100% |
-| tanidik_yuzler | 8 | 761 | 814 | 93.5% |
+| tanidik_yuzler | 8 | 762 | 814 | 93.6% |
 | iliski | 7 | 697 | 670 | 104% |
 | aile | 6 | 424 | 424 | 100% |
 | cagrilar | 2 | 169 | 169 | 100% |
-| ebeveynlik | 5 | 379 | 359 | 105.6% |
-| sosyal | 8 | 421 | 539 | 78.1% |
-| saglik | 9 | 577 | 716 | 80.6% |
-| gundelik | 6 | 391 | 501 | 78% |
+| ebeveynlik | 5 | 395 | 359 | 110% |
+| sosyal | 8 | 531 | 539 | 98.5% |
+| saglik | 9 | 720 | 716 | 100.6% |
+| gundelik | 6 | 480 | 501 | 95.8% |
 | ulasim | 3 | 205 | 234 | 87.6% |
 | teknoloji | 3 | 210 | 268 | 78.4% |
 | burokrasi | 3 | 213 | 273 | 78% |
 | bos_zaman | 4 | 234 | 299 | 78.3% |
 | mevsim | 2 | 127 | 163 | 77.9% |
-| yaslilik | 6 | 342 | 422 | 81% |
+| yaslilik | 6 | 344 | 422 | 81.5% |
 | meta | 4 | 366 | 469 | 78% |
 
 ## Alan bazında
@@ -123,28 +123,28 @@
 | 78 | `yeni_ebeveyn` | ebeveynlik | Yeni ebeveyn (bebeklik) | 72 | 72 | 0 | 100% | ██████████ |
 | 79 | `cocuk_buyutme` | ebeveynlik | Okul çağı ve ergen çocuk | 124 | 124 | 0 | 100% | ██████████ |
 | 80 | `bos_yuva` | ebeveynlik | Yetişkin çocuk ve boş yuva | 52 | 52 | 0 | 100% | ██████████ |
-| 81 | `torunlar` | ebeveynlik | Torunlar (büyükanne/büyükbaba olmak) | 72 | 72 | 0 | 100% | ██████████ |
-| 82 | `arkadaslar` | sosyal | Arkadaşlık | 111 | 143 | 32 | 77.6% | ████████░░ |
-| 83 | `dugun_davetli` | sosyal | Düğünlerde misafir | 51 | 65 | 14 | 78.5% | ████████░░ |
-| 84 | `cenaze_taziye` | sosyal | Cenaze ve taziye (misafir) | 35 | 45 | 10 | 77.8% | ████████░░ |
-| 85 | `kutlamalar_dogum_gunu` | sosyal | Doğum günleri ve kutlamalar | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 86 | `gece_hayati_eglence` | sosyal | Gece hayatı ve dışarı çıkmak | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 87 | `yabancilar_sokak` | sosyal | Sokakta yabancılar | 51 | 65 | 14 | 78.5% | ████████░░ |
-| 88 | `mahalle_esnaf` | sosyal | Mahalle esnafı | 40 | 52 | 12 | 76.9% | ████████░░ |
-| 89 | `kucuk_rahatsizliklar` | saglik | Küçük rahatsızlıklar | 105 | 117 | 12 | 89.7% | █████████░ |
-| 90 | `doktor_hastane` | saglik | Doktor, check-up, diş, göz | 88 | 111 | 23 | 79.3% | ████████░░ |
-| 91 | `uyku` | saglik | Uyku | 51 | 65 | 14 | 78.5% | ████████░░ |
-| 92 | `spor_fitness` | saglik | Spor salonu ve egzersiz | 66 | 85 | 19 | 77.6% | ████████░░ |
-| 93 | `kronik_saglik` | saglik | Kronik sağlık (adsız) | 48 | 58 | 10 | 82.8% | ████████░░ |
-| 94 | `yaslanan_beden` | saglik | Yaşlanan beden | 61 | 78 | 17 | 78.2% | ████████░░ |
-| 95 | `ruhsal_yuk_dusuk_keyif` | saglik | Ruhsal yük ve düşük Keyif günleri | 71 | 91 | 20 | 78% | ████████░░ |
-| 96 | `stres_tukenmislik` | saglik | Stres ve tükenmişlik | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 97 | `aliskanliklar_birakma` | saglik | Sigara/alkol ve bırakma denemeleri | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 98 | `yemek_mutfak` | gundelik | Yemek ve mutfak | 81 | 104 | 23 | 77.9% | ████████░░ |
-| 99 | `disarida_yemek_siparis` | gundelik | Dışarıda yemek ve sipariş | 61 | 78 | 17 | 78.2% | ████████░░ |
-| 100 | `market_alisveris` | gundelik | Market ve alışveriş | 71 | 91 | 20 | 78% | ████████░░ |
-| 101 | `alisveris_kiyafet_online` | gundelik | Kıyafet ve online alışveriş | 61 | 78 | 17 | 78.2% | ████████░░ |
-| 102 | `kisisel_bakim_berber` | gundelik | Berber, kuaför ve kişisel bakım | 40 | 52 | 12 | 76.9% | ████████░░ |
+| 81 | `torunlar` | ebeveynlik | Torunlar (büyükanne/büyükbaba olmak) | 88 | 72 | 0 | 122.2% | ██████████ |
+| 82 | `arkadaslar` | sosyal | Arkadaşlık | 143 | 143 | 0 | 100% | ██████████ |
+| 83 | `dugun_davetli` | sosyal | Düğünlerde misafir | 65 | 65 | 0 | 100% | ██████████ |
+| 84 | `cenaze_taziye` | sosyal | Cenaze ve taziye (misafir) | 45 | 45 | 0 | 100% | ██████████ |
+| 85 | `kutlamalar_dogum_gunu` | sosyal | Doğum günleri ve kutlamalar | 58 | 58 | 0 | 100% | ██████████ |
+| 86 | `gece_hayati_eglence` | sosyal | Gece hayatı ve dışarı çıkmak | 72 | 72 | 0 | 100% | ██████████ |
+| 87 | `yabancilar_sokak` | sosyal | Sokakta yabancılar | 65 | 65 | 0 | 100% | ██████████ |
+| 88 | `mahalle_esnaf` | sosyal | Mahalle esnafı | 52 | 52 | 0 | 100% | ██████████ |
+| 89 | `kucuk_rahatsizliklar` | saglik | Küçük rahatsızlıklar | 117 | 117 | 0 | 100% | ██████████ |
+| 90 | `doktor_hastane` | saglik | Doktor, check-up, diş, göz | 113 | 111 | 0 | 101.8% | ██████████ |
+| 91 | `uyku` | saglik | Uyku | 65 | 65 | 0 | 100% | ██████████ |
+| 92 | `spor_fitness` | saglik | Spor salonu ve egzersiz | 85 | 85 | 0 | 100% | ██████████ |
+| 93 | `kronik_saglik` | saglik | Kronik sağlık (adsız) | 60 | 58 | 0 | 103.4% | ██████████ |
+| 94 | `yaslanan_beden` | saglik | Yaşlanan beden | 78 | 78 | 0 | 100% | ██████████ |
+| 95 | `ruhsal_yuk_dusuk_keyif` | saglik | Ruhsal yük ve düşük Keyif günleri | 91 | 91 | 0 | 100% | ██████████ |
+| 96 | `stres_tukenmislik` | saglik | Stres ve tükenmişlik | 72 | 72 | 0 | 100% | ██████████ |
+| 97 | `aliskanliklar_birakma` | saglik | Sigara/alkol ve bırakma denemeleri | 39 | 39 | 0 | 100% | ██████████ |
+| 98 | `yemek_mutfak` | gundelik | Yemek ve mutfak | 104 | 104 | 0 | 100% | ██████████ |
+| 99 | `disarida_yemek_siparis` | gundelik | Dışarıda yemek ve sipariş | 78 | 78 | 0 | 100% | ██████████ |
+| 100 | `market_alisveris` | gundelik | Market ve alışveriş | 91 | 91 | 0 | 100% | ██████████ |
+| 101 | `alisveris_kiyafet_online` | gundelik | Kıyafet ve online alışveriş | 78 | 78 | 0 | 100% | ██████████ |
+| 102 | `kisisel_bakim_berber` | gundelik | Berber, kuaför ve kişisel bakım | 52 | 52 | 0 | 100% | ██████████ |
 | 103 | `gundelik_rutin` | gundelik | Sabahlar, rutin ve sıradan günler | 77 | 98 | 21 | 78.6% | ████████░░ |
 | 104 | `toplu_tasima` | ulasim | Toplu taşıma ve işe gidiş | 71 | 91 | 20 | 78% | ████████░░ |
 | 105 | `taksici` | tanidik_yuzler | Taksici arkı | 61 | 78 | 17 | 78.2% | ████████░░ |
@@ -159,7 +159,7 @@
 | 114 | `hobiler` | bos_zaman | Hobiler (el işi, müzik, kitap, bahçe) | 86 | 111 | 25 | 77.5% | ████████░░ |
 | 115 | `spor_amator_izleme` | bos_zaman | Amatör spor ve maç izlemek | 46 | 58 | 12 | 79.3% | ████████░░ |
 | 116 | `seyahat_tatil` | bos_zaman | Seyahat ve tatil | 71 | 91 | 20 | 78% | ████████░░ |
-| 117 | `evcil_pamuk` | tanidik_yuzler | Pamuk (kedi) arkı | 86 | 111 | 25 | 77.5% | ████████░░ |
+| 117 | `evcil_pamuk` | tanidik_yuzler | Pamuk (kedi) arkı | 87 | 111 | 24 | 78.4% | ████████░░ |
 | 118 | `diger_evcil_hayvanlar` | bos_zaman | Diğer evcil hayvanlar | 31 | 39 | 8 | 79.5% | ████████░░ |
 | 119 | `gonulluluk_iyilik` | sosyal | Gönüllülük ve küçük iyilikler | 31 | 39 | 8 | 79.5% | ████████░░ |
 | 120 | `mevsimler_hava` | mevsim | Mevsimler ve hava durumu | 66 | 85 | 19 | 77.6% | ████████░░ |
@@ -168,7 +168,7 @@
 | 123 | `emeklilik_gecis` | yaslilik | Emekliliğe geçiş | 51 | 65 | 14 | 78.5% | ████████░░ |
 | 124 | `emekli_hayati` | yaslilik | Emekli hayatı | 81 | 104 | 23 | 77.9% | ████████░░ |
 | 125 | `yaslilik_gundelik` | yaslilik | Yaşlılık ve gündelik hayat | 86 | 111 | 25 | 77.5% | ████████░░ |
-| 126 | `miras_vasiyet` | yaslilik | Miras, vasiyet ve düzen | 31 | 39 | 8 | 79.5% | ████████░░ |
+| 126 | `miras_vasiyet` | yaslilik | Miras, vasiyet ve düzen | 33 | 39 | 6 | 84.6% | ████████░░ |
 | 127 | `veda_kayip` | yaslilik | Vedalar ve kayıplar (sessizlik protokolü) | 47 | 45 | 0 | 104.4% | ██████████ |
 | 128 | `tanidik_yuzler_kesisme` | tanidik_yuzler | Tanıdık Yüzler kesişme günleri | 51 | 65 | 14 | 78.5% | ████████░░ |
 | 129 | `tek_hedef_anlari` | meta | Tek Hedef anları | 61 | 78 | 17 | 78.2% | ████████░░ |

@@ -6,6 +6,7 @@ import { Platform } from 'react-native';
 import { hasNoAds, onEntitlementsChange } from '../monetization/entitlements';
 import { readItem, writeItem } from '../state/storage';
 import { AdService } from './adService';
+import { AgeGateStore } from './ageGate';
 import { AD_CONFIG } from './config';
 import { countryOfLocaleTag, type AdPlatform, type Region } from './consent';
 import { createAdProvider } from './provider';
@@ -39,6 +40,15 @@ export const ads: AdService = new AdService({
   noAds: hasNoAds,
   onNoAdsChange: onEntitlementsChange,
   country: deviceCountry,
+});
+
+/** Neutral age gate: its answer is the only source of `isMinor`. A blocked (under-16) player counts as a minor. */
+export const ageGate = new AgeGateStore({
+  cfg: AD_CONFIG.ageGate,
+  kv: { read: readItem, write: writeItem },
+  now: () => Date.now(),
+  year: () => new Date().getFullYear(),
+  onBand: (band) => ads.setMinor(band !== 'adult'),
 });
 
 // ── demo / test hooks ───────────────────────────────────────────────────────

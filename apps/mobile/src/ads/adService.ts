@@ -66,6 +66,8 @@ export class AdService {
   private unsavedPlay = 0;
   private listeners = new Set<() => void>();
   private regionOverride: Region | null = null;
+  /** Answer of the neutral age gate; null until it is known — and until then there is no ad surface and no SDK. */
+  private ageMinor: boolean | null = null;
 
   constructor(private readonly d: AdServiceDeps) {
     this.ledger = emptyLedger(d.now(), d.localDay());
@@ -88,7 +90,7 @@ export class AdService {
   /** Demo / tests: pretend to be in another region. */
   setRegion(r: Region | null): void { this.regionOverride = r; }
   env(): AdEnv {
-    return { now: this.d.now(), localDay: this.d.localDay(), noAds: this.d.noAds(), adsAllowed: sdkAllowed(this.d.cfg, this.consentState, this.ump) };
+    return { now: this.d.now(), localDay: this.d.localDay(), noAds: this.d.noAds(), adsAllowed: this.ageMinor !== null && sdkAllowed(this.d.cfg, this.consentState, this.ump) };
   }
   /** What every request is made with right now. Non-personalised unless explicitly allowed. */
   prefs(): AdRequestPrefs { return requestPrefs(this.d.cfg, this.consentState, this.d.platform); }
@@ -102,6 +104,7 @@ export class AdService {
         if (s) { this.ledger = s.ledger; this.consentState = s.consent; }
       } catch { /* starts empty */ }
       this.loaded = true;
+      if (this.ageMinor !== null) this.consentState = applyMinor(this.consentState, this.ageMinor);
       this.foreground();
       // The game must never wait long for an ad SDK: init continues in the background after the timeout.
       await Promise.race([this.ensureSdk(), new Promise<void>((r) => setTimeout(r, READY_TIMEOUT_MS))]);
@@ -133,7 +136,7 @@ export class AdService {
 
   private async ensureSdk(): Promise<boolean> {
     const p = this.d.provider;
-    if (!this.consentState.resolved) return false;
+    if (!this.consentState.resolved || this.ageMinor === null) return false;
     try {
       if (this.consentState.source === 'ump' && !this.ump) this.ump = await p.consent.getStatus();
       if (!sdkAllowed(this.d.cfg, this.consentState, this.ump)) return false;
@@ -148,7 +151,7 @@ export class AdService {
   /** What (if anything) the return slot holds: the consent step, the ATT pre-prompt, or the one interstitial. */
   returnSlot(game: AdGameContext, awayMs: number): ReturnSlot | null {
     const cfg = this.d.cfg;
-    if (!this.loaded || !cfg.enabled || cfg.kill.all || game.stage !== 'play' || game.phase === 'dead' || game.pendingDeath) return null;
+    if (!this.loaded || this.ageMinor === null || !cfg.enabled || cfg.kill.all || game.stage !== 'play' || game.phase === 'dead' || game.pendingDeath) return null;
     const n = this.ledger.sessionCount;
     // An owner who never sees an ad (no interstitials, rewards granted without one) is not asked for ad consent.
     const adFree = this.d.noAds() && fulfilment(cfg, { noAds: true }) === 'free';
@@ -193,7 +196,7 @@ export class AdService {
       c = applyUmp(cfg, c, this.ump, region, now);
     } else {
       await present({ k: 'notice' }, null);
-      const choice = await present({ k: 'choice', minor: c.isMinor, initial: { personalized: false, adult: false } }, null);
+      const choice = await present({ k: 'choice', minor: c.isMinor, initial: { personalized: false, adult: !c.isMinor } }, null);
       c = applyCardChoice(cfg, c, choice ?? { personalized: false, adult: false }, region, now);
     }
     this.setConsent(c);
@@ -216,12 +219,20 @@ export class AdService {
     this.emit();
   }
 
-  /** Known minor from an age gate (D-102): personalisation off and locked, under-age tag on, no ATT. */
-  setMinor(isMinor: boolean): void { this.setConsent(applyMinor(this.consentState, isMinor)); }
+  /**
+   * Result of the neutral age gate (ageGate.ts). Minor (D-102): personalisation off and locked, under-age tag on,
+   * no ATT. May be called before `ready()`: it is applied on top of the stored consent once that is read.
+   */
+  setMinor(isMinor: boolean): void {
+    this.ageMinor = isMinor;
+    if (this.loaded) { this.setConsent(applyMinor(this.consentState, isMinor)); void this.ensureSdk(); } else this.emit();
+  }
+  /** null: the age gate has not been answered yet. */
+  ageKnown(): boolean { return this.ageMinor !== null; }
 
   privacyStatus(): PrivacyStatus {
     const c = this.consentState;
-    return { resolved: c.resolved, personalized: personalizedAllowed(c, this.d.platform), adult: c.adultConfirmed, minor: c.isMinor, noAds: this.d.noAds(), noAdsFree: fulfilment(this.d.cfg, { noAds: true }) === 'free',
+    return { resolved: c.resolved, personalized: personalizedAllowed(c, this.d.platform), adult: !c.isMinor, minor: c.isMinor, noAds: this.d.noAds(), noAdsFree: fulfilment(this.d.cfg, { noAds: true }) === 'free',
       ump: c.source === 'ump' || (!c.resolved && consentSteps(this.region()).includes('ump')), ios: this.d.platform === 'ios' };
   }
 
@@ -245,7 +256,7 @@ export class AdService {
 
   /** Mounts an offer if it is allowed right now (and counts it for the session). null → nothing is shown at all. */
   offer(placement: PlacementId, game: AdGameContext): Offer | null {
-    if (!this.loaded || !this.offerDecision(placement, game).ok) return null;
+    if (!this.loaded || this.ageMinor === null || !this.offerDecision(placement, game).ok) return null;
     const amount = placement === 'sponsor' ? sponsorAmount(this.d.cfg, game.monthlySalary) : 0;
     const free = fulfilment(this.d.cfg, this.env()) === 'free';
     if (placement === 'sponsor' && amount <= 0) return null;

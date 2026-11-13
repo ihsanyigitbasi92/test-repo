@@ -7,3 +7,4 @@ export { AdHost } from './AdHost';
 export { PrivacyEntry, RewardedOfferButtons } from './OfferButtons';
 export { getConsent, onConsentChange, requestTracking } from './consentApi';
 export type { ConsentSnapshot } from './consentApi';
+export { AgeGate, useAgeState } from './AgeGate';

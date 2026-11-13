@@ -9,7 +9,8 @@
  */
 import { Platform } from 'react-native';
 import { personalizedAllowed, type AdPlatform, type Region } from './consent';
-import { ads } from './runtime';
+import type { AgeState } from './ageGate';
+import { ads, ageGate } from './runtime';
 import type { TrackingStatus } from './types';
 
 export interface ConsentSnapshot {
@@ -21,23 +22,30 @@ export interface ConsentSnapshot {
   att: TrackingStatus | 'skipped';
   /** The one flag to gate any cross-app tracking / advertising-ID use on: opt-in + not a minor + (iOS) ATT authorised. */
   trackingAllowed: boolean;
+  /** Under 18 by the neutral age gate (also true for `blocked`). Minors: no ad-id based measurement, no Meta SDK, no ATT. */
   isMinor: boolean;
+  /** Age gate state. Until it is `adult` or `minor` NOTHING may be initialised (analytics, attribution, ads). */
+  age: AgeState;
   region: Region;
 }
 
 const platform: AdPlatform = Platform.OS === 'ios' ? 'ios' : Platform.OS === 'android' ? 'android' : 'web';
-let memo: { key: unknown; snap: ConsentSnapshot } | null = null;
+let memo: { key: unknown; age: AgeState; snap: ConsentSnapshot } | null = null;
 
 export function getConsent(): ConsentSnapshot {
   const c = ads.getConsent();
-  if (memo?.key === c) return memo.snap;                       // stable reference for useSyncExternalStore
+  const age = ageGate.getState();
+  if (memo?.key === c && memo.age === age) return memo.snap;                       // stable reference for useSyncExternalStore
   const snap: ConsentSnapshot = { resolved: c.resolved, adsPersonalized: c.adsPersonalized, att: c.att, trackingAllowed: personalizedAllowed(c, platform),
-    isMinor: c.isMinor, region: c.region };
-  memo = { key: c, snap };
+    isMinor: c.isMinor || age === 'blocked' || age === 'minor', age, region: c.region };
+  memo = { key: c, age, snap };
   return snap;
 }
 
-export function onConsentChange(cb: () => void): () => void { return ads.subscribe(cb); }
+export function onConsentChange(cb: () => void): () => void {
+  const a = ads.subscribe(cb), b = ageGate.subscribe(cb);
+  return () => { a(); b(); };
+}
 
 /** Shared ATT request. Does nothing (and returns the current status) unless the ad layer's own rules say it is due. */
 export async function requestTracking(): Promise<ConsentSnapshot['att']> {
