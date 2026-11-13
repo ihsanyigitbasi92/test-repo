@@ -148,3 +148,16 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
   - İçerik: textlint (ham id, TR ek uyumu, EN'de TR isim, yazım), 310 koç satırı persona, ~320 EN isim/çeviri düzeltmesi.
 - Testler: uygulama 57/57, motor 56/56, içerik 81/81 + check yeşil. Demo yeniden yayımlandı.
 - Açık: anne ölünce "annenin evi"; ölen kedinin yerine yenisi; hız kontrolünü başparmak bölgesine taşıma; native cihaz testi.
+
+## 2026-11-12/13 — Sprint 3: miras, yeni kedi, satın alma, reklam, ses, analitik, yaş kapısı, eğitim
+- **Miras + yeni kedi:** anne vefatında harçlık kesilir; 40–120 gün sonra ev kararı (kal/sat/taşın) gelir (30 hayatta 25/25). Kedi ölünce kapıya yavru gelir (24/30 hayatta sahiplenildi).
+- **Satın alma (doc 14):** katalog, yetki deposu, RevenueCat sağlayıcısı + deneme mağazası, mağaza ekranı, geri yükleme. Reklamsız 89,99 ₺ (öneri fiyat). Torpil gerçek mağazada şimdilik kapalı.
+- **Reklam (doc 15):** AdMob + sahte sağlayıcı. Geçiş reklamı yalnız ≥6 saat sonra dönüşte (3. oturumdan itibaren, oturumda 1, günde 2); ödüllü "Forma Sponsoru" maaş gününde. Banner yok; ölüm/karne/yas çevresinde reklam yok. Karar: Reklamsız yalnız geçiş reklamını kaldırır, ödüllü isteğe bağlı kalır (D-038).
+- **Rıza + yaş kapısı:** açılıştan sonra nötr doğum yılı sorusu; 16 altı kapalı, 16–17 kişiselleştirme/ATT/Meta kilitli; doğum yılı saklanmaz. Rıza kartı: anahtarlar kapalı, Reddet/Kaydet eşit.
+- **Ses (doc 16):** 31 ses / 41 WAV, tamamı kendi betiğimizle sentez (üçüncü taraf ses yok). Ayarlar sayfası (≡): ses, seviye, titreşim.
+- **Analitik (doc 17):** 38 olaylık katalog, Firebase (Analytics + Crashlytics + Remote Config) ve Meta SDK; rıza/yaş kapılı kuyruk; yayıncı veri paketi; uygulama kimliği com.d2ptechnology.motto.
+- **Eğitim (doc 18, D-160):** 5 sayfalık atlanabilir "Nasıl oynanır", ilk hayatta 5 tek seferlik ipucu, Ayarlar'dan tekrar; oklu seçenekler gerçekten kaydırılabilir.
+- **İçerik:** dalga 5 kullanım sınırları yüzünden parça parça ilerliyor: havuz 9.726 / 10.000, tüm kontroller 0 hata.
+- **Testler:** uygulama 252/252, motor 56/56, derleme denetimi temiz. Demo sürüm 8 yayımlandı.
+- **Doğrulanmayan:** gerçek cihaz derlemesi, gerçek mağaza/AdMob/Firebase/Meta hesaplarıyla çalışma, seslerin kulakla dinlenmesi.
+- **Açık:** kullanım koşulları/gizlilik sayfaları, ödül parasının motor eylemine taşınması, "son reklamı bildir", bildirimler, paylaşım kartları, mağaza paketi; üç uzman tekrar testi sürüyor.
