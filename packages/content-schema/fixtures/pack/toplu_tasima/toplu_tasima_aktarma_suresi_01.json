@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "toplu_tasima_aktarma_suresi_01",
+  "tags": [
+    "ulasim",
+    "yol",
+    "toplu_tasima"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "toplu_tasima": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "İndirimli aktarma mı? Benim kart hep bir dakikayla kaçırır.",
+      "en": "Discounted transfer? My card always misses it by a minute."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Durak karşıda. Üst geçit uzun, aktarma süresi kısa.",
+      "en": "The stop's across the road. The overpass is long. The transfer window is short.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Üst geçidi koşarak geç",
+      "en": "Sprint the overpass",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "yuru",
+      "tr": "Yürü, tam ücret öde",
+      "en": "Walk it, pay full fare",
+      "pattern": "patience"
+    },
+    {
+      "id": "yaya",
+      "tr": "Hiç binme, yürüyerek git",
+      "en": "Skip the bus, walk to work",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "money": -10,
+          "flags": {
+            "add": [
+              "aktarma_rekoru"
+            ]
+          }
+        },
+        "tr": "Üst geçidi koşarak geçtin, kart \"aktarma\" diye öttü. Süre dolmaya bir saniye vardı.",
+        "en": "You sprinted the overpass and the card chirped \"transfer.\" One second left on the clock.",
+        "coach": [
+          {
+            "tr": "Kırk dört dakika, elli dokuz saniye.",
+            "en": "Forty-four minutes, fifty-nine seconds.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -35
+        },
+        "tr": "Koştun, kart tam ücret kesti. Süre bir saniye önce dolmuştu, nefesin de.",
+        "en": "You ran. The card charged full fare. The window had closed one second earlier. So had your lungs.",
+        "coach": [
+          {
+            "tr": "Bir saniye, tam ücret. Nabız da tam.",
+            "en": "One second late. Full fare. Full pulse, too.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yuru": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -35
+      },
+      "tr": "Yürüyerek geçtin, tam ücretle bindin. Otobüs aynı otobüstü.",
+      "en": "You walked across and paid full fare. Same bus either way.",
+      "coach": [
+        {
+          "tr": "Ücret tam, nabız normal.",
+          "en": "Full fare. Normal pulse.",
+          "roast": false
+        }
+      ]
+    },
+    "yaya": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 0
+        },
+        "flags": {
+          "add": [
+            "yuruyerek_ise"
+          ]
+        }
+      },
+      "tr": "Binmedin, yürüdün. Yirmi beş dakika sürdü; işe biraz terli ama erken vardın.",
+      "en": "You skipped the bus and walked. Twenty-five minutes. Arrived a little sweaty, a little early.",
+      "coach": [
+        {
+          "tr": "Kart bugün izinli.",
+          "en": "The card took the day off.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: Üst geçit kazanır. — M.",
+      "en": "WAGER: The overpass wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "indirimli aktarma süresinin son dakikasında durağın yolun karşısında olması",
+    "mechanism": "üst geçit ile süre yarışı",
+    "mechanismId": "count",
+    "punch": "üst geçit uzun, aktarma süresi kısa",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "saniye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

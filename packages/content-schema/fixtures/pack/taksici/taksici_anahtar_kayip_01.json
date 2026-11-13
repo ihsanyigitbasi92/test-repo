@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_anahtar_kayip_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "worried",
+      "tr": "Anahtar mı? Anahtar hep koltuk aralığına düşer. Yer çekimi orada fazla mesai yapar.",
+      "en": "Keys? Keys always fall in the seat crack. Gravity works overtime back there."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Geçen ay bir yolcunun anahtarı, önceki yolcunun anahtarıyla birlikte çıktı. Kol kola.",
+      "en": "Last month one passenger's keys came out with the previous guy's. Arm in arm.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Koltuk aralığını ara",
+      "en": "Dig through the seat crack",
+      "pattern": "patience",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "cilingir",
+      "tr": "Çilingir çağır",
+      "en": "Call a locksmith",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "ev_arkadasi",
+      "tr": "Ev arkadaşını uyandır",
+      "en": "Wake your roommate",
+      "pattern": "shortcut",
+      "requires": {
+        "npc": {
+          "roommate": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "ara": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -260,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "taksici_anahtar_kurtarici"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Anahtarın koltuk aralığından çıktı. Yanında iki çakmak, bir toka ve başka birinin kimliği vardı.",
+        "en": "Your keys came out of the crack, along with two lighters, a hair clip and someone else's ID.",
+        "coach": [
+          {
+            "tr": "Bulundu. Kimlik hâlâ sahibini bekliyor.",
+            "en": "Found. The ID is still waiting for its owner.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -910,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Koltuk aralığı boş çıktı; çilingir 650 Para aldı. Anahtar sabah montunun astarından çıktı.",
+        "en": "The crack was empty and the locksmith charged 650. In the morning the keys turned up in your coat lining.",
+        "coach": [
+          {
+            "tr": "Astar sabaha kadar sustu.",
+            "en": "The lining kept quiet until morning.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cilingir": {
+      "effects": {
+        "money": -910,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Çilingir yirmi dakikada geldi, kırk saniyede açtı. Gece tarifesi: 650 Para.",
+      "en": "The locksmith arrived in twenty minutes and opened it in forty seconds. Night rate: 650.",
+      "coach": [
+        {
+          "tr": "Kırk saniye, gece tarifesi.",
+          "en": "Forty seconds, night rate.",
+          "roast": false
+        }
+      ]
+    },
+    "ev_arkadasi": {
+      "effects": {
+        "money": -260,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "anahtar_listesi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Ev arkadaşın kapıyı yarı uykulu açtı. Ertesi gün kapıya bir \"anahtar kontrol\" listesi asıldı.",
+      "en": "Your roommate opened the door half-asleep. Next day a \"key check\" list went up on the door.",
+      "coach": [
+        {
+          "tr": "Listede ilk sıra sende.",
+          "en": "You're first on the list.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ara",
+    "slip": {
+      "tr": "İDDİA: Koltuk aralığı boş çıkar. — M.",
+      "en": "WAGER: The seat crack comes up empty. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece eve dönerken anahtarın kaybolduğunu taksiden inmeden fark etmek",
+    "mechanism": "koltuk aralığının yer çekimi teorisi büyüyor",
+    "mechanismId": "escalation",
+    "punch": "yer çekimi orada fazla mesai yapar",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "astar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

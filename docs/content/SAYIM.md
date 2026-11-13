@@ -6,12 +6,12 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **9.590** / 10.000 (95.9%) |
-| Kotası dolan alan | 104 / 132 |
+| Alan paketlerindeki geçerli olay | **9.678** / 10.000 (96.8%) |
+| Kotası dolan alan | 109 / 132 |
 | Kotayı aşan alan | 13 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **9.638** |
+| Genel toplam geçerli olay | **9.726** |
 | Şema hatalı dosya | 0 |
 
 ## Grup bazında
@@ -23,16 +23,16 @@
 | kariyer | 24 | 1175 | 1142 | 102.9% |
 | para | 8 | 617 | 617 | 100% |
 | ev | 8 | 618 | 618 | 100% |
-| tanidik_yuzler | 8 | 762 | 814 | 93.6% |
+| tanidik_yuzler | 8 | 779 | 814 | 95.7% |
 | iliski | 7 | 697 | 670 | 104% |
 | aile | 6 | 424 | 424 | 100% |
 | cagrilar | 2 | 169 | 169 | 100% |
 | ebeveynlik | 5 | 395 | 359 | 110% |
 | sosyal | 8 | 531 | 539 | 98.5% |
 | saglik | 9 | 720 | 716 | 100.6% |
-| gundelik | 6 | 480 | 501 | 95.8% |
-| ulasim | 3 | 205 | 234 | 87.6% |
-| teknoloji | 3 | 210 | 268 | 78.4% |
+| gundelik | 6 | 501 | 501 | 100% |
+| ulasim | 3 | 234 | 234 | 100% |
+| teknoloji | 3 | 231 | 268 | 86.2% |
 | burokrasi | 3 | 213 | 273 | 78% |
 | bos_zaman | 4 | 234 | 299 | 78.3% |
 | mevsim | 2 | 127 | 163 | 77.9% |
@@ -145,12 +145,12 @@
 | 100 | `market_alisveris` | gundelik | Market ve alışveriş | 91 | 91 | 0 | 100% | ██████████ |
 | 101 | `alisveris_kiyafet_online` | gundelik | Kıyafet ve online alışveriş | 78 | 78 | 0 | 100% | ██████████ |
 | 102 | `kisisel_bakim_berber` | gundelik | Berber, kuaför ve kişisel bakım | 52 | 52 | 0 | 100% | ██████████ |
-| 103 | `gundelik_rutin` | gundelik | Sabahlar, rutin ve sıradan günler | 77 | 98 | 21 | 78.6% | ████████░░ |
-| 104 | `toplu_tasima` | ulasim | Toplu taşıma ve işe gidiş | 71 | 91 | 20 | 78% | ████████░░ |
-| 105 | `taksici` | tanidik_yuzler | Taksici arkı | 61 | 78 | 17 | 78.2% | ████████░░ |
-| 106 | `araba_sahipligi` | ulasim | Araba sahipliği | 82 | 91 | 9 | 90.1% | █████████░ |
+| 103 | `gundelik_rutin` | gundelik | Sabahlar, rutin ve sıradan günler | 98 | 98 | 0 | 100% | ██████████ |
+| 104 | `toplu_tasima` | ulasim | Toplu taşıma ve işe gidiş | 91 | 91 | 0 | 100% | ██████████ |
+| 105 | `taksici` | tanidik_yuzler | Taksici arkı | 78 | 78 | 0 | 100% | ██████████ |
+| 106 | `araba_sahipligi` | ulasim | Araba sahipliği | 91 | 91 | 0 | 100% | ██████████ |
 | 107 | `trafik_cezalar` | ulasim | Trafik ve cezalar | 52 | 52 | 0 | 100% | ██████████ |
-| 108 | `telefon_teknoloji` | teknoloji | Telefon ve teknoloji | 77 | 98 | 21 | 78.6% | ████████░░ |
+| 108 | `telefon_teknoloji` | teknoloji | Telefon ve teknoloji | 98 | 98 | 0 | 100% | ██████████ |
 | 109 | `sosyal_medya` | teknoloji | Sosyal medya | 77 | 98 | 21 | 78.6% | ████████░░ |
 | 110 | `dijital_eglence` | teknoloji | Dizi, oyun ve ekran keyfi | 56 | 72 | 16 | 77.8% | ████████░░ |
 | 111 | `burokrasi_resmi_daire` | burokrasi | Bürokrasi ve resmî daireler (kurgusal) | 86 | 111 | 25 | 77.5% | ████████░░ |

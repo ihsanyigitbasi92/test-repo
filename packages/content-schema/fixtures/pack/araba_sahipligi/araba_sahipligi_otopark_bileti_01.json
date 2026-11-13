@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_otopark_bileti_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bileti kaybettiyseniz tam gün ücreti, 400 Para. Sistem öyle.",
+      "en": "Lost ticket means the full-day rate. 400. That's the system."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "On dakika içeride kaldığınızı ben biliyorum. Sistem bilmiyor.",
+      "en": "I know you were inside ten minutes. The system doesn't.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Tam günü öde",
+      "en": "Pay the full day",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "ara",
+      "tr": "Bileti arabada ara",
+      "en": "Search the car for it",
+      "pattern": "patience",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "fis",
+      "tr": "Market fişini göster",
+      "en": "Show your shopping receipt",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "400 Para ödedin. Bariyer on dakikalık bir tam güne açıldı.",
+      "en": "You paid 400. The barrier lifted on your ten-minute full day.",
+      "coach": [
+        {
+          "tr": "Tam gün, on dakika sürdü.",
+          "en": "A full day, ten minutes long.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -20,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "bilet_gunesligin_arkasinda"
+            ]
+          }
+        },
+        "tr": "Bilet güneşliğin arkasından çıktı. Ücret 20 Para.",
+        "en": "The ticket was tucked behind the sun visor. Fee: 20.",
+        "coach": [
+          {
+            "tr": "Güneşlik saklamış.",
+            "en": "The visor had it all along.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -400,
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Arkanda dört araba korna çalarken torpidoyu boşalttın. Bilet yoktu; 400 Para ödedin.",
+        "en": "Four cars honked while you emptied the glovebox. No ticket. You paid 400.",
+        "coach": [
+          {
+            "tr": "Torpido en azından temizlendi.",
+            "en": "At least the glovebox got cleaned.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "fis": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "otopark_fis_yontemi"
+          ]
+        }
+      },
+      "tr": "Görevli fişteki saate baktı, \"Bu seferlik\" deyip yarım ücret kesti.",
+      "en": "The attendant checked the time on the receipt, said \"Just this once,\" and charged half.",
+      "coach": [
+        {
+          "tr": "Fiş delil sayıldı.",
+          "en": "The receipt held up as evidence.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti payı dışında"
+  },
+  "intent": {
+    "setup": "alışveriş merkezi otoparkından çıkarken otopark biletini kaybetmek ve tam gün ücreti",
+    "mechanism": "görevli biliyor, sistem bilmiyor",
+    "mechanismId": "literalism",
+    "punch": "sistem bilmiyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "gunesluk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

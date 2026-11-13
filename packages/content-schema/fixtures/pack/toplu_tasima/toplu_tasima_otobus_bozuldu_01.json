@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "toplu_tasima_otobus_bozuldu_01",
+  "tags": [
+    "ulasim",
+    "yol",
+    "toplu_tasima"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "toplu_tasima": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Arıza var. Herkes insin, arkadan gelen alacak.",
+      "en": "Breakdown. Everybody off, the next one'll pick you up."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Arkadan gelen dolu gelir, ben biliyorum. Dört kişi alırım, bölüşürüz.",
+      "en": "The next one comes full, trust me. I'll take four, we split it.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Arkadan geleni bekle",
+      "en": "Wait for the next bus",
+      "pattern": "patience",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "taksi",
+      "tr": "Taksiyi bölüş",
+      "en": "Split the cab",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "yuru",
+      "tr": "Kalan yolu yürü",
+      "en": "Walk the rest",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "otobus_aktarildi"
+            ]
+          }
+        },
+        "tr": "Arkadaki otobüs geldi, kapıdan son kişi olarak sığdın. İşe yirmi dakika geç vardın.",
+        "en": "The next bus came and you squeezed through the door as the last one in. Twenty minutes late to work.",
+        "coach": [
+          {
+            "tr": "Son sığan sendin.",
+            "en": "Last one to fit: you.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Arkadaki otobüs dolu geldi, durmadan geçti. Bir sonrakine kırk dakika vardı.",
+        "en": "The next bus came full and didn't stop. The one after that: forty minutes.",
+        "coach": [
+          {
+            "tr": "Arkadan gelen öne geçti.",
+            "en": "The one behind went on ahead.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "taksi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -120,
+        "flags": {
+          "add": [
+            "taksi_bolusme"
+          ]
+        }
+      },
+      "tr": "Dört yabancıyla taksiye bindin, ücret dörde bölündü. Taksici yol boyunca arızanın asıl sebebini anlattı.",
+      "en": "You split a cab four ways with strangers. The cabbie spent the ride explaining what really broke the bus.",
+      "coach": [
+        {
+          "tr": "Dörtte bir ücret, tam teori.",
+          "en": "A quarter of the fare. The whole theory.",
+          "roast": false
+        }
+      ]
+    },
+    "yuru": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 0
+        }
+      },
+      "tr": "Kalan üç durağı yürüdün ve hiçbir otobüsten önce vardın.",
+      "en": "You walked the last three stops and got there before any bus did.",
+      "coach": [
+        {
+          "tr": "Üç durak, yaya, birinci.",
+          "en": "Three stops on foot. First place.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Arkadaki seni almaz. — M.",
+      "en": "WAGER: The next bus won't stop. — M."
+    }
+  },
+  "intent": {
+    "setup": "sabah işe giderken otobüsün yolda arızalanıp yolcuların indirilmesi",
+    "mechanism": "taksicinin arkadan gelen teorisi",
+    "mechanismId": "deadpan_report",
+    "punch": "arkadan gelen dolu gelir",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "teori"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

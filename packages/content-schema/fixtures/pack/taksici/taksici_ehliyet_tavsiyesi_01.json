@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_ehliyet_tavsiyesi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "flags": {
+      "none": [
+        "ehliyet_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Yarın ehliyet sınavın mı? Ben de otuz yıl önce geçtim. İkinci denemede.",
+      "en": "Driving test tomorrow? I passed mine thirty years ago. Second try."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Sırrı söyleyeyim: aynaya bakarken başını da çevir. Hoca gözüne değil, kafana bakar.",
+      "en": "Here's the secret: check the mirror with your whole head. Examiners watch heads, not eyes."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Ben ilk sınavda yalnızca gözümle baktım. Gerisini biliyorsun.",
+      "en": "First time, I only used my eyes. You know the rest.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "uygula",
+      "tr": "Taktiği yarın uygula",
+      "en": "Use his trick tomorrow",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dinle",
+      "tr": "Teşekkür et, planına sadık kal",
+      "en": "Thank him, stick to your plan",
+      "pattern": "pride"
+    },
+    {
+      "id": "daha",
+      "tr": "Başka taktik de iste",
+      "en": "Ask for more tips",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "uygula": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "ehliyet_var",
+              "taksici_taktigi_tuttu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Sınavda başını deniz feneri gibi çevirdin. Hoca \"ayna kontrolü yerinde\" yazdı; ehliyet çıktı.",
+        "en": "At the test you turned your head like a lighthouse. The examiner wrote \"thorough mirror checks.\" You passed.",
+        "coach": [
+          {
+            "tr": "Kafa döndü, ehliyet geldi.",
+            "en": "Head turned. License earned.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ehliyet_ikinci_deneme"
+            ]
+          }
+        },
+        "tr": "Başını o kadar çevirdin ki öndeki koniyi görmedin. İkinci sınav kırk beş gün sonra.",
+        "en": "You turned your head so far you missed the cone in front. Retest in forty-five days.",
+        "coach": [
+          {
+            "tr": "Taksiciyle aynı yoldasın: ikinci deneme.",
+            "en": "Same route as the cabbie: take two.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dinle": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "brain": 1
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Teşekkür edip indin. Taksici camdan son kez \"Başını çevir!\" diye seslendi.",
+      "en": "You thanked him and got out. He leaned out the window one last time: \"Turn your head!\"",
+      "coach": [
+        {
+          "tr": "Tavsiye kapıya kadar geldi.",
+          "en": "The advice walked you to the door.",
+          "roast": false
+        }
+      ]
+    },
+    "daha": {
+      "effects": {
+        "money": -320,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "taksici_ehliyet_hocasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "On dakikada park, yokuş kalkışı ve \"hocanın keyfi\" teorisini dinledin. Taksimetre dersi değil, yolu saydı.",
+      "en": "Ten minutes covered parking, hill starts and his theory of examiner moods. The meter charged for the ride, not the lesson.",
+      "coach": [
+        {
+          "tr": "Ücretsiz kurs. Yol hariç.",
+          "en": "Free course. Fare not included.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "uygula",
+    "slip": {
+      "tr": "İDDİA: Taksicinin taktiği sınavı geçirmez. — M.",
+      "en": "WAGER: The cabbie's trick won't get you through. — M."
+    }
+  },
+  "intent": {
+    "setup": "ehliyet sınavından önceki gün taksicinin hocalar kafaya bakar diye sınav taktiği vermesi",
+    "mechanism": "ayna kontrolünü kafayla yapma teorisi kelimesi kelimesine uygulanıyor",
+    "mechanismId": "literalism",
+    "punch": "hoca gözüne değil kafana bakar",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kafa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

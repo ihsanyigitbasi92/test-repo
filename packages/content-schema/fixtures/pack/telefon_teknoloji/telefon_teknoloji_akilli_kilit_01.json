@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "telefon_teknoloji_akilli_kilit_01",
+  "tags": [
+    "teknoloji",
+    "telefon",
+    "telefon_teknoloji"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "telefon_teknoloji": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kilidin pili bitmiş görünüyor. Acil durumda alttaki iki noktaya dokuz voltluk pil değdirin.",
+      "en": "Looks like the lock battery died. In an emergency, touch a 9-volt battery to the two contacts underneath."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Dokuz voltluk piliniz yok mu? Çoğu kişinin olmaz.",
+      "en": "No 9-volt on you? Most people don't have one.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pil",
+      "tr": "Bakkala koş, pil al",
+      "en": "Run to the corner shop",
+      "pattern": "risk",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "cilingir",
+      "tr": "Çilingir çağır",
+      "en": "Call a locksmith",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "yedek",
+      "tr": "Yedek anahtarı annenden al",
+      "en": "Get the spare from your mom",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "pil": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -60,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "yedek_pil_cuzdanda"
+            ]
+          }
+        },
+        "tr": "Bakkalın son dokuz voltluğu rafın arkasından çıktı. Pili değdirdin, kilit kendinden memnun bir melodiyle açıldı.",
+        "en": "The shop's last 9-volt was hiding behind the shelf. You touched it to the contacts and the lock opened with a smug little tune.",
+        "coach": [
+          {
+            "tr": "Kilit melodi çaldı. Bir saat geç.",
+            "en": "The lock played a tune. An hour late.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -760,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Bakkalda dokuz voltluk yoktu, sonraki iki bakkalda da. Sonunda çilingir geldi, 700 Para aldı.",
+        "en": "No 9-volts at the shop, or the next two. Eventually a locksmith came: 700.",
+        "coach": [
+          {
+            "tr": "Üç bakkal, bir çilingir. Akıllı kilit.",
+            "en": "Three shops, one locksmith. Smart lock.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cilingir": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "akilli_kilit_anahtar_deligi"
+          ]
+        }
+      },
+      "tr": "Çilingir kilidi yarım saatte açtı. Giderken kilidin altında başından beri sıradan bir anahtar deliği olduğunu gösterdi.",
+      "en": "The locksmith had it open in half an hour. On the way out, he showed you it had a regular keyhole all along.",
+      "coach": [
+        {
+          "tr": "Anahtar deliği yıllardır oradaymış.",
+          "en": "The keyhole was there the whole time.",
+          "roast": true
+        }
+      ]
+    },
+    "yedek": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annenin evinden yedek anahtarı aldın. Annen anahtarı uzatırken akıllı kilidin tam olarak ne işe yaradığını sordu.",
+      "en": "You picked up the spare from your mom. Handing it over, she asked what exactly the smart lock was for.",
+      "coach": [
+        {
+          "tr": "Cevap hâlâ yükleniyor.",
+          "en": "The answer is still loading.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pil",
+    "slip": {
+      "tr": "İDDİA: Bakkalda dokuz voltluk pil olmaz. — M.",
+      "en": "WAGER: The shop won't have a 9-volt. — M."
+    }
+  },
+  "intent": {
+    "setup": "akıllı kapı kilidinin pili bitince eve girememek ve acil durum pili aramak",
+    "mechanism": "akıllı çözüm zinciri sıradan anahtar deliğine varıyor",
+    "mechanismId": "escalation",
+    "punch": "üç bakkal, bir çilingir",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "anahtar_deligi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
