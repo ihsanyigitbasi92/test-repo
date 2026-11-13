@@ -6,13 +6,13 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **9.678** / 10.000 (96.8%) |
-| Kotası dolan alan | 109 / 132 |
+| Alan paketlerindeki geçerli olay | **9.760** / 10.000 (97.6%) |
+| Kotası dolan alan | 112 / 132 |
 | Kotayı aşan alan | 13 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **9.726** |
-| Şema hatalı dosya | 0 |
+| Genel toplam geçerli olay | **9.808** |
+| Şema hatalı dosya | 3 |
 
 ## Grup bazında
 
@@ -32,8 +32,8 @@
 | saglik | 9 | 720 | 716 | 100.6% |
 | gundelik | 6 | 501 | 501 | 100% |
 | ulasim | 3 | 234 | 234 | 100% |
-| teknoloji | 3 | 231 | 268 | 86.2% |
-| burokrasi | 3 | 213 | 273 | 78% |
+| teknoloji | 3 | 268 | 268 | 100% |
+| burokrasi | 3 | 258 | 273 | 94.5% |
 | bos_zaman | 4 | 234 | 299 | 78.3% |
 | mevsim | 2 | 127 | 163 | 77.9% |
 | yaslilik | 6 | 344 | 422 | 81.5% |
@@ -151,10 +151,10 @@
 | 106 | `araba_sahipligi` | ulasim | Araba sahipliği | 91 | 91 | 0 | 100% | ██████████ |
 | 107 | `trafik_cezalar` | ulasim | Trafik ve cezalar | 52 | 52 | 0 | 100% | ██████████ |
 | 108 | `telefon_teknoloji` | teknoloji | Telefon ve teknoloji | 98 | 98 | 0 | 100% | ██████████ |
-| 109 | `sosyal_medya` | teknoloji | Sosyal medya | 77 | 98 | 21 | 78.6% | ████████░░ |
-| 110 | `dijital_eglence` | teknoloji | Dizi, oyun ve ekran keyfi | 56 | 72 | 16 | 77.8% | ████████░░ |
-| 111 | `burokrasi_resmi_daire` | burokrasi | Bürokrasi ve resmî daireler (kurgusal) | 86 | 111 | 25 | 77.5% | ████████░░ |
-| 112 | `evrak_mektuplar` | burokrasi | Evrak kartları ve resmî mektuplar | 81 | 104 | 23 | 77.9% | ████████░░ |
+| 109 | `sosyal_medya` | teknoloji | Sosyal medya | 98 | 98 | 0 | 100% | ██████████ |
+| 110 | `dijital_eglence` | teknoloji | Dizi, oyun ve ekran keyfi | 72 | 72 | 0 | 100% | ██████████ |
+| 111 | `burokrasi_resmi_daire` | burokrasi | Bürokrasi ve resmî daireler (kurgusal) | 111 | 111 | 0 | 100% | ██████████ |
+| 112 | `evrak_mektuplar` | burokrasi | Evrak kartları ve resmî mektuplar | 101 (+3 geçersiz) | 104 | 3 | 97.1% | ██████████ |
 | 113 | `hukuki_sorunlar` | burokrasi | Küçük hukuki dertler (kurgusal) | 46 | 58 | 12 | 79.3% | ████████░░ |
 | 114 | `hobiler` | bos_zaman | Hobiler (el işi, müzik, kitap, bahçe) | 86 | 111 | 25 | 77.5% | ████████░░ |
 | 115 | `spor_amator_izleme` | bos_zaman | Amatör spor ve maç izlemek | 46 | 58 | 12 | 79.3% | ████████░░ |
