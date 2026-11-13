@@ -37,7 +37,7 @@ function measure(node: Measurable | undefined | null): Promise<Rect | null> {
   });
 }
 
-export function CoachMarkLayer({ hint, root, onDismiss }: { hint: HintId | null; root: React.RefObject<View | null>; onDismiss: () => void }) {
+export function CoachMarkLayer({ hint, root, onDismiss }: { hint: HintId | null; root: { readonly current: unknown }; onDismiss: () => void }) {
   const { s, locale } = useI18n();
   const [rect, setRect] = useState<Rect | null>(null);
   const [size, setSize] = useState<{ w: number; h: number } | null>(null);

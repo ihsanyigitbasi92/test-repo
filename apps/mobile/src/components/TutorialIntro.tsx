@@ -6,6 +6,7 @@
  * this is on screen (LifeScreen → game.hold).
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
+import type { Locale } from '@motto/engine';
 import { Animated, Easing, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
 import { mottoLine, upper, useI18n } from '../i18n';
@@ -146,7 +147,7 @@ function IlloLife() {
   );
 }
 
-export function TutorialIntro({ replay, onClose }: { replay: boolean; onClose: (how: 'done' | 'skip', page: number) => void }) {
+export function TutorialIntro({ replay, onClose, onLocale }: { replay: boolean; onClose: (how: 'done' | 'skip', page: number) => void; onLocale?: (l: Locale) => void }) {
   const { s, locale } = useI18n();
   const t = s.tutorial;
   const [i, setI] = useState(0);
@@ -174,6 +175,12 @@ export function TutorialIntro({ replay, onClose }: { replay: boolean; onClose: (
     <View style={[StyleSheet.absoluteFill, st.root]} testID="tutorial" accessibilityViewIsModal aria-modal>
       <View style={st.top}>
         <Text style={st.topLbl} testID="tutorial-step">{upper(locale, t.label)} · {i + 1}/{PAGES.length}</Text>
+        {onLocale && (['tr', 'en'] as Locale[]).map((l) => (
+          <Pressable key={l} onPress={() => onLocale(l)} accessibilityRole="button" accessibilityState={{ selected: locale === l }} accessibilityLabel={l === 'tr' ? 'Türkçe' : 'English'}
+            testID={`tutorial-lang-${l}`} style={[st.lang, locale === l && st.langOn]}>
+            <Text style={[st.langTxt, locale === l && st.langTxtOn]}>{l.toUpperCase()}</Text>
+          </Pressable>
+        ))}
         <Pressable onPress={() => onClose('skip', i)} accessibilityRole="button" accessibilityLabel={t.skip} testID="tutorial-skip" hitSlop={6}
           style={({ pressed }) => [st.skip, pressed && st.pressed]}>
           <Text style={st.skipTxt}>{t.skip} ›</Text>
@@ -235,8 +242,12 @@ const st = StyleSheet.create({
   gap8: { gap: 8 },
   gap10: { gap: 10 },
   gap14: { gap: 14 },
-  top: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 8, minHeight: 52 },
-  topLbl: { fontFamily: fonts.stamp, fontSize: 12, letterSpacing: 1.6, color: colors.lime, flexShrink: 1 },
+  top: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 16, paddingTop: 8, minHeight: 52 },
+  topLbl: { fontFamily: fonts.stamp, fontSize: 12, letterSpacing: 1.6, color: colors.lime, flex: 1 },
+  lang: { borderWidth: 1, borderColor: colors.line, borderRadius: 999, minHeight: 44, minWidth: 44, paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center' },
+  langOn: { backgroundColor: colors.lime, borderColor: colors.lime },
+  langTxt: { color: colors.ink, fontSize: 13, fontWeight: '700' },
+  langTxtOn: { color: colors.limeInk },
   skip: { minHeight: 44, minWidth: 64, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', borderRadius: 8, borderWidth: 1, borderColor: colors.line },
   skipTxt: { fontSize: 14, fontWeight: '600', color: colors.ink2 },
   body: { paddingHorizontal: 16, paddingTop: 6, paddingBottom: 16, flexGrow: 1 },

@@ -24,6 +24,13 @@ import { AgeGate, useAgeGateDone } from '../ads/AgeGate';
 import { AnalyticsHost } from '../analytics/ConsentUI';
 import { PrivacyEntry, RewardedOfferButtons } from '../ads/OfferButtons';
 import type { Speed } from '@motto/engine';
+import { TutorialIntro } from '../components/TutorialIntro';
+import { CoachMarkLayer } from '../components/CoachMark';
+import { tutorial, useTutorial } from '../state/tutorialRuntime';
+import { nextHint } from '../state/tutorial';
+
+const STAT_KEYS = new Set(['health', 'joy', 'brain', 'charm']);
+const FLOW_PHASES = new Set(['idle', 'answered']);
 
 export function LifeScreen() {
   const { snap, game } = useGame();
@@ -40,9 +47,15 @@ export function LifeScreen() {
   const onSplashDone = useCallback(() => setSplash(false), []);
   // Neutral age gate (docs/design/15 §5.1): after the splash, before the first life; the clock waits for both.
   const ageDone = useAgeGateDone();
-  useEffect(() => { if (!splash && ageDone) game.uncover(); }, [splash, ageDone, game]);
+  // Tutorial intro (docs/design/18): after the splash and the age gate, before the first Client File, once per
+  // install (replay from Settings). The game stays covered until it is closed; the clock is held while it or a hint is up.
+  const tut = useTutorial();
+  const introUp = !splash && ageDone && tut.loaded && tut.introOpen;
+  useEffect(() => { if (!splash && ageDone && tut.loaded && !tut.introOpen) game.uncover(); }, [splash, ageDone, tut.loaded, tut.introOpen, game]);
+  useEffect(() => { game.hold('tutorial', tut.introOpen || tut.active !== null); }, [tut.introOpen, tut.active, game]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const openSettings = useCallback(() => setSettingsOpen(true), []);
+  const phoneRef = useRef<React.ComponentRef<typeof View>>(null);
 
   // Shop (06 §2.1/2: a commercial surface only on stopped time): opening it pauses the clock, closing restores the speed.
   const [shopOpen, setShopOpen] = useState(false);
@@ -62,14 +75,40 @@ export function LifeScreen() {
     else if (snap.speed === 'pause') decision = <PrimaryButton label={s.cta.nextDay} onPress={game.nextDayManual} testID="next-day" />;
   }
 
+  // Coach-mark hints, first life only (docs/design/18 §4): each once, never two without a game beat in between.
+  const hm = useRef({ epoch: 0, wasBusy: true, lastHintEpoch: -1, life: '', statsChanged: false, moneyChanged: false });
+  useEffect(() => {
+    const m = hm.current;
+    if (m.wasBusy && !snap.busy) m.epoch++;
+    m.wasBusy = snap.busy;
+    const lifeKey = v ? `${snap.lifeNo}:${v.lifeSeed}` : '';
+    if (lifeKey !== m.life) { m.life = lifeKey; m.statsChanged = false; m.moneyChanged = false; }
+    if (snap.floats.some((f) => STAT_KEYS.has(f.stat))) m.statsChanged = true;
+    if (snap.floats.some((f) => f.stat === 'money') || snap.feed.some((f) => f.kind === 'flow')) m.moneyChanged = true;
+    if (!tut.loaded || tut.active || tut.introOpen) return;
+    const open = tutorial.hintsAllowed(snap.lifeNo === 1) && snap.stage === 'play' && !!v && ready && !snap.auto && !snap.booting && !splash && ageDone
+      && !settingsOpen && !shopOpen && !snap.moment && !snap.ageUp && !snap.bigStamp && !snap.adBreak && !snap.offer && !snap.session && !snap.death;
+    const id = nextHint({
+      open, phase: v?.phase ?? null, choicesUp: phase === 'day' && !!v?.card, birthdayUp: phase === 'birthday',
+      shownDays: v?.counters.shownDays ?? 0, flowing: !!v && FLOW_PHASES.has(v.phase) && snap.speed !== 'pause' && snap.progress > 0.05,
+      statsChanged: m.statsChanged, moneyChanged: m.moneyChanged, epoch: m.epoch, lastHintEpoch: m.lastHintEpoch,
+    }, tut.hints);
+    if (id) tutorial.showHint(id);
+  });
+  const dismissHint = useCallback(() => { hm.current.lastHintEpoch = hm.current.epoch; tutorial.dismissHint(); }, []);
+  const howTo = useCallback(() => { setSettingsOpen(false); tutorial.openIntro(); }, []);
+  const resetHints = useCallback(() => { hm.current.lastHintEpoch = hm.current.epoch; tutorial.resetHints(); }, []);
+  const closeIntro = useCallback((how: 'done' | 'skip', page: number) => tutorial.closeIntro(how, page), []);
+
   // A decision just appeared: the question / report card above it must be fully on screen (UX playtest #7, #8, #13).
   const pinKey = snap.stage === 'play' && ready && v && (phase === 'day' || phase === 'birthday' || snap.offer) ? `${snap.offer ? 'offer' : phase}:${v.calendar.dayIndex}` : null;
 
   return (
     <I18nContext.Provider value={i18n}>
       <View style={st.stage}>
-        <View style={[st.phone, framed && st.framed]}>
+        <View ref={phoneRef} collapsable={false} style={[st.phone, framed && st.framed]}>
           {!splash && <AgeGate onLocale={game.setLocale} />}
+          {introUp && <TutorialIntro replay={tut.replay} onClose={closeIntro} onLocale={game.setLocale} />}
           {splash && <SplashScreen onDone={onSplashDone} />}
           <Shake shake={snap.shake}>
             <TopBar speed={snap.speed} locale={snap.locale} showSpeed={snap.stage === 'play'} onSpeed={game.setSpeed} onLocale={game.setLocale}
@@ -93,7 +132,8 @@ export function LifeScreen() {
           <AgeUp ageUp={snap.ageUp} />
           {snap.moment && snap.look && <AvatarMoment key={snap.moment.id} moment={snap.moment} look={snap.look} onSkip={game.skipMoment} />}
           <SessionSheet session={snap.session} onContinue={game.closeSession} onClose={game.closeForToday} footer={<PrivacyEntry />} />
-          <SettingsSheet open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+          <SettingsSheet open={settingsOpen} onClose={() => setSettingsOpen(false)} onHowTo={howTo} onResetHints={resetHints} />
+          <CoachMarkLayer hint={tut.active} root={phoneRef} onDismiss={dismissHint} />
           <ShopScreen open={shopOpen} onClose={closeShop} />
           <AdHost />
           <AnalyticsHost />

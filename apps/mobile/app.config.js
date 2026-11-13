@@ -30,7 +30,7 @@ function upsert(plugins, name, props) {
   for (const k of Object.keys(props)) {
     const a = old[k], b = props[k];
     merged[k] = a && b && typeof a === 'object' && typeof b === 'object' && !Array.isArray(a) && !Array.isArray(b)
-      ? { ...a, ...b, ...(Array.isArray(a.forceStaticLinking) && Array.isArray(b.forceStaticLinking) ? { forceStaticLinking: [...new Set([...a.forceStaticLinking, ...b.forceStaticLinking])] } : {}) }
+      ? { ...b, ...a }
       : a ?? b;                                                    // a value already set in app.json wins
   }
   plugins[i] = [name, merged];
@@ -56,12 +56,11 @@ module.exports = ({ config }) => {
   if (firebaseOn) {
     android.googleServicesFile = androidFile;
     ios.googleServicesFile = iosFile;
-    // CocoaPods + static frameworks: one copy of GoogleAppMeasurement shared with the Google Mobile Ads pod.
+    // iOS: RNFB 26.x documented path for static frameworks = CocoaPods Firebase ($RNFirebaseDisableSPM) + use_frameworks!
+    // :static. Firebase, Google Mobile Ads and the Meta SDK then all come from CocoaPods (one GoogleAppMeasurement copy).
     upsert(plugins, '@react-native-firebase/app', { ios: { disableSPM: true } });
     upsert(plugins, '@react-native-firebase/crashlytics');
-    upsert(plugins, 'expo-build-properties', {
-      ios: { useFrameworks: 'static', forceStaticLinking: ['RNFBApp', 'RNFBAnalytics', 'RNFBCrashlytics', 'RNFBRemoteConfig'] },
-    });
+    upsert(plugins, 'expo-build-properties', { ios: { useFrameworks: 'static' } });
   } else if (hasAndroid !== hasIos) {
     console.warn(`[app.config] Firebase is OFF: ${hasAndroid ? iosFile : androidFile} is missing (both config files are required — docs/design/17 §6).`);
   }

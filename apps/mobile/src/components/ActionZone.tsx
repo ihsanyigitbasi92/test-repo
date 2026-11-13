@@ -36,23 +36,23 @@ export function ChoiceButtons({ card, onPick }: { card: DayCard; onPick: (id: st
   }) : null), [left, right, dx]);
   return (
     <View ref={target} collapsable={false} {...(pan ? pan.panHandlers : {})} testID="choices-zone">
-    <Animated.View style={pan ? { transform: [{ translateX: dx }] } : undefined}>
-    <Animated.View style={[st.col, anim]} testID="choices">
-      {card.choices.map((c) => {
-        const wagered = card.wager?.choiceId === c.id;
-        return (
-          <Pressable key={c.id} disabled={c.locked} onPress={() => onPick(c.id)} accessibilityRole="button" testID={`choice-${c.id}`}
-            style={({ pressed }) => [st.btn, wagered && st.btnWager, c.locked && st.btnLocked, pressed && st.pressed]}>
-            <Text style={[st.btnTxt, c.locked && { color: colors.ink2 }]}>
-              {c.swipe === 'left' ? '← ' : ''}{text(c.textKey)}{c.swipe === 'right' ? ' →' : ''}
-            </Text>
-            {wagered && <Text style={st.hint}>{s.wager}</Text>}
-            {c.locked && <Text style={st.hint}>×</Text>}
-          </Pressable>
-        );
-      })}
-    </Animated.View>
-    </Animated.View>
+      <Animated.View style={pan ? { transform: [{ translateX: dx }] } : undefined}>
+        <Animated.View style={[st.col, anim]} testID="choices">
+          {card.choices.map((c) => {
+            const wagered = card.wager?.choiceId === c.id;
+            return (
+              <Pressable key={c.id} disabled={c.locked} onPress={() => onPick(c.id)} accessibilityRole="button" testID={`choice-${c.id}`}
+                style={({ pressed }) => [st.btn, wagered && st.btnWager, c.locked && st.btnLocked, pressed && st.pressed]}>
+                <Text style={[st.btnTxt, c.locked && { color: colors.ink2 }]}>
+                  {c.swipe === 'left' ? '← ' : ''}{text(c.textKey)}{c.swipe === 'right' ? ' →' : ''}
+                </Text>
+                {wagered && <Text style={st.hint}>{s.wager}</Text>}
+                {c.locked && <Text style={st.hint}>×</Text>}
+              </Pressable>
+            );
+          })}
+        </Animated.View>
+      </Animated.View>
     </View>
   );
 }
