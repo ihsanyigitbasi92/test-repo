@@ -301,6 +301,52 @@ export const tr = {
     volume: 'Ses düzeyi', volumeLevels: ['Kısık', 'Orta', 'Yüksek'],
     haptics: 'Titreşim', hapticsHint: 'Damga inince telefon da hisseder.',
   },
+  // Tutorial / first-time help (docs/design/18): intro pages, coach-mark hints, Settings entry. No "!", no "—".
+  tutorial: {
+    label: 'Nasıl oynanır', skip: 'Geç', next: 'İleri', back: 'Geri', start: 'Başlayalım', backToGame: 'Oyuna dön',
+    pageA11y: (i: number, n: number) => `Sayfa ${i}/${n}`,
+    pages: {
+      what: {
+        title: 'Ben Motto. Hayat koçun.',
+        lines: ['Bir hayat yaşatıyorsun: 18 yaşından son güne kadar.', 'Ben anlatırım, sen seçersin, defter not alır.', 'Sertifikam yok. Ücretim de ona göre: bedava.'],
+      },
+      time: {
+        title: 'Zaman kendi akar.',
+        lines: ['Günler kendiliğinden geçer. Üstteki çizgi günün saati.', 'II durdurur, ▶ normal, ▶▶ hızlı. Durunca Ertesi Gün düğmesiyle sen ilerletirsin.', 'Okumaya vakit lazımsa II. Ayıp değil.'],
+      },
+      cards: {
+        title: 'Kart gelir, zaman durur.',
+        lines: ['Bir şey olunca kart açılır; sen seçene kadar beklerim.', 'Seçeneğe dokun. Oklu seçenekler sola ya da sağa kaydırınca da seçilir.', 'Bazen iddiaya girerim. Oran fişte yazar; sonucu damgayla basarım.'],
+        foot: 'Otomatik: seçimleri ben yaparım. Önermem.',
+      },
+      stats: {
+        title: 'Dört çubuk, birkaç sayaç.',
+        legend: { health: 'biterse hayat biter.', joy: 'moral. Düşükken her şey zor.', brain: 'okul, iş, akıl.', charm: 'insanlar seni nasıl görür.' },
+        meters: '◆ paran. Anne Baskısı ve Cringe: düşük olan iyi. Okunmamış: aile grubu; dokunursan anlatırım.',
+      },
+      life: {
+        title: 'Doğum günü karne. Sonu yeni müşteri.',
+        lines: ['Her doğum günü karne gelir: yılın notları ve mottosu. Bir Yıl Daha ile devam.', 'Bir gün dosya kapanır. Herkesinki kapanır. Sonra yeni müşteri, yeni hayat.', 'Bugünlük yeter dersen kaydederim; kaldığın günden devam.'],
+      },
+    },
+    demo: {
+      narration: 'Saat 11:40. Uyandın. Telefonda 14 bildirim; 9\'u aile grubundan.',
+      left: 'Önce kahvaltı', right: 'Kayda çık',
+      slip: 'İDDİA: Kayda yetişemezsin.',
+      swipe: 'kaydır',
+    },
+    hintTag: "Motto'dan not",
+    hintDismiss: 'Dokun, devam.',
+    hints: {
+      choices: 'Kart açıkken zaman durur. Seçeneğe dokun; oklu olanlar kaydırınca da seçilir.',
+      stats: 'Seçimlerin bu dört çubuğu oynatır. Sağlık biterse hayat biter.',
+      speed: 'Zaman kendi akar. II durdurur, ▶ normal, ▶▶ hızlı. Okumaya vakit lazımsa II.',
+      meters: "◆ paran. Anne Baskısı ve Cringe: düşük olan iyi. Okunmamış'a dokunursan anlatırım.",
+      report: 'Doğum günü: yılın karnesi. Notları ve mottoyu oku; hazır olunca Bir Yıl Daha.',
+    },
+    settingsTitle: 'Nasıl oynanır', settingsHint: 'Eğitim sayfalarını baştan gösterir.', settingsOpen: 'Göster',
+    resetHints: 'İpuçlarını sıfırla', resetHintsHint: 'Ekrandaki kısa notlar bir kez daha çıkar.', resetDo: 'Sıfırla', resetDone: 'Sıfırlandı',
+  },
   savedTitle: 'DEFTER KAPANDI',
   savedText: 'Kaydettim. Uygulamayı kapatabilirsin; döndüğünde kaldığın günden devam ederiz. Ben bir yere gitmiyorum.',
   resumed: 'Kaldığımız yerden. Defter açık; sen de açık ol.',

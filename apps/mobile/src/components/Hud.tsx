@@ -18,6 +18,7 @@ import type { Look, Mood } from '../avatar/look';
 import { FloatNum } from './FloatNum';
 import { HEALTH_DANGER } from './hudConst';
 import { useReducedMotion } from './anim';
+import { useHintTarget } from './CoachMark';
 
 interface Props { view: LifeState; look: Look; mood: Mood; lifeNo: number; floats: FloatItem[]; progress: number; speed: Speed; unread: number; onUnread: () => void }
 
@@ -110,6 +111,8 @@ export function Hud({ view, look, mood, lifeNo, floats, progress, speed, unread,
   const mom = pts(view.meters.momPressure);
   const momAlive = view.npcs.find((n) => n.role === 'mom')?.alive !== false;
   const toggle = () => setOpen((x) => !x);
+  const statsTarget = useHintTarget('stats');
+  const metersTarget = useHintTarget('meters');
 
   return (
     <View style={st.hud} testID="hud">
@@ -121,7 +124,7 @@ export function Hud({ view, look, mood, lifeNo, floats, progress, speed, unread,
           <Text style={st.age} testID="hud-age">{view.calendar.age}</Text>
           <Text style={st.ageLbl}>{upper(locale, s.ageUnit)}</Text>
         </View>
-        <View style={st.meta}>
+        <View ref={metersTarget} collapsable={false} style={st.meta} testID="hud-meters">
           <View style={[st.chip, view.money.balance < 0 && st.hot]} testID="hud-money">
             <Text style={[st.chipTxt, st.b, view.money.balance < 0 && st.hotTxt]}>{s.money(view.money.balance)}</Text>
             {floatsFor('money').map((f) => <FloatNum key={f.id} label={floatLabel(s, f)} up={f.delta > 0} rise={6} style={st.chipFloat} />)}
@@ -140,7 +143,7 @@ export function Hud({ view, look, mood, lifeNo, floats, progress, speed, unread,
         </View>
       </View>
 
-      <View style={st.stats}>
+      <View ref={statsTarget} collapsable={false} style={st.stats} testID="hud-stats">
         {STATS.map((k) => {
           const v = pts(view.stats[k]);
           const danger = k === 'health' && v < HEALTH_DANGER;

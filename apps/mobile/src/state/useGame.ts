@@ -42,6 +42,7 @@ import type { Offer } from '../ads/adService';
 import { gameAnalytics, trackAdOffer, trackAdReward, trackAdShown, trackAdSkip } from '../analytics/hooks';
 import { connectAnalytics } from '../analytics/bridge';
 import { promptAnalyticsIfDue } from '../analytics/ConsentUI';
+import { clockMayRun } from './tutorial';
 
 export type Mood = 'neutral' | 'smirk' | 'shock' | 'sad';
 export type Stage = 'file' | 'play' | 'death';
@@ -177,6 +178,8 @@ export class GameController {
   private onPageHide: (() => void) | null = null;
   /** A loss / farewell card is on: the scene plays in near-silence (one soft tone, then nothing until the next day). */
   private hushed = false;
+  /** Outside holds on the clock and Auto (the tutorial intro / a coach-mark hint): time stands while any is set. */
+  private holds = new Set<string>();
 
   /**
    * Sound at the same semantic moments as the haptics (16-ses-efektleri). Silent while beats are drained for a
@@ -241,6 +244,18 @@ export class GameController {
     this.onPageHide = null;
   }
 
+  /**
+   * Hold / release the clock and Auto from outside the game (docs/design/18: time is paused while the tutorial intro
+   * or a hint is on screen). Beats already queued still play; no new day starts and Auto picks nothing until released.
+   */
+  hold = (reason: string, on: boolean): void => {
+    if (on === this.holds.has(reason)) return;
+    if (on) { this.holds.add(reason); this.clearAuto(); return; }
+    this.holds.delete(reason);
+    if (!this.holds.size) this.scheduleAuto();
+  };
+  isHeld = (): boolean => this.holds.size > 0;
+
   /** The splash is gone: the clock (and auto) may run. */
   uncover = (): void => {
     if (!this.covered) return;
@@ -277,10 +292,12 @@ export class GameController {
     this.set({ booting: false, stage: 'file', view: null, feed: [] });
     gameAnalytics.boot({ locale: this.snap.locale, lifeNo: this.snap.lifeNo, contentHash: getBundle().contentHash, stage: 'file' });
     void prepareContent(START_AGE);                                           // packs load while the Client File is up
-    this.enqueue([
+    // The opening lines are typed once the cover (splash, age gate, tutorial intro) is gone, so the first laugh is seen.
+    const intro = () => this.enqueue([
       { wait: 300, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro1' }, roast: true }) },
       { wait: 1400, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'intro2' } }) },
     ]);
+    if (this.covered) this.uncoverWaiters.push(intro); else intro();
   }
 
   private resume(save: SaveV1, life: NonNullable<SaveV1['life']>): void {
@@ -786,9 +803,9 @@ export class GameController {
   // ── clock (D-066) ─────────────────────────────────────────────────────────
   private tick(): void {
     const s = this.snap, st = this.state;
-    if (s.stage === 'play' && !this.covered && !s.adBreak && !s.session) ads.tickPlay(TICK);   // play clock since install (first 10 min are ad-free)
-    if (s.stage !== 'play' || s.busy || !st || s.ageUp || s.moment || s.offer || s.adBreak || s.session || s.speed === 'pause' || this.covered) return;
-    if (!PHASES_FLOW.has(st.phase)) return;
+    if (s.stage === 'play' && !this.covered && !s.adBreak && !s.session && !this.holds.size) ads.tickPlay(TICK);   // play clock since install (first 10 min are ad-free)
+    if (!clockMayRun({ stage: s.stage, busy: s.busy, hasLife: !!st, flowPhase: !!st && PHASES_FLOW.has(st.phase), speed: s.speed, covered: this.covered,
+      overlay: !!(s.ageUp || s.moment || s.offer || s.adBreak || s.session), held: this.holds.size > 0 })) return;
     const p = s.progress + TICK / this.t().dayFlow;
     if (p >= 1) { this.set({ progress: 1 }); this.nextDay(); } else this.set({ progress: p });
   }
@@ -807,7 +824,7 @@ export class GameController {
     this.clearAuto();
     const s = this.snap;
     if (s.auto && s.offer) { this.declineOffer(); return; }                  // auto never answers an offer with "watch"
-    if (!s.auto || s.busy || s.adBreak || s.speed === 'pause' || s.session || this.covered || s.booting) return;
+    if (!s.auto || s.busy || s.adBreak || s.speed === 'pause' || s.session || this.covered || s.booting || this.holds.size) return;
     const t = this.t();
     // FTUE only: on the very first Client File auto may keep the name; after a death the player always picks.
     if (s.stage === 'file') { if (s.lifeNo === 1 && !this.meta.legacy.livesCompleted) this.autoTimer = setTimeout(() => this.keepName(), 1800); return; }
@@ -866,7 +883,7 @@ export class GameController {
   toggleFastLife = (): void => { haptic.selection(); this.sfx(UI_SFX.tap); this.set({ fastLife: !this.snap.fastLife }); gameAnalytics.setting('fast_life', this.snap.fastLife); this.persist(); };
 
   keepName = (): void => {
-    if (this.snap.stage !== 'file' || this.waitingContent) return;
+    if (this.snap.stage !== 'file' || this.waitingContent || this.covered) return;   // covered: splash / age gate still up
     if (!this.contentTried && !contentReadyFor(START_AGE)) {                  // web: core + first band still loading
       this.waitingContent = true;
       void prepareContent(START_AGE).finally(() => { this.waitingContent = false; this.contentTried = true; this.keepName(); });

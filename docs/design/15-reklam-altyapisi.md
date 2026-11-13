@@ -29,6 +29,8 @@ src/ads/
   provider.native.ts   native → modül bağlıysa AdMob, değilse Mock
   runtime.ts           `ads` tekili (depolama, platform, hak deposu) + demo/test kancaları
   consentApi.ts        Uygulamanın geri kalanı için sabit API: getConsent / onConsentChange / requestTracking
+  ageGate.ts           SAF nötr yaş kapısı: yaş bandı, kayıt, AgeGateStore (depolama enjekte)
+  AgeGate.tsx          Yaş ekranı + sıralama sinyali (useAgeGateDone / isAgeGateDone / onAgeGateDone)
   gameContext.ts       Motor durumu → kural bağlamı; yas sahnesi tespiti; ödülün duruma işlenmesi
   uiStore.ts, AdHost.tsx, OfferButtons.tsx   Demo reklam, rıza kartları, gizlilik sayfası, teklif düğmeleri
 ```
@@ -55,7 +57,8 @@ src/ads/
 | **D-ÖNERİ-15-04** | **Reklamsız hakkı (`hasNoAds`) ve rewarded — koordinatör kararı:** varsayılan `noAdsMode: 'showAd'`. Reklamsız yalnız interstitial'ı kaldırır; rewarded teklifi aynı yerde, aynı tavanla durur, **isteyen reklamı izler**. Satın alma para ya da stat vermez (06 §2.2.2, D-038, AC-06-05). | `'grantWithoutAd'` (reklamsız ödül) kodda ve testte duruyor ama varsayılan değil; açılırsa mağaza metni (`shop.rewarded[noAdsMode]`) ve gizlilik sayfası kendiliğinden doğru cümleyi gösterir. |
 | **D-ÖNERİ-15-05** | **Teklifin anı:** maaş günü olan günün satırları bittikten sonra, açık bir seçim yokken; teklif cevaplanana kadar zaman durur (bir karar kartı gibi). Oturumda en çok 1 teklif; Otomatik modda hiç. | D-066 "ticari yüzey yalnız duran zamanda" + D-085 (b) "maaş günü satırı". Akan zamanda kaybolan bir satır süre baskısı olurdu; seçim kartının yanına koymak kararı gölgelerdi. |
 | **D-ÖNERİ-15-06** | **Tek katı varsayılan:** bölge ne olursa olsun, açık izin yoksa istekler kişiselleştirilmemiş. Kendi kartlarımız UMP'nin form göstermediği her yerde (TR, ABD, diğer, bilinmeyen) aynıdır. | Bölge tespiti yalnız cihaz yerel ayarına dayanır (konum izni, IP sorgusu yok) ve yanılabilir; yanılgının sonucu "daha az kişiselleştirme" olmalı. |
-| **D-ÖNERİ-15-07** | **Yaş:** nötr yaş kapısı (D-104 a) bu derlemede yok. Kişiselleştirme anahtarı ancak "18 yaşından büyüğüm" kutusu işaretlenince açılır; `ads.setMinor(true)` çağrılırsa (yaş kapısı gelince) kişiselleştirme kilitlenir, `tagForUnderAgeOfConsent` açılır, ATT sorulmaz (D-102). | Yaş kapısı ayrı iş; reklam katmanı onun çıktısını almaya hazır. |
+| **D-ÖNERİ-15-07** | **Nötr yaş kapısı ayrı ekran** (07'deki "Müşteri Dosyası kartına tekerlek" önerisi yerine): splash'tan hemen sonra, ilk hayattan, her rıza kartından, reklamdan ve izleme isteminden önce; bir kez. Ayrıntı §5.1. Rıza kartındaki "18 yaşından büyüğüm" anahtarı **kaldırıldı**: cevap kapıdan gelir, oyuncuya iki kez sorulmaz. | D-104 (a) "nötr yaş kapısı ilk görünen öge". Müşteri Dosyası karakterin adını/şehrini sorar; oyuncunun doğum yılını aynı karta koymak "kimin yaşı?" karışıklığı yaratırdı. Maliyet tek alan + tek düğme. |
+| **D-ÖNERİ-15-09** | **16 altı: oyun açılmaz** ("Bu dosya 16 yaşından itibaren açılıyor."). 13 altı ayrıca ele alınmaz: 16 altının içinde kalır, aynı ekranı görür. Reklamsız ama oynanabilir bir 13–15 yolu **kurulmadı**. | 07 §2.3.5 "16 altı → oyun durur" der ve 00 D-037/D-107 16+ hedefler; içerik 16+ yazıldı (alkol, ölüm, bahis dili). Reklamı kapatmak içeriği çocuğa uygun yapmaz. Koordinatörün "13 altını reklamlı akışa sessizce sokma" şartı daha sıkı biçimde karşılanır: 16 altı hiçbir akışa girmez, hiçbir SDK başlamaz. Eşik `AD_CONFIG.ageGate.minAge`. |
 | **D-ÖNERİ-15-08** | Kapalı yerleşimler: **Ek Antrenman** (D-085 a: MVP dışı), **Taktik Değişikliği** (içerikte `tactic:true` yok), **Fizyoterapi** (motorda hazard zarı atlama yok; ayrıca uzman: önce son evre anlatısı). Tavanları ayar dosyasında ve testte hazır. | Olmayan mekaniğe reklam bağlanmaz. |
 
 ## 4. Yerleşimler ve tavanlar
@@ -97,11 +100,11 @@ Defter: teklif monte edilince oturum sayacı artar; reklam **gerçekten gösteri
 
 ## 5. Rıza ve gizlilik
 
-**Sıra:** rıza adımı → SDK başlatma → reklam. Rıza adımı en erken 2. oturumun dönüş yerleşiminde gelir (ilk oturumda izin sorusu yok, D-015); ATT en erken 3. oturumda, ayrı bir dönüşte. Bir dönüşte en çok bir şey gösterilir: rıza **ya da** ATT **ya da** interstitial.
+**Sıra:** splash → **nötr yaş kapısı** → (oyun) → rıza adımı → SDK başlatma → reklam. Yaş kapısı cevaplanmadan rıza kartı, reklam, teklif, SDK ve ATT **olmaz** (`AdService.ageKnown()`). Rıza adımı en erken 2. oturumun dönüş yerleşiminde gelir (ilk oturumda izin sorusu yok, D-015); ATT en erken 3. oturumda, ayrı bir dönüşte. Bir dönüşte en çok bir şey gösterilir: rıza **ya da** ATT **ya da** interstitial.
 
 | Bölge | iOS | Android |
 |---|---|---|
-| **Türkiye** | (1) Aydınlatma kartı [Anladım] → (2) ayrı Açık Rıza kartı: "18 yaşından büyüğüm" ve "Kişiselleştirilmiş reklam" anahtarları **kapalı**; [Reddet] [Kaydet] eşit → (3) yalnız kişiselleştirmeye izin verildiyse, 3. oturumda ATT ön-ekranı + sistem diyaloğu. İzin yok ya da ATT reddi → kişiselleştirilmemiş. | (1) ve (2) aynı. ATT yok. İzin yok → kişiselleştirilmemiş. |
+| **Türkiye** | (1) Aydınlatma kartı [Anladım] → (2) ayrı Açık Rıza kartı: "Kişiselleştirilmiş reklam" anahtarı **kapalı** (yaş kapısında 16–17 diyene anahtar hiç gösterilmez, yerine "kapalı ve kilitli" satırı); [Reddet] [Kaydet] eşit → (3) yalnız kişiselleştirmeye izin verildiyse, 3. oturumda ATT ön-ekranı + sistem diyaloğu. İzin yok ya da ATT reddi → kişiselleştirilmemiş. | (1) ve (2) aynı. ATT yok. İzin yok → kişiselleştirilmemiş. |
 | **AEA / Birleşik Krallık / İsviçre** | Google UMP formu (sertifikalı CMP, TCF) → `canRequestAds` olmadan SDK başlamaz → kişiselleştirme yalnız formda izin verildiyse → sonra ATT (aynı koşul). | UMP formu aynı. ATT yok. |
 | **ABD** | UMP sorgulanır (AdMob'da ABD eyalet mesajı açıldıysa onu gösterir) → UMP form göstermezse TR ile aynı iki kart → ATT aynı koşulla. | Aynı, ATT yok. |
 | **Diğer / bilinmeyen** | TR ile aynı iki kart → ATT aynı koşulla. | TR ile aynı iki kart. |
@@ -109,12 +112,28 @@ Defter: teklif monte edilince oturum sayacı artar; reklam **gerçekten gösteri
 - **Her hücrede varsayılan:** rıza adımından önce SDK yok; adımdan sonra `requestNonPersonalizedAdsOnly: true`, ta ki açık izin (ve iOS'ta ATT) gelene kadar.
 - **Değiştirme:** "Gizlilik / reklam tercihleri" satırı mağaza ekranının altında ve "Bugünlük yeter" sayfasında her zaman durur. AEA'da Google'ın gizlilik seçenekleri formunu (`showPrivacyOptionsForm`) açar; iOS izleme izni için telefon ayarlarına yönlendiren not gösterir.
 - **Yurt dışı aktarım:** ayrı anahtar yok (D-103); aydınlatma kartında bilgi olarak yazılı.
-- **Çocuk / yaş:** uygulama çocuklara yönelik değil (`tagForChildDirectedTreatment: false`), reklam içerik derecesi her istekte **T** (`maxAdContentRating`), MA yok (D-105). Bilinen reşit olmayan: `tagForUnderAgeOfConsent: true`, kişiselleştirme kilitli, ATT yok (D-102).
+- **Çocuk / yaş:** uygulama çocuklara yönelik değil (`tagForChildDirectedTreatment: false`), reklam içerik derecesi her istekte **T** (`maxAdContentRating`), MA yok (D-105). Yaş kapısında 16–17: `tagForUnderAgeOfConsent: true`, kişiselleştirme kilitli (sahte bir "evet" bile kişiselleştirmez), ATT yok (D-102); reklam yerleşimleri ve tavanları yetişkinle aynı, yalnız kişiselleştirilmemiş.
 - **Kategori engelleme:** AdMob'da kumar/bahis, alkol, flört, siyaset gibi hassas kategoriler **SDK'dan değil AdMob konsolundan** kapatılır (§6, madde 6). `AD_CONFIG.request.blockedCategories` yalnız kontrol listesidir; kod bunu uyguladığını iddia etmez.
 - **ATT metni** (`NSUserTrackingUsageDescription`): `app.json` eklentilerinde İngilizce taban, `locales/tr.json` ve `locales/en.json` ile yerelleştirilmiş.
 - **Web demosu:** UMP formu ve ATT taklit edilir (`?adsRegion=EEA` ile AEA akışı görülür); tarayıcıda gerçek rıza toplanmaz, veri gönderilmez.
 
-**Diğer modüller için sabit API** (`src/ads/consentApi.ts`, `src/ads` üzerinden de dışa açık): `getConsent()` → `{ resolved, adsPersonalized, att, trackingAllowed, isMinor, region }`, `onConsentChange(cb)`, `requestTracking()`. Uygulamada **tek** rıza adımı ve **tek** ATT istemi vardır; analitik / Meta SDK kendi istemini açmaz, `trackingAllowed` bayrağını okur.
+**Diğer modüller için sabit API** (`src/ads/consentApi.ts`, `src/ads` üzerinden de dışa açık): `getConsent()` → `{ resolved, adsPersonalized, att, trackingAllowed, isMinor, age, region }`, `onConsentChange(cb)` (rıza **ve** yaş kapısı değişiminde tetiklenir), `requestTracking()`. Uygulamada **tek** rıza adımı ve **tek** ATT istemi vardır; analitik / Meta SDK kendi istemini açmaz. Sözleşme: `age` `'adult'` ya da `'minor'` olmadan hiçbir SDK başlamaz; `isMinor: true` (16–17 ve 16 altı) iken Meta SDK ve reklam kimliğine dayalı ölçüm kapalı; çapraz uygulama izleme yalnız `trackingAllowed`.
+
+**Sıralama sinyali** (öğretici / sonraki ekranlar için, `src/ads/AgeGate.tsx`): `useAgeGateDone()` (hook), `isAgeGateDone()`, `onAgeGateDone(cb)`. Kapı cevaplanıp oyun açılabildiğinde true; yüklenirken, sorarken ve 16 altı cevapta hep false. Oyun saati ve Müşteri Dosyası da buna bağlı: `LifeScreen` `game.uncover()`'ı ancak splash bitip kapı tamamlanınca çağırır.
+
+### 5.1 Nötr yaş kapısı
+
+| Konu | Karar |
+|---|---|
+| Soru | Yalnız **doğum yılı**: tek sayısal alan (4 hane), boş başlar; "18 yaşında mısın?" düğmesi yok, eşik ima edilmez, hangi cevabın neyi açtığı yazmaz. Kendi TR/EN düğmesi var (üst çubuk kapının altında kalır). Dokunma hedefleri ≥ 44 pt; 360 ve 390 genişlikte denendi. |
+| Yaş hesabı | Yıl yalnızken kesin yaş bilinmez; **olası en küçük yaş** esas alınır: `yıl − doğumYılı − 1`. 2026'da 2008 doğumlu → 17 sayılır (reşit değil); 2007 → yetişkin. |
+| Bantlar | < 16 → `blocked` · 16–17 → `minor` · ≥ 18 → `adult` (`AD_CONFIG.ageGate`). |
+| Saklanan | Ayrı anahtar `motto.agegate.v1`, yalnız cihazda, ağ yok. Yetişkin: `{ band: 'adult', answeredAt }` — **yıl yok**. Diğerleri: `{ band: 'minor', answeredAt, adultFromYear }` — doğum yılı değil, bandın kesin yetişkin olacağı **takvim yılı** (doğumYılı + 19). |
+| 18'e girince | Bant her açılışta `adultFromYear`'dan yeniden hesaplanır: reşit olmayan, kesin 18 olduğu yılın başında soru sorulmadan yetişkin olur; 16 altı da 16'ya girdiği yıl kendiliğinden içeri alınır. Yeniden sorma yok. Yetişkin cevabı hiç geri dönmez (saat geri alınsa bile). Bedeli: doğum günü yılın sonundaysa yetişkinliği birkaç ay geç tanır; veri azlığı uğruna kabul edildi. |
+| Düzeltme | Uygulama içinde **yok**: cevap değiştirilemez, gizlilik sayfası reşit olmayana anahtar göstermez, 16 altı ekranında dokunulacak bir şey yoktur. Yanlış girilmiş bir yıl yalnız uygulama verisini silerek (Android: Ayarlar › Uygulamalar › Motto › Depolama › Verileri temizle; iOS: uygulamayı silip yükleme; web: site verisini silme) düzelir; oyun kaydı da gider. Bu, nötr kapı pratiğidir (geri dönüp cevabı değiştirme döngüsü olmaz). |
+| Eski oyuncular | Cevabı olmayan her kurulum (kapıdan önceki kayıtlar dahil) bir sonraki açılışta kapıyı görür; kayıt korunur, kapıdan sonra kaldığı yerden devam eder. |
+| Etki | `onBand` → `ads.setMinor(band !== 'adult')`. 16 altı da reşit olmayan sayılır ama oyun hiç açılmadığı için hiçbir reklam yüzeyi oluşmaz. |
+
 
 ## 6. Sahip için kurulum listesi (AdMob)
 
@@ -137,6 +156,7 @@ Defter: teklif monte edilince oturum sayacı artar; reklam **gerçekten gösteri
 
 ## 8. Avukata sorulacaklar
 
+0. **Yaş kapısı:** (a) KVKK'da 16–17 yaş için kişiselleştirilmemiş reklam + yaş etiketi yeterli mi, veli rızası gerekir mi? (b) Doğum yılı yerine yalnız bant ve "yetişkin olacağı yıl" saklamak veri minimizasyonu açısından yeterli mi; bu bile kişisel veri sayılır mı? (c) Mağaza yaş beyanları (Apple 16+/13+ çıktısı, IARC 16) ile uygulama içi 16 eşiği tutarlı mı; 16 altını tamamen kapatmak mı, reklamsız/analitiksiz açmak mı daha doğru? (d) Google Play "Hedef kitle ve içerik" beyanında 13–15'i hedef kitleye almamak ve yaş ekranı bulundurmak Families politikası yükümlülükleri doğurur mu? (e) Uygulama içinde düzeltme yolu olmaması (yalnız veri silme) tüketici hukuku / KVKK düzeltme hakkı açısından sorun mu? (f) 7578 / BTK düzenlemesi 18+ beyan isterse eşik tek sabittir (`ageGate.minAge`).
 1. KVKK: reklam SDK'sının kişiselleştirilmemiş modda işlediği veriler (IP, cihaz bilgisi, reklam kimliği) için hukuki sebep nedir; açık rıza olmadan kişiselleştirilmemiş reklam göstermek yeterli mi, yoksa reddeden kullanıcıya hiç reklam gösterilmemeli mi?
 2. KVKK m.9: Google'a yurt dışı aktarım için standart sözleşme / Kurul bildirimi durumu (D-103). Netleşene kadar TR'de SDK kapalı mı kalmalı?
 3. Aydınlatma metni ve açık rıza kartlarının metni, sırası ve "18 yaşından büyüğüm" beyanı yeterli mi? Beyan yerine nötr yaş kapısı zorunlu mu?
@@ -153,15 +173,17 @@ Defter: teklif monte edilince oturum sayacı artar; reklam **gerçekten gösteri
 | | Durum |
 |---|---|
 | Yerleşim kuralları, tavanlar, defter, rıza modeli, oturum/süre sayacı | **Gerçek**, birim testli |
+| Nötr yaş kapısı (ekran, bant, kalıcılık, reklam katmanına etkisi) | **Gerçek**, birim testli (`test/agegate.test.ts`) ve web'de Playwright ile oynandı |
 | Oyuna bağlanma (dönüş yerleşimi, teklif, ödül, gizlilik satırı) | **Gerçek**, web dışa aktarımında Playwright ile oynandı |
 | Reklamın kendisi (web / test / Expo Go) | **Sahte**: etiketli yer tutucu, 5 sn |
 | UMP formu ve ATT (web) | **Sahte**: demo kartı; ATT web'de yok |
 | `AdMobProvider` (gerçek SDK çağrıları) | Yazıldı, tip denetiminden geçiyor, **cihazda çalıştırılmadı** |
 | `app.json` eklentileri | `expo config --type introspect` ile Info.plist / AndroidManifest çıktısı görüldü; **native derleme yapılmadı** |
 | Reklam birimleri ve uygulama kimlikleri | Google'ın resmî **test** kimlikleri |
+| Yaş kapısında e2e (Playwright) betik adımları | `age-gate` görünür → `age-year` alanına yıl yaz → `age-continue`; 16 altı → `age-blocked` |
 | "Son reklamı bildir" (06 AC-06-12), `pendingGrants` çökme telafisi (AC-06-10 ikinci yarı), uzaktan kill-switch | **Yok** |
 
-**Otomatik:** `pnpm test` (`test/ads.test.ts`): tavanlar ve bekleme süreleri, FTUE, yas/ölüm/karne/karar yasakları, 5.000 rastgele dönüş denemesinde tavan ihlali olmaması, Reklamsız hakkı, rızasız kişiselleştirilmemiş varsayılan, AEA/UMP, ATT koşulları, reşit olmayan etiketi.
+**Otomatik:** `pnpm test` (`test/agegate.test.ts`: bant hesabı ve 18. yaş sınırı, 16 altı/13 altı, bir kez sorma, yeniden yüklemede kalıcılık, reşit olmayanda kişiselleştirme/ATT kilidi, kapı cevapsızken hiçbir reklam yüzeyi; `test/ads.test.ts`): tavanlar ve bekleme süreleri, FTUE, yas/ölüm/karne/karar yasakları, 5.000 rastgele dönüş denemesinde tavan ihlali olmaması, Reklamsız hakkı, rızasız kişiselleştirilmemiş varsayılan, AEA/UMP, ATT koşulları, reşit olmayan etiketi.
 
 **Web demosu:** `?adsDebug=1` → `window.__mottoAds`; `?adsDebug=relaxed` bekleme kapılarını kaldırır (ilk oturum, 10 dk, 6 saat, bekleme süreleri), tavanlar, rıza adımı ve yas/ölüm/karar kuralları aynen kalır; `?adsRegion=EEA|TR|US|OTHER`. Kancalar `EXPO_PUBLIC_MOTTO_ENV=production` ile derlenen web'de ve native yayın derlemesinde yoktur.
 

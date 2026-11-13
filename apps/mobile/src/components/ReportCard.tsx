@@ -9,6 +9,7 @@ import { colors, fonts, nativeDriver } from '../theme';
 import { mottoLine, noEnvelopeLine, upper, useI18n } from '../i18n';
 import type { FeedItemOf } from '../state/feed';
 import { useAppear, useReducedMotion, useSlam, useTypewriter } from './anim';
+import { useHintTarget } from './CoachMark';
 
 const ORDER = ['health', 'money', 'relationships', 'brain', 'courage', 'spectacle'] as const;
 
@@ -33,7 +34,9 @@ export function ReportCard({ item, typeMs }: { item: FeedItemOf<'report'>; typeM
   const r = d.ritual as Partial<NonNullable<typeof d.ritual>> | undefined;      // saves from before the ritual pools: undefined
   const motto = useTypewriter(mottoLine(s, item.motto, r?.motto ?? 0), typeMs * 3);
   const teaser = d.envelopeTeaser ? s.envTeaser[d.envelopeTeaser] ?? s.envTeaserDefault : null;
+  const target = useHintTarget('report');
   return (
+    <View ref={target} collapsable={false}>
     <Animated.View style={[st.karne, anim]} testID="report-card">
       <View style={st.head}>
         <Text style={st.title}>{s.reportTitle} · {d.age - 1}→{d.age}{d.decadeReview ? <Text style={st.decade}>{'  '}{s.decade}</Text> : null}</Text>
@@ -52,6 +55,7 @@ export function ReportCard({ item, typeMs }: { item: FeedItemOf<'report'>; typeM
       </View>
       <Animated.View pointerEvents="none" style={[st.filed, filed]}><Text style={st.filedTxt}>{s.stampFiled}</Text></Animated.View>
     </Animated.View>
+    </View>
   );
 }
 

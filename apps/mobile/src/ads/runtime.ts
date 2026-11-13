@@ -50,6 +50,7 @@ export const ageGate = new AgeGateStore({
   year: () => new Date().getFullYear(),
   onBand: (band) => ads.setMinor(band !== 'adult'),
 });
+void ageGate.load();
 
 // ── demo / test hooks ───────────────────────────────────────────────────────
 /**

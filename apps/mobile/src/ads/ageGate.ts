@@ -105,3 +105,6 @@ export class AgeGateStore {
     return true;
   }
 }
+
+/** The gate is answered (adult or minor). `blocked` is NOT done: the game never starts behind it. */
+export const ageGateDone = (s: AgeState): boolean => s === 'adult' || s === 'minor';

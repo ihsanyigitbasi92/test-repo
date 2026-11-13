@@ -3,7 +3,7 @@
  * Each hook is one cheap synchronous call — a few counter increments and at most a couple of `track()`s — so the
  * game loop pays nothing measurable. Game code passes ids and numbers only; names and prose never enter here.
  */
-import type { AnalyticsCore } from './core';
+import type { AnalyticsCore, FtueStep } from './core';
 import { ageBand, causeClass, livesBucket, toId, type EventParams } from './events';
 
 type Surface = EventParams<'paywall_view'>['surface'];
@@ -21,10 +21,29 @@ export interface HookOptions {
   random?: () => number;
 }
 
+/** The fixed FTUE funnel of 11 §2.1.2 (perf marks) + the GA4 tutorial pair. */
+export type FtueFunnelStep = FtueStep | 'tutorial_begin' | 'tutorial_complete';
+const FUNNEL: readonly string[] = ['line_seen', 'life_start', 'decision', 'stamp', 'report_card'];
+
 export function createHooks(a: AnalyticsCore, o: HookOptions = {}) {
   const rnd = o.random ?? Math.random;
   let surface: Surface = 'store';
   return {
+    /**
+     * STABLE onboarding entry point (for the tutorial / onboarding code). Every call is once-per-install and cheap.
+     *   trackFtue('tutorial_begin' | 'tutorial_complete')      GA4 tutorial events (FTUE completion KPI)
+     *   trackFtue('line_seen' | 'life_start' | 'decision' | 'stamp' | 'report_card')
+     *                                                          the 11 §2.1.2 funnel (`ftue_<step>{ms}`); the game already
+     *                                                          fires these itself, a second call is a no-op
+     *   trackFtue('<own_step_id>', idx)                        any other onboarding step → `ftue_step{step, idx, ms}`
+     *                                                          (lowercase machine id, ≤ 32 chars; `idx` = its order)
+     */
+    trackFtue(step: FtueFunnelStep | (string & {}), idx = 0): void {
+      if (step === 'tutorial_begin') a.tutorial('begin');
+      else if (step === 'tutorial_complete') a.tutorial('complete');
+      else if (FUNNEL.includes(step)) a.ftue(step as FtueStep);
+      else a.ftueCustom(step, idx);
+    },
     // ── game (useGame) ───────────────────────────────────────────────────────
     game: {
       /** Launch finished: the first screen is up. */

@@ -31,8 +31,23 @@ export interface AdsConsentView {
   adsPersonalized: boolean;
   isMinor: boolean;
   att: 'authorized' | 'denied' | 'restricted' | 'undetermined' | 'unavailable' | 'skipped';
+  /**
+   * The ad layer's single "cross-app tracking / advertising-id use is OK" flag (src/ads/consentApi.ts):
+   * opt-in + not a minor + (iOS) ATT authorised. When present, marketing is never `granted` without it.
+   */
+  trackingAllowed?: boolean;
+  /**
+   * Neutral age gate (src/ads/ageGate.ts). `loading` / `ask`: not answered yet → NOTHING is initialised (both
+   * purposes stay `unknown`, events wait on the device). `blocked` (younger than the 16+ rating, which covers every
+   * under-13 case): both purposes `denied`, the device queue is dropped, no SDK is ever started. `minor`: both denied.
+   * Absent (older builds, tests): treated as answered.
+   */
+  age?: 'loading' | 'ask' | 'blocked' | 'minor' | 'adult';
 }
 export const NO_ADS_CONSENT: AdsConsentView = { resolved: false, adsPersonalized: false, isMinor: false, att: 'undetermined' };
+
+const ageUnknown = (ads: AdsConsentView): boolean => ads.age === 'loading' || ads.age === 'ask';
+const isMinorView = (ads: AdsConsentView): boolean => ads.isMinor || ads.age === 'minor' || ads.age === 'blocked';
 
 export interface ConsentSnapshot {
   analytics: PurposeState;
@@ -54,17 +69,21 @@ export function analyticsState(choice: AnalyticsChoice, minor: boolean): Purpose
  * layer's (ads.runAtt) — this module never asks.
  */
 export function marketingState(ads: AdsConsentView, platform: Platform): PurposeState {
-  if (ads.isMinor) return 'denied';
-  if (!ads.resolved) return 'unknown';
+  if (isMinorView(ads)) return 'denied';
+  if (ageUnknown(ads) || !ads.resolved) return 'unknown';
   if (!ads.adsPersonalized) return 'denied';
-  if (platform !== 'ios') return 'granted';
-  if (ads.att === 'authorized') return 'granted';
-  return ads.att === 'undetermined' ? 'unknown' : 'denied';
+  let st: PurposeState;
+  if (platform !== 'ios') st = 'granted';
+  else if (ads.att === 'authorized') st = 'granted';
+  else st = ads.att === 'undetermined' ? 'unknown' : 'denied';
+  return st === 'granted' && ads.trackingAllowed === false ? 'denied' : st;
 }
 
 export function deriveConsent(choice: AnalyticsChoice, ads: AdsConsentView, platform: Platform): ConsentSnapshot {
+  const minor = isMinorView(ads);
   const marketing = marketingState(ads, platform);
-  return { analytics: analyticsState(choice, ads.isMinor), marketing, advertiserTracking: marketing === 'granted', minor: ads.isMinor };
+  const analytics = ageUnknown(ads) && !minor ? 'unknown' : analyticsState(choice, minor);
+  return { analytics, marketing, advertiserTracking: marketing === 'granted', minor };
 }
 
 export const UNKNOWN_CONSENT: ConsentSnapshot = { analytics: 'unknown', marketing: 'unknown', advertiserTracking: false, minor: false };

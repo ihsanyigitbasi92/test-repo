@@ -4,6 +4,7 @@ import type { Locale, Speed } from '@motto/engine';
 import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
 import { ShopButton } from './ShopButton';
+import { useHintTarget } from './CoachMark';
 
 interface Props {
   speed: Speed; locale: Locale; showSpeed: boolean;
@@ -16,6 +17,7 @@ const SPEEDS: { s: Speed; glyph: string }[] = [{ s: 'pause', glyph: 'II' }, { s:
 
 export function TopBar({ speed, locale, showSpeed, onSpeed, onLocale, onShop }: Props) {
   const { s } = useI18n();
+  const speedTarget = useHintTarget('speed');
   return (
     <View style={st.bar}>
       <View style={st.brandBox}>
@@ -24,7 +26,7 @@ export function TopBar({ speed, locale, showSpeed, onSpeed, onLocale, onShop }: 
       </View>
       <View style={st.chips}>
         {showSpeed && (
-          <View style={st.speed} accessibilityRole="radiogroup">
+          <View ref={speedTarget} collapsable={false} style={st.speed} accessibilityRole="radiogroup" testID="speed-control">
             {SPEEDS.map(({ s: sp, glyph }) => (
               <Pressable key={sp} onPress={() => onSpeed(sp)} accessibilityRole="radio" accessibilityLabel={s.speedA11y[sp]}
                 accessibilityState={{ selected: speed === sp }} testID={`speed-${sp}`} hitSlop={4} style={[st.speedBtn, speed === sp && st.speedOn]}>

@@ -9,4 +9,4 @@ import { analytics } from './runtime';
 const hooks = createHooks(analytics, { daySamplePct: () => rc('day_shown_sample_pct') });
 
 export const gameAnalytics = hooks.game;
-export const { userState, trackPaywallView, trackPurchaseStart, trackPurchaseResult, trackRestore, trackAdOffer, trackAdSkip, trackAdShown, trackAdReward, trackAdRevenue } = hooks;
+export const { trackFtue, userState, trackPaywallView, trackPurchaseStart, trackPurchaseResult, trackRestore, trackAdOffer, trackAdSkip, trackAdShown, trackAdReward, trackAdRevenue } = hooks;

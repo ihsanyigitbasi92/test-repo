@@ -7,12 +7,29 @@ import { useState, useSyncExternalStore } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
+import type { Locale } from '@motto/engine';
 import { ageGate } from './runtime';
-import type { AgeState } from './ageGate';
+import { ageGateDone, type AgeState } from './ageGate';
 
 export const useAgeState = (): AgeState => useSyncExternalStore(ageGate.subscribe, ageGate.getState, ageGate.getState);
 
-export function AgeGate() {
+/** TR / EN chips: the gate comes before the top bar is reachable, so it carries its own language switch. */
+function Lang({ onLocale }: { onLocale?: (l: Locale) => void }) {
+  const { locale } = useI18n();
+  if (!onLocale) return null;
+  return (
+    <View style={st.lang}>
+      {(['tr', 'en'] as Locale[]).map((l) => (
+        <Pressable key={l} onPress={() => onLocale(l)} accessibilityRole="button" accessibilityState={{ selected: locale === l }}
+          accessibilityLabel={l === 'tr' ? 'Türkçe' : 'English'} testID={`age-lang-${l}`} style={[st.chip, locale === l && st.chipOn]}>
+          <Text style={[st.chipTxt, locale === l && st.chipTxtOn]}>{l.toUpperCase()}</Text>
+        </Pressable>
+      ))}
+    </View>
+  );
+}
+
+export function AgeGate({ onLocale }: { onLocale?: (l: Locale) => void }) {
   const { s, locale } = useI18n();
   const t = s.ads.age;
   const state = useAgeState();
@@ -23,6 +40,7 @@ export function AgeGate() {
   if (state === 'blocked') {
     return (
       <View style={[StyleSheet.absoluteFill, st.root]} testID="age-blocked" accessibilityRole="alert">
+        <Lang onLocale={onLocale} />
         <Text style={st.title}>{t.blockedTitle}</Text>
         <Text style={st.body}>{t.blocked}</Text>
       </View>
@@ -33,6 +51,7 @@ export function AgeGate() {
   const submit = () => { if (ok) ageGate.submit(year); else setTried(true); };
   return (
     <View style={[StyleSheet.absoluteFill, st.root]} testID="age-gate">
+      <Lang onLocale={onLocale} />
       <Text style={st.title} accessibilityRole="header">{t.title}</Text>
       <Text style={st.body}>{t.body}</Text>
       <TextInput value={text} onChangeText={(v) => { setText(v.replace(/\D/g, '').slice(0, 4)); setTried(false); }} onSubmitEditing={submit}
@@ -56,4 +75,22 @@ const st = StyleSheet.create({
   btn: { minHeight: 58, borderRadius: 8, borderWidth: 2, borderColor: colors.ink2, backgroundColor: colors.paper2, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14 },
   btnTxt: { fontFamily: fonts.stamp, fontSize: 16, letterSpacing: 1.8, color: colors.ink },
   pressed: { transform: [{ scale: 0.98 }] },
+  lang: { position: 'absolute', top: 12, right: 12, flexDirection: 'row', gap: 6 },
+  chip: { borderWidth: 1, borderColor: colors.line, borderRadius: 999, minHeight: 44, minWidth: 44, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center' },
+  chipOn: { backgroundColor: colors.lime, borderColor: colors.lime },
+  chipTxt: { color: colors.ink, fontSize: 13, fontWeight: '700', letterSpacing: 0.5 },
+  chipTxtOn: { color: colors.limeInk },
 });
+
+/**
+ * Sequencing signal for whatever comes after the gate (tutorial, analytics consent): true once the player has
+ * answered and may play. Stays false while loading, while asking, and forever for an under-16 answer.
+ */
+export const useAgeGateDone = (): boolean => ageGateDone(useAgeState());
+export const isAgeGateDone = (): boolean => ageGateDone(ageGate.getState());
+/** Calls `cb` once, as soon as the gate is done (immediately if it already is). Returns an unsubscribe. */
+export function onAgeGateDone(cb: () => void): () => void {
+  if (isAgeGateDone()) { cb(); return () => undefined; }
+  const off = ageGate.subscribe(() => { if (isAgeGateDone()) { off(); cb(); } });
+  return off;
+}

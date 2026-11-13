@@ -2,17 +2,41 @@
  * Decision zone (07 §2.2.1 states): Client File · choices (time paused) · One More Year (report) · Next Day (⏸ manual)
  * · always: ghost [Auto] [Enough for today]. Choice locks and the wager mark come from the engine's DayCard.
  */
-import { useEffect, useRef } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useMemo, useRef } from 'react';
+import { Animated, PanResponder, Pressable, StyleSheet, Text, View } from 'react-native';
 import type { DayCard } from '@motto/engine';
 import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
 import { useAppear } from './anim';
+import { useHintTarget } from './CoachMark';
+
+/** Horizontal drag (px) that picks the arrowed choice on that side (UX playtest #20: the arrows promised a swipe). */
+export const SWIPE_PICK_PX = 72;
 
 export function ChoiceButtons({ card, onPick }: { card: DayCard; onPick: (id: string) => void }) {
   const { s, text } = useI18n();
   const anim = useAppear('rise', 220);
+  const target = useHintTarget('choices');
+  // Swipe: a choice marked ← / → is also picked by dragging the panel to that side (taps keep working as before).
+  const left = card.choices.find((c) => c.swipe === 'left' && !c.locked);
+  const right = card.choices.find((c) => c.swipe === 'right' && !c.locked);
+  const dx = useRef(new Animated.Value(0)).current;
+  const pickRef = useRef(onPick);
+  pickRef.current = onPick;
+  const pan = useMemo(() => (left || right ? PanResponder.create({
+    onMoveShouldSetPanResponderCapture: (_e, g) => Math.abs(g.dx) > 14 && Math.abs(g.dx) > Math.abs(g.dy) * 2,
+    onPanResponderMove: (_e, g) => dx.setValue(Math.max(-90, Math.min(90, g.dx * 0.6))),
+    onPanResponderTerminationRequest: () => false,
+    onPanResponderRelease: (_e, g) => {
+      const c = g.dx <= -SWIPE_PICK_PX ? left : g.dx >= SWIPE_PICK_PX ? right : undefined;
+      Animated.spring(dx, { toValue: 0, friction: 7, useNativeDriver: nativeDriver }).start();
+      if (c) pickRef.current(c.id);
+    },
+    onPanResponderTerminate: () => { Animated.spring(dx, { toValue: 0, friction: 7, useNativeDriver: nativeDriver }).start(); },
+  }) : null), [left, right, dx]);
   return (
+    <View ref={target} collapsable={false} {...(pan ? pan.panHandlers : {})} testID="choices-zone">
+    <Animated.View style={pan ? { transform: [{ translateX: dx }] } : undefined}>
     <Animated.View style={[st.col, anim]} testID="choices">
       {card.choices.map((c) => {
         const wagered = card.wager?.choiceId === c.id;
@@ -28,6 +52,8 @@ export function ChoiceButtons({ card, onPick }: { card: DayCard; onPick: (id: st
         );
       })}
     </Animated.View>
+    </Animated.View>
+    </View>
   );
 }
 

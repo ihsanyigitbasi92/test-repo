@@ -313,7 +313,7 @@ describe('grief scenes', () => {
 });
 
 // ── the service on the mock provider ─────────────────────────────────────────
-function harness(o: { noAds?: boolean; country?: string | null; platform?: 'ios' | 'android' | 'web'; fill?: boolean; headlessRewarded?: boolean; cfg?: AdConfig } = {}) {
+function harness(o: { noAds?: boolean; country?: string | null; platform?: 'ios' | 'android' | 'web'; fill?: boolean; headlessRewarded?: boolean; cfg?: AdConfig; age?: 'adult' | 'minor' | 'unanswered' } = {}) {
   const c = o.cfg ?? clone();
   const mem = new Map<string, string>();
   const clock = { now: T0, noAds: !!o.noAds, fill: o.fill ?? true };
@@ -324,6 +324,7 @@ function harness(o: { noAds?: boolean; country?: string | null; platform?: 'ios'
     now: () => clock.now, localDay: () => new Date(clock.now).toISOString().slice(0, 10),
     noAds: () => clock.noAds, country: () => (o.country === undefined ? 'TR' : o.country),
   });
+  if ((o.age ?? 'adult') !== 'unanswered') svc.setMinor(o.age === 'minor');      // the neutral age gate's answer
   return { svc, provider, clock, mem, cfg: c };
 }
 /** Sessions 1..n, each after a 7 h break with 6 minutes of play. */

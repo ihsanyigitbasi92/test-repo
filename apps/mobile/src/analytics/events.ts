@@ -71,6 +71,8 @@ export const EVENTS = {
   ftue_stamp: { group: 'ftue', kpi: 'first stamp', p: { ms: 'int' } },
   ftue_report_card: { group: 'ftue', kpi: 'first report card, FTUE completion', p: { ms: 'int' } },
   tutorial_complete: { group: 'ftue', kpi: 'FTUE completion (GA4 recommended event)', p: {} },
+  /** Onboarding steps of the tutorial (trackFtue('<own_step>')): `idx` = order in the onboarding script. */
+  ftue_step: { group: 'ftue', kpi: 'onboarding funnel (per step drop-off)', p: { step: 'id', idx: 'int', ms: 'int' } },
   // ── core loop ──────────────────────────────────────────────────────────────
   life_start: { group: 'core', kpi: 'lives per user', p: { life_no: 'int', fast_life: 'bool' } },
   day_shown: { group: 'core', kpi: 'content heatmap (sampled)', p: { event_id: 'id', domain: 'id', age_band: AGE_BANDS, kind: 'id', sample_pct: 'int' } },

@@ -1,8 +1,10 @@
 /**
- * Settings sheet (07 §2.2.9 "Geri bildirim"; docs/design/16-ses-efektleri.md): sound effects on/off + level,
- * vibration on/off. Opened from the ≡ button of the decision zone; both switches persist under their own storage keys.
+ * Settings sheet (07 §2.2.9 "Geri bildirim"; docs/design/16-ses-efektleri.md): how to play (replay the intro, reset
+ * the hints — docs/design/18), sound effects on/off + level, vibration on/off. Opened from the ≡ button of the
+ * decision zone; every switch persists under its own storage key.
  */
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { useI18n } from '../i18n';
 import { haptic, hapticsPrefs, useHapticsEnabled } from '../state/haptics';
@@ -23,18 +25,48 @@ function Switch({ on, onToggle, label, testID }: { on: boolean; onToggle: () => 
   );
 }
 
-export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+function SmallBtn({ label, onPress, testID, done = false }: { label: string; onPress: () => void; testID: string; done?: boolean }) {
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label} testID={testID} style={({ pressed }) => [st.sw, done && st.swDone, pressed && st.pressed]}>
+      <Text style={[st.swTxt, !done && st.swTxtInk]}>{label}</Text>
+    </Pressable>
+  );
+}
+
+export function SettingsSheet({ open, onClose, onHowTo, onResetHints }: { open: boolean; onClose: () => void; onHowTo?: () => void; onResetHints?: () => void }) {
   const { s } = useI18n();
   const prefs = useSoundPrefs();
   const hapticsOn = useHapticsEnabled();
+  const [hintsReset, setHintsReset] = useState(false);
+  useEffect(() => { if (!open) setHintsReset(false); }, [open]);
   if (!open) return null;
+  const t = s.tutorial;
   const soundOn = !prefs.muted;
   const level = VOLUME_STEPS.reduce((best, v, i) => (Math.abs(v - prefs.volume) < Math.abs(VOLUME_STEPS[best]! - prefs.volume) ? i : best), 0);
   return (
     <View style={[StyleSheet.absoluteFill, st.scrim]} testID="settings-sheet">
       <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessibilityLabel={s.cta.close} />
-      <View style={st.sheet}>
+      <ScrollView style={st.sheetScroll} contentContainerStyle={st.sheet}>
         <Text style={st.title}>{s.settings.title}</Text>
+        {onHowTo && (
+          <View style={st.row} testID="howto-row">
+            <View style={st.flex1}>
+              <Text style={st.label}>{t.settingsTitle}</Text>
+              <Text style={st.hint}>{t.settingsHint}</Text>
+            </View>
+            <SmallBtn label={t.settingsOpen} onPress={() => { haptic.selection(); sfx('ui_tap'); onHowTo(); }} testID="howto-open" />
+          </View>
+        )}
+        {onResetHints && (
+          <View style={st.row}>
+            <View style={st.flex1}>
+              <Text style={st.label}>{t.resetHints}</Text>
+              <Text style={st.hint}>{t.resetHintsHint}</Text>
+            </View>
+            <SmallBtn label={hintsReset ? t.resetDone : t.resetDo} done={hintsReset} testID="hints-reset"
+              onPress={() => { if (hintsReset) return; haptic.selection(); sfx('ui_tap'); onResetHints(); setHintsReset(true); }} />
+          </View>
+        )}
         <View style={st.row}>
           <View style={st.flex1}>
             <Text style={st.label}>{s.settings.sound}</Text>
@@ -68,14 +100,15 @@ export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () =>
         )}
         <AnalyticsSettings />
         <PrimaryButton label={s.cta.close} onPress={onClose} testID="settings-close" />
-      </View>
+      </ScrollView>
     </View>
   );
 }
 
 const st = StyleSheet.create({
   scrim: { backgroundColor: colors.scrim, alignItems: 'center', justifyContent: 'center', padding: 16, zIndex: 21 },
-  sheet: { backgroundColor: colors.paper, borderRadius: 12, borderWidth: 1, borderColor: colors.line, padding: 16, gap: 14, width: '100%', maxWidth: 360 },
+  sheetScroll: { width: '100%', maxWidth: 360, flexGrow: 0, maxHeight: '100%', backgroundColor: colors.paper, borderRadius: 12, borderWidth: 1, borderColor: colors.line },
+  sheet: { padding: 16, gap: 14 },
   title: { fontFamily: fonts.stamp, letterSpacing: 1.4, fontSize: 14, color: colors.lime },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   flex1: { flex: 1 },
@@ -85,6 +118,8 @@ const st = StyleSheet.create({
   swOn: { backgroundColor: colors.lime, borderColor: colors.lime },
   swTxt: { fontFamily: fonts.stamp, fontSize: 13, letterSpacing: 1.2, color: colors.ink2 },
   swTxtOn: { color: colors.limeInk },
+  swTxtInk: { color: colors.ink },
+  swDone: { borderStyle: 'dashed' },
   seg: { flexDirection: 'row', gap: 4 },
   segBtn: { minHeight: 44, minWidth: 56, borderRadius: 8, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8 },
   segOn: { backgroundColor: colors.ink, borderColor: colors.ink },

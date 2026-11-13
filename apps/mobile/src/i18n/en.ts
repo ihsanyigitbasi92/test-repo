@@ -282,6 +282,52 @@ export const en: Strings = {
     volume: 'Volume', volumeLevels: ['Low', 'Medium', 'High'],
     haptics: 'Vibration', hapticsHint: 'When the stamp lands, the phone feels it too.',
   },
+  // Tutorial / first-time help (docs/design/18). Written for English, not translated: short, dry, plain.
+  tutorial: {
+    label: 'How it works', skip: 'Skip', next: 'Next', back: 'Back', start: "Let's begin", backToGame: 'Back to the game',
+    pageA11y: (i: number, n: number) => `Page ${i} of ${n}`,
+    pages: {
+      what: {
+        title: "I'm Motto. Your life coach.",
+        lines: ['You run one life, from eighteen to the last day.', 'I narrate, you choose, the notebook keeps score.', 'No certificate. Priced accordingly: free.'],
+      },
+      time: {
+        title: 'Time runs by itself.',
+        lines: ["Days pass on their own. The line up top is the day's clock.", 'II stops it, ▶ is normal, ▶▶ is fast. Stopped, you move on with Next Day.', 'Need time to read, hit II. No shame.'],
+      },
+      cards: {
+        title: 'A card comes up, time stops.',
+        lines: ['When something happens, a card opens and I wait for you.', 'Tap a choice. The ones with arrows also take a swipe left or right.', 'Sometimes I wager against you. Odds are on the slip; the stamp says who won.'],
+        foot: 'Auto: I make the choices. Not recommended.',
+      },
+      stats: {
+        title: 'Four bars, a few counters.',
+        legend: { health: "runs out, life's over.", joy: "morale. Low, and everything's harder.", brain: 'school, work, wits.', charm: 'how people see you.' },
+        meters: "◆ is money. Mom Pressure and Cringe: lower is better. Unread: the family chat; tap it and I'll explain.",
+      },
+      life: {
+        title: 'Birthdays bring a report card. The end brings a new client.',
+        lines: ["Each birthday: the year's grades and its motto. One More Year to keep going.", "One day the file closes. Everyone's does. Then a new client, a new life.", 'Enough for today saves it; you pick up on the same day.'],
+      },
+    },
+    demo: {
+      narration: "11:40 a.m. You're up. Fourteen notifications; nine from the family group chat.",
+      left: 'Breakfast first', right: 'Go register',
+      slip: "WAGER: You won't make registration.",
+      swipe: 'swipe',
+    },
+    hintTag: 'Note from Motto',
+    hintDismiss: 'Tap to continue.',
+    hints: {
+      choices: 'Time stops while a card is open. Tap a choice; the arrowed ones also swipe.',
+      stats: 'Your choices move these four bars. Health runs out, life runs out.',
+      speed: 'Time runs by itself. II stops it, ▶ is normal, ▶▶ is fast. Need to read, hit II.',
+      meters: "◆ is your money. Mom Pressure and Cringe: lower is better. Tap Unread and I'll explain.",
+      report: "Birthday: the year's report card. Read the grades and the motto, then One More Year.",
+    },
+    settingsTitle: 'How to play', settingsHint: 'Shows the intro pages again.', settingsOpen: 'Show',
+    resetHints: 'Reset tips', resetHintsHint: 'The short on-screen notes come back once more.', resetDo: 'Reset', resetDone: 'Done',
+  },
   savedTitle: 'NOTEBOOK CLOSED',
   savedText: "Saved. You can close the app; when you come back we pick up on the same day. I'm not going anywhere.",
   resumed: 'Where were we. The notebook is open; try to be too.',

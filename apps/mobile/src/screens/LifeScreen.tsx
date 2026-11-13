@@ -20,6 +20,7 @@ import { AvatarMoment } from '../components/AvatarMoment';
 import { SettingsSheet } from '../components/SettingsSheet';
 import { ShopScreen } from './ShopScreen';
 import { AdHost } from '../ads/AdHost';
+import { AgeGate, useAgeGateDone } from '../ads/AgeGate';
 import { AnalyticsHost } from '../analytics/ConsentUI';
 import { PrivacyEntry, RewardedOfferButtons } from '../ads/OfferButtons';
 import type { Speed } from '@motto/engine';
@@ -36,7 +37,10 @@ export function LifeScreen() {
   const phase = v?.phase;
   const s = i18n.s;
   const [splash, setSplash] = useState(true);
-  const onSplashDone = useCallback(() => { setSplash(false); game.uncover(); }, [game]);
+  const onSplashDone = useCallback(() => setSplash(false), []);
+  // Neutral age gate (docs/design/15 §5.1): after the splash, before the first life; the clock waits for both.
+  const ageDone = useAgeGateDone();
+  useEffect(() => { if (!splash && ageDone) game.uncover(); }, [splash, ageDone, game]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const openSettings = useCallback(() => setSettingsOpen(true), []);
 
@@ -65,6 +69,7 @@ export function LifeScreen() {
     <I18nContext.Provider value={i18n}>
       <View style={st.stage}>
         <View style={[st.phone, framed && st.framed]}>
+          {!splash && <AgeGate onLocale={game.setLocale} />}
           {splash && <SplashScreen onDone={onSplashDone} />}
           <Shake shake={snap.shake}>
             <TopBar speed={snap.speed} locale={snap.locale} showSpeed={snap.stage === 'play'} onSpeed={game.setSpeed} onLocale={game.setLocale}

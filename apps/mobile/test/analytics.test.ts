@@ -409,6 +409,57 @@ describe('consent gate', () => {
   });
 });
 
+// ── age gate / trackingAllowed (src/ads/consentApi.ts) ──────────────────────
+describe('age gate and the ad layer\'s trackingAllowed flag', () => {
+  it('before the age gate is answered nothing is initialised, whatever else was answered', async () => {
+    const r = rig();
+    await r.core.ready();
+    r.core.setAdsConsent({ ...ADS_ON('skipped'), trackingAllowed: true, age: 'ask' });
+    r.core.setAnalyticsConsent(true);
+    r.core.track('tutorial_begin');
+    r.hooks.trackPurchaseResult({ status: 'ok', sku: 'torpil' }, { price: 6.99, currencyCode: 'USD' });
+    await tick();
+    expect(r.core.getConsent()).toMatchObject({ analytics: 'unknown', marketing: 'unknown' });
+    expect(r.fa.inits + r.meta.inits).toBe(0);
+    expect(r.core.pending().analytics).toBeGreaterThan(0);
+    r.core.setAdsConsent({ ...ADS_ON('skipped'), trackingAllowed: true, age: 'adult' });
+    await tick();
+    expect(r.fa.names()).toContain('purchase');
+    expect(r.meta.names()).toEqual(['purchase']);
+  });
+
+  it('blocked (under the 16+ rating, so every under-13): no SDK ever, the device queue is dropped', async () => {
+    const r = rig();
+    r.core.foreground();
+    await r.core.ready();
+    r.core.track('tutorial_begin');
+    r.core.setAdsConsent({ ...ADS_OFF, age: 'blocked' });
+    r.core.setAnalyticsConsent(true);
+    r.core.track('tutorial_complete');
+    await tick();
+    expect(r.core.getConsent()).toMatchObject({ analytics: 'denied', marketing: 'denied', minor: true });
+    expect(r.core.pending()).toEqual({ analytics: 0, marketing: 0 });
+    expect(r.fa.inits + r.meta.inits).toBe(0);
+  });
+
+  it('minor from the age gate: Meta and analytics off even with an opt-in on record', async () => {
+    const r = rig();
+    await r.core.ready();
+    r.core.setAdsConsent({ ...ADS_ON('skipped'), isMinor: false, trackingAllowed: true, age: 'minor' });
+    r.core.setAnalyticsConsent(true);
+    await tick();
+    expect(r.core.getConsent()).toMatchObject({ analytics: 'denied', marketing: 'denied', minor: true });
+    expect(r.core.getChoice().analytics).toBe(false);
+    expect(r.fa.inits + r.meta.inits).toBe(0);
+  });
+
+  it('marketing is never granted while the ad layer says trackingAllowed = false', () => {
+    expect(marketingState({ ...ADS_ON('skipped'), trackingAllowed: false, age: 'adult' }, 'android')).toBe('denied');
+    expect(marketingState({ ...ADS_ON('authorized'), trackingAllowed: true, age: 'adult' }, 'ios')).toBe('granted');
+    expect(marketingState({ ...ADS_ON('authorized'), trackingAllowed: false, age: 'adult' }, 'ios')).toBe('denied');
+  });
+});
+
 // ── sessions / FTUE ──────────────────────────────────────────────────────────
 describe('sessions and FTUE', () => {
   it('session length is foreground time only; a short break continues the session, a long one starts a new one', async () => {
@@ -479,6 +530,26 @@ describe('sessions and FTUE', () => {
     b.hooks.game.coachLine(); b.hooks.game.lifeStart({ lifeNo: 2, fastLife: true });
     await tick();
     expect(b.fa.names().filter((n) => /^ftue_|^tutorial_/.test(n))).toEqual([]);
+  });
+
+  it('trackFtue (stable onboarding helper): funnel steps, tutorial pair and own steps, each once per install', async () => {
+    const r = rig();
+    await r.core.ready();
+    r.core.setAnalyticsConsent(true);
+    r.core.foreground();
+    r.clock.t += 1000;
+    r.hooks.trackFtue('tutorial_begin');
+    r.hooks.trackFtue('speed_hint', 1);
+    r.hooks.trackFtue('speed_hint', 1);
+    r.hooks.trackFtue('Bad Step!', 2);
+    r.hooks.trackFtue('life_start');
+    r.hooks.game.lifeStart({ lifeNo: 1, fastLife: false });
+    r.hooks.trackFtue('tutorial_complete');
+    r.hooks.trackFtue('tutorial_complete');
+    r.hooks.game.reportCard({ age: 19, grades: {}, shownDaysYear: 1 });
+    await tick();
+    expect(r.fa.names().filter((n) => /^ftue_|^tutorial_/.test(n))).toEqual(['tutorial_begin', 'ftue_step', 'ftue_life_start', 'tutorial_complete', 'ftue_report_card']);
+    expect(r.fa.log.find((e) => e.name === 'ftue_step')!.params).toMatchObject({ step: 'speed_hint', idx: 1, ms: 1000 });
   });
 
   it('death → new client is measured once', async () => {

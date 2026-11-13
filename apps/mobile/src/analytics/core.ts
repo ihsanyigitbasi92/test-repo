@@ -279,7 +279,7 @@ export class AnalyticsCore {
   /** The player's answer to "Analitik paylaşımı" (consent card or Settings). */
   setAnalyticsConsent(on: boolean): void {
     try {
-      this.st.choice = applyAnalyticsChoice(on, this.ads.isMinor, this.d.localDay());
+      this.st.choice = applyAnalyticsChoice(on, this.consentNow.minor || this.ads.isMinor, this.d.localDay());
       this.recompute();
       this.save(true);
       this.emit();
@@ -289,7 +289,8 @@ export class AnalyticsCore {
   /** The ad layer's consent state changed (personalised-ads switch, ATT answer, minor flag). */
   setAdsConsent(view: AdsConsentView): void {
     try {
-      this.ads = { resolved: !!view.resolved, adsPersonalized: !!view.adsPersonalized, isMinor: !!view.isMinor, att: view.att };
+      this.ads = { resolved: !!view.resolved, adsPersonalized: !!view.adsPersonalized, isMinor: !!view.isMinor, att: view.att,
+        ...(typeof view.trackingAllowed === 'boolean' ? { trackingAllowed: view.trackingAllowed } : {}), ...(view.age ? { age: view.age } : {}) };
       this.recompute();
     } catch { /* never throws */ }
   }
@@ -346,13 +347,40 @@ export class AnalyticsCore {
       if (this.st.ftue[step]) return;
       this.st.ftue[step] = 1;
       const ms = this.playMs();
-      if (step === 'life_start' && !this.st.ftue.tutorial_begin) { this.st.ftue.tutorial_begin = 1; this.track('tutorial_begin'); }
+      if (step === 'life_start') this.tutorial('begin');
       this.track(`ftue_${step}`, { ms });
-      if (step === 'report_card' && !this.st.ftue.tutorial_complete) { this.st.ftue.tutorial_complete = 1; this.track('tutorial_complete'); }
+      if (step === 'report_card') this.tutorial('complete');
       this.save();
     } catch { /* never throws */ }
   }
-  ftueDone(step: FtueStep): boolean { return !!this.st.ftue[step]; }
+  ftueDone(step: FtueStep | 'tutorial_begin' | 'tutorial_complete'): boolean { return !!this.st.ftue[step]; }
+
+  /** GA4 tutorial_begin / tutorial_complete, once per install (also fired by the life_start / report_card steps). */
+  tutorial(which: 'begin' | 'complete'): void {
+    try {
+      const k = which === 'begin' ? 'tutorial_begin' : 'tutorial_complete';
+      if (this.st.ftue[k]) return;
+      this.st.ftue[k] = 1;
+      this.track(k);
+      this.save();
+    } catch { /* never throws */ }
+  }
+
+  /**
+   * An onboarding step outside the fixed funnel (`ftue_step{step, idx, ms}`), once per install per step id.
+   * `step` must be a machine id (ID_RE, ≤ 32 chars) — e.g. 'speed_hint', 'wager_explained'.
+   */
+  ftueCustom(step: string, idx: number): void {
+    try {
+      if (!/^[a-z][a-z0-9_]{0,31}$/.test(step)) return;
+      const k = `x:${step}`;
+      const marks = this.st.ftue as Record<string, 1>;
+      if (marks[k]) return;
+      marks[k] = 1;
+      this.track('ftue_step', { step, idx, ms: this.playMs() });
+      this.save();
+    } catch { /* never throws */ }
+  }
 
   markDeath(): void { this.st.lastDeathAt = this.d.now(); this.save(); }
   /** Ms since the last death, once (0 when there was none). */

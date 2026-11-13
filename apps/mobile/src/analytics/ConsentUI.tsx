@@ -62,6 +62,8 @@ export async function promptAnalyticsIfDue(): Promise<void> {
   try {
     await analytics.ready();
     const c = analytics.getConsent();
+    const age = adsConsent().age;
+    if (c.minor || age === 'loading' || age === 'ask' || age === 'blocked') return;   // no question before / without the age gate
     if (!analyticsPromptDue({ analytics: c.analytics, adsResolved: adsConsent().resolved, sessionCount: ads.getLedger().sessionCount, minSessionCount: ads.config.consent.minSessionCount })) return;
     analytics.screen('consent');
     const answer = await askAnalyticsConsent();
