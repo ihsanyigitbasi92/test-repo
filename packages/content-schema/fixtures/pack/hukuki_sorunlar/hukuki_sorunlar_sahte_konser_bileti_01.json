@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_sahte_konser_bileti_01",
+  "tags": [
+    "burokrasi",
+    "tuketici",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bu karekod dün gece de okutulmuş. Üç kez. Siz dördüncüsünüz.",
+      "en": "This code was already scanned last night. Three times. You're the fourth."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Benimki de aynı satıcıdan. Profil fotoğrafında köpek vardı, güvenmiştim.",
+      "en": "Mine's from the same seller. The profile picture was a dog. I trusted it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sikayet",
+      "tr": "Şikâyet dilekçesi ver",
+      "en": "File a complaint",
+      "pattern": "patience",
+      "check": {
+        "base": 3500
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Parayı unut, eve dön",
+      "en": "Write it off, head home",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "kapida",
+      "tr": "Gişeden yeni bilet al",
+      "en": "Buy a real one at the door",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "sikayet": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": 450,
+          "glossary": "sikayet_dilekcesi"
+        },
+        "tr": "Dilekçene on bir alıcı daha eklendi. Satıcının hesabı bulundu; 450 Paran yedi hafta sonra geri geldi.",
+        "en": "Eleven other buyers joined your complaint. The seller's account was traced, and your 450 came back seven weeks later.",
+        "coach": [
+          {
+            "tr": "Yedi hafta sürdü. Konser iki saatti.",
+            "en": "It took seven weeks. The concert was two hours.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "sahte_bilet_dosyasi"
+            ]
+          },
+          "glossary": "sikayet_dilekcesi"
+        },
+        "tr": "Dilekçen dosya numarası aldı. Satıcının hesabı kapanmış; köpek fotoğrafı başka bir ilanda yeniden görüldü.",
+        "en": "Your complaint got a file number. The seller's account is gone. The dog photo has since turned up on another listing.",
+        "coach": [
+          {
+            "tr": "Dosyanın numarası var. Köpeğin yeni ilanı.",
+            "en": "The file has a number. The dog has a new listing.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "sahte_bilet"
+          ]
+        }
+      },
+      "tr": "Eve yürüdün. İlk üç şarkıyı otoparkın duvarının ardından dinledin; ses fena değildi.",
+      "en": "You walked home. You caught the first three songs from behind the parking lot wall. The sound was decent.",
+      "coach": [
+        {
+          "tr": "Üç şarkı, sıfır karekod.",
+          "en": "Three songs, zero barcodes.",
+          "roast": false
+        }
+      ]
+    },
+    "kapida": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "money": -600,
+        "flags": {
+          "add": [
+            "sahte_bilet"
+          ]
+        }
+      },
+      "tr": "Gişeden 600 Paraya gerçek bilet aldın. Bu konser sana toplam 1.050 Paraya geldi; sahtesi hâlâ cebinde.",
+      "en": "You bought a real ticket at the box office for 600. The concert has now cost you 1,050. The fake is still in your pocket.",
+      "coach": [
+        {
+          "tr": "Ben olsam otoparktan dinlerdim. Sen bilirsin.",
+          "en": "I'd have listened from the parking lot. Your call.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ikinci elden alınan konser biletinin kapıda sahte çıkması ve satıcı hakkında şikâyet",
+    "mechanism": "sahte biletin kaç kez satıldığı ve köpekli profil fotoğrafına duyulan güven",
+    "mechanismId": "bathos",
+    "punch": "siz dördüncüsünüz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "karekod"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

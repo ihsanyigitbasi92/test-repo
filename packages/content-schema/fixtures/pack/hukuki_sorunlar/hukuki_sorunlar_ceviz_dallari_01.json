@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_ceviz_dallari_01",
+  "tags": [
+    "burokrasi",
+    "komsuluk",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 85
+    },
+    "housing": [
+      "owned",
+      "mortgage"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Dal benim bahçemin üstünde. Ceviz benim toprağıma düşüyor. Eski komşu hiç ses etmezdi.",
+      "en": "The branch hangs over my garden. The walnuts land on my soil. The old neighbor never made a fuss."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Geçen yıl üç kova topladım. Saymadım demeyeyim, saydım.",
+      "en": "Last year I filled three buckets. I won't say I didn't count. I counted.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "paylas",
+      "tr": "Yarı yarıya anlaş",
+      "en": "Agree to split them",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kes",
+      "tr": "Dalı budat",
+      "en": "Have the branch pruned",
+      "pattern": "pride"
+    },
+    {
+      "id": "sor",
+      "tr": "Kuralı öğren, sonra konuş",
+      "en": "Look up the rule, then talk",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "paylas": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "ceviz_anlasmasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "El sıkıştınız: düşen ceviz yarı yarıya. Komşu kendi payını kırıp sana cevizli kek getirdi.",
+      "en": "You shook on it: fallen walnuts, half each. The neighbor cracked their share and brought you a walnut cake.",
+      "coach": [
+        {
+          "tr": "Yarısı kek olarak geri döndü.",
+          "en": "Half came back as cake.",
+          "roast": false
+        }
+      ]
+    },
+    "kes": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -250,
+        "flags": {
+          "add": [
+            "ceviz_dali_kesildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Budama 250 Para tuttu. Dal kesildi; komşu çitin üstünden gölgesinin de kesildiğini bildirdi.",
+      "en": "The pruning cost 250. The branch is gone. Over the fence, the neighbor reported that the shade went with it.",
+      "coach": [
+        {
+          "tr": "Ceviz dosyası kapandı. Gölge dosyası açıldı.",
+          "en": "The walnut file is closed. The shade file is open.",
+          "roast": true
+        }
+      ]
+    },
+    "sor": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "glossary": "komsuluk_hukuku"
+        },
+        "tr": "Kuralı öğrendin: taşan dala katlanan komşu, meyvesini toplayabilir. Bunu ona sen söyledin; üç kova resmîleşti.",
+        "en": "You looked it up: a neighbor who puts up with an overhanging branch may gather its fruit. You told them yourself. The three buckets are now official.",
+        "coach": [
+          {
+            "tr": "Aleyhine çıktı. Yine de söyledin.",
+            "en": "It went against you. You said it anyway.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ceviz_tartismasi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ],
+          "glossary": "komsuluk_hukuku"
+        },
+        "tr": "Kuralı yanlış hatırladın, 'düşen benimdir' dedin. Komşu yeğenine sordu; yeğeni hukuk okuyormuş.",
+        "en": "You misremembered the rule and said 'what falls is mine.' The neighbor checked with a nephew. The nephew is in law school.",
+        "coach": [
+          {
+            "tr": "Yeğen ikinci sınıfta. Yetti.",
+            "en": "The nephew is a second-year. It was enough.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "bahçendeki ceviz ağacının komşuya uzanan dalından düşen cevizlerin kime ait olduğu tartışması",
+    "mechanism": "ceviz anlaşmazlığı çözülünce yerine gölge anlaşmazlığı çıkıyor",
+    "mechanismId": "escalation",
+    "punch": "gölge dosyası açıldı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "golge"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

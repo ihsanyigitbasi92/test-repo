@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hobiler_kasik_oyma_01",
+  "tags": [
+    "bos_zaman",
+    "el_isi",
+    "hobiler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "hobiler": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Üç gündür balkonda tahta yontuyorsun. Karşı apartmandaki de yontuyordu.",
+      "en": "Three days you've been whittling on that balcony. The one across the street whittled too."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "O sonunda kepçe yaptı. Seninki daha küçük duruyor.",
+      "en": "That one ended up with a ladle. Yours looks smaller.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "oy",
+      "tr": "Çukurunu oymayı sürdür",
+      "en": "Keep hollowing out the bowl",
+      "pattern": "patience",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "zimpara",
+      "tr": "Zımparayla kurtar",
+      "en": "Rescue it with sandpaper",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "spatula",
+      "tr": "Spatula olduğunu ilan et",
+      "en": "Declare it a spatula",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "oy": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "flags": {
+            "add": [
+              "kasik_oydun"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "tahta_kasik"
+              ]
+            }
+          }
+        },
+        "tr": "Kaşık bitti; çukuru bir yemek kaşığı çorba alıyor. Parmaklarında iki yara bandı var, kaşıkta çatlak yok.",
+        "en": "The spoon is done. The bowl holds one tablespoon of soup. You have two bandages on your fingers and no cracks in the spoon.",
+        "coach": [
+          {
+            "tr": "Kepçeye bir boy kaldı.",
+            "en": "One size short of a ladle.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "health": -1
+          },
+          "flags": {
+            "add": [
+              "kasik_delindi"
+            ]
+          }
+        },
+        "tr": "Bıçak çukurun dibini deldi. Elinde saplı, delikli bir tahta var; çay süzüyor.",
+        "en": "The knife went through the bottom. You now hold a wooden handle with a hole in it. It strains tea.",
+        "coach": [
+          {
+            "tr": "Süzgeç oldu. Planda yoktu.",
+            "en": "It's a strainer. That wasn't in the plan.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "zimpara": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -30,
+        "status": {
+          "assets": {
+            "add": [
+              "tahta_kasik"
+            ]
+          }
+        }
+      },
+      "tr": "30 Paralık zımparayla iki akşam uğraştın. Kaşık pürüzsüz ve epey ince; yoğurda dayanıyor, çorbaya dayanmıyor.",
+      "en": "Two evenings with thirty worth of sandpaper. The spoon is smooth and a good deal thinner. It can handle yogurt. Not soup.",
+      "coach": [
+        {
+          "tr": "Yoğurt kaşığı. Buna uzmanlaşma denir.",
+          "en": "A yogurt spoon. That's called specialization.",
+          "roast": false
+        }
+      ]
+    },
+    "spatula": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ],
+        "status": {
+          "assets": {
+            "add": [
+              "tahta_spatula"
+            ]
+          }
+        }
+      },
+      "tr": "Çukuru oymaktan vazgeçip düz bıraktın. Komşuya spatula diye gösterdin; inandı, bir tane de kendine istedi.",
+      "en": "You skipped the bowl and left it flat. You showed the neighbor your spatula. They believed it and asked for one too.",
+      "coach": [
+        {
+          "tr": "İlk sipariş alındı.",
+          "en": "First order received.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "oy",
+    "slip": {
+      "tr": "İDDİA: Bıçak dibi deler. — M.",
+      "en": "WAGER: The knife goes through. — M."
+    }
+  },
+  "intent": {
+    "setup": "balkonda bir dal parçasından bıçakla ilk tahta kaşığını oymak",
+    "mechanism": "komşunun karşı apartmandaki kepçeyle kıyaslaması sonuca geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "o sonunda kepçe yaptı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kepce"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

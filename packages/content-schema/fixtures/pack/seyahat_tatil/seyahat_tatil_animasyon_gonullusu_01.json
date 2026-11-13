@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "seyahat_tatil_animasyon_gonullusu_01",
+  "tags": [
+    "bos_zaman",
+    "otel",
+    "gosteri",
+    "partner",
+    "seyahat_tatil"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "seyahat_tatil": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Bu akşamki gösteriye bir gönüllü lazım. Evet, siz, üçüncü sıradaki, kaçmaya çalışan.",
+      "en": "We need a volunteer for tonight's show. Yes, you. Third row, trying to leave."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Git git. Ben çekerim.",
+      "en": "Go on. I'll film it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cik",
+      "tr": "Sahneye çık, tam oyna",
+      "en": "Go up and commit fully",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yarim",
+      "tr": "Çık ama isteksiz dur",
+      "en": "Go up, look reluctant",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kac",
+      "tr": "Tuvalete kaç",
+      "en": "Escape to the restroom",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cik": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 7,
+            "charm": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "otel_yildizi"
+            ]
+          }
+        },
+        "tr": "Dans yarışmasını kazandın, ödül bir şişe su ve kâğıt taçtı. Ertesi sabah kahvaltıda üç masa seni tanıdı.",
+        "en": "You won the dance-off. The prize was a bottle of water and a paper crown. At breakfast three tables recognized you.",
+        "coach": [
+          {
+            "tr": "Haksız çıktım. Taç sana oldu.",
+            "en": "I was wrong. The crown fits.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "cringe": 5
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2,
+              "memory": "sahne_videosu"
+            }
+          ]
+        },
+        "tr": "Tam oynadın, müzik erken kesildi, sen dört saniye daha devam ettin. Partnerin hepsini çekti.",
+        "en": "You committed fully. The music stopped early. You continued for four more seconds. Your partner got all of it on video.",
+        "coach": [
+          {
+            "tr": "Video partnerinde. Son dört saniyesi sessiz.",
+            "en": "The video is with your partner. The last four seconds are silent.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yarim": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "otel_yildizi"
+          ]
+        }
+      },
+      "tr": "Çıkıp kollarını kavuşturdun. Animatör sana heykel rolünü verdi, en çok alkışı heykel aldı.",
+      "en": "You went up and stood with your arms crossed. The host cast you as the statue. The statue got the biggest hand.",
+      "coach": [
+        {
+          "tr": "Rol tam oturdu.",
+          "en": "The part suited you.",
+          "roast": false
+        }
+      ]
+    },
+    "kac": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1,
+            "memory": "taci_o_takti"
+          }
+        ]
+      },
+      "tr": "Tuvalete kaçtın. Döndüğünde sahnede partnerin vardı, kâğıt taç onun başındaydı.",
+      "en": "You escaped to the restroom. When you came back your partner was on stage, wearing the paper crown.",
+      "coach": [
+        {
+          "tr": "Taç aileden çıkmadı.",
+          "en": "The crown stayed in the family.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cik",
+    "slip": {
+      "tr": "İDDİA: Müzik senden önce biter. — M.",
+      "en": "WAGER: The music quits before you do. — M."
+    }
+  },
+  "intent": {
+    "setup": "tatil otelinin akşam gösterisinde animatörün seni seyirciler arasından gönüllü seçmesi",
+    "mechanism": "gönüllünün tarifi adım adım daralıyor",
+    "mechanismId": "escalation",
+    "punch": "üçüncü sıradaki, kaçmaya çalışan",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tac"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
