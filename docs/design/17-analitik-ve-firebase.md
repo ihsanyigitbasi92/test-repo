@@ -69,7 +69,10 @@ Her olaya çekirdek `schema_v` (=1) ekler; kuyrukta ≥ 60 sn beklemiş olaya `l
 | FTUE | `tutorial_begin` (GA4) | — | FTUE hunisi giriş | — |
 | | `ftue_line_seen` · `ftue_life_start` · `ftue_decision` · `ftue_stamp` · `ftue_report_card` | `ms` (kurulumdan beri ön plan süresi) | TTFL vekili, TTFD, ilk damga, ilk karne | — |
 | | `tutorial_complete` (GA4) | — | FTUE tamamlama | `fb_mobile_tutorial_completion` |
-| | `ftue_step` | `step` (kimlik), `idx`, `ms` | onboarding adım hunisi (öğretici ajanı) | — |
+| | `ftue_intro_open` | `replay`, `ms` | eğitim erişimi (18 §7) | — |
+| | `ftue_intro_done` · `ftue_intro_skip` | `page` (0–4), `replay`, `ms`, `dur_ms` (eğitim açık kaldığı süre) | eğitim tamamlama, terk sayfası, eğitim süresi | — |
+| | `ftue_hint` | `id: choices\|stats\|speed\|meters\|report`, `ms` | bağlamsal ipuçları | — |
+| | `ftue_step` | `step` (kimlik), `idx`, `ms` | ek onboarding adımları (`trackFtue`) | — |
 | Çekirdek | `life_start` | `life_no`, `fast_life` | hayat/kullanıcı | — |
 | | `day_shown` (örneklenmiş, varsayılan %10) | `event_id`, `domain`, `age_band`, `kind`, `sample_pct` | içerik ısı haritası | — |
 | | `answer` | `event_id`, `choice_id`, `domain`, `age_band`, `via: tap\|auto` | seçim dağılımı, oto payı | — |
@@ -90,10 +93,10 @@ Her olaya çekirdek `schema_v` (=1) ekler; kuyrukta ≥ 60 sn beklemiş olaya `l
 | | `purchase` (GA4) | `sku`, `value`, `currency` (+ Firebase'e `items[]`) | ARPDAU (IAP), ödeyen dönüşümü, LTV | `fb_mobile_purchase` (`logPurchase(value, CURRENCY)`) |
 | | `purchase_fail` | `sku`, `surface`, `reason` | huni kaybı | — |
 | | `purchase_restore` | `result`, `count` | geri yükleme sağlığı | — |
-| Ayarlar | `settings_change` | `setting: language\|fast_life\|auto\|haptics`, `value` | dil dağılımı | — |
+| Ayarlar | `settings_change` | `setting: language\|fast_life\|auto\|haptics\|hints_reset`, `value` | dil dağılımı, ipucu sıfırlama | — |
 | Kalite | `app_error` | `scope`, `code`, `fatal` | hata oranı | — |
 
-Toplam **34 olay adı** (GA4 sınırı 500), olay başına en çok 11 + 2 ortak parametre (sınır 25). Vitest bu sınırları doğrular.
+Toplam **38 olay adı** (GA4 sınırı 500), olay başına en çok 11 + 2 ortak parametre (sınır 25). Vitest bu sınırları doğrular.
 
 **Kullanıcı özellikleri (9/25):** `locale`, `lives_bucket` (1 · 2_3 · 4_9 · 10_plus), `payer` (0/1), `no_ads` (0/1), `sound` (on/off — değişim **anı** olay değildir, 11 §2.2.3 #6), `app_version`, `content_hash`, `install_week` (ör. `2026w46`), `ab_variant` (Remote Config).
 
@@ -107,6 +110,7 @@ Toplam **34 olay adı** (GA4 sınırı 500), olay başına en çok 11 + 2 ortak 
 
 - **Oturum:** yalnızca ön plan süresi. Arka plana her geçişte `game_session_end` o ana kadarki **kümülatif** değerlerle (`part` artarak) gönderilir — uygulama arka planda öldürülebilir. 10 dakikadan kısa ayrılıştan dönüş aynı oturumdur. Raporlarda `session_no` başına **son `part`** alınır.
 - **FTUE:** her adım kurulum başına bir kez; `ms` = ilk açılıştan beri toplam ön plan süresi. `tutorial_begin` ilk hayat başlangıcında, `tutorial_complete` ilk karnede (11 §2.1.2 "FTUE tamamlama = ilk karne").
+- **Eğitim (18):** `src/state/tutorialRuntime.ts` `TutorialStore`'un `onEvent` geri çağrısını `trackTutorialEvent`'e bağlar (`ftue_intro_*`, `ftue_hint`); Ayarlar › İpuçlarını sıfırla → `trackHintsReset()`. Huni: `app_first_launch` → `ftue_intro_open` → `ftue_intro_done` ∪ `ftue_intro_skip` → `ftue_life_start` → `ftue_decision` → `ftue_hint{choices}` → `ftue_stamp` → `ftue_report_card`.
 - **`trackFtue(step, idx?)` — öğretici/onboarding için sabit API:** `'tutorial_begin' | 'tutorial_complete'` → GA4 olayları; huni adları (`line_seen`, `life_start`, `decision`, `stamp`, `report_card`) → `ftue_<adım>`; diğer her makine kimliği (`^[a-z][a-z0-9_]{0,31}$`) → `ftue_step{step, idx, ms}`. Hepsi kurulum başına bir kez, idempotent.
 
 ---
@@ -114,7 +118,7 @@ Toplam **34 olay adı** (GA4 sınırı 500), olay başına en çok 11 + 2 ortak 
 ## 5. Rıza (KVKK / GDPR) ve Consent Mode v2
 
 ### 5.1 Akış
-1. **Yaş kapısı** (reklam katmanı) yanıtlanana kadar: hiçbir SDK başlamaz; olaylar cihazda bekler.
+1. **Yaş kapısı** (reklam katmanı) `minor` ya da `adult` olana kadar (`loading`/`ask`): hiçbir SDK başlamaz — önceki bir oturumdan kayıtlı "evet" olsa bile (çekirdeğin varsayılanı `requireAgeGate: true`, yaş bilgisi `getConsent().age`'den gelir); olaylar cihazda bekler.
 2. **İlk oturum:** hiçbir soru yok (D-015). Olaylar cihazda bekler (≤ 400/amaç, en eskisi düşer).
 3. **2. oturum başı / ilk reklam fırsatı:** reklam katmanının KVKK aydınlatma + açık rıza kartları (veya EEA'da UMP). Hemen ardından, aynı "zaman durmuş" yuvada **"Analitik paylaşımı"** kartı: [Paylaşma] [Paylaş] eşit boyutlu, hiçbiri seçili değil.
 4. iOS'ta ATT istemi **yalnızca** reklam katmanının (`requestTracking()`); analitik katmanı asla istemez.
@@ -197,7 +201,7 @@ RN 0.88 / Expo 58 doğrulaması bu ortamda: `expo config --type introspect` örn
 
 ### 8.1 Firebase / GA4'te kurulacak raporlar
 - **Retention:** GA4 › Retention + Explore › Cohort exploration: kohort = `first_open` günü, dönüş = `session_start` (otomatik), D1/D7/D30; platform ve `locale` kırılımı. Not: retention yalnızca **rıza verenleri** kapsar (§10).
-- **FTUE hunisi (Funnel exploration, açık huni):** `app_first_launch` → `ftue_line_seen` → `tutorial_begin`/`ftue_life_start` → `ftue_decision` → `ftue_stamp` → `ftue_report_card` → `tutorial_complete`; adım süreleri için `ms` medyanı. Onboarding adımları: `ftue_step` `idx` sırasıyla.
+- **FTUE hunisi (Funnel exploration, açık huni):** `app_first_launch` → `ftue_intro_open` → `ftue_intro_done`/`ftue_intro_skip` → `ftue_line_seen` → `tutorial_begin`/`ftue_life_start` → `ftue_decision` → `ftue_stamp` → `ftue_report_card` → `tutorial_complete`; adım süreleri için `ms` medyanı. Onboarding adımları: `ftue_step` `idx` sırasıyla.
 - **Oturum:** `game_session_end` → `session_no` başına max `part` → `dur_ms` medyanı, `shown_days` medyanı, `shown_days/(dur_ms/60000)`; oturum/DAU = farklı (`user_pseudo_id`,`session_no`) / DAU.
 - **Gelir:** GA4 Monetization overview (`purchase` value + AdMob bağlantısıyla `ad_impression` value) → ARPDAU = (IAP + reklam) / DAU; reklam/IAP ayrı satır.
 - **Reklam/DAU:** `ad_shown` sayısı / DAU, `placement` ve `format` kırılımı; opt-in = `ad_shown{rewarded}` kullanıcıları / `ad_offer_shown` kullanıcıları; no-fill = `ad_skip{no_fill}` / `ad_offer_shown`.
@@ -303,5 +307,5 @@ Gerçek proje/cihaz olmadan doğrulanamayanlar: iOS'ta RNFB 26 + `disableSPM` + 
 | `src/ads/adService.ts` — `showInterstitial` dönüşü | Şu an `useGame.returnSlot` ledger farkından `trackAdShown('return','interstitial')` çıkarıyor; ileride servis içinden çağrılabilir | Çalışıyor (dolaylı) |
 | `src/ads` rıza kartı | Analitik anahtarı şu an ayrı kartta, reklam kartlarından hemen sonra. 11 §3.2 aynı kartta üçüncü anahtar istiyor: `AnalyticsSwitch` bileşeni (`src/analytics/ConsentUI.tsx`) reklam katmanının `Choice` kartına konabilir | İsteğe bağlı (reklam ajanı) |
 | `src/monetization/purchases.ts` | Şu an `ShopScreen` sarmalıyor (`trackPurchaseStart/Result`, `trackRestore`). Başka bir satın alma yüzeyi (ör. 2. ölüm teklifi) eklenirse `trackPaywallView('post_death_2')` + aynı iki çağrı | Mağaza ekranı bağlı |
-| Öğretici/onboarding | `trackFtue('tutorial_begin' \| '<adım>' , idx)` / `trackFtue('tutorial_complete')` | API hazır, sabit |
+| Öğretici/onboarding | `tutorialRuntime.ts` → `onEvent: trackTutorialEvent`; Ayarlar › ipucu sıfırla → `trackHintsReset()`; ek adımlar için `trackFtue(...)` | **Bağlandı** |
 | Meta Audience Network | AdMob mediation adaptörü (doc 15'e not) | Gelecek |

@@ -5,11 +5,10 @@ import type { TutorialState } from './tutorial';
 import { SAVE_KEY } from './save';
 import { readItem, writeItem } from './storage';
 
-// TODO(analytics): no intro / hint events exist in src/analytics yet (the existing `tutorial_begin` /
-// `tutorial_complete` marks belong to the first-life FTUE funnel). Wire `onEvent` to e.g. `ftue_intro_open`,
-// `ftue_intro_done {page}`, `ftue_intro_skip {page}`, `ftue_hint {id}` once the analytics schema has them
-// (docs/design/18 §7).
-export const tutorial = new TutorialStore({ kv: { read: readItem, write: writeItem }, saveKey: SAVE_KEY });
+import { trackTutorialEvent } from '../analytics/hooks';
+
+// Analytics (docs/design/17 §3, 18 §7): intro open / done / skip and hints → ftue_intro_* / ftue_hint (consent-gated there).
+export const tutorial = new TutorialStore({ kv: { read: readItem, write: writeItem }, saveKey: SAVE_KEY, onEvent: trackTutorialEvent });
 void tutorial.load();
 
 export const useTutorial = (): TutorialState => useSyncExternalStore(tutorial.subscribe, tutorial.getState, tutorial.getState);

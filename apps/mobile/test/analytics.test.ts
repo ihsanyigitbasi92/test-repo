@@ -48,13 +48,13 @@ const ADS_OFF: AdsConsentView = { resolved: false, adsPersonalized: false, isMin
 const ADS_DECLINED: AdsConsentView = { resolved: true, adsPersonalized: false, isMinor: false, att: 'skipped' };
 const ADS_ON = (att: AdsConsentView['att'] = 'authorized'): AdsConsentView => ({ resolved: true, adsPersonalized: true, isMinor: false, att });
 
-function rig(o: { platform?: 'ios' | 'android' | 'web'; kv?: ReturnType<typeof memKV>; providers?: AnalyticsProvider[]; queueLimit?: number; gap?: number } = {}) {
+function rig(o: { platform?: 'ios' | 'android' | 'web'; kv?: ReturnType<typeof memKV>; providers?: AnalyticsProvider[]; queueLimit?: number; gap?: number; ageGate?: boolean } = {}) {
   const clock = { t: Date.UTC(2026, 10, 12, 9, 0, 0) };
   const kv = o.kv ?? memKV();
   const fa = new Spy('fa', 'analytics');
   const meta = new Spy('meta', 'marketing', isMetaMapped);
   const core = new AnalyticsCore({ providers: o.providers ?? [fa, meta], platform: o.platform ?? 'android', kv, now: () => clock.t, localDay: () => '2026-11-12',
-    queueLimit: o.queueLimit ?? 400, sessionGapMs: o.gap ?? 600_000, saveDelayMs: 0 });
+    queueLimit: o.queueLimit ?? 400, sessionGapMs: o.gap ?? 600_000, saveDelayMs: 0, requireAgeGate: o.ageGate ?? false });
   return { core, kv, fa, meta, clock, hooks: createHooks(core, { daySamplePct: () => 100, random: () => 0 }) };
 }
 
@@ -374,7 +374,7 @@ describe('consent gate', () => {
     const missing = new Spy('missing', 'analytics', undefined, true);
     const ok = new Spy('ok', 'analytics');
     const kv = { read: async (): Promise<string | null> => { throw new Error('disk'); }, write: async (): Promise<boolean> => { throw new Error('disk'); } };
-    const core = new AnalyticsCore({ providers: [angry, missing, ok, new NoopProvider()], platform: 'web', kv, now: () => 1, localDay: () => 'd', saveDelayMs: 0 });
+    const core = new AnalyticsCore({ providers: [angry, missing, ok, new NoopProvider()], platform: 'web', kv, now: () => 1, localDay: () => 'd', saveDelayMs: 0, requireAgeGate: false });
     expect(() => {
       core.foreground();
       core.track('tutorial_begin');
@@ -451,6 +451,26 @@ describe('age gate and the ad layer\'s trackingAllowed flag', () => {
     expect(r.core.getConsent()).toMatchObject({ analytics: 'denied', marketing: 'denied', minor: true });
     expect(r.core.getChoice().analytics).toBe(false);
     expect(r.fa.inits + r.meta.inits).toBe(0);
+  });
+
+  it('the runtime default waits for the age gate even with a stored "yes" (no SDK while it is loading / asked)', async () => {
+    const kv = memKV();
+    const a = rig({ kv });
+    await a.core.ready();
+    a.core.setAnalyticsConsent(true);
+    const r = rig({ kv, ageGate: true });
+    await r.core.ready();
+    r.core.track('tutorial_begin');
+    r.core.setAdsConsent({ ...ADS_DECLINED });                                  // a snapshot without `age` keeps 'loading'
+    await tick();
+    expect(r.core.getConsent().analytics).toBe('unknown');
+    expect(r.fa.inits).toBe(0);
+    r.core.setAdsConsent({ ...ADS_DECLINED, age: 'ask' });
+    await tick();
+    expect(r.fa.inits).toBe(0);
+    r.core.setAdsConsent({ ...ADS_DECLINED, age: 'adult' });
+    await tick();
+    expect(r.fa.names()).toEqual(['tutorial_begin']);
   });
 
   it('marketing is never granted while the ad layer says trackingAllowed = false', () => {
@@ -550,6 +570,33 @@ describe('sessions and FTUE', () => {
     await tick();
     expect(r.fa.names().filter((n) => /^ftue_|^tutorial_/.test(n))).toEqual(['tutorial_begin', 'ftue_step', 'ftue_life_start', 'tutorial_complete', 'ftue_report_card']);
     expect(r.fa.log.find((e) => e.name === 'ftue_step')!.params).toMatchObject({ step: 'speed_hint', idx: 1, ms: 1000 });
+  });
+
+  it('tutorial store events: intro open / done / skip with page and duration, hints, hints reset', async () => {
+    const r = rig();
+    await r.core.ready();
+    r.core.setAnalyticsConsent(true);
+    r.core.foreground();
+    r.clock.t += 2000;
+    r.hooks.trackTutorialEvent({ kind: 'intro_open', replay: false });
+    r.clock.t += 25_000;
+    r.hooks.trackTutorialEvent({ kind: 'intro_skip', replay: false, page: 2 });
+    r.hooks.trackTutorialEvent({ kind: 'intro_open', replay: true });
+    r.clock.t += 5000;
+    r.hooks.trackTutorialEvent({ kind: 'intro_done', replay: true, page: 4 });
+    r.hooks.trackTutorialEvent({ kind: 'hint', hint: 'speed' });
+    r.hooks.trackTutorialEvent({ kind: 'hint', hint: 'not_a_hint' });
+    r.hooks.trackHintsReset();
+    await tick();
+    const t = r.fa.log.filter((e) => /^ftue_intro|^ftue_hint|^settings_change/.test(e.name)).map((e) => [e.name, e.params]);
+    expect(t).toMatchObject([
+      ['ftue_intro_open', { replay: false, ms: 2000 }],
+      ['ftue_intro_skip', { page: 2, replay: false, ms: 27000, dur_ms: 25000 }],
+      ['ftue_intro_open', { replay: true }],
+      ['ftue_intro_done', { page: 4, replay: true, dur_ms: 5000 }],
+      ['ftue_hint', { id: 'speed', ms: 32000 }],
+      ['settings_change', { setting: 'hints_reset', value: 'reset' }],
+    ]);
   });
 
   it('death → new client is measured once', async () => {

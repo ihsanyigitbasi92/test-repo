@@ -28,6 +28,7 @@ const FUNNEL: readonly string[] = ['line_seen', 'life_start', 'decision', 'stamp
 export function createHooks(a: AnalyticsCore, o: HookOptions = {}) {
   const rnd = o.random ?? Math.random;
   let surface: Surface = 'store';
+  let introAt: number | null = null;
   return {
     /**
      * STABLE onboarding entry point (for the tutorial / onboarding code). Every call is once-per-install and cheap.
@@ -38,6 +39,24 @@ export function createHooks(a: AnalyticsCore, o: HookOptions = {}) {
      *   trackFtue('<own_step_id>', idx)                        any other onboarding step → `ftue_step{step, idx, ms}`
      *                                                          (lowercase machine id, ≤ 32 chars; `idx` = its order)
      */
+    /**
+     * Tutorial store callback (src/state/tutorial.ts `onEvent`): intro open / done / skip and contextual hints.
+     * Every call is an event (a replay from Settings is `replay: true`); no once-per-install rule here.
+     */
+    trackTutorialEvent(e: { kind: 'intro_open' | 'intro_done' | 'intro_skip' | 'hint'; replay?: boolean; page?: number; hint?: string }): void {
+      const ms = a.playMs();
+      if (e.kind === 'intro_open') { introAt = ms; a.track('ftue_intro_open', { replay: !!e.replay, ms }); return; }
+      if (e.kind === 'hint') {
+        const id = e.hint;
+        if (id === 'choices' || id === 'stats' || id === 'speed' || id === 'meters' || id === 'report') a.track('ftue_hint', { id, ms });
+        return;
+      }
+      const p = { page: Math.max(0, Math.round(e.page ?? 0)), replay: !!e.replay, ms, dur_ms: introAt === null ? 0 : Math.max(0, ms - introAt) };
+      introAt = null;
+      a.track(e.kind === 'intro_done' ? 'ftue_intro_done' : 'ftue_intro_skip', p);
+    },
+    /** Settings › Reset hints. */
+    trackHintsReset(): void { a.track('settings_change', { setting: 'hints_reset', value: 'reset' }); },
     trackFtue(step: FtueFunnelStep | (string & {}), idx = 0): void {
       if (step === 'tutorial_begin') a.tutorial('begin');
       else if (step === 'tutorial_complete') a.tutorial('complete');

@@ -13,6 +13,8 @@
 import { Platform } from 'react-native';
 import type { InterstitialAd, RewardedAd } from 'react-native-google-mobile-ads';
 import { adUnitId, type AdConfig } from './config';
+import { trackAdRevenue } from '../analytics';
+import type { PaidEvent } from 'react-native-google-mobile-ads';
 import type { AdConsentApi, AdFormat, AdProvider, AdRequestPrefs, ConsentInfo, InterstitialResult, RewardedResult, TrackingStatus } from './types';
 
 type Lib = typeof import('react-native-google-mobile-ads');
@@ -94,7 +96,15 @@ export class AdMobProvider implements AdProvider {
     return slot.ad;
   }
 
-  async showRewarded(): Promise<RewardedResult> {
+  /** Impression-level revenue → analytics (Meta AdImpression; Firebase also gets it via the AdMob link). */
+  private paid(format: AdFormat, placement: string) {
+    return (e: PaidEvent) => {
+      const micros = e.valueMicros ? Number(e.valueMicros) : Math.round(e.value * 1_000_000);
+      if (Number.isFinite(micros)) trackAdRevenue({ placement, format, valueMicros: micros, currency: e.currency, source: 'admob', platform: 'admob' });
+    };
+  }
+
+  async showRewarded(placement = 'rewarded'): Promise<RewardedResult> {
     if (!this.initialized) return { rewarded: false, reason: 'error' };
     const L = this.lib();
     const ad = await this.take('rewarded') as RewardedAd | null;
@@ -102,6 +112,7 @@ export class AdMobProvider implements AdProvider {
     return new Promise<RewardedResult>((resolve) => {
       let earned = false;
       const done = (r: RewardedResult) => { ad.removeAllListeners(); this.preload('rewarded'); resolve(r); };
+      ad.addAdEventListener(L.AdEventType.PAID, this.paid('rewarded', placement));
       ad.addAdEventListener(L.RewardedAdEventType.EARNED_REWARD, () => { earned = true; });
       ad.addAdEventListener(L.AdEventType.CLOSED, () => done(earned ? { rewarded: true } : { rewarded: false, reason: 'closed' }));
       ad.addAdEventListener(L.AdEventType.ERROR, () => done(earned ? { rewarded: true } : { rewarded: false, reason: 'error' }));
@@ -109,7 +120,7 @@ export class AdMobProvider implements AdProvider {
     });
   }
 
-  async showInterstitial(): Promise<InterstitialResult> {
+  async showInterstitial(placement = 'interstitial'): Promise<InterstitialResult> {
     if (!this.initialized) return { shown: false, reason: 'error' };
     const L = this.lib();
     // An interstitial is never worth waiting for: only an already loaded one is shown.
@@ -118,6 +129,7 @@ export class AdMobProvider implements AdProvider {
     if (!ad) return { shown: false, reason: 'noFill' };
     return new Promise<InterstitialResult>((resolve) => {
       const done = (r: InterstitialResult) => { ad.removeAllListeners(); resolve(r); };
+      ad.addAdEventListener(L.AdEventType.PAID, this.paid('interstitial', placement));
       ad.addAdEventListener(L.AdEventType.CLOSED, () => done({ shown: true }));
       ad.addAdEventListener(L.AdEventType.ERROR, () => done({ shown: false, reason: 'error' }));
       ad.show().catch(() => done({ shown: false, reason: 'error' }));

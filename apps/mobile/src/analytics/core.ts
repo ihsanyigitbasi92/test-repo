@@ -93,6 +93,11 @@ export interface CoreDeps {
   sessionGapMs?: number;
   /** Debounce of the state write (0: write on every change — tests). */
   saveDelayMs?: number;
+  /**
+   * true (default): nothing is initialised until the ad layer reports the age gate as `minor` / `adult`
+   * (`setAdsConsent({ age })`). Tests that do not model the age gate pass false.
+   */
+  requireAgeGate?: boolean;
   /** Dev-only hook: an event was rejected by the sanitizer. */
   onReject?: (name: string, params: unknown) => void;
 }
@@ -123,6 +128,7 @@ export class AnalyticsCore {
     this.limit = d.queueLimit ?? 400;
     this.gap = d.sessionGapMs ?? 10 * 60_000;
     for (const p of d.providers) this.slots.set(p, { status: 'idle', buf: [] });
+    if (d.requireAgeGate !== false) this.ads = { ...NO_ADS_CONSENT, age: 'loading' };
   }
 
   // ── store plumbing ────────────────────────────────────────────────────────
@@ -290,7 +296,7 @@ export class AnalyticsCore {
   setAdsConsent(view: AdsConsentView): void {
     try {
       this.ads = { resolved: !!view.resolved, adsPersonalized: !!view.adsPersonalized, isMinor: !!view.isMinor, att: view.att,
-        ...(typeof view.trackingAllowed === 'boolean' ? { trackingAllowed: view.trackingAllowed } : {}), ...(view.age ? { age: view.age } : {}) };
+        ...(typeof view.trackingAllowed === 'boolean' ? { trackingAllowed: view.trackingAllowed } : {}), ...(view.age ?? this.ads.age ? { age: view.age ?? this.ads.age } : {}) };
       this.recompute();
     } catch { /* never throws */ }
   }

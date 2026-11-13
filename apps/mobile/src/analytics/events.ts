@@ -72,6 +72,11 @@ export const EVENTS = {
   ftue_report_card: { group: 'ftue', kpi: 'first report card, FTUE completion', p: { ms: 'int' } },
   tutorial_complete: { group: 'ftue', kpi: 'FTUE completion (GA4 recommended event)', p: {} },
   /** Onboarding steps of the tutorial (trackFtue('<own_step>')): `idx` = order in the onboarding script. */
+  /** Onboarding intro (docs/design/18 §7). `replay`: opened again from Settings › How to play. */
+  ftue_intro_open: { group: 'ftue', kpi: 'intro reach (opened / first launch)', p: { replay: 'bool', ms: 'int' } },
+  ftue_intro_done: { group: 'ftue', kpi: 'intro completion, intro duration', p: { page: 'int', replay: 'bool', ms: 'int', dur_ms: 'int' } },
+  ftue_intro_skip: { group: 'ftue', kpi: 'intro drop-off page', p: { page: 'int', replay: 'bool', ms: 'int', dur_ms: 'int' } },
+  ftue_hint: { group: 'ftue', kpi: 'contextual hints shown', p: { id: ['choices', 'stats', 'speed', 'meters', 'report'], ms: 'int' } },
   ftue_step: { group: 'ftue', kpi: 'onboarding funnel (per step drop-off)', p: { step: 'id', idx: 'int', ms: 'int' } },
   // ── core loop ──────────────────────────────────────────────────────────────
   life_start: { group: 'core', kpi: 'lives per user', p: { life_no: 'int', fast_life: 'bool' } },
@@ -101,7 +106,7 @@ export const EVENTS = {
   purchase_restore: { group: 'iap', kpi: 'restore health', p: { result: ['ok', 'none', 'failed'], count: 'int' } },
   // ── settings ───────────────────────────────────────────────────────────────
   /** Sound is deliberately NOT here: 11 §2.2.3 #6 — only the current value as the `sound` user property. */
-  settings_change: { group: 'settings', kpi: 'language split, feature use', p: { setting: ['language', 'fast_life', 'auto', 'haptics'], value: 'id' } },
+  settings_change: { group: 'settings', kpi: 'language split, feature use', p: { setting: ['language', 'fast_life', 'auto', 'haptics', 'hints_reset'], value: 'id' } },
   // ── quality ────────────────────────────────────────────────────────────────
   app_error: { group: 'quality', kpi: 'error rate by scope', p: { scope: ['save', 'content', 'ads', 'shop', 'analytics', 'render', 'other'], code: 'id', fatal: 'bool' } },
 } as const satisfies Record<string, EventSpec>;

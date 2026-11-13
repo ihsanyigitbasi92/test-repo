@@ -11,6 +11,7 @@ import { haptic, hapticsPrefs, useHapticsEnabled } from '../state/haptics';
 import { sfx, sound, useSoundPrefs } from '../state/sound';
 import { PrimaryButton } from './ActionZone';
 import { AnalyticsSettings } from '../analytics/ConsentUI';
+import { trackHintsReset } from '../analytics/hooks';
 
 /** Master volume steps (soundCore DEFAULT_PREFS.volume = the middle one). */
 export const VOLUME_STEPS = [0.35, 0.6, 0.9] as const;
@@ -64,7 +65,7 @@ export function SettingsSheet({ open, onClose, onHowTo, onResetHints }: { open: 
               <Text style={st.hint}>{t.resetHintsHint}</Text>
             </View>
             <SmallBtn label={hintsReset ? t.resetDone : t.resetDo} done={hintsReset} testID="hints-reset"
-              onPress={() => { if (hintsReset) return; haptic.selection(); sfx('ui_tap'); onResetHints(); setHintsReset(true); }} />
+              onPress={() => { if (hintsReset) return; haptic.selection(); sfx('ui_tap'); onResetHints(); trackHintsReset(); setHintsReset(true); }} />
           </View>
         )}
         <View style={st.row}>
