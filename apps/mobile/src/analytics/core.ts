@@ -40,9 +40,11 @@ interface Stored {
   /** Foreground ms since the first launch, up to the last background. */
   fgMs: number;
   lastDeathAt: number;
+  /** Wall-clock ms of the last foreground moment (session end / background): "time away" of the next session. */
+  lastSeenAt: number;
   queue: Record<Purpose, Envelope[]>;
 }
-const emptyStored = (): Stored => ({ v: 1, choice: emptyChoice(), installDay: null, installWeek: null, ftue: {}, sessionNo: 0, fgMs: 0, lastDeathAt: 0,
+const emptyStored = (): Stored => ({ v: 1, choice: emptyChoice(), installDay: null, installWeek: null, ftue: {}, sessionNo: 0, fgMs: 0, lastDeathAt: 0, lastSeenAt: 0,
   queue: { analytics: [], marketing: [] } });
 
 const isObj = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null && !Array.isArray(x);
@@ -65,6 +67,7 @@ export function decodeStored(raw: string | null | undefined, queueLimit: number)
     if (typeof x.sessionNo === 'number' && x.sessionNo >= 0) s.sessionNo = Math.floor(x.sessionNo);
     if (typeof x.fgMs === 'number' && x.fgMs >= 0) s.fgMs = x.fgMs;
     if (typeof x.lastDeathAt === 'number') s.lastDeathAt = x.lastDeathAt;
+    if (typeof x.lastSeenAt === 'number') s.lastSeenAt = x.lastSeenAt;
     if (isObj(x.queue)) {
       for (const p of PURPOSES) {
         const q = x.queue[p];
@@ -105,6 +108,18 @@ export interface CoreDeps {
 interface Slot { status: 'idle' | 'initing' | 'ready' | 'failed'; buf: Envelope[] }
 interface Session { no: number; open: boolean; activeSince: number | null; bgAt: number; durMs: number; part: number; reason: SessionEndReason | null; c: Record<SessionCounter, number> }
 const zeroCounters = (): Record<SessionCounter, number> => ({ shown_days: 0, birthdays: 0, answers: 0, auto_answers: 0, speed_play: 0, speed_fast: 0, speed_auto: 0 });
+
+/**
+ * Time away as a coarse bucket in hours (davranış 2026-11-13 §2.7: return-interval distribution, real reach of the
+ * return-slot interstitial): 0, 1, 3, 6, 12, 24, 48, 72, 168, 336, 720 — the largest step not above the gap.
+ */
+export const AWAY_BUCKETS_H = [0, 1, 3, 6, 12, 24, 48, 72, 168, 336, 720] as const;
+export function awayHours(ms: number): number {
+  const h = Math.max(0, ms) / 3_600_000;
+  let b = 0;
+  for (const x of AWAY_BUCKETS_H) if (h >= x) b = x;
+  return b;
+}
 
 /** Events older than this at delivery carry `lag_s` (queued before consent / before the SDK was up). */
 const LAG_MIN_MS = 60_000;
@@ -169,7 +184,7 @@ export class AnalyticsCore {
         if (this.session.open && this.session.no === 0) this.session.no = ++this.st.sessionNo;     // session opened before the load
         this.applyConsent(deriveConsent(this.st.choice, this.ads, this.d.platform));
         if (first) this.route(this.envelope('app_first_launch', { platform: this.d.platform }, this.preload[0]?.t));
-        for (const e of this.preload.splice(0)) this.route(e.n === 'game_session_start' ? { ...e, p: { ...e.p, session_no: this.session.no } } : e);
+        for (const e of this.preload.splice(0)) this.route(e.n === 'game_session_start' ? { ...e, p: { ...e.p, session_no: this.session.no, ...this.awayParam(e.t) } } : e);
         if (this.st.installWeek) this.setUserProps({ install_week: this.st.installWeek });
         this.save(true);
       } catch { /* never throws */ }
@@ -406,8 +421,9 @@ export class AnalyticsCore {
       if (s.open && s.activeSince !== null) return;
       if (s.open && now - s.bgAt < this.gap) { s.activeSince = now; s.reason = null; return; }   // short break: same session
       const cold = !s.open;
+      const away = !cold ? { away_h: awayHours(now - s.bgAt) } : this.loaded ? this.awayParam(now) : {};
       this.session = { no: this.loaded ? ++this.st.sessionNo : 0, open: true, activeSince: now, bgAt: 0, durMs: 0, part: 0, reason: null, c: zeroCounters() };
-      this.track('game_session_start', { source: cold ? 'cold' : 'resume', session_no: this.session.no });
+      this.track('game_session_start', { source: cold ? 'cold' : 'resume', session_no: this.session.no, ...away });
       this.save();
     } catch { /* never throws */ }
   }
@@ -420,9 +436,15 @@ export class AnalyticsCore {
       const seg = Math.max(0, now - s.activeSince);
       s.durMs += seg; s.activeSince = null; s.bgAt = now; s.part++;
       this.st.fgMs += seg;
+      this.st.lastSeenAt = now;
       this.track('game_session_end', { dur_ms: Math.round(s.durMs), ...s.c, session_no: s.no, part: s.part, end_reason: s.reason ?? 'background' });
       this.save(true);
     } catch { /* never throws */ }
+  }
+
+  /** `away_h` of a cold start: hours since the last stored foreground moment (absent on the very first launch). */
+  private awayParam(now: number): { away_h?: number } {
+    return this.st.lastSeenAt > 0 && now >= this.st.lastSeenAt ? { away_h: awayHours(now - this.st.lastSeenAt) } : {};
   }
 
   /** Cheap per-day / per-answer counters of the running session (no allocation). */

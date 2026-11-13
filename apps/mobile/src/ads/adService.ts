@@ -39,6 +39,8 @@ export interface AdServiceDeps {
 /** A mounted rewarded offer. `free`: the no-ads entitlement grants it without showing an ad. */
 export interface Offer { placement: PlacementId; amount: number; free: boolean }
 export type ReturnSlot = 'consent' | 'att' | 'interstitial';
+/** What the consent step ended with (`analytics: null` = no analytics switch on the card). */
+export interface ConsentOutcome { via: 'card' | 'ump'; choice: 'save' | 'decline' | 'ok'; personalized: boolean; analytics: boolean | null; resolved: boolean }
 
 interface Stored { v: 1; ledger: AdLedger; consent: ConsentState }
 const isObj = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null && !Array.isArray(x);
@@ -182,25 +184,58 @@ export class AdService {
   }
 
   // ── consent ───────────────────────────────────────────────────────────────
+  /** Storage was read (ledger + consent). */
+  isLoaded(): boolean { return this.loaded; }
+
   /**
-   * The consent step: Google's UMP form where it is required (EEA / UK / CH), our notice + explicit-consent cards
-   * everywhere else (KVKK: two separate cards, switch off by default, Save and Decline equal).
+   * The ad consent question may be asked now. Normally from the 2nd session on (return slot); `early`: the first
+   * report card of session 1 (sprint 3 — the single privacy card comes after the hook, before the player can leave
+   * without ever being asked). Never before the age gate, never for an owner who never sees an ad.
    */
-  async runConsent(): Promise<void> {
+  consentAskDue(early = false): boolean {
+    const cfg = this.d.cfg;
+    if (!this.loaded || this.ageMinor === null || !cfg.enabled || cfg.kill.all) return false;
+    if (this.d.noAds() && fulfilment(cfg, { noAds: true }) === 'free') return false;
+    const n = early && cfg.consent.firstReportAsk ? Math.max(this.ledger.sessionCount, cfg.consent.minSessionCount) : this.ledger.sessionCount;
+    return consentDue(cfg, this.consentState, n);
+  }
+
+  /**
+   * The consent step. Google's UMP form where it is required (EEA / UK / CH); everywhere else ONE privacy card
+   * (notice + personalised-ads switch, OFF; [Keep all off] and [Save] equal). `opts.analytics`: the analytics
+   * switch sits on the same card (after UMP: a card with the analytics switch only). Returns what was answered;
+   * `analytics: null` = that switch was not on the card.
+   */
+  async runConsent(opts: { analytics?: boolean } = {}): Promise<ConsentOutcome> {
     const cfg = this.d.cfg, region = this.region(), now = this.d.now();
     let c = this.consentState;
+    const out: ConsentOutcome = { via: 'card', choice: 'decline', personalized: false, analytics: null, resolved: false };
     try { this.ump = await this.d.provider.consent.gather({ underAgeOfConsent: c.isMinor }); } catch { this.ump = null; }
     if (consentSteps(region).includes('ump') || this.ump?.status === 'obtained') {
+      out.via = 'ump';
       // UMP did not answer (offline, form not configured): nothing is resolved, no ads, asked again next session.
-      if (!this.ump || this.ump.status === 'unknown' || this.ump.status === 'required') return;
-      c = applyUmp(cfg, c, this.ump, region, now);
+      if (this.ump && this.ump.status !== 'unknown' && this.ump.status !== 'required') {
+        c = applyUmp(cfg, c, this.ump, region, now);
+        out.resolved = true;
+        out.personalized = c.adsPersonalized;
+      }
+      if (opts.analytics) {
+        const r = await present({ k: 'privacyCard', ads: false, analytics: true, minor: c.isMinor }, null);
+        out.analytics = !!r?.analytics && !c.isMinor;
+        out.choice = c.isMinor ? 'ok' : r ? 'save' : 'decline';
+      } else out.choice = 'ok';
+      if (!out.resolved) return out;
     } else {
-      await present({ k: 'notice' }, null);
-      const choice = await present({ k: 'choice', minor: c.isMinor, initial: { personalized: false, adult: !c.isMinor } }, null);
-      c = applyCardChoice(cfg, c, choice ?? { personalized: false, adult: false }, region, now);
+      const r = await present({ k: 'privacyCard', ads: true, analytics: !!opts.analytics, minor: c.isMinor }, null);
+      c = applyCardChoice(cfg, c, r ? { personalized: r.personalized, adult: !c.isMinor } : { personalized: false, adult: false }, region, now);
+      out.choice = c.isMinor ? 'ok' : r ? 'save' : 'decline';
+      out.personalized = c.adsPersonalized;
+      out.analytics = opts.analytics ? !!r?.analytics && !c.isMinor : null;
+      out.resolved = true;
     }
     this.setConsent(c);
     await this.ensureSdk();
+    return out;
   }
 
   /** iOS: plain-language pre-prompt, then the system dialog — once. */

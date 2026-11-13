@@ -4,6 +4,8 @@
  * Pure TS. With no host mounted (unit tests, a headless run) `present` resolves with `fallback` at once.
  */
 export interface ChoiceResult { personalized: boolean; adult: boolean }
+/** The single privacy card's answer (Save). Decline / "Got it" resolve `null`: every switch stays off. */
+export interface PrivacyCardResult { personalized: boolean; analytics: boolean }
 export interface PrivacyStatus {
   resolved: boolean; personalized: boolean; adult: boolean; minor: boolean; noAds: boolean;
   /** noAds and rewards are granted without an ad (`noAdsMode: 'grantWithoutAd'`). */
@@ -16,8 +18,11 @@ export type PrivacyResult = { k: 'save'; choice: ChoiceResult } | { k: 'ump' } |
 export type AdView =
   | { k: 'mockInterstitial'; skipMs: number }
   | { k: 'mockRewarded'; ms: number }
-  | { k: 'notice' }
-  | { k: 'choice'; minor: boolean; initial: ChoiceResult }
+  /**
+   * ONE privacy card (sprint 3, docs/design/15 §5): notice text + personalised-ads switch (`ads`) + analytics switch
+   * (`analytics`), both OFF; equal [Keep all off] [Save my choice]. A minor sees the locked line and one [Got it].
+   */
+  | { k: 'privacyCard'; ads: boolean; analytics: boolean; minor: boolean }
   | { k: 'ump' }
   | { k: 'att' }
   | { k: 'privacy'; status: PrivacyStatus };
@@ -26,9 +31,8 @@ export interface ViewResult {
   mockInterstitial: null;
   /** true: watched to the end. */
   mockRewarded: boolean;
-  notice: null;
-  /** null: declined. */
-  choice: ChoiceResult | null;
+  /** null: declined / acknowledged (all off). */
+  privacyCard: PrivacyCardResult | null;
   /** true: consented in the (mock) UMP form. */
   ump: boolean;
   att: null;

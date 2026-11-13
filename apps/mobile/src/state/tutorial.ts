@@ -20,8 +20,20 @@ export const TUTORIAL_KEY = 'motto.tutorial.v1';
 export const HINT_IDS = ['report', 'choices', 'stats', 'speed', 'meters'] as const;
 export type HintId = (typeof HINT_IDS)[number];
 
-/** Number of intro pages (TutorialIntro renders exactly this many; i18n `tutorial.pages` must match). */
-export const INTRO_PAGES = 5;
+/**
+ * Number of intro pages (TutorialIntro renders exactly this many; i18n `tutorial.pages` must match). Sprint 3
+ * (playtest 2026-11-13: first decision at 60–75 s): 5 → 3 pages, ≤ 150 words in all, ≤ 45 s for a reader.
+ */
+export const INTRO_PAGES = 3;
+
+/**
+ * Hints the intro already taught, page for page: a player who read the intro to its last page (`via: 'done'`)
+ * does not get them again as notes (deneyim 2026-11-13 (c): "the hints repeat the intro").
+ */
+export const TAUGHT_BY_INTRO: readonly HintId[] = ['choices', 'stats', 'speed'];
+/** Spacing between two hints: at least this much real time AND this many shown days (≤ 2 hints in the first minute). */
+export const HINT_GAP_MS = 30_000;
+export const HINT_GAP_DAYS = 2;
 
 export interface TutorialRecord {
   v: 1;
@@ -90,6 +102,11 @@ export interface HintCtx {
   epoch: number;
   /** `epoch` when the last hint was dismissed (-1: none yet). A new hint needs a newer epoch: never two in a row. */
   lastHintEpoch: number;
+  /** Wall-clock ms now and when the last hint was dismissed (absent / null: no spacing rule yet). */
+  now?: number;
+  lastHintAt?: number | null;
+  /** `shownDays` when the last hint was dismissed (absent / null: none yet). */
+  lastHintDay?: number | null;
 }
 
 /** Shown days before the money / counters hint may come (and the day it comes even without a money change). */
@@ -111,8 +128,17 @@ function due(id: HintId, c: HintCtx): boolean {
 /** The hint to show now, or null. Pure: the caller marks it seen. */
 export function nextHint(c: HintCtx, seen: readonly HintId[]): HintId | null {
   if (!c.open || c.epoch <= c.lastHintEpoch) return null;
-  for (const id of HINT_IDS) if (!seen.includes(id) && due(id, c)) return id;
+  // Spread out (UX P2-1, davranış O2): never two notes within HINT_GAP_MS or HINT_GAP_DAYS shown days.
+  // The birthday note is exempt: it only comes with the report card, minutes in.
+  const spaced = (c.lastHintAt == null || c.now === undefined || c.now - c.lastHintAt >= HINT_GAP_MS)
+    && (c.lastHintDay == null || c.shownDays - c.lastHintDay >= HINT_GAP_DAYS);
+  for (const id of HINT_IDS) if (!seen.includes(id) && due(id, c) && (spaced || id === 'report')) return id;
   return null;
+}
+
+/** Hints that still count as "not seen" for this player: the ones the intro taught are dropped after a full read. */
+export function effectiveSeen(seen: readonly HintId[], introVia: TutorialRecord['via']): HintId[] {
+  return introVia === 'done' ? [...new Set([...seen, ...TAUGHT_BY_INTRO])] : [...seen];
 }
 
 // ── store ────────────────────────────────────────────────────────────────────
@@ -128,6 +154,8 @@ export interface TutorialState {
   replayHints: boolean;
   /** Hint currently on screen. */
   active: HintId | null;
+  /** How the first intro ended (`done`: read to the last page → the hints it taught are skipped). */
+  introVia: TutorialRecord['via'] | null;
 }
 
 export interface TutorialDeps {
@@ -139,7 +167,7 @@ export interface TutorialDeps {
 }
 
 export class TutorialStore {
-  private st: TutorialState = { loaded: false, introDone: false, introOpen: false, replay: false, hints: [], replayHints: false, active: null };
+  private st: TutorialState = { loaded: false, introDone: false, introOpen: false, replay: false, hints: [], replayHints: false, active: null, introVia: null };
   private via: TutorialRecord['via'];
   private loading: Promise<void> | null = null;
   private listeners = new Set<() => void>();
@@ -171,7 +199,7 @@ export class TutorialStore {
         else r = emptyRecord();
       }
       this.via = r.via;
-      this.set({ loaded: true, introDone: r.introDone, hints: r.hints, replayHints: !!r.replayHints, introOpen: !r.introDone, replay: false });
+      this.set({ loaded: true, introDone: r.introDone, hints: r.hints, replayHints: !!r.replayHints, introOpen: !r.introDone, replay: false, introVia: r.via ?? null });
       if (migrated) this.save();
       if (!r.introDone) this.d.onEvent?.({ kind: 'intro_open', replay: false });
     })();
@@ -193,13 +221,22 @@ export class TutorialStore {
     if (!this.st.introOpen) return;
     const first = !this.st.introDone;
     if (first) this.via = how;
-    this.set({ introOpen: false, replay: false, introDone: true });
+    this.set({ introOpen: false, replay: false, introDone: true, introVia: this.via ?? null });
     this.d.onEvent?.({ kind: how === 'done' ? 'intro_done' : 'intro_skip', replay: !first, page });
     if (first) this.save();
   }
 
-  /** Hints may show in this life: the first life, or after "Reset hints". */
-  hintsAllowed(firstLife: boolean): boolean { return firstLife || this.st.replayHints; }
+  /**
+   * Hints may show in this life: the first life, after "Reset hints", or later lives while some hint was never
+   * seen — a first life played on Auto shows no hints (Auto is on), so they come in the next life / once Auto is
+   * off (UX B-4). Players from before the tutorial have every hint marked seen, so nothing changes for them.
+   */
+  hintsAllowed(firstLife: boolean): boolean {
+    return firstLife || this.st.replayHints || this.seen().length < HINT_IDS.length;
+  }
+
+  /** Hints that count as seen now: after "Reset hints" every hint can come back, the intro's too. */
+  seen(): HintId[] { return effectiveSeen(this.st.hints, this.st.replayHints ? undefined : this.via); }
 
   /** Puts a hint on screen and marks it seen at once (a kill while it is up must not show it twice). */
   showHint(id: HintId): boolean {
@@ -214,7 +251,7 @@ export class TutorialStore {
 
   dismissHint(): void { if (this.st.active) this.set({ active: null }); }
 
-  /** Settings → Reset hints: every hint can show once more (also outside the first life). */
+  /** Settings → Reset hints: every hint can show once more (also outside the first life, also the intro's). */
   resetHints(): void {
     this.set({ hints: [], replayHints: true, active: null });
     this.save();

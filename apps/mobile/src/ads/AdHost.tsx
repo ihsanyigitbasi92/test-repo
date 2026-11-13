@@ -1,17 +1,17 @@
 /**
  * The ad layer's full-screen views, mounted once (LifeScreen): the demo ad placeholder (web / tests / Expo Go),
- * the consent cards (KVKK notice + separate explicit consent, demo UMP form, ATT pre-prompt) and the privacy sheet.
+ * the single privacy card (notice + personalised ads + analytics), the demo UMP form, the ATT pre-prompt and the
+ * privacy sheet.
  *
  * Dark-pattern rules kept here (06 §6.4): paired buttons are the same component with the same style — no bigger
  * "yes"; switches start OFF; the demo ad's close control is a real, labelled button (never a tiny or fake ✕), and
  * while the skip timer runs there is a plain countdown text, not a disabled look-alike button.
  */
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
-import { LEGAL_URLS, isPlaceholder } from '../monetization/config';
-import { AD_CONFIG } from './config';
+import { openLegal } from '../legal/store';
 import { getView, hostMounted, resolveView, subscribeView, type AdView, type ChoiceResult, type Presented, type ViewResult } from './uiStore';
 
 type ViewOf<K extends AdView['k']> = Extract<AdView, { k: K }>;
@@ -96,47 +96,48 @@ function Sheet({ title, children, testID, tag }: { title: string; children: Reac
   );
 }
 
-function Notice({ done }: { done: Done<'notice'> }) {
-  const { s } = useI18n();
-  const t = s.ads.consent;
-  const url = LEGAL_URLS.privacy && !isPlaceholder(LEGAL_URLS.privacy) ? LEGAL_URLS.privacy : AD_CONFIG.consent.privacyUrl;
-  return (
-    <Sheet title={t.noticeTitle} testID="consent-notice">
-      <Text style={st.body}>{t.noticeBody}</Text>
-      <Pressable onPress={() => { void Linking.openURL(url).catch(() => undefined); }} accessibilityRole="link" testID="consent-notice-link" style={st.linkBox}>
-        <Text style={st.link}>{t.noticeLink} ›</Text>
-      </Pressable>
-      <Btn label={t.noticeOk} onPress={() => done(null)} testID="consent-notice-ok" />
-    </Sheet>
-  );
-}
-
 /** The explicit-consent switch (OFF on first ask). A minor (age gate) gets no switch at all: personalisation is locked off. */
 function ChoiceFields({ minor, value, onChange }: { minor: boolean; value: ChoiceResult; onChange: (v: ChoiceResult) => void }) {
   const { s } = useI18n();
   const t = s.ads.consent;
   if (minor) return <Text style={st.body} testID="consent-minor-locked">{s.ads.privacy.minor}</Text>;
   return (
-    <>
-      <Switch label={t.personalized} hint={t.personalizedHint} value={value.personalized} testID="consent-personalized"
-        onChange={(personalized) => onChange({ adult: true, personalized })} />
-    </>
+    <Switch label={t.personalized} hint={t.personalizedHint} value={value.personalized} testID="consent-personalized"
+      onChange={(personalized) => onChange({ adult: true, personalized })} />
   );
 }
 
-function Choice({ view, done }: { view: ViewOf<'choice'>; done: Done<'choice'> }) {
+/**
+ * The ONE privacy card (sprint 3): notice text, the personalised-ads switch and the analytics switch (both OFF),
+ * a link to the in-app privacy notice, and two equal buttons with clearly different words. Same order every time.
+ */
+function PrivacyCard({ view, done }: { view: ViewOf<'privacyCard'>; done: Done<'privacyCard'> }) {
   const { s } = useI18n();
-  const t = s.ads.consent;
-  const [value, setValue] = useState<ChoiceResult>(view.initial);
+  const t = s.ads.card;
+  const [personalized, setPersonalized] = useState(false);
+  const [analyticsOn, setAnalyticsOn] = useState(false);
+  const locked = view.minor;
   return (
-    <Sheet title={t.choiceTitle} testID="consent-choice">
-      <ChoiceFields minor={view.minor} value={value} onChange={setValue} />
+    <Sheet title={t.title} testID="privacy-card">
+      <Text style={st.body}>{view.ads ? t.body : t.bodyAnalytics}</Text>
+      {view.ads && (locked
+        ? <Text style={st.body} testID="consent-minor-locked">{s.ads.privacy.minor}</Text>
+        : <Switch label={s.ads.consent.personalized} hint={s.ads.consent.personalizedHint} value={personalized} onChange={setPersonalized} testID="consent-personalized" />)}
+      {view.analytics && (locked
+        ? <Text style={st.hint}>{s.analytics.minor}</Text>
+        : <Switch label={s.analytics.label} hint={s.analytics.hint} value={analyticsOn} onChange={setAnalyticsOn} testID="consent-analytics" />)}
+      <Pressable onPress={() => openLegal('notice')} accessibilityRole="link" testID="consent-notice-link" style={st.linkBox}>
+        <Text style={st.link}>{t.link} ›</Text>
+      </Pressable>
       <Text style={st.hint}>{t.foot}</Text>
-      <Text style={st.hint}>{t.declineHint}</Text>
-      <View style={st.row}>
-        <Btn flex label={t.decline} onPress={() => done(null)} testID="consent-decline" />
-        <Btn flex label={t.save} onPress={() => done(value)} testID="consent-save" />
-      </View>
+      {locked || (!view.ads && !view.analytics)
+        ? <Btn label={t.ok} onPress={() => done(null)} testID="consent-ok" />
+        : (
+          <View style={st.row}>
+            <Btn flex label={t.decline} onPress={() => done(null)} testID="consent-decline" />
+            <Btn flex label={t.save} onPress={() => done({ personalized, analytics: analyticsOn })} testID="consent-save" />
+          </View>
+        )}
     </Sheet>
   );
 }
@@ -193,8 +194,7 @@ function Body({ p }: { p: Presented }) {
   switch (v.k) {
     case 'mockInterstitial': return <MockAd view={v} done={() => resolveView<'mockInterstitial'>(p.id, null)} />;
     case 'mockRewarded': return <MockAd view={v} done={(w) => resolveView<'mockRewarded'>(p.id, w)} />;
-    case 'notice': return <Notice done={(r) => resolveView<'notice'>(p.id, r)} />;
-    case 'choice': return <Choice view={v} done={(r) => resolveView<'choice'>(p.id, r)} />;
+    case 'privacyCard': return <PrivacyCard view={v} done={(r) => resolveView<'privacyCard'>(p.id, r)} />;
     case 'ump': return <Ump done={(r) => resolveView<'ump'>(p.id, r)} />;
     case 'att': return <Att done={(r) => resolveView<'att'>(p.id, r)} />;
     case 'privacy': return <Privacy view={v} done={(r) => resolveView<'privacy'>(p.id, r)} />;

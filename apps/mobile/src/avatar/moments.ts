@@ -145,6 +145,9 @@ export interface MomentView {
   outfitTo: TopStyle;
   /** Engine job title id after the change (promotion / new job). */
   jobTitle?: string;
+  /** Engine `Job.tier` (career rank) and the job itself (an engine display title, when it has one). */
+  jobTier?: number;
+  job?: object | null;
   cat: boolean;
   /** Auto-dismiss after this many ms (tap skips earlier). */
   ms: number;

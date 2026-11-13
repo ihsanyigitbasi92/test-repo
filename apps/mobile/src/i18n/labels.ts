@@ -28,8 +28,55 @@ export function assetLabel(s: Strings, locale: Locale, id: string): string {
   return capFirst(locale, s.asset[id] ?? humanizeId(locale, id));
 }
 
-export function jobLabel(s: Strings, locale: Locale, title: string): string {
-  return s.jobTitle[title] ?? humanizeId(locale, title);
+/**
+ * Job label. With a `tier` (engine `Job.tier`, 1 = entry) the career rank is added from tier 2 on, so a promotion
+ * always shows a new title ("TERFİ · Ofis Elemanı · Uzman") even when the job id stays the same (deneyim P1-3).
+ * If the engine gives its own display title (`rankTitle` / `titleKey` / `displayTitle`), that wins.
+ */
+export function jobLabel(s: Strings, locale: Locale, title: string, tier?: number | null, job?: object | null): string {
+  const own = engineTitle(job);
+  if (own) return s.jobTitle[own] ?? humanizeId(locale, own);
+  const base = s.jobTitle[title] ?? humanizeId(locale, title);
+  if (title === 'emekli' || !tier || tier < 2) return base;
+  const rank = s.jobRank[Math.min(tier, s.jobRank.length - 1)];
+  return rank ? `${base} · ${rank}` : base;
+}
+const engineTitle = (job: object | null | undefined): string | null => {
+  const j = job as { rankTitle?: unknown; titleKey?: unknown; displayTitle?: unknown } | null | undefined;
+  for (const v of [j?.rankTitle, j?.displayTitle, j?.titleKey]) if (typeof v === 'string' && v.trim()) return v.trim();
+  return null;
+};
+
+export type PartnerStage = 'dating' | 'engaged' | 'married';
+/**
+ * Relationship stage of the current partner: the engine's own field when it has one (`status.partner.stage`),
+ * else the life flags (`evli` / `nisanli`). Used for the HUD and for the speaker label of the partner's bubbles
+ * (deneyim P0-3: a 45-year marriage must not speak as "SEVGİLİ").
+ */
+export function partnerStage(view: Pick<LifeState, 'status' | 'flags'>): PartnerStage | null {
+  const p = view.status.partner as ({ stage?: unknown } & object) | null;
+  if (!p) return null;
+  const st = p.stage;
+  if (st === 'married' || st === 'evli') return 'married';
+  if (st === 'engaged' || st === 'nisanli') return 'engaged';
+  if (st === 'dating' || st === 'sevgili') return 'dating';
+  return view.flags.includes('evli') ? 'married' : view.flags.includes('nisanli') ? 'engaged' : 'dating';
+}
+
+/** Speaker label of a bubble / card header; the partner is EŞ / NİŞANLI (SPOUSE / FIANCÉ(E)) by stage. */
+export function speakerLabel(s: Strings, locale: Locale, speaker: string, stage?: PartnerStage | null): string {
+  if (speaker === 'partner' && (stage === 'married' || stage === 'engaged')) return s.speakerStage[stage];
+  return s.speaker[speaker] ?? upper(locale, humanizeId(locale, speaker));
+}
+
+/**
+ * The cat is alive right now: the engine's NPC (when it tracks one) is alive and the cat is still among the
+ * assets. Used so "cat food included" and cat filler lines stop after the cat's death (deneyim P0-2).
+ */
+export function catAlive(view: Pick<LifeState, 'npcs' | 'status'>): boolean {
+  const npc = view.npcs.find((n) => n.role === 'cat');
+  if (npc && (!npc.alive || !npc.exists)) return false;
+  return view.status.assets.includes('kedi') || !!npc?.alive;
 }
 
 /** The engine's display name of an NPC by role, when it has one (older engines: none → null). */
@@ -53,7 +100,7 @@ export function statusStrip(s: Strings, locale: Locale, view: LifeState): Status
   const homeTxt = home.kind === 'momsHouse' ? s.home.momsHouse : home.kind === 'owned' ? s.home.owned : s.home[home.kind](home.rent);
   const partner = view.status.partner;
   const yrs = partner ? Math.max(0, Math.floor((view.calendar.calendarDay - partner.since) / 365)) : 0;
-  const stage = view.flags.includes('evli') ? 'married' : view.flags.includes('nisanli') ? 'engaged' : 'dating';
+  const stage = partnerStage(view) ?? 'dating';
   const pName = partner ? nameOf(partner) ?? npcName(view, partner.npc) : null;
   const kids = view.npcs.filter((n) => n.role.startsWith('child') && n.exists && n.alive);
   const kidNames = kids.map(nameOf).filter((x): x is string => !!x);
@@ -67,7 +114,7 @@ export function statusStrip(s: Strings, locale: Locale, view: LifeState): Status
   const more = own.length - shown.length;
   const assets = shown.length ? shown.join(' · ') + (more > 0 ? ` +${more}` : '') : null;
   return {
-    job: job ? `${jobLabel(s, locale, job.title)} · ${s.num(job.monthly)}${s.perMonth}` : s.jobless,
+    job: job ? `${jobLabel(s, locale, job.title, job.tier, job)} · ${s.num(job.monthly)}${s.perMonth}` : s.jobless,
     home: homeTxt, love, cat, assets,
   };
 }

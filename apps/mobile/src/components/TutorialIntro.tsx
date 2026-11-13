@@ -1,7 +1,8 @@
 /**
- * "Nasıl oynanır / How it works" (docs/design/18 §3): five skippable pages after the splash and the age gate,
+ * "Nasıl oynanır / How it works" (docs/design/18 §3): three skippable pages after the splash and the age gate,
  * before the first Client File; replayable from Settings. Each page = one small illustration built from the real
  * UI pieces (speed control, day card, stat bars, report card, stamps) + a title + at most three short lines.
+ * Sprint 3: 5 → 3 pages (the "Ben Motto" page is gone — the opening feed line introduces the coach once).
  * Skip on every page, Back / Next, page dots, horizontal swipe; every target ≥ 44 pt. The game clock is held while
  * this is on screen (LifeScreen → game.hold).
  */
@@ -11,12 +12,10 @@ import { Animated, Easing, PanResponder, Pressable, ScrollView, StyleSheet, Text
 import { colors, fonts, nativeDriver } from '../theme';
 import { mottoLine, upper, useI18n } from '../i18n';
 import { INTRO_PAGES } from '../state/tutorial';
-import { CoachAvatar } from './CoachAvatar';
 import { PrimaryButton } from './ActionZone';
-import { dateLabel } from './Hud';
 import { useReducedMotion } from './anim';
 
-const PAGES = ['what', 'time', 'cards', 'stats', 'life'] as const;
+const PAGES = ['play', 'stats', 'life'] as const;
 type PageKey = (typeof PAGES)[number];
 if (PAGES.length !== INTRO_PAGES) throw new Error('TutorialIntro: page count out of sync with INTRO_PAGES');
 
@@ -41,51 +40,23 @@ function Stamp({ text, color, tilt = '-8deg' }: { text: string; color: string; t
   return <View style={[st.stamp, { borderColor: color, transform: [{ rotate: tilt }] }]}><Text style={[st.stampTxt, { color }]}>{text}</Text></View>;
 }
 
-function IlloWhat() {
-  const { s, locale } = useI18n();
-  const [name] = s.names[0] ?? ['', ''];
-  return (
-    <View style={st.row}>
-      <CoachAvatar mood="smirk" size={76} />
-      <View style={[st.paper, st.flex1]}>
-        <Text style={st.paperHead}>{s.fileTitle}</Text>
-        <Text style={st.paperRow}><Text style={st.k}>{upper(locale, s.fileName)}  </Text>{name}</Text>
-        <Text style={st.paperRow}><Text style={st.k}>{upper(locale, s.fileAge)}  </Text>18</Text>
-        <View style={st.stampCorner}><Stamp text={s.cta.newClient} color={colors.lime} /></View>
-      </View>
-    </View>
-  );
-}
-
-function IlloTime({ reduced }: { reduced: boolean }) {
-  const { s, locale } = useI18n();
-  const p = useLoop(2400, reduced);
-  return (
-    <View style={st.gap10}>
-      <View style={st.clockRow}>
-        <Text style={st.clockDate} numberOfLines={1}>{dateLabel(s, locale, 1, '2026-03-03')}</Text>
-        <View style={st.dp}><Animated.View style={[st.dpFill, { width: p.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }]} /></View>
-      </View>
-      <View style={st.speedRow}>
-        {(['pause', 'play', 'fast'] as const).map((k) => (
-          <View key={k} style={st.speedCol}>
-            <View style={[st.speedBtn, k === 'play' && st.speedOn]}><Text style={[st.speedTxt, k === 'play' && st.speedTxtOn]}>{k === 'pause' ? 'II' : k === 'play' ? '▶' : '▶▶'}</Text></View>
-            <Text style={st.caption}>{s.speedA11y[k]}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={st.ghostPill}><Text style={st.ghostPillTxt}>II → {upper(locale, s.cta.nextDay)}</Text></View>
-    </View>
-  );
-}
-
-function IlloCards({ reduced }: { reduced: boolean }) {
+/** Page 1: the day clock + speed, a card with a wager slip and two arrowed choices (time stops on the card). */
+function IlloPlay({ reduced }: { reduced: boolean }) {
   const { s, locale } = useI18n();
   const d = s.tutorial.demo;
+  const p = useLoop(2400, reduced);
   const sw = useLoop(2200, reduced, 'swing');
   const x = reduced ? 0 : sw.interpolate({ inputRange: [0, 1], outputRange: [-14, 14] });
   return (
     <View style={st.gap8}>
+      <View style={st.clockRow}>
+        <View style={st.dp}><Animated.View style={[st.dpFill, { width: p.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }]} /></View>
+        {(['pause', 'play', 'fast'] as const).map((k) => (
+          <View key={k} style={[st.speedMini, k === 'play' && st.speedOn]} accessibilityLabel={s.speedA11y[k]}>
+            <Text style={[st.speedTxt, k === 'play' && st.speedTxtOn]}>{k === 'pause' ? 'II' : k === 'play' ? '▶' : '▶▶'}</Text>
+          </View>
+        ))}
+      </View>
       <View style={st.card}>
         <Text style={st.cardLbl}>{s.label.event} · {upper(locale, s.speaker.mom ?? '')}</Text>
         <Text style={st.cardBody}>{d.narration}</Text>
@@ -95,7 +66,6 @@ function IlloCards({ reduced }: { reduced: boolean }) {
         <View style={st.choice}><Text style={st.choiceTxt}>← {d.left}</Text></View>
         <View style={st.choice}><Text style={st.choiceTxt}>{d.right} →</Text></View>
       </Animated.View>
-      <Text style={st.swipeHint}>‹  {d.swipe}  ›</Text>
     </View>
   );
 }
@@ -189,9 +159,7 @@ export function TutorialIntro({ replay, onClose, onLocale }: { replay: boolean; 
       <ScrollView style={st.flex1} contentContainerStyle={st.body} {...pan.panHandlers}>
         <Animated.View style={[st.gap14, { opacity: fade }]} testID={`tutorial-page-${key}`}>
           <View style={st.illo} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-            {key === 'what' && <IlloWhat />}
-            {key === 'time' && <IlloTime reduced={reduced} />}
-            {key === 'cards' && <IlloCards reduced={reduced} />}
+            {key === 'play' && <IlloPlay reduced={reduced} />}
             {key === 'stats' && <IlloStats />}
             {key === 'life' && <IlloLife />}
           </View>
@@ -205,7 +173,7 @@ export function TutorialIntro({ replay, onClose, onLocale }: { replay: boolean; 
               <Text style={st.line}>{t.pages.stats.meters}</Text>
             </View>
           )}
-          {key === 'cards' && <Text style={st.foot}>{t.pages.cards.foot}</Text>}
+          {key === 'play' && <Text style={st.foot}>{t.pages.play.foot}</Text>}
         </Animated.View>
       </ScrollView>
       <View style={st.bottom}>
@@ -251,7 +219,7 @@ const st = StyleSheet.create({
   skip: { minHeight: 44, minWidth: 64, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', borderRadius: 8, borderWidth: 1, borderColor: colors.line },
   skipTxt: { fontSize: 14, fontWeight: '600', color: colors.ink2 },
   body: { paddingHorizontal: 16, paddingTop: 6, paddingBottom: 16, flexGrow: 1 },
-  illo: { minHeight: 196, justifyContent: 'center', backgroundColor: colors.paper2, borderRadius: 12, borderWidth: 1, borderColor: colors.line, padding: 14 },
+  illo: { minHeight: 150, justifyContent: 'center', backgroundColor: colors.paper2, borderRadius: 12, borderWidth: 1, borderColor: colors.line, padding: 14 },
   title: { fontFamily: fonts.stamp, fontSize: 22, lineHeight: 28, color: colors.ink, letterSpacing: 0.4 },
   line: { fontSize: 16, lineHeight: 23, color: colors.ink, fontFamily: fonts.body },
   legendK: { fontWeight: '700', color: colors.lime },
@@ -283,6 +251,7 @@ const st = StyleSheet.create({
   speedOn: { backgroundColor: colors.ink, borderColor: colors.ink },
   speedTxt: { color: colors.ink2, fontSize: 15, fontWeight: '700' },
   speedTxtOn: { color: colors.paper },
+  speedMini: { borderWidth: 1, borderColor: colors.line, borderRadius: 6, minWidth: 34, height: 28, alignItems: 'center', justifyContent: 'center' },
   caption: { fontSize: 12, color: colors.ink2 },
   ghostPill: { alignSelf: 'center', borderWidth: 1.5, borderStyle: 'dashed', borderColor: colors.line, borderRadius: 8, paddingVertical: 6, paddingHorizontal: 12 },
   ghostPillTxt: { fontSize: 12, fontWeight: '700', letterSpacing: 1, color: colors.ink2 },

@@ -7,6 +7,7 @@ import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
 import { eventById } from '../content/bundle';
+import { speakerLabel } from '../i18n/labels';
 import type { FeedItemOf } from '../state/feed';
 import { useAppear, useReducedMotion, useSlam } from './anim';
 import { sfx } from '../state/sound';
@@ -43,7 +44,7 @@ export function DayCard({ item }: { item: FeedItemOf<'card'> }) {
   const doc = item.variant === 'doc' ? ev?.document : undefined;
   // Header tag: type · who it is about (first speaker of the dialog), so a dialog-only card is not an empty frame.
   const who = ev?.dialog?.find((d) => d.speaker !== 'narrator')?.speaker;
-  const whoName = who ? s.speaker[who] : undefined;
+  const whoName = who && s.speaker[who] ? speakerLabel(s, locale, who, item.pStage) : undefined;
   const label = whoName && item.variant !== 'call' ? `${s.label[item.variant]} · ${upper(locale, whoName)}` : s.label[item.variant];
   const slim = !item.narration && !doc && !item.wager;
   return (

@@ -106,12 +106,18 @@ export const AD_CONFIG = {
   consent: {
     /** Aydınlatma metni sürümü; artarsa (yılda ≤ 1) kartlar bir kez daha gösterilir. */
     noticeVersion: 1,
-    /** Kartlar en erken bu oturumda (ilk oturumda izin sorusu yok, D-015). */
+    /** Dönüş yerleşiminde kart en erken bu oturumda (D-015). */
     minSessionCount: 2,
+    /**
+     * Sprint 3 (D-161): tek gizlilik kartı 1. oturumda, ilk karnenin "Bir Yıl Daha"sında da sorulur — kanca
+     * görüldükten sonra, oyuncu ayrılmadan önce (davranış 2026-11-13 Y5: dönmeyenlerin verisi hiç gelmiyordu).
+     * İlk oturumda reklam kuralı değişmez: teklif ≥ 2. oturum, interstitial ≥ 3. oturum.
+     */
+    firstReportAsk: true,
     /** iOS ATT ön-ekranı en erken bu oturumda ve yalnız kişiselleştirme izni verildiyse. */
     attMinSessionCount: 3,
-    /** TODO(sahip): yayın öncesi gerçek adres. */
-    privacyUrl: 'https://example.com/motto/gizlilik',
+    /** Uygulama içi taslak metin (src/legal); gerçek adres yayın öncesi app.json › monetization.legal'a girilir. */
+    privacyUrl: '',
   },
 
   /** SDK istek ayarı (D-037/D-105/D-107): tek değer T; çocuklara yönelik değil. */

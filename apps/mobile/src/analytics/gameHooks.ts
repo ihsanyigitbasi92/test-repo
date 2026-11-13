@@ -127,6 +127,12 @@ export function createHooks(a: AnalyticsCore, o: HookOptions = {}) {
       },
       setting(setting: 'fast_life' | 'auto' | 'haptics', on: boolean): void { a.track('settings_change', { setting, value: on ? 'on' : 'off' }); },
       share(card: 'death' | 'report'): void { a.track('share', { card }); },
+      /** A surprise / legendary day was shown; `daysSince` = shown days since the previous one this life. */
+      surprise(p: { tier: 'nice' | 'great' | 'legendary'; daysSince: number; age: number }): void {
+        a.track('surprise_shown', { tier: p.tier, days_since: Math.max(0, Math.round(p.daysSince)), age_band: ageBand(p.age) });
+      },
+      storyCard(kind: 'loss' | 'rent' | 'omen', eventId: string, age: number): void { a.track('story_card', { kind, event_id: toId(eventId), age_band: ageBand(age) }); },
+      sessionEndSuggested(shownDays: number): void { a.track('session_end_suggested', { shown_days: shownDays }); },
     },
     /** Current values only — the moment the sound switch is flipped is never an event (11 §2.2.3 #6). */
     userState(p: { soundOn?: boolean; payer?: boolean; noAds?: boolean }): void {
@@ -156,6 +162,19 @@ export function createHooks(a: AnalyticsCore, o: HookOptions = {}) {
     trackRestore(r: { status: 'ok' | 'none' | 'failed'; restored?: readonly unknown[] }): void {
       a.track('purchase_restore', { result: r.status, count: r.restored?.length ?? 0 });
       if (r.status === 'ok') a.setUserProps({ payer: '1' });
+    },
+
+    // ── return slot / consent / reminders ───────────────────────────────────
+    trackReturnSlot(result: 'consent' | 'att' | 'interstitial' | 'none', reason?: string): void {
+      a.track('return_slot', { result, ...(reason ? { reason: snakeId(reason) } : {}) });
+    },
+    trackConsentAnswer(p: { step: 'privacy_card' | 'ump' | 'att'; trigger: 'first_report' | 'return' | 'settings'; choice: 'save' | 'decline' | 'ok'; ads: 'on' | 'off' | 'na'; analytics: 'on' | 'off' | 'na' }): void {
+      a.track('consent_answer', p);
+    },
+    trackNotifOpen(idx: number): void { a.track('notif_open', { idx: Math.max(0, Math.round(idx)) }); },
+    trackNotifOptIn(answer: 'yes' | 'no' | 'os_denied', surface: 'session_end' | 'settings'): void {
+      a.track('notif_optin', { answer, surface });
+      a.track('settings_change', { setting: 'reminders', value: answer === 'yes' ? 'on' : 'off' });
     },
 
     // ── ads (useGame offer flow / AdService) ─────────────────────────────────

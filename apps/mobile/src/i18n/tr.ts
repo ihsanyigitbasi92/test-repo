@@ -259,9 +259,14 @@ export const tr = {
     allowance: (x: number) => `Annenden harçlık: +${n(x)}. Yanında tavsiye.`,
     rentMom: (x: number) => `Eve katkı payı: −${n(x)}. Annen "kira değil, katkı" dedi. Fark yok.`,
     rent: (x: number) => `Kira günü. −${n(x)}. Ev sahibi "evladım" dedi; otomatik ödeme demek.`,
-    daily: (x: number) => `Gündelik giderler: ${x < 0 ? '−' : '+'}${n(x)}. Mama dahil.`,
+    /** Own / inherited home: no landlord, only dues and upkeep (deneyim P0-1). */
+    upkeep: (x: number) => `Aidat ve ev giderleri: −${n(x)}. Yönetici "bu ay da" dedi.`,
+    daily: (x: number) => `Gündelik giderler: ${x < 0 ? '−' : '+'}${n(x)}.`,
+    /** Only while the cat is alive (deneyim P0-2). */
+    dailyCat: (x: number) => `Gündelik giderler: ${x < 0 ? '−' : '+'}${n(x)}. Mama dahil.`,
   },
   quiet: 'Sakin bir gün. Pamuk 05:00’te uyandırdı; başka bir şey olmadı.',
+  quietNoCat: 'Sakin bir gün. Çay demlendi, telefon sustu; başka bir şey olmadı.',
   typing: 'yazıyor…',
   speaker: {
     mom: 'ANNE', uncle: 'DAYI', roommate: 'BARIŞ', boss: 'NEVİN HANIM', neighbor: 'KOMŞU', cat: 'PAMUK', cabbie: 'TAKSİCİ',
@@ -270,6 +275,10 @@ export const tr = {
     'npc:clerk': 'MEMUR', 'npc:stranger': 'YABANCI', 'npc:barber': 'BERBER', 'npc:coworker': 'İŞ ARKADAŞI', 'npc:neighborKid': 'KOMŞU',
     'npc:waiter': 'GARSON', 'npc:banker': 'BANKACI',
   } as Record<string, string>,
+  /** The partner's label once engaged / married (deneyim P0-3). */
+  speakerStage: { engaged: 'NİŞANLI', married: 'EŞ' },
+  /** Career rank shown after the job title from tier 2 on (index = engine `Job.tier`). */
+  jobRank: ['', '', 'Uzman', 'Kıdemli', 'Ekip Lideri', 'Müdür', 'Direktör'],
   envelopeOpened: 'Zarf açıldı. İçine bakmadım. Yarın bakarız.',
   envTeaser: {
     'env.is_teklifi': 'Bir iş başvurusunun cevabı yolda.',
@@ -306,27 +315,19 @@ export const tr = {
     label: 'Nasıl oynanır', skip: 'Geç', next: 'İleri', back: 'Geri', start: 'Başlayalım', backToGame: 'Oyuna dön',
     pageA11y: (i: number, n: number) => `Sayfa ${i}/${n}`,
     pages: {
-      what: {
-        title: 'Ben Motto. Hayat koçun.',
-        lines: ['Bir hayat yaşatıyorsun: 18 yaşından son güne kadar.', 'Ben anlatırım, sen seçersin, defter not alır.', 'Sertifikam yok. Ücretim de ona göre: bedava.'],
-      },
-      time: {
-        title: 'Zaman kendi akar.',
-        lines: ['Günler kendiliğinden geçer. Üstteki çizgi günün saati.', 'II durdurur, ▶ normal, ▶▶ hızlı. Durunca Ertesi Gün düğmesiyle sen ilerletirsin.', 'Okumaya vakit lazımsa II. Ayıp değil.'],
-      },
-      cards: {
-        title: 'Kart gelir, zaman durur.',
-        lines: ['Bir şey olunca kart açılır; sen seçene kadar beklerim.', 'Seçeneğe dokun. Oklu seçenekler sola ya da sağa kaydırınca da seçilir.', 'Bazen iddiaya girerim. Oran fişte yazar; sonucu damgayla basarım.'],
+      play: {
+        title: 'Zaman akar. Kart gelince durur.',
+        lines: ['Günler kendiliğinden geçer. II durdurur, ▶▶ hızlandırır.', 'Kart açılınca seni beklerim. Seçeneğe dokun; oklu olanlar kaydırınca da seçilir.', 'Bazen iddiaya girerim. Oran fişte yazar, sonucu damga söyler.'],
         foot: 'Otomatik: seçimleri ben yaparım. Önermem.',
       },
       stats: {
-        title: 'Dört çubuk, birkaç sayaç.',
-        legend: { health: 'biterse hayat biter.', joy: 'moral. Düşükken her şey zor.', brain: 'okul, iş, akıl.', charm: 'insanlar seni nasıl görür.' },
-        meters: '◆ paran. Anne Baskısı ve Cringe: düşük olan iyi. Okunmamış: aile grubu; dokunursan anlatırım.',
+        title: 'Dört çubuk.',
+        legend: { health: 'biterse hayat biter.', joy: 'moral.', brain: 'okul, iş, akıl.', charm: 'insanlar seni nasıl görür.' },
+        meters: '◆ paran. Anne Baskısı ve Cringe: düşük olan iyi.',
       },
       life: {
         title: 'Doğum günü karne. Sonu yeni müşteri.',
-        lines: ['Her doğum günü karne gelir: yılın notları ve mottosu. Bir Yıl Daha ile devam.', 'Bir gün dosya kapanır. Herkesinki kapanır. Sonra yeni müşteri, yeni hayat.', 'Bugünlük yeter dersen kaydederim; kaldığın günden devam.'],
+        lines: ['Her doğum günü yılın karnesi gelir. Bir Yıl Daha ile devam.', 'Bir gün dosya kapanır; sonra yeni müşteri, yeni hayat.', "Bugünlük yeter dersen kaydederim. Bu sayfalar ≡ Ayarlar'da durur."],
       },
     },
     demo: {
@@ -434,7 +435,7 @@ export const tr = {
   epitaphDefault: 'Başladı. Teknik olarak.',
   roastTitle: 'ROAST RAPORU',
   roastAge: (a: number) => `${a} yaşında. Dosya kapandı.`,
-  nums: { yearsWorked: 'yıl çalıştın', wagersPlayerWon: 'kez beni haksız çıkardın', shownDays: 'gün yaşadın (yazılanlar)' },
+  nums: { yearsWorked: 'yıl çalıştın', wagersPlayerWon: 'kez beni haksız çıkardın', shownDays: 'sahne yazıldı' },
   peak: (x: number, r: number, m: number) => `En yüksek bakiye ◆ ${n(x)} · ${r} kira krizi · ${m} anne araması`,
   patTitle: 'Ömür boyu kalıpların',
   times: 'kez',

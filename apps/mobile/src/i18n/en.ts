@@ -243,9 +243,12 @@ export const en: Strings = {
     allowance: (x: number) => `Allowance from Mom: +${n(x)}. Advice included.`,
     rentMom: (x: number) => `Your share of Mom's bills: −${n(x)}. "It's not rent, it's a contribution." Same thing.`,
     rent: (x: number) => `Rent day. −${n(x)}. The landlord said "no rush"; the standing order didn't hear him.`,
-    daily: (x: number) => `Daily costs: ${x < 0 ? '−' : '+'}${n(x)}. Cat food included.`,
+    upkeep: (x: number) => `Upkeep and building dues: −${n(x)}. The building manager said "this month too."`,
+    daily: (x: number) => `Daily costs: ${x < 0 ? '−' : '+'}${n(x)}.`,
+    dailyCat: (x: number) => `Daily costs: ${x < 0 ? '−' : '+'}${n(x)}. Cat food included.`,
   },
   quiet: 'A quiet day. Biscuit woke you at 5 a.m.; nothing else happened.',
+  quietNoCat: 'A quiet day. The kettle boiled, the phone stayed silent; nothing else happened.',
   typing: 'typing…',
   speaker: {
     mom: 'MOM', uncle: 'UNCLE', roommate: 'JORDAN', boss: 'MS. CARVER', neighbor: 'NEIGHBOR', cat: 'BISCUIT', cabbie: 'CABBIE',
@@ -254,6 +257,8 @@ export const en: Strings = {
     'npc:clerk': 'CLERK', 'npc:stranger': 'STRANGER', 'npc:barber': 'BARBER', 'npc:coworker': 'COWORKER', 'npc:neighborKid': 'NEIGHBOR',
     'npc:waiter': 'WAITER', 'npc:banker': 'BANKER',
   },
+  speakerStage: { engaged: 'FIANCÉ(E)', married: 'SPOUSE' },
+  jobRank: ['', '', 'Specialist', 'Senior', 'Team Lead', 'Manager', 'Director'],
   envelopeOpened: "Envelope opened. Didn't look inside. Tomorrow.",
   envTeaser: {
     'env.is_teklifi': 'An answer to a job application is on its way.',
@@ -287,27 +292,19 @@ export const en: Strings = {
     label: 'How it works', skip: 'Skip', next: 'Next', back: 'Back', start: "Let's begin", backToGame: 'Back to the game',
     pageA11y: (i: number, n: number) => `Page ${i} of ${n}`,
     pages: {
-      what: {
-        title: "I'm Motto. Your life coach.",
-        lines: ['You run one life, from eighteen to the last day.', 'I narrate, you choose, the notebook keeps score.', 'No certificate. Priced accordingly: free.'],
-      },
-      time: {
-        title: 'Time runs by itself.',
-        lines: ["Days pass on their own. The line up top is the day's clock.", 'II stops it, ▶ is normal, ▶▶ is fast. Stopped, you move on with Next Day.', 'Need time to read, hit II. No shame.'],
-      },
-      cards: {
-        title: 'A card comes up, time stops.',
-        lines: ['When something happens, a card opens and I wait for you.', 'Tap a choice. The ones with arrows also take a swipe left or right.', 'Sometimes I wager against you. Odds are on the slip; the stamp says who won.'],
+      play: {
+        title: 'Time runs. A card stops it.',
+        lines: ['Days pass on their own. II stops them, ▶▶ speeds them up.', 'When a card opens, I wait for you. Tap a choice; the arrowed ones also swipe.', 'Sometimes I wager against you. Odds are on the slip; the stamp says who won.'],
         foot: 'Auto: I make the choices. Not recommended.',
       },
       stats: {
-        title: 'Four bars, a few counters.',
-        legend: { health: "runs out, life's over.", joy: "morale. Low, and everything's harder.", brain: 'school, work, wits.', charm: 'how people see you.' },
-        meters: "◆ is money. Mom Pressure and Cringe: lower is better. Unread: the family chat; tap it and I'll explain.",
+        title: 'Four bars.',
+        legend: { health: "runs out, life's over.", joy: 'morale.', brain: 'school, work, wits.', charm: 'how people see you.' },
+        meters: '◆ is money. Mom Pressure and Cringe: lower is better.',
       },
       life: {
         title: 'Birthdays bring a report card. The end brings a new client.',
-        lines: ["Each birthday: the year's grades and its motto. One More Year to keep going.", "One day the file closes. Everyone's does. Then a new client, a new life.", 'Enough for today saves it; you pick up on the same day.'],
+        lines: ["Each birthday: the year's report card. One More Year to keep going.", 'One day the file closes; then a new client, a new life.', 'Enough for today saves it. These pages live under ≡ Settings.'],
       },
     },
     demo: {
@@ -413,7 +410,7 @@ export const en: Strings = {
   epitaphDefault: 'Started. Technically.',
   roastTitle: 'ROAST REPORT',
   roastAge: (a: number) => `Age ${a}. File closed.`,
-  nums: { yearsWorked: 'years of work', wagersPlayerWon: 'times you proved me wrong', shownDays: 'days on the record' },
+  nums: { yearsWorked: 'years of work', wagersPlayerWon: 'times you proved me wrong', shownDays: 'scenes written' },
   peak: (x: number, r: number, m: number) => `Peak balance ◆ ${n(x)} · ${r} rent crises · ${m} mom calls`,
   patTitle: 'Your lifetime patterns',
   times: '×',

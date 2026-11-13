@@ -205,7 +205,7 @@ export function AvatarMoment({ moment: m, look, onSkip }: Props) {
     }
     case 'promotion': {
       label = s.moment[m.reason === 'retired' ? 'retired' : m.reason === 'promotion' ? 'promotion' : 'newJob'];
-      sub = m.jobTitle ? jobLabel(s, locale, m.jobTitle) : null;
+      sub = m.jobTitle ? jobLabel(s, locale, m.jobTitle, m.jobTier, m.job) : null;
       const { old, next } = reduced ? fade(0.4, 0.42) : swap(0.42);
       const flash = v.interpolate({ inputRange: [0, 0.36, 0.42, 0.62, 1], outputRange: [0, 0, 0.95, 0, 0] });
       stage = (

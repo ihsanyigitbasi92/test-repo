@@ -2,9 +2,11 @@
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
+import { flowLineText } from '../state/feed';
 import type { FeedItemOf } from '../state/feed';
 import { useAppear } from './anim';
 import { dateLabel } from './Hud';
+import { speakerLabel } from '../i18n/labels';
 
 export function DateLine({ item }: { item: FeedItemOf<'date'> }) {
   const { s, locale } = useI18n();
@@ -20,9 +22,9 @@ export function DateLine({ item }: { item: FeedItemOf<'date'> }) {
 
 /** NPC typing beat (mock `.typing` •••) shown just before a bubble lands. */
 export function TypingLine({ item }: { item: FeedItemOf<'typing'> }) {
-  const { s } = useI18n();
+  const { s, locale } = useI18n();
   const anim = useAppear('fade', 150);
-  const name = s.speaker[item.speaker] ?? '';
+  const name = s.speaker[item.speaker] ? speakerLabel(s, locale, item.speaker, item.pStage) : '';
   return <Animated.Text style={[st.typing, anim]} testID="typing">•••{name ? `  ${name} ${s.typing}` : ''}</Animated.Text>;
 }
 
@@ -40,7 +42,7 @@ export function FlowLines({ item }: { item: FeedItemOf<'flow'> }) {
       {item.lines.map((l, i) => (
         <View key={i} style={st.flowRow}>
           <Text style={[st.flowDot, { color: l.para >= 0 ? colors.called : colors.wrong }]}>{l.para >= 0 ? '▲' : '▼'}</Text>
-          <Text style={st.flowTxt}>{l.kind === 'rent' && item.momsHouse ? s.flow.rentMom(l.para) : s.flow[l.kind](l.para)}</Text>
+          <Text style={st.flowTxt}>{flowLineText(s, l, item)}</Text>
         </View>
       ))}
     </Animated.View>

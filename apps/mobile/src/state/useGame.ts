@@ -27,6 +27,7 @@ import { sfx } from './sound';
 import { MOMENT_SFX, SFX, UI_SFX, isGrief, isMilestone, sfxForCard, sfxForChoice, sfxForFlow, sfxForOutcome, sfxForStamp } from './sfx';
 import type { SfxName } from './sfx';
 import { HEALTH_DANGER } from '../components/hudConst';
+import { catAlive, partnerStage } from '../i18n/labels';
 import type { CardVariant, Delta, FeedItem, StampResult } from './feed';
 import { cyclePart, generateLook, outfitFor } from '../avatar/look';
 import type { Look, LookPart, Mood as FaceMood } from '../avatar/look';
@@ -120,6 +121,8 @@ const FAST: Timing = { reportHold: 1100, typing: 140, line: 90, bubble: 150, out
 const TURBO: Timing = { reportHold: 1300, typing: 0, line: 20, bubble: 35, outcome: 40, stamp: 120, coach: 50, resume: 60, dayFlow: 140, autoPick: 120, report: 2800, ageUp: 380, typeMs: 0, delayScale: 0, bigStamp: 650, moment: 1100 };
 
 const PHASES_FLOW = new Set(['idle', 'answered']);
+/** Feed lines that belong to one launch only (dropped from the restored feed so they never pile up). */
+const RETURN_LINES = new Set<string>(['resumed', 'adConsentIntro', 'adIncoming']);
 const FAMILY_TAGS = ['aile', 'anne', 'telefon'];
 const pad2 = (x: number) => (x < 10 ? `0${x}` : String(x));
 const localDay = () => { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; };
@@ -306,13 +309,15 @@ export class GameController {
     this.autoDays = u.autoDays; this.lowJoyShown = u.lowJoyShown; this.healthWarned = !!u.healthWarned; this.lastMotto = u.lastMotto; this.lastReport = u.lastReport;
     this.momentHist = u.momentHist ?? emptyMomentHistory(); this.deferred = null;
     if (life.look) this.looks.set(life.state.lifeSeed, life.look);
-    const feed = life.feed.filter((f) => f.kind !== 'typing').map((f) => ({ ...f, restored: true }));
+    // One "where were we" line at most: the previous launch's line (and its consent / ad notice) is replaced, not stacked (UX B-1).
+    const feed = life.feed.filter((f) => f.kind !== 'typing' && !(f.kind === 'coach' && f.ui && RETURN_LINES.has(f.ui.k))).map((f) => ({ ...f, restored: true }));
     this.seq = Math.max(this.seq, ...feed.map((f) => f.id + 1));
     this.dispatch({ type: 'RESUME', localDay: localDay() });                 // new local day → new Günün Günü seed
     if (this.state.speed !== save.speed) this.dispatch({ type: 'SET_SPEED', speed: save.speed });
     advanceContent(this.state.calendar.age);
     this.set({
-      booting: false, stage: 'play', view: this.state, lifeNo: life.lifeNo, look: life.look, unread: u.unread, session: u.session,
+      // A new launch is a new session: the old "Enough for today" / "Notebook closed" sheet is not shown again (davranış 2.4).
+      booting: false, stage: 'play', view: this.state, lifeNo: life.lifeNo, look: life.look, unread: u.unread, session: null,
       auto: save.auto, speed: save.speed, progress: 0, busy: false, moment: null, playerMood: 'neutral', mood: 'neutral', suggestEnd: false,
       feed: [...feed, { id: this.id(), kind: 'coach', ui: { k: 'resumed' } }],
     });
@@ -514,19 +519,20 @@ export class GameController {
           // Legendary day: the one moment allowed over a pending choice — as the intro, before the card.
           if (pick === 'legendary') beats.push({ wait: t.line, run: () => this.openMoment(st, 'legendary'), hold: true });
           if (c.skip && c.dayIndex > 1) { const sk = c.skip; beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'skip', key: sk.key, params: sk.params }) }); }
-          const momsHouse = st.status.home.kind === 'momsHouse';
-          if (c.flowLog.length) beats.push({ wait: t.line, run: () => { this.push({ id: this.id(), kind: 'flow', lines: c.flowLog, momsHouse }); sfxForFlow(c.flowLog).forEach((n, k) => this.sfx(n, k * 260)); } });
+          const momsHouse = st.status.home.kind === 'momsHouse', home = String(st.status.home.kind), cat = catAlive(st);
+          if (c.flowLog.length) beats.push({ wait: t.line, run: () => { this.push({ id: this.id(), kind: 'flow', lines: c.flowLog, momsHouse, home, cat }); sfxForFlow(c.flowLog).forEach((n, k) => this.sfx(n, k * 260)); } });
           if (birthday) {
             beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'coach', ui: { k: 'birthdayLine', a: [st.calendar.age, report?.data.ritual?.birthdayBand ?? 'warmup', report?.data.ritual?.birthday ?? 0] }, roast: true }) });
           } else if (c.eventId === 'sys_quiet') {
-            beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'mundane', ui: { k: 'quiet' } }) });
+            beats.push({ wait: t.line, run: () => this.push({ id: this.id(), kind: 'mundane', ui: { k: catAlive(st) ? 'quiet' : 'quietNoCat' } }) });
           } else if (c.eventId !== 'sys_death') {
             const nar = c.bubbles.find((b) => b.speaker === 'narrator');
             beats.push({ wait: t.line, run: () => {
               haptic.selection();
               const variant = cardVariant(c), ev = eventById(c.eventId);
               this.push({ id: this.id(), kind: 'card', eventId: c.eventId, variant, age: st.calendar.age,
-                narration: nar ? { key: nar.textKey, params: nar.params } : null, wager: c.wager, stamp: null });
+                narration: nar ? { key: nar.textKey, params: nar.params } : null, wager: c.wager, stamp: null, pStage: partnerStage(st) });
+              this.trackStoryCard(c, ev?.tags, st);
               const cue = sfxForCard({ variant, tags: ev?.tags ?? [], valence: ev?.valence ?? 0, surpriseTier: c.surpriseTier });
               this.sfx(cue);
               this.hushed = cue === 'grief';
@@ -542,11 +548,11 @@ export class GameController {
               const wait = t.bubble + Math.round(b.delayMs * t.delayScale);
               const typingId = this.id();
               if (t.typing > 0) {
-                beats.push({ wait: Math.max(0, wait - t.typing), run: () => this.push({ id: typingId, kind: 'typing', speaker: b.speaker }) });
+                beats.push({ wait: Math.max(0, wait - t.typing), run: () => this.push({ id: typingId, kind: 'typing', speaker: b.speaker, pStage: partnerStage(st) }) });
               }
               beats.push({ wait: t.typing > 0 ? t.typing : wait, run: () => {
                 this.set({ feed: this.snap.feed.filter((f) => f.id !== typingId) });
-                this.push({ id: this.id(), kind: 'npc', speaker: b.speaker, avatar: b.avatar, key: b.textKey, params: b.params, age: st.calendar.age });
+                this.push({ id: this.id(), kind: 'npc', speaker: b.speaker, avatar: b.avatar, key: b.textKey, params: b.params, age: st.calendar.age, pStage: partnerStage(st) });
                 this.sfx('bubble');
               } });
             }
@@ -643,7 +649,7 @@ export class GameController {
       const outfitTo = outfitFor({ job: st.status.job, age: st.calendar.age });
       beats.push({ wait: t.line, run: () => {
         this.set({ view: st, playerMood: pick === 'sad' ? 'sad' : 'happy' });
-        this.openMoment(st, pick, { reason: career.reason, outfitFrom: career.outfitFrom, outfitTo, jobTitle: st.status.job?.title });
+        this.openMoment(st, pick, { reason: career.reason, outfitFrom: career.outfitFrom, outfitTo, jobTitle: st.status.job?.title, jobTier: st.status.job?.tier, job: st.status.job });
       }, hold: true });
     }
     if (st.phase === 'answered') beats.push({ wait: t.resume, run: () => undefined });   // clock resumes 600 ms after the coach line

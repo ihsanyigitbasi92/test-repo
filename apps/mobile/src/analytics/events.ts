@@ -56,7 +56,12 @@ const SURFACES = ['store', 'settings', 'post_death_2', 'other'] as const;
 export const EVENTS = {
   // ── lifecycle ──────────────────────────────────────────────────────────────
   app_first_launch: { group: 'lifecycle', kpi: 'D0 / install cohort (with Firebase first_open)', p: { platform: PLATFORMS } },
-  game_session_start: { group: 'lifecycle', kpi: 'sessions per DAU, D1/D7/D30', p: { source: ['cold', 'resume'], session_no: 'int' } },
+  /** `away_h`: time since the last session, bucketed (core.awayHours); absent on the first launch. */
+  game_session_start: { group: 'lifecycle', kpi: 'sessions per DAU, D1/D7/D30, return-interval distribution', p: { source: ['cold', 'resume'], session_no: 'int', away_h: 'int' }, opt: ['away_h'] },
+  /** What the return slot held (D-084: at most one thing per return) and, for `none`, why no interstitial came. */
+  return_slot: { group: 'lifecycle', kpi: 'interstitial reach, consent friction on return', p: { result: ['consent', 'att', 'interstitial', 'none'], reason: 'id' }, opt: ['reason'] },
+  /** The coach offered a stop (SESSION_END_SUGGESTED); acceptance = a following game_session_end{end_reason: enough}. */
+  session_end_suggested: { group: 'lifecycle', kpi: 'stopping-cue acceptance', p: { shown_days: 'int' } },
   game_session_end: {
     group: 'lifecycle', kpi: 'session length, shown days / session, days / minute, speed mix',
     p: { dur_ms: 'int', shown_days: 'int', birthdays: 'int', answers: 'int', auto_answers: 'int', speed_play: 'int', speed_fast: 'int', speed_auto: 'int',
@@ -89,6 +94,10 @@ export const EVENTS = {
   death: { group: 'core', kpi: 'death age distribution (harness comparison)', p: { age: 'int', cause_class: 'id', channel: ['hazard', 'scripted'], life_no: 'int', shown_days: 'int', auto_days: 'int' } },
   rebirth: { group: 'core', kpi: 'death → new client within 2 min', p: { ms_since_death: 'int', life_no: 'int' } },
   share: { group: 'core', kpi: 'shares per session', p: { card: ['death', 'report'] } },
+  /** Variable-reward schedule as played: surprise / legendary days and the shown days since the previous one. */
+  surprise_shown: { group: 'core', kpi: 'reward schedule (days_since p95 ≤ 14)', p: { tier: ['nice', 'great', 'legendary'], days_since: 'int', age_band: AGE_BANDS } },
+  /** Cards that may drive churn: a loss (grief), the rent-crisis card, an omen (son perde). */
+  story_card: { group: 'core', kpi: 'loss / rent / omen → same-session and next-day churn', p: { kind: ['loss', 'rent', 'omen'], event_id: 'id', age_band: AGE_BANDS } },
   // ── ads ────────────────────────────────────────────────────────────────────
   ad_offer_shown: { group: 'ads', kpi: 'rewarded opt-in denominator', p: { placement: 'id' } },
   ad_skip: { group: 'ads', kpi: 'no-fill rate, decline rate', p: { placement: 'id', reason: ['declined', 'no_fill', 'closed', 'error'] } },
@@ -104,9 +113,20 @@ export const EVENTS = {
   purchase_fail: { group: 'iap', kpi: 'purchase funnel drop-off',
     p: { sku: 'id', surface: SURFACES, reason: ['cancelled', 'pending', 'unavailable', 'network', 'not_allowed', 'product_unavailable', 'already_owned', 'store', 'unknown'] } },
   purchase_restore: { group: 'iap', kpi: 'restore health', p: { result: ['ok', 'none', 'failed'], count: 'int' } },
+  // ── consent / notifications ────────────────────────────────────────────────
+  /**
+   * The single privacy card (docs/design/15 §5, 17 §5): which switches were shown and how they were left. Like every
+   * event it leaves the device only after analytics is granted (a "no" is therefore never sent — documented in 17).
+   */
+  consent_answer: { group: 'settings', kpi: 'consent friction, opt-in rates (consented cohort only)',
+    p: { step: ['privacy_card', 'ump', 'att'], trigger: ['first_report', 'return', 'settings'], choice: ['save', 'decline', 'ok'], ads: ['on', 'off', 'na'], analytics: ['on', 'off', 'na'] } },
+  /** Reminder opt-in (docs/design/19). `os_denied`: yes in the game, no in the system dialog. */
+  notif_optin: { group: 'settings', kpi: 'reminder opt-in rate', p: { answer: ['yes', 'no', 'os_denied'], surface: ['session_end', 'settings'] } },
+  /** The app was opened by tapping a reminder; `idx` = its place in the series (0..6: daily ×3, then weekly). */
+  notif_open: { group: 'settings', kpi: 'reminder → session conversion', p: { idx: 'int' } },
   // ── settings ───────────────────────────────────────────────────────────────
   /** Sound is deliberately NOT here: 11 §2.2.3 #6 — only the current value as the `sound` user property. */
-  settings_change: { group: 'settings', kpi: 'language split, feature use', p: { setting: ['language', 'fast_life', 'auto', 'haptics', 'hints_reset'], value: 'id' } },
+  settings_change: { group: 'settings', kpi: 'language split, feature use', p: { setting: ['language', 'fast_life', 'auto', 'haptics', 'hints_reset', 'reminders'], value: 'id' } },
   // ── quality ────────────────────────────────────────────────────────────────
   app_error: { group: 'quality', kpi: 'error rate by scope', p: { scope: ['save', 'content', 'ads', 'shop', 'analytics', 'render', 'other'], code: 'id', fatal: 'bool' } },
 } as const satisfies Record<string, EventSpec>;
