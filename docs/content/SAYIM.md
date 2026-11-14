@@ -6,12 +6,12 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **10.158** / 10.000 (101.6%) |
-| Kotası dolan alan | 130 / 132 |
+| Alan paketlerindeki geçerli olay | **10.223** / 10.000 (102.2%) |
+| Kotası dolan alan | 132 / 132 |
 | Kotayı aşan alan | 24 |
 | Alan dışı: `core` | 6 |
 | Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **10.206** |
+| Genel toplam geçerli olay | **10.271** |
 | Şema hatalı dosya | 0 |
 
 ## Grup bazında
@@ -37,7 +37,7 @@
 | bos_zaman | 4 | 299 | 299 | 100% |
 | mevsim | 2 | 163 | 163 | 100% |
 | yaslilik | 6 | 490 | 422 | 116.1% |
-| meta | 4 | 404 | 469 | 86.1% |
+| meta | 4 | 469 | 469 | 100% |
 
 ## Alan bazında
 
@@ -173,5 +173,5 @@
 | 128 | `tanidik_yuzler_kesisme` | tanidik_yuzler | Tanıdık Yüzler kesişme günleri | 65 | 65 | 0 | 100% | ██████████ |
 | 129 | `tek_hedef_anlari` | meta | Tek Hedef anları | 78 | 78 | 0 | 100% | ██████████ |
 | 130 | `efsane_nadir` | meta | Efsane nadir günler | 98 | 98 | 0 | 100% | ██████████ |
-| 131 | `absurt_kuyruk` | meta | Kara mizah: absürt kuyruk | 101 | 130 | 29 | 77.7% | ████████░░ |
-| 132 | `kucuk_anlar_relax` | meta | Küçük anlar (relax günleri) | 127 | 163 | 36 | 77.9% | ████████░░ |
+| 131 | `absurt_kuyruk` | meta | Kara mizah: absürt kuyruk | 130 | 130 | 0 | 100% | ██████████ |
+| 132 | `kucuk_anlar_relax` | meta | Küçük anlar (relax günleri) | 163 | 163 | 0 | 100% | ██████████ |
