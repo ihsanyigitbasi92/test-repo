@@ -168,7 +168,7 @@ export class AdService {
 
   /** Runs what `returnSlot` announced. Resolves when the player is back in the game. */
   async runReturnSlot(slot: ReturnSlot, game: AdGameContext, awayMs: number): Promise<void> {
-    if (slot === 'consent') return this.runConsent();
+    if (slot === 'consent') { await this.runConsent(); return; }
     if (slot === 'att') return this.runAtt();
     await this.showInterstitial(game, { kind: 'return', awayMs });
   }

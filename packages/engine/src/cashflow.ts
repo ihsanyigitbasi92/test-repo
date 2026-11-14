@@ -36,7 +36,9 @@ export function protectionMultPm(age: number): number {
  */
 export function lifestylePm(st: Pick<LifeState, 'patterns'> & Partial<Pick<LifeState, 'status'>>): number {
   const L = E.lifestyle, p = st.patterns;
-  const tier = st.status?.job ? st.status.job.tier : 0;
+  const job = st.status?.job;
+  if (job && isRetired(job)) return L.retiredPm;                  // a pension household spends a flat share
+  const tier = job ? job.tier : 0;
   let pm = L.byTierPm[Math.max(0, Math.min(L.byTierPm.length - 1, tier))]!;
   if (p.impulseSpend > 0 && p.impulseSpend >= p.patience) pm += L.impulseSpendPm;
   else if (p.patience > p.impulseSpend) pm += L.patiencePm;
@@ -145,11 +147,12 @@ export function applyCashflow(st: LifeState, fromDay: number, toDay: number): Ca
       case 'rent': {
         const rent = st.status.home.rent;
         const kind = housingFlowKind(st);                       // sprint 3 P0-1: no landlord for an owned home
-        if (st.money.balance < rent) {
+        if (st.money.balance < rent && kind !== 'mortgage') {
           if ((E.rentCard.kinds as string[]).includes(st.status.home.kind)) { rentShortfall = true; st.yearStats.rentShortfalls++; }
           st.hidden.stress = clamp(st.hidden.stress + E.rentStressPoints * 100, 0, 10000);
         }
-        if (rent > 0) moneyDelta(st, -rent, log, kind);
+        const pay = kind === 'mortgage' ? Math.min(rent, Math.max(E.mortgage.minPara, mulDiv(monthlyIncome(st), E.mortgage.maxIncomePm, 1000))) : rent;
+        if (pay > 0) moneyDelta(st, -pay, log, kind);           // sprint 3: the bank sized the installment to the income
         break;
       }
       case 'cat':

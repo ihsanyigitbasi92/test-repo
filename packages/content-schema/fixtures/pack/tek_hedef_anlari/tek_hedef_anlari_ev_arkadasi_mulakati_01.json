@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_ev_arkadasi_mulakati_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "ev",
+    "tasinma",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "moveOut"
+      ]
+    },
+    "housing": [
+      "momsHouse"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Oda boş ama önce birkaç soru. Bulaşık ne zaman yıkanır: hemen, akşam, yoksa duruma göre?",
+      "en": "The room's free, but first some questions. When do dishes get done: right away, evening, or it depends?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bir önceki aday 'duruma göre' dedi. Durum hâlâ lavaboda.",
+      "en": "The last applicant said 'it depends.' It's still in the sink.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "hemen",
+      "tr": "\"Hemen\" de",
+      "en": "Say \"right away\"",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "duruma",
+      "tr": "\"Duruma göre\" de",
+      "en": "Say \"it depends\"",
+      "pattern": "pride"
+    },
+    {
+      "id": "soru",
+      "tr": "Sen de ona soru sor",
+      "en": "Interview them back",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain",
+        "goal": "moveOut"
+      }
+    }
+  ],
+  "outcomes": {
+    "hemen": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -1800,
+        "flags": {
+          "add": [
+            "oda_kiralandi"
+          ]
+        }
+      },
+      "tr": "Odayı aldın. Depozito 1.800 Para; ev kuralları buzdolabının kapağında, iki sayfa.",
+      "en": "You got the room. Deposit: 1,800. House rules are on the fridge door. Two pages.",
+      "coach": [
+        {
+          "tr": "Evden çık hedefi: kapı bulundu.",
+          "en": "Move-out goal: door located.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "duruma": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "oda_reddi"
+          ]
+        }
+      },
+      "tr": "Ev sahibi aday bir şey not etti ve kapıyı nazikçe açtı.",
+      "en": "The tenant jotted something down and politely opened the door.",
+      "coach": [
+        {
+          "tr": "Dürüst cevap. Kapı dışarı açılıyor.",
+          "en": "Honest answer. The door opens outward.",
+          "roast": false
+        }
+      ]
+    },
+    "soru": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "money": -1800,
+          "flags": {
+            "add": [
+              "oda_kiralandi",
+              "banyo_sirasi_sende"
+            ]
+          }
+        },
+        "tr": "Karşılıklı mülakat kırk dakika sürdü. Odayı aldın, banyo sırasını da sen belirledin.",
+        "en": "The two-way interview took forty minutes. You got the room and set the bathroom schedule.",
+        "coach": [
+          {
+            "tr": "Mülakatı sen de yaptın. Banyo programı senin.",
+            "en": "You ran half the interview. You run the bathroom schedule.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Sorularına güzel cevaplar geldi. Oda o sırada salonda bekleyen adaya verildi.",
+        "en": "Your questions got great answers. Meanwhile the room went to the applicant waiting in the living room.",
+        "nearMiss": {
+          "tr": "Bir soru eksik, bir oda fazla.",
+          "en": "One question fewer, one room more."
+        },
+        "coach": [
+          {
+            "tr": "Sorular iyiydi. Sıra kaçtı.",
+            "en": "Good questions. Lost your place in line.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "evden çıkma hedefinde ev arkadaşı arayan kiracının seni mülakata alması",
+    "mechanism": "bulaşık sorusunun şıkları; 'duruma göre' cevabının lavabodaki kanıtı",
+    "mechanismId": "literalism",
+    "punch": "durum hâlâ lavaboda",
+    "lift": "kapı bulundu",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "lavabo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

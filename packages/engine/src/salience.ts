@@ -202,7 +202,7 @@ export function noveltyPm(ev: GameEvent, st: LifeState, meta: MetaState): number
 }
 
 /** Day-constant inputs of the score, computed once per pick. */
-export interface SalienceCtx { targetPm: number; lowJoy: boolean; relaxDay: boolean; lolBoost: boolean; lolStarve: boolean; negStreak: number; wowBlocked: boolean }
+export interface SalienceCtx { targetPm: number; lowJoy: boolean; relaxDay: boolean; lolBoost: boolean; lolStarve: boolean; negStreak: number; wowBlocked: boolean; feltLow: boolean }
 
 export function salienceCtx(st: LifeState): SalienceCtx {
   const d = st.director, r = st.reward;
@@ -214,6 +214,7 @@ export function salienceCtx(st: LifeState): SalienceCtx {
     lolStarve: r.beatsSinceLol >= TUNING.session.lolMaxGap,
     negStreak: r.negStreak,
     wowBlocked: r.wowCount >= TUNING.session.wowBudget,
+    feltLow: (r.feltNegStreak ?? 0) >= SAL.feltStreakBlock,
   };
 }
 
@@ -231,6 +232,7 @@ export function salience(ev: GameEvent, st: LifeState, meta: MetaState, ignoreRe
   s = mul(s, Math.max(SAL.curveFitFloorPm, 1000 - Math.floor((SAL.curveFitSlopePm * diff) / 1000)));
   if (ev.chain && st.chains[ev.chain.id]) s = mul(s, SAL.arcBoostPm);
   if (ev.valence < 0 && ctx.negStreak === 1) s = mul(s, SAL.negStreakOneValencePm);
+  if (ctx.feltLow) s = mul(s, ev.valence > 0 ? SAL.feltStreakPositivePm : SAL.feltStreakOtherPm);   // sprint 3 felt guard
   if (ctx.lowJoy) {
     if (ev.valence <= -1) s = mul(s, SAL.lowJoyNegativePm);
     else if (ev.tags.some((t) => SELF_CARE_TAGS.includes(t))) s = mul(s, SAL.lowJoySelfCarePm);

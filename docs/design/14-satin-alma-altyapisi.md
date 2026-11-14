@@ -93,14 +93,16 @@ Paket `package.json`'a eklendi. `app.json`'a **plugin eklenmedi** (gerekmiyor). 
 
 | SKU (`productId`) | Tür | Verdiği | Demo fiyatı (₺ / $) | Faz | Bu build'de |
 |---|---|---|---|---|---|
-| `no_ads` — **Reklamsız** | non-consumable | Geçiş (interstitial) reklamları kapalı. Ödüllü teklifler: reklam katmanının moduna göre (§4). | 89,99 / 2,99 **(öneri, §8)** | MVP | **Satışta** |
-| `torpil` — **Torpil** | non-consumable | `no_ads`'in verdiği her şey + sınırsız defter arşivi, 3 kayıt yeri, 6 karne teması, 4 mürekkep, defter dışa aktarımı, Kader, ek kişilik (06 §2.2.1) | 199,99 / 6,99 | MVP | Gerçek mağazada **kapalı**, demo mağazada açık (aşağıya bak) |
+| `no_ads` — **Reklamsız** | non-consumable | Geçiş (interstitial) reklamları kapalı. Ödüllü teklifler: reklam katmanının moduna göre (§4). | **49,99 / 1,99** (sprint 3 önerisi, davranış O5; önceki 89,99 / 2,99) — **son fiyat sahibin kararı** | MVP | **Satışta** |
+| `torpil` — **Torpil** | non-consumable | `no_ads`'in verdiği her şey + sınırsız defter arşivi, 3 kayıt yeri, 6 karne teması, 4 mürekkep, defter dışa aktarımı, Kader, ek kişilik (06 §2.2.1) | 199,99 / 6,99 | MVP | Gerçek mağazada **kapalı**; demo mağazada da **gizli** (sprint 3, aşağıya bak) |
 | `tickets_5` — Antrenman Bileti ×5 | consumable | 5 bilet (reklam yerine; tavan açmaz; Fizyoterapi'de geçmez) | 29,99 / 0,99 | Soft launch | Kapalı |
 | `season_2701` — Sezon Paketi 27-1 | non-consumable | 12 kamp, 40 olay, 1 kişilik, 2 karne teması | 119,99 / 3,99 | 1.0 | Kapalı |
 
 `persona_<ad>` (06'da "1.0 sonrası") somut kimliği olmadığı için kataloğa konmadı.
 
 **Fiyat nereden gelir?** Gerçek mağazada ekrandaki fiyat **yalnızca** mağazanın döndürdüğü `priceString`'dir; mağaza fiyat döndürmezse kart "Fiyat mağazadan gelmedi" der ve satın alma düğmesi çıkmaz. Tablodaki rakamlar yalnızca mock mağazayı besler ve App Store Connect / Play Console'a elle girilecek liste fiyatlarıdır.
+
+**Sprint 3 — yem fiyat yok (UX P1-6, davranış O5):** mağaza, bu build'de **teslim edilen** içeriği daha küçük bir paketle aynı olan paketi göstermez (`catalog.ts › visibleSkus`), demo mağaza dahil; yalnız sahibi olan oyuncu kendi kartını görür. Reklamsız sahibine ek satış ("Torpil'de de var" ipucu) da çıkmaz; kart "SENDE" der. Koşullar / Gizlilik bağlantıları gerçek adres girilene kadar **uygulama içi taslak metni** açar (`src/legal`, "taslak — avukat onayı bekliyor"), hiçbir zaman yer tutucu adrese gitmez; `app.json` yer tutucuları artık `PLACEHOLDER_TERMS_URL` / `PLACEHOLDER_PRIVACY_URL`.
 
 **Torpil neden gerçek mağazada kapalı?** 06 §2.2.2 "kart yalnızca o build'de gerçekten açılan ögeleri sayar" der. Bu build'de Torpil'e özgü hiçbir özellik (arşiv, kayıt yeri, tema…) yok; açık olsaydı Reklamsız'la aynı şeyi daha pahalıya satardı. `config.ts → ON_SALE.torpil = false`. Torpil'e özgü ilk özellik çıktığında: özelliği `SHIPPED_FEATURES`'a ekle, `ON_SALE.torpil = true` yap (test bu ikisinin birlikte değişmesini zorlar).
 
@@ -118,7 +120,7 @@ Paket `package.json`'a eklendi. `app.json`'a **plugin eklenmedi** (gerekmiyor). 
 | Karanlık desen yok (06 §6.4) | Geri sayım, stok, üstü çizili fiyat, "en popüler", önceden seçili ürün, utandıran ret yok; iptalde koç susar. Metin testi baskı sözcüklerini ve koddaki fiyatı reddeder. |
 | Duran zaman (06 §2.1/2) | Mağaza açılınca oyun hızı "duraklat"a alınır, kapanınca eski hıza döner. Ölüm akışında mağaza düğmesi yoktur. |
 | Dokunma hedefi | Tüm düğmeler ≥ 44 pt (ölçüldü: kapat 72×44, satın al 332×52, geri yükle 362×52, linkler ≥ 44 yüksek). |
-| Koşullar / Gizlilik linkleri | Var ama URL'ler **yer tutucu**; yer tutucuyken dokunmak hiçbir şey açmaz. Yayın engelidir (§5 D). |
+| Koşullar / Gizlilik linkleri | URL'ler **yer tutucu**; yer tutucuyken uygulama içi taslak metin açılır (sprint 3). Gerçek URL yayın engelidir (§5 D). |
 
 **Reklam katmanı sözleşmesi ve bir çelişki:** `hasNoAds()` "zorla gösterilen reklamlar kapalı" demektir. Ödüllü tekliflerde sahibin ne göreceğine reklam katmanı karar verir (`src/ads/config.ts → rewarded.noAdsMode`); mağaza kartı o ayarı okur ve hangi mod açıksa onu yazar, böylece kart build'in yapmadığı bir şeyi söylemez. Şu an reklam katmanı `grantWithoutAd` seçmiş: sahip, ödüllü teklifin ödülünü **reklam izlemeden** alır (aynı teklif, aynı tavan). Bu, 06 §2.2.2 / D-038'in "rewarded Torpil'de de yerinde kalır; satın alma stat/para vermez" hükmünden sapar: ödüllerin bir kısmı paradır (Forma Sponsoru). Kart bu modda "Yeni güç satmaz: ödüller ve sınırlar herkesle aynı" der; "stat, para vermez" **demez**. Hangi modun kalacağı ürün kararıdır (§8 D-ÖNERİ-14-07) ve Apple/Reklam Kurulu açısından "pay-to-skip" olarak avukata da sorulmalıdır.
 

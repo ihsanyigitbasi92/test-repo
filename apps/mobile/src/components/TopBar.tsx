@@ -1,5 +1,5 @@
 /** Brand + speed control (II / ▶ / ▶▶, D-066) + runtime language switch (TR / EN). */
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import type { Locale, Speed } from '@motto/engine';
 import { colors, fonts } from '../theme';
 import { upper, useI18n } from '../i18n';
@@ -18,11 +18,14 @@ const SPEEDS: { s: Speed; glyph: string }[] = [{ s: 'pause', glyph: 'II' }, { s:
 export function TopBar({ speed, locale, showSpeed, onSpeed, onLocale, onShop }: Props) {
   const { s } = useI18n();
   const speedTarget = useHintTarget('speed');
+  // UX B-6: at 360 px the full logo wrapped to "MOT / TO" and the subtitle was cut. Narrow screens get the "M"
+  // monogram on one line and no subtitle; every chip keeps its 44 pt target.
+  const narrow = useWindowDimensions().width < 380;
   return (
     <View style={st.bar}>
       <View style={st.brandBox}>
-        <Text style={st.brand}>MOTTO</Text>
-        <Text style={st.sub} numberOfLines={2}>{upper(locale, s.brandSub)}</Text>
+        <Text style={st.brand} numberOfLines={1} accessibilityLabel="Motto" testID="brand">{narrow ? 'M' : 'MOTTO'}</Text>
+        {!narrow && <Text style={st.sub} numberOfLines={2}>{upper(locale, s.brandSub)}</Text>}
       </View>
       <View style={st.chips}>
         {showSpeed && (
@@ -50,9 +53,9 @@ export function TopBar({ speed, locale, showSpeed, onSpeed, onLocale, onShop }: 
 
 const st = StyleSheet.create({
   bar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingTop: 6, paddingBottom: 2, gap: 6 },
-  brandBox: { flexShrink: 1 },
+  brandBox: { flexShrink: 1, minWidth: 18 },
   brand: { fontFamily: fonts.stamp, color: colors.lime, fontSize: 14, letterSpacing: 2.2 },
-  sub: { color: colors.ink2, fontSize: 9, fontWeight: '600', letterSpacing: 0.4 },
+  sub: { color: colors.ink2, fontSize: 10, fontWeight: '600', letterSpacing: 0.4 },
   chips: { flexDirection: 'row', gap: 4, alignItems: 'center' },
   speed: { flexDirection: 'row', gap: 3, marginRight: 2 },
   // Touch targets ≥ 44 pt (UX playtest #9); visual size too, since react-native-web ignores hitSlop.

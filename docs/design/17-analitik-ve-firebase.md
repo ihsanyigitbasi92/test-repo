@@ -63,7 +63,13 @@ Her olaya çekirdek `schema_v` (=1) ekler; kuyrukta ≥ 60 sn beklemiş olaya `l
 | Grup | Olay | Parametreler | Beslediği KPI | Meta'ya |
 |---|---|---|---|---|
 | Yaşam döngüsü | `app_first_launch` | `platform` | D0 / kurulum kohortu | — |
-| | `game_session_start` | `source: cold\|resume`, `session_no` | oturum/DAU, D1/D7/D30 | — |
+| | `game_session_start` | `source: cold\|resume`, `session_no`, `away_h`? (uzak kalma, saat kovası 0/1/3/6/12/24/48/72/168/336/720; ilk açılışta yok) | oturum/DAU, D1/D7/D30, dönüş aralığı | — |
+| | `return_slot` | `result: consent\|att\|interstitial\|none`, `reason`? (none ise interstitial neden yok: `placements.ts` red sebebi ya da `not_loaded`) | interstitial erişimi, dönüşte evrak sürtünmesi | — |
+| | `session_end_suggested` | `shown_days` | durma önerisinin kabulü (ardından `end_reason: enough`) | — |
+| Çekirdek (sprint 3) | `surprise_shown` | `tier: nice\|great\|legendary`, `days_since` (önceki sürprizden beri gösterilen gün), `age_band` | ödül çizelgesi (p95 ≤ 14 hedefi) | — |
+| | `story_card` | `kind: loss\|rent\|omen`, `event_id`, `age_band` | kayıp / kira krizi / son perde kartı → aynı oturum ve ertesi gün terk | — |
+| Rıza / bildirim | `consent_answer` | `step: privacy_card\|ump\|att`, `trigger: first_report\|return\|settings`, `choice: save\|decline\|ok`, `ads`, `analytics: on\|off\|na` | rıza sürtünmesi, izin oranı (yalnız analitiği açık kohort görür) | — |
+| | `notif_optin` · `notif_open` | `answer: yes\|no\|os_denied`, `surface` · `idx` | hatırlatma izni ve dönüşe etkisi (19) | — |
 | | `game_session_end` | `dur_ms`, `shown_days`, `birthdays`, `answers`, `auto_answers`, `speed_play`, `speed_fast`, `speed_auto`, `session_no`, `part`, `end_reason: background\|enough\|death\|close` | oturum süresi, gün/oturum, gün/dk, hız karışımı | — |
 | | `screen_view` (GA4) | `screen_name`, `screen_class` (enum) | ekran akışı | — |
 | FTUE | `tutorial_begin` (GA4) | — | FTUE hunisi giriş | — |
@@ -117,14 +123,24 @@ Toplam **38 olay adı** (GA4 sınırı 500), olay başına en çok 11 + 2 ortak 
 
 ## 5. Rıza (KVKK / GDPR) ve Consent Mode v2
 
-### 5.1 Akış
-1. **Yaş kapısı** (reklam katmanı) `minor` ya da `adult` olana kadar (`loading`/`ask`): hiçbir SDK başlamaz — önceki bir oturumdan kayıtlı "evet" olsa bile (çekirdeğin varsayılanı `requireAgeGate: true`, yaş bilgisi `getConsent().age`'den gelir); olaylar cihazda bekler.
-2. **İlk oturum:** hiçbir soru yok (D-015). Olaylar cihazda bekler (≤ 400/amaç, en eskisi düşer).
-3. **2. oturum başı / ilk reklam fırsatı:** reklam katmanının KVKK aydınlatma + açık rıza kartları (veya EEA'da UMP). Hemen ardından, aynı "zaman durmuş" yuvada **"Analitik paylaşımı"** kartı: [Paylaşma] [Paylaş] eşit boyutlu, hiçbiri seçili değil.
-4. iOS'ta ATT istemi **yalnızca** reklam katmanının (`requestTracking()`); analitik katmanı asla istemez.
-5. **Ayarlar ›** "Analitik paylaşımı" anahtarı + "Analitik verilerimi sıfırla". Reklam rızası reklam katmanının "Gizlilik / reklam tercihleri" girişinde.
+### 5.0 D-161 — Analitik varsayılan açık (sahip kararı, 2026-11-13)
+Davranış raporu (2026-11-13 §2.7, Y5): izin yalnız 2. oturumda sorulunca **dönmeyen oyuncunun hiçbir olayı gitmiyor**, D1 yapısal olarak şişiyor ve FTUE'de bırakanlar görünmüyordu. Sahip kararı:
+- **Firebase Analytics + Crashlytics, yaş kapısından sonra yetişkin ve 16–17 için kendiliğinden başlar.** Reklam kimliği yok, reklam sinyali yok: Consent Mode `analytics_storage=granted`, `ad_storage / ad_user_data / ad_personalization=denied` (reklam rızası aksini söylemedikçe). Cihaz kuyruğu hemen boşalır; kurulum ve 1. oturum olayları gider (D1 paydası artık doğru).
+- **Ayarlar'da analitik anahtarı yok; ayrı analitik kartı yok.** Tek gizlilik kartı yalnız kişiselleştirilmiş reklamı sorar (+ eskisi gibi ATT ön-ekranı).
+- **İstisnalar (hukuki taban, kaldırılmaz):** (a) AEA / Birleşik Krallık / İsviçre — ve bölgesi bilinmeyen cihaz, çünkü bunlardan biri olabilir — analitik rızaya bağlı kalır: tek gizlilik kartında "Analitik paylaşımı" anahtarı (kapalı başlar). (b) 16 altı (`blocked`): hiçbir şey. (c) Meta / pazarlama ölçümü ve reklam kimliğine dayalı her şey eskisi gibi: kişiselleştirilmiş reklam izni + iOS ATT. (d) KVKK md. 11 yolu: **"Verilerimi sil / analitik kimliğimi sıfırla"** Aydınlatma Metni ekranında (Ayarlar › Gizlilik ve metinler › Aydınlatma Metni).
+- Eski bir sürümde açıkça "Paylaşma" demiş oyuncunun cevabı korunur (kayıtlı `false` → `denied`).
+- Kod: `src/analytics/consent.ts › analyticsDefaultOn / analyticsState / deriveConsent` (bölge `src/ads/consentApi.ts › region`: rıza adımından önce cihaz ülkesi), testler `test/sprint3.test.ts › D-161`.
+
+### 5.1 Akış (sprint 3)
+1. **Yaş kapısı** `minor` ya da `adult` olana kadar: hiçbir SDK başlamaz, olaylar cihazda bekler. Kapı geçilince: TR / ABD / diğer → analitik başlar, kuyruk gönderilir. AEA / BK / CH / bilinmeyen → bekler.
+2. **Tek gizlilik kartı — 1. oturumda, ilk karnenin "Bir Yıl Daha"sında** (kanca görüldükten sonra, oyuncu ayrılmadan önce; `AD_CONFIG.consent.firstReportAsk`). Kaçarsa bir sonraki dönüş yerleşiminde. İçerik ve sıra hep aynı: aydınlatma metni → "Kişiselleştirilmiş reklam" (kapalı) → [yalnız AEA/BK/CH/bilinmeyen] "Analitik paylaşımı" (kapalı) → "Aydınlatma Metni (taslak) ›" (uygulama içi) → [Hepsi kapalı kalsın] [Seçimimi kaydet] eşit. 16–17: kilitli satır + tek [Anladım]. AEA'da önce Google UMP formu, ardından (analitik gerekiyorsa) yalnız analitik anahtarlı kart.
+3. **İlk oturumda reklam yok kuralı değişmez:** rıza yalnız SDK'nın başlamasına izin verir; ödüllü teklif ≥ 2. oturum, interstitial ≥ 3. oturum.
+4. iOS'ta ATT istemi **yalnızca** reklam katmanının (`requestTracking()`), en erken 3. oturum, ayrı bir dönüşte.
+5. Değiştirme: Ayarlar › Gizlilik ve metinler › "Gizlilik / reklam tercihleri" (reklam) ve Aydınlatma Metni ekranındaki "Verilerimi sil / analitik kimliğimi sıfırla".
 
 ### 5.2 Rıza matrisi
+
+> **D-161:** TR / ABD / diğer bölgelerde yaş kapısından sonra (yetişkin ve 16–17) "Analitik **açık**" satırı geçerlidir, soru sorulmaz; 16–17'de yalnız reklam/Meta satırları kapalı kalır. "Analitik anahtarı yanıtsız / kapalı" satırları yalnız AEA / BK / CH / bölgesi bilinmeyen cihaz ve eski bir sürümde verilmiş "hayır" için geçerlidir. Meta / reklam kimliği satırları değişmedi.
 
 | Durum | Firebase Analytics | Crashlytics | Remote Config fetch | Meta App Events | Cihaz kuyruğu |
 |---|---|---|---|---|---|
@@ -286,7 +302,16 @@ Gerçek proje/cihaz olmadan doğrulanamayanlar: iOS'ta RNFB 26 + `disableSPM` + 
 
 ## 11. Avukata sorular
 
-1. **Hukuki sebep (KVKK md. 5):** Takma adlı oyun analitiği (Firebase app-instance id + olaylar) açık rızaya mı bağlı, yoksa "meşru menfaat" (md. 5/2-f) ile çalıştırılabilir mi? Tasarım şu an en temkinli varsayımla açık rıza istiyor ve kapalı başlıyor.
+**D-161 ile eklenen / önceliği artan sorular:**
+- **A. Varsayılan açık analitiğin hukuki sebebi (KVKK md. 5):** isimsiz/takma adlı oyun analitiği ve çökme raporları için "meşru menfaat" (md. 5/2-f) yeterli mi, yoksa açık rıza mı gerekir? Açık rıza gerekiyorsa D-161 Türkiye için geri alınmalı. Aydınlatma metni (md. 10) bu hâliyle yeterli mi?
+- **B. Yurt dışı aktarım (KVKK md. 9, 2024 değişikliği):** varsayılan açık analitikte aktarım mekanizması: standart sözleşme + Kurul'a 5 iş günü içinde bildirim mi? Google'ın sözleşmesi bunu karşılar mı? Açık rıza seçeneği varsayılan açıkla bağdaşmaz.
+- **C. Mağaza beyanları:** App Store "App Privacy" (Usage Data / Diagnostics → "Not linked to you" mi "Linked"?) ve Google Play "Data safety" (toplanıyor, isteğe bağlı değil, şifreli aktarım, silme yolu) formları D-161'e göre nasıl doldurulmalı?
+- **D. 16–17 yaş:** varsayılan açık analitik reşit olmayan için de kabul edilebilir mi (reklam kimliği ve pazarlama kapalı)?
+- **E. Bölgesi bilinmeyen cihaz:** AEA olabileceği için rızaya bağlı tutuldu; bu temkin gerekli mi, yeterli mi?
+
+**Önceki sorular:**
+
+1. **Hukuki sebep (KVKK md. 5):** (D-161 öncesi soru; yukarıda A.) Tasarım artık sahip kararıyla varsayılan açık; avukat aksini söylerse `analyticsDefaultOn` TR için kapatılır.
 2. **Yurt dışına aktarım (KVKK md. 9, 2024 değişikliği):** Google (Firebase/GA4, BigQuery) ve Meta'ya aktarım için hangi mekanizma: standart sözleşme (Kurul'a 5 iş günü içinde bildirim) mi, açık rıza mı (arızi aktarım)? Google ve Meta'nın sunduğu sözleşmeler Kurul'un standart sözleşmesi yerine geçer mi?
 3. **Pazarlama ölçümü (Meta App Events, kurulum atribüsyonu):** "Kişiselleştirilmiş reklam" açık rızası bu amacı da kapsar mı, yoksa ayrı bir "reklam ölçümü / atribüsyon" anahtarı mı gerekir? Kart metni buna göre değişmeli mi?
 4. **Remote Config fetch'i:** Firebase Installation ID gönderen bu istek rızasız (oyunun işleyişi için) yapılabilir mi? Şu an rızaya bağlı.

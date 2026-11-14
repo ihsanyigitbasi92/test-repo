@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_ekip_yemegi_sunum_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "is",
+    "mesai",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "noOvertime"
+      ]
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Akşam ekip yemeği var. Mesai değil, kaynaşma. Ben sadece minik bir değerlendirme yapacağım.",
+      "en": "Team dinner tonight. Not overtime, just bonding. I'll do a teeny little review, that's all."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Projeksiyon için laptopunuzu getirin. Tatlıdan önce çeyrek rakamlarına bakarız.",
+      "en": "Bring your laptop for the projector. We'll go over the quarterly numbers before dessert.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Yemeğe git",
+      "en": "Go to the dinner",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "laptopsuz",
+      "tr": "Laptopsuz git",
+      "en": "Go without the laptop",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "noOvertime"
+      }
+    },
+    {
+      "id": "gitme",
+      "tr": "Kibarca gitme",
+      "en": "Politely skip it",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "mesai_yemegi"
+          ]
+        }
+      },
+      "tr": "Yemek üç saat sürdü. Tatlı, on ikinci slayttan sonra geldi.",
+      "en": "Dinner ran three hours. Dessert arrived after slide twelve.",
+      "coach": [
+        {
+          "tr": "Fişte \"yemek\" yazıyor. Saat mesaiyi gösteriyor.",
+          "en": "The receipt says dinner. The clock says overtime.",
+          "roast": false
+        }
+      ]
+    },
+    "laptopsuz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "mesaisiz_aksam"
+            ]
+          }
+        },
+        "tr": "Laptop olmayınca sunum Nevin Hanım'ın telefonundan yapıldı ve beş dakika sürdü. Kalan iki saat gerçekten yemekti.",
+        "en": "With no laptop, the review ran off Ms. Carver's phone and lasted five minutes. The other two hours were actual dinner.",
+        "coach": [
+          {
+            "tr": "Mesai sıfır. Hedef bu akşam ayakta.",
+            "en": "Overtime: zero. Goal standing tonight.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "mesai_yemegi"
+            ]
+          }
+        },
+        "tr": "Nevin Hanım yedek laptop getirmişti. Projeksiyon tatlı tabaklarının üstüne yansıdı.",
+        "en": "Ms. Carver had brought a spare laptop. The projector beamed onto the dessert plates.",
+        "nearMiss": {
+          "tr": "Bir laptop farkla.",
+          "en": "Missed by one laptop."
+        },
+        "coach": [
+          {
+            "tr": "Yedek plan seninkinden kalındı.",
+            "en": "Her backup plan was thicker than yours.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gitme": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "ekip_yemegi_yok"
+          ]
+        }
+      },
+      "tr": "Gitmedin. Ertesi sabah toplantı notunda adının yanına \"yemekte konuşuldu\" yazılmıştı.",
+      "en": "You skipped it. The next morning, the meeting notes had \"discussed at dinner\" next to your name.",
+      "coach": [
+        {
+          "tr": "Yemeği kaçırdın. Notlar seni kaçırmadı.",
+          "en": "You missed dinner. The notes didn't miss you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "mesaiye kalmama hedefinde patronun 'mesai değil' dediği ekip yemeğine laptop istemesi",
+    "mechanism": "kaynaşma yemeğinin adım adım toplantıya dönüşmesi",
+    "mechanismId": "escalation",
+    "punch": "tatlıdan önce çeyrek rakamları",
+    "lift": "mesai sıfır",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tatli"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

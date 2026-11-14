@@ -42,7 +42,10 @@ import { adGameContext, grantMoney, isGriefScene } from '../ads/gameContext';
 import type { Offer } from '../ads/adService';
 import { gameAnalytics, trackAdOffer, trackAdReward, trackAdShown, trackAdSkip } from '../analytics/hooks';
 import { connectAnalytics } from '../analytics/bridge';
-import { promptAnalyticsIfDue } from '../analytics/ConsentUI';
+import { privacyDue, runPrivacyFlow } from '../analytics/privacyFlow';
+import { trackReturnSlot } from '../analytics/hooks';
+import { isGriefScene as griefTags } from '../ads/gameContext';
+import { reminders } from '../notifications/runtime';
 import { clockMayRun } from './tutorial';
 
 export type Mood = 'neutral' | 'smirk' | 'shock' | 'sad';
@@ -231,6 +234,7 @@ export class GameController {
     if (!this.tickTimer) this.tickTimer = setInterval(() => this.tick(), TICK);
     this.watchLifecycle();
     if (this.started) { this.scheduleAuto(); return; }
+    void reminders.onOpen();                                                 // opening the app cancels pending reminders (docs/design/19)
     this.started = true;
     void ads.ready();                                                        // ad ledger: session count + play clock (no SDK before consent)
     void this.boot();
@@ -381,7 +385,8 @@ export class GameController {
         this.appStateSub = AppState.addEventListener('change', (st) => {
           if (st === 'background' && this.snap.stage === 'play') this.drainBeats();          // the app may be killed next
           if (st === 'background' || st === 'inactive') this.persist(true);
-          if (st === 'background') this.backgroundAt ||= Date.now();
+          if (st === 'background') { this.backgroundAt ||= Date.now(); this.leaveReminders(); }
+          if (st === 'active') void reminders.onOpen();
           if (st === 'active' && this.backgroundAt) {                                         // back after a real break: new session, return slot
             const away = Date.now() - this.backgroundAt;
             this.backgroundAt = 0;
@@ -633,6 +638,7 @@ export class GameController {
         case 'SESSION_END_SUGGESTED':
           beats.push({ wait: 0, run: () => {
             if (this.snap.auto) return;
+            gameAnalytics.sessionEndSuggested(st.counters.shownDays);
             this.set({ suggestEnd: true });
             this.push({ id: this.id(), kind: 'sys', ui: { k: 'suggestEnd' } });
           } });
@@ -654,6 +660,19 @@ export class GameController {
     }
     if (st.phase === 'answered') beats.push({ wait: t.resume, run: () => undefined });   // clock resumes 600 ms after the coach line
     this.enqueue(beats);
+  }
+
+  /** Analytics (davranış 2026-11-13 §2.7): reward schedule as played, and the loss / rent / omen cards. */
+  private lastSurpriseDay = 0;
+  private trackStoryCard(c: Extract<Effect, { kind: 'SHOW_DAY' }>['card'], tags: readonly string[] | undefined, st: LifeState): void {
+    const age = st.calendar.age, day = st.counters.shownDays;
+    if (c.legendary || c.surpriseTier) {
+      gameAnalytics.surprise({ tier: c.legendary ? 'legendary' : c.surpriseTier!, daysSince: day - this.lastSurpriseDay, age });
+      this.lastSurpriseDay = day;
+    }
+    if (c.eventId === 'evt_kira_gunu') gameAnalytics.storyCard('rent', c.eventId, age);
+    else if (tags?.includes('omen')) gameAnalytics.storyCard('omen', c.eventId, age);
+    else if (griefTags(tags)) gameAnalytics.storyCard('loss', c.eventId, age);
   }
 
   private warnHealth(st: LifeState): void {
@@ -711,6 +730,11 @@ export class GameController {
     this.saveNow();                                                          // the life is over: keep the legacy, drop the life
   }
 
+  /** The player leaves: schedule the opt-in reminder series (no-op without the opt-in / on web). */
+  private leaveReminders(): void {
+    void reminders.onLeave({ locale: this.snap.locale, catAlive: !!this.state && catAlive(this.state) && this.snap.stage === 'play' });
+  }
+
   // ── ad layer (src/ads, docs/design/15) ────────────────────────────────────
   private backgroundAt = 0;
   private uncoverWaiters: (() => void)[] = [];
@@ -731,17 +755,28 @@ export class GameController {
       try {
         await ads.ready();
         if (this.covered) await new Promise<void>((r) => { this.uncoverWaiters.push(r); });
-        const slot = ads.returnSlot(this.adGame(), awayMs);
-        if (!slot) { await promptAnalyticsIfDue(); return; }                  // analytics switch: same stopped-time slot (docs/design/17 §5)
+        const game = this.adGame();
+        const slot = ads.returnSlot(game, awayMs);
+        // Consent (ads, and analytics where it is gated): the ONE privacy card, in a stable order (sprint 3).
+        if (slot === 'consent' || !slot) {
+          const shown = game.phase !== 'birthday' && this.snap.stage === 'play' && await runPrivacyFlow('return');
+          if (shown) { trackReturnSlot('consent'); return; }
+          if (!slot) {
+            const d = ads.interstitialDecision(game, { kind: 'return', awayMs });
+            trackReturnSlot('none', d.ok ? 'not_loaded' : d.reason);
+            return;
+          }
+        }
+        if (slot === 'consent') return;
         const shownBefore = ads.getLedger().lastInterstitialAt;
-        if (slot !== 'att') {
+        if (slot === 'interstitial') {
           // Announced, never sudden: the coach says it first (06 §2.4, Google "unexpected full-screen" rule).
-          this.push({ id: this.id(), kind: 'coach', ui: { k: slot === 'interstitial' ? 'adIncoming' : 'adConsentIntro' } });
+          this.push({ id: this.id(), kind: 'coach', ui: { k: 'adIncoming' } });
           await new Promise<void>((r) => { this.later(AD_CONFIG.interstitial.noticeMs, r); });
         }
         if (this.snap.stage === 'play') await ads.runReturnSlot(slot, this.adGame(), awayMs);
+        trackReturnSlot(slot);
         if (slot === 'interstitial' && ads.getLedger().lastInterstitialAt !== shownBefore) trackAdShown('return', 'interstitial');
-        if (slot === 'consent') await promptAnalyticsIfDue();
       } catch (e) { console.warn('[ads] return slot failed:', e); }
       finally { this.endAdBreak(); }
     })();
@@ -905,7 +940,7 @@ export class GameController {
     this.dispatch({ type: 'RESUME', localDay: localDay() });                 // Günün Günü seed only (D-050)
     if (this.snap.speed !== 'play') this.dispatch({ type: 'SET_SPEED', speed: this.snap.speed });
     this.autoDays = 0; this.lowJoyShown = false; this.healthWarned = false; this.lastMotto = null; this.lastReport = null;
-    this.momentHist = emptyMomentHistory(); this.deferred = null;
+    this.momentHist = emptyMomentHistory(); this.deferred = null; this.lastSurpriseDay = 0;
     const look = this.snap.draftLook;
     this.looks.set(r.state.lifeSeed, look);
     this.set({ stage: 'play', view: this.state, progress: 0, unread: 9, lifeNo: this.meta.legacy.livesCompleted + 1, look, playerMood: 'neutral', moment: null });
@@ -931,7 +966,21 @@ export class GameController {
     this.play(r.effects, r.state, st);
   };
 
-  oneMoreYear = (): void => { if (this.state?.phase === 'birthday') { gameAnalytics.oneMoreYear({ age: this.state.calendar.age, via: this.snap.auto ? 'auto' : 'tap' }); haptic.medium(); this.sfx(UI_SFX.oneMoreYear); this.nextDay(); } };
+  /**
+   * "One More Year". Sprint 3 (D-161): on the first report card where something is still unanswered, the single
+   * privacy card comes first — after the hook, before the player can leave (session 1 included; still no ads there).
+   */
+  oneMoreYear = (): void => {
+    if (this.state?.phase !== 'birthday' || this.snap.adBreak) return;
+    if (privacyDue('first_report')) {
+      this.clearAuto();
+      this.set({ adBreak: true });
+      void runPrivacyFlow('first_report').finally(() => { this.set({ adBreak: false }); this.continueYear(); });
+      return;
+    }
+    this.continueYear();
+  };
+  private continueYear = (): void => { if (this.state?.phase === 'birthday') { gameAnalytics.oneMoreYear({ age: this.state.calendar.age, via: this.snap.auto ? 'auto' : 'tap' }); haptic.medium(); this.sfx(UI_SFX.oneMoreYear); this.nextDay(); } };
 
   /** HUD "Unread" chip: Motto explains it in the feed (UX playtest #11), at most once every 20 s. */
   explainUnread = (): void => {
@@ -995,6 +1044,7 @@ export class GameController {
     this.set({ session: { ...this.snap.session ?? s, closed: true } });
     gameAnalytics.closed();
     this.persist(true);
+    this.leaveReminders();
     if (Platform.OS === 'android') { try { BackHandler.exitApp(); } catch { /* stays on the closed sheet */ } }
   };
 

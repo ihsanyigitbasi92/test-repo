@@ -73,6 +73,8 @@ export interface ChainState { node: string; startedDay: number; done: string[] }
 export interface PityCounter { sinceLast: number; sessionCount: number; total: number; lastDay: number }
 export interface RewardState {
   negStreak: number; beatsSinceLol: number; wowCount: number;
+  /** Sprint 3: consecutive answered outcomes that felt negative (pity.ts noteFelt); optional for older saves. */
+  feltNegStreak?: number;
   surprise: PityCounter; legendary: PityCounter;
   nearMiss: { count: number; failCount: number; sessionCount: number; lastDayByGoal: Record<string, number>; bonusApplied: number };
   pendingBonus: Record<string, number>;      // goal → bp (near-miss promise, applied once)
@@ -104,6 +106,8 @@ export interface YearStats {
 export interface LifeCounters {
   shownDays: number; yearsWorked: number; peakMoney: number; rentEvents: number; momCalls: number;
   surprises: number; legendaries: number; maxNegStreak: number; quietDays: number; bailouts: number; bankruptcies: number;
+  /** Sprint 3: longest felt-negative outcome run (optional for older saves). */
+  maxFeltNegStreak?: number;
 }
 
 /** Detailed money movement kinds of a gap (CashflowResult.detail). */

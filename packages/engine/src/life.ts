@@ -31,7 +31,7 @@ export function freshYearStats(st: Pick<LifeState, 'stats' | 'money' | 'npcs' | 
 
 const zeroCounters = (): LifeCounters => ({
   shownDays: 0, yearsWorked: 0, peakMoney: TUNING.economy.startMoneyPara, rentEvents: 0, momCalls: 0,
-  surprises: 0, legendaries: 0, maxNegStreak: 0, quietDays: 0, bailouts: 0, bankruptcies: 0,
+  surprises: 0, legendaries: 0, maxNegStreak: 0, quietDays: 0, bailouts: 0, bankruptcies: 0, maxFeltNegStreak: 0,
 });
 
 const pity = () => ({ sinceLast: 0, sessionCount: 0, total: 0, lastDay: -999 });
@@ -67,7 +67,7 @@ export function createLife(seed: string, name: string, contentHash: string, opts
     envelopes: [], dueQueue: [], chains: {},
     seen: {}, cooldowns: { self: {}, tags: {} },
     reward: {
-      negStreak: 0, beatsSinceLol: 0, wowCount: 0, surprise: pity(), legendary: pity(),
+      negStreak: 0, feltNegStreak: 0, beatsSinceLol: 0, wowCount: 0, surprise: pity(), legendary: pity(),
       nearMiss: { count: 0, failCount: 0, sessionCount: 0, lastDayByGoal: {}, bonusApplied: 0 }, pendingBonus: {},
     },
     director: {

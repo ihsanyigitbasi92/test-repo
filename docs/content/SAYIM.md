@@ -6,13 +6,13 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **9.946** / 10.000 (99.5%) |
-| Kotası dolan alan | 124 / 132 |
-| Kotayı aşan alan | 14 |
+| Alan paketlerindeki geçerli olay | **10.137** / 10.000 (101.4%) |
+| Kotası dolan alan | 129 / 132 |
+| Kotayı aşan alan | 24 |
 | Alan dışı: `core` | 6 |
-| Alan dışı: `demo` | 41 |
-| Genel toplam geçerli olay | **9.993** |
-| Şema hatalı dosya | 1 |
+| Alan dışı: `demo` | 42 |
+| Genel toplam geçerli olay | **10.185** |
+| Şema hatalı dosya | 0 |
 
 ## Grup bazında
 
@@ -21,23 +21,23 @@
 | egitim | 5 | 358 | 358 | 100% |
 | is | 11 | 945 | 945 | 100% |
 | kariyer | 24 | 1175 | 1142 | 102.9% |
-| para | 8 | 617 | 617 | 100% |
-| ev | 8 | 618 | 618 | 100% |
-| tanidik_yuzler | 8 | 804 | 814 | 98.8% |
+| para | 8 | 625 | 617 | 101.3% |
+| ev | 8 | 623 | 618 | 100.8% |
+| tanidik_yuzler | 8 | 818 | 814 | 100.5% |
 | iliski | 7 | 697 | 670 | 104% |
-| aile | 6 | 424 | 424 | 100% |
+| aile | 6 | 435 | 424 | 102.6% |
 | cagrilar | 2 | 169 | 169 | 100% |
-| ebeveynlik | 5 | 395 | 359 | 110% |
+| ebeveynlik | 5 | 402 | 359 | 112% |
 | sosyal | 8 | 539 | 539 | 100% |
-| saglik | 9 | 720 | 716 | 100.6% |
+| saglik | 9 | 738 | 716 | 103.1% |
 | gundelik | 6 | 501 | 501 | 100% |
-| ulasim | 3 | 234 | 234 | 100% |
+| ulasim | 3 | 236 | 234 | 100.9% |
 | teknoloji | 3 | 268 | 268 | 100% |
 | burokrasi | 3 | 273 | 273 | 100% |
 | bos_zaman | 4 | 299 | 299 | 100% |
 | mevsim | 2 | 163 | 163 | 100% |
-| yaslilik | 6 | 381 | 422 | 90.3% |
-| meta | 4 | 366 | 469 | 78% |
+| yaslilik | 6 | 490 | 422 | 116.1% |
+| meta | 4 | 383 | 469 | 81.7% |
 
 ## Alan bazında
 
@@ -87,7 +87,7 @@
 | 42 | `faturalar_abonelikler` | para | Faturalar ve abonelikler | 104 | 104 | 0 | 100% | ██████████ |
 | 43 | `borc_kredi_karti` | para | Borç, kredi kartı ve kredi | 98 | 98 | 0 | 100% | ██████████ |
 | 44 | `banka_atm` | para | Banka ve ATM | 58 | 58 | 0 | 100% | ██████████ |
-| 45 | `birikim_yatirim` | para | Birikim ve yatırım | 58 | 58 | 0 | 100% | ██████████ |
+| 45 | `birikim_yatirim` | para | Birikim ve yatırım | 66 | 58 | 0 | 113.8% | ██████████ |
 | 46 | `vergi_sigorta` | para | Vergi ve sigorta | 45 | 45 | 0 | 100% | ██████████ |
 | 47 | `sans_ikramiye` | para | Şans ve beklenmedik paralar | 52 | 52 | 0 | 100% | ██████████ |
 | 48 | `dolandiricilik_kurban` | para | Dolandırıcılık (kurban olarak) | 72 | 72 | 0 | 100% | ██████████ |
@@ -100,7 +100,7 @@
 | 55 | `tasinma` | ev | Taşınma | 58 | 58 | 0 | 100% | ██████████ |
 | 56 | `ev_tamiri_ariza` | ev | Ev arızaları ve tamirat | 91 | 91 | 0 | 100% | ██████████ |
 | 57 | `ev_isleri` | ev | Ev işleri ve düzen | 72 | 72 | 0 | 100% | ██████████ |
-| 58 | `ev_satin_alma` | ev | Ev satın alma ve tapu | 45 | 45 | 0 | 100% | ██████████ |
+| 58 | `ev_satin_alma` | ev | Ev satın alma ve tapu | 50 | 45 | 0 | 111.1% | ██████████ |
 | 59 | `flort_tanisma` | iliski | Flört ve tanışma | 169 | 163 | 0 | 103.7% | ██████████ |
 | 60 | `ilk_ask_yagmur` | tanidik_yuzler | Yağmur (ilk aşk, eski sevgili) arkı | 101 | 98 | 0 | 103.1% | ██████████ |
 | 61 | `iliski_gunluk` | iliski | İlişkide gündelik hayat | 143 | 143 | 0 | 100% | ██████████ |
@@ -114,14 +114,14 @@
 | 69 | `cagri_anne` | cagrilar | ANNE ARIYOR (çağrı devralma) | 111 | 111 | 0 | 100% | ██████████ |
 | 70 | `cagri_diger` | cagrilar | Diğer çağrılar (Dayı, Nevin Hanım, Yağmur) | 58 | 58 | 0 | 100% | ██████████ |
 | 71 | `dayi` | tanidik_yuzler | Dayı arkı | 98 | 98 | 0 | 100% | ██████████ |
-| 72 | `kardesler` | aile | Kardeşler | 78 | 78 | 0 | 100% | ██████████ |
-| 73 | `akrabalar` | aile | Teyzeler, halalar, kuzenler | 85 | 85 | 0 | 100% | ██████████ |
+| 72 | `kardesler` | aile | Kardeşler | 81 | 78 | 0 | 103.8% | ██████████ |
+| 73 | `akrabalar` | aile | Teyzeler, halalar, kuzenler | 88 | 85 | 0 | 103.5% | ██████████ |
 | 74 | `aile_grubu` | aile | Aile Grubu (mesajlaşma) | 85 | 85 | 0 | 100% | ██████████ |
 | 75 | `buyukanne_buyukbaba` | aile | Büyükanne ve büyükbaba | 39 | 39 | 0 | 100% | ██████████ |
-| 76 | `yaslanan_ebeveyn` | aile | Yaşlanan anneye bakım | 72 | 72 | 0 | 100% | ██████████ |
+| 76 | `yaslanan_ebeveyn` | aile | Yaşlanan anneye bakım | 77 | 72 | 0 | 106.9% | ██████████ |
 | 77 | `bebek_yolda` | ebeveynlik | Bebek kararı ve bebek yolda | 59 | 39 | 0 | 151.3% | ██████████ |
 | 78 | `yeni_ebeveyn` | ebeveynlik | Yeni ebeveyn (bebeklik) | 72 | 72 | 0 | 100% | ██████████ |
-| 79 | `cocuk_buyutme` | ebeveynlik | Okul çağı ve ergen çocuk | 124 | 124 | 0 | 100% | ██████████ |
+| 79 | `cocuk_buyutme` | ebeveynlik | Okul çağı ve ergen çocuk | 131 | 124 | 0 | 105.6% | ██████████ |
 | 80 | `bos_yuva` | ebeveynlik | Yetişkin çocuk ve boş yuva | 52 | 52 | 0 | 100% | ██████████ |
 | 81 | `torunlar` | ebeveynlik | Torunlar (büyükanne/büyükbaba olmak) | 88 | 72 | 0 | 122.2% | ██████████ |
 | 82 | `arkadaslar` | sosyal | Arkadaşlık | 143 | 143 | 0 | 100% | ██████████ |
@@ -132,10 +132,10 @@
 | 87 | `yabancilar_sokak` | sosyal | Sokakta yabancılar | 65 | 65 | 0 | 100% | ██████████ |
 | 88 | `mahalle_esnaf` | sosyal | Mahalle esnafı | 52 | 52 | 0 | 100% | ██████████ |
 | 89 | `kucuk_rahatsizliklar` | saglik | Küçük rahatsızlıklar | 117 | 117 | 0 | 100% | ██████████ |
-| 90 | `doktor_hastane` | saglik | Doktor, check-up, diş, göz | 113 | 111 | 0 | 101.8% | ██████████ |
+| 90 | `doktor_hastane` | saglik | Doktor, check-up, diş, göz | 121 | 111 | 0 | 109% | ██████████ |
 | 91 | `uyku` | saglik | Uyku | 65 | 65 | 0 | 100% | ██████████ |
 | 92 | `spor_fitness` | saglik | Spor salonu ve egzersiz | 85 | 85 | 0 | 100% | ██████████ |
-| 93 | `kronik_saglik` | saglik | Kronik sağlık (adsız) | 60 | 58 | 0 | 103.4% | ██████████ |
+| 93 | `kronik_saglik` | saglik | Kronik sağlık (adsız) | 70 | 58 | 0 | 120.7% | ██████████ |
 | 94 | `yaslanan_beden` | saglik | Yaşlanan beden | 78 | 78 | 0 | 100% | ██████████ |
 | 95 | `ruhsal_yuk_dusuk_keyif` | saglik | Ruhsal yük ve düşük Keyif günleri | 91 | 91 | 0 | 100% | ██████████ |
 | 96 | `stres_tukenmislik` | saglik | Stres ve tükenmişlik | 72 | 72 | 0 | 100% | ██████████ |
@@ -148,7 +148,7 @@
 | 103 | `gundelik_rutin` | gundelik | Sabahlar, rutin ve sıradan günler | 98 | 98 | 0 | 100% | ██████████ |
 | 104 | `toplu_tasima` | ulasim | Toplu taşıma ve işe gidiş | 91 | 91 | 0 | 100% | ██████████ |
 | 105 | `taksici` | tanidik_yuzler | Taksici arkı | 78 | 78 | 0 | 100% | ██████████ |
-| 106 | `araba_sahipligi` | ulasim | Araba sahipliği | 91 | 91 | 0 | 100% | ██████████ |
+| 106 | `araba_sahipligi` | ulasim | Araba sahipliği | 93 | 91 | 0 | 102.2% | ██████████ |
 | 107 | `trafik_cezalar` | ulasim | Trafik ve cezalar | 52 | 52 | 0 | 100% | ██████████ |
 | 108 | `telefon_teknoloji` | teknoloji | Telefon ve teknoloji | 98 | 98 | 0 | 100% | ██████████ |
 | 109 | `sosyal_medya` | teknoloji | Sosyal medya | 98 | 98 | 0 | 100% | ██████████ |
@@ -164,14 +164,14 @@
 | 119 | `gonulluluk_iyilik` | sosyal | Gönüllülük ve küçük iyilikler | 39 | 39 | 0 | 100% | ██████████ |
 | 120 | `mevsimler_hava` | mevsim | Mevsimler ve hava durumu | 85 | 85 | 0 | 100% | ██████████ |
 | 121 | `bayram_ozel_gunler` | mevsim | Bayramlar, yılbaşı ve özel günler (genel) | 78 | 78 | 0 | 100% | ██████████ |
-| 122 | `orta_yas` | yaslilik | Orta yaş | 58 | 58 | 0 | 100% | ██████████ |
-| 123 | `emeklilik_gecis` | yaslilik | Emekliliğe geçiş | 51 | 65 | 14 | 78.5% | ████████░░ |
-| 124 | `emekli_hayati` | yaslilik | Emekli hayatı | 81 | 104 | 23 | 77.9% | ████████░░ |
-| 125 | `yaslilik_gundelik` | yaslilik | Yaşlılık ve gündelik hayat | 111 | 111 | 0 | 100% | ██████████ |
-| 126 | `miras_vasiyet` | yaslilik | Miras, vasiyet ve düzen | 33 | 39 | 6 | 84.6% | ████████░░ |
-| 127 | `veda_kayip` | yaslilik | Vedalar ve kayıplar (sessizlik protokolü) | 47 | 45 | 0 | 104.4% | ██████████ |
-| 128 | `tanidik_yuzler_kesisme` | tanidik_yuzler | Tanıdık Yüzler kesişme günleri | 51 | 65 | 14 | 78.5% | ████████░░ |
-| 129 | `tek_hedef_anlari` | meta | Tek Hedef anları | 61 | 78 | 17 | 78.2% | ████████░░ |
+| 122 | `orta_yas` | yaslilik | Orta yaş | 69 | 58 | 0 | 119% | ██████████ |
+| 123 | `emeklilik_gecis` | yaslilik | Emekliliğe geçiş | 65 | 65 | 0 | 100% | ██████████ |
+| 124 | `emekli_hayati` | yaslilik | Emekli hayatı | 104 | 104 | 0 | 100% | ██████████ |
+| 125 | `yaslilik_gundelik` | yaslilik | Yaşlılık ve gündelik hayat | 136 | 111 | 0 | 122.5% | ██████████ |
+| 126 | `miras_vasiyet` | yaslilik | Miras, vasiyet ve düzen | 49 | 39 | 0 | 125.6% | ██████████ |
+| 127 | `veda_kayip` | yaslilik | Vedalar ve kayıplar (sessizlik protokolü) | 67 | 45 | 0 | 148.9% | ██████████ |
+| 128 | `tanidik_yuzler_kesisme` | tanidik_yuzler | Tanıdık Yüzler kesişme günleri | 65 | 65 | 0 | 100% | ██████████ |
+| 129 | `tek_hedef_anlari` | meta | Tek Hedef anları | 78 | 78 | 0 | 100% | ██████████ |
 | 130 | `efsane_nadir` | meta | Efsane nadir günler | 77 | 98 | 21 | 78.6% | ████████░░ |
 | 131 | `absurt_kuyruk` | meta | Kara mizah: absürt kuyruk | 101 | 130 | 29 | 77.7% | ████████░░ |
 | 132 | `kucuk_anlar_relax` | meta | Küçük anlar (relax günleri) | 127 | 163 | 36 | 77.9% | ████████░░ |

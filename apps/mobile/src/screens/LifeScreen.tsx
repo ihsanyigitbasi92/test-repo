@@ -21,7 +21,9 @@ import { SettingsSheet } from '../components/SettingsSheet';
 import { ShopScreen } from './ShopScreen';
 import { AdHost } from '../ads/AdHost';
 import { AgeGate, useAgeGateDone } from '../ads/AgeGate';
-import { AnalyticsHost } from '../analytics/ConsentUI';
+import { LegalHost } from '../legal/LegalScreen';
+import { ReminderAsk } from '../notifications/ReminderAsk';
+import { ads } from '../ads/runtime';
 import { PrivacyEntry, RewardedOfferButtons } from '../ads/OfferButtons';
 import type { Speed } from '@motto/engine';
 import { TutorialIntro } from '../components/TutorialIntro';
@@ -75,14 +77,15 @@ export function LifeScreen() {
     else if (snap.speed === 'pause') decision = <PrimaryButton label={s.cta.nextDay} onPress={game.nextDayManual} testID="next-day" />;
   }
 
-  // Coach-mark hints, first life only (docs/design/18 §4): each once, never two without a game beat in between.
-  const hm = useRef({ epoch: 0, wasBusy: true, lastHintEpoch: -1, life: '', statsChanged: false, moneyChanged: false });
+  // Coach-mark hints (docs/design/18 §4): each once, never two without a game beat, ≥ 30 s and ≥ 2 shown days apart;
+  // hints the read intro taught are skipped; unseen hints of an Auto first life come in a later life (sprint 3).
+  const hm = useRef({ epoch: 0, wasBusy: true, lastHintEpoch: -1, lastHintAt: null as number | null, lastHintDay: null as number | null, life: '', statsChanged: false, moneyChanged: false });
   useEffect(() => {
     const m = hm.current;
     if (m.wasBusy && !snap.busy) m.epoch++;
     m.wasBusy = snap.busy;
     const lifeKey = v ? `${snap.lifeNo}:${v.lifeSeed}` : '';
-    if (lifeKey !== m.life) { m.life = lifeKey; m.statsChanged = false; m.moneyChanged = false; }
+    if (lifeKey !== m.life) { m.life = lifeKey; m.statsChanged = false; m.moneyChanged = false; m.lastHintDay = null; }
     if (snap.floats.some((f) => STAT_KEYS.has(f.stat))) m.statsChanged = true;
     if (snap.floats.some((f) => f.stat === 'money') || snap.feed.some((f) => f.kind === 'flow')) m.moneyChanged = true;
     if (!tut.loaded || tut.active || tut.introOpen) return;
@@ -92,10 +95,15 @@ export function LifeScreen() {
       open, phase: v?.phase ?? null, choicesUp: phase === 'day' && !!v?.card, birthdayUp: phase === 'birthday',
       shownDays: v?.counters.shownDays ?? 0, flowing: !!v && FLOW_PHASES.has(v.phase) && snap.speed !== 'pause' && snap.progress > 0.05,
       statsChanged: m.statsChanged, moneyChanged: m.moneyChanged, epoch: m.epoch, lastHintEpoch: m.lastHintEpoch,
-    }, tut.hints);
+      now: Date.now(), lastHintAt: m.lastHintAt, lastHintDay: m.lastHintDay,
+    }, tutorial.seen());
     if (id) tutorial.showHint(id);
   });
-  const dismissHint = useCallback(() => { hm.current.lastHintEpoch = hm.current.epoch; tutorial.dismissHint(); }, []);
+  const dismissHint = useCallback(() => {
+    const m = hm.current;
+    m.lastHintEpoch = m.epoch; m.lastHintAt = Date.now(); m.lastHintDay = game.getSnapshot().view?.counters.shownDays ?? null;
+    tutorial.dismissHint();
+  }, [game]);
   const howTo = useCallback(() => { setSettingsOpen(false); tutorial.openIntro(); }, []);
   const resetHints = useCallback(() => { hm.current.lastHintEpoch = hm.current.epoch; tutorial.resetHints(); }, []);
   const closeIntro = useCallback((how: 'done' | 'skip', page: number) => tutorial.closeIntro(how, page), []);
@@ -131,13 +139,14 @@ export function LifeScreen() {
           <BigStamp stamp={snap.bigStamp} />
           <AgeUp ageUp={snap.ageUp} />
           {snap.moment && snap.look && <AvatarMoment key={snap.moment.id} moment={snap.moment} look={snap.look} onSkip={game.skipMoment} />}
-          <SessionSheet session={snap.session} onContinue={game.closeSession} onClose={game.closeForToday} footer={<PrivacyEntry />} />
-          <SettingsSheet open={settingsOpen} onClose={() => setSettingsOpen(false)} onHowTo={howTo} onResetHints={resetHints} />
+          <SessionSheet session={snap.session} onContinue={game.closeSession} onClose={game.closeForToday} footer={<PrivacyEntry />}
+            extra={<ReminderAsk sessionCount={ads.getLedger().sessionCount} />} />
+          <SettingsSheet open={settingsOpen} onClose={() => setSettingsOpen(false)} onHowTo={howTo} onResetHints={resetHints} onLocale={game.setLocale} />
           <CoachMarkLayer hint={tut.active} root={phoneRef} onDismiss={dismissHint} />
           <ShopScreen open={shopOpen} onClose={closeShop} />
           <AdHost />
-          <AnalyticsHost />
           {snap.stage === 'death' && snap.death && <DeathFlow death={snap.death} onNewClient={game.newClient} />}
+          <LegalHost />
         </View>
       </View>
     </I18nContext.Provider>

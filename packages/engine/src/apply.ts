@@ -34,7 +34,8 @@ function setJobNpc(st: LifeState, employed: boolean): void { npc(st, 'boss').exi
 
 export function setHome(st: LifeState, kind: Housing, rent?: number): void {
   const h = TUNING.economy.housing[kind];
-  st.status.home = { kind, rent: clamp(rent ?? h.rent, Math.min(h.rent, h.maxRent), h.maxRent), since: st.calendar.calendarDay };   // D-159 rent band
+  const since = st.status.home.kind === kind ? st.status.home.since : st.calendar.calendarDay;   // sprint 3: a re-set mortgage keeps its term
+  st.status.home = { kind, rent: clamp(rent ?? h.rent, Math.min(h.rent, h.maxRent), h.maxRent), since };   // D-159 rent band
   if (kind === 'momsHouse') addFlag(st, 'anne_evinde'); else removeFlag(st, 'anne_evinde');
 }
 
@@ -97,10 +98,9 @@ export function applyEffects(
     const tiers = TUNING.economy.tiersMonthlyPara;
     const retired = isRetired(st.status.job);                    // sprint 3: a pension is not a job (no firing, no rungs)
     if (fx.career.fire && st.status.job && !retired) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); }
-    if (fx.career.set && fx.career.set !== RETIRED_TITLE) {
-      const prev = retired ? null : st.status.job;
+    if (fx.career.set && fx.career.set !== RETIRED_TITLE && !retired) {   // a retiree keeps the pension (no "Maaş günü" at 90)
+      const prev = st.status.job;
       st.status.job = { title: fx.career.set, tier: prev?.tier ?? 1, monthly: prev?.monthly ?? tiers[1]!, since: st.calendar.calendarDay };
-      removeFlag(st, TUNING.economy.retirement.flag);
       setJobNpc(st, true);
     }
     if (fx.career.rungDelta && st.status.job && !isRetired(st.status.job)) {
@@ -112,7 +112,7 @@ export function applyEffects(
   const s = fx.status;
   if (s) {
     if (s.job === null) { if (!isRetired(st.status.job)) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); } }
-    else if (s.job) { st.status.job = { ...s.job, since: st.calendar.calendarDay }; removeFlag(st, 'is_ariyor'); removeFlag(st, TUNING.economy.retirement.flag); setJobNpc(st, true); }
+    else if (s.job && !isRetired(st.status.job)) { st.status.job = { ...s.job, since: st.calendar.calendarDay }; removeFlag(st, 'is_ariyor'); setJobNpc(st, true); }
     if (s.home) setHome(st, s.home.kind, s.home.rent);
     if (s.rentDelta) st.status.home.rent = clamp(st.status.home.rent + s.rentDelta, 0, TUNING.economy.housing[st.status.home.kind].maxRent);
     if (s.partner === null) st.status.partner = null;

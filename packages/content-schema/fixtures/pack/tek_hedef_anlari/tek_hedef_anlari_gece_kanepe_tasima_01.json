@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_gece_kanepe_tasima_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "saglik",
+    "uyku",
+    "komsu",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 55
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "sleep"
+      ]
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "İyi akşamlar, üst kata yeni taşındım. Kanepe merdivende takıldı, iki dakikanızı alır mı?",
+      "en": "Evening. Just moved in upstairs. My couch is stuck on the stairs. Got two minutes?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Nakliyeciler gitti. Kanepe kalmayı seçti.",
+      "en": "The movers left. The couch decided to stay.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "yardim",
+      "tr": "Kanepeyi birlikte taşı",
+      "en": "Help carry the couch",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sabah",
+      "tr": "Sabah yardım etmeyi öner",
+      "en": "Offer to help in the morning",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "sleep"
+      }
+    },
+    {
+      "id": "tikac",
+      "tr": "Kulak tıkacını tak",
+      "en": "Put in earplugs",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "yardim": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ust_kat_tanisildi"
+          ]
+        }
+      },
+      "tr": "Kanepe kırk dakikada üç kat çıktı. Yatağa yarım saat geç girdin; üst kattan bir kavanoz reçel indi.",
+      "en": "The couch climbed three floors in forty minutes. You got to bed half an hour late, and a jar of jam came down from upstairs.",
+      "coach": [
+        {
+          "tr": "Hedef yarım saat geride. Reçel önde.",
+          "en": "Goal: half an hour behind. Jam: ahead.",
+          "roast": false
+        }
+      ]
+    },
+    "sabah": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "erken_yatildi",
+              "ust_kat_tanisildi"
+            ]
+          }
+        },
+        "tr": "Komşu kabul etti ve kanepeyi sahanlıkta bıraktı. Sen on buçukta yataktaydın; kanepe sabaha kadar merdivende.",
+        "en": "The neighbor agreed and left the couch on the landing. You were in bed by ten thirty. The couch spent the night on the stairs.",
+        "coach": [
+          {
+            "tr": "Erken yatıldı. Hedef sayacı: bir.",
+            "en": "In bed early. Goal counter: one.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          }
+        },
+        "tr": "Komşu kabul etti, sonra tek başına denedi. Gece yarısına kadar merdivende bir kanepeyi dinledin.",
+        "en": "The neighbor agreed, then tried alone. Until midnight you listened to a couch on the stairs.",
+        "nearMiss": {
+          "tr": "Bir kanepe kadar yakındı.",
+          "en": "Close by one couch."
+        },
+        "coach": [
+          {
+            "tr": "Uyku planlandı. Kanepenin başka planı vardı.",
+            "en": "Sleep was scheduled. The couch had other plans.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tikac": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "yanlis_kapi_notu"
+          ]
+        }
+      },
+      "tr": "Kulak tıkacını taktın. Sabah kapında bir teşekkür notu vardı; başka bir daireye yazılmıştı.",
+      "en": "You put in earplugs. In the morning there was a thank-you note on your door, meant for another flat.",
+      "coach": [
+        {
+          "tr": "Teşekkür yanlış kapıda. Uyku doğru yatakta.",
+          "en": "The thank-you: wrong door. The sleep: right bed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "erken yatma hedefinde gece üst kata taşınan komşunun merdivende takılan kanepesi",
+    "mechanism": "kanepenin kalmaya 'karar vermesi'; iyilik ile uyku arasında seçim",
+    "mechanismId": "escalation",
+    "punch": "kanepe kalmayı seçti",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kanepe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

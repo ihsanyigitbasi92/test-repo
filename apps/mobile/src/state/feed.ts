@@ -54,7 +54,8 @@ export function flowLineText(s: Strings, line: GapLine, item: { momsHouse: boole
   if (kind === 'rent' && item.momsHouse) return s.flow.rentMom(line.para);
   if (UPKEEP_KINDS.has(kind) || (kind === 'rent' && item.home === 'owned')) return s.flow.upkeep(line.para);
   if (kind === 'daily') {
-    const cat = typeof l.cat === 'boolean' ? l.cat : typeof l.catFood === 'number' ? l.catFood !== 0 : item.cat === true;
+    // Engine (sprint 3): `cat` = the cat-food part of the line, present only when non-zero.
+    const cat = typeof l.cat === 'number' ? l.cat !== 0 : typeof l.cat === 'boolean' ? l.cat : typeof l.catFood === 'number' ? l.catFood !== 0 : item.cat === true;
     return cat ? s.flow.dailyCat(line.para) : s.flow.daily(line.para);
   }
   const f = (s.flow as unknown as Record<string, ((x: number) => string) | undefined>)[kind];

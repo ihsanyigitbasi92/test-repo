@@ -223,8 +223,8 @@ describe('consent model', () => {
 
   it('consent strings exist in both languages and say where the data goes', () => {
     expect(Object.keys(analyticsEn).sort()).toEqual(Object.keys(analyticsTr).sort());
-    expect(analyticsTr.promptBody).toMatch(/yurt dışı/);
-    expect(analyticsEn.promptBody).toMatch(/abroad/);
+    expect(analyticsTr.hint).toMatch(/yurt dışı/);
+    expect(analyticsEn.hint).toMatch(/abroad/);
   });
 });
 

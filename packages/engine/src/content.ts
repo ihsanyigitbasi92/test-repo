@@ -18,6 +18,7 @@ export interface ContentIndex {
   pool: GameEvent[];            // selectable by the director (not report_card, not legendary)
   free: GameEvent[];            // pool minus calls (calls arrive only through the mom-call trigger)
   surprise: { nice: GameEvent[]; great: GameEvent[] };
+  positive: GameEvent[];        // free events with valence ≥ 1 (sprint 3 surprise fallback)
   legendary: GameEvent[];
   shared: GameEvent[];          // Günün Günü pool (`shared:true`), sorted by id so every device sees the same order
   skipLines: SkipLineT[];
@@ -39,6 +40,7 @@ export function indexContent(bundle: ContentBundle): ContentIndex {
       nice: free.filter((e) => e.tags.includes('surprise.nice') || (!e.tags.includes('surprise.great') && e.valence >= 1 && e.rarity !== 'common')),
       great: free.filter((e) => e.tags.includes('surprise.great') || (e.valence >= 2 && (e.rarity === 'rare' || !!e.wow))),
     },
+    positive: free.filter((e) => e.valence >= 1),
     legendary: bundle.events.filter((e) => e.rarity === 'legendary'),
     shared: free.filter((e) => e.shared).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
     skipLines: bundle.skipLines,

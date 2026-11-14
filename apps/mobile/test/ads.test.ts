@@ -355,6 +355,18 @@ describe('AdService (mock provider)', () => {
     expect(h.provider.prefs).toMatchObject({ nonPersonalizedOnly: true, maxAdContentRating: 'T', tagForChildDirectedTreatment: false });
     expect(h.svc.returnSlot(game(), 7 * HOUR)).toBeNull();             // session 2: still no interstitial
   });
+  it('sprint 3: the single privacy card may come at the first report card of session 1; still no ad surface there', async () => {
+    const h = harness();
+    await sessions(h, 1);
+    expect(h.svc.consentAskDue()).toBe(false);                         // return slot rule: not in session 1
+    expect(h.svc.consentAskDue(true)).toBe(true);                      // first report card
+    const r = await h.svc.runConsent({ analytics: true });             // headless: everything stays off
+    expect(r).toMatchObject({ via: 'card', choice: 'decline', personalized: false, analytics: false, resolved: true });
+    expect(h.svc.getConsent()).toMatchObject({ resolved: true, adsPersonalized: false });
+    expect(h.svc.consentAskDue(true)).toBe(false);                     // asked once
+    expect(h.svc.returnSlot(game(), 7 * HOUR)).toBeNull();
+    expect(h.svc.offer('sponsor', game())).toBeNull();                 // no offer in session 1
+  });
   it('third session: one interstitial at the return slot, non-personalised, then the session cap', async () => {
     const h = harness();
     await sessions(h, 2);

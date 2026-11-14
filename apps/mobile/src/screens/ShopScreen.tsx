@@ -10,8 +10,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, BackHandler, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../theme';
 import { useI18n } from '../i18n';
-import { covers, productOf, type Sku } from '../monetization/catalog';
+import { covers, productOf, visibleSkus, type Sku } from '../monetization/catalog';
 import { LEGAL_URLS, SELLER, SHIPPED_FEATURES, isPlaceholder } from '../monetization/config';
+import { openLegal } from '../legal/store';
 import { useEntitlements } from '../monetization/entitlements';
 import { MockIapProvider, type MockDecision, type StoreProduct } from '../monetization/iap';
 import { shop, useShop } from '../monetization/purchases';
@@ -92,8 +93,9 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
 
   if (!open) return null;
   const busy = view.busy !== null;
-  const listed = view.listed;
-  const owned = (sku: Sku): 'owned' | 'included' | 'none' => (ent.loaded ? shop().ownership(sku) : 'none');
+  const owned0 = (sku: Sku): 'owned' | 'included' | 'none' => (ent.loaded ? shop().ownership(sku) : 'none');
+  const listed = visibleSkus(view.listed, SHIPPED_FEATURES, owned0);
+  const owned = owned0;
   const storeName = t.store[STORE] ?? t.store.web!;
 
   return (
@@ -189,7 +191,8 @@ export function ShopScreen({ open, onClose }: { open: boolean; onClose: () => vo
         </View>
         <View style={st.links}>
           {([['terms', LEGAL_URLS.terms], ['privacy', LEGAL_URLS.privacy], ['refund', STORE === 'android' ? LEGAL_URLS.refundAndroid : LEGAL_URLS.refundIos]] as const).map(([k, url]) => (
-            <Pressable key={k} onPress={() => openUrl(url)} accessibilityRole="link" testID={`shop-link-${k}`} style={({ pressed }) => [st.link, pressed && st.pressed]}>
+            // Terms / Privacy: the real page once configured, else the in-app draft (UX B-2: never a placeholder URL).
+            <Pressable key={k} onPress={() => (k !== 'refund' && isPlaceholder(url) ? openLegal(k) : openUrl(url))} accessibilityRole="link" testID={`shop-link-${k}`} style={({ pressed }) => [st.link, pressed && st.pressed]}>
               <Text style={st.linkTxt}>{t.links[k]}</Text>
             </Pressable>
           ))}

@@ -121,7 +121,7 @@ describe('purchase flow (mock store)', () => {
   it('buying no_ads grants it, persists it before finishing, and survives a restart', async () => {
     const d = device();
     await d.shop.init();
-    expect(d.shop.snapshot().products.no_ads?.priceString).toBe('89,99 ₺');
+    expect(d.shop.snapshot().products.no_ads?.priceString).toBe('49,99 ₺');
     expect(await d.shop.buy('no_ads')).toEqual({ status: 'ok', sku: 'no_ads' });
     expect(d.ents.hasNoAds()).toBe(true);
     expect(d.shop.ownership('no_ads')).toBe('owned');

@@ -191,8 +191,12 @@ export function pickDay(st: LifeState, meta: MetaState, content: ContentBundle):
     return s > 0 && eligible(e, st, meta) ? s : 0;
   };
   if (tier) {
-    const sp = weighted(st, idx.surprise[tier], score(false));
-    if (sp) return { ...none, event: sp, surpriseTier: tier };
+    const sp = weighted(st, idx.surprise[tier], score(false))
+      ?? (tier === 'great' ? weighted(st, idx.surprise.nice, score(false)) : null)
+      // sprint 3 (Y2): mid-life had few eligible uncommon/rare positives, so pity sat at hardPity and no surprise came
+      // for ~120 shown days; fall back to a positive event this life has not seen yet
+      ?? weighted(st, idx.positive, (e) => ((st.seen[e.id] ?? 0) === 0 ? score(false)(e) : 0));
+    if (sp) return { ...none, event: sp, surpriseTier: idx.surprise.great.includes(sp) ? 'great' : 'nice' };
   }
   const pick = weighted(st, idx.free, score(false)) ?? weighted(st, idx.free, score(true));
   return { ...none, event: pick };

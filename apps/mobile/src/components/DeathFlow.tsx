@@ -10,7 +10,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { sfx } from '../state/sound';
 import { UI_SFX } from '../state/sfx';
-import { Animated, Easing, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, Platform, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import { gameAnalytics } from '../analytics/hooks';
 import type { ScrollViewInstance } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
@@ -85,13 +85,31 @@ function WrongStamp() {
 
 const GRADE_ORDER = ['health', 'money', 'relationships', 'brain', 'courage', 'spectacle'] as const;
 
+/** Shares a text; resolves with what visibly happened. */
+async function shareText(msg: string): Promise<'copied' | 'shared' | 'failed'> {
+  if (Platform.OS === 'web' && typeof navigator !== 'undefined') {
+    const nav = navigator as Navigator & { share?: (d: { text: string }) => Promise<void> };
+    if (typeof nav.share === 'function') {
+      try { await nav.share({ text: msg }); return 'shared'; } catch { /* dismissed / not allowed: try the clipboard */ }
+    }
+    try { await nav.clipboard.writeText(msg); return 'copied'; } catch { return 'failed'; }
+  }
+  try { await Share.share({ message: msg }); return 'shared'; } catch { return 'failed'; }
+}
+
 /** Share card (mock `.share`, 1:1): last report card grades, motto, name · age. Rendered on device; the system share sheet gets the text. */
 function ShareCard({ d }: { d: DeathView }) {
   const { s, locale } = useI18n();
   const age = d.roast.ageAtDeath;
   const motto = d.epitaph ?? s.epitaphDefault;
   const msg = `${d.name} · ${age} — “${motto}” · MOTTO`;
-  const onShare = () => { gameAnalytics.share('death'); Share.share({ message: msg }).catch(() => undefined); };
+  const [shared, setShared] = useState<'copied' | 'shared' | 'failed' | null>(null);
+  // UX B-5: the web button was silent. Web: the browser's share sheet when it has one, else the clipboard; every
+  // outcome gets a visible line. Native: the system share sheet.
+  const onShare = () => {
+    gameAnalytics.share('death');
+    void shareText(msg).then(setShared);
+  };
   return (
     <View style={st.shareWrap} testID="share-card">
       <View style={st.share}>
@@ -117,6 +135,7 @@ function ShareCard({ d }: { d: DeathView }) {
       <Pressable onPress={onShare} accessibilityRole="button" testID="share" style={({ pressed }) => [st.shareBtn, pressed && { opacity: 0.7 }]}>
         <Text style={st.shareBtnTxt}>↗ {s.cta.share}</Text>
       </Pressable>
+      {shared && <Text style={st.shareDone} accessibilityLiveRegion="polite" testID="share-done">{s.shareDone[shared]}</Text>}
     </View>
   );
 }
@@ -258,7 +277,8 @@ const st = StyleSheet.create({
   shareQ: { fontFamily: fonts.coach, fontStyle: 'italic', fontSize: 20, lineHeight: 25, color: colors.paper },
   shareF: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
   shareFTxt: { fontSize: 10, letterSpacing: 1.2, color: colors.paper3, fontWeight: '700' },
-  shareBtn: { alignSelf: 'flex-start', borderWidth: 1.5, borderColor: colors.line, borderStyle: 'dashed', borderRadius: 8, paddingVertical: 8, paddingHorizontal: 14 },
+  shareBtn: { alignSelf: 'flex-start', minHeight: 44, minWidth: 96, justifyContent: 'center', alignItems: 'center', borderWidth: 1.5, borderColor: colors.line, borderStyle: 'dashed', borderRadius: 8, paddingVertical: 8, paddingHorizontal: 14 },
+  shareDone: { fontSize: 13, color: colors.ink2, fontFamily: fonts.body },
   shareBtnTxt: { fontSize: 13, fontWeight: '600', color: colors.ink },
   tap: { fontSize: 10, letterSpacing: 1.4, color: colors.ink2 },
 });

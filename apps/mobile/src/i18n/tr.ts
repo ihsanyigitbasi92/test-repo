@@ -260,6 +260,8 @@ export const tr = {
     rentMom: (x: number) => `Eve katkı payı: −${n(x)}. Annen "kira değil, katkı" dedi. Fark yok.`,
     rent: (x: number) => `Kira günü. −${n(x)}. Ev sahibi "evladım" dedi; otomatik ödeme demek.`,
     /** Own / inherited home: no landlord, only dues and upkeep (deneyim P0-1). */
+    pension: (x: number) => `Emekli aylığı: +${n(x)}. Az ama düzenli; tıpkı sen.`,
+    mortgage: (x: number) => `Kredi taksiti: −${n(x)}. Banka "evin hayırlı olsun" dedi; her ay.`,
     upkeep: (x: number) => `Aidat ve ev giderleri: −${n(x)}. Yönetici "bu ay da" dedi.`,
     daily: (x: number) => `Gündelik giderler: ${x < 0 ? '−' : '+'}${n(x)}.`,
     /** Only while the cat is alive (deneyim P0-2). */

@@ -202,7 +202,7 @@ const st = StyleSheet.create({
   barDanger: { backgroundColor: colors.wrong },
   meta: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', gap: 5 },
   chip: { borderWidth: 1, borderColor: colors.line, borderRadius: 6, paddingVertical: 3, paddingHorizontal: 6, position: 'relative', justifyContent: 'center' },
-  chipTap: { minHeight: 32 },
+  chipTap: { minHeight: 44, justifyContent: 'center' },
   chipTxt: { fontSize: 13, color: colors.ink2 },
   // Floats sit above the chip (opaque), never over its label (UX #10).
   chipFloat: { top: -16, right: 0, fontSize: 13, backgroundColor: colors.paper2 },
@@ -215,7 +215,7 @@ const st = StyleSheet.create({
   clockTime: { fontSize: 12, color: colors.ink2, fontVariant: ['tabular-nums'] },
   dp: { flex: 1, height: 4, backgroundColor: colors.line, borderRadius: 2, overflow: 'hidden', minWidth: 30 },
   dpFill: { height: 4 },
-  more: { minWidth: 44, minHeight: 30, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: 6 },
+  more: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: 6 },
   moreTxt: { fontSize: 14, color: colors.ink, fontWeight: '700' },
   life: { flexDirection: 'row', flexWrap: 'wrap', borderTopWidth: 1, borderStyle: 'dashed', borderTopColor: colors.line, paddingTop: 6, rowGap: 3 },
   lifeCell: { width: '50%', fontSize: 12.5, color: colors.ink2, paddingRight: 6 },

@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_bekleme_salonu_adayi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "is",
+    "mulakat",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "job1"
+      ]
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Siz de mi bu pozisyon için? Ben üçüncü mülakatıma geldim. Aynı ilan, aynı şirket.",
+      "en": "Here for this position too? This is my third interview. Same ad. Same company."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bir taktik vereyim: 'en büyük zayıflığınız' sorusuna 'mükemmeliyetçilik' demeyin. Ben dedim, üç kez.",
+      "en": "Free tip: don't answer 'biggest weakness' with 'perfectionism.' I did. Three times.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "durust",
+      "tr": "Zayıflığını dürüst söyle",
+      "en": "Answer the weakness honestly",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "job1"
+      }
+    },
+    {
+      "id": "ezber",
+      "tr": "Hazır cevabı ver",
+      "en": "Give the rehearsed answer",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "prova",
+      "tr": "Adayla prova yap",
+      "en": "Rehearse with the other candidate",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "durust": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "is_ikinci_gorusme"
+            ]
+          }
+        },
+        "tr": "\"Bazen fazla soru soruyorum\" dedin. Görüşmeci \"o zaman sorun\" dedi; ikinci görüşmeye çağrıldın.",
+        "en": "You said, \"I sometimes ask too many questions.\" The interviewer said, \"Go ahead, then.\" You got a second interview.",
+        "coach": [
+          {
+            "tr": "Bir işe gir hedefi: yarı yolda.",
+            "en": "Get-a-job goal: halfway there.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "mulakat_deneyimi"
+            ]
+          }
+        },
+        "tr": "Dürüst cevap fazla dürüst çıktı: \"Pazartesileri yavaşım\" dedin. Görüşmeci takvime baktı; günlerden pazartesiydi.",
+        "en": "Your honest answer was too honest: \"I'm slow on Mondays.\" The interviewer glanced at the calendar. It was Monday.",
+        "nearMiss": {
+          "tr": "Bir kelime eksikti: 'ama'.",
+          "en": "One word short: 'but.'"
+        },
+        "coach": [
+          {
+            "tr": "Dürüstlük kayıtta. Takvim aleyhte.",
+            "en": "Honesty: on record. Calendar: against you.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ezber": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "mulakat_deneyimi"
+          ]
+        }
+      },
+      "tr": "\"Mükemmeliyetçilik\" dedin. Görüşmeci bunu bugün dördüncü kez duyduğunu söyledi; salondaki aday başını salladı.",
+      "en": "You said \"perfectionism.\" The interviewer said that made four today. Out in the lobby, the other candidate nodded.",
+      "coach": [
+        {
+          "tr": "Dördüncü mükemmeliyetçi. Sıra numarası gibi.",
+          "en": "Perfectionist number four. Like a deli counter ticket.",
+          "roast": false
+        }
+      ]
+    },
+    "prova": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "mulakat_arkadasi"
+          ]
+        }
+      },
+      "tr": "Koridorda birbirinize soru sordunuz. İkinize de dönüş olmadı ama telefon numaralarınızı değiştiniz.",
+      "en": "You quizzed each other in the hallway. Neither of you got a callback, but you swapped numbers.",
+      "coach": [
+        {
+          "tr": "İş çıkmadı. Bir mülakat arkadaşı çıktı.",
+          "en": "No job. One interview buddy.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "durust",
+    "slip": {
+      "tr": "İDDİA: Dürüst cevap bu salondan ikinci görüşme çıkarmaz. — M.",
+      "en": "WAGER: Honesty doesn't get a callback in this building. — M."
+    }
+  },
+  "intent": {
+    "setup": "iş bulma hedefinde bekleme salonunda aynı ilana üçüncü kez gelen aday taktik veriyor",
+    "mechanism": "üç kez yanlış cevabı veren adayın taktiği; dürüstlüğün takvimle çarpışması",
+    "mechanismId": "escalation",
+    "punch": "ben dedim, üç kez",
+    "lift": "yarı yolda",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sira_no"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

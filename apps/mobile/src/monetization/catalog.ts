@@ -36,7 +36,8 @@ export const SEASON_1 = 'season_2701' as const;
 export const CATALOG: readonly Product[] = [
   // "Reklamsız": interstitials off, nothing else. Not in 06's table — added by doc 14 (D-ÖNERİ-14-01).
   { id: 'no_ads', kind: 'non_consumable', grants: ['ads.interstitial.off'], availableFrom: 'mvp', randomness: false,
-    fallbackPrice: { TRY: 89.99, USD: 2.99 } },
+    // Sprint 3 (davranış O5): 89,99 → 49,99 ₺ / 2,99 → 1,99 $ demo/list proposal; the final price is the owner's call.
+    fallbackPrice: { TRY: 49.99, USD: 1.99 } },
   // Torpil (D-038): a menu change, never a life change. Includes everything `no_ads` grants.
   { id: 'torpil', kind: 'non_consumable', availableFrom: 'mvp', randomness: false,
     grants: ['ads.interstitial.off', 'notebook.archive.unlimited', 'profiles.3', 'report.themes.torpil', 'stamp.inks', 'notebook.export', 'persona.kader', 'persona.extra'],
@@ -68,6 +69,20 @@ export function covers(a: Sku, b: Sku): boolean {
   const pa = productOf(a), pb = productOf(b);
   if (!pa || !pb || a === b || pb.kind !== 'non_consumable' || !pb.grants.length) return false;
   return pb.grants.every((f) => pa.grants.includes(f));
+}
+
+/**
+ * SKUs the shop shows (UX P1-6, davranış O5 — no decoy): a pack whose SHIPPED content is the same as a listed,
+ * not-owned-elsewhere smaller pack it covers (Torpil today = No Ads) is hidden — in the demo store too — unless the
+ * player owns it. Once that smaller pack is owned, nothing that only repeats it is upsold either.
+ */
+export function visibleSkus(listed: readonly Sku[], shipped: readonly Feature[], ownership: (sku: Sku) => 'owned' | 'included' | 'none'): Sku[] {
+  const real = (sku: Sku): Feature[] => (productOf(sku)?.grants ?? []).filter((f) => shipped.includes(f));
+  return listed.filter((sku) => {
+    if (ownership(sku) === 'owned') return true;
+    const mine = real(sku);
+    return !listed.some((o) => o !== sku && covers(sku, o) && mine.length === real(o).length);
+  });
 }
 
 /** Negative catalog (06 §2.2.5, D-029 / D-055): concepts that are never a product, a feature or a ticket use. */

@@ -99,10 +99,12 @@ export function AgeUp({ ageUp }: { ageUp: { from: number; to: number } | null })
  * "Enough for today" (07 §2.2.1): Close and Continue, equal weight — a healthy stop is never the lesser button
  * (playtest 2026-11-12, davranış §5). After Close the sheet turns into the quiet "saved" state.
  */
-export function SessionSheet({ session, onContinue, onClose, footer }: {
+export function SessionSheet({ session, onContinue, onClose, footer, extra }: {
   session: { years: number; days: number; closed?: boolean } | null; onContinue: () => void; onClose: () => void;
   /** Quiet row under the buttons (the ad layer's "Privacy / ad preferences" entry). */
   footer?: React.ReactNode;
+  /** One-time block above the footer (the reminder opt-in, docs/design/19). */
+  extra?: React.ReactNode;
 }) {
   const { s, locale } = useI18n();
   if (!session) return null;
@@ -122,9 +124,15 @@ export function SessionSheet({ session, onContinue, onClose, footer }: {
                 <Text style={st.closeTxt}>{upper(locale, s.cta.close)}</Text>
               </Pressable>
             </View>
-            <View style={st.flex1}><PrimaryButton label={s.cta.cont} onPress={onContinue} testID="session-continue" /></View>
+            {/* Same box, same colour, same weight (davranış 2026-11-13 D1: DEVAM was lime and filled, KAPAT outlined). */}
+            <View style={st.flex1}>
+              <Pressable onPress={onContinue} accessibilityRole="button" testID="session-continue" style={({ pressed }) => [st.closeBtn, pressed && st.pressed]}>
+                <Text style={st.closeTxt}>{upper(locale, s.cta.cont)}</Text>
+              </Pressable>
+            </View>
           </View>
         )}
+        {extra}
         {footer}
       </View>
     </View>

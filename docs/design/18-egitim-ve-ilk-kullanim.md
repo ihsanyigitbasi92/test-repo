@@ -72,6 +72,8 @@ Bilerek **dışarıda bırakılanlar:** Hızlı yaşa (Dosya'da zaten etiketli; 
 
 ## 3. Eğitim sayfaları (Nasıl oynanır / How it works)
 
+> **Sprint 3 (2026-11-14, playtest 2026-11-13):** ilk karar ~10 sn'den 60–75 sn'ye çıkmıştı. Sayfalar **5 → 3** (`play` = zaman + kart + iddia, `stats`, `life`), toplam ≤ 150 sözcük (test), okuyan oyuncu için ≤ 45 sn (Playwright: 3 sayfa 35,5 sn okuma, ilk karar yüklemeden 50,4 sn sonra, splash + yaş kapısı + onay dahil). "Ben Motto" sayfası kalktı: koç kendini bir kez, akıştaki açılış satırında tanıtıyor (tekrar yok). Son sayfa Ayarlar'ın yerini söylüyor ("Bu sayfalar ≡ Ayarlar'da durur"). Aşağıdaki 5 sayfalık tablo tarihçe olarak kaldı; güncel metin `src/i18n/{tr,en}.ts › tutorial.pages`.
+
 Her sayfa: küçük bir çizim (gerçek UI parçalarının kâğıt/damga üslubunda kopyası, aynı renk ve fontlar) + başlık + en fazla üç kısa satır. Duvar metni yok. Alt bölüm: sayfa noktaları (her biri 44×44 dokunma alanı), **Geri** (2. sayfadan itibaren), **İleri** / son sayfada **Başlayalım** (Ayarlar'dan açılınca **Oyuna dön**). Üst sağda her sayfada **Geç**. Yatay kaydırma ile de sayfa değişir.
 
 | # | Çizim | TR | EN |
@@ -100,7 +102,13 @@ Bir ipucu = ekran kararır, **gerçek** UI parçası lime çerçeveyle açık ka
 | 4 | `speed` | Saat gerçekten akıyor (ilerleme > %5, ⏸ değil) ve ≥ 2. gösterilen gün | II ▶ ▶▶ | Zaman kendi akar. II durdurur, ▶ normal, ▶▶ hızlı. Okumaya vakit lazımsa II. | Time runs by itself. II stops it, ▶ is normal, ▶▶ is fast. Need to read, hit II. | UX #4, #9 |
 | 5 | `meters` | İlk para değişimi (para float'ı ya da maaş/kira/harçlık satırı) ve ≥ 3. gün; değilse en geç 6. gün; kart kapalıyken | Para + sayaç satırı | ◆ paran. Anne Baskısı ve Cringe: düşük olan iyi. Okunmamış'a dokunursan anlatırım. | ◆ is your money. Mom Pressure and Cringe: lower is better. Tap Unread and I'll explain. | UX #11; davranış #9 |
 
-**Seyreklik kuralları (playtest yorgunluğu):**
+**Sprint 3 seyreklik kuralları (UX P2-1/P2-2, davranış O2, deneyim (c)):**
+- İki ipucu arasında **en az 30 sn ve en az 2 gösterilen gün** (`HINT_GAP_MS`, `HINT_GAP_DAYS`; karne ipucu hariç, o zaten dakikalar sonra gelir). İlk dakikada en çok 2 not.
+- Eğitimi **sonuna kadar okuyan** oyuncuya eğitimin zaten öğrettiği `choices`, `stats`, `speed` notları gösterilmez (`TAUGHT_BY_INTRO`); yalnız `meters` ve `report` kalır. Atlayana hepsi, aralıklı.
+- İlk hayatı **Otomatik**le geçen oyuncu ipucu görmüyordu; artık görülmemiş ipuçları sonraki hayatlarda, Otomatik kapalıyken gelir (`hintsAllowed`).
+- Playwright (eğitim okunarak): `meters` 71. sn, `report` 185. sn (ilk karne). Toplam 2 not.
+
+**Seyreklik kuralları (ilk sürüm, playtest yorgunluğu):**
 - Her ipucu **bir kez**; gösterildiği anda "görüldü" yazılır (uygulama ipucu açıkken öldürülse bile tekrar çıkmaz).
 - Arka arkaya iki ipucu yok: bir ipucu kapandıktan sonra sıradaki ancak **yeni bir beat dizisi bittikten sonra** (`epoch > lastHintEpoch`) gelebilir. Pratikte: Gün 1 kartı → `choices`; cevap → sonuç → `stats` (çubuk değiştiyse); 2. gün akarken `speed`; 3.–6. gün `meters`; ilk doğum günü `report`. Playwright koşusunda ilk ~90 saniyede 4 ipucu, ilk doğum gününde 5.
 - Otomatik açıkken ipucu yok (bekler; Otomatik kapanınca gelir).

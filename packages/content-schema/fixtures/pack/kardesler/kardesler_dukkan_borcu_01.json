@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_dukkan_borcu_01",
+  "tags": [
+    "aile",
+    "borc",
+    "kardes",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "maxPerLife": 1,
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 36,
+      "max": 60
+    },
+    "money": {
+      "min": 6000
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "kardese_borc_verildi",
+        "kardes_borc_red"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "worried",
+      "tr": "Dükkânın ilk üç ayının kirası lazım. Sonra döner. Dönmezse de dönerim.",
+      "en": "I need the shop's first three months of rent. It'll come back. If it doesn't, I'll come back."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "5.000 Para ver",
+      "en": "Lend 5,000",
+      "pattern": "generosity"
+    },
+    {
+      "id": "yarim",
+      "tr": "Yarısını ver",
+      "en": "Lend half",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "Bu sefer hayır de",
+      "en": "Say no this time",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "money": -5000,
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 8
+          }
+        ],
+        "flags": {
+          "add": [
+            "kardese_borc_verildi"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "kardesler_dukkan_borcu_donus_01",
+            "delayDays": [
+              240,
+              540
+            ],
+            "chance": 10000
+          }
+        ]
+      },
+      "tr": "Parayı gönderdin. Kardeşin dükkânın kapısına \"açılış yakında\" yazdı; altına küçük harflerle senin adını.",
+      "en": "You sent it. Your sibling put \"opening soon\" on the shop door, with your name underneath in small letters.",
+      "coach": [
+        {
+          "tr": "Küçük harf, büyük tutar.",
+          "en": "Small print, big number.",
+          "roast": false
+        }
+      ]
+    },
+    "yarim": {
+      "effects": {
+        "money": -2500,
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kardese_borc_verildi"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "kardesler_dukkan_borcu_donus_01",
+            "delayDays": [
+              240,
+              540
+            ],
+            "chance": 10000
+          }
+        ]
+      },
+      "tr": "2.500 gönderdin. Kardeşin \"yarısı da olur\" dedi; sesi tam değildi.",
+      "en": "You sent 2,500. Your sibling said \"half works.\" Their voice didn't quite.",
+      "coach": [
+        {
+          "tr": "Yarım destek, tam sessizlik.",
+          "en": "Half the help. All of the silence.",
+          "roast": false
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -6
+          }
+        ],
+        "meters": {
+          "momPressure": 6
+        },
+        "flags": {
+          "add": [
+            "kardes_borc_red"
+          ]
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Hayır dedin. Annen akşam aradı: \"Kardeşin sana bir şey dedi mi?\" Demişti.",
+      "en": "You said no. Mom called that night: \"Did your sibling say anything to you?\" They had.",
+      "coach": [
+        {
+          "tr": "Hayır kısa sürdü. Telefon uzun.",
+          "en": "The no was short. The phone call wasn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "para kararı; iddia yok"
+  },
+  "intent": {
+    "setup": "kardeşin dükkân açmak için borç istemesi",
+    "mechanism": "kapıda küçük harflerle adın",
+    "punch": "küçük harf, büyük tutar",
+    "lift": "yok",
+    "target": "decision",
+    "mechanismId": "understatement",
+    "antithesis": false,
+    "closer": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -37,28 +37,32 @@ function hit(c: PityCounter, day: number): void { c.sinceLast = 0; c.sessionCoun
 
 /**
  * Update pity counters, LOL/wow trackers after a shown event day. `surprise` = the day was picked from the surprise
- * pool (sprint 3: untagged pool picks count too, so pity resets and the session cap binds). The negative streak is
- * kept by `noteFelt` after the answer (a quiet day without an event resets it here).
+ * pool (sprint 3: untagged pool picks count too, so pity resets and the session cap binds). `negStreak` counts
+ * negative-valence events (the guard's contract, ≤ 2); the felt streak is kept by `noteFelt` after the answer.
  */
 export function notePlayed(st: LifeState, ev: GameEvent | null, legendary: boolean, surprise = false): void {
   const r = st.reward, day = st.calendar.dayIndex;
   if (ev && (surprise || isSurprise(ev))) { hit(r.surprise, day); st.counters.surprises++; } else r.surprise.sinceLast++;
   if (legendary) { hit(r.legendary, day); st.counters.legendaries++; } else r.legendary.sinceLast++;
   const valence = ev?.valence ?? 0;
-  if (!ev) r.negStreak = 0;
+  r.negStreak = valence < 0 ? r.negStreak + 1 : 0;                  // the 03 §2.3.6 valence-guard counter (event label)
+  if (r.negStreak > st.counters.maxNegStreak) st.counters.maxNegStreak = r.negStreak;
+  if (!ev) r.feltNegStreak = 0;
   r.beatsSinceLol = ev?.isLOL ? 0 : r.beatsSinceLol + 1;
   if (ev?.wow) r.wowCount++;
   st.director.lastValence = valence;
 }
 
 /**
- * Sprint 3 (O7): the negative streak follows what the player felt, not only the event's label. `feltBp` = net stat
- * change of the answered outcome (health + joy + brain + charm, bp); 0 falls back to the money sign, then to the
- * event valence. The D-052 valence guard reads this counter on the next pick.
+ * Sprint 3 (O7, playtest "motor sayacı 2, cevap valansı 4–10"): `negStreak` counts negative-*labelled* events (what
+ * the guard can control), while players feel *outcomes*: a neutral event answered badly is a loss too. The felt
+ * streak counts answered outcomes whose net stat change (health + joy + brain + charm, bp) is negative; 0 falls back
+ * to the money sign, then to the event valence. While it is ≥ salience.feltStreakBlock, the next free pick favours
+ * positive events (salience.ts). Max kept in counters.maxFeltNegStreak.
  */
 export function noteFelt(st: LifeState, ev: GameEvent, feltBp: number, money: number): void {
   const r = st.reward;
   const sign = feltBp !== 0 ? Math.sign(feltBp) : money !== 0 ? Math.sign(money) : Math.sign(ev.valence);
-  r.negStreak = sign < 0 ? r.negStreak + 1 : 0;
-  if (r.negStreak > st.counters.maxNegStreak) st.counters.maxNegStreak = r.negStreak;
+  r.feltNegStreak = sign < 0 ? (r.feltNegStreak ?? 0) + 1 : 0;
+  if (r.feltNegStreak > (st.counters.maxFeltNegStreak ?? 0)) st.counters.maxFeltNegStreak = r.feltNegStreak;
 }

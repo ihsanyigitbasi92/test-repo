@@ -8,7 +8,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Locale } from '@motto/engine';
-import { Animated, Easing, PanResponder, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, PanResponder, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
 import { mottoLine, upper, useI18n } from '../i18n';
 import { INTRO_PAGES } from '../state/tutorial';
@@ -122,6 +122,8 @@ export function TutorialIntro({ replay, onClose, onLocale }: { replay: boolean; 
   const t = s.tutorial;
   const [i, setI] = useState(0);
   const reduced = useReducedMotion();
+  // UX 2026-11-13: at 360×740 EN the last line fell below the fold — short screens get a tighter page.
+  const compact = useWindowDimensions().height < 780;
   const fade = useRef(new Animated.Value(1)).current;
   const last = i === PAGES.length - 1;
   const key: PageKey = PAGES[i]!;
@@ -157,14 +159,14 @@ export function TutorialIntro({ replay, onClose, onLocale }: { replay: boolean; 
         </Pressable>
       </View>
       <ScrollView style={st.flex1} contentContainerStyle={st.body} {...pan.panHandlers}>
-        <Animated.View style={[st.gap14, { opacity: fade }]} testID={`tutorial-page-${key}`}>
-          <View style={st.illo} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+        <Animated.View style={[compact ? st.gap8 : st.gap14, { opacity: fade }]} testID={`tutorial-page-${key}`}>
+          <View style={[st.illo, compact && st.illoCompact]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
             {key === 'play' && <IlloPlay reduced={reduced} />}
             {key === 'stats' && <IlloStats />}
             {key === 'life' && <IlloLife />}
           </View>
-          <Text style={st.title} accessibilityRole="header">{page.title}</Text>
-          {lines.map((l, k) => <Text key={k} style={st.line}>{l}</Text>)}
+          <Text style={[st.title, compact && st.titleCompact]} accessibilityRole="header">{page.title}</Text>
+          {lines.map((l, k) => <Text key={k} style={[st.line, compact && st.lineCompact]}>{l}</Text>)}
           {key === 'stats' && (
             <View style={st.gap6}>
               {(['health', 'joy', 'brain', 'charm'] as const).map((k) => (
@@ -222,6 +224,9 @@ const st = StyleSheet.create({
   illo: { minHeight: 150, justifyContent: 'center', backgroundColor: colors.paper2, borderRadius: 12, borderWidth: 1, borderColor: colors.line, padding: 14 },
   title: { fontFamily: fonts.stamp, fontSize: 22, lineHeight: 28, color: colors.ink, letterSpacing: 0.4 },
   line: { fontSize: 16, lineHeight: 23, color: colors.ink, fontFamily: fonts.body },
+  lineCompact: { fontSize: 15, lineHeight: 20 },
+  titleCompact: { fontSize: 19, lineHeight: 24 },
+  illoCompact: { padding: 10, minHeight: 0 },
   legendK: { fontWeight: '700', color: colors.lime },
   foot: { fontFamily: fonts.coach, fontStyle: 'italic', fontSize: 15, lineHeight: 21, color: colors.ink2 },
   bottom: { paddingHorizontal: 16, paddingBottom: 14, paddingTop: 6, gap: 6, borderTopWidth: 1, borderTopColor: colors.line },
