@@ -1,0 +1,149 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_damga_karti_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "lokanta",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 58
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Kart olmadan damga vuramam. Kartı görürsem onuncu pide bedava, kural böyle.",
+      "en": "Can't stamp without the card. Show me the card and the tenth flatbread is free. Rules."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "smug",
+      "tr": "Fotoğrafı da olmaz. Geçen hafta biri fotoğrafın üstüne damga çizmiş.",
+      "en": "A photo won't work either. Last week someone drew a stamp on a photo.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "getir",
+      "tr": "Eve gidip kartı getir",
+      "en": "Walk home for the card",
+      "pattern": "patience"
+    },
+    {
+      "id": "sonra",
+      "tr": "Bugün öde, damga sonra",
+      "en": "Pay today, stamp later",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "foto",
+      "tr": "Kartın fotoğrafını göster",
+      "en": "Show a photo of the card",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "getir": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "siparis_onuncu_pide"
+          ]
+        }
+      },
+      "tr": "Eve gidip kartı getirdin, yirmi dakika sürdü. Onuncu pide bedava geldi, yeni karta ilk damga vuruldu.",
+      "en": "You walked home for the card: twenty minutes. The tenth flatbread was free, and a new card got its first stamp.",
+      "coach": [
+        {
+          "tr": "On damga, bir yürüyüş.",
+          "en": "Ten stamps. One walk.",
+          "roast": false
+        }
+      ]
+    },
+    "sonra": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -180,
+        "flags": {
+          "add": [
+            "siparis_damga_alacagi"
+          ]
+        }
+      },
+      "tr": "Bugün ödedin, garson bir dahakine iki damga vurmaya söz verdi. Söz bir peçeteye yazıldı.",
+      "en": "You paid today; the waiter promised two stamps next time. The promise was written on a napkin.",
+      "coach": [
+        {
+          "tr": "Peçete imzalı. Geçerli sayılır.",
+          "en": "The napkin is signed. That counts.",
+          "roast": false
+        }
+      ]
+    },
+    "foto": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -180,
+        "flags": {
+          "add": [
+            "siparis_kart_evde"
+          ]
+        }
+      },
+      "tr": "Fotoğrafı gösterdin. Garson ekrana yakından bakıp \"kural kural\" dedi, pide tam fiyat geldi.",
+      "en": "You showed the photo. The waiter studied it up close, said \"rules are rules,\" and charged full price.",
+      "coach": [
+        {
+          "tr": "Kart evde, damga dokuzda.",
+          "en": "Card at home. Stamps at nine.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da düşük gerilim"
+  },
+  "intent": {
+    "setup": "damga kartında dokuz damga varken onuncu bedava pide gününde kartı evde unutmak",
+    "mechanism": "garsonun kuralını sahte damga hikâyesiyle sertleştirmesi",
+    "mechanismId": "escalation",
+    "punch": "biri fotoğrafın üstüne damga çizmiş",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "pecete"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

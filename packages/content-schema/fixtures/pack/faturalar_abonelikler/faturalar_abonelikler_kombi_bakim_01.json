@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_kombi_bakim_01",
+  "tags": [
+    "para",
+    "dogalgaz",
+    "abonelik",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bakım paketiniz yenilendi. Geçen yılki bakımınız da 'yapıldı' görünüyor, teknisyen fotoğraf eklemiş.",
+      "en": "Your service plan renewed. Last year's visit shows as 'completed.' The technician attached a photo."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "O gün evde kimse yoktu. Fotoğraftaki kombi de bizim değil.",
+      "en": "Nobody was home that day. And that's not even our boiler in the photo.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Fotoğrafa itiraz et",
+      "en": "Dispute the photo",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "iptal",
+      "tr": "Aboneliği iptal et",
+      "en": "Cancel the plan",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "randevu",
+      "tr": "Bu yılki bakımı iste",
+      "en": "Book this year's visit",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 640,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "bakim_iadesi"
+            ]
+          }
+        },
+        "tr": "Fotoğraftaki kombinin başka bir apartmanda olduğu kabul edildi. Yıllık 640 Para iade edildi.",
+        "en": "They agreed the boiler in the photo belonged to another building. The year's 640 was refunded.",
+        "coach": [
+          {
+            "tr": "Yanlış kombi, doğru iade.",
+            "en": "Wrong boiler. Right refund.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -640,
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "glossary": "otomatik_yenileme"
+        },
+        "tr": "Yanıt geldi: 'Kayıtlar esastır.' Yeni dönemin 640 Parası çekildi.",
+        "en": "The reply: 'Our records are final.' The new term's 640 was charged.",
+        "coach": [
+          {
+            "tr": "Kayıt esas. Kombi ayrıntı.",
+            "en": "The record is final. The boiler is a detail.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "iptal": {
+      "effects": {
+        "money": -160,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kombi_bakim_iptal"
+          ]
+        }
+      },
+      "tr": "Abonelik iptal edildi, kısmi iadeden sonra kayıp 160 Para. Kombiye bu kış kimse bakmadı.",
+      "en": "Plan canceled, a 160 loss after the partial refund. Nobody looked at the boiler this winter.",
+      "coach": [
+        {
+          "tr": "160 Para ve bakımsız bir kış.",
+          "en": "160, and a winter without a checkup.",
+          "roast": false
+        }
+      ]
+    },
+    "randevu": {
+      "effects": {
+        "money": -640,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kombi_bakimli"
+          ]
+        }
+      },
+      "tr": "Teknisyen geldi, bakımı yaptı, kombinin önünde fotoğraf çekti. Bu kez sizin kombiniz.",
+      "en": "A technician came, serviced it, and took a photo in front of the boiler. Your boiler, this time.",
+      "coach": [
+        {
+          "tr": "Fotoğraf çekildi. Doğru kombi.",
+          "en": "Photo taken. Correct boiler.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Kayıtlar kazanır. — M.",
+      "en": "WAGER: The records win. — M."
+    }
+  },
+  "intent": {
+    "setup": "hiç yapılmayan kombi bakımının kayıtta başka bir kombinin fotoğrafıyla 'yapıldı' görünmesi ve aboneliğin yenilenmesi",
+    "mechanism": "kanıt olarak sunulan fotoğraf başka evin kombisi",
+    "mechanismId": "deadpan_report",
+    "punch": "fotoğraftaki kombi de bizim değil",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "fotograf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

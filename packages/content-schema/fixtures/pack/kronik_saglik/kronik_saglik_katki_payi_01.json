@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kronik_saglik_katki_payi_01",
+  "tags": [
+    "saglik",
+    "evrak",
+    "ilac",
+    "para",
+    "kronik_saglik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kronik_saglik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 80
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KARAYEL SAĞLIK SİGORTASI — UZUN SÜRELİ TEDAVİ KATKI PAYI BİLDİRİMİ (kurgusal)",
+      "en": "NORTHWIND HEALTH INSURANCE — LONG-TERM TREATMENT CO-PAY NOTICE (fictional)"
+    },
+    "body": {
+      "tr": "Sürekli kullandığınız ilaçlar için katkı payı tutarınız yeniden düzenlenmiştir. Yeni tutar bir sonraki eczane alımınıza yansıtılacaktır.",
+      "en": "The co-pay for your regular medications has been revised. The new amount will apply at your next pharmacy visit."
+    },
+    "translate": {
+      "tr": {
+        "from": "yeniden düzenlenmiştir",
+        "to": "arttı"
+      },
+      "en": {
+        "from": "has been revised",
+        "to": "went up"
+      }
+    },
+    "glossaryKey": "katki_payi"
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Mektup iki sayfa. Ben ilk sayfada anladım, ikinciyi sana bıraktım.",
+      "en": "Two-page letter. I got the gist on page one. Saved page two for you."
+    }
+  ],
+  "choices": [
+    {
+      "id": "esdeger",
+      "tr": "Doktordan eşdeğer iste",
+      "en": "Ask the doctor for an equivalent",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "İtiraz dilekçesi yaz",
+      "en": "File an objection",
+      "pattern": "pride",
+      "check": {
+        "base": 2500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Öde, uğraşma",
+      "en": "Just pay it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "esdeger": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "esdeger_istendi"
+          ]
+        },
+        "glossary": "katki_payi"
+      },
+      "tr": "Doktor eşdeğer bir ilaç yazdı, aylık fark 60 Paraya indi. Kutu yine renk değiştirdi.",
+      "en": "The doctor prescribed an equivalent, and the monthly difference dropped to 60. The box changed color again.",
+      "coach": [
+        {
+          "tr": "60 Para fark. Yeni renk ücretsiz.",
+          "en": "A 60 difference. The new color is free.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 2500,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "itiraz_kabul"
+            ]
+          },
+          "glossary": "katki_payi"
+        },
+        "tr": "Dilekçe kabul edildi, eski tutar bir yıl daha geçerli. Yanıt tek sayfaydı.",
+        "en": "Objection accepted: the old amount stands for another year. The reply was one page.",
+        "coach": [
+          {
+            "tr": "İki sayfaya tek sayfa.",
+            "en": "Two pages, answered in one.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7500,
+        "effects": {
+          "money": -150,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "itiraz_ret"
+            ]
+          },
+          "glossary": "katki_payi"
+        },
+        "tr": "İtiraz reddedildi. Ret yazısı üç sayfaydı.",
+        "en": "Objection denied. The denial ran three pages.",
+        "coach": [
+          {
+            "tr": "İki, sonra üç. Sayfa sayısı yükselişte.",
+            "en": "Two, then three. Page count rising.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "katki_payi_arti"
+          ]
+        },
+        "glossary": "katki_payi"
+      },
+      "tr": "Eczanede yeni tutarı ödedin: ayda 150 Para fazla. İkinci sayfa okunmadan çekmeceye girdi.",
+      "en": "At the pharmacy you paid the new amount: 150 more a month. Page two went into the drawer unread.",
+      "coach": [
+        {
+          "tr": "Çekmece bir sayfa kazandı.",
+          "en": "The drawer gained a page.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "uzun süreli ilaç katkı payının artırıldığını bildiren sigorta mektubu",
+    "mechanism": "\"yeniden düzenlenmiştir\" tercümesi; partner ikinci sayfayı sana bırakıyor",
+    "mechanismId": "translation",
+    "punch": "yeniden düzenlenmiştir = arttı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sayfa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

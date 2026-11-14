@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_tekne_hayali_01",
+  "tags": [
+    "iliski",
+    "para",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 2000,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 58
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "tekne_kumbarasi",
+        "yuzme_ogrendi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Emekli olunca tekne. Hesapladım. Küçük tekne, büyük değil.",
+      "en": "When we retire: a boat. I ran the numbers. Small boat. Not a big one."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Sen yüzme bilmiyorsun ama tekne batmazsa sorun yok.",
+      "en": "You can't swim, but if the boat doesn't sink, that's not a problem.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kurs",
+      "tr": "Yüzme kursuna yazıl",
+      "en": "Sign up for swim lessons",
+      "pattern": "selfCare",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "kumbara",
+      "tr": "Tekne hesabı aç",
+      "en": "Open a boat fund",
+      "pattern": "patience"
+    },
+    {
+      "id": "kiralik",
+      "tr": "Önce kiralık tekne dene",
+      "en": "Try a rental boat first",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kurs": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": 4,
+            "joy": 3
+          },
+          "money": -500,
+          "flags": {
+            "add": [
+              "yuzme_ogrendi"
+            ]
+          }
+        },
+        "tr": "On iki derste yüzmeyi öğrendin, 500 Para. Partner tekne broşürlerini masaya dizdi.",
+        "en": "Twelve lessons, 500, and you can swim. Your partner laid the boat brochures out on the table.",
+        "coach": [
+          {
+            "tr": "Yüzme listeden düştü. Sırada tekne.",
+            "en": "Swimming: crossed off. Boat: up next.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacında bir çentik.",
+            "en": "One notch on the goal meter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": 1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "money": -500,
+          "flags": {
+            "add": [
+              "yuzme_yarim"
+            ]
+          }
+        },
+        "tr": "Kursu bitirdin ama derin tarafa hâlâ geçmiyorsun. Eğitmen \"tekneden inmeyin\" dedi.",
+        "en": "You finished the course but still avoid the deep end. The instructor said: \"Just stay on the boat.\"",
+        "coach": [
+          {
+            "tr": "Eğitmen partnerle aynı fikirde.",
+            "en": "The instructor sided with your partner.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kumbara": {
+      "effects": {
+        "money": -1000,
+        "flags": {
+          "add": [
+            "tekne_kumbarasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Ayda 1.000 Para tekne hesabına yatıyor. Hesabın adı \"Küçük Tekne\", büyük harflerle.",
+      "en": "1,000 a month goes into the boat account. Its name is \"Small Boat,\" capitalized.",
+      "coach": [
+        {
+          "tr": "Küçük tekne, büyük harf.",
+          "en": "Small boat. Capital letters.",
+          "roast": false
+        }
+      ]
+    },
+    "kiralik": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 2
+        },
+        "money": -700,
+        "flags": {
+          "add": [
+            "kiralik_tekne"
+          ]
+        }
+      },
+      "tr": "Günlük kiralık tekne 700 Para. Partner dümende altı saat güldü, sen ikinci saatte kenara oturdun.",
+      "en": "A day's boat rental: 700. Your partner laughed at the helm for six hours. You sat down by hour two.",
+      "coach": [
+        {
+          "tr": "Tekne denendi. Biriniz ikna oldu.",
+          "en": "Boat tested. One of you is convinced.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kurs",
+    "slip": {
+      "tr": "İDDİA: Derin tarafa geçilmez. — M.",
+      "en": "WAGER: The deep end stays unvisited. — M."
+    }
+  },
+  "intent": {
+    "setup": "ellili yaşlarda partnerin emeklilik tekne hayali, sen yüzme bilmiyorsun",
+    "mechanism": "partner riski batmama şartına bağlıyor",
+    "mechanismId": "understatement",
+    "punch": "tekne batmazsa sorun yok",
+    "lift": "hedef açıksa tek satır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "harf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_kira_konusmasi_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "kira",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Kira konusunu konuşacaktık. Acelesi yok bu arada.",
+      "en": "We were going to talk about rent. No rush, by the way."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Yarın da olur. Ya da bu akşam. Ev sahibi saat altıda geliyor da.",
+      "en": "Tomorrow's fine. Or tonight. The landlord's coming at six, that's all.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "birikim",
+      "tr": "Payını birikimden öde",
+      "en": "Pay your share from savings",
+      "pattern": "patience"
+    },
+    {
+      "id": "erteleme",
+      "tr": "İki hafta süre iste",
+      "en": "Ask for two weeks",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden iste",
+      "en": "Ask Mom",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "birikim": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "birikim_eridi"
+          ]
+        }
+      },
+      "tr": "Payını birikimden ödedin. Birikim hesabında 300 Para ve bir hedefin adı kaldı.",
+      "en": "You paid your share from savings. The account now holds 300 and the name of a goal.",
+      "coach": [
+        {
+          "tr": "Hedefin adı duruyor. Rakamı küçüldü.",
+          "en": "The goal still has its name. Just a smaller number.",
+          "roast": false
+        }
+      ]
+    },
+    "erteleme": {
+      "effects": {
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -3
+          }
+        ],
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "kira_ertelendi"
+          ]
+        }
+      },
+      "tr": "Ev arkadaşın iki haftayı kabul edip ev sahibine kendi cebinden ödedi. Bu akşam bulaşığı sesli yıkıyor.",
+      "en": "Your roommate agreed to two weeks and covered you with the landlord. Tonight they're washing dishes loudly.",
+      "coach": [
+        {
+          "tr": "İki hafta süre aldın. Tabaklar her şeyi duydu.",
+          "en": "Two weeks of grace. The plates heard everything.",
+          "roast": true
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": 6
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "anne_kira_odedi"
+          ]
+        }
+      },
+      "tr": "Annen parayı gönderdi, açıklamaya \"kira (geçici)\" yazdı. Sonra arayıp \"geçici\" kelimesini iki kez tekrarladı.",
+      "en": "Mom sent the money with the memo \"rent (temporary).\" Then she called to say \"temporary\" twice more.",
+      "coach": [
+        {
+          "tr": "Kira ödendi. Dipnot: geçici.",
+          "en": "Rent paid. Footnote: temporary.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "işsizken ev arkadaşının kira payını sorması",
+    "mechanism": "\"acelesi yok\" her cümlede biraz daha acil",
+    "mechanismId": "escalation",
+    "punch": "ev sahibi saat altıda geliyor da",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "gecici",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

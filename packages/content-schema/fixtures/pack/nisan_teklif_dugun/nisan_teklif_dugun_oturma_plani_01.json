@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_oturma_plani_01",
+  "tags": [
+    "iliski",
+    "dugun_hazirlik",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 35
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli",
+        "oturma_plani"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Dayın teyzenle oturmuyor. Teyzen kuzeninle oturmuyor.",
+      "en": "Your uncle won’t sit with your aunt. Your aunt won’t sit with your cousin."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Kuzenin de dayınla oturmak istiyor. Masalar yuvarlak, sorun bu.",
+      "en": "And your cousin wants to sit with your uncle. The tables are round. That’s the problem.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "ciz",
+      "tr": "Planı baştan çiz",
+      "en": "Redraw the whole chart",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "serbest",
+      "tr": "Serbest oturma yap",
+      "en": "Open seating",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ayri",
+      "tr": "Dayıya ayrı masa",
+      "en": "Give your uncle his own table",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ciz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "oturma_plani"
+            ]
+          }
+        },
+        "tr": "Üç saat, iki kalem. Dayın ve kuzenin pistin iki ucunda, teyzen tam ortada.",
+        "en": "Three hours, two pens. Your uncle and cousin at opposite ends of the dance floor, your aunt dead center.",
+        "coach": [
+          {
+            "tr": "Plan tuttu.",
+            "en": "The chart holds.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "oturma_plani",
+              "masa_krizi"
+            ]
+          }
+        },
+        "tr": "Plan bitti. Düğünde dayın kartını alıp kuzeninin masasına taşıdı.",
+        "en": "Chart finished. At the wedding, your uncle picked up his place card and moved to your cousin’s table.",
+        "coach": [
+          {
+            "tr": "Kart yer değiştirdi.",
+            "en": "The place card relocated.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "serbest": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "oturma_plani",
+            "serbest_oturma"
+          ]
+        }
+      },
+      "tr": "Serbest oturma. Herkes kapıya en yakın masaya oturdu; fazladan bir masa kiralandı.",
+      "en": "Open seating. Everyone sat at the table closest to the door. You rented an extra table.",
+      "coach": [
+        {
+          "tr": "Kapı masası doldu.",
+          "en": "The door table filled up.",
+          "roast": false
+        }
+      ]
+    },
+    "ayri": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -4,
+            "memory": "ayri_masa"
+          }
+        ],
+        "flags": {
+          "add": [
+            "oturma_plani"
+          ]
+        }
+      },
+      "tr": "Dayına ayrı masa verdin. Masaya “Onur Masası” yazıp gururla oturdu.",
+      "en": "You gave your uncle his own table. He labeled it “Head Table” and sat there proudly.",
+      "coach": [
+        {
+          "tr": "Onur masası dolu.",
+          "en": "The head table is full.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ciz",
+    "slip": {
+      "tr": "İDDİA: Dayın kartını taşır. — M.",
+      "en": "WAGER: Your uncle moves his own place card. — M."
+    }
+  },
+  "intent": {
+    "setup": "düğün oturma planında akrabaların birbiriyle oturmak istememesi ve masaların yuvarlak olması",
+    "mechanism": "her akraba bir sonrakini dışlıyor; geometri suçlanıyor",
+    "mechanismId": "escalation",
+    "punch": "masalar yuvarlak, sorun bu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "masa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

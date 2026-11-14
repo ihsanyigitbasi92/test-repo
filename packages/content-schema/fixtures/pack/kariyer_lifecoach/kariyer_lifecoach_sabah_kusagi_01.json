@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_sabah_kusagi_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 52
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    },
+    "flags": {
+      "all": [
+        "koc_radyo_programi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Programınız bir yılını doldurdu. Sizi sabah kuşağına alıyoruz, canlı. Saat 05.25.",
+      "en": "Your show just turned one. We're moving you to the morning slot. Live. 5:25 a.m."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Dinleyici çok: servis şoförleri, fırıncılar, gece vardiyasından çıkanlar.",
+      "en": "Big audience. Shuttle drivers, bakers, people coming off the night shift.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Sabah kuşağını kabul et",
+      "en": "Take the morning slot",
+      "pattern": "overwork"
+    },
+    {
+      "id": "kayit",
+      "tr": "Kayıttan yayın öner",
+      "en": "Offer to pre-record",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Programı bırak",
+      "en": "Give up the show",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "money": 1500,
+        "stats": {
+          "health": -1
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Sabah kuşağına geçtin, ücretin aylık 1.500 Para arttı. Alarmın artık 04.35'te çalıyor.",
+      "en": "You moved to mornings, plus 1,500 a month. Your alarm now goes off at 4:35.",
+      "coach": [
+        {
+          "tr": "Dinleyici fırıncılar. Artık sen de fırıncı saatindesin.",
+          "en": "Your audience is bakers. Now so are your hours.",
+          "roast": true
+        }
+      ]
+    },
+    "kayit": [
+      {
+        "p": 6000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "money": 1000,
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Kayıttan yayın kabul edildi. Programı akşamüstü kaydediyorsun; sabah sen uyurken fırıncılara ulaşıyor.",
+        "en": "Pre-recording approved. You tape in the late afternoon, and it reaches the bakers while you sleep.",
+        "coach": [
+          {
+            "tr": "Program şafakta. Koç yatakta.",
+            "en": "Show at dawn. Coach in bed.",
+            "roast": true
+          },
+          {
+            "tr": "Bir basamak, sekiz saat uyku.",
+            "en": "One rung, eight hours' sleep.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "money": 1500,
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Teklif reddedildi: \"Sabah canlı olmalı.\" Canlıya çıktın; ilk gün iki kez \"iyi akşamlar\" dedin.",
+        "en": "No pre-records: 'Mornings are live.' You went live and said 'good evening' twice on day one.",
+        "coach": [
+          {
+            "tr": "İki iyi akşam. Saat 05.25.",
+            "en": "Two good evenings. At 5:25 a.m.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "koc_radyo_vedasi"
+          ],
+          "remove": [
+            "koc_radyo_programi"
+          ]
+        }
+      },
+      "tr": "Programı bıraktın. Son yayında bir fırıncı aradı: her hafta hamuru seni dinlerken yoğurmuş.",
+      "en": "You gave up the show. On the last broadcast a baker called in: they had kneaded dough to you every week.",
+      "coach": [
+        {
+          "tr": "Bir dinleyici, bir hamur, bir yıl.",
+          "en": "One listener, one batch of dough, one year.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "haftalık radyo programın bir yılı doldurunca radyo seni sabah 05.25 canlı kuşağına almak istiyor",
+    "mechanism": "terfi uykusuzluk olarak geliyor",
+    "mechanismId": "bathos",
+    "punch": "artık sen de fırıncı saatindesin",
+    "lift": "bir basamak, sekiz saat uyku",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "firinci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

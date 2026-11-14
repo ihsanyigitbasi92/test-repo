@@ -1,0 +1,237 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_ev_satista_01",
+  "tags": [
+    "ev",
+    "ev",
+    "satis",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Evi satışa çıkardım. Cumartesileri alıcı gelecek, siz de evde olun.",
+      "en": "I've put the flat up for sale. Buyers will come Saturdays. Please be home."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Kahve yapın; ev kahve kokunca satıyormuş. Kahve sizden.",
+      "en": "Make coffee. Places sell faster when they smell like coffee. Coffee is on you.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "uyum",
+      "tr": "Cumartesileri evi hazırla",
+      "en": "Prep the place every Saturday",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "indirim",
+      "tr": "Gezme dönemi için indirim iste",
+      "en": "Ask for a rent cut during showings",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "disari",
+      "tr": "Cumartesileri dışarıda ol",
+      "en": "Be out every Saturday",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "uyum": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "money": -120,
+        "flags": {
+          "add": [
+            "ev_satista"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "ev_sahibi_yeni_malik_bildirimi_01",
+            "delayDays": [
+              30,
+              60
+            ]
+          }
+        ]
+      },
+      "tr": "Dört cumartesi kahve yaptın, 120 Para. Alıcılar kahveyi içip dolaplarını açtı.",
+      "en": "Four Saturdays of coffee: 120. The buyers drank it and opened your cupboards.",
+      "coach": [
+        {
+          "tr": "Kahve satıldı. Ev henüz satılmadı.",
+          "en": "The coffee sold. The flat hasn't yet.",
+          "roast": true
+        }
+      ]
+    },
+    "indirim": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "ev_satista"
+            ]
+          },
+          "status": {
+            "rentDelta": -150
+          },
+          "followUp": [
+            {
+              "eventId": "ev_sahibi_yeni_malik_bildirimi_01",
+              "delayDays": [
+                30,
+                60
+              ]
+            }
+          ]
+        },
+        "tr": "Gezmeler sürdükçe kira 150 Para indi. Kahve yine senden.",
+        "en": "Rent dropped 150 while showings run. The coffee is still on you.",
+        "coach": [
+          {
+            "tr": "Kira indi, kahve kaldı. Yarım zafer, dolu fincan.",
+            "en": "Rent down, coffee still yours. Half a win, full cup.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_satista"
+            ]
+          },
+          "followUp": [
+            {
+              "eventId": "ev_sahibi_yeni_malik_bildirimi_01",
+              "delayDays": [
+                30,
+                60
+              ]
+            }
+          ]
+        },
+        "tr": "\"Satış olunca konuşuruz\" dedi. Cumartesiler programa göre devam.",
+        "en": "'We'll talk once it sells.' Saturdays continue as scheduled.",
+        "coach": [
+          {
+            "tr": "Konuşma satıştan sonra. Satış kahveden sonra.",
+            "en": "The talk comes after the sale. The sale comes after your coffee.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "disari": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ev_satista",
+            "cumartesi_disarida"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "ev_sahibi_yeni_malik_bildirimi_01",
+            "delayDays": [
+              30,
+              60
+            ]
+          }
+        ]
+      },
+      "tr": "Cumartesileri parkta geçirdin. Döndüğünde yatağının üstünde yabancıların unuttuğu broşürler vardı.",
+      "en": "You spent Saturdays in the park. Back home, there were strangers' brochures on your bed.",
+      "coach": [
+        {
+          "tr": "Sen evde değildin. Alıcılar evdeydi.",
+          "en": "You weren't home. The buyers were.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "indirim",
+    "slip": {
+      "tr": "İDDİA: Kahve bedava, indirim yok. — M.",
+      "en": "WAGER: Free coffee, no discount. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi kiradaki evi satışa çıkarıyor, cumartesi gezmeleri",
+    "mechanism": "satış stratejisinin bedeli kiracıya",
+    "mechanismId": "bathos",
+    "punch": "kahve sizden",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fincan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

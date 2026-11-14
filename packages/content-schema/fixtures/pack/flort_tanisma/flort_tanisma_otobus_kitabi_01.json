@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "flort_tanisma_otobus_kitabi_01",
+  "tags": [
+    "iliski",
+    "flort",
+    "flort_tanisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1200,
+    "tags": {
+      "flort_tanisma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 21
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    },
+    "flags": {
+      "none": [
+        "sevgili"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Pardon, aynı kitap. Siz kaçıncı sayfadasınız?",
+      "en": "Sorry, same book. What page are you on?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ben sondan başladım. İsterseniz katili söyleyebilirim.",
+      "en": "I started at the end. I can tell you who did it, if you like.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Söyletme, sohbete devam et",
+      "en": "No spoilers, keep talking",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "in",
+      "tr": "Bir durak erken in",
+      "en": "Get off a stop early",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "soylesin",
+      "tr": "Söylesin, merak bitsin",
+      "en": "Let them spoil it",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "flort"
+            ]
+          }
+        },
+        "tr": "Son durağa kadar konuştunuz. Numaralar kitabın arka kapağının içine yazıldı.",
+        "en": "You talked all the way to the last stop and swapped numbers inside the back cover.",
+        "coach": [
+          {
+            "tr": "Kitabın sonu hâlâ sır. Numara değil.",
+            "en": "The ending is still a secret. The number isn't.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "Sohbet ikinci durakta tükendi, ikiniz de kitaba döndünüz. Katil üç sayfa sonra belli oldu.",
+        "en": "The chat ran dry by the second stop, and you both went back to reading. The killer turned up three pages later.",
+        "coach": [
+          {
+            "tr": "Sohbet bölümden kısa sürdü.",
+            "en": "The chat didn't outlast the chapter.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "in": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 1
+        }
+      },
+      "tr": "Bir durak erken inip kalan yolu yürüdün. Kitabın sonunu hâlâ bilmiyorsun.",
+      "en": "You got off a stop early and walked the rest. You still don't know how it ends.",
+      "coach": [
+        {
+          "tr": "Bir durak yürüdün. Gizem korundu.",
+          "en": "One stop on foot. Mystery preserved.",
+          "roast": false
+        }
+      ]
+    },
+    "soylesin": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Katili söyledi, haklıydı. Kitabı otobüste unuttun, numarayı almadın.",
+      "en": "They told you who did it. They were right. You left the book on the bus and never got the number.",
+      "coach": [
+        {
+          "tr": "Kitap bitti. Hikâye başlamadı.",
+          "en": "The book's finished. The story never started.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: Sohbet bölümden kısa sürer. — M.",
+      "en": "WAGER: The chat won't outlast the chapter. — M."
+    }
+  },
+  "intent": {
+    "setup": "otobüste aynı kitabı okuyan yabancıyla tanışma",
+    "mechanism": "sondan okuyan kişi; katil sonuçlarda geri döner",
+    "mechanismId": "callback",
+    "punch": "sondan başladım, katili söyleyebilirim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "katil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

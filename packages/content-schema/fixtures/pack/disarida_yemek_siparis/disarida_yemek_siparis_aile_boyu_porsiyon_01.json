@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_aile_boyu_porsiyon_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "partner",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 35,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Bunun adı aile boyu mu? Hangi aile? Tek kişilik aile mi?",
+      "en": "This is \"family size\"? Which family? A family of one?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Fotoğrafta tepsiye sığmıyordu. Bu kutu avucuma sığıyor.",
+      "en": "In the photo it barely fit on a tray. This box fits in my hand.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sikayet",
+      "tr": "Restorana şikâyet yaz",
+      "en": "Write the restaurant a complaint",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tamamla",
+      "tr": "Evdekiyle tamamla",
+      "en": "Pad it out with leftovers",
+      "pattern": "patience"
+    },
+    {
+      "id": "bir_daha",
+      "tr": "Bir porsiyon daha söyle",
+      "en": "Order another one",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "sikayet": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": 160,
+          "flags": {
+            "add": [
+              "siparis_porsiyon_iade"
+            ]
+          }
+        },
+        "tr": "Restoran fotoğrafını görünce 160 Para iade etti. Bir de not düşmüşler: \"Menü fotoğrafımızı güncelleyeceğiz.\"",
+        "en": "After seeing your photo, the restaurant refunded 160. They added a note: \"We'll be updating our menu photo.\"",
+        "coach": [
+          {
+            "tr": "Fotoğraf güncellenecek. Kutu aynı kalacak.",
+            "en": "The photo gets updated. The box stays the same.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "siparis_porsiyon_cevapsiz"
+            ]
+          }
+        },
+        "tr": "Şikâyetine otomatik cevap geldi: \"Porsiyonlarımız standarttır.\" Akşamın kalanında buzdolabını taradınız.",
+        "en": "Your complaint got an auto-reply: \"Our portions are standard.\" You spent the rest of the evening raiding the fridge.",
+        "coach": [
+          {
+            "tr": "Standardın ne olduğu öğrenildi.",
+            "en": "Now you know what standard means.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tamamla": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "siparis_dunden_kalan"
+          ]
+        }
+      },
+      "tr": "Dünden kalan pilavla iki dolu tabak çıkardınız. Aile boyu kutu masanın ortasında süs gibi durdu.",
+      "en": "With yesterday's leftover rice you got two real plates out of it. The family-size box sat in the middle like a garnish.",
+      "coach": [
+        {
+          "tr": "Kutu süs oldu. Pilav işi gördü.",
+          "en": "The box became décor. The rice did the work.",
+          "roast": false
+        }
+      ]
+    },
+    "bir_daha": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -1
+        },
+        "money": -290,
+        "flags": {
+          "add": [
+            "siparis_ikinci_aile_boyu"
+          ]
+        }
+      },
+      "tr": "Bir aile boyu daha söyledin, 290 Para. İki kutu yan yana ancak bir tabağı doldurdu.",
+      "en": "You ordered a second family size: 290. Side by side, the two boxes just about filled one plate.",
+      "coach": [
+        {
+          "tr": "İki aile, bir tabak.",
+          "en": "Two families. One plate.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sikayet",
+    "slip": {
+      "tr": "İDDİA: Şikâyet otomatik cevapla döner. — M.",
+      "en": "WAGER: That complaint gets a robot reply. — M."
+    }
+  },
+  "intent": {
+    "setup": "aile boyu diye söylenen siparişin fotoğraftakinden çok küçük gelmesi",
+    "mechanism": "\"aile boyu\" harfiyen sorgulanıyor",
+    "mechanismId": "literalism",
+    "punch": "hangi aile tek kişilik aile mi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "standart"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

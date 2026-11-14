@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_bozuk_kapi_otomatigi_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "kurye",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "npc:courier",
+      "avatar": "neutral",
+      "tr": "Aşağıdayım, kapı açılmıyor. Sekize bastım, bir teyze \"Kim o\" deyip kapattı.",
+      "en": "I'm downstairs and the door won't buzz open. I tried number eight. Some lady said \"Who is it\" and hung up."
+    },
+    {
+      "speaker": "npc:courier",
+      "avatar": "tired",
+      "tr": "Altıncı kata çıkamam, motor sokakta. Pijamayla inin, gece kimse bakmıyor.",
+      "en": "Can't do six floors, the bike's on the street. Come down in pajamas. Nobody's looking this late.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "in",
+      "tr": "Pijamayla in",
+      "en": "Go down in pajamas",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sepet",
+      "tr": "Balkondan sepet sarkıt",
+      "en": "Lower a basket from the balcony",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "giyin",
+      "tr": "Giyinip in",
+      "en": "Get dressed first",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "in": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "siparis_pijama_inis"
+          ]
+        }
+      },
+      "tr": "Pijamayla altı kat indin. Kapıda çöpünü bırakan sekiz numaralı teyze pijamanın desenini sordu.",
+      "en": "Six floors down in pajamas. The lady from number eight was out with her trash and asked about the pattern.",
+      "coach": [
+        {
+          "tr": "Desen soruldu, cevaplandı.",
+          "en": "The pattern came up. It was discussed.",
+          "roast": false
+        }
+      ]
+    },
+    "sepet": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "siparis_sepet_sistemi"
+            ]
+          }
+        },
+        "tr": "Kurye poşeti sepete koydu, sepet altı kat sallanmadan çıktı. Kurye aşağıdan alkışladı.",
+        "en": "The courier loaded the basket and it rose six floors without a wobble. The courier clapped from the sidewalk.",
+        "coach": [
+          {
+            "tr": "Altı kat, sıfır basamak.",
+            "en": "Six floors. Zero stairs.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -160,
+          "flags": {
+            "add": [
+              "siparis_sepet_dokuldu"
+            ]
+          }
+        },
+        "tr": "İp üçüncü katın korkuluğuna takıldı, ayran ikinci kata döküldü. Alt komşunun kuru temizleme parası 160 Para.",
+        "en": "The rope snagged on the third-floor railing and the yogurt drink rained onto the second floor. Their dry cleaning: 160.",
+        "coach": [
+          {
+            "tr": "Üçüncü kat geçit vermedi.",
+            "en": "The third floor would not let you pass.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "giyin": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "siparis_giyinik_inis"
+          ]
+        }
+      },
+      "tr": "Giyinip inene kadar dokuz dakika geçti. Yemek ılımıştı, kurye seni görünce saatine baktı.",
+      "en": "Getting dressed took nine minutes. The food had gone lukewarm, and the courier checked their watch when you appeared.",
+      "coach": [
+        {
+          "tr": "Dokuz dakikalık kıyafet. Kimse görmedi.",
+          "en": "Nine minutes of outfit. Nobody saw it.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "gece siparişinde apartman kapı otomatiğinin bozuk olması, kuryenin altıncı kata çıkamaması",
+    "mechanism": "kurye düz rapor veriyor",
+    "mechanismId": "deadpan_report",
+    "punch": "gece kimse bakmıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "desen"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Balkondan ipe bağlı sepet sarkıtmak TR apartman alışkanlığı; EN'de aynı eylem \"lower a basket\" olarak verildi, ayran \"yogurt drink\"."
+  }
+}

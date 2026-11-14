@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_emlak_fuari_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Fuarda standımız var. Broşür, kalem, şeker. Herkese gülümse.",
+      "en": "We've got a booth at the property fair. Brochures, pens, candy. Smile at everyone."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Bu kalemler güzel yazıyor. Üç tane daha alayım.",
+      "en": "These pens write beautifully. I'll take three more."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Mavileri de yazıyor mu? Yarın yine gelirim.",
+      "en": "Do the blue ones write too? I'll be back tomorrow.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sohbet",
+      "tr": "Kalemi ver, sohbet aç",
+      "en": "Hand over a pen, start chatting",
+      "pattern": "generosity",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sakla",
+      "tr": "Kalemleri masanın altına sakla",
+      "en": "Hide the pens under the table",
+      "pattern": "pride"
+    },
+    {
+      "id": "brosur",
+      "tr": "Her kaleme broşür sar",
+      "en": "Wrap a brochure around every pen",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "sohbet": [
+      {
+        "p": 4000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "realtor_proje_yetkisi"
+            ]
+          }
+        },
+        "tr": "Kalemci müteahhit çıktı. Yeni projesindeki yirmi iki dairenin satış yetkisini sana verdi; ofiste kalemler artık kilitli çekmecede.",
+        "en": "The pen collector turned out to be a developer, and handed you exclusive rights to twenty-two flats in the new build. The office now keeps pens in a locked drawer.",
+        "coach": [
+          {
+            "tr": "On bir kalem, yirmi iki daire.",
+            "en": "Eleven pens. Twenty-two flats.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacına yirmi iki ilan.",
+            "en": "Goal counter: twenty-two listings.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "money": -60,
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Ziyaretçi on bir kalemle ayrıldı. Kartvizitini sordun; kartvizit yerine kalemlerden birini gösterdi.",
+        "en": "The visitor left with eleven pens. You asked for a business card; they showed you one of your pens instead.",
+        "coach": [
+          {
+            "tr": "Standın en sadık ziyaretçisi.",
+            "en": "Your booth's most loyal visitor.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sakla": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kalemsiz stand sessizleşti. Akşam patron, kalem dağıtan rakip standın yirmi dairelik bir proje aldığını anlattı.",
+      "en": "The penless booth went quiet. That evening your boss mentioned the rival booth, the one handing out pens, landed a twenty-flat project.",
+      "coach": [
+        {
+          "tr": "Kalemler kurtuldu.",
+          "en": "The pens survived.",
+          "roast": false
+        }
+      ]
+    },
+    "brosur": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "realtor_fuar_aramasi"
+          ]
+        }
+      },
+      "tr": "Üç yüz broşür gitti, iki telefon geldi. Biri kalem siparişi vermek istiyordu.",
+      "en": "Three hundred brochures went out. Two calls came in. One of them wanted to order pens.",
+      "coach": [
+        {
+          "tr": "Üç yüz broşür, iki arama.",
+          "en": "Three hundred brochures. Two calls.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sohbet",
+    "slip": {
+      "tr": "İDDİA: Kalemler gider, müşteri gelmez. — M.",
+      "en": "WAGER: The pens leave. The clients don't arrive. — M."
+    }
+  },
+  "intent": {
+    "setup": "emlak fuarındaki standa gün boyu yalnızca bedava kalem toplamaya gelen bir ziyaretçi",
+    "mechanism": "kalem toplayan ziyaretçi müteahhit çıkıyor",
+    "mechanismId": "reversal",
+    "punch": "ofiste kalemler artık kilitli",
+    "lift": "Hedef sayacına yirmi iki ilan.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kilitli_kalem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

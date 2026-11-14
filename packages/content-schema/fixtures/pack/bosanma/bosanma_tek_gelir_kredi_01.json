@@ -1,0 +1,234 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bosanma_tek_gelir_kredi_01",
+  "tags": [
+    "iliski",
+    "bosanma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 5000,
+    "tags": {
+      "bosanma": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "flags": {
+      "all": [
+        "bosandi"
+      ],
+      "none": [
+        "tek_imza_ev"
+      ]
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "money": {
+      "min": 5000
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tek gelir olunca vade yirmi yıl, peşinat da biraz yüksek.",
+      "en": "With a single income, the term is twenty years and the down payment runs a bit higher."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Bir de referans olarak eski eşinizi yazmışsınız. Silelim mi?",
+      "en": "Also, you listed your ex as a reference. Shall we take that out?",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kucuk",
+      "tr": "Küçük daireye kredi çek",
+      "en": "Take the loan on the small flat",
+      "pattern": "risk"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Peşinatı pazarlık et",
+      "en": "Negotiate the down payment",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kira",
+      "tr": "Kirada kalmaya devam",
+      "en": "Keep renting",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kucuk": {
+      "effects": {
+        "money": -7000,
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 1300
+          }
+        },
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "tek_imza_ev"
+          ]
+        }
+      },
+      "tr": "Tapu senin adına çıktı. Peşinat 7.000 Para; yirmi yıllık ödeme planı buzdolabında.",
+      "en": "The deed came out in your name. Down payment: 7,000. The twenty-year plan is on the fridge.",
+      "coach": [
+        {
+          "tr": "Tek imza, yirmi yıl.",
+          "en": "One signature. Twenty years.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef defterine bir tapu.",
+          "en": "One deed in the goal ledger.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -5500,
+          "housing": "mortgage",
+          "status": {
+            "home": {
+              "kind": "mortgage",
+              "rent": 1300
+            }
+          },
+          "stats": {
+            "joy": 4,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "tek_imza_ev"
+            ]
+          }
+        },
+        "tr": "İkinci teklif geldi: peşinat 5.500 Para. Referans kutusu boş bırakıldı.",
+        "en": "A second offer came in: 5,500 down. The reference box was left blank.",
+        "coach": [
+          {
+            "tr": "1.500 Para indirim, bir kutu boşluk.",
+            "en": "Fifteen hundred off. One empty box.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kredi_dosyasi_beklemede"
+            ]
+          }
+        },
+        "tr": "Teklif değişmedi. Görüşme kırk dakika sürdü, dosya “değerlendirmede” kaldı.",
+        "en": "The offer didn’t move. The meeting ran forty minutes and the file went “under review.”",
+        "coach": [
+          {
+            "tr": "Dosya beklemede. Sen de.",
+            "en": "The file is pending. So are you.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kira": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "status": {
+          "rentDelta": 100
+        },
+        "flags": {
+          "add": [
+            "kredi_ertelendi"
+          ]
+        }
+      },
+      "tr": "Başvuruyu geri çektin. Kira sözleşmen bir yıl daha uzatıldı.",
+      "en": "You withdrew the application. Your lease was extended another year.",
+      "coach": [
+        {
+          "tr": "Bir yıl daha kira, bir yıl daha birikim.",
+          "en": "One more year of rent. One more year of saving.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Peşinat yerinden kıpırdamaz. — M.",
+      "en": "WAGER: That down payment isn’t budging. — M."
+    }
+  },
+  "intent": {
+    "setup": "boşanma sonrası tek gelirle konut kredisine başvurmak",
+    "mechanism": "alışkanlıkla eski eş referans yazılmış",
+    "mechanismId": "callback",
+    "punch": "referans olarak eski eşinizi yazmışsınız",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "beklemede"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

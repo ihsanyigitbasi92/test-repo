@@ -1,0 +1,172 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_ortak_hesap_01",
+  "tags": [
+    "para",
+    "fatura",
+    "partner",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Ortak hesaba bu ay ben yatırdım sanıyordum. Sen de öyle sanıyormuşsun.",
+      "en": "I thought I topped up the joint account this month. Apparently so did you."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Otomatik ödeme reddedilmiş. Elektrik faturası açıkta.",
+      "en": "The autopay bounced. The electric bill is just sitting there.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "takvim",
+      "tr": "Takvime yatırma günü koy",
+      "en": "Put a deposit day on the calendar",
+      "pattern": "patience"
+    },
+    {
+      "id": "sen",
+      "tr": "Bu ayı sen kapat",
+      "en": "Cover this month yourself",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ayir",
+      "tr": "Hesabı kapat, ayrı ödeyin",
+      "en": "Close it, pay separately",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "takvim": {
+      "effects": {
+        "money": -450,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "ortak_hesap_takvim"
+          ]
+        }
+      },
+      "tr": "İkiniz de 450 Para yatırdınız. Ayın beşi takvime 'hesap' diye girildi.",
+      "en": "You each put in 450. The fifth of every month now says 'account' on the calendar.",
+      "coach": [
+        {
+          "tr": "İki kişi aynı şeyi sandı. Artık bir tarih sanıyor.",
+          "en": "Two people assumed the same thing. Now a date does the assuming.",
+          "roast": true
+        }
+      ]
+    },
+    "sen": {
+      "effects": {
+        "money": -900,
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "partner_gelecek_ay"
+          ]
+        }
+      },
+      "tr": "900 Para senden çıktı. Partner gelecek ayı üstlendiğini buzdolabına yazdı.",
+      "en": "900 came from you. Your partner wrote 'next month is mine' on the fridge.",
+      "coach": [
+        {
+          "tr": "Buzdolabında bir söz. Mıknatısla sabitlenmiş, kalemle silinebilir.",
+          "en": "A promise on the fridge. Held by magnet. Written in erasable marker.",
+          "roast": true
+        }
+      ]
+    },
+    "ayir": {
+      "effects": {
+        "money": -450,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ortak_hesap_kapandi"
+          ]
+        }
+      },
+      "tr": "Ortak hesap kapandı. Faturalar ikiye bölündü, her biri kendi uygulamasında.",
+      "en": "Joint account closed. The bills got split, each living in its own app.",
+      "coach": [
+        {
+          "tr": "İki uygulama, iki şifre, bir ev.",
+          "en": "Two apps, two passwords, one home.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "partnerle faturalar için açılan ortak hesaba ikisinin de diğerinin yatırdığını sanması",
+    "mechanism": "iki varsayım tek sıfır bakiye ediyor",
+    "mechanismId": "reversal",
+    "punch": "sen de öyle sanıyormuşsun",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "miknatis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

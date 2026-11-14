@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "emekli_hayati_kapi_tanitimi_01",
+  "tags": [
+    "yaslilik",
+    "ev",
+    "satici",
+    "gunduz",
+    "emekli_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "emekli_hayati": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 60,
+      "max": 60
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "İyi günler, mahallede ücretsiz su analizi yapıyoruz. On dakikanızı alır.",
+      "en": "Good afternoon, we're doing free water tests in the neighborhood. It takes ten minutes."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Suyunuz bulanık çıktı. Merak etmeyin, cihazımız bugüne özel fiyatta. Yarın bu fiyat yok.",
+      "en": "Your water came out cloudy. Not to worry. Our device has a today-only price. Gone tomorrow.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dinle",
+      "tr": "Sonuna kadar dinle, alma",
+      "en": "Hear it out, buy nothing",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yokum",
+      "tr": "“Evde değilim” de, kapat",
+      "en": "Say “I'm not home” and close",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "sor",
+      "tr": "Soruları sen sor",
+      "en": "Ask the questions yourself",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "dinle": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "gunduz_kapisi"
+            ]
+          }
+        },
+        "tr": "İki saat dinledin, bir bardak çay verdin, hiçbir şey almadın. Tanıtımcı çıkarken emekli olmanın nasıl bir şey olduğunu sordu.",
+        "en": "You listened for two hours, served one glass of tea and bought nothing. On the way out the rep asked what being retired is like.",
+        "coach": [
+          {
+            "tr": "İki saat. Tezgâhın altı hâlâ boş.",
+            "en": "Two hours. The space under the counter is still empty.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "money": -1800,
+          "flags": {
+            "add": [
+              "gunduz_kapisi"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "su_aritma_cihazi"
+              ]
+            }
+          }
+        },
+        "tr": "On dakika iki saat sürdü. Tezgâhın altında artık 1.800 Para tutan bir arıtma cihazı var; filtresi üç ayda bir, ayrıca satılıyor.",
+        "en": "Ten minutes took two hours. There is now a purifier under your counter that cost 1,800. Filters every three months, sold separately.",
+        "coach": [
+          {
+            "tr": "Gündüz kapıları pahalı açılıyor.",
+            "en": "Daytime doors open at a price.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yokum": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "gunduz_kapisi"
+          ]
+        }
+      },
+      "tr": "Kapıyı aralayıp evde olmadığını söyledin. Tanıtımcı bir an düşündü, broşürü “eve gelince bakarsınız” diye bıraktı.",
+      "en": "You opened the door a crack and said you weren't home. The rep thought about it, then left a brochure “for when you get back.”",
+      "coach": [
+        {
+          "tr": "Broşür, evde olmayan kişiye teslim edildi.",
+          "en": "Brochure delivered to the person who wasn't home.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "gunduz_kapisi"
+          ]
+        }
+      },
+      "tr": "Soruları sen sordun: maaş, prim, günde kaç kapı. Yirmi dakika sonra tanıtımcı senden iş tavsiyesi alıyordu.",
+      "en": "You asked the questions: salary, commission, doors per day. Twenty minutes later the rep was taking career advice from you.",
+      "coach": [
+        {
+          "tr": "Analiz yapıldı. Suya değil.",
+          "en": "A test was run. Not on the water.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dinle",
+    "slip": {
+      "tr": "İDDİA: On dakika cihazla biter. — M.",
+      "en": "WAGER: Ten minutes ends with a device. — M."
+    }
+  },
+  "intent": {
+    "setup": "emekliliğin ilk haftalarında gündüz evdeyken kapıya gelen ücretsiz su analizi tanıtımcısı",
+    "mechanism": "on dakikalık analiz bulanık suya, bugüne özel fiyata ve iki saate büyüyor",
+    "mechanismId": "escalation",
+    "punch": "yarın bu fiyat yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

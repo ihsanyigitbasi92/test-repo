@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_kesintide_kek_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "komsu",
+    "firin",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Sizde de mi gitti? Bizde de. Benim fırın tüplü, fırında kekin varsa getir.",
+      "en": "Yours went out too? Ours too. My oven runs on gas. If you've got a cake in, bring it over."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Yalnız benim fırın soldan biraz fazla yakar. Ben alışığım, kek alışık değil.",
+      "en": "Fair warning, mine runs hot on the left. I'm used to it. Your cake isn't.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasi",
+      "tr": "Keki komşunun fırınına taşı",
+      "en": "Carry the cake next door",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Elektriğin gelmesini bekle",
+      "en": "Wait for the power",
+      "pattern": "patience"
+    },
+    {
+      "id": "kasik",
+      "tr": "Hamuru kaşıkla ye",
+      "en": "Eat the batter with a spoon",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "tasi": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_komsu_firini"
+            ]
+          }
+        },
+        "tr": "Keki merdivenden iki elle taşıdın. Komşunun fırınında pişti, sol tarafı biraz daha koyu.",
+        "en": "You carried the cake down the stairs with both hands. It finished in the neighbor's oven, darker on the left.",
+        "coach": [
+          {
+            "tr": "Kek kat değiştirdi ve pişti.",
+            "en": "The cake changed floors and finished baking.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -60,
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_kek_coktu"
+            ]
+          }
+        },
+        "tr": "Kek merdivende sarsıldı, ortası çöktü. Komşu çöken kısmı \"kaşıkla yenir\" diyerek kendine ayırdı.",
+        "en": "The cake got jostled on the stairs and the middle collapsed. The neighbor claimed the crater \"for spoon use.\"",
+        "coach": [
+          {
+            "tr": "Çukur sahibini buldu.",
+            "en": "The crater found an owner.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -60,
+        "flags": {
+          "add": [
+            "yemek_kek_yarim"
+          ]
+        }
+      },
+      "tr": "Elektrik kırk dakika sonra geldi. Yarım pişmiş kek soğumuştu, fırına ikinci kez girmedi.",
+      "en": "The power came back forty minutes later. The half-baked cake had cooled and refused a second round.",
+      "coach": [
+        {
+          "tr": "Kırk dakika. Fırın soğudu, kek de vazgeçti.",
+          "en": "Forty minutes. The oven cooled and the cake gave up.",
+          "roast": false
+        }
+      ]
+    },
+    "kasik": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "yemek_mum_isiginda_hamur"
+          ]
+        }
+      },
+      "tr": "Kalıbı fırından çıkarıp yarı pişmiş hamuru mum ışığında kaşıkla yedin.",
+      "en": "You pulled the pan and ate the half-baked batter by candlelight with a spoon.",
+      "coach": [
+        {
+          "tr": "Mum ışığında tatlı. Plan bu değildi.",
+          "en": "Dessert by candlelight. Not the plan.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tasi",
+    "slip": {
+      "tr": "İDDİA: Kek merdiveni sağ inmez. — M.",
+      "en": "WAGER: The cake doesn't survive the stairs. — M."
+    }
+  },
+  "intent": {
+    "setup": "kek fırındayken elektriğin kesilmesi, komşunun tüplü fırın teklifi",
+    "mechanism": "komşunun fırınının huyları keke yükleniyor",
+    "mechanismId": "understatement",
+    "punch": "ben alışığım, kek alışık değil",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cukur"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

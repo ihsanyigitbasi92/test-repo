@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_dogum_yili_hatasi_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 65
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sistemde doğum yılınız farklı görünüyor. Sisteme göre dört yıl daha çalışacaksınız.",
+      "en": "The system shows a different birth year. According to the system, you have four more years."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Sistem seni genç görüyor. Ben olsam itiraz etmezdim.",
+      "en": "The system thinks you're young. I wouldn't argue.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "duzelt",
+      "tr": "Nüfus kaydıyla düzelt",
+      "en": "Fix it with your ID record",
+      "pattern": "patience",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Dört yıl daha kal",
+      "en": "Take the four years",
+      "pattern": "overwork"
+    },
+    {
+      "id": "bir_yil",
+      "tr": "Düzelt, bir yıl daha kal",
+      "en": "Fix it, stay one more year",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "duzelt": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "memur_emeklilik_dilekcesi"
+            ]
+          }
+        },
+        "tr": "Kayıt düzeltildi; emeklilik dilekçen işleme girdi.",
+        "en": "The record was corrected, and your retirement petition went into processing.",
+        "coach": [
+          {
+            "tr": "Sistem yaşını kabul etti. Dilekçe yolda.",
+            "en": "The system accepted your age. The petition is on its way.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "memur_kayit_duzeltme"
+            ]
+          }
+        },
+        "tr": "Düzeltme talebi başka bir birime gönderildi. Dilekçe onu bekliyor.",
+        "en": "The correction request went to another department. Your petition is waiting on it.",
+        "coach": [
+          {
+            "tr": "Yaşın başka bir birimde bekliyor.",
+            "en": "Your age is waiting in another department.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "flags": {
+          "add": [
+            "memur_emeklilik_ertelendi"
+          ]
+        }
+      },
+      "tr": "Dilekçeyi çekmeceye koydun. Sistem seni dört yıl genç tutmaya devam etti.",
+      "en": "You put the petition in a drawer. The system went on keeping you four years younger.",
+      "coach": [
+        {
+          "tr": "Kâğıt üstünde dört yıl genç. Sandalye aynı.",
+          "en": "Four years younger on paper. Same chair.",
+          "roast": false
+        }
+      ]
+    },
+    "bir_yil": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "memur_emeklilik_bir_yil"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Kaydı düzelttirdin, emekliliği bir yıl sonraya yazdın. Arkadaşın veda için şimdiden liste açtı.",
+      "en": "You had the record fixed and set retirement for a year from now. Your coworker has already started a farewell list.",
+      "coach": [
+        {
+          "tr": "Bir yıl kaldı. Veda listesi açık.",
+          "en": "One year to go. The farewell list is already open.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "emeklilik dilekçesi verirken sistemdeki doğum yılı yanlış çıkıyor",
+    "mechanism": "sistem seni genç görüyor",
+    "mechanismId": "reversal",
+    "punch": "ben olsam itiraz etmezdim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "veda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

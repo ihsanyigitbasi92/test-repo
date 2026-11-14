@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_gitar_sikayeti_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "muzik",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Akşam yedide gitar, sekizde gitar, dokuzda yine aynı şarkı. Ev sahibine söyledim.",
+      "en": "Guitar at seven, guitar at eight, and at nine, the same song again. I told the landlord."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Ben müziğe karşı değilim. İki haftadır aynı şarkıya karşıyım.",
+      "en": "I'm not against music. I'm against the same song for two weeks straight.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "saat",
+      "tr": "Çalma saatini 19–20 yap",
+      "en": "Limit playing to 7–8 p.m.",
+      "pattern": "patience"
+    },
+    {
+      "id": "yeni",
+      "tr": "Yeni bir şarkı öğren",
+      "en": "Learn a new song",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "konser",
+      "tr": "Komşuya mini konser ver",
+      "en": "Give the neighbor a mini concert",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "saat": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "gitar_saati"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Gitar artık 19.00–20.00 arası çalınıyor. Komşu 20.01'de koridoru yokluyor.",
+      "en": "Guitar hours are now 7 to 8. At 8:01 the neighbor checks the hallway.",
+      "coach": [
+        {
+          "tr": "Bir saatlik sahne. Seyirci kronometreli.",
+          "en": "One-hour set. Audience has a stopwatch.",
+          "roast": false
+        }
+      ]
+    },
+    "yeni": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "ikinci_sarki"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "İki haftada ikinci şarkıyı öğrendin. Komşu ev sahibine \"en azından değişti\" diye yazdı.",
+        "en": "Two weeks later you'd learned a second song. The neighbor texted the landlord: \"At least it's a different one.\"",
+        "coach": [
+          {
+            "tr": "Repertuvar: iki.",
+            "en": "Repertoire: two.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "gitar_uyarisi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Yeni şarkının yalnızca girişini çıkarabildin. Giriş artık her akşam on iki kez çalınıyor, ev sahibi yazılı uyarı yolladı.",
+        "en": "You only got as far as the new song's intro. It now plays twelve times a night, and the landlord sent a written warning.",
+        "coach": [
+          {
+            "tr": "Girişte kaldın. On iki kez.",
+            "en": "Stuck at the intro. Twelve times.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "konser": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "komsu_konseri"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Komşuya kapıda üç şarkı çaldın, ikisi aynıydı. Şikâyet geri çekildi, yerine bir istek listesi geldi.",
+      "en": "You played the neighbor three songs at the door. Two were the same one. The complaint was withdrawn. A request list arrived.",
+      "coach": [
+        {
+          "tr": "Seyircin bir kişi. İsteği uzun.",
+          "en": "Audience of one. Long request list.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "komşunun gitar şikâyetini ev sahibine iletmesi, sorun hep aynı şarkı",
+    "mechanism": "saat saat aynı şarkı sayılıyor",
+    "mechanismId": "count",
+    "punch": "iki haftadır aynı şarkı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sarki"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

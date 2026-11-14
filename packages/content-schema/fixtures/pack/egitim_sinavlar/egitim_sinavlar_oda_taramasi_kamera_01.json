@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_oda_taramasi_kamera_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "online",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "t",
+      "tr": "Evden çevrim içi sertifika sınavı. Başlamadan önce odanın her köşesini kameraya göstermen gerekiyor.",
+      "en": "An online certification exam from home. First, you have to show every corner of the room on camera."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Arkadaki askıda ne var, kıyafet mi? Üstünde yazı olan her şey kaldırılmalı.",
+      "en": "What's on the rack behind you? Clothes? Anything with writing on it has to go."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Pencereyi de gösterin. Pencerenin dışında yazı var mı?",
+      "en": "Show me the window too. Is there writing outside the window?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "aski",
+      "tr": "Askıyı boşalt",
+      "en": "Clear the rack",
+      "pattern": "patience"
+    },
+    {
+      "id": "perde",
+      "tr": "Perdeyi kapat",
+      "en": "Close the curtain",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "mutfak",
+      "tr": "Masayı mutfağa taşı",
+      "en": "Move to the kitchen",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "aski": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sinav_odasi_hazir"
+          ]
+        }
+      },
+      "tr": "Askıdaki her şeyi yatağın altına tıktın. Sınav yirmi dakika gecikmeyle başladı.",
+      "en": "Everything on the rack went under the bed. The exam started twenty minutes late.",
+      "coach": [
+        {
+          "tr": "Askı boş, sınav geç.",
+          "en": "Rack empty. Exam late.",
+          "roast": false
+        }
+      ]
+    },
+    "perde": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "sinav_odasi_hazir"
+            ]
+          }
+        },
+        "tr": "Perdeyi kapattın. Görevli 'Uygun' dedi, sınav zamanında başladı.",
+        "en": "You closed the curtain. 'Acceptable.' The exam began on time.",
+        "coach": [
+          {
+            "tr": "Bir perde, bir onay.",
+            "en": "One curtain. One approval.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "sinav_odasi_hazir"
+            ]
+          }
+        },
+        "tr": "Perdenin üstünde çiçekli harflerle 'Mutlu Yuva' yazıyormuş. Perdeyi söküp yere koydun.",
+        "en": "The curtain had writing on it, in floral script: Home Sweet Home. You took it down.",
+        "coach": [
+          {
+            "tr": "Perde de yazılı çıktı.",
+            "en": "Even the curtain had text.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "mutfak": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sinav_mutfakta"
+          ]
+        }
+      },
+      "tr": "Masayı mutfağa taşıdın. Görevli buzdolabındaki mıknatısların yazılarını tek tek okuttu.",
+      "en": "You moved to the kitchen. The proctor had you read every fridge magnet aloud.",
+      "coach": [
+        {
+          "tr": "Mıknatıslar da sınava girdi.",
+          "en": "The fridge magnets sat the exam too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "perde",
+    "slip": {
+      "tr": "İDDİA: Perde de takılır. — M.",
+      "en": "WAGER: The curtain gets flagged too. — M."
+    }
+  },
+  "intent": {
+    "setup": "çevrim içi sınav öncesi odayı kameraya taratmak",
+    "mechanism": "görevli yazı aramayı pencerenin dışına taşıyor",
+    "mechanismId": "escalation",
+    "punch": "pencerenin dışında yazı var mı",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "perde"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

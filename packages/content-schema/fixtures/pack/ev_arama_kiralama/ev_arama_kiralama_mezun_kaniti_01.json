@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_mezun_kaniti_01",
+  "tags": [
+    "ev",
+    "basvuru",
+    "mezuniyet",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "İlanda yazıyordu: öğrenciye verilmez. Siz öğrenci değil misiniz?",
+      "en": "The listing said no students. You're not a student?"
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Mezun olduğunuzu nereden bileyim? Kepli bir fotoğraf olsa...",
+      "en": "How would I know you graduated? Now, if there were a photo in a cap...",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "foto",
+      "tr": "Kepli fotoğrafı göster",
+      "en": "Show the cap-and-gown photo",
+      "pattern": "pride"
+    },
+    {
+      "id": "is",
+      "tr": "İş sözleşmeni gönder",
+      "en": "Send your job contract",
+      "pattern": "patience"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden tanıklık iste",
+      "en": "Call Mom as a witness",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "foto": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "money": -1400,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1400
+          }
+        },
+        "flags": {
+          "add": [
+            "kepli_foto"
+          ]
+        }
+      },
+      "tr": "Kepli fotoğrafı gösterdin. Ev sahibi tarihe kadar yakınlaştırdı, sonra sözleşmeyi çıkardı.",
+      "en": "You showed the cap-and-gown photo. The landlord zoomed in on the date, then pulled out the lease.",
+      "coach": [
+        {
+          "tr": "Kep sonunda bir işe yaradı.",
+          "en": "The cap finally paid off.",
+          "roast": false
+        }
+      ]
+    },
+    "is": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "brain": 1
+        },
+        "money": -1400,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1400
+          }
+        },
+        "flags": {
+          "add": [
+            "ise_baslamis_kiraci"
+          ]
+        }
+      },
+      "tr": "İş sözleşmeni e-postayla gönderdin. Ev sahibi maaş satırını değil, imza tarihini okudu.",
+      "en": "You emailed your job contract. The landlord skipped the salary line and read the signature date.",
+      "coach": [
+        {
+          "tr": "Belge geçti. Kep yedekte.",
+          "en": "Document accepted. Cap on standby.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "money": -1400,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1400
+          }
+        },
+        "flags": {
+          "add": [
+            "anne_tanik"
+          ]
+        }
+      },
+      "tr": "Annen telefonda mezuniyet töreninin tamamını anlattı. Yirmi dakika sonra ev sahibi \"tamam, inandım\" dedi.",
+      "en": "Your mom narrated the entire graduation ceremony over the phone. Twenty minutes in, the landlord said, \"Fine, I believe you.\"",
+      "coach": [
+        {
+          "tr": "Tören ikinci kez yapıldı. Bu kez sesli.",
+          "en": "The ceremony happened twice. Second time, audio only.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "ilandaki \"öğrenciye verilmez\" şartı yüzünden yeni mezunun mezuniyetini kanıtlamaya çalışması",
+    "mechanism": "ev sahibi mezuniyet kanıtı olarak kepli fotoğraf istiyor",
+    "mechanismId": "literalism",
+    "punch": "kepli bir fotoğraf olsa",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kep"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_klima_bozuk_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "season": [
+      "summer"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Gaz bitmiş. Sızıntı da olabilir. Kompresör de olabilir.",
+      "en": "It's out of gas. Could be a leak. Could be the compressor."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Ne kadar serin istiyorsunuz? Her derece ayrı fiyat.",
+      "en": "How cool do you want it? Each degree is priced separately.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tamir",
+      "tr": "Gazı doldurt",
+      "en": "Get it recharged",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "cam",
+      "tr": "Camları açıp yaza katlan",
+      "en": "Windows down, ride out the summer",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikinci",
+      "tr": "Ucuz atölyeye git",
+      "en": "Try the cheap garage",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "tamir": {
+      "effects": {
+        "money": -1100,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "klima_tamir"
+          ]
+        }
+      },
+      "tr": "Gaz dolduruldu, sızıntı da bulundu. Toplam 1.100 Para; araba artık buzdolabı.",
+      "en": "Recharged, and the leak found too. 1,100 total. The car is now a refrigerator.",
+      "coach": [
+        {
+          "tr": "Ağustos geldi. Sen hazırsın.",
+          "en": "August arrived. You were ready.",
+          "roast": false
+        }
+      ]
+    },
+    "cam": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "klima_bozuk_yaz"
+          ]
+        }
+      },
+      "tr": "Bütün yaz camlar açık gezdin. Saçın hep aynı yöne yattı, telefon görüşmelerinin yarısı rüzgârdı.",
+      "en": "All summer with the windows down. Your hair settled in one direction, and half your phone calls were wind.",
+      "coach": [
+        {
+          "tr": "Bedava klima. Sesi biraz fazla.",
+          "en": "Free air conditioning. A little loud.",
+          "roast": false
+        }
+      ]
+    },
+    "ikinci": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "klima_tamir"
+            ]
+          }
+        },
+        "tr": "Atölye 400 Para'ya halletti. Usta \"üç yıl gider\" dedi.",
+        "en": "The garage fixed it for 400. The mechanic said \"good for three years.\"",
+        "coach": [
+          {
+            "tr": "Üç yıllık garanti, sözlü.",
+            "en": "Three-year warranty. Verbal.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1500,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "klima_tamir"
+            ]
+          }
+        },
+        "tr": "400 Para ödedin, klima iki gün üfledi, sonra sustu. Asıl servis 1.100 Para.",
+        "en": "You paid 400; it blew cold for two days, then went quiet. The real fix: 1,100.",
+        "coach": [
+          {
+            "tr": "İki gün serinlik. Gün başı 200.",
+            "en": "Two days of cool air. Two hundred a day.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "yazın ilk sıcak gününde arabanın kliması sıcak üflüyor",
+    "mechanism": "usta fiyatı derece derece söylüyor",
+    "mechanismId": "escalation",
+    "punch": "her derece ayrı fiyat",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "derece"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

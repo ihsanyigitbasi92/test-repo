@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_waiter_sef_patron_arasi_01",
+  "tags": [
+    "kariyer",
+    "restoran",
+    "kariyer_waiter"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_waiter": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "waiter"
+      ],
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "annoyed",
+      "tr": "Patrona söyle: o balığı menüye koymam. Burası benim mutfağım.",
+      "en": "Tell the boss: I'm not putting that fish on the menu. This is my kitchen."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "Şefe söyle: balık geldi, soğuk odada kırk kilo duruyor. Burası benim restoranım.",
+      "en": "Tell the chef: the fish is here, forty kilos in the walk-in. This is my restaurant."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Duydum. Ama sen söyle.",
+      "en": "I heard. But you tell them.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasi",
+      "tr": "Mesajları aynen taşı",
+      "en": "Relay word for word",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "yumusat",
+      "tr": "Yumuşatarak taşı",
+      "en": "Relay, but softer",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sat",
+      "tr": "Balığı masalara sen sat",
+      "en": "Sell the fish table by table",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "tasi": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Yedi tur mesaj taşıdın. Sonunda ikisi kapıda karşılaşıp birbirine 'merhaba' dedi ve konu kapandı.",
+      "en": "You ran seven rounds of messages. In the end they bumped into each other at the door, said 'hi,' and that was that.",
+      "coach": [
+        {
+          "tr": "Yedi tur. Çözüm: merhaba.",
+          "en": "Seven rounds. Resolution: hello.",
+          "roast": false
+        }
+      ]
+    },
+    "yumusat": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "charm": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            },
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "arabulucu"
+            ]
+          }
+        },
+        "tr": "İkisine de diğerinin aslında haklı olduğunu söyledin. Balık akşam menüsüne girdi, ikisi de fikrin kendisinin olduğuna inanıyor.",
+        "en": "You told each of them the other had a point. The fish made the dinner menu, and both believe it was their idea.",
+        "coach": [
+          {
+            "tr": "İki fikir sahibi, bir balık.",
+            "en": "Two authors, one fish.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            },
+            {
+              "role": "npc:coworker",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Yumuşattığın cümleler iki taraftan da 'öyle demedim' diye geri döndü. Artık ikisi de birbirine değil, sana kızgın.",
+        "en": "Your softened lines came back from both sides as 'that's not what I said.' Now they're mad at you instead of each other.",
+        "coach": [
+          {
+            "tr": "Ortak nokta bulundu: sen.",
+            "en": "They found common ground. It's you.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sat": {
+      "effects": {
+        "money": 250,
+        "stats": {
+          "health": -2,
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "balik_satici"
+          ]
+        }
+      },
+      "tr": "Balığı her masaya kendin anlattın, gece on dokuz porsiyon gitti. Şef tabakları sessizce, patron kasayı gülerek doldurdu.",
+      "en": "You pitched the fish at every table, and nineteen portions sold by close. The chef plated in silence. The boss rang up with a grin.",
+      "coach": [
+        {
+          "tr": "On dokuz porsiyon. Bir sessiz şef.",
+          "en": "Nineteen plates. One very quiet chef.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "şefle patron arasındaki balık kavgasında iki taraf arasında mesaj taşımak",
+    "mechanism": "aynı odada iki 'benim' cümlesi, aracı garson",
+    "mechanismId": "escalation",
+    "punch": "duydum, ama sen söyle",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "balik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

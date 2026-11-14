@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_isleri_buzdolabi_raflari_01",
+  "tags": [
+    "ev",
+    "ev_isi",
+    "ev_isleri"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "ev_isleri": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Buzdolabını böldüm, etiketledim. Üst raf benim, orta raf benim, sebzelik senin.",
+      "en": "I've divided up the fridge and labeled it. Top shelf's mine, middle shelf's mine, the crisper's yours."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Kapak rafı ortak. Kapakta sadece ketçap var, o da benim.",
+      "en": "The door shelf's shared. There's only ketchup in it, and the ketchup's mine.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Sebzeliği kabul et",
+      "en": "Accept the crisper",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "yeniden",
+      "tr": "Yeniden dağıtım iste",
+      "en": "Demand a redistribution",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "etiket",
+      "tr": "Kendi etiketini yapıştır",
+      "en": "Stick on your own labels",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sebzelik_sende"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Sebzeliğe yerleştin. Bir hafta sonra Barış sebzeliğe 'geçici' diye bir karpuz koydu.",
+      "en": "You moved into the crisper. A week later Jordan put a watermelon in it. 'Temporarily.'",
+      "coach": [
+        {
+          "tr": "Sebzelik de bölündü.",
+          "en": "The crisper has now been partitioned too.",
+          "roast": false
+        }
+      ]
+    },
+    "yeniden": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "esit_raf"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Orta raf ikiye bölündü, sınıra bant çekildi. Barış bandı cetvelle düzeltti.",
+        "en": "The middle shelf was split in two, with tape down the border. Jordan straightened the tape with a ruler.",
+        "coach": [
+          {
+            "tr": "Sınır çizildi. Cetvelle.",
+            "en": "A border was drawn. With a ruler.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Barış 'raf emekle kazanılır' dedi ve etiketleri lamineledi.",
+        "en": "Jordan said shelves have to be earned and laminated the labels.",
+        "coach": [
+          {
+            "tr": "Etiketler artık su geçirmez.",
+            "en": "The labels are now waterproof.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "etiket": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "etiket_savasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Adını orta rafa yapıştırdın. Ertesi sabah üstünde Barış'ın etiketi vardı, daha büyüğü.",
+      "en": "You stuck your name on the middle shelf. Next morning Jordan's label was on top of it. A bigger one.",
+      "coach": [
+        {
+          "tr": "Etiket yarışı başladı. Rulo bitene kadar sürecek.",
+          "en": "The label arms race has begun. It ends when the roll does.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "ev arkadaşı buzdolabı raflarını etiketleyip paylaştırıyor, sana sebzelik kalıyor",
+    "mechanism": "paylaşım her cümlede biraz daha tek taraflı",
+    "mechanismId": "escalation",
+    "punch": "ketçap da benim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "cetvel"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

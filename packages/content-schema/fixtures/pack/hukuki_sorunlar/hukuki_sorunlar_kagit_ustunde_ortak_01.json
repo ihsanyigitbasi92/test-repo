@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_kagit_ustunde_ortak_01",
+  "tags": [
+    "burokrasi",
+    "sirket_ortakligi",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -2,
+  "intensity": 6500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Şirketin yüzde beşi sizde görünüyor. Borcun yüzde beşi de.",
+      "en": "You're listed as holding five percent of the company. And five percent of its debt."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Şirketin ne iş yaptığını biliyor musunuz?",
+      "en": "Do you know what the company actually did?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Payına düşeni öde",
+      "en": "Pay your share",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "avukat",
+      "tr": "Avukata götür",
+      "en": "Take it to a lawyer",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "arkadas",
+      "tr": "Arkadaşını ara",
+      "en": "Call your friend",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -3100,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ortaklik_borcu_odendi"
+          ]
+        }
+      },
+      "tr": "3.100 Para ödedin. Hisse hâlâ üzerinde; devri için arkadaşının imzası gerekiyor.",
+      "en": "You paid 3,100. The shares are still in your name. Transferring them needs your friend's signature.",
+      "coach": [
+        {
+          "tr": "Sahip olduğun tek şirket. Sana kestiği tek fatura.",
+          "en": "The only company you've ever owned. Its one invoice to you.",
+          "roast": true
+        }
+      ]
+    },
+    "avukat": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1150,
+          "stats": {
+            "brain": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "ortakliktan_cikildi"
+            ]
+          },
+          "glossary": "ortak_sorumlulugu"
+        },
+        "tr": "Avukat itiraz etti, payın yeniden hesaplandı: 3.100 yerine 450 Para. Vekâlet ücreti 700 Para tuttu, hisse devredildi.",
+        "en": "The lawyer objected and your share was recalculated: 450 instead of 3,100. The legal fee was 700, and the shares were transferred out.",
+        "coach": [
+          {
+            "tr": "Girmek bir imzaydı. Çıkmak iki imza, bir avukat.",
+            "en": "Getting in took one signature. Getting out took two and a lawyer.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -3800,
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "ortaklik_borcu_odendi"
+            ]
+          },
+          "glossary": "ortak_sorumlulugu"
+        },
+        "tr": "Avukat dosyayı inceledi: borç doğru. 3.100 Para'ya 700 Para danışma ücreti eklendi.",
+        "en": "The lawyer reviewed the file: the debt stands. 3,100 owed, plus 700 for being told so.",
+        "coach": [
+          {
+            "tr": "Kötü haberin de tarifesi var.",
+            "en": "Bad news has a rate card too.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "arkadas": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ortaklik_borcu_acik"
+          ]
+        }
+      },
+      "tr": "Arkadaşın \"hallediyorum\" dedi. Altı yıl önce imza atarken de aynısını demişti; ödeme süresi otuz gün.",
+      "en": "Your friend said \"I'm handling it.\" They said the same when you signed six years ago. You have thirty days.",
+      "coach": [
+        {
+          "tr": "\"Hallediyorum.\" İkinci baskı.",
+          "en": "\"I'm handling it.\" Second edition.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "yıllar önce arkadaşının şirketine kâğıt üstünde ortak olduğun için borç yazısı gelmesi",
+    "mechanism": "altı yıl önceki \"hallediyorum\" aynen geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "hallediyorum, ikinci baskı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "baski"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

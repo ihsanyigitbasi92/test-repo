@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "ev_tamiri_ariza_garanti_bakim_sarti_01",
+  "tags": [
+    "ev",
+    "tamir",
+    "ev_tamiri_ariza"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_tamiri_ariza": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "SICAKKUŞ ISITMA Yetkili Servis (kurgusal)",
+      "en": "WARMWREN HEATING Authorized Service (fictional)"
+    },
+    "body": {
+      "tr": "Cihazınızın yıllık bakımı kayıtlarımızda görünmediğinden onarım garanti kapsamı dışında değerlendirilmiştir.",
+      "en": "As no annual service appears in our records, this repair has been assessed as outside warranty coverage."
+    },
+    "translate": {
+      "tr": {
+        "from": "garanti kapsamı dışında değerlendirilmiştir",
+        "to": "ücretini sen ödersin"
+      },
+      "en": {
+        "from": "assessed as outside warranty coverage",
+        "to": "you're paying"
+      }
+    },
+    "glossaryKey": "garanti_bakim_sarti"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:boilerTech",
+      "avatar": "neutral",
+      "tr": "Bakım yaptırsaydınız garantiden giderdi. Kart mesela, 1.900.",
+      "en": "If you'd had it serviced, warranty would cover it. The board, for instance. 1,900."
+    },
+    {
+      "speaker": "npc:boilerTech",
+      "avatar": "happy",
+      "tr": "Bakım yaptırmıştınız ama, değil mi? Fişi var mı?",
+      "en": "Unless you did have it serviced? Got a receipt?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "fis",
+      "tr": "Bakım fişini ara",
+      "en": "Hunt for the service receipt",
+      "pattern": "patience",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Öde, bakımı takvime yaz",
+      "en": "Pay and calendar the service",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "mahalle",
+      "tr": "Mahalle ustasına sor",
+      "en": "Ask the local repairman",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "fis": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "garanti_kurtarildi"
+            ]
+          },
+          "glossary": "garanti_bakim_sarti"
+        },
+        "tr": "Fiş, kombinin kılavuzunun arasından çıktı. Kart garantiden değişti, sana yalnızca çay ikramı kaldı.",
+        "en": "The receipt turned up inside the boiler manual. The board was replaced under warranty. All you paid for was the tea.",
+        "coach": [
+          {
+            "tr": "Fiş bulundu. Kâğıt kazandı.",
+            "en": "Receipt found. Paper wins.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -1900,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kombi_bakim_takvimi"
+            ]
+          }
+        },
+        "tr": "Çekmeceden dört garanti belgesi, iki kılavuz ve sıfır fiş çıktı. Kart değişti: 1.900 Para.",
+        "en": "The drawer produced four warranty cards, two manuals and no receipt. New board: 1,900.",
+        "coach": [
+          {
+            "tr": "Dört belge. İstenen hariç.",
+            "en": "Four documents. Not that one.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -1900,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "kombi_bakim_takvimi"
+          ]
+        },
+        "glossary": "garanti_bakim_sarti"
+      },
+      "tr": "1.900 Para ödedin. Takvimde artık her eylül \"kombi bakımı\" yazıyor, bildirimi açık.",
+      "en": "You paid 1,900. Every September now says 'boiler service' in your calendar, alerts on.",
+      "coach": [
+        {
+          "tr": "Eylül artık dolu.",
+          "en": "September is booked.",
+          "roast": false
+        }
+      ]
+    },
+    "mahalle": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "garanti_bitti"
+          ]
+        }
+      },
+      "tr": "Mahalledeki usta kartı onardı: 1.200 Para. Servis kaydına \"yetkisiz müdahale\" notu düştü.",
+      "en": "A local repairman fixed the board for 1,200. The service record now reads 'unauthorized intervention.'",
+      "coach": [
+        {
+          "tr": "Kombi çalışıyor. Garanti emekli.",
+          "en": "The boiler works. The warranty retired.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "kombi arızalanıyor, servis yıllık bakım yapılmadığı için garanti dışı yazısı gönderiyor",
+    "mechanism": "\"garanti kapsamı dışında değerlendirilmiştir\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "ücretini sen ödersin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "eylul"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_hesap_kapma_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "restoran",
+    "ev_arkadasi",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 16
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Bu sefer ben ödüyorum. Geçen sefer sen ödedin. Yıllar önceydi ama sayılır.",
+      "en": "This one's on me. You paid last time. Years ago, but it counts."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Hesabı kime bırakayım? Masanın ortasına mı?",
+      "en": "Who gets the check? Middle of the table?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kap",
+      "tr": "Kartını garsona önceden ver",
+      "en": "Slip the waiter your card early",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Eski ev arkadaşın ödesin",
+      "en": "Let your old roommate pay",
+      "pattern": "patience"
+    },
+    {
+      "id": "bol",
+      "tr": "Yarı yarıya öner",
+      "en": "Offer to split it",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kap": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -620,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "siparis_hesap_sende"
+            ]
+          }
+        },
+        "tr": "Lavaboya gider gibi yapıp kartını garsona verdin. Hesap masaya gelmeden ödenmişti.",
+        "en": "You faked a bathroom trip and handed the waiter your card. The bill was paid before it reached the table.",
+        "coach": [
+          {
+            "tr": "Sahte lavabo turu, 620 Para. Gururun etiketi belli oldu.",
+            "en": "Fake bathroom trip: 620. Pride has a price tag.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "siparis_hesap_onda"
+            ]
+          }
+        },
+        "tr": "Garsona vardığında hesap çoktan ödenmişti. Eski ev arkadaşın aynı numarayı yarım saat önce yapmış.",
+        "en": "When you reached the waiter, the bill was long paid. Your old roommate had pulled the same move half an hour earlier.",
+        "coach": [
+          {
+            "tr": "İki kişi, tek yalan. Biri yarım saat erken.",
+            "en": "Two people, one fib. One of them half an hour early.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef kasası 620 Para korudu.",
+            "en": "The goal fund kept 620.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "siparis_hesap_onda"
+          ]
+        }
+      },
+      "tr": "Eski ev arkadaşın ödedi, fişi katlayıp cüzdanına koydu. \"Bir dahakine\" dedi.",
+      "en": "Your old roommate paid, folded the receipt into their wallet and said, \"Next time.\"",
+      "coach": [
+        {
+          "tr": "Fiş onun cüzdanında. Senin adın da.",
+          "en": "The receipt's in their wallet. So is your name.",
+          "roast": true
+        }
+      ]
+    },
+    "bol": {
+      "effects": {
+        "money": -310,
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Yarı yarıya ödediniz, kişi başı 310 Para. Garson iki kartı aynı anda tutmanın yolunu buldu.",
+      "en": "You split it, 310 each. The waiter found a way to hold two cards at once.",
+      "coach": [
+        {
+          "tr": "Berabere. Rövanş takvimde yok.",
+          "en": "A draw. No rematch scheduled.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kap",
+    "slip": {
+      "tr": "İDDİA: Hesabı önce sen kapamazsın. — M.",
+      "en": "WAGER: You won't grab the check first. — M."
+    }
+  },
+  "intent": {
+    "setup": "eski ev arkadaşıyla yıllar sonra yemekte hesabı önce kapma yarışı",
+    "mechanism": "iki taraf da aynı numarayı yapıyor",
+    "mechanismId": "escalation",
+    "punch": "iki kişi, tek yalan",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "ruvans",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

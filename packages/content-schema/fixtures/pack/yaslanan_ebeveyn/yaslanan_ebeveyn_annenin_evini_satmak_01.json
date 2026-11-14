@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_annenin_evini_satmak_01",
+  "tags": [
+    "aile",
+    "anne",
+    "ev",
+    "kardes",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 48,
+      "max": 60
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "anne_ev_satiliyor",
+        "ev_satilmadi",
+        "anne_ust_kat_kirada"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Ev annem için çok büyük. Satıp yanımıza küçük bir daire alalım.",
+      "en": "The house is too big for Mom. Let's sell it and get her a small place near us."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Satmak mı? O dolapta ilkokul defterlerin duruyor. Onlar nereye sığacak?",
+      "en": "Sell? Your first-grade notebooks are in that cupboard. Where would they fit?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Anneni ikna etmeye çalış",
+      "en": "Try to persuade Mom",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ertele",
+      "tr": "Konuyu bir yıl ertele",
+      "en": "Shelve it for a year",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "kiraci",
+      "tr": "Üst katı kiraya vermeyi öner",
+      "en": "Suggest renting out the upstairs",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "flags": {
+            "add": [
+              "anne_ev_satiliyor"
+            ]
+          }
+        },
+        "tr": "Annen kabul etti, tek şartla: defterler de taşınacak. Ev ilana çıktı.",
+        "en": "Mom agreed on one condition: the notebooks move too. The house is listed.",
+        "coach": [
+          {
+            "tr": "Ev satılıyor, defterler taşınıyor. Kırk yıl kolilendi.",
+            "en": "The house goes on sale. The notebooks move. Forty years, boxed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ev_satilmadi"
+            ]
+          }
+        },
+        "tr": "Annen seni yedi odalık bir tura çıkardı, her odada bir hikâye. Turun sonunda sen de satmak istemiyordun.",
+        "en": "Mom took you on a seven-room tour, one story per room. By the end, you didn't want to sell either.",
+        "coach": [
+          {
+            "tr": "Tur yedi oda sürdü. Oy birliği: satılmıyor.",
+            "en": "The tour lasted seven rooms. Unanimous: not for sale.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ev_konusu_ertelendi"
+          ]
+        }
+      },
+      "tr": "Konu bir yıl ertelendi. Kardeşin takvimine \"ev konuşması\" diye bir hatırlatma koydu.",
+      "en": "The topic got shelved for a year. Your sibling put a reminder in the calendar: \"House talk.\"",
+      "coach": [
+        {
+          "tr": "Bir yıl sonra aynı ev, aynı defterler, daha sabırsız bir kardeş.",
+          "en": "A year from now: same house, same notebooks, a less patient sibling.",
+          "roast": true
+        }
+      ]
+    },
+    "kiraci": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_ust_kat_kirada"
+          ]
+        }
+      },
+      "tr": "Üst kata genç bir çift taşındı. Kira annenin hesabına yatıyor; annen her akşam onlara yemek götürüyor.",
+      "en": "A young couple moved in upstairs. The rent goes to Mom's account, and Mom brings them dinner every night.",
+      "coach": [
+        {
+          "tr": "Üst kat kirada. Annenin yeni bir dinleyici kitlesi var.",
+          "en": "Upstairs is rented. Mom has a fresh audience.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Turun sonunda sen de satmak istemezsin. — M.",
+      "en": "WAGER: By the end of the tour, you won't want to sell either. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşin annenin büyük evini satmayı önermesi",
+    "mechanism": "her oda yeni bir hikâye, karar uzuyor",
+    "mechanismId": "escalation",
+    "punch": "defterler nereye sığacak",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "oda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

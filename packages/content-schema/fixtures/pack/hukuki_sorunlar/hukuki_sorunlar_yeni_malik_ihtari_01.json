@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "hukuki_sorunlar_yeni_malik_ihtari_01",
+  "tags": [
+    "burokrasi",
+    "kira",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "SÖĞÜTLÜDERE 2. NOTERLİĞİ (kurgusal)",
+      "en": "WILLOWBROOK NOTARY OFFICE NO. 2 (fictional)"
+    },
+    "body": {
+      "tr": "Kiracısı olduğunuz taşınmaz tarafımca satın alınmıştır. Konut ihtiyacım nedeniyle, sözleşme süresinin bitiminden itibaren altı ay içinde taşınmazı boşaltmanızı ihtaren bildiririm.",
+      "en": "I have purchased the property you rent. Owing to my own housing need, I hereby give notice that you are to vacate within six months of the end of the lease term."
+    },
+    "translate": {
+      "tr": {
+        "from": "konut ihtiyacım nedeniyle",
+        "to": "kirayı az buldum"
+      },
+      "en": {
+        "from": "Owing to my own housing need",
+        "to": "the rent looked small"
+      }
+    },
+    "glossaryKey": "ihtiyac_nedeniyle_tahliye"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Şahsi bir şey değil. Ben de kiracıyım; benim ev sahibim de bana aynı yazıyı yolladı.",
+      "en": "It's nothing personal. I rent too. My landlord just sent me the same letter."
+    }
+  ],
+  "choices": [
+    {
+      "id": "sure",
+      "tr": "Süreleri hesapla, otur",
+      "en": "Check the deadlines, stay put",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "zam",
+      "tr": "Daha yüksek kira öner",
+      "en": "Offer a higher rent",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tasin",
+      "tr": "Ev aramaya başla",
+      "en": "Start apartment hunting",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sure": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "glossary": "ihtiyac_nedeniyle_tahliye"
+        },
+        "tr": "Sürelere baktın: ihtar geçerli, ama önünde on dört ay var. Tarihi takvime işaretledin.",
+        "en": "You checked the deadlines. The notice is valid, but you have fourteen months. You marked the date on the calendar.",
+        "coach": [
+          {
+            "tr": "On dört ay. Koliler bekleyebilir.",
+            "en": "Fourteen months. The boxes can wait.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "tahliye_sayaci"
+            ]
+          },
+          "glossary": "ihtiyac_nedeniyle_tahliye"
+        },
+        "tr": "Sürelere baktın: ihtar tam zamanında çekilmiş, bir gün bile açık yok. Sözleşmenin bitimine beş ay var.",
+        "en": "You checked the deadlines. The notice was served exactly on time, not a day to spare. Your lease ends in five months.",
+        "coach": [
+          {
+            "tr": "Takvim bu sefer ondan yana.",
+            "en": "The calendar took their side this time.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "zam": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kira_zamli_kaldin"
+          ]
+        },
+        "status": {
+          "rentDelta": 300
+        }
+      },
+      "tr": "Aylık 300 Para fazlasını önerdin. Konut ihtiyacı aynı hafta ortadan kalktı.",
+      "en": "You offered 300 more a month. The housing need resolved itself within the week.",
+      "coach": [
+        {
+          "tr": "İhtiyaç 300 Paraymış.",
+          "en": "The need turned out to be 300.",
+          "roast": false
+        }
+      ]
+    },
+    "tasin": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ev_ariyor"
+          ]
+        }
+      },
+      "tr": "İlanlara baktın. Aynı büyüklükteki evler şimdiki kirandan 400 Para pahalı; üçünü favorilere ekledin.",
+      "en": "You browsed the listings. Places this size run 400 above your current rent. You saved three to favorites.",
+      "coach": [
+        {
+          "tr": "Üç favori. Hiçbiri ucuz.",
+          "en": "Three favorites. None of them cheap.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "kiracısı olduğun evin satılması ve yeni malikin ihtiyaç nedeniyle tahliye ihtarı göndermesi",
+    "mechanism": "resmî 'konut ihtiyacı' ifadesinin gerçek anlamı",
+    "mechanismId": "translation",
+    "punch": "kirayı az buldum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ihtiyac"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

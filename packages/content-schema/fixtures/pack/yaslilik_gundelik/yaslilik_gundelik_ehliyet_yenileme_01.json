@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "yaslilik_gundelik_ehliyet_yenileme_01",
+  "tags": [
+    "yaslilik",
+    "evrak",
+    "araba",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 72,
+      "max": 88
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "any": [
+        "araba_var",
+        "car",
+        "araba"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "SÜRÜCÜ BELGESİ İŞLEMLERİ BÜROSU (kurgusal)",
+      "en": "DRIVER LICENSING DESK (fictional)"
+    },
+    "body": {
+      "tr": "Sürücü belgenizin geçerlilik süresi dolmaktadır. Yenileme için, sürüşe engel bir durumunuz bulunmadığını gösteren güncel bir sağlık raporu gerekmektedir.",
+      "en": "Your driver’s license is due to expire. Renewal requires a current medical report confirming you are fit to drive."
+    },
+    "translate": {
+      "tr": {
+        "from": "sürüşe engel bir durumunuz bulunmadığını gösteren",
+        "to": "bir doktor \"olur\" desin"
+      },
+      "en": {
+        "from": "confirming you are fit to drive",
+        "to": "a doctor has to say yes"
+      }
+    },
+    "glossaryKey": "ehliyet_raporu"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Raporu getirin, aynı gün basıyoruz. Fotoğraf da son altı ay içinde çekilmiş olacak.",
+      "en": "Bring the report and we'll print it same day. The photo has to be from the last six months."
+    },
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "Arabayı zaten pek kullanmıyorsun. Bırakmayı düşünür müsün?",
+      "en": "You barely drive anymore. Would you think about giving it up?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "rapor",
+      "tr": "Rapor al, yenile",
+      "en": "Get the report, renew",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "birak",
+      "tr": "Ehliyeti bırak",
+      "en": "Let the license go",
+      "pattern": "patience"
+    },
+    {
+      "id": "ertele",
+      "tr": "Gelecek aya bırak",
+      "en": "Leave it till next month",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "rapor": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "health": 1,
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "ehliyet_yenilendi"
+          ]
+        }
+      },
+      "tr": "Doktor \"olur\" dedi. Raporla birlikte ehliyet 350 Para tuttu, yeni fotoğrafta gözlüğün de var.",
+      "en": "The doctor said yes. Report plus license: 350. Your glasses made it into the new photo.",
+      "coach": [
+        {
+          "tr": "Rapor olumlu. Ehliyet beş yıl daha cüzdanda.",
+          "en": "Report approved. License good for five more years.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "ehliyet_birakildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Ehliyeti yenilemedin. Çocuğun her cumartesi seni pazara götürüyor, senin arabanla.",
+      "en": "You let it go. Your kid now drives you to the market every Saturday, in your car.",
+      "coach": [
+        {
+          "tr": "Araba aynı. Koltuk değişti.",
+          "en": "Same car. Different seat.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ehliyet_suresi_doldu"
+          ]
+        },
+        "glossary": "ehliyet_raporu"
+      },
+      "tr": "Gelecek ay geldi ve geçti. Ehliyetin artık bir hatıra kartı.",
+      "en": "Next month came and went. The license is now a souvenir card.",
+      "coach": [
+        {
+          "tr": "Süresi doldu. Cüzdanda kaldı.",
+          "en": "Expired. Still in the wallet.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "yetmiş yaşından sonra ehliyet yenilemek için sağlık raporu istenmesi",
+    "mechanism": "\"sürüşe engel bulunmadığını gösteren\" = \"bir doktor olur desin\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "bir doktor olur desin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cuzdan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

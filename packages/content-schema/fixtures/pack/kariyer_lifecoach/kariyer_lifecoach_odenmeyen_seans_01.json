@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_odenmeyen_seans_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 52
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Son üç seansı ödeyemiyorum. Bana 'harcamalarına sınır koy' demiştin. İlk sınırı sana koydum.",
+      "en": "I can't pay for the last three sessions. You told me to set spending limits. You're my first one."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Gurur duyabilirsin. Gerçekten işe yarıyor.",
+      "en": "You can be proud. It really works.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "fatura",
+      "tr": "Resmi ödeme hatırlatması gönder",
+      "en": "Send a formal payment reminder",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "affet",
+      "tr": "Borcu sil",
+      "en": "Write it off",
+      "pattern": "generosity"
+    },
+    {
+      "id": "takas",
+      "tr": "Hizmetle ödemesini iste",
+      "en": "Take payment in services",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "fatura": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 750,
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Tarihli, maddeli bir hatırlatma gönderdin. Ertesi gün 750 Para yattı, açıklamada 'sınır geçici olarak esnetildi' yazıyordu.",
+        "en": "You sent a dated, itemized reminder. Next day, 750 came in. Memo: 'Limit temporarily relaxed.'",
+        "coach": [
+          {
+            "tr": "Ders tutmuş. Fatura da.",
+            "en": "The lesson stuck. So did the invoice.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "kocluk_alacak_acik"
+            ]
+          }
+        },
+        "tr": "Hatırlatmaya otomatik cevap geldi: 'Bütçe dışı talepleri şu an değerlendiremiyorum.'",
+        "en": "The reminder got an auto-reply: 'I'm unable to consider out-of-budget requests at this time.'",
+        "coach": [
+          {
+            "tr": "Cümle senin. İmza onun.",
+            "en": "Your sentence. Their signature.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "affet": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Borcu sildin. Teşekkür mesajına bir gelir-gider tablosu eklenmişti; senin satırında 'sıfırlandı' yazıyor.",
+      "en": "You wrote it off. Their thank-you note came with a budget spreadsheet. Your line item: 'zeroed.'",
+      "coach": [
+        {
+          "tr": "Tabloda adın var. Bir sıfırın yanında.",
+          "en": "You're in the spreadsheet. Next to a zero.",
+          "roast": true
+        }
+      ]
+    },
+    "takas": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kocluk_oto_yikama_karti"
+          ]
+        }
+      },
+      "tr": "Danışan oto yıkamacı çıktı. Üç seans, on iki yıkamaya çevrildi.",
+      "en": "Turns out they run a car wash. Three sessions became twelve washes.",
+      "coach": [
+        {
+          "tr": "On iki yıkama. Kart cüzdanda.",
+          "en": "Twelve washes. The punch card's in your wallet.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "fatura",
+    "slip": {
+      "tr": "İDDİA: Hatırlatma cevapsız kalır. — M.",
+      "en": "WAGER: That reminder goes unanswered. — M."
+    }
+  },
+  "intent": {
+    "setup": "danışan son üç seansı ödemiyor ve gerekçe olarak senin harcama sınırı tavsiyeni gösteriyor",
+    "mechanism": "verdiğin tavsiye fatura olarak geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "ilk sınırı sana koydum",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

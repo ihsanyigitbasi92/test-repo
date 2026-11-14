@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "apartman_komsuluk_saksi_suyu_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "balkon",
+    "apartman_komsuluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "apartman_komsuluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Çiçeklerimi sabah sularım, akşam sularım. Sizin çamaşırlar alttaysa ben ne yapayım.",
+      "en": "I water my plants morning and evening. If your laundry's underneath, what am I supposed to do."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Toprak organik ama. Lekesi çıkar.",
+      "en": "It's organic soil, though. It washes out.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Sulama saatini konuş",
+      "en": "Negotiate watering hours",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ip",
+      "tr": "Çamaşırları içeri al",
+      "en": "Move the drying rack inside",
+      "pattern": "patience"
+    },
+    {
+      "id": "altlik",
+      "tr": "Saksılarına altlık hediye et",
+      "en": "Gift them plant saucers",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "sulama_saati"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Anlaştınız: sulama sabah yedide, çamaşır öğleden sonra. Üst kat saati mutfak takvimine yazdı.",
+        "en": "Deal struck: plants at 7 a.m., laundry after lunch. Upstairs wrote it on their kitchen calendar.",
+        "coach": [
+          {
+            "tr": "Balkon tarifeli sefere geçti.",
+            "en": "The balcony now runs on a timetable.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -60,
+          "flags": {
+            "add": [
+              "camurlu_camasir"
+            ]
+          }
+        },
+        "tr": "Konuşma uzadı, sulama vaktinde başladı. Beyaz gömleğin artık açık kahverengi.",
+        "en": "The talk ran long. The watering started on time. Your white shirt is now light brown.",
+        "coach": [
+          {
+            "tr": "Gömlek yeni renginde. Organik.",
+            "en": "The shirt has a new color. Organic.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ip": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "salon_camasirligi"
+          ]
+        }
+      },
+      "tr": "Çamaşırlık salona taşındı. Salon nemli, çamaşırlar iki günde kuruyor.",
+      "en": "The drying rack moved into the living room. Humid living room, two-day drying time.",
+      "coach": [
+        {
+          "tr": "Balkon üst katın. Salon çamaşırın.",
+          "en": "The balcony belongs upstairs. The living room belongs to the laundry.",
+          "roast": true
+        }
+      ]
+    },
+    "altlik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -90,
+        "flags": {
+          "add": [
+            "saksi_altligi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Dört altlık alıp üst kata götürdün. Su artık altlıkta kalıyor, taşmadığı sürece.",
+      "en": "You bought four saucers and took them upstairs. The water stays put now. Until it overflows.",
+      "coach": [
+        {
+          "tr": "Doksan Para'ya kuru gömlek. Yağmura kadar.",
+          "en": "Ninety for a dry shirt. Until it rains.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef kumbarası: eksi 90.",
+          "en": "Goal jar: minus 90.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: Üst kat sulama saatini değiştirmez. — M.",
+      "en": "WAGER: Upstairs won't change their watering time. — M."
+    }
+  },
+  "intent": {
+    "setup": "üst katın saksı suyu balkondaki çamaşırına damlıyor",
+    "mechanism": "organik leke savunması",
+    "mechanismId": "bathos",
+    "punch": "toprak organik ama",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gomlek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

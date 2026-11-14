@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_konser_iptali_hizmet_bedeli_01",
+  "tags": [
+    "burokrasi",
+    "bilet",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ARKA SIRA BİLET HİZMETLERİ (kurgusal)",
+      "en": "BACKROW TICKETS (fictional)"
+    },
+    "body": {
+      "tr": "Katılmayı planladığınız konser, sanatçının programındaki değişiklik nedeniyle iptal edilmiştir. Bilet bedeliniz on dört iş günü içinde iade edilecektir. Hizmet bedeli iade kapsamı dışındadır.",
+      "en": "The concert you planned to attend has been canceled due to a change in the artist's schedule. Your ticket price will be refunded within fourteen business days. Service fees are non-refundable."
+    },
+    "translate": {
+      "tr": {
+        "from": "Hizmet bedeli iade kapsamı dışındadır",
+        "to": "iptal ettik, yine de bir şey kazandık"
+      },
+      "en": {
+        "from": "Service fees are non-refundable",
+        "to": "we canceled and still came out ahead"
+      }
+    },
+    "glossaryKey": "hizmet_bedeli"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Dilerseniz iade yerine yüzde on fazlasıyla hediye çeki tanımlayabiliriz. Çek bir yıl geçerlidir.",
+      "en": "Alternatively, we can issue a gift voucher worth ten percent more. Valid for one year."
+    }
+  ],
+  "choices": [
+    {
+      "id": "iade",
+      "tr": "İadeyi bekle",
+      "en": "Wait for the refund",
+      "pattern": "patience"
+    },
+    {
+      "id": "cek",
+      "tr": "Hediye çekini al",
+      "en": "Take the voucher",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Hizmet bedelini de iste",
+      "en": "Demand the fee back too",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "iade": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "money": -18,
+        "glossary": "hizmet_bedeli"
+      },
+      "tr": "120 Para on üçüncü iş günü hesaba geçti. 18 Para'lık hizmet bedeli gelmedi; otobüs biletin de yanmıştı.",
+      "en": "The 120 landed on business day thirteen. The 18 service fee didn't. Your bus ticket to the venue was nonrefundable too.",
+      "coach": [
+        {
+          "tr": "Konser olmadı. Hizmet verilmiş sayıldı.",
+          "en": "No concert took place. The service was still rendered.",
+          "roast": true
+        }
+      ]
+    },
+    "cek": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "hediye_ceki"
+          ]
+        },
+        "glossary": "hizmet_bedeli"
+      },
+      "tr": "132 Para'lık çek tanımlandı. Yıl boyunca sitede ilgini çeken tek etkinlik bir belgesel söyleşisiydi; ona gittin.",
+      "en": "A voucher for 132 was issued. The only event that caught your eye all year was a documentary talk. You went.",
+      "coach": [
+        {
+          "tr": "Çek harcandı. Sahnede tek kişi vardı.",
+          "en": "Voucher spent. One person on stage.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "istisnai_iade"
+            ]
+          }
+        },
+        "tr": "Tüketici maddesini yazdın; dört gün sonra 18 Para da iade edildi. E-postanın konusu: \"istisnai iade.\"",
+        "en": "You quoted the consumer clause. Four days later the 18 came back too. Subject line: \"Exceptional refund.\"",
+        "coach": [
+          {
+            "tr": "On sekiz Para. İstisna sen oldun.",
+            "en": "Eighteen. You are the exception.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -18,
+          "glossary": "hizmet_bedeli"
+        },
+        "tr": "Üç e-posta yazdın, üç aynı cevap aldın. Dördüncüyü yazmadın.",
+        "en": "Three emails out, three identical replies back. You didn't write a fourth.",
+        "coach": [
+          {
+            "tr": "Üçe üç. Şablon yorulmuyor.",
+            "en": "Three for three. Templates don't tire.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "iptal edilen konserin bilet iadesinde hizmet bedelinin iade kapsamı dışında tutulması",
+    "mechanism": "iptal eden taraf yine de kazançlı çıkıyor",
+    "mechanismId": "translation",
+    "punch": "konser olmadı, hizmet verilmiş sayıldı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sablon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

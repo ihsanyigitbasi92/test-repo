@@ -1,0 +1,162 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_ek_hesap_01",
+  "tags": [
+    "para",
+    "borc",
+    "ek_hesap",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bakiyeniz 2.000 Para görünüyor ama bunun 2.600'ü ek hesap limitiniz.",
+      "en": "Your balance shows 2,000, but 2,600 of that is your overdraft line."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Yani sizin olan kısım eksi 600. Üç aydır bizim paramızla geziyorsunuz.",
+      "en": "So your part is minus 600. You've been out and about on our money for three months.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Ek hesabı kapat",
+      "en": "Close the overdraft",
+      "pattern": "patience"
+    },
+    {
+      "id": "limit",
+      "tr": "Limiti artır",
+      "en": "Raise the limit",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "taksit",
+      "tr": "Eksiyi taksitle kapat",
+      "en": "Pay off the minus in installments",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ek_hesap_kapandi"
+          ]
+        },
+        "glossary": "ek_hesap"
+      },
+      "tr": "600 Para ödenip ek hesap kapatıldı. Bakiye artık sıfır, bu sefer gerçekten sıfır.",
+      "en": "You paid back the 600 and closed the line. Balance: zero. A real zero this time.",
+      "coach": [
+        {
+          "tr": "Gerçek sıfır, 600 Para karşılığında.",
+          "en": "A real zero, for 600.",
+          "roast": false
+        }
+      ]
+    },
+    "limit": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ek_hesap_borcu"
+          ]
+        }
+      },
+      "tr": "Limit 4.000 Para'ya çıkarıldı. Ekranda bakiye 3.400; senin kısmın hâlâ eksi 600.",
+      "en": "The limit went up to 4,000. The screen now says 3,400. Your part is still minus 600.",
+      "coach": [
+        {
+          "tr": "Ekran zenginleşti. Sen aynı kaldın.",
+          "en": "The screen got richer. You didn't.",
+          "roast": true
+        }
+      ]
+    },
+    "taksit": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ek_hesap_borcu"
+          ]
+        },
+        "glossary": "ek_hesap"
+      },
+      "tr": "Eksi 600 üç taksite bölündü, ilki 200 Para. Ek hesap açık ama dokunulmaz ilan edildi.",
+      "en": "The minus-600 got split into three, first payment 200. The line stays open, officially off-limits.",
+      "coach": [
+        {
+          "tr": "Üç taksit, bir yasak.",
+          "en": "Three payments, one rule.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "bakiyenin aslında ek hesap limiti olduğunun bankada öğrenilmesi",
+    "mechanism": "görünen artı, gerçek eksi",
+    "mechanismId": "reversal",
+    "punch": "üç aydır bizim paramızla geziyorsunuz",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "sifir",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

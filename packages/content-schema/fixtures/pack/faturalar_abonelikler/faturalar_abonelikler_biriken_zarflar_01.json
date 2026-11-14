@@ -1,0 +1,169 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_biriken_zarflar_01",
+  "tags": [
+    "para",
+    "fatura",
+    "su",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 85
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "İki ay sonra eve döndün. Kapı ancak yarıya kadar açıldı: arkasında zarflar var.",
+      "en": "Home after two months away. The door only opens halfway: there are envelopes behind it."
+    },
+    {
+      "id": "t2",
+      "tr": "En üstteki kırmızı: 'Su kesinti ihbarı. Son gün yarın.'",
+      "en": "The top one is red: 'Water disconnection notice. Final day: tomorrow.'"
+    }
+  ],
+  "choices": [
+    {
+      "id": "gise",
+      "tr": "Sabah ilk iş gişeye git",
+      "en": "Hit the payment office at opening",
+      "pattern": "patience"
+    },
+    {
+      "id": "cocuk",
+      "tr": "Çocuğunu arayıp ödet",
+      "en": "Call your kid to pay online",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "sirala",
+      "tr": "Önce zarfları tarihe göre diz",
+      "en": "Sort the envelopes by date first",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "gise": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "health": -1,
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "faturalar_guncel"
+          ]
+        }
+      },
+      "tr": "Gişede yedi fatura ödendi, toplam 900 Para. Kesinti ihbarı bir damgayla iptal edildi.",
+      "en": "Seven bills paid at the counter, 900 in total. The disconnection notice: cancelled with one stamp.",
+      "coach": [
+        {
+          "tr": "Yedi zarf, bir damga.",
+          "en": "Seven envelopes. One stamp.",
+          "roast": false
+        }
+      ]
+    },
+    "cocuk": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "otomatik_odeme_kuruldu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Çocuğun telefonda on dakikada hepsini ödedi, otomatik ödeme de kurdu. Bundan sonra zarf gelmeyecek.",
+      "en": "Your kid paid them all over the phone in ten minutes and set up autopay. No more envelopes.",
+      "coach": [
+        {
+          "tr": "On dakika. Zarf devri bitti.",
+          "en": "Ten minutes. The age of envelopes is over.",
+          "roast": false
+        }
+      ]
+    },
+    "sirala": {
+      "effects": {
+        "money": -960,
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "su_kesildi_bir_gun"
+          ]
+        }
+      },
+      "tr": "Zarflar tarihe göre dizildi, iş akşamı buldu. Su ertesi sabah kesildi; açma bedeli 60 Para.",
+      "en": "The envelopes got sorted by date. That took until evening. The water was cut the next morning; reconnection fee: sixty.",
+      "coach": [
+        {
+          "tr": "Zarflar sıralı. Musluk kuru.",
+          "en": "Envelopes: in order. Tap: dry.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "iki ay evden uzak kaldıktan sonra kapı arkasında biriken faturalar ve su kesinti ihbarı",
+    "mechanism": "yığın büyüyor: yarım açılan kapı, yedi zarf, kırmızı ihbar",
+    "mechanismId": "escalation",
+    "punch": "kapı ancak yarıya kadar açıldı",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "zarf",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

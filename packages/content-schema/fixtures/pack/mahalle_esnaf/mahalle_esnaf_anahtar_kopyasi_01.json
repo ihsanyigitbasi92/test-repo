@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "mahalle_esnaf_anahtar_kopyasi_01",
+  "tags": [
+    "sosyal",
+    "esnaf",
+    "ev",
+    "mahalle_esnaf"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "mahalle_esnaf": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kopya çalışmıyor mu? Kilitte sorun var. Benim kestiğim anahtar hep çalışır.",
+      "en": "Copy doesn't work? Problem's your lock. The keys I cut always work."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Getir, bir daha keserim. Yarı fiyat. Üçüncü bedava, dördüncüde kilidi değiştiririz.",
+      "en": "Bring it back, I'll cut another. Half price. Third one's free. Fourth time, we change the lock.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "geri",
+      "tr": "Geri götür, yenisini kestir",
+      "en": "Take it back for a recut",
+      "pattern": "patience"
+    },
+    {
+      "id": "torpu",
+      "tr": "Evde törpüle, kendin düzelt",
+      "en": "File it down yourself",
+      "pattern": "shortcut",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kilit",
+      "tr": "Kilidi değiştirt",
+      "en": "Just replace the lock",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "geri": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "anahtar_ucuncu_kopya"
+          ]
+        }
+      },
+      "tr": "İkinci kopya da takıldı. Bedava olan üçüncüsü çalıştı. Anahtarcı \"Kilit alıştı\" dedi.",
+      "en": "The second copy stuck too. The free third one worked. 'Your lock warmed up to it,' the locksmith said.",
+      "coach": [
+        {
+          "tr": "Üç anahtar, bir kilit, sıfır kusurlu. Kilit alışmış.",
+          "en": "Three keys, one lock, nobody at fault. The lock just warmed up.",
+          "roast": true
+        }
+      ]
+    },
+    "torpu": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "kendi_torpuledigin_anahtar"
+            ]
+          }
+        },
+        "tr": "Tırnak törpüsüyle on dakika uğraştın. Kapı açıldı; anahtar biraz kısaldı.",
+        "en": "Ten minutes with a nail file. The door opened. The key is now slightly shorter.",
+        "coach": [
+          {
+            "tr": "Tırnak törpüsü, çilingir belgesi yok. Kapı yine de ikna oldu.",
+            "en": "A nail file and no locksmith license. The door was convinced anyway.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -40,
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "anahtar_ucuncu_kopya"
+            ]
+          }
+        },
+        "tr": "Fazla törpüledin. Anahtar artık hiçbir kapıya uymuyor. Dükkâna bir kez daha yürüdün.",
+        "en": "You filed too much. The key now fits no door at all. Back to the shop, again.",
+        "coach": [
+          {
+            "tr": "Bir anahtar, bir yürüyüş daha. Sayı artıyor.",
+            "en": "One more key, one more walk. The count goes up.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kilit": {
+      "effects": {
+        "money": -650,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kilit_degisti"
+          ]
+        }
+      },
+      "tr": "Kilit değişti: 650 Para. Yeni kilidin iki anahtarı var, ikisi de çalışıyor. Şimdilik.",
+      "en": "New lock: 650. It comes with two keys. Both work. For now.",
+      "coach": [
+        {
+          "tr": "650 Para’ya bir \"şimdilik\".",
+          "en": "650 for a 'for now.'",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "torpu",
+    "slip": {
+      "tr": "İDDİA: Törpü kaybeder. — M.",
+      "en": "WAGER: The nail file loses. — M."
+    }
+  },
+  "intent": {
+    "setup": "anahtarcıdan çıkan kopya anahtarın kilide uymaması",
+    "mechanism": "esnafın tarifesi büyüyor: yarı fiyat, bedava, kilit",
+    "mechanismId": "escalation",
+    "punch": "dördüncüde kilidi değiştiririz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "simdilik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

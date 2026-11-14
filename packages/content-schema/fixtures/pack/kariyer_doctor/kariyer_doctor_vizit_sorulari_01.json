@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_vizit_sorulari_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Yeni asistanımız anlatsın. Bu tablonun üç nedeni nedir?",
+      "en": "Let's hear from our new resident. Three causes for this picture?"
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Güzel. Dördüncüsü? Beşincisi? İlk kez hangi yıl tanımlandı?",
+      "en": "Good. A fourth? A fifth? What year was it first described?"
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "worried",
+      "tr": "(fısıltıyla) Yılı kimse bilmiyor. Soran dahil.",
+      "en": "(whispering) Nobody knows the year. Including the person asking.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "cevap",
+      "tr": "Cevaplamaya devam et",
+      "en": "Keep answering",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bakarim",
+      "tr": "\"Bilmiyorum, bakacağım\" de",
+      "en": "Say you'll look it up",
+      "pattern": "patience"
+    },
+    {
+      "id": "pasla",
+      "tr": "Soruyu kıdemliye pasla",
+      "en": "Pass it to the senior resident",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "cevap": [
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "brain": 1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Beşinci nedeni de buldun. Hoca yıl sorusundan vazgeçti ve seni vizitte ikinci sıraya aldı.",
+        "en": "You landed the fifth cause too. The professor dropped the year question and moved you up to second on rounds.",
+        "coach": [
+          {
+            "tr": "Vizitte bir sıra öne geçtin.",
+            "en": "Up one spot on rounds.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": -4
+          },
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Dördüncüde durdun. Hoca yılı kendisi söyledi, yanlış söylediğini fark etti ve konuyu değiştirdi.",
+        "en": "You stalled at four. The professor supplied the year, realized it was wrong, and changed the subject.",
+        "coach": [
+          {
+            "tr": "Yıl hâlâ belirsiz.",
+            "en": "The year remains unknown.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bakarim": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 0
+        },
+        "meters": {
+          "ego": -2
+        },
+        "flags": {
+          "add": [
+            "doctor_vizit_odev"
+          ]
+        }
+      },
+      "tr": "\"Bakacağım\" dedin. Ertesi sabah vizitte ilk soru sana geldi: \"Baktın mı?\"",
+      "en": "You said you'd look it up. Next morning on rounds, first question, yours: \"Did you?\"",
+      "coach": [
+        {
+          "tr": "Ödev teslimi yarın sabah, vizitte.",
+          "en": "Homework due tomorrow, on rounds.",
+          "roast": false
+        }
+      ]
+    },
+    "pasla": {
+      "effects": {
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Soruyu kıdemli asistana yönlendirdin. Kıdemli üç neden saydı ve öğle yemeğinde senin masana oturmadı.",
+      "en": "You passed it to the senior resident. They listed three causes and did not sit at your table at lunch.",
+      "coach": [
+        {
+          "tr": "Üç neden, bir boş sandalye.",
+          "en": "Three causes. One empty chair.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cevap",
+    "slip": {
+      "tr": "İDDİA: Dördüncü soruda durursun. — M.",
+      "en": "WAGER: You stall at question four. — M."
+    }
+  },
+  "intent": {
+    "setup": "vizitte kıdemli hoca yeni asistanı herkesin önünde art arda sorularla sınıyor",
+    "mechanism": "sorular büyüyor, yıl sorusunu soran da bilmiyor",
+    "mechanismId": "escalation",
+    "punch": "yılı kimse bilmiyor, soran dahil",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "yil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

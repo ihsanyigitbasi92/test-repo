@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_zam_tablosu_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Zam tablosunu sisteme sen gir. Herkesin oranı yazıyor. Seninki de.",
+      "en": "You'll enter the raise table into the system. Everyone's percentage is on it. Yours too."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Benimkine bakma ama. Bakarsan söyleme. Söylersen de az de.",
+      "en": "Don't look at mine. If you look, don't tell. If you tell, say it's small.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "gir",
+      "tr": "Olduğu gibi gir",
+      "en": "Enter it as is",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Kendi zammın için konuş",
+      "en": "Make a case for your own raise",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kis",
+      "tr": "Gözünü kısıp gir",
+      "en": "Squint and type",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "gir": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "ego": -2
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Tabloyu girdin. Senden bir yıl sonra başlayan birinin hücresi seninkinden bir ton daha yeşildi.",
+      "en": "You entered it all. Someone who started a year after you had a cell one shade greener than yours.",
+      "coach": [
+        {
+          "tr": "Bir ton yeşil fark.",
+          "en": "One shade of green apart.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "money": 300
+        },
+        "tr": "Patron tabloyu açıp senin satırını bir puan yukarı çekti: \"Bunu gir.\" Aylık fark 300 Para.",
+        "en": "The boss opened the table and nudged your row up a point: 'Enter that.' Monthly difference: 300.",
+        "coach": [
+          {
+            "tr": "Kendi zammını kendin girdin. Bir puan fazlasıyla.",
+            "en": "You typed your own raise. One point higher.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Patron \"gelecek dönem\" dedi ve takvime not düştü. Tablo bir saat sonra sisteme girildi, senin elinle.",
+        "en": "The boss said 'next cycle' and made a calendar note. The table went in an hour later. By your hand.",
+        "coach": [
+          {
+            "tr": "Gelecek dönem. Takvimde.",
+            "en": "Next cycle. Calendared.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kis": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "muhasebe_zam_duzeltme"
+          ]
+        }
+      },
+      "tr": "Satırlara bakmadan girdin ve tek hata yaptın: kendi zammını sıfır girdin. Düzeltme formu üç imza istiyor.",
+      "en": "You typed without reading and made one typo: your own raise went in at zero. The correction form needs three signatures.",
+      "coach": [
+        {
+          "tr": "Üç imza, bir sıfır.",
+          "en": "Three signatures for one zero.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "genç muhasebeci kendi zammı da içinde olmak üzere tüm zam tablosunu sisteme giriyor",
+    "mechanism": "herkes bakılmamak istiyor, en büyük kurban kendi satırı",
+    "mechanismId": "reversal",
+    "punch": "kendi zammını sıfır girdin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hucre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

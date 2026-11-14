@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_cift_odeme_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 80
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "fatura_karisikligi"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Elektrik faturasını sabah ödedim. Sen de öğlen ödemişsin. Şirket ikisini de almış, teşekkür etmiş.",
+      "en": "I paid the electric bill this morning. You paid it at noon. The company took both and said thank you."
+    }
+  ],
+  "choices": [
+    {
+      "id": "iade",
+      "tr": "İade için ara",
+      "en": "Call for a refund",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Gelecek aya saysınlar",
+      "en": "Let it roll to next month",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "liste",
+      "tr": "Kim neyi öder listesi yap",
+      "en": "Make a who-pays list",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "iade": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "fatura_karisikligi"
+            ]
+          }
+        },
+        "tr": "Kırk dakika beklediniz, para hesaba döndü. Temsilci bugün ikinci çift olduğunuzu söyledi.",
+        "en": "Forty minutes on hold, and the money came back. The agent said you were the second couple that day.",
+        "coach": [
+          {
+            "tr": "İade tamam. Kırk dakika gitti.",
+            "en": "Refund done. Forty minutes gone.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -640,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "fatura_karisikligi",
+              "fatura_alacak"
+            ]
+          }
+        },
+        "tr": "Hat üç kez düştü. Fazla ödenen 640 Para 'alacak' olarak bekliyor.",
+        "en": "The line dropped three times. The extra 640 now sits as 'credit.'",
+        "coach": [
+          {
+            "tr": "640 Para alacakta. Hat meşgul.",
+            "en": "640 in credit. Line still busy.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "money": -640,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "fatura_karisikligi",
+            "fatura_alacak"
+          ]
+        }
+      },
+      "tr": "Gelecek ayın faturası sıfır geldi. Partnerin bunu misafirlere 'tasarruf' diye anlattı.",
+      "en": "Next month's bill came to zero. Your partner described this to guests as 'savings.'",
+      "coach": [
+        {
+          "tr": "Sıfır fatura. Önceden ödenmiş tasarruf.",
+          "en": "A zero bill. Prepaid savings.",
+          "roast": true
+        }
+      ]
+    },
+    "liste": {
+      "effects": {
+        "money": -640,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "fatura_karisikligi",
+            "odeme_listesi"
+          ]
+        }
+      },
+      "tr": "Buzdolabına kim neyi öder listesi asıldı. Ertesi ay ikiniz de listeye bakmayı unuttunuz, kimse ödemedi.",
+      "en": "A who-pays-what list went on the fridge. Next month you both forgot to check it, and nobody paid.",
+      "coach": [
+        {
+          "tr": "Liste asıldı. Okunmadı.",
+          "en": "List posted. Unread.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iade",
+    "slip": {
+      "tr": "İDDİA: O para geri gelmez. — M.",
+      "en": "WAGER: That money isn't coming back. — M."
+    }
+  },
+  "intent": {
+    "setup": "ileri yaşta iki eşin aynı faturayı aynı gün ayrı ayrı ödemesi",
+    "mechanism": "şirket iki ödemeye nazikçe teşekkür ediyor",
+    "mechanismId": "deadpan_report",
+    "punch": "ikisini de almış teşekkür etmiş",
+    "closer": "alacak",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "orta_yas_aile_yemegi_devri_01",
+  "tags": [
+    "yaslilik",
+    "anne",
+    "aile",
+    "yemek",
+    "orta_yas"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "orta_yas": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 58
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Bu yıl büyük aile yemeği sende. Ben artık on dört kişilik tencereyi kaldırmıyorum.",
+      "en": "This year the big family dinner is at your place. I'm done lifting the fourteen-person pot."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Tencereyi getiririm. Tarifi de. Ben de gelirim, mutfakta dururum.",
+      "en": "I'll bring the pot. And the recipe. And myself. I'll just stand in the kitchen.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kendin",
+      "tr": "Her şeyi kendin pişir",
+      "en": "Cook everything yourself",
+      "pattern": "overwork",
+      "check": {
+        "base": 4000,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "birlikte",
+      "tr": "Annenle birlikte pişir",
+      "en": "Cook it together with Mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "siparis",
+      "tr": "Yemeği dışarıdan söyle",
+      "en": "Order the whole thing in",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kendin": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1400,
+          "stats": {
+            "joy": 6
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "aile_yemegi_sende"
+            ]
+          }
+        },
+        "tr": "On dört tabak masaya sıcak geldi. Annen mutfağa hiç girmedi, iki kez kalkıp kapıdan baktı.",
+        "en": "Fourteen plates hit the table hot. Your mom never entered the kitchen. She stood up twice to look in from the doorway.",
+        "coach": [
+          {
+            "tr": "On dört tabak, iki kapı denetimi. Devir onaylandı.",
+            "en": "Fourteen plates, two doorway inspections. Handover approved.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: on dört tabak.",
+            "en": "Goal counter: fourteen plates.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -1600,
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "aile_yemegi_sende"
+            ]
+          }
+        },
+        "tr": "Pilavın dibi tuttu, et geç pişti. Yemek 21.40'ta başladı.",
+        "en": "The rice caught, the roast ran late. Dinner started at 9:40.",
+        "coach": [
+          {
+            "tr": "Annen \"ilk yıl böyle olur\" dedi. Üç kez. Gelecek yıl da diyecek.",
+            "en": "Your mom said \"first year's always like this.\" Three times. She'll say it next year too.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birlikte": {
+      "effects": {
+        "money": -1000,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "aile_yemegi_ortak"
+          ]
+        }
+      },
+      "tr": "Mutfakta iki kişi, bir tencere. Annen her tadımda tuz ekledi, sen her seferinde biraz azalttın.",
+      "en": "Two cooks, one pot. Your mom added salt at every taste. You quietly took some out every time.",
+      "coach": [
+        {
+          "tr": "Tuz dengesi bulundu. Kimse fark etmedi.",
+          "en": "Salt reached equilibrium. Nobody noticed.",
+          "roast": false
+        }
+      ]
+    },
+    "siparis": {
+      "effects": {
+        "money": -2400,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "aile_yemegi_siparis"
+          ]
+        }
+      },
+      "tr": "Yemek kapalı kaplarla geldi. Annen kapları tek tek açıp kokladı ve hiçbir şey söylemedi.",
+      "en": "The food came in sealed trays. Your mom opened each one, sniffed it, and said nothing at all.",
+      "coach": [
+        {
+          "tr": "Sessiz değerlendirme. Puan açıklanmadı.",
+          "en": "Silent review. Score withheld.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kendin",
+    "slip": {
+      "tr": "İDDİA: Pilavın dibi tutar. — M.",
+      "en": "WAGER: The rice burns. — M."
+    }
+  },
+  "intent": {
+    "setup": "annenin büyük aile yemeğini ev sahipliğiyle birlikte sana devretmesi",
+    "mechanism": "anne devrediyor ama tencereyi, tarifi ve kendisini de getiriyor",
+    "mechanismId": "escalation",
+    "punch": "ben de gelirim, mutfakta dururum",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "tuz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

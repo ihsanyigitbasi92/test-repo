@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_direksiyon_dersi_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 43,
+      "max": 58
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Sınav cuma. Sen öğret, kursta çok bağırıyorlar.",
+      "en": "Test's on Friday. You teach me. They yell too much at the driving school."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Ayna, sinyal, ayna. Sonra ne? Kemer mi?",
+      "en": "Mirror, signal, mirror. Then what? Seatbelt?",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "sakin",
+      "tr": "Sakin kal",
+      "en": "Stay calm",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "kurs",
+      "tr": "Ek ders satın al",
+      "en": "Buy extra lessons",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sofor",
+      "tr": "'Ben sürerim' de",
+      "en": "Offer to keep driving",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "sakin": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "partner_ehliyet"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Bir saat boyunca sesini yükseltmedin. Cuma günü sınavı geçti; dönüşte sen yolcu koltuğundaydın.",
+        "en": "A full hour without raising your voice. Friday, they passed. On the way home you rode shotgun.",
+        "coach": [
+          {
+            "tr": "Koltuklar değişti.",
+            "en": "Seats switched.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kırkıncı dakikada 'fren' diye bağırdın. Partnerin otoparktaki tek direğin on santim önünde durdu.",
+        "en": "Minute forty, you yelled 'Brake.' They stopped four inches from the only pole in the lot.",
+        "coach": [
+          {
+            "tr": "Direk ayakta.",
+            "en": "The pole survived.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kurs": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -900,
+        "flags": {
+          "add": [
+            "partner_ehliyet"
+          ]
+        }
+      },
+      "tr": "Beş ek ders: 900 Para. Hoca hiç bağırmadı; partnerin 'senden iyi' dedi.",
+      "en": "Five extra lessons: 900. The instructor never yelled. 'Better than you,' they said.",
+      "coach": [
+        {
+          "tr": "Dış kaynak işe yaradı.",
+          "en": "Outsourcing worked.",
+          "roast": false
+        }
+      ]
+    },
+    "sofor": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "hafta_sonu_soforu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Sınav ertelendi. Sen de hafta sonlarının resmî şoförü oldun.",
+      "en": "The test got postponed. You became the official weekend driver.",
+      "coach": [
+        {
+          "tr": "Görev tanımına şoförlük eklendi.",
+          "en": "Job description updated: driver.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sakin",
+    "slip": {
+      "tr": "İDDİA: Bir saat sakin kalamazsın. — M.",
+      "en": "WAGER: You won't stay calm for an hour. — M."
+    }
+  },
+  "intent": {
+    "setup": "ehliyet sınavına hazırlanan partnere boş otoparkta direksiyon dersi vermek",
+    "mechanism": "sabır testi; otoparkta tek direk",
+    "mechanismId": "escalation",
+    "punch": "tek direğin on santim önünde",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "direk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

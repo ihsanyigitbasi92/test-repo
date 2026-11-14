@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "mevsimler_hava_sisli_sabah_taksi_01",
+  "tags": [
+    "mevsim",
+    "sis",
+    "taksi",
+    "is",
+    "mevsimler_hava"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "mevsimler_hava": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "season": [
+      "autumn",
+      "winter"
+    ],
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Bugün sis var. Ben sisli günde gözle değil, kulakla sürerim. Radyoyu kısın.",
+      "en": "Fog today. In fog I drive by ear, not by eye. Turn the radio down."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Kornaları dinliyorum. Şu uzun olan köprü, kısa olan fırın.",
+      "en": "I'm listening to the horns. The long one's the bridge. The short one's the bakery.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Teoriye güven, devam",
+      "en": "Trust the theory, ride on",
+      "pattern": "patience"
+    },
+    {
+      "id": "in",
+      "tr": "İn, yürü",
+      "en": "Get out and walk",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "mesaj",
+      "tr": "İşe geç kalacağını yaz",
+      "en": "Text work you'll be late",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "devam": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -180,
+        "flags": {
+          "add": [
+            "sisli_sabah_gecikme"
+          ]
+        }
+      },
+      "tr": "Taksi seni on beş dakikalık yolu kırk dakikada bıraktı. Taksimetre 180 Para gösterdi.",
+      "en": "The cab did the fifteen-minute trip in forty. The meter said 180.",
+      "coach": [
+        {
+          "tr": "Kırk dakika, iki köprü kornası.",
+          "en": "Forty minutes. Two bridge horns.",
+          "roast": false
+        }
+      ]
+    },
+    "in": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 1
+          },
+          "money": -60,
+          "flags": {
+            "add": [
+              "sis_yuruyusu"
+            ]
+          }
+        },
+        "tr": "Yürüdün. Sisten çıktığında iş yerinin kapısındaydın, beş dakika erken.",
+        "en": "You walked. You came out of the fog at your office door, five minutes early.",
+        "coach": [
+          {
+            "tr": "Beş dakika erken. Sis arkada kaldı.",
+            "en": "Five minutes early. Fog behind you.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -2
+          },
+          "money": -60,
+          "flags": {
+            "add": [
+              "sisli_sabah_gecikme"
+            ]
+          }
+        },
+        "tr": "Sisin içinde bir sokak fazla yürüdün. Mesaiye yirmi dakika geç, ayakkabılar ıslak girdin.",
+        "en": "In the fog you walked one street too far. You clocked in twenty minutes late, shoes soaked.",
+        "coach": [
+          {
+            "tr": "Bir sokak fazla. Yirmi dakika eksik.",
+            "en": "One street extra. Twenty minutes short.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "mesaj": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -180,
+        "flags": {
+          "add": [
+            "gec_kalma_mesaji"
+          ]
+        }
+      },
+      "tr": "Mesajı attın. Müdürden \"Burada da sis var, acele etme\" cevabı geldi. Taksimetre yine 180 Para.",
+      "en": "You sent it. Your manager replied, \"Foggy here too, no rush.\" The meter still came to 180.",
+      "coach": [
+        {
+          "tr": "Mesaj sisten önce ulaştı.",
+          "en": "The text got through before the fog lifted.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da parti wager kotası dolu"
+  },
+  "intent": {
+    "setup": "yoğun sisli sabah işe giderken taksicinin kulakla sürme teorisi",
+    "mechanism": "taksici sisi korna haritasıyla çözüyor",
+    "mechanismId": "escalation",
+    "punch": "uzun olan köprü, kısa olan fırın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "korna"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

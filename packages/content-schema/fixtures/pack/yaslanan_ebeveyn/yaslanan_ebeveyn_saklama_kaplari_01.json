@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_saklama_kaplari_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "yemek",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 36,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "kaplar_iade_edildi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Kaplarımdan dokuzu sende. Hepsini sayıyorum.",
+      "en": "Nine of my containers are at your place. I'm keeping count."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Bir de boş getirme. Boş kap iade edilmez, ayıptır.",
+      "en": "And don't bring them back empty. You never return a container empty.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "doldur",
+      "tr": "Dokuzunu da doldur",
+      "en": "Fill all nine",
+      "pattern": "generosity"
+    },
+    {
+      "id": "partner",
+      "tr": "Partnerin pişirsin",
+      "en": "Let your partner cook",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "partner": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "hazir",
+      "tr": "Hazır yemekle doldur",
+      "en": "Fill them with takeout",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "doldur": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kaplar_iade_edildi"
+          ]
+        }
+      },
+      "tr": "Dokuz kap dolu iade edildi. Annen ertesi gün on bir kapla karşılık verdi.",
+      "en": "All nine went back full. Mom responded the next day with eleven.",
+      "coach": [
+        {
+          "tr": "Kap sayısı artık on bir.",
+          "en": "Container count: eleven.",
+          "roast": false
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          },
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "kaplar_iade_edildi"
+          ]
+        }
+      },
+      "tr": "Annen partnerinin yemeğini tadıp tarif istedi. Tarifi sana değil, partnerine sordu.",
+      "en": "Mom tasted your partner's cooking and asked for the recipe. She asked your partner directly.",
+      "coach": [
+        {
+          "tr": "Tarif hattı partner üzerinden.",
+          "en": "Recipe inquiries now route through your partner.",
+          "roast": false
+        }
+      ]
+    },
+    "hazir": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Annen ilk kaşıkta anladı. Kapları yıkayıp “bir dahakine sen pişir” notuyla geri yolladı.",
+      "en": "Mom knew at the first bite. She washed the containers and sent them back with a note: “Next time, you cook.”",
+      "coach": [
+        {
+          "tr": "Kalite kontrol tek kaşıkta.",
+          "en": "Quality control: one spoonful.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "annenin yemek gönderdiği saklama kaplarının boş iade edilmemesi kuralı",
+    "mechanism": "kap sayısı her iadede büyür",
+    "mechanismId": "escalation",
+    "punch": "boş kap iade edilmez",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

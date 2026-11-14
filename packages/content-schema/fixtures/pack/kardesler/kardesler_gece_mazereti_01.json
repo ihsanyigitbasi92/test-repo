@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_gece_mazereti_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "worried",
+      "tr": "Annem sorarsa dün akşam senin yanındaydım. Ders çalıştık. Hangi ders, sen seç.",
+      "en": "If Mom asks, I was with you last night. We studied. You pick the subject."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "İkiniz dün akşam neredeydiniz? Sormuyorum, merak ediyorum sadece.",
+      "en": "Where were you two last night? I'm not asking. Just wondering.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ort",
+      "tr": "Hikâyeyi destekle",
+      "en": "Back up the story",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dogru",
+      "tr": "Kendisi anlatsın",
+      "en": "Let them tell Mom themselves",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Karşılığında bulaşık iste",
+      "en": "Charge them a week of dishes",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ort": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "kardes_mazeret_borcu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "Annen “hangi ders” diye sordu, ikiniz aynı anda “tarih” dediniz. Kardeşin sana bir iyilik borçlu, yazılı olarak.",
+        "en": "Mom asked which subject. You both said “history” at the same time. Your sibling now owes you a favor, in writing.",
+        "coach": [
+          {
+            "tr": "Senet elde.",
+            "en": "IOU secured.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "momPressure": 4
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Sen “matematik”, kardeşin “tarih” dedi. Annen ikisini de not etti ve iki hafta ikinize de soru sordu.",
+        "en": "You said “math.” Your sibling said “history.” Mom wrote both down and quizzed you both for two weeks.",
+        "coach": [
+          {
+            "tr": "İki ders, bir sınav görevlisi.",
+            "en": "Two subjects. One examiner.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dogru": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -2,
+            "memory": "mazeret_vermedi"
+          }
+        ]
+      },
+      "tr": "Kardeşin anneye kendisi anlattı. Annen sakin dinledi, sonra sana neden önce senin anlatmadığını sordu.",
+      "en": "Your sibling told Mom themselves. Mom listened calmly, then asked why you hadn't told her first.",
+      "coach": [
+        {
+          "tr": "Dürüstlük de soru aldı.",
+          "en": "Honesty got questioned too.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kardes_bulasik_haftasi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Bir hafta bulaşık karşılığında anlaştınız. Annen dördüncü gün bulaşığı kimin yıkadığını fark etti ve hiçbir şey demedi, yüksek sesle.",
+      "en": "Deal: a week of dishes. On day four Mom noticed who was washing and said nothing. Loudly.",
+      "coach": [
+        {
+          "tr": "Sessizlik duyuldu.",
+          "en": "The silence was audible.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ort",
+    "slip": {
+      "tr": "İDDİA: Hikâyeniz ilk soruda çöker. — M.",
+      "en": "WAGER: Your story cracks on the first question. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşin gece geç dönüşü için anneye “benimleydi” demeni istemesi",
+    "mechanism": "annenin sormadan sorgulaması",
+    "mechanismId": "reversal",
+    "punch": "sormuyorum, merak ediyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "senet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

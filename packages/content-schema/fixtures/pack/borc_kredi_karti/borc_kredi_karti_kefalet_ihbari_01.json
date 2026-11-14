@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_kefalet_ihbari_01",
+  "tags": [
+    "para",
+    "kredi",
+    "kefil",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "MARTI BANKASI (kurgusal)",
+      "en": "GULL BANK (fictional)"
+    },
+    "body": {
+      "tr": "Müteselsil kefili olduğunuz kredinin üç taksiti ödenmemiştir. Gecikmiş tutarın tarafınızdan ödenmesi talep edilmektedir.",
+      "en": "Three installments are overdue on the loan for which you are joint guarantor. You are hereby asked to pay the overdue amount."
+    },
+    "translate": {
+      "tr": {
+        "from": "müteselsil kefil",
+        "to": "borçlu artık sensin"
+      },
+      "en": {
+        "from": "joint guarantor",
+        "to": "you are now the borrower"
+      }
+    },
+    "glossaryKey": "kefalet"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Asıl borçluya ulaşamıyoruz. Siz kefilsiniz, size ulaştık.",
+      "en": "We can't reach the borrower. You're the guarantor, so we reached you."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "tired",
+      "tr": "İmzanız burada. On bir yıl öncesinden.",
+      "en": "Here's your signature. From eleven years ago.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Gecikmiş taksitleri öde",
+      "en": "Pay the overdue installments",
+      "pattern": "patience"
+    },
+    {
+      "id": "bul",
+      "tr": "Eski iş arkadaşını bul",
+      "en": "Track down your old coworker",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bol",
+      "tr": "Ödemeyi bölmelerini iste",
+      "en": "Ask them to split the arrears",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -4200,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "kefalet_odendi"
+          ]
+        },
+        "glossary": "kefalet"
+      },
+      "tr": "Üç taksit ve gecikme bedeli 4.200 Para tuttu. Kalan taksitler de artık senin takviminde.",
+      "en": "Three installments plus late charges: 4,200. The remaining payments are now on your calendar too.",
+      "coach": [
+        {
+          "tr": "On bir yıllık bir imza.",
+          "en": "An eleven-year-old signature.",
+          "roast": false
+        }
+      ]
+    },
+    "bul": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kefalet_cozuldu"
+            ]
+          }
+        },
+        "tr": "Eski iş arkadaşına ortak bir tanıdık üzerinden ulaştın. Gecikmeyi kapattı, sana gecikme bedeli olan 600 Para kaldı.",
+        "en": "You reached your old coworker through a mutual friend. They caught up the payments; you were left with 600 in late charges.",
+        "coach": [
+          {
+            "tr": "Bir telefon, 3.600 Para fark.",
+            "en": "One phone call. 3,600 difference.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -4200,
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kefalet_odendi"
+            ]
+          }
+        },
+        "tr": "Numara kullanılmıyordu, adreste başka biri oturuyordu. Taksitleri sen ödedin: 4.200 Para.",
+        "en": "The number was disconnected; someone else lived at the address. You paid the 4,200.",
+        "coach": [
+          {
+            "tr": "Arama bitti. Ödeme başladı.",
+            "en": "Search over. Payments begun.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bol": {
+      "effects": {
+        "money": -1400,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kefalet_taksit"
+          ]
+        },
+        "glossary": "kefalet"
+      },
+      "tr": "Banka gecikmiş tutarı üç aya böldü. İlk ay 1.400 Para.",
+      "en": "The bank split the arrears over three months. Month one: 1,400.",
+      "coach": [
+        {
+          "tr": "Üç ay, tek bir imza için.",
+          "en": "Three months, all for one signature.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "yıllar önce eski iş arkadaşına kefil olunan kredinin ödenmeyip kefalet ihbarı gelmesi",
+    "mechanism": "unutulmuş bir imza on bir yıl sonra borçlu yapıyor",
+    "mechanismId": "translation",
+    "punch": "imzanız burada, on bir yıl öncesinden",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kefil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

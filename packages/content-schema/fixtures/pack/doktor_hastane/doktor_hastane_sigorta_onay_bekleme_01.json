@@ -1,0 +1,150 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_sigorta_onay_bekleme_01",
+  "tags": [
+    "saglik",
+    "hastane",
+    "sigorta",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 650,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Onay bekliyoruz. Sigorta bizden rapor bekliyor. Rapor hekimden imza bekliyor.",
+      "en": "We're waiting on approval. The insurer is waiting on our report. The report is waiting on a signature."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Hekim de sizin tetkiki bekliyor. Tetkik onayı bekliyor.",
+      "en": "The doctor is waiting on your scan. The scan is waiting on approval.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Bankoda bekle",
+      "en": "Wait at the desk",
+      "pattern": "patience"
+    },
+    {
+      "id": "cepten",
+      "tr": "Cepten öde, sonra talep et",
+      "en": "Pay now, claim later",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "ara",
+      "tr": "Sigortayı kendin ara",
+      "en": "Call the insurer yourself",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Üç saat on dakika bekledin. Onay geldi. Tetkik on beş dakika sürdü.",
+      "en": "You waited three hours and ten minutes. Approval came. The scan took fifteen minutes.",
+      "coach": [
+        {
+          "tr": "Üç saat bekleme, on beş dakika tetkik.",
+          "en": "Three hours of waiting for fifteen minutes of scan.",
+          "roast": false
+        }
+      ]
+    },
+    "cepten": {
+      "effects": {
+        "stats": {
+          "health": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -1900,
+        "flags": {
+          "add": [
+            "geri_odeme_formu"
+          ]
+        }
+      },
+      "tr": "1.900 Para ödedin, tetkike girdin. Geri ödeme formu altı sayfa. İlk sayfa onay numaranı soruyor.",
+      "en": "You paid 1,900 and had the scan. The reimbursement form is six pages. Page one asks for your approval number.",
+      "coach": [
+        {
+          "tr": "Altı sayfa. İlk soru aynı kapı.",
+          "en": "Six pages. Question one is the same door.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Sigortayı aradın, yirmi iki dakika müzik dinledin. Temsilci onayı telefonda verdi; banko yazılısını istedi. Kırk dakika sonra geldi.",
+      "en": "You called the insurer and got twenty-two minutes of hold music. The agent approved it by phone; the desk needed it in writing. It arrived forty minutes later.",
+      "coach": [
+        {
+          "tr": "Halka bir saatte çözüldü. Müzik dahil.",
+          "en": "The loop took an hour to undo. Music included.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "özel sigortadan tetkik onayı beklerken danışma bankosunda geçen saatler",
+    "mechanism": "herkes bir başkasını bekliyor, halka kapanıyor",
+    "mechanismId": "escalation",
+    "punch": "tetkik onayı bekliyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "muzik_dahil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_evden_paketleme_ilani_01",
+  "tags": [
+    "para",
+    "dolandiricilik",
+    "is_ilani",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Evden paketleme işi. Günde iki saat, haftalık ödeme. Tek şart başlangıç kiti.",
+      "en": "Packing jobs from home. Two hours a day, paid weekly. Just one thing: the starter kit."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kit 400 Para. İçinde bant ve makas var.",
+      "en": "The kit's 400. Tape and scissors included."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Motivasyon kitapçığı ayrıca 150. İlk hafta okursunuz.",
+      "en": "The motivation booklet is 150 extra. You'll read it your first week.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Kiti al, işe başla",
+      "en": "Buy the kit, start Monday",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sozlesme",
+      "tr": "Önce sözleşme iste",
+      "en": "Ask for a contract first",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gec",
+      "tr": "İlanı geç",
+      "en": "Scroll past",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "money": -550,
+        "flags": {
+          "add": [
+            "sahte_is_ilani_odedi"
+          ]
+        },
+        "glossary": "baslangic_kiti"
+      },
+      "tr": "Ödeme çekildi. Bant geldi; iş, makas ve satıcı gelmedi.",
+      "en": "The payment cleared. The tape arrived. The job, the scissors and the seller did not.",
+      "coach": [
+        {
+          "tr": "550 Para, bir rulo bant. Metresi pahalı.",
+          "en": "Five hundred fifty for one roll of tape. Pricey by the foot.",
+          "roast": true
+        }
+      ]
+    },
+    "sozlesme": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "flags": {
+            "add": [
+              "dolandirici_tanidi"
+            ]
+          },
+          "glossary": "baslangic_kiti"
+        },
+        "tr": "Şirket unvanı ve adres istedin. Hesap aynı dakika kapandı.",
+        "en": "You asked for a company name and address. The account vanished that same minute.",
+        "coach": [
+          {
+            "tr": "Tek soru, sıfır Para. Piyasadaki en ucuz kit.",
+            "en": "One question, nothing spent. Cheapest kit on the market.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -150,
+          "flags": {
+            "add": [
+              "sahte_is_ilani_odedi"
+            ]
+          }
+        },
+        "tr": "Sözleşmeyi \"kit gelince\" göndereceklerdi. Kitapçığın parasını önden aldılar.",
+        "en": "The contract would ship 'with the kit.' They took the booklet money up front.",
+        "coach": [
+          {
+            "tr": "Sözleşme kitle gelecekmiş. Kit de hiç gelmeyecekmiş.",
+            "en": "The contract ships with the kit. So, never.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "sahte_is_ilani_gecti"
+          ]
+        }
+      },
+      "tr": "İlanı geçtin. Akşam aynı ilan \"son üç kontenjan\" yazısıyla yine çıktı.",
+      "en": "You scrolled past. By evening the same ad was back, now with 'only three spots left.'",
+      "coach": [
+        {
+          "tr": "Üç kontenjan kaldı. Yarın da üç kalacak.",
+          "en": "Three spots left. There'll be three tomorrow too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sozlesme",
+    "slip": {
+      "tr": "İDDİA: Sözleşme lafı kiti durduramaz. — M.",
+      "en": "WAGER: Asking for a contract won't stop the kit. — M."
+    }
+  },
+  "intent": {
+    "setup": "evden paketleme iş ilanı, başlangıç kiti parası",
+    "mechanism": "her balonda yeni bir ücret",
+    "mechanismId": "escalation",
+    "punch": "kitapçık ayrıca 150",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kontenjan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

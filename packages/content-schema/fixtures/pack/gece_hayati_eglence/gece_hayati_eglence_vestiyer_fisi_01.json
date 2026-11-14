@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gece_hayati_eglence_vestiyer_fisi_01",
+  "tags": [
+    "sosyal",
+    "gece",
+    "gece_hayati_eglence"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "gece_hayati_eglence": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Fiş yoksa ceket yok. Kural bu.",
+      "en": "No ticket, no coat. That's the rule."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Siyah mont mu dedin? Arkada iki yüz siyah mont var. Biri de benim.",
+      "en": "Black puffer, you said? I've got two hundred black puffers back here. One of them's mine.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "tarif",
+      "tr": "Montu cep cep tarif et",
+      "en": "Describe the coat pocket by pocket",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Kapanışa kadar bekle",
+      "en": "Wait until closing",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "yarin",
+      "tr": "Montsuz dön, yarın gel",
+      "en": "Go home coatless, come back tomorrow",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "tarif": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "vestiyer_mont_alindi"
+            ]
+          }
+        },
+        "tr": "Sol cepte yarım paket sakız ve bir otobüs bileti dedin. Görevli baktı, montu verdi.",
+        "en": "Left pocket: half a pack of gum and a bus ticket, you said. The attendant checked. The coat was yours.",
+        "coach": [
+          {
+            "tr": "Cepler kimlik yerine geçti. Sakız tanıklık etti.",
+            "en": "Your pockets served as ID. The gum testified.",
+            "roast": false
+          },
+          {
+            "tr": "Sayaç: bir gece, sıfır kayıp.",
+            "en": "Counter: one night, zero losses.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3,
+            "health": -2
+          },
+          "flags": {
+            "add": [
+              "vestiyer_mont_kayip"
+            ]
+          }
+        },
+        "tr": "Cepleri yanlış tarif ettin. Eve montsuz yürüdün, nefesin buhar olarak önden gitti.",
+        "en": "You got the pockets wrong. You walked home coatless, your breath leading the way in clouds.",
+        "coach": [
+          {
+            "tr": "Yanlış cep, uzun yol.",
+            "en": "Wrong pocket, long walk.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -2,
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "vestiyer_mont_alindi"
+          ]
+        }
+      },
+      "tr": "Dörtte ışıklar yandı, tek mont kaldı. Seninki. Görevli \"Söylemiştim\" dedi, neyi söylediğini söylemeden.",
+      "en": "At four the lights came on. One coat left. Yours. The attendant said, 'Told you,' without saying what.",
+      "coach": [
+        {
+          "tr": "Son mont, son kişi. Eşleşme kusursuz.",
+          "en": "Last coat, last person. A perfect match.",
+          "roast": false
+        }
+      ]
+    },
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "health": -2
+        },
+        "flags": {
+          "add": [
+            "vestiyer_mont_pazartesi"
+          ]
+        }
+      },
+      "tr": "Montsuz döndün. Ertesi gün mekân kapalıydı; pazartesiye kadar.",
+      "en": "You went home without it. Next day the club was closed. Until Monday.",
+      "coach": [
+        {
+          "tr": "Mont pazartesiye kaldı. Hafta sonu soğuk.",
+          "en": "The coat's booked till Monday. The weekend's cold.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tarif",
+    "slip": {
+      "tr": "İDDİA: Kendi ceplerini hatırlamazsın. — M.",
+      "en": "WAGER: You don't know what's in your own pockets. — M."
+    }
+  },
+  "intent": {
+    "setup": "kulüpte vestiyer fişini kaybedip montu geri almaya çalışmak",
+    "mechanism": "kural harfiyen: fiş yoksa ceket yok, cepler kimlik",
+    "mechanismId": "literalism",
+    "punch": "biri de benim",
+    "lift": "sayaç",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cep"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

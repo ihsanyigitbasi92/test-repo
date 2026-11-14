@@ -1,0 +1,164 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_kendi_kontrolu_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 32,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Sen herkese bakıyorsun, sana kim bakıyor? Kan tahlilin ne zamandı?",
+      "en": "You look after everyone. Who looks after you? When was your last blood test?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Ben yaptırdım, hepsi normal. Kâğıdı buzdolabına astım.",
+      "en": "I had mine done. Everything normal. The printout is on the fridge.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "randevu",
+      "tr": "Randevu al",
+      "en": "Book an appointment",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "kendin",
+      "tr": "Kendi kendini muayene et",
+      "en": "Examine yourself",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ertele",
+      "tr": "Ay sonuna ertele",
+      "en": "Push it to the end of the month",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "randevu": {
+      "effects": {
+        "hidden": {
+          "stress": -2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -5
+        },
+        "flags": {
+          "add": [
+            "kontrol_yapildi"
+          ]
+        }
+      },
+      "tr": "Kendi hastanende sıraya girdin. Laborant seni tanıdı ve iğne koldayken nöbet çizelgesinden şikâyet etti.",
+      "en": "You queued at your own hospital. The lab tech recognized you and complained about the schedule while the needle was in.",
+      "coach": [
+        {
+          "tr": "Sonuçlar normal. Şikâyet de.",
+          "en": "Results normal. So was the complaint.",
+          "roast": true
+        }
+      ]
+    },
+    "kendin": {
+      "effects": {
+        "meters": {
+          "momPressure": 4,
+          "ego": 1
+        }
+      },
+      "tr": "Kendi tansiyonunu ölçtün, normal. Annen bunu tahlil saymadı.",
+      "en": "You took your own blood pressure. Normal. Mom does not recognize this as a test.",
+      "coach": [
+        {
+          "tr": "Hekim ve hasta aynı kişi. Son onay annede.",
+          "en": "Doctor and patient: same person. Final sign-off: Mom.",
+          "roast": true
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "meters": {
+          "momPressure": 3
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "anne_randevusu"
+          ]
+        }
+      },
+      "tr": "Ay sonu geldi geçti. Annen randevuyu senin adına alıp saatini mesajla yolladı.",
+      "en": "The end of the month came and went. Mom booked the appointment for you and texted the time.",
+      "coach": [
+        {
+          "tr": "Randevu ailenin en kıdemli hekimi tarafından verildi.",
+          "en": "Appointment scheduled by the most senior physician in the family.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia payı başka olayda"
+  },
+  "intent": {
+    "setup": "herkese bakan hekim kendi yıllık kontrolünü erteliyor, anne soruyor",
+    "mechanism": "annenin kendi tahlilini buzdolabına asması",
+    "mechanismId": "bathos",
+    "punch": "kâğıdı buzdolabına astım",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "randevu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

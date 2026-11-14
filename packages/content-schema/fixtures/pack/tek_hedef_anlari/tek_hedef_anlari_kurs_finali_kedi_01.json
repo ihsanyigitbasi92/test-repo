@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_kurs_finali_kedi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "egitim",
+    "kedi",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "course"
+      ]
+    },
+    "npc": {
+      "cat": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "cat",
+      "avatar": "smug",
+      "tr": "Mırr.",
+      "en": "Mrrp."
+    }
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Hedef: bir kurs bitir. Online kursun final sınavı başladı: kırk dakika.",
+      "en": "Goal: finish a course. The online final has started: forty minutes."
+    },
+    {
+      "id": "t2",
+      "tr": "Pamuk klavyenin tam ortasına yattı. Ekrana \"jjjjjjj\" yazıldı.",
+      "en": "Biscuit lay down across the middle of the keyboard. The screen filled with \"jjjjjjj.\""
+    }
+  ],
+  "choices": [
+    {
+      "id": "yaz",
+      "tr": "Kedinin etrafından yaz",
+      "en": "Type around the cat",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain",
+        "goal": "course"
+      }
+    },
+    {
+      "id": "kucak",
+      "tr": "Pamuk'u kucağına al",
+      "en": "Move Biscuit to your lap",
+      "pattern": "generosity"
+    },
+    {
+      "id": "erte",
+      "tr": "Sınavı yarına ertele",
+      "en": "Reschedule for tomorrow",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yaz": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "kurs_bitti"
+            ]
+          }
+        },
+        "tr": "Klavyenin sol yarısıyla bitirdin: 78 puan. Son soruya Pamuk \"jjj\" cevabını verdi ve kısmi puan aldı.",
+        "en": "You finished on the left half of the keyboard: 78. Biscuit answered the last question \"jjj\" and got partial credit.",
+        "coach": [
+          {
+            "tr": "Hedef: tamam. Ortak yazar: kedi.",
+            "en": "Goal: done. Co-author: cat.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "kurs_final_kaldi"
+            ]
+          }
+        },
+        "tr": "Süre doldu. Cevapların yarısında fazladan \"j\" vardı; sistem o yarıyı kabul etmedi.",
+        "en": "Time ran out. Half your answers had extra j's in them. The system rejected that half.",
+        "nearMiss": {
+          "tr": "69 aldın. Geçme notu 70; eksik puan \"jjjj\" sorusunda.",
+          "en": "You scored 69. Passing is 70. The missing point was on the \"jjjj\" question."
+        },
+        "coach": [
+          {
+            "tr": "Final skoru: kedi bir, sen sıfır. Tekrar hakkı var.",
+            "en": "Final score: cat one, you zero. A retake is available.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kucak": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "cat",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kurs_bitti"
+          ]
+        }
+      },
+      "tr": "Pamuk kucağında uyudu, sen tek elle yazdın. 71 puan; geçme notu 70.",
+      "en": "Biscuit slept in your lap while you typed one-handed. Score: 71. Passing: 70.",
+      "coach": [
+        {
+          "tr": "Bir puan farkla. Kucak dahil.",
+          "en": "One point over. Lap included.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "money": -100,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "kurs_ertelendi"
+          ]
+        }
+      },
+      "tr": "Sınavı erteledin; erteleme ücreti 100 Para. Pamuk klavyeden indi ve o gün bir daha dönmedi.",
+      "en": "You rescheduled for a 100 fee. Biscuit got off the keyboard and never came back to it that day.",
+      "coach": [
+        {
+          "tr": "Kedi de sınavdan çekildi.",
+          "en": "The cat withdrew from the exam too.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yaz",
+    "slip": {
+      "tr": "İDDİA: Kedi bu sınavı geçirtmez. — M.",
+      "en": "WAGER: The cat won't let you pass. — M."
+    }
+  },
+  "intent": {
+    "setup": "kurs bitirme hedefinde final sınavında kedinin klavyeye yatması",
+    "mechanism": "kedi sınava katılıp kısmi puan alıyor",
+    "mechanismId": "literalism",
+    "punch": "kısmi puan aldı",
+    "lift": "ortak yazar",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ortak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

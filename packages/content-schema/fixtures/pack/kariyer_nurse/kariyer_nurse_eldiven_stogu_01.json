@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_nurse_eldiven_stogu_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Eldiven bitti. Depo 'perşembe' diyor. Bugün pazartesi.",
+      "en": "We're out of gloves. Supply says 'Thursday.' It's Monday."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Üst kattaki servisin dolabı dopdolu. Kilidi yok, sadece başhemşireleri var.",
+      "en": "The ward upstairs has a full cabinet. No lock. Just their head nurse.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ust",
+      "tr": "Üst kattan ödünç iste",
+      "en": "Borrow from upstairs",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "form",
+      "tr": "Acil talep formu doldur",
+      "en": "File an urgent request",
+      "pattern": "patience"
+    },
+    {
+      "id": "zula",
+      "tr": "Kendi zulanı aç",
+      "en": "Open your secret stash",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ust": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "ust_kat_borcu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "İki kutu eldivenle döndün. Karşılığında üst kata bir paket bant borçlusun.",
+        "en": "You came back with two boxes of gloves. In return, upstairs is owed one pack of tape.",
+        "coach": [
+          {
+            "tr": "Servisler arası ticaret açıldı.",
+            "en": "Inter-ward trade is open.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Üst katın başhemşiresi seni kapıda karşıladı. Kendi başhemşiren durumu öğlene kadar öğrendi.",
+        "en": "Upstairs' head nurse met you at the door. Your own head nurse heard about it by lunch.",
+        "coach": [
+          {
+            "tr": "Haber eldivenden hızlı yürüdü.",
+            "en": "The news traveled faster than the gloves.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "form": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Formu doldurdun. Depo 'perşembe'yi 'en geç cuma' olarak güncelledi.",
+      "en": "You filed the form. Supply updated 'Thursday' to 'Friday at the latest.'",
+      "coach": [
+        {
+          "tr": "Form bir gün kazandırdı. Depoya.",
+          "en": "The form bought a day. For supply.",
+          "roast": false
+        }
+      ]
+    },
+    "zula": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "zula_bitti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Dolabının arkasındaki üç kutuyu çıkardın. Servis hafta sonuna kadar idare etti, zulan sıfırlandı.",
+      "en": "You pulled three boxes from the back of your locker. The ward made it to the weekend. Your stash did not.",
+      "coach": [
+        {
+          "tr": "Zula kamu malı oldu.",
+          "en": "The stash has gone public.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ust",
+    "slip": {
+      "tr": "İDDİA: Üst kat seni kapıda yakalar. — M.",
+      "en": "WAGER: Upstairs catches you at the door. — M."
+    }
+  },
+  "intent": {
+    "setup": "serviste eldiven bitiyor, depo perşembe diyor, üst katın dolabı dolu",
+    "mechanism": "kilidin yerine başhemşire",
+    "mechanismId": "bathos",
+    "punch": "kilidi yok, sadece başhemşireleri var",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "zula"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

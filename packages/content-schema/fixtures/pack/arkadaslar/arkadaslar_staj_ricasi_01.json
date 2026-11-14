@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_staj_ricasi_01",
+  "tags": [
+    "sosyal",
+    "is",
+    "rica",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Yirmi beş yıllık arkadaşın aradı: çocuğu için senin şirketinde staj arıyor.",
+      "en": "A friend of twenty-five years called. Their kid needs an internship. At your company."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Stajyer kontenjanı iki. Başvuru seksen. Sizin de tanıdığınız mı var?",
+      "en": "Two intern spots. Eighty applications. You've got someone too?"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Geçen yıl müdürün yeğeni geldi. Üç hafta fotokopi makinesindeki sıkışmayla uğraştı.",
+      "en": "Last year the director's nephew came. Spent three weeks fighting the copier jam.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "soz",
+      "tr": "Söz ver, araya gir",
+      "en": "Promise, pull some strings",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "basvuru",
+      "tr": "Başvuru yolunu tarif et",
+      "en": "Walk them through applying",
+      "pattern": "patience"
+    },
+    {
+      "id": "golge",
+      "tr": "Bir günlüğüne yanında gezdir",
+      "en": "Let the kid shadow you a day",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "soz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "arkadas_cocugu_stajda"
+            ]
+          }
+        },
+        "tr": "Çocuk staja kabul edildi. Arkadaşın teşekkür için bir kasa ev yapımı reçel gönderdi.",
+        "en": "The kid got the internship. Your friend sent a crate of homemade jam.",
+        "coach": [
+          {
+            "tr": "Bir staj, on iki kavanoz reçel.",
+            "en": "One internship. Twelve jars of jam.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "staj_olmadi"
+            ]
+          }
+        },
+        "tr": "Kontenjan doldu. Arkadaşın “anlıyorum” dedi; reçel bu yıl gelmedi.",
+        "en": "The spots filled. Your friend said “I understand.” No jam this year.",
+        "coach": [
+          {
+            "tr": "Reçelsiz bir yıl. Sebebi biliniyor.",
+            "en": "A jam-free year. The reason is known.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "basvuru": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "staj_basvuru_tarif"
+          ]
+        }
+      },
+      "tr": "Başvuru yolunu anlattın. Çocuk kendi başvurdu, yedek listeye girdi ve sana teşekkür e-postası yazdı.",
+      "en": "You walked them through it. The kid applied, made the waitlist, and emailed you a thank-you.",
+      "coach": [
+        {
+          "tr": "Yedek liste, ama kendi adıyla.",
+          "en": "Waitlisted. Under their own name.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacı yerinden oynadı.",
+          "en": "The goal counter twitched.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "golge": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -200,
+        "flags": {
+          "add": [
+            "golge_stajyer"
+          ]
+        }
+      },
+      "tr": "Çocuğu bir gün yanında gezdirdin. Akşama kadar işin hakkında senin de cevaplayamadığın üç soru sordu.",
+      "en": "The kid shadowed you for a day. By evening they'd asked three questions about your job you couldn't answer.",
+      "coach": [
+        {
+          "tr": "Bir günlük stajyer, üç açık soru. Üçü de sende.",
+          "en": "One-day intern. Three open questions. All yours.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "eski arkadaşının çocuğu için senin iş yerinde staj istemesi",
+    "mechanism": "kontenjan iki, başvuru seksen",
+    "mechanismId": "count",
+    "punch": "üç hafta fotokopi makinesiyle uğraştı",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "recel"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_emlakci_degerleme_01",
+  "tags": [
+    "para",
+    "ev",
+    "emlak",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 80
+    },
+    "housing": [
+      "owned",
+      "mortgage"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Evinize nakit alıcım var, dışarıdan geliyor. Hemen satarız.",
+      "en": "I have a cash buyer for your house, flying in. We can close fast."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Yalnız önce resmî değerleme raporu lazım. 1.600, raporu ben hallederim.",
+      "en": "Only thing, we need an official appraisal first. 1,600. I'll take care of it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Değerlemeyi öde",
+      "en": "Pay for the appraisal",
+      "pattern": "risk"
+    },
+    {
+      "id": "alici",
+      "tr": "Alıcıyla tanışmak iste",
+      "en": "Ask to meet the buyer",
+      "pattern": "patience"
+    },
+    {
+      "id": "satilik",
+      "tr": "Ev satılık değil de",
+      "en": "Say the house isn't for sale",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -1600,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "degerleme_odendi"
+          ]
+        },
+        "glossary": "on_odemeli_emlakci"
+      },
+      "tr": "Rapor üç gün sonra geldi: evin bir fotoğrafı ve altında \"çok değerli\" yazısı. Alıcının uçağı hiç inmedi.",
+      "en": "The report came three days later: one photo of your house, captioned \"very valuable.\" The buyer's flight never landed.",
+      "coach": [
+        {
+          "tr": "Değerli ev, kısa rapor.",
+          "en": "Valuable house. Brief report.",
+          "roast": false
+        }
+      ]
+    },
+    "alici": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "emlakci_tuzagi_fark"
+          ]
+        },
+        "glossary": "on_odemeli_emlakci"
+      },
+      "tr": "Alıcıyla tanışmak istedin. Emlakçı \"alıcı çok meşgul\" dedi, ertesi gün kendisi de meşgul çalmaya başladı.",
+      "en": "You asked to meet the buyer. The agent said the buyer was very busy. The next day, the agent's line was busy too.",
+      "coach": [
+        {
+          "tr": "Alıcı meşgul. Hat da.",
+          "en": "Buyer busy. Line busy.",
+          "roast": false
+        }
+      ]
+    },
+    "satilik": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "ev_satilik_degil"
+          ]
+        }
+      },
+      "tr": "\"Ev satılık değil\" dedin. Emlakçı \"her şey satılıktır\" dedi; sen kapıyı kapattın, kapı satılık değildi.",
+      "en": "You said the house wasn't for sale. The agent said everything's for sale. You shut the door. The door wasn't.",
+      "coach": [
+        {
+          "tr": "Ev yerinde, kapı yerinde.",
+          "en": "House still yours. Door too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "evini satmak isteyen alıcısı olduğunu söyleyen emlakçının önce ücretli değerleme raporu istemesi",
+    "mechanism": "tek fotoğraflı raporu çok değerli diye özetlemek",
+    "mechanismId": "understatement",
+    "punch": "kapı satılık değildi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

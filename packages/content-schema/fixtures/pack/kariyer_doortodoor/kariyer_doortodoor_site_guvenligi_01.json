@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doortodoor_site_guvenligi_01",
+  "tags": [
+    "kariyer",
+    "kapidan_satis",
+    "kariyer_doortodoor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doortodoor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "doorToDoor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Site içine satıcı alamıyorum. Talimat.",
+      "en": "Can't let sellers inside. Those are my orders."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ama kulübenin camı çok kirli. Önce burada bir göster bakalım.",
+      "en": "But the booth window's filthy. Show me on that first.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "goster",
+      "tr": "Kulübe camında göster",
+      "en": "Demo on the booth window",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tanidik",
+      "tr": "Annenin arkadaşını ara",
+      "en": "Call your mom's friend inside",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "yan_sokak",
+      "tr": "Yan sokağa geç",
+      "en": "Move on to the next street",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "goster": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 500,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kapi_site_izni"
+            ]
+          }
+        },
+        "tr": "Kulübe camı pırıl pırıl oldu. Görevli bariyeri kaldırdı, içeride iki set sattın; biri görevliye.",
+        "en": "The booth window sparkled. The guard lifted the barrier, and you sold two sets inside, one of them to the guard.",
+        "coach": [
+          {
+            "tr": "Bariyer kalktı. İlk müşteri kulübedeydi.",
+            "en": "The barrier went up. The first customer was in the booth.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "stats": {
+            "joy": 0
+          }
+        },
+        "tr": "Cam iz yaptı. Görevli izleri gösterip bariyeri indirdi, numuneyi de ‘inceleme’ için alıkoydu.",
+        "en": "The window streaked. The guard pointed at the streaks, lowered the barrier and kept the sample 'for review.'",
+        "coach": [
+          {
+            "tr": "Numune incelemede. Süresiz.",
+            "en": "Sample under review. Indefinitely.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tanidik": {
+      "effects": {
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ],
+        "money": 250,
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Annenin arkadaşı seni misafir olarak kaydettirdi. Bir set aldı, seni öğlene kadar çaya tuttu.",
+      "en": "Your mom's friend signed you in as a guest. She bought one set and kept you for tea until noon.",
+      "coach": [
+        {
+          "tr": "Dört bardak çay, bir satış.",
+          "en": "Four cups of tea. One sale.",
+          "roast": false
+        }
+      ]
+    },
+    "yan_sokak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Yan sokakta altı kapı çaldın, biri açtı. Satış yok ama adres defterine bir ‘belki’ yazıldı.",
+      "en": "You knocked on six doors on the next street; one opened. No sale, but your address book gained a 'maybe.'",
+      "coach": [
+        {
+          "tr": "Bir ‘belki’. Sokak başına ortalama.",
+          "en": "One 'maybe.' About average per street.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "goster",
+    "slip": {
+      "tr": "İDDİA: Cam iz yapar. — M.",
+      "en": "WAGER: The window streaks. — M."
+    }
+  },
+  "intent": {
+    "setup": "kapalı sitenin güvenlik görevlisinin satıcıyı içeri almayıp ürünü önce kulübe camında görmek istemesi",
+    "mechanism": "talimatı uygulayan görevli aynı cümlede kendi camını temizletiyor",
+    "mechanismId": "bathos",
+    "punch": "önce burada bir göster bakalım",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "bariyer"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

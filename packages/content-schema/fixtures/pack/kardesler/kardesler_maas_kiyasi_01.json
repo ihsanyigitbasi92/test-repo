@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_maas_kiyasi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "para",
+    "is",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "İlk maaşım yattı. Bir şey söyleyeceğim ama kızma. Seninkinden biraz fazla.",
+      "en": "First paycheck's in. I'll tell you something, don't be mad. It's a little more than yours."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Teyzene söyledim, sadece teyzene. Teyzen de gruba yazmış galiba.",
+      "en": "I told your aunt. Only your aunt. I think your aunt posted it in the group.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tebrik",
+      "tr": "İçtenlikle tebrik et",
+      "en": "Congratulate them sincerely",
+      "pattern": "generosity"
+    },
+    {
+      "id": "zam",
+      "tr": "Yarın zam iste",
+      "en": "Ask for a raise tomorrow",
+      "pattern": "risk",
+      "requires": {
+        "career": {
+          "employed": true
+        }
+      },
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yemek",
+      "tr": "Kutlamayı ona ısmarlat",
+      "en": "Make them treat you to dinner",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "tebrik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Tebrik ettin. Kardeşin seni yemeğe çıkardı ve hesabı öderken kartını iki kez yere düşürdü.",
+      "en": "You congratulated them. They took you to dinner and dropped their card twice while paying.",
+      "coach": [
+        {
+          "tr": "Kart iki kez düştü. Moral düşmedi.",
+          "en": "The card fell twice. Spirits didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "zam": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "money": 500,
+          "flags": {
+            "add": [
+              "kardes_kiyas_zam"
+            ]
+          }
+        },
+        "tr": "Zam istedin, küçük bir artış aldın. Annen bunu da teyzene söyledi, yalnızca teyzene.",
+        "en": "You asked and got a small raise. Mom told your aunt about that too. Only your aunt.",
+        "coach": [
+          {
+            "tr": "Haber aynı kanaldan yayıldı.",
+            "en": "Same broadcast network.",
+            "roast": false
+          },
+          {
+            "tr": "Zam geldi, hedef sayacı kıpırdadı.",
+            "en": "Raise in. Goal counter twitched.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -3
+          },
+          "flags": {
+            "add": [
+              "zam_ertelendi"
+            ]
+          }
+        },
+        "tr": "Patronun “dönem sonunda bakarız” dedi. Dönem sonu takvimde işaretli değil.",
+        "en": "Your boss said, “We'll revisit at the end of the period.” No one knows when the period ends.",
+        "coach": [
+          {
+            "tr": "Dönem sonu belirsiz.",
+            "en": "Period end: TBD.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yemek": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Kutlamayı kardeşin ısmarladı. Tatlıda menüyü sana uzatıp “bugün sen seç” dedi.",
+      "en": "Your sibling treated. At dessert they handed you the menu: “You pick today.”",
+      "coach": [
+        {
+          "tr": "Tatlı seçimi sende. Bordro onda.",
+          "en": "Dessert pick: yours. Payroll: theirs.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz ya da iddiaya uygun olmayan gün"
+  },
+  "intent": {
+    "setup": "kardeşinin ilk işinde senden yüksek maaş alması ve annenin bunu teyzeye anlatması",
+    "mechanism": "“biraz fazla” ve “sadece teyzene” küçültmeleri",
+    "mechanismId": "understatement",
+    "punch": "sadece teyzene",
+    "lift": "zam geldi",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "teyze"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cocuk_buyutme_ilk_telefon_istegi_01",
+  "tags": [
+    "ebeveynlik",
+    "teknoloji",
+    "para",
+    "cocuk_buyutme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "cocuk_buyutme": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 35,
+      "max": 40
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "worried",
+      "tr": "Sınıfta telefonu olmayan iki kişi kaldık. Biri de yeni geldi.",
+      "en": "There are two kids in class without a phone. And one of them just transferred in."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Benim eski telefonum çekmecede. Ekranı biraz çizik.",
+      "en": "My old phone's in the drawer. The screen's a little scratched.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yeni",
+      "tr": "Yeni telefon al",
+      "en": "Buy a new phone",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "eski",
+      "tr": "Eski telefonu devret",
+      "en": "Hand down the old one",
+      "pattern": "patience"
+    },
+    {
+      "id": "sozlesme",
+      "tr": "Kurallı sözleşme imzalat",
+      "en": "Draft a phone contract",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "yeni": {
+      "effects": {
+        "money": -3500,
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "cocuk_telefonu"
+          ]
+        }
+      },
+      "tr": "Yeni telefon geldi. İlk akşam aile grubuna 31 çıkartma düştü.",
+      "en": "The new phone arrived. By bedtime the family chat had thirty-one new stickers.",
+      "coach": [
+        {
+          "tr": "Sınıfta telefonsuz tek kişi kaldı. Yeni gelen.",
+          "en": "One phoneless kid left in class. The new one.",
+          "roast": false
+        }
+      ]
+    },
+    "eski": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          },
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "cocuk_telefonu",
+            "eski_telefon_devri"
+          ]
+        }
+      },
+      "tr": "Çizik ekranlı telefon el değiştirdi. Kılıf seçimi iki gün sürdü.",
+      "en": "The scratched phone changed hands. Picking a case took two days.",
+      "coach": [
+        {
+          "tr": "Çizikler devredildi, sorunsuz.",
+          "en": "Scratches transferred. No issues reported.",
+          "roast": false
+        }
+      ]
+    },
+    "sozlesme": [
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "cocuk_telefonu",
+              "telefon_sozlesmesi"
+            ]
+          }
+        },
+        "tr": "Sözleşme yedi maddeyle imzalandı: yemekte telefon yok, saat dokuzda şarj salonda.",
+        "en": "The contract was signed with seven clauses: no phones at dinner, charging in the living room at nine.",
+        "coach": [
+          {
+            "tr": "Yedi madde. İmza tarihli.",
+            "en": "Seven clauses. Signed and dated.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "cocuk_telefonu"
+            ]
+          }
+        },
+        "tr": "Çocuğun her maddeye ek talep yazdı. Sözleşme sekiz sayfa oldu ve hâlâ imzalanmadı.",
+        "en": "Your kid filed an amendment to every clause. The contract is eight pages long and still unsigned.",
+        "coach": [
+          {
+            "tr": "Taslak büyüyor. İmza yok.",
+            "en": "The draft keeps growing. No signature yet.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sozlesme",
+    "slip": {
+      "tr": "İDDİA: Sözleşme ilk okumada geçmez. — M.",
+      "en": "WAGER: The contract won't pass on first reading. — M."
+    }
+  },
+  "intent": {
+    "setup": "çocuğun sınıfta telefonu olmayan son kişilerden biri olduğu için ilk telefonunu istemesi",
+    "mechanism": "azınlık sayımı ile pazarlık",
+    "mechanismId": "count",
+    "punch": "biri de yeni geldi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

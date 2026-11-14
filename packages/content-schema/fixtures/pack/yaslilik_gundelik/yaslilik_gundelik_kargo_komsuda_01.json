@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_kargo_komsuda_01",
+  "tags": [
+    "yaslilik",
+    "ev",
+    "komsu",
+    "kargo",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 72,
+      "max": 95
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Kuryen üç kere çaldı. Sen kapıya gelene kadar sokağa inmişti, paketi ben aldım.",
+      "en": "Your courier rang three times and was back on the street before you reached the door. I took it."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Kapına da kâğıt yapıştırmış: adreste bulunamadı.",
+      "en": "There's a slip on your door, too. It says nobody was home.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "not",
+      "tr": "Kapıya bekleme notu as",
+      "en": "Tape a note to the door",
+      "pattern": "patience"
+    },
+    {
+      "id": "komsu",
+      "tr": "Paketler komşuya gelsin",
+      "en": "Route parcels to the neighbor",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "sikayet",
+      "tr": "Kargo şubesini ara",
+      "en": "Call the depot",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "not": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kapi_notu"
+          ]
+        }
+      },
+      "tr": "Kapıda artık bir not var: zile basın, bir dakika verin. Sonraki kurye kırk saniye bekledi.",
+      "en": "There is now a note on the door: ring, then allow one minute. The next courier waited forty seconds.",
+      "coach": [
+        {
+          "tr": "Not asılı. Süre tutuluyor.",
+          "en": "The note is up. The clock is running.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "paket_komsuda"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Teslimat adresine komşunun dairesini yazdırdın. Paketlerin artık önce orada elden geçiyor.",
+      "en": "You changed the delivery address to your neighbor's flat. Your parcels now get looked over there first.",
+      "coach": [
+        {
+          "tr": "Paketler iki kapıdan geçiyor.",
+          "en": "Parcels now clear two doors.",
+          "roast": false
+        }
+      ]
+    },
+    "sikayet": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 1
+          },
+          "flags": {
+            "add": [
+              "yavas_kapi"
+            ]
+          }
+        },
+        "tr": "Şube dosyana not düştü: alıcı için bekleme süresi uzatılsın. Sistemdeki adın artık yavaş kapı.",
+        "en": "The depot added a note to your file: allow extra time for this recipient. In their system you are now a slow door.",
+        "coach": [
+          {
+            "tr": "Yavaş kapı. Resmî unvan.",
+            "en": "Slow door. An official designation.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          }
+        },
+        "tr": "Hat on dört dakika müzik çaldı, sonra kapandı.",
+        "en": "The line played fourteen minutes of music and then hung up.",
+        "coach": [
+          {
+            "tr": "On dört dakika müzik dinlendi.",
+            "en": "Fourteen minutes of hold music. No encore.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "domain wager payı dolu"
+  },
+  "intent": {
+    "setup": "kuryenin kapı açılana kadar gitmesi, evdeyken kapıya adreste bulunamadı kâğıdı yapıştırılması",
+    "mechanism": "evde olan kişi resmî olarak evde yok",
+    "mechanismId": "deadpan_report",
+    "punch": "adreste bulunamadı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_ders_notu_satisi_01",
+  "tags": [
+    "is",
+    "yan_gelir",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yan_gelir_girisim": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Notlarını aldım, kırk Para verdim. Üçüncü sayfada 'buraya sonra bakarım' yazıyor. Baktın mı?",
+      "en": "I bought your notes for forty. Page three says 'come back to this later.' Did you?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Sınavda oradan çıkarsa paramı geri isterim.",
+      "en": "If that's on the exam, I want a refund.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tamamla",
+      "tr": "Eksik konuyu bu gece yaz",
+      "en": "Write the missing topic tonight",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "iade",
+      "tr": "Kırk Para'yı geri ver",
+      "en": "Refund the forty",
+      "pattern": "generosity"
+    },
+    {
+      "id": "garanti",
+      "tr": "'Oradan çıkmaz' de",
+      "en": "Say 'it won't be on it'",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "tamamla": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 440,
+          "stats": {
+            "brain": 2
+          },
+          "flags": {
+            "add": [
+              "ders_notu_isi"
+            ]
+          }
+        },
+        "tr": "Eksik konuyu yazdın, dört sayfa. Alıcı arkadaşlarına haber verdi; hafta bitmeden on bir kopya sattın.",
+        "en": "You wrote the missing topic, four pages. The buyer told friends; you sold eleven copies before the week was out.",
+        "coach": [
+          {
+            "tr": "Üçüncü sayfa tamamlandı. Kendi notundan ders çalıştın.",
+            "en": "Page three is complete. You studied from your own notes.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Gece ikide konuyu senin de anlamadığın ortaya çıktı. Dört sayfa yazdın; ikisi soru işareti.",
+        "en": "At two a.m. it emerged that you didn't understand the topic either. You wrote four pages. Two are question marks.",
+        "coach": [
+          {
+            "tr": "Not artık dürüst. Eksiğini de yazıyor.",
+            "en": "The notes are honest now. They list their own gaps.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "iade": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Kırk Para'yı geri verdin. Alıcı notları yine de sakladı.",
+      "en": "You refunded the forty. The buyer kept the notes anyway.",
+      "coach": [
+        {
+          "tr": "Not gitti, para gitti. Üçüncü sayfa sende.",
+          "en": "Notes gone, money gone. Page three is still yours.",
+          "roast": false
+        }
+      ]
+    },
+    "garanti": {
+      "effects": {
+        "money": -40,
+        "meters": {
+          "cringe": 4,
+          "ego": -2
+        }
+      },
+      "tr": "'Oradan çıkmaz' dedin. Çıktı. Alıcı sınav çıkışında seni bekliyordu, elinde üçüncü sayfa.",
+      "en": "You said it wouldn't be on the exam. It was. The buyer was waiting outside afterward, holding page three.",
+      "coach": [
+        {
+          "tr": "Garanti verildi. Sınav haberdar değildi.",
+          "en": "A guarantee was issued. The exam wasn't informed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tamamla",
+    "slip": {
+      "tr": "İDDİA: O konu bu gece de yazılmaz. — M.",
+      "en": "WAGER: That topic doesn't get written tonight either. — M."
+    }
+  },
+  "intent": {
+    "setup": "geçen dönemin ders notlarını satınca alıcının eksik sayfayı bulması",
+    "mechanism": "notu satan, kendi notundaki boşluğu müşteriden öğrenir",
+    "mechanismId": "reversal",
+    "punch": "'buraya sonra bakarım' yazıyor, baktın mı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sayfa3"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

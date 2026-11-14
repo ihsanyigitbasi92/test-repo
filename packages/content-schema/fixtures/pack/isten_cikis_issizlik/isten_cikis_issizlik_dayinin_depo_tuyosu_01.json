@@ -1,0 +1,226 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_dayinin_depo_tuyosu_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "dayi",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 34
+    },
+    "career": {
+      "employed": false
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Benim zamanımda iş aranmazdı, iş seni bulurdu. Arkadaşımın deposu var.",
+      "en": "In my day you didn't look for work, work found you. A friend of mine has a warehouse."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Yarın sabah altıda kapıda ol. Benim adımı söyle. Soyadımı söyleme, o biraz karışık.",
+      "en": "Be at the gate at six tomorrow. Say my name. Not my last name, that's a long story.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Sabah altıda git",
+      "en": "Show up at six",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "numara",
+      "tr": "Önce adamın numarasını iste",
+      "en": "Get the friend's number first",
+      "pattern": "patience"
+    },
+    {
+      "id": "reddet",
+      "tr": "Teşekkür et, geç",
+      "en": "Thank him and pass",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "git": [
+      {
+        "p": 5500,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "warehouse",
+              "tier": 1,
+              "monthly": 1600
+            }
+          },
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Depocu dayının adını duyunca güldü ve sana bir yelek verdi. Pazartesi başlıyorsun, aylık 1.600 Para.",
+        "en": "The warehouse manager laughed at your uncle's name and handed you a vest. You start Monday, 1,600 a month.",
+        "coach": [
+          {
+            "tr": "Soyadı gerekmedi. Ad yetti.",
+            "en": "The last name wasn't needed. The first one did it.",
+            "roast": false
+          },
+          {
+            "tr": "İş hedefi: yelek teslim alındı.",
+            "en": "Job goal: vest received.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": -1
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "depo_kapali"
+            ]
+          }
+        },
+        "tr": "Depo üç yıl önce el değiştirmiş; yeni sahibi dayını tanımıyor. Kapıda yarım saat bekledin.",
+        "en": "The warehouse changed hands three years ago. The new owner has never heard of your uncle. You waited half an hour at the gate.",
+        "coach": [
+          {
+            "tr": "Dayının rehberi üç yıl geride. Depo güncel.",
+            "en": "Your uncle's contacts run three years behind. The warehouse doesn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "numara": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_numara"
+          ]
+        }
+      },
+      "tr": "Dayın numarayı bulmak için iki rehber karıştırdı. Bir numara buldu; kime ait olduğu belli değil.",
+      "en": "Your uncle went through two address books and came up with one number. Whose, unclear.",
+      "coach": [
+        {
+          "tr": "Elde bir numara var. Sahibini bulmak yarının işi.",
+          "en": "You have a number. Finding its owner is tomorrow's job.",
+          "roast": false
+        }
+      ]
+    },
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Teşekkür ettin. Dayın \"siz bilirsiniz\" dedi; bu cümle bir sonraki aile yemeğinde yine gelecek.",
+      "en": "You thanked him and passed. He said \"suit yourself.\" Expect to hear it again at the next family dinner.",
+      "coach": [
+        {
+          "tr": "Sabah altı sende kaldı. Bedeli aile yemeğinde ödenecek.",
+          "en": "You kept your six a.m. The bill comes due at dinner.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "git",
+    "slip": {
+      "tr": "İDDİA: Depo artık o arkadaşın değil. — M.",
+      "en": "WAGER: That warehouse isn't his friend's anymore. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının arkadaşının deposunda iş ayarlaması",
+    "mechanism": "dayı referans veriyor ama soyadını sakla diyor",
+    "mechanismId": "deadpan_report",
+    "punch": "soyadımı söyleme, o biraz karışık",
+    "lift": "iş hedefi",
+    "target": "npc",
+    "closer": "yelek",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_para_zinciri_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Arkadan geliyor, üç kişi. Üstünü de geri yolla.",
+      "en": "Three of us back here. The one in the middle is paying for everybody."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Ben verdim. Ben de verdim. Kim vermedi o zaman?",
+      "en": "I thought you were paying. I thought YOU were paying.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sor",
+      "tr": "Sırayla sor",
+      "en": "Ask each of them",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sus",
+      "tr": "Boş ver, sür",
+      "en": "Let it go, keep driving",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "dur",
+      "tr": "Kenara çek, çözülsün",
+      "en": "Pull over until it is sorted",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "sor": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Üçüncü kişinin parası koltuk arasına düşmüş. Para çıkınca arka sıra alkışladı.",
+        "en": "The middle rider's payment had never gone through. They paid, and the back seat applauded.",
+        "coach": [
+          {
+            "tr": "Hesap kapandı.",
+            "en": "Account settled.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -45,
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Herkes verdiğini söyledi. Eksik 45 Para günlük hasılattan çıktı.",
+        "en": "Everyone swore they paid. The missing fare came out of your earnings.",
+        "coach": [
+          {
+            "tr": "Üç tanık, sıfır delil.",
+            "en": "Three witnesses. No evidence.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sus": {
+      "effects": {
+        "money": -45,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Gün 45 Para eksik kapandı. Hat sahibi eksiği kırmızı kalemle işaretledi.",
+      "en": "You let it go. The day closed one fare short, and dispatch flagged it in red.",
+      "coach": [
+        {
+          "tr": "Sessiz bir eksik.",
+          "en": "A quiet shortfall.",
+          "roast": false
+        }
+      ]
+    },
+    "dur": {
+      "effects": {
+        "money": -45,
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Kenara çektin. Arkadan biri \"ben yürürüm\" deyip ödemeden indi, sorun böylece çözüldü.",
+      "en": "You pulled over. One rider said \"I'll just walk\" and left without paying, which technically solved it.",
+      "coach": [
+        {
+          "tr": "Kayıp yaya olarak uzaklaştı.",
+          "en": "The shortfall left on foot.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sor",
+    "slip": {
+      "tr": "İDDİA: Üç kişi verdim der, biri vermemiştir. — M.",
+      "en": "WAGER: Three people paid. One of them didn't. — M."
+    }
+  },
+  "intent": {
+    "setup": "arka sıradan iletilen ücret eksik geliyor, herkes verdiğini söylüyor",
+    "mechanism": "sorunun kendiliğinden yürüyüp gitmesi",
+    "mechanismId": "deadpan_report",
+    "punch": "sorun böylece çözüldü",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yaya"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuşta elden ele öne iletilen ücret; EN paylaşımlı yolculukta kimin ödediği karışıklığı. Uygulama adı yok."
+  }
+}

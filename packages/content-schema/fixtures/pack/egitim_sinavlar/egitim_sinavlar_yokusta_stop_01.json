@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_yokusta_stop_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "ehliyet",
+    "direksiyon",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "flags": {
+      "none": [
+        "ehliyet"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Araç yokuşta stop etti. Devam edebilirsiniz. Ben not alıyorum.",
+      "en": "The car stalled on the hill. You may continue. I'm making a note."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Arkadaki araç korna çalmayacak, o da sınavda. Acele etmeyin.",
+      "en": "The car behind won't honk. That driver's being tested too. Take your time.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kalk",
+      "tr": "El freniyle yeniden kalk",
+      "en": "Handbrake start, try again",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain",
+        "goal": "license"
+      }
+    },
+    {
+      "id": "ozur",
+      "tr": "Özür dile, baştan iste",
+      "en": "Apologize, ask to start over",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "nefes",
+      "tr": "On saniye dur, nefes al",
+      "en": "Stop for ten seconds and breathe",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kalk": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": -4
+          },
+          "flags": {
+            "add": [
+              "ehliyet"
+            ]
+          }
+        },
+        "tr": "Araç geri kaymadan kalktı. Görevli formu imzaladı: direksiyon sınavı geçti.",
+        "en": "The car pulled away without rolling back. The examiner signed the form: road test passed.",
+        "coach": [
+          {
+            "tr": "Bir stop, bir kalkış, bir imza.",
+            "en": "One stall, one start, one signature.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "direksiyon_tekrar"
+            ]
+          }
+        },
+        "tr": "Araç yarım metre geri kaydı. Görevli formu kapattı; yeni sınav hakkı için tarih verildi.",
+        "en": "The car rolled back half a yard. The examiner closed the form and gave you a new date.",
+        "nearMiss": {
+          "tr": "Araç yalnızca bir karış kaydı.",
+          "en": "The car rolled back only a hand's width."
+        },
+        "coach": [
+          {
+            "tr": "Yarım metre. Formda bir satır.",
+            "en": "Half a yard. One line on the form.",
+            "roast": false
+          },
+          {
+            "tr": "Ehliyet sayacı: bir deneme daha.",
+            "en": "License counter: one more attempt.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "ozur": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "direksiyon_tekrar"
+          ]
+        }
+      },
+      "tr": "Özür diledin. Görevli \"Baştan yok, devam var\" dedi; kalan parkuru titrek ama eksiksiz bitirdin.",
+      "en": "You apologized. The examiner said, \"No restarts, only continuing.\" You finished the course shaky but complete.",
+      "coach": [
+        {
+          "tr": "Parkur bitti. Karar yokuşta verilmişti.",
+          "en": "The course was finished. The verdict was reached on the hill.",
+          "roast": false
+        }
+      ]
+    },
+    "nefes": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "direksiyon_tekrar"
+          ]
+        }
+      },
+      "tr": "On saniye durdun, sonra kalktın. Sınav geçmedi; görevli \"En sakin kalan sizdiniz\" diye not düştü.",
+      "en": "You paused ten seconds, then pulled away. You didn't pass. The examiner noted, \"Calmest candidate today.\"",
+      "coach": [
+        {
+          "tr": "Sakinlik notu var, belgesi yok.",
+          "en": "Graded for calm. Not licensed for it.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kalk",
+    "slip": {
+      "tr": "İDDİA: Araç geri kayar. — M.",
+      "en": "WAGER: The car rolls back. — M."
+    }
+  },
+  "intent": {
+    "setup": "direksiyon sınavında aracın yokuşta stop etmesi",
+    "mechanism": "görevli felaketi küçük bir not gibi geçiyor",
+    "mechanismId": "understatement",
+    "punch": "korna çalmayacak, o da sınavda",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "yokus"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

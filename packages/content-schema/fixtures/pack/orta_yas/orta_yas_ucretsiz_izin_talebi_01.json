@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "orta_yas_ucretsiz_izin_talebi_01",
+  "tags": [
+    "yaslilik",
+    "is",
+    "izin",
+    "mola",
+    "orta_yas"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "orta_yas": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 56
+    },
+    "career": {
+      "employed": true
+    },
+    "money": {
+      "min": 5000
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Üç ay ücretsiz izin mi? En son isteyen döndüğünde masası yoktu.",
+      "en": "Three months unpaid leave? The last person who asked came back to find their desk gone."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Ama döndüğünde üç dil konuşuyordu. Onu da söyleyeyim.",
+      "en": "Came back speaking three languages, though. I'll give them that.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "iste",
+      "tr": "Resmî talebi yaz",
+      "en": "Put in the formal request",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kisa",
+      "tr": "İki haftalık izinle yetin",
+      "en": "Settle for two weeks off",
+      "pattern": "patience"
+    },
+    {
+      "id": "birak",
+      "tr": "Fikri rafa kaldır",
+      "en": "Shelve the idea",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "iste": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -5000,
+          "stats": {
+            "joy": 7
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "ucretsiz_izin_onay"
+            ]
+          }
+        },
+        "tr": "Talep onaylandı: üç ay maaşsız, birikimden 5.000 Para gitti. Döndüğünde masan yerindeydi, saksıdaki bitki değildi.",
+        "en": "Approved: three months unpaid, 5,000 out of savings. When you got back your desk was still there. The plant on it was not.",
+        "coach": [
+          {
+            "tr": "Üç ay, bir saksı firesi.",
+            "en": "Three months. One potted casualty.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı üç ay ilerledi.",
+            "en": "Goal counter: three months forward.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ucretsiz_izin_red"
+            ]
+          }
+        },
+        "tr": "Talep 'şu dönem uygun değil' diye döndü. Yazıdaki tarihe göre uygun olmayan dönem dördüncü yılındaydı.",
+        "en": "The request came back: 'Not a good time right now.' Going by the date, 'right now' is in its fourth year.",
+        "coach": [
+          {
+            "tr": "Şu dönem uzun bir dönem.",
+            "en": "Right now has been going on for a while.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kisa": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "iki_hafta_izin"
+          ]
+        }
+      },
+      "tr": "İki hafta izin aldın, ilk dört gün uyuyarak geçti. Beşinci gün iş maillerine baktın.",
+      "en": "You took two weeks off and slept through the first four days. On day five you checked your work email.",
+      "coach": [
+        {
+          "tr": "Beşinci gün mail kazandı.",
+          "en": "Day five: email wins.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "izin_hayali_taslak"
+          ]
+        }
+      },
+      "tr": "Talep formunu doldurdun, göndermedin. Taslaklarda duruyor; dosyanın adı 'belki_son'.",
+      "en": "You filled out the form and didn't send it. It's sitting in drafts. Filename: 'maybe_final.'",
+      "coach": [
+        {
+          "tr": "Taslak klasörü büyüyor.",
+          "en": "The drafts folder keeps growing.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iste",
+    "slip": {
+      "tr": "İDDİA: Talep 'şu dönem' duvarına çarpar. — M.",
+      "en": "WAGER: The request hits the 'right now' wall. — M."
+    }
+  },
+  "intent": {
+    "setup": "kırklı yaşlarda üç aylık ücretsiz izin istemek",
+    "mechanism": "uygun olmayan dönem yıllardır sürüyor",
+    "mechanismId": "deadpan_report",
+    "punch": "uygun olmayan dönem dördüncü yılında",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "donem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

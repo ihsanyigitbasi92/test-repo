@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "absurt_kuyruk_yasadigini_kanitla_01",
+  "tags": [
+    "meta",
+    "absurt",
+    "burokrasi",
+    "kayit",
+    "absurt_kuyruk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "absurt_kuyruk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 85
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Sistemde vefat etmiş görünüyorsunuz. Başınız sağ olsun.",
+      "en": "The system shows you as deceased. My condolences."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Yaşadığınızı belgelemeniz gerekiyor. Bugün olmazsa yarın, acelesi yok.",
+      "en": "You'll need to document that you're alive. If not today, tomorrow. No rush.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Memuru ikna et",
+      "en": "Convince the clerk",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tanik",
+      "tr": "İki komşu getir",
+      "en": "Bring two neighbors",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "birak",
+      "tr": "Kayıt böyle kalsın",
+      "en": "Leave the record as is",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "yasiyor_belgesi"
+            ]
+          }
+        },
+        "tr": "Memur seni üç kez süzdü, nabzını sordu ve \"YAŞIYOR\" damgasını bastı. Damga ters çıktı ama geçerli.",
+        "en": "The clerk looked you over three times, asked about your pulse, and stamped \"ALIVE.\" Upside down, but valid.",
+        "coach": [
+          {
+            "tr": "Resmen yaşıyorsun. Damga ters.",
+            "en": "Officially alive. Stamp upside down.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -60,
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "yasiyor_beklemede"
+            ]
+          }
+        },
+        "tr": "Memur ikna oldu, sistem olmadı. Yaşadığını belgelemek için iki tanık istendi.",
+        "en": "The clerk was convinced. The system was not. Two witnesses are required to certify that you are alive.",
+        "coach": [
+          {
+            "tr": "Bir canlı için iki tanık. Kanıt beklemede.",
+            "en": "Two witnesses for one living person. Evidence pending.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tanik": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "yasiyor_belgesi"
+          ]
+        }
+      },
+      "tr": "İki komşun geldi, ikisi de imzaladı. Biri ayrıca not düştü: \"Gayet iyi görünüyor.\"",
+      "en": "Two neighbors came and both signed. One added a note: \"Looks quite well, actually.\"",
+      "coach": [
+        {
+          "tr": "İki imza, bir ek görüş.",
+          "en": "Two signatures, one bonus opinion.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "money": -1500,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "luck": 1
+        },
+        "flags": {
+          "add": [
+            "resmen_vefat"
+          ]
+        }
+      },
+      "tr": "Kaydı düzeltmedin. O günden beri hiç reklam araması gelmiyor. Emekli maaşı da gelmiyor.",
+      "en": "You left the record alone. Since then, no sales calls. No pension deposits, either.",
+      "coach": [
+        {
+          "tr": "Huzur geldi. Maaş gelmedi.",
+          "en": "The peace arrived. The pension didn't.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Bugün resmen yaşıyor sayılmazsın. — M.",
+      "en": "WAGER: You won't be officially alive by closing time. — M."
+    }
+  },
+  "intent": {
+    "setup": "resmî kayıtlarda ölü görünmek; yaşadığını belgelemek",
+    "mechanism": "memur kayda inanıyor, karşısındakine değil",
+    "mechanismId": "literalism",
+    "punch": "acelesi yok",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "damga",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

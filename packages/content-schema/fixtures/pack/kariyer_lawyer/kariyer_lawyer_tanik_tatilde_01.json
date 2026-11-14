@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lawyer_tanik_tatilde_01",
+  "tags": [
+    "kariyer",
+    "avukat",
+    "kariyer_lawyer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lawyer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "lawyer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "İyi haber: tanığımız çok dinlenmiş gelecek. Kötü haber: duruşmadan sonra gelecek.",
+      "en": "Good news: our witness will arrive very well rested. Bad news: after the hearing."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Deniz kenarında. Fotoğraf atayım mı? Dosyaya koyarız.",
+      "en": "They're at the seaside. Want a photo? We could add it to the file.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "erteleme",
+      "tr": "Erteleme talebi hazırla",
+      "en": "Prepare a postponement request",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "taniksiz",
+      "tr": "Tanıksız devam et",
+      "en": "Proceed without the witness",
+      "pattern": "risk"
+    },
+    {
+      "id": "ara",
+      "tr": "Tanığı tatilde ara",
+      "en": "Call the witness at the beach",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "erteleme": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Erteleme talebin kabul edildi. Yeni duruşma altı hafta sonra.",
+        "en": "The postponement was granted. New hearing in six weeks.",
+        "coach": [
+          {
+            "tr": "Altı hafta. Tatil buna sığar.",
+            "en": "Six weeks. The vacation will fit.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Talep reddedildi, duruşma tanıksız görüldü. Müvekkil koridorda fotoğrafı yine de gösterdi.",
+        "en": "Request denied. The hearing went ahead without the witness. In the hallway, the client showed you the photo anyway.",
+        "coach": [
+          {
+            "tr": "Fotoğrafta deniz güzel. Dosyada boşluk var.",
+            "en": "Lovely sea in the photo. Large gap in the file.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "taniksiz": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 3
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Tanıksız devam ettin, iki belgeyle idare ettin. Karar bir sonraki celseye kaldı.",
+      "en": "You went ahead without the witness, two documents doing the heavy lifting. Decision deferred to the next session.",
+      "coach": [
+        {
+          "tr": "İki belge, bir tanığın yerini tutmaya çalıştı.",
+          "en": "Two documents tried to cover for one witness.",
+          "roast": true
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "tanik_aranmadi"
+          ]
+        }
+      },
+      "tr": "Tanığı aradın. Telefonu dalga sesleri arasında açtı ve 'şu an pek uygun değilim' dedi.",
+      "en": "You called the witness. They picked up over the sound of waves and said, 'Now's not a great time.'",
+      "coach": [
+        {
+          "tr": "Dalgalar seni beklemeye aldı.",
+          "en": "The waves put you on hold.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "erteleme",
+    "slip": {
+      "tr": "İDDİA: Erteleme talebi kabul görmez. — M.",
+      "en": "WAGER: The postponement gets turned down. — M."
+    }
+  },
+  "intent": {
+    "setup": "duruşma sabahı müvekkil tanığın tatilde olduğunu söylüyor",
+    "mechanism": "iyi haber kötü haber ters dönüyor",
+    "mechanismId": "reversal",
+    "punch": "duruşmadan sonra gelecek",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dalga"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

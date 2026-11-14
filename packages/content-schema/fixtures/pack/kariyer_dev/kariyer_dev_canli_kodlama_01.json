@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_dev_canli_kodlama_01",
+  "tags": [
+    "kariyer",
+    "yazilimci",
+    "kariyer_dev"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_dev": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "dev"
+      ],
+      "employed": false
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Ekranını paylaşır mısın? Basit bir soru: bir listeyi tersine çevir.",
+      "en": "Could you share your screen? Simple one: reverse a list."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Bu arada sağ üstte \"Annem: yemek yedin mi\" yazıyor. Devam edebilirsin.",
+      "en": "Also, top right says \"Mom: did you eat?\" Go ahead whenever you're ready.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Bildirime aldırma, kodla",
+      "en": "Ignore it, keep coding",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "Bildirimleri kapatmayı dene",
+      "en": "Try to mute notifications",
+      "pattern": "patience"
+    },
+    {
+      "id": "cevap",
+      "tr": "\"Yedim\" yaz, sonra kodla",
+      "en": "Type \"I ate,\" then code",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "devam": [
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "junior yazılımcı",
+              "tier": 1,
+              "monthly": 2800
+            }
+          },
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "dev_ilk_is"
+            ]
+          }
+        },
+        "tr": "Liste tersine döndü, testler geçti. Teklif ertesi gün geldi; annen o sırada \"yedin mi\"yi üçüncü kez soruyordu.",
+        "en": "The list reversed, the tests passed. The offer came the next day, right around your mom's third lunch inquiry.",
+        "coach": [
+          {
+            "tr": "Bir teklif, üç bildirim.",
+            "en": "One offer, three notifications.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 4,
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Üçüncü bildirim \"Fasulye yaptım\" oldu. Döngü bir eksik döndü, görüşmeci \"sizi arayacağız\" dedi.",
+        "en": "The third notification said \"Made beans.\" Your loop came up one short, and the recruiter said they'd be in touch.",
+        "coach": [
+          {
+            "tr": "Fasulye finale kaldı. Döngü kalamadı.",
+            "en": "The beans made the final cut. The loop did not.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "ego": -1
+        },
+        "flags": {
+          "add": [
+            "dev_ikinci_tur"
+          ]
+        }
+      },
+      "tr": "Ayarı herkes izlerken buldun, sürenin yarısı da onunla gitti. Seni isteksiz bir sesle ikinci tura çağırdılar.",
+      "en": "You found the setting while everyone watched, and half the time went with it. They invited you to round two, reluctantly.",
+      "coach": [
+        {
+          "tr": "Ayarlar kazandı. İkinci tur var.",
+          "en": "Settings won. There is a round two.",
+          "roast": false
+        }
+      ]
+    },
+    "cevap": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "dev_ikinci_tur"
+          ]
+        }
+      },
+      "tr": "\"Yedim\" yazdın, görüşmeci güldü. Kodu bitiremedin ama \"kültürel uyum\" notu aldın, ikinci tura çağrıldın.",
+      "en": "You typed \"I ate.\" The recruiter laughed. You didn't finish the code, but got a \"culture fit\" note and a second interview.",
+      "coach": [
+        {
+          "tr": "Annen bir puan kazandırdı.",
+          "en": "Your mom earned you a point.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "devam",
+    "slip": {
+      "tr": "İDDİA: Döngü bir eksik döner. — M.",
+      "en": "WAGER: The loop comes up one short. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk iş görüşmesinde canlı kodlarken ekranda annenin bildirimi çıkıyor",
+    "mechanism": "bildirimler görüşmenin içine tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "annem: yemek yedin mi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fasulye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

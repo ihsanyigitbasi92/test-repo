@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_yemekle_odeme_01",
+  "tags": [
+    "para",
+    "borc",
+    "ev_arkadasi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "600 Para borcum var, biliyorum. Teklif: bir ay boyunca akşam yemekleri benden.",
+      "en": "I owe you 600, I know. Offer: dinners are on me for a month."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Menü sabit: makarna. Sosu değişir.",
+      "en": "Fixed menu: pasta. The sauce rotates.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et",
+      "en": "Deal",
+      "pattern": "generosity",
+      "swipe": "right"
+    },
+    {
+      "id": "nakit",
+      "tr": "Nakit iste",
+      "en": "Ask for cash",
+      "pattern": "pride",
+      "swipe": "left"
+    },
+    {
+      "id": "yari",
+      "tr": "Yarısı yemek, yarısı nakit",
+      "en": "Half dinners, half cash",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "yemekle_borc_kapandi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Otuz gün, otuz makarna. Borç kapandı; sos çeşidi dörtte kaldı.",
+      "en": "Thirty days, thirty pastas. Debt settled. The sauce count peaked at four.",
+      "coach": [
+        {
+          "tr": "Bir ay, dört sos. Bakiye sıfır.",
+          "en": "One month, four sauces. Balance zero.",
+          "roast": false
+        }
+      ]
+    },
+    "nakit": {
+      "effects": {
+        "money": 600,
+        "meters": {
+          "cringe": 1
+        },
+        "flags": {
+          "add": [
+            "ev_arkadasi_borcu_kapandi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "600 Para üç taksitte geldi. Ev arkadaşın o ay yemeğini odasında yedi.",
+      "en": "The 600 came back in three installments. Your roommate ate dinner in their room that month.",
+      "coach": [
+        {
+          "tr": "600 geldi. Makarna gitti.",
+          "en": "The 600 came in. The pasta went out.",
+          "roast": true
+        }
+      ]
+    },
+    "yari": {
+      "effects": {
+        "money": 300,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ev_arkadasi_borcu_kapandi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "300 Para ve on beş akşam yemeği. Soslardan ikisi gerçekten iyiydi.",
+      "en": "Three hundred in cash plus fifteen dinners. Two of the sauces were genuinely good.",
+      "coach": [
+        {
+          "tr": "Yarım borç, iki iyi sos.",
+          "en": "Half a debt. Two good sauces.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ev arkadaşının borcunu bir ay akşam yemeği pişirerek ödemeyi teklif etmesi",
+    "mechanism": "teklif hafife alınarak sunuluyor: menü sabit, sos değişir",
+    "mechanismId": "understatement",
+    "punch": "menü sabit: makarna",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "sos",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

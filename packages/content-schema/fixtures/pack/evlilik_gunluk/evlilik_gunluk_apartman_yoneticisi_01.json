@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_apartman_yoneticisi_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 34,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "es_yonetici"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "neighbor": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Toplantıda partnerin elini kaldırdı, yönetici oldu. Kimse karşı çıkmadı, zaten kimse gelmemişti.",
+      "en": "At the meeting your partner raised a hand and became building manager. Nobody objected. Nobody else came."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Sadece gerinmiştim.",
+      "en": "I was just stretching.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "destek",
+      "tr": "Ona yardım et",
+      "en": "Help them run it",
+      "pattern": "generosity"
+    },
+    {
+      "id": "uzak",
+      "tr": "Bu işten uzak dur",
+      "en": "Stay out of it",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "istifa",
+      "tr": "İstifa mektubu yazın",
+      "en": "Draft a resignation",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "destek": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          },
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "es_yonetici"
+          ]
+        }
+      },
+      "tr": "Kapı numaranız asansöre 'Yönetim' diye asıldı. Akşamları zil üç kez çalıyor.",
+      "en": "Your door number now hangs in the elevator under 'Management.' The bell rings three times a night.",
+      "coach": [
+        {
+          "tr": "Bina yönetiliyor. Akşam yemeği ertelendi.",
+          "en": "The building is managed. Dinner is postponed.",
+          "roast": false
+        }
+      ]
+    },
+    "uzak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "es_yonetici"
+          ]
+        }
+      },
+      "tr": "Partnerin ilk aidat tablosunu tek başına yaptı ve seni 'daire sakini' olarak listeledi.",
+      "en": "Your partner did the first dues sheet alone and listed you as 'resident.'",
+      "coach": [
+        {
+          "tr": "Unvanın: sakin.",
+          "en": "Your title: resident.",
+          "roast": false
+        }
+      ]
+    },
+    "istifa": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "yonetim_devredildi"
+            ]
+          }
+        },
+        "tr": "Mektup okundu, görev komşuya geçti. Komşu ilk iş toplantıda gerinmeyi yasakladı.",
+        "en": "The letter was read and the role passed to the neighbor. Their first act: banning stretching at meetings.",
+        "coach": [
+          {
+            "tr": "Görev devredildi. Gerinmek yasak.",
+            "en": "Role handed over. Stretching prohibited.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "es_yonetici"
+            ]
+          }
+        },
+        "tr": "Toplantıya yine kimse gelmedi. İstifa kabul edilmedi, bir yıl daha.",
+        "en": "Again, nobody came. The resignation was not accepted. One more year.",
+        "coach": [
+          {
+            "tr": "Bir yıl daha. Kollar aşağıda.",
+            "en": "One more year. Arms down.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "partnerin apartman toplantısında yanlışlıkla yönetici olması",
+    "mechanism": "yöneticilik bir gerinmeye iniyor",
+    "mechanismId": "bathos",
+    "punch": "sadece gerinmiştim",
+    "closer": "gerinme",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

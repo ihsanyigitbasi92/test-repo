@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_kapora_ilani_01",
+  "tags": [
+    "ev",
+    "ilan",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Ev çok rağbet görüyor. 500 Para kapora gönder, yarın ilk sen gez.",
+      "en": "Huge interest in this place. Send a 500 holding fee and you get first viewing tomorrow."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Şehir dışındayım, anahtarı kuryeyle yollarım. Güven önemli.",
+      "en": "I'm out of town, I'll courier you the key. Trust matters.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "gonder",
+      "tr": "Kaporayı gönder",
+      "en": "Send the fee",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sorgula",
+      "tr": "Önce evi görmek iste",
+      "en": "Ask to see it first",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gec",
+      "tr": "İlanı geç",
+      "en": "Scroll past",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "gonder": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "kapora_dolandirildi"
+          ]
+        }
+      },
+      "tr": "500 Para gitti. Numara kapandı, ilan bir saat sonra başka fotoğraflarla yeniden yayındaydı.",
+      "en": "The 500 is gone. The number went dead, and an hour later the listing was back up with new photos.",
+      "coach": [
+        {
+          "tr": "Güven önemliymiş. Tarifesi 500 Para.",
+          "en": "Trust matters, apparently. The going rate is 500.",
+          "roast": true
+        }
+      ]
+    },
+    "sorgula": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "sahte_ilan_yakalandi"
+            ]
+          }
+        },
+        "tr": "Evi görmek istedin. Karşı taraf \"bu fiyata gören çok\" yazıp seni engelledi.",
+        "en": "You asked to see it first. They replied \"plenty would take it sight unseen\" and blocked you.",
+        "coach": [
+          {
+            "tr": "Engellendin. Cüzdan yerinde.",
+            "en": "Blocked. Wallet intact.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -500,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kapora_dolandirildi"
+            ]
+          }
+        },
+        "tr": "Görüntülü bir gezi yaptırdı, ikna oldun, gönderdin. Görüntü başka bir evdendi.",
+        "en": "They gave you a video tour, you were convinced, you paid. The video was of somebody else's apartment.",
+        "coach": [
+          {
+            "tr": "Tur gerçekti. Ev başkasınındı.",
+            "en": "The tour was real. The apartment was someone else's.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gec": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "İlanı geçtin. Aynı salon fotoğrafları ertesi gün üç ayrı semtte kiralıktı.",
+      "en": "You scrolled past. The next day the same living room photos were for rent in three different neighborhoods.",
+      "coach": [
+        {
+          "tr": "Bir salon, üç adres. Çok yönlü salon.",
+          "en": "One living room, three addresses. Versatile room.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sorgula",
+    "slip": {
+      "tr": "İDDİA: Görmeden ikna olursun. — M.",
+      "en": "WAGER: You'll be sold without seeing it. — M."
+    }
+  },
+  "intent": {
+    "setup": "görmeden kapora isteyen sahte kiralık ilanı",
+    "mechanism": "güven vurgusu fiyata dönüşüyor",
+    "mechanismId": "reversal",
+    "punch": "güven önemli",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tarife"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

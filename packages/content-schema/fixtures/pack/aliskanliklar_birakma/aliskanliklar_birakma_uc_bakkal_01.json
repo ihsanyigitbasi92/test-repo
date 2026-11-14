@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aliskanliklar_birakma_uc_bakkal_01",
+  "tags": [
+    "saglik",
+    "substance:tobacco",
+    "birakma",
+    "is_stresi",
+    "aliskanliklar_birakma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "aliskanliklar_birakma": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Sesin gergin. Bakkalın önünde misin? Arkadan kasa sesi geliyor.",
+      "en": "You sound tense. Are you outside the corner shop? I can hear a till."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Beş ay oldu. Ne yaparsan yap, yemek yedide.",
+      "en": "It's been five months. Whatever you do, dinner's at seven.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "yuru",
+      "tr": "Bakkalı geç, eve yürü",
+      "en": "Walk past the shop, go home",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "al",
+      "tr": "Bir paket al",
+      "en": "Buy a pack",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sakiz",
+      "tr": "Sakız al, çık",
+      "en": "Buy gum and leave",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "yuru": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "birakma_bes_ay_tuttu"
+            ]
+          }
+        },
+        "tr": "Geçtin. Eve kadar iki bakkal daha vardı; üçünü de geçtin ve yediye beş kala sofradaydın.",
+        "en": "You walked past. There were two more shops before home. You passed all three and sat down at five to seven.",
+        "coach": [
+          {
+            "tr": "Üç bakkal. Beş ay bir gün.",
+            "en": "Three shops. Five months and one day.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": -3,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -90,
+          "flags": {
+            "add": [
+              "birakma_bes_ay_bozuldu"
+            ]
+          }
+        },
+        "tr": "İkinci bakkalda durdun. Bir paket aldın, birini yaktın; kalan on dokuzu cebinde eve geldi.",
+        "en": "You stopped at the second shop. You bought a pack and lit one. The other nineteen came home in your pocket.",
+        "coach": [
+          {
+            "tr": "Beş ay gitti. Beş ayın nasıl yapıldığı sende duruyor.",
+            "en": "Five months gone. How to do five months, you still have.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "al": {
+      "effects": {
+        "stats": {
+          "health": -4,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -90,
+        "flags": {
+          "add": [
+            "birakma_bes_ay_bozuldu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Aldın. Yemeğe on dakika geç, ellerini iki kez yıkamış hâlde geldin; partnerin tabağını bir şey demeden ısıttı.",
+      "en": "You bought it. You arrived ten minutes late with twice-washed hands. Your partner reheated your plate without comment.",
+      "coach": [
+        {
+          "tr": "Beş aylık sayaç tek fişle kapandı. 90 Para.",
+          "en": "A five-month counter, closed by one receipt. 90.",
+          "roast": true
+        }
+      ]
+    },
+    "sakiz": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -15
+      },
+      "tr": "Sakız aldın. Eve varana kadar paketin yarısı bitti; çenen akşam yemeğinde yorgundu.",
+      "en": "You bought gum. Half the pack was gone by the time you got home. Your jaw was tired at dinner.",
+      "coach": [
+        {
+          "tr": "Yarım paket sakız. Beş ay yerinde.",
+          "en": "Half a pack of gum. Five months intact.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yuru",
+    "slip": {
+      "tr": "İDDİA: İkinci bakkal seni durdurur. — M.",
+      "en": "WAGER: The second shop gets you. — M."
+    }
+  },
+  "intent": {
+    "setup": "sigarayı bırakalı beş ay olmuşken kötü bir iş haftasının sonunda bakkalın önünde durmak",
+    "mechanism": "eve kadar üç bakkal",
+    "mechanismId": "escalation",
+    "punch": "üç bakkal, beş ay bir gün",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

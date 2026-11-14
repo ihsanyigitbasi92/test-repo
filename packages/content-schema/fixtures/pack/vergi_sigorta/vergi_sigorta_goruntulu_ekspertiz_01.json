@@ -1,0 +1,160 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_goruntulu_ekspertiz_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "ev",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 85
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kamerayı elektrik panosuna çevirir misiniz? Biraz daha yakın.",
+      "en": "Could you point the camera at the fuse box? A little closer."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Bu sigortalar... kaç yaşında? Bir dakika, amirimi bağlıyorum.",
+      "en": "Those fuses are... how old, exactly? One moment, I'm adding my supervisor.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "goster",
+      "tr": "Her şeyi göster",
+      "en": "Show them everything",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "manzara",
+      "tr": "Kamerayı manzaraya çevir",
+      "en": "Point the camera at the view",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "elektrikci",
+      "tr": "Önce elektrikçi çağır",
+      "en": "Call an electrician first",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "goster": {
+      "effects": {
+        "money": -180,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "konut_sigortasi_yenilendi"
+          ]
+        }
+      },
+      "tr": "Amir de panoyu gördü. Poliçe yenilendi, prim 180 Para arttı; yanında 'pano değişirse düşer' notu var.",
+      "en": "The supervisor saw the fuse box too. Renewed, premium up 180, with a note: 'drops if the panel is replaced.'",
+      "coach": [
+        {
+          "tr": "Pano artık bir dosya kalemi.",
+          "en": "The fuse box is a line item now.",
+          "roast": false
+        }
+      ]
+    },
+    "manzara": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ekspertiz_ertelendi"
+          ]
+        }
+      },
+      "tr": "Eksper manzarayı beğendi ama panoyu yine istedi. Görüşme ertesi güne kaldı.",
+      "en": "The adjuster admired the view, then asked for the fuse box again. The call moved to tomorrow.",
+      "coach": [
+        {
+          "tr": "Manzara puan almadı.",
+          "en": "The view didn't score.",
+          "roast": false
+        }
+      ]
+    },
+    "elektrikci": {
+      "effects": {
+        "money": -900,
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "pano_yenilendi",
+            "konut_sigortasi_yenilendi"
+          ]
+        },
+        "glossary": "goruntulu_ekspertiz"
+      },
+      "tr": "Elektrikçi panoyu 900 Para'ya yeniledi. Ertesi haftaki görüşme dört dakika sürdü, prim değişmedi.",
+      "en": "The electrician replaced the panel for 900. The next week's call took four minutes. Premium unchanged.",
+      "coach": [
+        {
+          "tr": "Dört dakika. Kimse amir çağırmadı.",
+          "en": "Four minutes. Nobody called a supervisor.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "konut sigortası yenilemesi için görüntülü görüşmede eksperin elektrik panosunu görmek istemesi",
+    "mechanism": "eksperin yarım kalan cümlesi",
+    "mechanismId": "understatement",
+    "punch": "bu sigortalar... kaç yaşında",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "amir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  },
+  "l10n": {
+    "mechanismNote": "TR'de 'sigortalar' hem elektrik sigortası hem poliçe anlamına gelir; EN aynı vuruşu kuru yetersiz söylemle taşır."
+  }
+}

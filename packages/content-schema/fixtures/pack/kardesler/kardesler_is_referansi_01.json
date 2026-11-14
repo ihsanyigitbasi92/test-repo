@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_is_referansi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "is",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Sizin şirkete başvurdum. Referans kısmına seni yazdım. Sürpriz olsun dedim.",
+      "en": "I applied at your company. Put you down as a reference. Thought it’d be a nice surprise."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "İK seni arayacakmış. Çalışkan de. Dakik de. Dakik kısmını biraz yuvarla.",
+      "en": "HR's going to call you. Say I'm hardworking. Punctual too. Round up on the punctual part.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "durust",
+      "tr": "Dürüst ama sıcak konuş",
+      "en": "Be honest, but warm",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "abart",
+      "tr": "Kardeşini abartarak öv",
+      "en": "Lay the praise on thick",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "cekil",
+      "tr": "Referanstan çekil",
+      "en": "Withdraw as a reference",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "durust": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "kardes_ayni_sirket"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 5,
+              "memory": "ise_aldirdi"
+            }
+          ]
+        },
+        "tr": "Kardeşin işe alındı. İlk gün senin kattaki kahve makinesini kendi katına taşıttı.",
+        "en": "Your sibling got hired. On day one they had the coffee machine moved from your floor to theirs.",
+        "coach": [
+          {
+            "tr": "Kardeşin içeride, iki kat aşağıda.",
+            "en": "Your sibling is in. Two floors down.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "flags": {
+            "add": [
+              "kardes_reddedildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1,
+              "memory": "referans_kararsiz"
+            }
+          ]
+        },
+        "tr": "Başka bir aday seçildi. Kardeşin “telefonda sesin kararsızdı” dedi, annene de aynısını söyledi.",
+        "en": "They picked someone else. Your sibling said you “sounded unsure on the phone” and told Mom the same.",
+        "coach": [
+          {
+            "tr": "Telefon iki dakika sürdü.",
+            "en": "The call lasted two minutes.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "abart": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "kardes_ayni_sirket"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "İK, senin anlattığın kişiyi işe aldı. İlk hafta herkes sana o dakikliğin nerede olduğunu soruyor.",
+      "en": "HR hired the person you described. All week, coworkers have been asking you where the punctuality went.",
+      "coach": [
+        {
+          "tr": "İlk hafta beş soru geldi.",
+          "en": "Week one: five questions.",
+          "roast": false
+        }
+      ]
+    },
+    "cekil": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "kardes_annesi_referans"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -4,
+            "memory": "referans_cekildi"
+          }
+        ]
+      },
+      "tr": "Referanstan çekildin. Kardeşin başvuruyu annenin adıyla yeniledi; annen İK’yı yarım saat telefonda tuttu.",
+      "en": "You withdrew. Your sibling resubmitted with Mom as the reference. Mom kept HR on the phone for half an hour.",
+      "coach": [
+        {
+          "tr": "Annen yarım saat konuştu.",
+          "en": "Mom spoke for half an hour.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "durust",
+    "slip": {
+      "tr": "İDDİA: Dürüstlük işe aldırmaz. — M.",
+      "en": "WAGER: Honesty won't get them hired. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşinin senin şirketine başvurup formda seni sormadan referans göstermesi",
+    "mechanism": "referansın sonuçları iş yerine taşınıyor",
+    "mechanismId": "understatement",
+    "punch": "dakik kısmını biraz yuvarla",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

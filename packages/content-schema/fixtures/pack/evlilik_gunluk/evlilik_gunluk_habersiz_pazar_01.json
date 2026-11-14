@@ -1,0 +1,229 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_habersiz_pazar_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Geçiyordum, uğradım. Üç tencere getirdim, biri hâlâ sıcak.",
+      "en": "I was passing by. Brought three pots. One’s still hot."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Kapıyı pijamayla açtım. Annen pijamamı da beğendi.",
+      "en": "I answered the door in pajamas. Your mom complimented the pajamas.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Pazar sabahı dokuzda uyunur mu? Neyse, ben masayı kuruyorum.",
+      "en": "Who sleeps till nine on a Sunday? Anyway, I’m setting the table.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kahvalti",
+      "tr": "İçeri al, kahvaltı kur",
+      "en": "Let her in, make breakfast",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kural",
+      "tr": "Pazar kuralı koy",
+      "en": "Propose a Sunday rule",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tencere",
+      "tr": "Tencereleri al, kapıda öp",
+      "en": "Take the pots, kiss her at the door",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kahvalti": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 4
+          },
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "pazar_ziyareti"
+          ]
+        }
+      },
+      "tr": "Kahvaltı iki saat sürdü. Annen gitmeden gelecek pazarın menüsünü söyledi.",
+      "en": "Breakfast lasted two hours. Before leaving, your mom announced next Sunday’s menu.",
+      "coach": [
+        {
+          "tr": "Bu pazar kahvaltılı. Gelecek pazar da.",
+          "en": "This Sunday came with breakfast. So does the next one.",
+          "roast": false
+        }
+      ]
+    },
+    "kural": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": -1
+            },
+            {
+              "role": "partner",
+              "affinity": 4
+            }
+          ],
+          "flags": {
+            "add": [
+              "pazar_kurali"
+            ]
+          }
+        },
+        "tr": "Pazarları saat on ikiden önce gelmeme kuralı kabul edildi. Annen on ikiyi bir geçe kapıda.",
+        "en": "The “not before noon on Sundays” rule was accepted. Mom now rings the bell at 12:01.",
+        "coach": [
+          {
+            "tr": "Kural işledi. Dakikası dakikasına.",
+            "en": "The rule works. To the minute.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "pazar_ziyareti"
+            ]
+          }
+        },
+        "tr": "Annen kuralı dinledi, “ben de size kural koyarım” dedi ve masayı kurmaya devam etti.",
+        "en": "Your mom listened to the rule, said “I have rules too,” and kept setting the table.",
+        "coach": [
+          {
+            "tr": "Kural masaya kondu. Tabakların yanına.",
+            "en": "The rule made it to the table. Next to the plates.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tencere": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -3,
+            "memory": "kapida_kaldi"
+          }
+        ],
+        "flags": {
+          "add": [
+            "pazar_kurali"
+          ]
+        }
+      },
+      "tr": "Tencereleri kapıda aldın, annen içeri girmeden döndü. Telefonu eve varmadan çaldı.",
+      "en": "You took the pots at the door and your mom left without coming in. She called before she got home.",
+      "coach": [
+        {
+          "tr": "Üç tencere içeride, bir anne dışarıda.",
+          "en": "Three pots inside. One mom outside.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddiaya uygun check yok"
+  },
+  "intent": {
+    "setup": "yeni evli çiftin evine annenin pazar sabahı habersiz tencerelerle gelmesi",
+    "mechanism": "annenin ziyareti bir gelenek ilanına dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "biri hâlâ sıcak",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tencere"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

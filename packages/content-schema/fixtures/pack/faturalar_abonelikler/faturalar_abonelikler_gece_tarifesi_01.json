@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_gece_tarifesi_01",
+  "tags": [
+    "para",
+    "elektrik",
+    "tarife",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66,
+      "max": 88
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Gece 22.00'den sonra elektrik ucuz. Çamaşır, bulaşık, ütü, ne varsa geceye.",
+      "en": "After 10 p.m., power is cheaper. Laundry, dishes, ironing. Anything you can, after dark."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Sayaç değişimi ücretsiz. Uyku size ait.",
+      "en": "The meter swap is free. Sleep is your responsibility.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "gece",
+      "tr": "Geç, makineyi gece çalıştır",
+      "en": "Switch and run it at night",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "zaman",
+      "tr": "Makinenin zamanlayıcısını bul",
+      "en": "Find the washer's timer",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kal",
+      "tr": "Tek tarifede kal",
+      "en": "Stay on the flat rate",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "gece": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 300,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "gece_tarifesi"
+            ]
+          }
+        },
+        "tr": "İlk ay makine geceleri döndü. Fatura 300 Para düştü; komşu sıkma sesini sordu.",
+        "en": "Month one: the washer ran at night. Bill down 300. A neighbor asked about the spin cycle.",
+        "coach": [
+          {
+            "tr": "Gece yarısı sıkma, ay sonunda 300 Para. Komşu da haberdar.",
+            "en": "Midnight spin cycle, 300 at month's end. The neighbor's been informed.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": 80,
+          "stats": {
+            "health": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "gece_tarifesi"
+            ]
+          }
+        },
+        "tr": "Üçüncü gece makinenin başında uyuyakalındı. Fatura yalnızca 80 Para düştü, boyun tutuldu.",
+        "en": "On night three, you dozed off beside the machine. Bill down only 80. Stiff neck.",
+        "coach": [
+          {
+            "tr": "Gece vardiyası üç gün sürdü. Boyun hâlâ mesaide.",
+            "en": "The night shift lasted three days. Your neck is still on duty.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "zaman": {
+      "effects": {
+        "money": 260,
+        "stats": {
+          "brain": 2,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "gece_tarifesi"
+          ]
+        }
+      },
+      "tr": "Zamanlayıcı bulundu: makinenin üstündeki saat işaretli düğme. Çamaşır gece 02.00'de kendi kendine yıkanıyor.",
+      "en": "The timer turned out to be the button with the little clock on it. Laundry now washes itself at 2 a.m.",
+      "coach": [
+        {
+          "tr": "Yirmi yıllık düğmeye ilk kez basıldı.",
+          "en": "A twenty-year-old button, pressed for the first time.",
+          "roast": true
+        },
+        {
+          "tr": "Hedefe ayda 260 Para kalıyor.",
+          "en": "Goal fund: 260 a month, kept.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "tek_tarife"
+          ]
+        }
+      },
+      "tr": "Tek tarifede kalındı. Çamaşırlar her zamanki gibi öğleden sonra.",
+      "en": "Staying on the flat rate. Laundry in the afternoon, as always.",
+      "coach": [
+        {
+          "tr": "Değişiklik yok. Uyku tam.",
+          "en": "No changes. A full night's sleep.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gece",
+    "slip": {
+      "tr": "İDDİA: Üçüncü gece uyursun. — M.",
+      "en": "WAGER: You'll doze off by night three. — M."
+    }
+  },
+  "intent": {
+    "setup": "çok zamanlı elektrik tarifesine geçip çamaşır makinesini gece çalıştırmak",
+    "mechanism": "görevli 'uyku size ait' diyor; gece vardiyası üç gün sürüyor",
+    "mechanismId": "understatement",
+    "punch": "uyku size ait",
+    "lift": "hedefe ayda 260",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dugme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

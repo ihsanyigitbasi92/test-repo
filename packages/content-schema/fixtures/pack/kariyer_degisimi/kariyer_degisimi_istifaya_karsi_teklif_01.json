@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_degisimi_istifaya_karsi_teklif_01",
+  "tags": [
+    "is",
+    "kariyer_degisimi",
+    "kariyer_degisimi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "kariyer_degisimi": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "İstifa mektubunu okudum. Güzel yazmışsın, iki kez okudum.",
+      "en": "I read your resignation letter. Nicely written. I read it twice."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Bu rakamı görünce yeniden yazmak isteyebilirsin.",
+      "en": "Once you see this number, you may want to rewrite it.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kal",
+      "tr": "Karşı teklifi kabul et",
+      "en": "Accept the counteroffer",
+      "pattern": "patience"
+    },
+    {
+      "id": "git",
+      "tr": "Teşekkür et, yine de git",
+      "en": "Thank them, leave anyway",
+      "pattern": "risk"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Teklifle yeni işi pazarlık et",
+      "en": "Use it to negotiate the new job",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "kal": {
+      "effects": {
+        "money": 1200,
+        "meters": {
+          "ego": 3
+        },
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "karsi_teklif_kabul"
+          ]
+        }
+      },
+      "tr": "Kaldın. Maaşın arttı; istifa mektubu çekmecede, peyzaj kursunun broşürünün yanında.",
+      "en": "You stayed. Your pay went up. The resignation letter is in a drawer, next to the landscaping course brochure.",
+      "coach": [
+        {
+          "tr": "Mektup çekmecede, broşür yanında. İkisi de bekliyor.",
+          "en": "Letter in the drawer, brochure beside it. Both waiting.",
+          "roast": true
+        }
+      ]
+    },
+    "git": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "landscaper",
+            "tier": 1,
+            "monthly": 1800
+          }
+        },
+        "stats": {
+          "joy": 5
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "kariyer_degisti"
+          ]
+        }
+      },
+      "tr": "Teşekkür edip ayrıldın. Peyzaj işindeki ilk gününde bir fidanı yanlış yere diktin; usta yerini değiştirdi.",
+      "en": "You thanked them and left. On your first day in landscaping you planted a sapling in the wrong spot. The foreman moved it.",
+      "coach": [
+        {
+          "tr": "Yanlış yer, doğru fidan. İlk gün böyle geçer.",
+          "en": "Wrong spot, right sapling. That's how day one goes.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "landscaper",
+              "tier": 1,
+              "monthly": 2300
+            }
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "kariyer_degisti"
+            ]
+          }
+        },
+        "tr": "Karşı teklifi yeni işverene gösterdin. Peyzaj firmasında başlangıç maaşın 500 Para yükseldi.",
+        "en": "You showed the counteroffer to the landscaping firm. Your starting pay went up by 500.",
+        "coach": [
+          {
+            "tr": "Eski patronun rakamı yeni işte işe yaradı.",
+            "en": "Your old boss's number paid off at the new job.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "landscaper",
+              "tier": 1,
+              "monthly": 1800
+            }
+          },
+          "meters": {
+            "ego": -2
+          },
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "kariyer_degisti"
+            ]
+          }
+        },
+        "tr": "Yeni işveren \"bu bizim skalamız\" dedi. Aynı maaşla başladın; karşı teklif e-postası arşivde.",
+        "en": "The new employer said \"that's our scale.\" You started at the original pay. The counteroffer email is archived.",
+        "coach": [
+          {
+            "tr": "Karşı teklif bir e-posta olarak yaşamaya devam ediyor.",
+            "en": "The counteroffer lives on as an email.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "peyzaja geçmek için istifa edince patronun karşı teklif yapması",
+    "mechanism": "patron mektubu övüp yeniden yazdırmaya çalışıyor",
+    "mechanismId": "literalism",
+    "punch": "güzel yazmışsın; yeniden yazmak isteyebilirsin",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "brosur",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

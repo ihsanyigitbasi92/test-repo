@@ -1,0 +1,167 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_havalimani_ricasi_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda havalimanına otobüsle gidilirdi. Ama sen varken ne gerek var.",
+      "en": "In my day we took the bus to the airport. But why bother, now that there's you."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Uçak yedide. Beşte çıkarız. Dörtte bende ol, bavul ağır.",
+      "en": "Flight's at seven. We leave at five. Be at mine by four, the suitcase is heavy.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "gotur",
+      "tr": "Dörtte kapısında ol",
+      "en": "Be at his door by four",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "taksi",
+      "tr": "Taksi parasını gönder",
+      "en": "Send him cab fare instead",
+      "pattern": "generosity"
+    },
+    {
+      "id": "hayir",
+      "tr": "“Sabah toplantım var” de",
+      "en": "Claim an early meeting",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "gotur": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -120,
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Dörtte oradaydın. Dayın yol boyunca şerit seçimlerini yorumladı; benzin 120 Para, bavul gerçekten ağırdı.",
+      "en": "You were there at four. Your uncle reviewed your lane choices the whole way. Fuel: 120. The suitcase really was heavy.",
+      "coach": [
+        {
+          "tr": "Havalimanı servisi: tek araç, tek müşteri.",
+          "en": "Airport shuttle. One vehicle, one customer.",
+          "roast": false
+        }
+      ]
+    },
+    "taksi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -400,
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Taksiye 400 Para gönderdin. Dayın bindi ve şoföre bütün yol senin ne kadar meşgul olduğunu anlattı.",
+      "en": "You sent 400 for a cab. Your uncle spent the ride telling the driver how very busy you are.",
+      "coach": [
+        {
+          "tr": "Dört yüz Para'ya üç saat uyku.",
+          "en": "Three hours of sleep, at 400.",
+          "roast": false
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "dayi_havalimani_red"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "“Toplantım var” dedin. Dayın otobüsle gitti ve bunu o günden beri iki aile yemeğinde anlattı.",
+      "en": "You said you had a meeting. He took the bus, and has told the story at two family dinners since.",
+      "coach": [
+        {
+          "tr": "Otobüs hâlâ çalışıyormuş.",
+          "en": "Turns out the bus still runs.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "dayının sabaha karşı havalimanına bırakılmak istemesi",
+    "mechanism": "saat her cümlede biraz daha erkene çekiliyor",
+    "mechanismId": "escalation",
+    "punch": "dörtte bende ol, bavul ağır",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "servis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

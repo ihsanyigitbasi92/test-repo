@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_izinsiz_tezgah_01",
+  "tags": [
+    "burokrasi",
+    "belediye",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Festival alanında satış için stant izni gerekiyor. Sizin izniniz... bir masa örtüsü.",
+      "en": "Selling at the festival requires a stall permit. Your permit is... a tablecloth."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tutanak tutacağım. Ürünler tutanak bitene kadar masada kalsın.",
+      "en": "I am writing this up. The goods stay on the table until I am done.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Uyarıyla geçmesi için ikna et",
+      "en": "Talk them down to a warning",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "imza",
+      "tr": "Tutanağı imzala, cezayı öde",
+      "en": "Sign the citation and pay",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "basvur",
+      "tr": "Topla, gelecek yıl için başvur",
+      "en": "Pack up, apply for next year",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "tezgah_uyari"
+            ]
+          }
+        },
+        "tr": "Görevli tutanak yerine sözlü uyarı verdi ve stant başvurusunun adresini yazdı. Tezgâhı topladın.",
+        "en": "The officer gave a verbal warning instead and wrote down where to apply for a stall. You packed up.",
+        "coach": [
+          {
+            "tr": "Uyarı sözlü. Adres yazılı.",
+            "en": "Warning: verbal. Address: written.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "izinsiz_satis_cezasi"
+            ]
+          }
+        },
+        "tr": "Tutanak yazıldı: 900 Para idari para cezası. Gün boyu satış 640 Para etmişti.",
+        "en": "Citation written: a 900 fine. You had taken in 640 all day.",
+        "coach": [
+          {
+            "tr": "Kasa eksiye kapandı.",
+            "en": "The till closed in the red.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "imza": {
+      "effects": {
+        "money": -675,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "izinsiz_satis_cezasi"
+          ]
+        },
+        "glossary": "idari_para_cezasi"
+      },
+      "tr": "Tutanağı imzaladın. On beş günde ödeyince dörtte bir indirimle 675 Para ödedin.",
+      "en": "You signed. Paying within fifteen days took a quarter off: you paid 675.",
+      "coach": [
+        {
+          "tr": "Satış 640, ceza 675. Fark otuz beş.",
+          "en": "Sales: 640. Fine: 675. Gap: thirty-five.",
+          "roast": false
+        }
+      ]
+    },
+    "basvur": {
+      "effects": {
+        "money": -120,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "festival_stant_izni"
+          ]
+        }
+      },
+      "tr": "Tezgâhı kendin topladın, görevli tutanak yazmadı. Gelecek yılın stant başvurusu 120 Para’ydı, ödedin.",
+      "en": "You packed up yourself, and no citation was written. Next year's stall application was 120. You paid it.",
+      "coach": [
+        {
+          "tr": "Gelecek yıl masa örtüsü resmî.",
+          "en": "Next year, the tablecloth is official.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Görevli tutanağı yazar. — M.",
+      "en": "WAGER: The officer writes it up. — M."
+    }
+  },
+  "intent": {
+    "setup": "festival alanında izinsiz el yapımı ürün satarken belediye görevlisinin tutanak tutmaya gelmesi",
+    "mechanism": "izin belgesi yerine masa örtüsü sayılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "sizin izniniz bir masa örtüsü",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "masa_ortusu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

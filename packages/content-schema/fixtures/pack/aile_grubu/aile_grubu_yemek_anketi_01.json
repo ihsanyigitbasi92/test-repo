@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aile_grubu_yemek_anketi_01",
+  "tags": [
+    "aile",
+    "anne",
+    "dayi",
+    "misafir",
+    "aile_grubu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "aile_grubu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Anket kapandı: büyük aile yemeği sende. Dokuz kişi seni seçti.",
+      "en": "Poll's closed: the big family dinner is at your place. Nine people picked you."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Ben de seni seçtim. Senin oranın otoparkı geniş.",
+      "en": "I picked you too. Your place has good parking.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Ben kimseyi seçmedim. Ama sonuca saygılıyım.",
+      "en": "I didn't pick anyone. But I respect the result.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ev_sahibi",
+      "tr": "Kabul et, yemeği yap",
+      "en": "Accept, host the dinner",
+      "pattern": "generosity"
+    },
+    {
+      "id": "herkes",
+      "tr": "Herkes bir yemek getirsin",
+      "en": "Make it a potluck",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "boya",
+      "tr": "\"Ev boyanıyor\" de",
+      "en": "Claim the place is being painted",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ev_sahibi": {
+      "effects": {
+        "stats": {
+          "joy": -2,
+          "health": -1
+        },
+        "meters": {
+          "momPressure": -8
+        },
+        "money": -1600,
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Dokuz kişi seçmişti, on bir kişi geldi. Yemek 1.600 Para; bulaşık sabah üçte bitti.",
+      "en": "Nine people picked you; eleven showed up. Dinner cost 1,600. The dishes were done at three a.m.",
+      "coach": [
+        {
+          "tr": "Dokuz seçti, on bir geldi. Anket beklentiyi aştı.",
+          "en": "Nine voted, eleven showed. The poll overperformed.",
+          "roast": true
+        }
+      ]
+    },
+    "herkes": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "momPressure": -4
+          },
+          "money": -400
+        },
+        "tr": "Herkes bir tabak getirdi. Masada dört ayrı patates salatası vardı, hepsi \"benimki farklı\" diye.",
+        "en": "Everyone brought a dish. There were four potato salads, each one \"totally different.\"",
+        "coach": [
+          {
+            "tr": "400 Para, dört salata. Verim iyi.",
+            "en": "Four hundred spent, four potato salads. Good yield.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "money": -1300
+        },
+        "tr": "Herkes \"olur\" dedi, kimse bir şey getirmedi. Dayın bir şişe maden suyu getirdi.",
+        "en": "Everyone said sure. Nobody brought anything. Your uncle brought one bottle of sparkling water.",
+        "coach": [
+          {
+            "tr": "Ortak sofra sonucu: bir maden suyu.",
+            "en": "Potluck results: one sparkling water.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "boya": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 6,
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "ev_boyaniyor_yalani"
+          ]
+        }
+      },
+      "tr": "\"Ev boyanıyor\" dedin. Annen ertesi gün rengi görmeye geldi.",
+      "en": "You said the place was being painted. Next day, Mom came by to see the color.",
+      "coach": [
+        {
+          "tr": "Boya yok. Ziyaretçi var.",
+          "en": "No paint. One inspector.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "herkes",
+    "slip": {
+      "tr": "İDDİA: Kimse bir şey getirmez. — M.",
+      "en": "WAGER: Nobody brings a thing. — M."
+    }
+  },
+  "intent": {
+    "setup": "aile grubundaki yemek anketi seni ev sahibi seçiyor",
+    "mechanism": "gerekçe otopark, sayı büyüyor",
+    "mechanismId": "escalation",
+    "punch": "otoparkı geniş",
+    "lift": "400 Para, dört salata",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "anket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

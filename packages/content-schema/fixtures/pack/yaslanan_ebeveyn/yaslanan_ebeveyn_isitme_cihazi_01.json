@@ -1,0 +1,232 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_isitme_cihazi_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "anne_cihaz_takiyor"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Bu aralar herkes ağzının içinde konuşuyor. Haberlerdeki spiker bile.",
+      "en": "Everyone mumbles these days. Even the news anchor."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Cihaz çekmecede, kutusunda duruyor. Yeni kalsın diye.",
+      "en": "The hearing aid is in the drawer, in its box. Keeping it like new.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Bir haftalık denemeye ikna et",
+      "en": "Talk her into a one-week trial",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sesli",
+      "tr": "Sen de bağırarak konuş",
+      "en": "Just talk louder",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşine söylet",
+      "en": "Have your sibling ask",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "momPressure": -2
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "anne_cihaz_takiyor"
+            ]
+          }
+        },
+        "tr": "Annen bir hafta taktı. Üçüncü gün komşunun asansörde ne dediğini duydu, cihazı bir daha çıkarmadı.",
+        "en": "Mom wore it for a week. On day three she overheard what the neighbor said in the elevator. It hasn't come out since.",
+        "coach": [
+          {
+            "tr": "Bir asansör cümlesi, kalıcı bir cihaz.",
+            "en": "One elevator remark. One permanent hearing aid.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacına bir çentik.",
+            "en": "One notch on the goal counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "anne_cihaz_cekmecede"
+            ]
+          }
+        },
+        "tr": "Annen “denedim” dedi. Kutunun jelatini hâlâ üstünde.",
+        "en": "Mom says she tried it. The box is still shrink-wrapped.",
+        "coach": [
+          {
+            "tr": "Deneme süresi bitti. Jelatin sağlam.",
+            "en": "Trial period over. Shrink-wrap intact.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sesli": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Bir saat bağırarak konuştun. Annen neden kızdığını sordu, alt kattaki komşu da aynı soruyu sordu.",
+      "en": "You spent an hour shouting. Mom asked why you were angry. The neighbors downstairs had the same question.",
+      "coach": [
+        {
+          "tr": "Ses yükseldi. Anlaşma yerinde saydı.",
+          "en": "Volume up. Understanding flat.",
+          "roast": false
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "meters": {
+          "momPressure": -1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_cihaz_takiyor"
+          ]
+        }
+      },
+      "tr": "Kardeşin telefonda bir kez söyledi, annen cihazı hemen taktı. Sonra sana neden daha önce söylemediğini sordu.",
+      "en": "Your sibling mentioned it once on the phone and Mom put it right in. Then she asked why you'd never brought it up.",
+      "coach": [
+        {
+          "tr": "Aynı cümle, farklı ağız. Kabul edildi.",
+          "en": "Same sentence, different mouth. Accepted.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Cihaz çekmeceye geri döner. — M.",
+      "en": "WAGER: The hearing aid goes back in the drawer. — M."
+    }
+  },
+  "intent": {
+    "setup": "annenin işitme cihazını çekmecede saklayıp herkesin mırıldandığını söylemesi",
+    "mechanism": "sorun cihazda değil, dünyada",
+    "mechanismId": "reversal",
+    "punch": "yeni kalsın diye kutusunda",
+    "lift": "hedef sayacına çentik",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "agiz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_sigorta_atti_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "tamir",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Işıklar gitti. Sizin kuşak bu sigorta işlerinden anlar.",
+      "en": "My lights are out. Your generation understands fuses."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Telefonunun fenerini aç. Benimki sadece radyo çekiyor.",
+      "en": "Turn on your phone's flashlight. Mine only gets the radio.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "Sigorta kutusunu aç",
+      "en": "Open the fuse box",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Gece elektrikçisi çağır",
+      "en": "Call a night electrician",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "bekle",
+      "tr": "Sabahı beklemeyi öner",
+      "en": "Suggest waiting till morning",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 4,
+              "memory": "sigortayi_kaldirdi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "sukran_tamirci"
+            ]
+          }
+        },
+        "tr": "Doğru şalteri kaldırdın. Şükran Teyze artık bozulan her cihaz için seni arıyor.",
+        "en": "You flipped the right switch. Mrs. Dale now calls you about every appliance she owns.",
+        "coach": [
+          {
+            "tr": "Bir şalter. Ömür boyu servis sözleşmesi.",
+            "en": "One switch. Lifetime service contract.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Kendi evinin şalterini indirdin. Şükran Teyze kendi kolunu kendisi kaldırdı; ışık geldi.",
+        "en": "You cut power to your own apartment. Mrs. Dale flipped her switch back herself. Lights on.",
+        "coach": [
+          {
+            "tr": "Karanlık el değiştirdi.",
+            "en": "The darkness changed hands.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Gelen usta tek kolu kaldırdı: 300 Para. Şükran Teyze faturayı ikiye böldü, senin payına börek ekledi.",
+      "en": "The electrician flipped one switch: 300. Mrs. Dale split the bill and threw in a pie for your half.",
+      "coach": [
+        {
+          "tr": "Fatura yarım geldi. Börek tam.",
+          "en": "The bill came halved. The pie came whole.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3,
+            "memory": "gece_misafirligi"
+          }
+        ]
+      },
+      "tr": "Gece senin salonunda radyo dinledi. Sabah kapıcı sigortayı iki saniyede kaldırdı.",
+      "en": "She spent the night in your living room with her radio. In the morning the super fixed it in two seconds.",
+      "coach": [
+        {
+          "tr": "İki saniyelik iş. Sekiz saatlik misafirlik.",
+          "en": "A two-second fix. An eight-hour visit.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dene",
+    "slip": {
+      "tr": "İDDİA: Yanlış şalter iner. — M.",
+      "en": "WAGER: The wrong switch goes down. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece yarısı komşunun sigortası atıyor, gençler anlar diye senin kapını çalıyor",
+    "mechanism": "uzman sanılan sen; işi çözen o",
+    "mechanismId": "reversal",
+    "punch": "kolu kendisi kaldırdı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "salter"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

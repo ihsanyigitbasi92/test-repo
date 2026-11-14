@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_su_aboneligi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "su",
+    "ilk_ev",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "housing": [
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Su aboneliği için ikametgâh belgesi gerekiyor.",
+      "en": "To open a water account, I need proof of address."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "İkametgâh için de adınıza bir su ya da elektrik faturası gerekiyor. Sıradaki.",
+      "en": "And proof of address needs a water or power bill in your name. Next, please.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kira",
+      "tr": "Kira sözleşmesini dene",
+      "en": "Try the lease instead",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ev_sahibi",
+      "tr": "Ev sahibini ara",
+      "en": "Call the landlord",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "yarin",
+      "tr": "Yarın tekrar gel",
+      "en": "Come back tomorrow",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "kira": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "su_aboneligi"
+            ]
+          },
+          "glossary": "guvence_bedeli"
+        },
+        "tr": "Gişe kira sözleşmesini kabul etti. Abonelik açıldı, 300 Para güvence bedeli alındı.",
+        "en": "The counter accepted the lease. Account opened, with a 300 security deposit.",
+        "coach": [
+          {
+            "tr": "Bir sözleşme, bir gişe, 300 Para emanet.",
+            "en": "One lease, one counter, 300 held in trust.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "glossary": "guvence_bedeli"
+        },
+        "tr": "Sözleşme noter onaylı değildi. Gişe kapandı, sıra makinesi 1 numaraya döndü.",
+        "en": "The lease wasn't notarized. The counter closed and the ticket machine reset to 1.",
+        "coach": [
+          {
+            "tr": "Makine baştan başladı. Sen de.",
+            "en": "The ticket machine started over. So did you.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ev_sahibi": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "su_ev_sahibi_adina"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Ev sahibi aboneliği kendi adında tutmayı önerdi. Faturayı ona ödeyeceksin, o da 'uygun bir zamanda' yatıracak.",
+      "en": "The landlord offered to keep the account in his name. You pay him, and he pays it 'when convenient.'",
+      "coach": [
+        {
+          "tr": "Fatura senin, abonelik onun. Arada bir 'uygun zaman' var.",
+          "en": "Your bill, his account, and a 'when convenient' in between.",
+          "roast": false
+        }
+      ]
+    },
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Ertesi gün aynı gişe, aynı memur, aynı iki belge.",
+      "en": "Next day: same counter, same clerk, same two documents.",
+      "coach": [
+        {
+          "tr": "Döngü yirmi dört saat sonra da çalışıyor.",
+          "en": "The loop still works twenty-four hours later.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ilk su aboneliğinde ikametgâh ile fatura arasındaki kısır döngü",
+    "mechanism": "belge için fatura, fatura için belge",
+    "mechanismId": "reversal",
+    "punch": "Sıradaki.",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "dongu",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

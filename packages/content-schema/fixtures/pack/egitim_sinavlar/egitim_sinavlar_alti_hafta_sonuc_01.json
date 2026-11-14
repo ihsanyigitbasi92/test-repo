@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_alti_hafta_sonuc_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "anne",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 37
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "meslek_sinavi_bekleniyor",
+        "meslek_sinavi_gecti"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "chain": {
+    "id": "egitim_sinavlar_alti_hafta_sonuc",
+    "node": "01",
+    "next": [
+      {
+        "node": "02",
+        "delayDays": [
+          40,
+          46
+        ]
+      }
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Sonuç ne zaman? Altı hafta mı? Ben her gün sorayım mı, haftada bir mi?",
+      "en": "When’s the result? Six weeks? Should I ask every day or once a week?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Ben her gün sorarım. Sen haftada bir cevap ver.",
+      "en": "I’ll ask every day. You answer once a week.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "unut",
+      "tr": "Zarfı kapat, unut",
+      "en": "Seal it and forget it",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "hesap",
+      "tr": "Cevapları hatırlayıp hesapla",
+      "en": "Reconstruct your answers",
+      "pattern": "overwork"
+    },
+    {
+      "id": "takvim",
+      "tr": "Annene tarihi yazdır",
+      "en": "Give Mom the date in writing",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "unut": {
+      "effects": {
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "meslek_sinavi_bekleniyor"
+          ]
+        },
+        "envelope": {
+          "teaserKey": "meslek_sinavi_sonucu",
+          "dueDays": [
+            40,
+            46
+          ],
+          "weight": 2,
+          "resolverEventId": "egitim_sinavlar_alti_hafta_sonuc_02"
+        }
+      },
+      "tr": "Sonuç tarihini takvime yazıp kapattın. Annen ilk hafta altı kez sordu.",
+      "en": "You put the date in the calendar and closed it. Mom asked six times in the first week.",
+      "coach": [
+        {
+          "tr": "Zarf mühürlü. Sayaç kırk gün.",
+          "en": "Envelope sealed. Forty days on the clock.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "hesap": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "meslek_sinavi_bekleniyor"
+          ]
+        },
+        "envelope": {
+          "teaserKey": "meslek_sinavi_sonucu",
+          "dueDays": [
+            40,
+            46
+          ],
+          "weight": 2,
+          "resolverEventId": "egitim_sinavlar_alti_hafta_sonuc_02"
+        }
+      },
+      "tr": "Gece yarısına kadar cevaplarını hatırlamaya çalıştın. Tahminin 62 ile 81 arasında bir yerde.",
+      "en": "You spent till midnight reconstructing your answers. Your estimate: somewhere between sixty-two and eighty-one.",
+      "coach": [
+        {
+          "tr": "On dokuz puanlık bir tahmin aralığı. Zarf daha net.",
+          "en": "A nineteen-point margin of error. The envelope will be more precise.",
+          "roast": false
+        }
+      ]
+    },
+    "takvim": {
+      "effects": {
+        "meters": {
+          "momPressure": -4
+        },
+        "flags": {
+          "add": [
+            "meslek_sinavi_bekleniyor"
+          ]
+        },
+        "envelope": {
+          "teaserKey": "meslek_sinavi_sonucu",
+          "dueDays": [
+            40,
+            46
+          ],
+          "weight": 2,
+          "resolverEventId": "egitim_sinavlar_alti_hafta_sonuc_02"
+        }
+      },
+      "tr": "Annen tarihi buzdolabındaki takvime kırmızıyla işaretledi. Sorular günde bire indi.",
+      "en": "Mom circled the date in red on the fridge calendar. The questions dropped to once a day.",
+      "coach": [
+        {
+          "tr": "Günde bir soru. Takvim cevaplıyor.",
+          "en": "One question a day. The calendar answers.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "mesleki sınav sonrası altı haftalık sonuç bekleyişi",
+    "mechanism": "annenin soru sıklığını müzakere etmesi",
+    "mechanismId": "escalation",
+    "punch": "ben her gün sorarım, sen haftada bir cevap ver",
+    "lift": "zarf mühürlü, sayaç kırk gün",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "hafta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

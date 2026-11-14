@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_kisi_sayisi_01",
+  "tags": [
+    "para",
+    "su",
+    "apartman",
+    "partner",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Binada su sayacı tek, kişi başı bölüyoruz. Daireniz kaç kişi oldu?",
+      "en": "The building has one water meter, so we split it per person. How many are in your unit now?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Kapıdaki ayakkabılara bakıp iki yazmıştık. Teyit için soruyorum.",
+      "en": "We went by the shoes at your door and put down two. Just confirming.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "onayla",
+      "tr": "İki kişiyi onayla",
+      "en": "Confirm two people",
+      "pattern": "patience"
+    },
+    {
+      "id": "misafir",
+      "tr": "Partner misafir de",
+      "en": "Say your partner's just visiting",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sayac",
+      "tr": "Ayrı sayaç talep et",
+      "en": "Request your own meter",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "onayla": {
+      "effects": {
+        "status": {
+          "rentDelta": 70
+        },
+        "flags": {
+          "add": [
+            "su_iki_kisi"
+          ]
+        }
+      },
+      "tr": "Aidata su payı olarak ayda 70 Para eklendi. Kayıtta artık iki kişisiniz.",
+      "en": "Seventy a month got added to your building fees for water. Officially, there are two of you now.",
+      "coach": [
+        {
+          "tr": "Resmî sayım iki. Ayakkabılar haklı çıktı.",
+          "en": "Official count: two. The shoes were right.",
+          "roast": false
+        }
+      ]
+    },
+    "misafir": [
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "su_misafir_beyani"
+            ]
+          }
+        },
+        "tr": "Görevli deftere 'misafir' yazdı. Partner her sabah kapıda görevliyle selamlaşıyor.",
+        "en": "The manager wrote down 'visitor.' Your partner now says good morning to the manager every day.",
+        "coach": [
+          {
+            "tr": "Misafir. Her sabah, aynı saatte.",
+            "en": "A visitor. Every morning, same time.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "status": {
+            "rentDelta": 70
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "su_iki_kisi"
+            ]
+          }
+        },
+        "tr": "Görevli ayakkabıları yeniden saydı: hâlâ iki. Pay ayda 70 Para arttı.",
+        "en": "The manager recounted the shoes: still two. Your share went up seventy a month.",
+        "coach": [
+          {
+            "tr": "Ayakkabılar ifade verdi.",
+            "en": "The shoes testified.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sayac": {
+      "effects": {
+        "money": -1300,
+        "glossary": "ortak_sayac",
+        "flags": {
+          "add": [
+            "ayri_su_sayaci"
+          ]
+        }
+      },
+      "tr": "Ayrı sayaç 1.300 Para'ya takıldı. Artık yalnızca kendi suyunuzu ödüyorsunuz.",
+      "en": "Your own meter went in for 1,300. From now on you pay only for your own water.",
+      "coach": [
+        {
+          "tr": "1.300 Para'ya kendi musluğunun hesabı.",
+          "en": "1,300 to be billed for your own tap.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "partner taşınınca apartman yönetiminin ortak su payını kişi sayısına göre artırması",
+    "mechanism": "kişi sayısının ayakkabıdan çıkarılması",
+    "mechanismId": "literalism",
+    "punch": "kapıdaki ayakkabılara bakıp iki yazmıştık",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ayakkabi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

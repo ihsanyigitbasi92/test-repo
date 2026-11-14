@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_bir_puan_eksik_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "sonuc",
+    "dil",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Puanınız altmış dört. Üst seviye altmış beşten başlıyor.",
+      "en": "Your score is sixty-four. The next level starts at sixty-five."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "İtiraz ücretlidir ve puanı düşürebilir. Bilginize.",
+      "en": "Appeals cost a fee and may lower your score. For your information.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "İtiraz et",
+      "en": "Appeal",
+      "pattern": "risk",
+      "check": {
+        "base": 3000
+      }
+    },
+    {
+      "id": "tekrar",
+      "tr": "Sonraki oturuma yazıl",
+      "en": "Register for the next session",
+      "pattern": "patience"
+    },
+    {
+      "id": "kabul",
+      "tr": "Altmış dörtle yetin",
+      "en": "Settle for sixty-four",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "dil_seviyesi_ust"
+            ]
+          }
+        },
+        "tr": "Yeniden okumada yazma bölümüne iki puan eklendi. Altmış altı.",
+        "en": "On re-grade, the writing section gained two points. Sixty-six.",
+        "coach": [
+          {
+            "tr": "İki puan, bir seviye.",
+            "en": "Two points. One level.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "dil_itiraz_red"
+            ]
+          }
+        },
+        "tr": "Yeniden okuma sonucu: altmış üç.",
+        "en": "Re-grade result: sixty-three.",
+        "coach": [
+          {
+            "tr": "Bir puan geri. Ücretiyle birlikte.",
+            "en": "Down one point. Fee included.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tekrar": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "dil_sinavi_tekrar"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "egitim_sinavlar_konusma_bolumu_01",
+            "delayDays": [
+              50,
+              60
+            ],
+            "chance": 5000
+          }
+        ]
+      },
+      "tr": "Sonraki oturuma yazıldın. Sınav elli altı gün sonra.",
+      "en": "Registered for the next session. Fifty-six days out.",
+      "coach": [
+        {
+          "tr": "Elli altı gün, bir puan için.",
+          "en": "Fifty-six days, for one point.",
+          "roast": false
+        }
+      ]
+    },
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "dil_belgesi"
+          ]
+        }
+      },
+      "tr": "Altmış dörtle yetindin. Belge çıktı; iş ilanlarında istenen seviye altmışmış.",
+      "en": "You took the sixty-four. Certificate issued. The job ads only ask for sixty.",
+      "coach": [
+        {
+          "tr": "Çıta baştan altmışmış.",
+          "en": "The bar was sixty all along.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Yeniden okuma puan getirmez. — M.",
+      "en": "WAGER: The re-grade won't add a point. — M."
+    }
+  },
+  "intent": {
+    "setup": "dil sınavında üst seviyeye bir puan eksik kalmak",
+    "mechanism": "itirazın puanı düşürebileceği uyarısı",
+    "mechanismId": "count",
+    "punch": "itiraz puanı düşürebilir",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "altmis_dort"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

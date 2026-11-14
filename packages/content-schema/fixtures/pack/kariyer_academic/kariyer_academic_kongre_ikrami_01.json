@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_kongre_ikrami_01",
+  "tags": [
+    "kariyer",
+    "akademi",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Kongre arasına ikram lazım. Bütçe yok ama zevkli olsun. Sen halledersin.",
+      "en": "We need refreshments for the conference break. No budget, but make it tasteful. You'll manage."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Geçen yıl simitler bitti. Profesörler doktora öğrencilerinin poğaçasını yedi.",
+      "en": "Last year the pastries ran out. The professors ate the PhD students' lunches.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "hesapla",
+      "tr": "Kişi başı hesap yap",
+      "en": "Do per-head math",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "cebinden",
+      "tr": "Eksiği cebinden kapat",
+      "en": "Cover the gap yourself",
+      "pattern": "generosity"
+    },
+    {
+      "id": "dunku",
+      "tr": "Fırından dünkü simit",
+      "en": "Buy day-old pastries",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "hesapla": [
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": 1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ikram_uzmani"
+            ]
+          }
+        },
+        "tr": "Katılımcı başına bir buçuk simit hesapladın. Ara bittiğinde tepside tek simit kaldı, onu da hocan aldı.",
+        "en": "You budgeted one and a half pastries per attendee. When the break ended, one was left. Your advisor took it.",
+        "coach": [
+          {
+            "tr": "Model tuttu. Artık değer hocaya gitti.",
+            "en": "The model held. The surplus went to your advisor.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef defterine bir tik.",
+            "en": "A tick on the goal sheet.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Hesap tuttu ama bir panel uzadı. İkinci aranın tepsisini ilk aranın katılımcıları bitirdi.",
+        "en": "The math was right, but a panel ran long. First-break attendees ate the second-break tray.",
+        "coach": [
+          {
+            "tr": "Formül doğru, panel fazla uzun.",
+            "en": "Right formula. Panel too long.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cebinden": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Eksiği cebinden 400 Para ile kapattın. Hocan kapanışta \"bütçesiz ama zevkli\" ikram için bölüme teşekkür etti.",
+      "en": "You covered the gap with 400 of your own. At closing, your advisor thanked the department for the \"lean but tasteful\" catering.",
+      "coach": [
+        {
+          "tr": "Teşekkür bölüme. Fiş sana.",
+          "en": "Thanks to the department. Receipt to you.",
+          "roast": true
+        }
+      ]
+    },
+    "dunku": {
+      "effects": {
+        "money": -100,
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Fırından dünkü simitleri yarı fiyata aldın. Konuk bir konuşmacı simitleri kongrenin en sağlam bulgusu ilan etti.",
+      "en": "You bought day-old pastries at half price. A visiting speaker called them the conference's most robust finding.",
+      "coach": [
+        {
+          "tr": "Yarı fiyat, tam sertlik.",
+          "en": "Half price. Full firmness.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hesapla",
+    "slip": {
+      "tr": "İDDİA: Simit hesabı ara bitmeden çöker. — M.",
+      "en": "WAGER: Your pastry math won't survive the break. — M."
+    }
+  },
+  "intent": {
+    "setup": "araştırma görevlisi olarak bütçesiz kongre arası ikramını organize ediyorsun",
+    "mechanism": "simit modeli ve artık değer",
+    "mechanismId": "count",
+    "punch": "dünkü simit en sağlam bulgu",
+    "lift": "hedef defterine tik",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "simit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

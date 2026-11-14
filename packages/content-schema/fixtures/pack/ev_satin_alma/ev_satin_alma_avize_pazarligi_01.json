@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_avize_pazarligi_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "money": {
+      "min": 15000
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "ev_satin_alindi",
+        "satis_sozu_verildi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Avizeyi bırakıyorum. Kristal. Fiyata dahil sayın.",
+      "en": "I'm leaving the chandelier. Crystal. Consider it included."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Avize bize göre değil. Ama fiyattan düşerse olur.",
+      "en": "The chandelier isn't us. But if it comes off the price, fine."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Düşmez. O avize olmadan salonun bir anlamı kalmaz.",
+      "en": "It does not come off. Without that chandelier, the living room means nothing.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Avizeyi pazarlık kozu yap",
+      "en": "Use the chandelier to haggle",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Avizeyle birlikte kabul et",
+      "en": "Take it, chandelier and all",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "dusun",
+      "tr": "Bir gece düşünmek iste",
+      "en": "Ask for a night to think",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -3000,
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "satis_sozu_verildi"
+            ]
+          }
+        },
+        "tr": "Avize gidiyor, fiyattan 4.000 Para düştü. Kaporayı 3.000 Para olarak verdin.",
+        "en": "The chandelier goes, and 4,000 came off the price. You put down a 3,000 deposit.",
+        "coach": [
+          {
+            "tr": "Kristal 4.000 Para etti. Tavanda kanca kaldı.",
+            "en": "The crystal was worth 4,000. The ceiling keeps the hook.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -3000,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "satis_sozu_verildi",
+              "avize_kaldi"
+            ]
+          }
+        },
+        "tr": "Fiyat yerinde kaldı, avize de. Kaporayı verdin, salonun ortasında kristal sallanıyor.",
+        "en": "The price stayed put, and so did the chandelier. You paid the deposit. Crystal now dangles over the sofa.",
+        "coach": [
+          {
+            "tr": "Pazarlıktan bir avize çıkardın. İstemediğin tek kalem.",
+            "en": "You haggled your way into a chandelier. The one item you didn't want.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "money": -3000,
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "satis_sozu_verildi",
+            "avize_kaldi"
+          ]
+        }
+      },
+      "tr": "Kaporayı verdin. Satıcı avizenin ampullerini tek tek anlattı, yirmi dakika sürdü.",
+      "en": "You paid the deposit. The seller walked you through each bulb individually. Twenty minutes.",
+      "coach": [
+        {
+          "tr": "Yirmi dakikalık garanti, ücretsiz.",
+          "en": "Twenty-minute warranty, no charge.",
+          "roast": false
+        }
+      ]
+    },
+    "dusun": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": -2
+        }
+      },
+      "tr": "Bir gece düşündün. Sabah satıcı aradı: başka bir alıcı kaporayı yatırmış.",
+      "en": "You slept on it. In the morning the seller called: another buyer had paid a deposit.",
+      "coach": [
+        {
+          "tr": "Sen bir gece düşündün. Öbür alıcı bir gece düşünmedi.",
+          "en": "You took a night. The other buyer took the flat.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Avize de kalır, fiyat da. — M.",
+      "en": "WAGER: The chandelier stays. So does the price. — M."
+    }
+  },
+  "intent": {
+    "setup": "satıcının avizeyi fiyata dahil saydığı daire pazarlığı",
+    "mechanism": "istenmeyen eşya pazarlık kozu olur, tersine döner",
+    "mechanismId": "reversal",
+    "punch": "pazarlıktan istemediğin avizeyi kazanmak",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kanca"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

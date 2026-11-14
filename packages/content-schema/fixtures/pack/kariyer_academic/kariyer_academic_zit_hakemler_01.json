@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_zit_hakemler_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 650,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Hakem 1 giriş bölümünü kısaltmanızı, Hakem 2 genişletmenizi istiyor.",
+      "en": "Reviewer 1 asks you to shorten the introduction. Reviewer 2 asks you to expand it."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Editör her iki yorumun da dikkate alınmasını rica ediyor. Süreniz otuz gün.",
+      "en": "The editor kindly requests that both comments be addressed. You have thirty days."
+    }
+  ],
+  "choices": [
+    {
+      "id": "orta",
+      "tr": "Girişi aynı uzunlukta yeniden yaz",
+      "en": "Rewrite it at the exact same length",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "mektup",
+      "tr": "Uzun bir yanıt mektubu yaz",
+      "en": "Write a long response letter",
+      "pattern": "pride"
+    },
+    {
+      "id": "baska",
+      "tr": "Makaleyi başka dergiye gönder",
+      "en": "Submit it elsewhere",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "orta": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "makale_kabul"
+            ]
+          }
+        },
+        "tr": "Girişi kelime sayısı değişmeden yeniden yazdın. İki hakem de \"önerilerim dikkate alınmış\" dedi, makale kabul edildi.",
+        "en": "You rewrote the introduction without changing the word count. Both reviewers said their comments were addressed. Accepted.",
+        "coach": [
+          {
+            "tr": "İki zıt istek, aynı paragraf. İkisi de kazandığını sanıyor.",
+            "en": "Two opposite demands, one paragraph. Both think they won.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Hakem 1 \"hâlâ uzun\", Hakem 2 \"hâlâ kısa\" dedi. Editör üçüncü bir hakem atadı.",
+        "en": "Reviewer 1 said \"still long.\" Reviewer 2 said \"still short.\" The editor assigned a third reviewer.",
+        "coach": [
+          {
+            "tr": "Hakem sayısı arttı. Paragraf yerinde saydı.",
+            "en": "More reviewers. Same paragraph.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "mektup": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yanit_mektubu_uzun"
+          ]
+        }
+      },
+      "tr": "Dokuz sayfalık bir yanıt mektubu yazdın; makalenin kendisi yedi sayfaydı. Editör mektubu da hakemlere gönderdi.",
+      "en": "You wrote a nine-page response letter. The paper itself is seven. The editor sent the letter out for review too.",
+      "coach": [
+        {
+          "tr": "Yanıt makaleden uzun. Onu da okuyacaklar.",
+          "en": "The rebuttal outgrew the paper. They'll review that too.",
+          "roast": true
+        }
+      ]
+    },
+    "baska": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "makale_yeniden_gonderildi"
+          ]
+        }
+      },
+      "tr": "Makaleyi geri çekip başka bir dergiye gönderdin. Sistem \"ortalama değerlendirme süresi: dört ay\" diyor.",
+      "en": "You withdrew the paper and sent it elsewhere. The portal says: \"Average review time: four months.\"",
+      "coach": [
+        {
+          "tr": "Dört ay, yeni hakemler, aynı giriş.",
+          "en": "Four months. New reviewers. Same introduction.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "orta",
+    "slip": {
+      "tr": "İDDİA: Hakemlerden biri yine itiraz eder. — M.",
+      "en": "WAGER: One reviewer still objects. — M."
+    }
+  },
+  "intent": {
+    "setup": "makalenin revizyonunda iki hakem birbirinin tam tersini istiyor, editör ikisini de karşılamanı bekliyor",
+    "mechanism": "zıt talepler aynı paragrafta uzlaştırılıyor",
+    "mechanismId": "reversal",
+    "punch": "ikisi de kazandığını sanıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "paragraf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

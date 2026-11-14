@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_anne_seni_tutmayayim_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "aile",
+    "anne",
+    "telefon",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "momHour"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Aradın mı? Bir şey mi oldu? Olmadı mı? O zaman neden aradın?",
+      "en": "You called? Did something happen? No? Then why are you calling?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "tired",
+      "tr": "On iki dakika oldu, seni tutmayayım. İşin gücün vardır.",
+      "en": "It's been twelve minutes. I won't keep you. You must be busy.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "acele_yok",
+      "tr": "\"Acelem yok\" de",
+      "en": "Say \"I'm not in a hurry\"",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "momHour"
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "Teşekkür et, kapat",
+      "en": "Thank her and hang up",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "soru",
+      "tr": "Ona bir soru sor",
+      "en": "Ask her something",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "acele_yok": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "anneyle_bir_saat"
+            ]
+          }
+        },
+        "tr": "Annen önce sustu, sonra on dokuz yaşındaki yazını anlatmaya başladı. Telefon bir saat dört dakikada şarjı bitip kapandı.",
+        "en": "Mom went quiet, then started on the summer she turned nineteen. The phone died at one hour and four minutes.",
+        "coach": [
+          {
+            "tr": "Bir saat dört dakika. Hedef aşıldı.",
+            "en": "One hour, four minutes. Goal exceeded.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "\"Acelem yok\" dedin. Annen \"demek bir şey var\" dedi ve sorgu kırk dakika sürdü.",
+        "en": "You said you weren't in a hurry. Mom said, \"So something IS wrong,\" and the questioning lasted forty minutes.",
+        "nearMiss": {
+          "tr": "Yirmi dakika eksik.",
+          "en": "Twenty minutes short."
+        },
+        "coach": [
+          {
+            "tr": "Kırk dakika konuşuldu. Çoğu soru.",
+            "en": "Forty minutes on the phone. Mostly questions.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Telefonu kapattın. Beş dakika sonra annen akşam yemeğinin fotoğrafını gönderdi, açıklamasız.",
+      "en": "You hung up. Five minutes later Mom sent a photo of her dinner. No caption.",
+      "coach": [
+        {
+          "tr": "On iki dakika. Gerisi fotoğrafla geldi.",
+          "en": "Twelve minutes. The rest arrived as a photo.",
+          "roast": false
+        }
+      ]
+    },
+    "soru": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "anne_genclik_hayali"
+          ]
+        }
+      },
+      "tr": "Gençken ne olmak istediğini sordun. Annen önce güldü, sonra elli dakika anlattı, sonunda \"sen niye sordun\" dedi.",
+      "en": "You asked what she wanted to be when she was young. She laughed, talked for fifty minutes, then asked why you wanted to know.",
+      "coach": [
+        {
+          "tr": "Bir soru, elli dakika. Oran iyi.",
+          "en": "One question, fifty minutes. Good odds.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "annenle bir saat konuşma hedefinde annenin on ikinci dakikada 'seni tutmayayım' demesi",
+    "mechanism": "hedefi engelleyen kişinin hedefin ta kendisi olması",
+    "mechanismId": "reversal",
+    "punch": "seni tutmayayım",
+    "lift": "hedef aşıldı",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sarj"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

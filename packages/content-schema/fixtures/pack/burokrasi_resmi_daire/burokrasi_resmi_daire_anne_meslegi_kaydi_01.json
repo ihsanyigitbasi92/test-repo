@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_anne_meslegi_kaydi_01",
+  "tags": [
+    "burokrasi",
+    "kayit",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 58
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Kayıtta mesleğim \"ev hanımı\" yazıyor. Otuz bir yıl terzilik yaptım. Düzelttireceğiz.",
+      "en": "The record lists me as \"homemaker.\" I was a seamstress for thirty-one years. We are fixing this."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Hanımefendi, bu alan zorunlu değil. İsterseniz boş bırakalım.",
+      "en": "Ma'am, that field is optional. We can leave it blank.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Boş değil. Terzi.",
+      "en": "It's not blank. Seamstress.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "destek",
+      "tr": "Anneni destekle, formu doldur",
+      "en": "Back Mom up, fill in the form",
+      "pattern": "generosity"
+    },
+    {
+      "id": "bos",
+      "tr": "Boş kalsın, kimse bakmıyor",
+      "en": "Leave it blank, nobody checks",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "defter",
+      "tr": "Eski dikiş defterini getir",
+      "en": "Bring her old sewing ledger",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "destek": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "anne_meslek_talebi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "glossary": "meslek_alani"
+      },
+      "tr": "Forma \"meslek düzeltme talebi\" yazdınız. Görevli talebi aldı, bir haftalık işlem süresi verdi.",
+      "en": "You filed a \"Profession Correction Request.\" The clerk took it and quoted one week.",
+      "coach": [
+        {
+          "tr": "Otuz bir yılın üstüne bir hafta. Makul.",
+          "en": "One week, after thirty-one years. Reasonable.",
+          "roast": false
+        }
+      ]
+    },
+    "bos": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Alan boş kaldı. Annen eve kadar konuşmadı, kapıda \"boş değil\" dedi.",
+      "en": "The field stayed blank. Mom didn't speak until the front door, where she said, \"Not blank.\"",
+      "coach": [
+        {
+          "tr": "Alan boş. Annen dolu.",
+          "en": "The field is empty. Mom is not.",
+          "roast": true
+        }
+      ]
+    },
+    "defter": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "anne_terzi_kayit"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "Defterde eski müşteri ölçüleri ve fiyatlar vardı. Görevli inceleyip kaydı aynı gün \"terzi\" olarak güncelledi.",
+        "en": "The ledger was full of old measurements and prices. The clerk updated the record to \"seamstress\" that same day.",
+        "coach": [
+          {
+            "tr": "Defter otuz bir yıl sonra resmî belge oldu.",
+            "en": "The ledger became an official document, thirty-one years late.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "anne_meslek_talebi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Görevli defteri resmî belge sayılmadığı için geri verdi. Annen defteri kucağına aldı, randevu sırasına geçti.",
+        "en": "The clerk returned it: \"Not an official document.\" Mom hugged the ledger and got in line for an appointment.",
+        "coach": [
+          {
+            "tr": "Defter reddedildi. Annen reddetmedi.",
+            "en": "The ledger was rejected. Mom refused the rejection.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "nüfus kaydında annenin mesleğinin yanlış yazılması ve annenin düzeltmek istemesi",
+    "mechanism": "görevli alanı boş bırakmayı öneriyor, anne boşluğu reddediyor",
+    "mechanismId": "literalism",
+    "punch": "boş değil, terzi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "terzi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

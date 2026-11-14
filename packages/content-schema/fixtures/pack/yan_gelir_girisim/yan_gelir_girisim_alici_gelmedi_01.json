@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_alici_gelmedi_01",
+  "tags": [
+    "is",
+    "yan_gelir",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yan_gelir_girisim": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Yoldayım, on dakikaya oradayım.",
+      "en": "On my way, there in ten."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Trafik var. Yarım saat. Bisikleti kimseye verme.",
+      "en": "Traffic. Half an hour. Don't sell the bike to anyone.",
+      "delayMs": 700
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Bugün olmayacak galiba. Yarın aynı saat? Bu arada 300 olur mu?",
+      "en": "Probably not today. Same time tomorrow? Also, would you do 300?",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Yarın bir daha bekle",
+      "en": "Wait again tomorrow",
+      "pattern": "patience",
+      "check": {
+        "base": 3000
+      }
+    },
+    {
+      "id": "ilan",
+      "tr": "İlanı yeniden yayınla",
+      "en": "Relist the bike",
+      "pattern": "pride"
+    },
+    {
+      "id": "kapora",
+      "tr": "Kapora iste",
+      "en": "Ask for a deposit",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 3000,
+        "effects": {
+          "money": 380,
+          "stats": {
+            "joy": 3
+          }
+        },
+        "tr": "Ertesi gün geldi, bisikleti denedi, 380 Para verdi. Zinciri yağladığın için teşekkür etti.",
+        "en": "They showed up the next day, tried the bike, and paid 380. They thanked you for oiling the chain.",
+        "coach": [
+          {
+            "tr": "Geldi. Üçüncü randevuda.",
+            "en": "They came. On the third appointment.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "bisiklet_satilik"
+            ]
+          }
+        },
+        "tr": "Ertesi gün aynı köşede kırk dakika bekledin. Mesaj geldi: 'Kuzenim bir tane buldu bana, kolay gelsin.'",
+        "en": "Next day you waited forty minutes on the same corner. A message arrived: 'My cousin found me one, take care.'",
+        "coach": [
+          {
+            "tr": "İki gün, bir köşe. Bisiklet hâlâ senin.",
+            "en": "Two days, one corner. The bike is still yours.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ilan": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "bisiklet_satilik"
+          ]
+        }
+      },
+      "tr": "İlanı yeniden yayınladın, fiyatı 400 yazdın. İlk mesaj aynı kişiden geldi: 'Hâlâ satılık mı?'",
+      "en": "You relisted at 400. The first message came from the same person: 'Still available?'",
+      "coach": [
+        {
+          "tr": "Yeni ilan, eski alıcı.",
+          "en": "New listing. Same buyer.",
+          "roast": false
+        }
+      ]
+    },
+    "kapora": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "bisiklet_satilik"
+          ]
+        }
+      },
+      "tr": "Kapora istedin. Alıcı 'güven yok mu' yazdı ve çevrimdışı oldu. Bisiklet balkona geri çıktı.",
+      "en": "You asked for a deposit. The buyer wrote 'where's the trust' and went offline. The bike went back up to the balcony.",
+      "coach": [
+        {
+          "tr": "Güven soruldu. Kapora gelmedi.",
+          "en": "Trust was questioned. The deposit never arrived.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Yarın da gelmez. — M.",
+      "en": "WAGER: No-show again tomorrow. — M."
+    }
+  },
+  "intent": {
+    "setup": "ikinci el bisiklet için buluşmaya gelmeyen alıcıyı köşede beklemek",
+    "mechanism": "on dakika, yarım saat, yarın",
+    "mechanismId": "escalation",
+    "punch": "bugün olmayacak galiba, yarın aynı saat",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kose"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "faturalar_abonelikler_guvence_bedeli_01",
+  "tags": [
+    "para",
+    "fatura",
+    "dogalgaz",
+    "evrak",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "AKKOR DOĞALGAZ DAĞITIM (kurgusal)",
+      "en": "EMBERLINE GAS CO. (fictional)"
+    },
+    "body": {
+      "tr": "Abonelik açılışınız için güvence bedeli tahsil edilecektir. Bedel, abonelik sonlandığında yalnızca asıl dekontun ibrazı hâlinde iade edilir; fotokopi kabul edilmez.",
+      "en": "A security deposit will be collected to open your account. It is refunded at closing only upon presentation of the original receipt. Photocopies not accepted."
+    },
+    "translate": {
+      "tr": {
+        "from": "asıl dekontun ibrazı hâlinde",
+        "to": "yıllar sonra bu kâğıdı bulabilirsen"
+      },
+      "en": {
+        "from": "upon presentation of the original receipt",
+        "to": "if you can find this slip in ten years"
+      }
+    },
+    "glossaryKey": "guvence_bedeli"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Güvence bedeli 450 Para. Taşınınca geri alırsınız. Dekontu saklayın.",
+      "en": "Deposit's 450. You get it back when you move out. Keep the receipt."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Öde, dekontu sakla",
+      "en": "Pay, keep the receipt",
+      "pattern": "patience"
+    },
+    {
+      "id": "sor",
+      "tr": "İade tutarını sor",
+      "en": "Ask what the refund will be",
+      "pattern": "pride"
+    },
+    {
+      "id": "bol",
+      "tr": "Ev arkadaşıyla bölüş",
+      "en": "Split it with your roommate",
+      "pattern": "generosity",
+      "requires": {
+        "npc": {
+          "roommate": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -450,
+        "flags": {
+          "add": [
+            "guvence_dekontu"
+          ]
+        }
+      },
+      "tr": "450 Para ödendi. Dekont, kira sözleşmesinin arasına katlandı.",
+      "en": "Paid 450. The receipt got folded into the lease.",
+      "coach": [
+        {
+          "tr": "Bir dekont, bir zarf. Yıllar sonra lazım olacak.",
+          "en": "One receipt, one envelope. Years from now, you'll need it.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "brain": 1
+        },
+        "glossary": "guvence_bedeli",
+        "flags": {
+          "add": [
+            "guvence_dekontu"
+          ]
+        }
+      },
+      "tr": "Görevli iade şartını anlattı: asıl dekont, fotokopi olmaz. Dekontu buzdolabının üstündeki zarfa koydun.",
+      "en": "The clerk spelled out the refund terms: original receipt, no photocopies. You put it in the envelope on top of the fridge.",
+      "coach": [
+        {
+          "tr": "Zarfın üstüne yazdın: ATMA. Büyük harfle.",
+          "en": "You labeled the envelope DO NOT THROW OUT. In capitals.",
+          "roast": false
+        }
+      ]
+    },
+    "bol": {
+      "effects": {
+        "money": -225,
+        "flags": {
+          "add": [
+            "guvence_ortak"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Bedel ikiye bölündü. Dekontu kimin saklayacağı karara bağlanmadı.",
+      "en": "The deposit got split in two. Who keeps the receipt remains undecided.",
+      "coach": [
+        {
+          "tr": "Yarısı senin. Dekontun yarısı olmuyor.",
+          "en": "Half is yours. Receipts don't come in halves.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "ilk doğalgaz aboneliğinde güvence bedeli mektubu",
+    "mechanism": "\"asıl dekontun ibrazı\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "yıllar sonra bu kâğıdı bulabilirsen",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "dekont",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

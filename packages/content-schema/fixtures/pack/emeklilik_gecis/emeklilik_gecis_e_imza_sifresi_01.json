@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "emeklilik_gecis_e_imza_sifresi_01",
+  "tags": [
+    "yaslilik",
+    "evrak",
+    "teknoloji",
+    "emeklilik_gecis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "emeklilik_gecis": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 57,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Başvuruyu e-imzayla yapmanız gerekiyor. Şifreniz yanınızda mı?",
+      "en": "You'll need to apply with your e-signature. Do you have your PIN?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Sistemde 2007'de üç kez yanlış girilmiş görünüyor. Kilitli.",
+      "en": "The system shows three wrong attempts back in 2007. It's locked.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "yeni",
+      "tr": "Yeni şifre için başvur",
+      "en": "Apply for a new PIN",
+      "pattern": "patience"
+    },
+    {
+      "id": "tahmin",
+      "tr": "Şifreyi hatırlamaya çalış",
+      "en": "Try to remember the PIN",
+      "pattern": "risk",
+      "check": {
+        "base": 1500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "vekil",
+      "tr": "Partnerin halletsin",
+      "en": "Let your partner handle it",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "partner": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "yeni": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "emeklilik_basvurusu"
+          ]
+        }
+      },
+      "tr": "Yeni şifre zarfı on gün sonra geldi. Başvuru aynı gün tamamlandı.",
+      "en": "The new PIN arrived in an envelope ten days later. You applied the same day.",
+      "coach": [
+        {
+          "tr": "On gün. 2007'den kısa.",
+          "en": "Ten days. Shorter than 2007.",
+          "roast": false
+        },
+        {
+          "tr": "Zarf sayacı: on gün.",
+          "en": "Envelope counter: ten days.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "tahmin": [
+      {
+        "p": 1500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "emeklilik_basvurusu"
+            ]
+          }
+        },
+        "tr": "Dördüncü denemede şifre açıldı: eski evinin kapı numarası ve doğum yılın. Başvuru on dakikada bitti.",
+        "en": "On the fourth try it opened: your old apartment number plus your birth year. Done in ten minutes.",
+        "coach": [
+          {
+            "tr": "Hafıza 2007'yi hatırladı.",
+            "en": "Memory remembered 2007.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 8500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "eimza_cift_kilit"
+            ]
+          }
+        },
+        "tr": "Üç yanlış daha. Şifre artık iki kez kilitli; gişe yarın 10.00'da açılıyor.",
+        "en": "Three more wrong tries. The PIN is now double-locked, and the counter reopens tomorrow at ten.",
+        "coach": [
+          {
+            "tr": "2007 ile bugün arasında altı deneme.",
+            "en": "Six attempts between 2007 and today.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vekil": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "emeklilik_basvurusu"
+          ]
+        }
+      },
+      "tr": "Partnerin bir sabahta iki gişe gezip başvuruyu yaptı. Akşam sana makbuzu ve faturasını verdi: bir akşam yemeği.",
+      "en": "Your partner did two counters in one morning and filed it. That evening you got the receipt, and the bill: one dinner out.",
+      "coach": [
+        {
+          "tr": "Vekâlet ücreti: bir akşam yemeği.",
+          "en": "Proxy fee: one dinner.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "emeklilik başvurusu için gereken e-imza şifresinin 2007'den beri kilitli olması",
+    "mechanism": "on yedi yıl önceki üç yanlış deneme bugünü kilitliyor",
+    "mechanismId": "callback",
+    "punch": "2007'de üç kez yanlış girilmiş",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "2007"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

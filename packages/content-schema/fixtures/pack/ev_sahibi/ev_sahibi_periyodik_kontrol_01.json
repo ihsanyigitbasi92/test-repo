@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_periyodik_kontrol_01",
+  "tags": [
+    "ev",
+    "denetim",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 60
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Salı yıllık kontrole geleceğim. Kısa sürer, dokuzla altı arası bir ara.",
+      "en": "I'll come by Tuesday for the yearly check. Won't take long. Sometime between nine and six."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "tired",
+      "tr": "Bende de 'kısa' sürdü. Bütün gün börek yaptım, 17.40'ta geldi.",
+      "en": "Mine was 'quick' too. I baked all day. Showed up at 5:40.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "izin",
+      "tr": "Bir gün izin al, bekle",
+      "en": "Take a day off and wait",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "saat",
+      "tr": "Net saat iste",
+      "en": "Ask for an exact time",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "anahtar",
+      "tr": "Anahtarı komşuya bırak",
+      "en": "Leave the key with the neighbor",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "izin": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kontrol_tamam"
+          ]
+        }
+      },
+      "tr": "Bütün gün bekledin. Ev sahibi 17.25'te geldi, dört dakika kaldı, kombiye baktı.",
+      "en": "You waited all day. The landlord arrived at 5:25, stayed four minutes, looked at the boiler.",
+      "coach": [
+        {
+          "tr": "Kombi denetlendi. Sen de, bütün gün.",
+          "en": "The boiler was inspected. So were you, all day.",
+          "roast": true
+        }
+      ]
+    },
+    "saat": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "kontrol_tamam"
+            ]
+          }
+        },
+        "tr": "Ev sahibi '14.00, söz' dedi. 14.10'da geldi.",
+        "en": "The landlord said '2 p.m., promise.' Arrived at 2:10.",
+        "coach": [
+          {
+            "tr": "On dakika. Makul.",
+            "en": "Ten minutes. Reasonable.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "kontrol_ertelendi"
+            ]
+          }
+        },
+        "tr": "'Trafik var, saat veremem' cevabı geldi. Kontrol bir sonraki salıya kaydı.",
+        "en": "The answer: 'Traffic, can't promise a time.' The inspection slid to next Tuesday.",
+        "coach": [
+          {
+            "tr": "Salı yine salı.",
+            "en": "Tuesday, again.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anahtar": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "anahtar_komsuda"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Anahtarı Şükran Teyze'ye bıraktın. Kontrol yapıldı; Şükran Teyze'nin raporu ev sahibininkinden uzun.",
+      "en": "You left the key with Mrs. Dale. Inspection done. Mrs. Dale's report was longer than the landlord's.",
+      "coach": [
+        {
+          "tr": "İki rapor çıktı. Biri komşudan.",
+          "en": "Two reports filed. One by the neighbor.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası başka olaylarda"
+  },
+  "intent": {
+    "setup": "ev sahibi salı günü dokuz saatlik aralıkta yıllık daire kontrolüne geliyor",
+    "mechanism": "\"kısa sürer\" ile dokuz saatlik bekleme",
+    "mechanismId": "understatement",
+    "punch": "dört dakika kaldı, kombiye baktı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "salı"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

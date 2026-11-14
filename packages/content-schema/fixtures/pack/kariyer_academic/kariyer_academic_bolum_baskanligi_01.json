@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_bolum_baskanligi_01",
+  "tags": [
+    "kariyer",
+    "akademi",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bölüm başkanlığına seni düşünüyoruz. Ek ücret az, yetki az, sorumluluk tam.",
+      "en": "We're considering you for department chair. Little extra pay, little authority, full responsibility."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Başkan odasının penceresi açılmıyor. Ben üç yıl uğraştım.",
+      "en": "The chair's office window doesn't open. I tried for three years.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et",
+      "en": "Accept",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Ders indirimi iste",
+      "en": "Ask for teaching relief",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Reddet",
+      "en": "Decline",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "bolum_baskani"
+          ]
+        }
+      },
+      "tr": "Başkanlığı kabul ettin. İlk resmi işin, açılmayan pencere için arıza formu oldu.",
+      "en": "You accepted. Your first official act was a maintenance request for the window.",
+      "coach": [
+        {
+          "tr": "Yetki geldi. Pencere direniyor.",
+          "en": "Authority acquired. The window resists.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "bolum_baskani"
+            ]
+          }
+        },
+        "tr": "Ders yükünden iki saat indirim aldın. Pencere de pakete dahildi.",
+        "en": "You got two hours off your teaching load. The window came with the package.",
+        "coach": [
+          {
+            "tr": "İki saat kazanç, bir pencere hediye.",
+            "en": "Two hours won. One window, free.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef bir basamak yukarıda.",
+            "en": "Goal: one rung up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "İndirim istedin. Dekan teklifi başka bir hocaya yaptı; o hoca pencereyi ilk gün açtı.",
+        "en": "You asked for relief. The dean offered it to someone else, who opened the window on day one.",
+        "coach": [
+          {
+            "tr": "Pencere açıldı. Başkasına.",
+            "en": "The window opened. For someone else.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Reddettin. Başkanlık bölümün en genç hocasına kaldı; artık ona rapor veriyorsun.",
+      "en": "You declined. The post went to the most junior colleague. You now report to them.",
+      "coach": [
+        {
+          "tr": "Sorumluluk yok. Yeni ve genç bir amir var.",
+          "en": "No responsibility. A new, younger boss.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Pazarlık o pencereyi açmaz. — M.",
+      "en": "WAGER: Haggling won't open that window. — M."
+    }
+  },
+  "intent": {
+    "setup": "dekan seni az ücretli, az yetkili bölüm başkanlığına önerir",
+    "mechanism": "açılmayan pencere her dalda geri döner",
+    "mechanismId": "reversal",
+    "punch": "pencereyi ilk gün açtı",
+    "lift": "hedef bir basamak",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cam"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aile_grubu_kurs_kayit_parasi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "para",
+    "aile_grubu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "aile_grubu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Gitar kursuna yazılıyorum. Kayıt 600 Para. Destek olmak isteyen?",
+      "en": "I'm signing up for guitar lessons. Enrollment is 600. Any sponsors?"
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Çalışan kim? Çalışan versin. Biz gitarı tahtadan yapardık.",
+      "en": "Who's got a job? The one with the job pays. We used to build guitars out of planks.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Dayın haklı. Yarısını sen, yarısını ben. Dayın da moral versin.",
+      "en": "Your uncle's right. You pay half, I pay half. Your uncle provides morale.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yarisi",
+      "tr": "Yarısını gönder",
+      "en": "Send half",
+      "pattern": "generosity"
+    },
+    {
+      "id": "hepsi",
+      "tr": "Hepsini öde, konser şartıyla",
+      "en": "Pay it all, for a concert",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayını da etiketle",
+      "en": "Tag your uncle in",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "yarisi": {
+      "effects": {
+        "money": -300,
+        "meters": {
+          "momPressure": -3
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kardes_gitar"
+          ]
+        }
+      },
+      "tr": "300 Para gönderdin. Kardeşin teşekkür olarak öğrendiği ilk akoru sesli mesajla yolladı.",
+      "en": "You sent 300. Your sibling said thanks with a voice note of the first chord they learned.",
+      "coach": [
+        {
+          "tr": "Bir akor teslim alındı. Devamı taksitle.",
+          "en": "One chord received. The rest in installments.",
+          "roast": false
+        }
+      ]
+    },
+    "hepsi": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kardes_gitar",
+            "kirk_saniyelik_konser"
+          ]
+        }
+      },
+      "tr": "600 Para'nın tamamını verdin, şartın bir konserdi. Kardeşin konseri gruba canlı yayınladı; kırk saniye sürdü.",
+      "en": "You paid all 600 on one condition: a concert. Your sibling livestreamed it to the group. It lasted forty seconds.",
+      "coach": [
+        {
+          "tr": "Konser kısa sürdü. Söz tutuldu.",
+          "en": "Short concert. Promise kept.",
+          "roast": false
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "money": -100,
+        "meters": {
+          "momPressure": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "kardes_gitar"
+          ]
+        }
+      },
+      "tr": "Dayın 200 Para gönderdi, altına 'tahtayı da ben veririm' yazdı. Sana 100 kaldı.",
+      "en": "Your uncle sent 200 with a note: 'I'll throw in the planks too.' Your share came to 100.",
+      "coach": [
+        {
+          "tr": "Dayın da kursa yazılmış sayılır.",
+          "en": "Your uncle is now basically enrolled.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz ya da iddia kotası dışı"
+  },
+  "intent": {
+    "setup": "kardeşin kurs kaydı için aile grubundan para istemesi, herkesin seni işaret etmesi",
+    "mechanism": "çalışan öder kuralı",
+    "mechanismId": "escalation",
+    "punch": "Dayın da moral versin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "konser"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

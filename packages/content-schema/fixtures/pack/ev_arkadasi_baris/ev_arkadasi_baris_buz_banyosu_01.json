@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_buz_banyosu_01",
+  "tags": [
+    "tanidik_yuzler",
+    "banyo",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Küveti doldurdum. Buzla. Sabah üç dakika giriyorsun, sinir sistemi sıfırlanıyor.",
+      "en": "I filled the tub. With ice. Three minutes every morning and your nervous system resets."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "İlk dakika bağırıyorsun. Sonra bağırmayı unutuyorsun.",
+      "en": "First minute, you scream. After that, you forget how screaming works.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Bu arada senin duş saatine denk geliyor. Buzlar da senin dondurucu rafından.",
+      "en": "Small thing: it's your shower slot. And the ice came off your freezer shelf.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "gir",
+      "tr": "Sen de gir",
+      "en": "Get in too",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "erken",
+      "tr": "Duşu yarım saat öne al",
+      "en": "Shower half an hour earlier",
+      "pattern": "patience"
+    },
+    {
+      "id": "raf",
+      "tr": "Dondurucu rafına adını yaz",
+      "en": "Put your name on the freezer shelf",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "gir": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 3,
+              "memory": "buz_kulubu"
+            }
+          ],
+          "flags": {
+            "add": [
+              "baris_buz_kulubu"
+            ]
+          }
+        },
+        "tr": "Üç dakika dayandın. Barış sana el yazısıyla 'Buz Kulübü' üyelik kartı verdi.",
+        "en": "You lasted three minutes. Jordan handed you a handwritten 'Ice Club' membership card.",
+        "coach": [
+          {
+            "tr": "Üç dakika tamam. Sağlık bir puan yukarıda.",
+            "en": "Three minutes logged. Health up a point.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Kırk saniyede çıktın. Parmakların öğlene kadar sana küstü.",
+        "en": "You were out in forty seconds. Your fingers didn't speak to you until noon.",
+        "coach": [
+          {
+            "tr": "Kırk saniye. Kayıt bu.",
+            "en": "Forty seconds. That's the record.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "erken": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "health": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Alarmı yarım saat öne kurdun. Duşu buzdan önce yakaladın.",
+      "en": "You set the alarm thirty minutes earlier and beat the ice to the bathroom.",
+      "coach": [
+        {
+          "tr": "Su sıcaktı. Uyku yarım saat kısaldı.",
+          "en": "Hot water secured. Sleep, thirty minutes shorter.",
+          "roast": false
+        }
+      ]
+    },
+    "raf": {
+      "effects": {
+        "money": -20,
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "dondurucu_rafi"
+          ]
+        }
+      },
+      "tr": "Rafa adını yazdın. Barış ertesi gün torbayla buz almaya başladı; parası ortak kavanozdan çıktı.",
+      "en": "You labeled the shelf. Jordan switched to bagged ice, paid for out of the shared jar.",
+      "coach": [
+        {
+          "tr": "Rafın sahibi var. Buz da yine senden.",
+          "en": "The shelf has an owner. The ice is still partly yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "Barış küveti her sabah buz banyosuna çeviriyor, buzlar senin dondurucu rafından",
+    "mechanism": "sağlık rutini adım adım senin duşunu ve dondurucunu yutuyor",
+    "mechanismId": "escalation",
+    "punch": "buzlar da senin dondurucu rafından",
+    "target": "situation",
+    "closer": "rekor",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kucuk_rahatsizliklar_halisaha_kas_01",
+  "tags": [
+    "saglik",
+    "kucuk_hastalik",
+    "kucuk_rahatsizliklar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 650,
+    "tags": {
+      "kucuk_rahatsizliklar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Dün iki gol attım diyorsun. Bugün çorabını giymen dört dakika sürdü.",
+      "en": "You say you scored twice yesterday. Today your socks took four minutes."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Merdiveni geri geri inenler var, gördüm. Daha az acıyormuş.",
+      "en": "I've seen people take stairs backwards. Supposedly it hurts less.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "geri",
+      "tr": "Merdiveni geri geri in",
+      "en": "Take the stairs backwards",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "asansor",
+      "tr": "Bir kat için asansör çağır",
+      "en": "Call the elevator for one floor",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "esne",
+      "tr": "Önce esne, sonra in",
+      "en": "Stretch first, then go down",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "geri": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Geri geri indin. Bacaklar itiraz etmedi. Alt kat komşusu selam verdi, selamı sırtınla aldın.",
+        "en": "You went down backwards. The legs raised no objection. The downstairs neighbor said hello; you received it with your back.",
+        "coach": [
+          {
+            "tr": "Dün forvettin. Bugün geri vitestesin.",
+            "en": "Yesterday, a striker. Today, a vehicle in reverse.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Dördüncü basamakta baldırın kilitlendi. Kalanı oturarak, tırabzan yardımıyla tamamlandı.",
+        "en": "Your calf locked on the fourth step. The rest was completed seated, with help from the banister.",
+        "coach": [
+          {
+            "tr": "Maç bir saat sürdü. Merdiven uzatmaya gitti.",
+            "en": "The match lasted an hour. The stairs went to extra time.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "asansor": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Bir kat için asansör bekledin. Kapı açıldığında üst kat komşusuyla göz göze geldin.",
+      "en": "You waited for the elevator to travel one floor. When the doors opened you made eye contact with the upstairs neighbor.",
+      "coach": [
+        {
+          "tr": "Bir katlık yolculuk. Bilet: bir bakış.",
+          "en": "A one-floor journey. Fare: one look.",
+          "roast": true
+        }
+      ]
+    },
+    "esne": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "spora_donus"
+          ]
+        }
+      },
+      "tr": "On dakika esnedin. Merdiven yine acıdı ama daha kibar acıdı.",
+      "en": "Ten minutes of stretching. The stairs still hurt, but politely.",
+      "coach": [
+        {
+          "tr": "Kaslar dünü hatırlıyor.",
+          "en": "The muscles remember yesterday.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacı bir adım ilerledi.",
+          "en": "Goal counter: one step forward.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "geri",
+    "slip": {
+      "tr": "İDDİA: Dördüncü basamak kazanır. — M.",
+      "en": "WAGER: The fourth step wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "bir yıl aradan sonra halı saha maçının ertesi günü merdiven inememek",
+    "mechanism": "dünkü forvet bugün merdivenle maç yapıyor",
+    "mechanismId": "escalation",
+    "punch": "dün forvet, bugün geri vites",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "geri_vites"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

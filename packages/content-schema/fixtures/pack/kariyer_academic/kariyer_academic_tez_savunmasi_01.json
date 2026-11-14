@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_tez_savunmasi_01",
+  "tags": [
+    "kariyer",
+    "akademi",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 32,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Danışman hocamıza bir sorum var. Öğrenciye değil.",
+      "en": "I have a question for the advisor. Not the candidate."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Hocam, ben hazırım. Siz iyi misiniz? Terlemişsiniz.",
+      "en": "I'm ready. Are you okay? You're sweating."
+    }
+  ],
+  "choices": [
+    {
+      "id": "cevap",
+      "tr": "Soruyu sen cevapla",
+      "en": "Answer it yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "devret",
+      "tr": "Soruyu öğrencine bırak",
+      "en": "Hand it to your student",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ara",
+      "tr": "Beş dakika ara iste",
+      "en": "Call a five-minute break",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cevap": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Cevabın jüriyi ikna etti. Öğrenci geçti; tutanağa \"danışman da başarılı\" notu düşüldü.",
+        "en": "Your answer satisfied the committee. The student passed. The minutes added: 'Advisor also passed.'",
+        "coach": [
+          {
+            "tr": "Bugün iki kişi savunma verdi. Terleyen biriydi.",
+            "en": "Two people defended today. Only one of them sweated.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": -3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Cevabın dört dakika sürdü. Jüri öğrenciye döndü; öğrenci iki cümlede cevapladı ve geçti.",
+        "en": "Your answer ran four minutes. The committee turned to the student, who answered in two sentences and passed.",
+        "coach": [
+          {
+            "tr": "Aday iki cümlede geçti. Danışman dört dakikada kaldı.",
+            "en": "The candidate passed in two sentences. The advisor needed four minutes.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "devret": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Öğrencin soruyu aldı ve on beş dakikalık bir cevap verdi. Teşekkür sayfasında adın üçüncü sırada.",
+      "en": "Your student took the question and gave a fifteen-minute answer. You are third on the acknowledgments page.",
+      "coach": [
+        {
+          "tr": "Teşekkür sayfasında üçüncüsün. Birinci kedi.",
+          "en": "Third in the acknowledgments. The cat was first.",
+          "roast": true
+        },
+        {
+          "tr": "Danışmanlık sayacı: bir doktor.",
+          "en": "Advisees graduated: one.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 1
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Aradan sonra jüri soruyu unuttu. Savunma geçti; kahveyi kimse içmedi.",
+      "en": "After the break, the committee forgot the question. The student passed. Nobody drank the coffee.",
+      "coach": [
+        {
+          "tr": "Soru kahve molasından sağ çıkmadı.",
+          "en": "The question didn't survive the coffee break.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "doktora öğrencinin tez savunmasında soru danışmana yöneliyor",
+    "mechanism": "öğrenci değil hoca terliyor",
+    "mechanismId": "reversal",
+    "punch": "terleyen biriydi",
+    "lift": "danışmanlık sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tesekkur"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

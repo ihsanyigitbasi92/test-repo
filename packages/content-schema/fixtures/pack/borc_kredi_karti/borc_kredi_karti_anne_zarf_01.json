@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_anne_zarf_01",
+  "tags": [
+    "para",
+    "borc",
+    "anne",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Bankadan sana zarf gelmiş. Açmadım.",
+      "en": "An envelope came for you from the bank. I didn't open it."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Sadece ışığa tuttum. Kırmızı bir yazı var, o kadar.",
+      "en": "I just held it up to the light. There's some red writing, that's all.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Annene durumu anlat",
+      "en": "Tell your mom what's going on",
+      "pattern": "patience"
+    },
+    {
+      "id": "adres",
+      "tr": "Posta adresini değiştir",
+      "en": "Change your mailing address",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "yardim",
+      "tr": "Anneden yardım iste",
+      "en": "Ask your mom for help",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "anlat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2,
+            "memory": "kart_borcunu_biliyor"
+          }
+        ]
+      },
+      "tr": "Anlattın. Annen 'Ben de senin yaşındayken…' diye başladı, sonunu getirmedi. Zarf artık senin çekmecende.",
+      "en": "You told her. Your mom started 'When I was your age…' and never finished. The envelope lives in your drawer now.",
+      "coach": [
+        {
+          "tr": "Bir zarf, yarım bir cümle.",
+          "en": "One envelope. Half a sentence.",
+          "roast": false
+        }
+      ]
+    },
+    "adres": {
+      "effects": {
+        "meters": {
+          "momPressure": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "posta_adresi_degisti"
+          ]
+        }
+      },
+      "tr": "Adres güncellendi. Bir hafta sonra annen arayıp 'Artık zarf gelmiyor, bir şey mi oldu?' diye sordu.",
+      "en": "Address updated. A week later your mom called: the envelopes had stopped. Had something happened?",
+      "coach": [
+        {
+          "tr": "Zarf kesildi, sorular ikiye katlandı.",
+          "en": "No envelopes. Twice the questions.",
+          "roast": true
+        }
+      ]
+    },
+    "yardim": {
+      "effects": {
+        "money": 1500,
+        "meters": {
+          "momPressure": 5
+        },
+        "flags": {
+          "add": [
+            "anneye_borc"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1,
+            "memory": "kart_borcuna_yardim"
+          }
+        ]
+      },
+      "tr": "Annen 1.500 Para gönderdi, açıklamaya 'harçlık' yazdı. Geri ödeme şartları konuşulmadı.",
+      "en": "Your mom sent 1,500 with 'pocket money' in the memo line. Repayment terms: unspoken.",
+      "coach": [
+        {
+          "tr": "Açıklama: harçlık. Vade: bilinmiyor.",
+          "en": "Memo: pocket money. Due date: unknown.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "eski adrese gelen banka zarfını annenin ışığa tutması",
+    "mechanism": "anne açmadığını söylüyor ama içeriği biliyor",
+    "mechanismId": "understatement",
+    "punch": "sadece ışığa tuttum, o kadar",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "vade",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

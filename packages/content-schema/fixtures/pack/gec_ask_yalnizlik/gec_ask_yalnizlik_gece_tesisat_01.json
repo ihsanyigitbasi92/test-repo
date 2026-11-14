@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gec_ask_yalnizlik_gece_tesisat_01",
+  "tags": [
+    "iliski",
+    "gec_ask_yalnizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "gec_ask_yalnizlik": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      },
+      "neighbor": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "gece_tesisat"
+      ]
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "su",
+      "tr": "Gece ikide mutfak lavabosunun altı fışkırmaya başladı. Ana vananın nerede olduğunu bilmiyorsun.",
+      "en": "2 a.m. Water starts spraying from under the kitchen sink. You have no idea where the main valve is."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "tired",
+      "tr": "Vana merdiven altında. Benimki de yıllar önce patlamıştı, aynı saatte.",
+      "en": "The valve's under the stairs. Mine burst years ago. Same hour of the night."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Ben feneri tutayım, sen kapat. Terlik giy, kayarsın.",
+      "en": "I'll hold the flashlight, you shut it. Put slippers on, you'll slide.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "vana",
+      "tr": "Komşuyla vanayı kapat",
+      "en": "Shut the valve with your neighbor",
+      "pattern": "patience"
+    },
+    {
+      "id": "kendin",
+      "tr": "Kendin tamir etmeyi dene",
+      "en": "Try to fix it yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Gece ustası çağır",
+      "en": "Call an emergency plumber",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "vana": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "gece_tesisat",
+            "komsu_vana"
+          ]
+        }
+      },
+      "tr": "Vana kapandı, mutfak bir parmak su gördü. Ertesi günkü tamir 200 Para; komşu kahve getirdi.",
+      "en": "Valve shut. The kitchen took on a finger's depth of water. Next day's repair: 200. Your neighbor brought coffee.",
+      "coach": [
+        {
+          "tr": "Merdiven altı bilgisi edinildi.",
+          "en": "Under-the-stairs knowledge: acquired.",
+          "roast": false
+        }
+      ]
+    },
+    "kendin": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": -30,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "gece_tesisat"
+            ]
+          }
+        },
+        "tr": "Ek yerini bant ve sabırla sardın; sızıntı durdu. Malzeme 30 Para, saat dört.",
+        "en": "You wrapped the joint with tape and patience. The leak stopped. Materials: 30. Time: 4 a.m.",
+        "coach": [
+          {
+            "tr": "Saat dört, zemin kuru.",
+            "en": "4 a.m. Dry floor.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -350,
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "gece_tesisat"
+            ]
+          }
+        },
+        "tr": "Bant tutmadı, su halıya ulaştı. Sabah tamir ve halı yıkama 350 Para tuttu.",
+        "en": "The tape gave up and the water reached the rug. Repair plus rug cleaning came to 350.",
+        "coach": [
+          {
+            "tr": "Halı yıkandı. Plansız.",
+            "en": "The rug got washed. Unscheduled.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "gece_tesisat"
+          ]
+        }
+      },
+      "tr": "Gece ustası kırk dakikada geldi, on dakikada bitirdi. Gece tarifesi 600 Para.",
+      "en": "The night plumber arrived in forty minutes and finished in ten. Night rate: 600.",
+      "coach": [
+        {
+          "tr": "On dakikalık iş, gece fiyatı.",
+          "en": "Ten minutes of work. Midnight pricing.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "tek başına yaşarken gece yarısı tesisatın patlaması ve ana vananın yerini bilmemek",
+    "mechanism": "gece krizinin sonuçları fatura kalemi gibi düz raporlanıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "on dakikalık iş, gece fiyatı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "vana"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

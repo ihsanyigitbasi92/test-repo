@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_dort_tabela_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Satış yetkisini sadece size verdim. Diğerlerine de sadece verdim.",
+      "en": "I gave exclusive rights only to you. And only to the others."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Tabelanızı bizimkinin altına astık. Balkonda yer kalmamıştı.",
+      "en": "We hung your sign under ours. There was no room left on the balcony.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yetki",
+      "tr": "Yetki belgesini göster",
+      "en": "Show the exclusivity contract",
+      "pattern": "pride"
+    },
+    {
+      "id": "yaris",
+      "tr": "Önce satmak için koş",
+      "en": "Race to sell first",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "İlanı bırak",
+      "en": "Drop the listing",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "yetki": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yetki_ihtilafi"
+          ]
+        }
+      },
+      "tr": "Belgeyi ev sahibine gösterdin. Ev sahibi okudu ve fotokopisini diğer üç ofise de verdi.",
+      "en": "You showed the landlord the contract. The landlord read it and gave photocopies to the other three agencies.",
+      "coach": [
+        {
+          "tr": "Belge çoğaldı. Ayrıcalık da.",
+          "en": "The document multiplied. The exclusivity too.",
+          "roast": true
+        }
+      ]
+    },
+    "yaris": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": 1400,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "realtor_satis_kapandi"
+            ]
+          }
+        },
+        "tr": "Daireyi üç günde sattın. Diğer üç tabela iki hafta daha balkonda asılı kaldı.",
+        "en": "You sold it in three days. The other three signs hung on the balcony for two more weeks.",
+        "coach": [
+          {
+            "tr": "Dört tabela, bir satış. Balkon kalabalık kaldı.",
+            "en": "Four signs, one sale. The balcony stayed crowded.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Üç gün koştun. Daireyi alt kattaki ofis sattı; alıcı senin ilan fotoğrafınla gelmişti.",
+        "en": "Three days of hustle. The office downstairs closed it. The buyer showed up holding your listing photo.",
+        "coach": [
+          {
+            "tr": "Fotoğraf senin. Satış onların.",
+            "en": "Your photo. Their sale.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "İlanı bıraktın. Ev sahibi iki ay sonra aradı: \"Bu sefer sadece size veriyorum.\"",
+      "en": "You dropped it. Two months later the landlord called: \"This time it's only you.\"",
+      "coach": [
+        {
+          "tr": "\"Sadece\" yine iş başında.",
+          "en": "\"Only\" is back on the job.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da parti iddia payı doldu"
+  },
+  "intent": {
+    "setup": "ev sahibi tek yetki verdiğini söylediği daireyi dört emlak ofisine birden vermiş",
+    "mechanism": "sadece kelimesinin çoğalması",
+    "mechanismId": "escalation",
+    "punch": "diğerlerine de sadece verdim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sadece"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_surpriz_ifsa_01",
+  "tags": [
+    "sosyal",
+    "dogum_gunu",
+    "mesaj",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Arkadaşının sürpriz doğum günü için gizli bir grup kuruldu. Sen mesajı yanlış gruba attın: doğum günü olan kişinin de olduğu gruba.",
+      "en": "There's a secret group chat for your friend's surprise party. You sent your message to the wrong chat. The one with the birthday person in it."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Silmek için kaç saniyen vardı biliyor musun? Sıfır. Okundu.",
+      "en": "You know how many seconds you had to delete it? Zero. Seen."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Şimdi yazıyor: “Hangi sürpriz?” Üç nokta. Hâlâ yazıyor.",
+      "en": "Now they're typing: “What surprise?” Three dots. Still typing.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "inkar",
+      "tr": "“Başka bir sürpriz” diye geçiştir",
+      "en": "Claim it's a different surprise",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "itiraf",
+      "tr": "Organizatörlere itiraf et",
+      "en": "Confess to the organizers",
+      "pattern": "patience"
+    },
+    {
+      "id": "sus",
+      "tr": "Hiçbir şey yazma",
+      "en": "Say nothing",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "inkar": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "surpriz_kurtarildi"
+            ]
+          }
+        },
+        "tr": "“Sana yavru köpek gelecek” dedin. Partide köpek olmayınca hafif bir hayal kırıklığı yaşandı.",
+        "en": "You told them “a puppy is coming.” At the party, mild disappointment at the lack of puppy.",
+        "coach": [
+          {
+            "tr": "Sürpriz kurtuldu. Yerine bir köpek borcu doğdu.",
+            "en": "Surprise saved. A puppy debt was created.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "surpriz_ifsa"
+            ]
+          }
+        },
+        "tr": "Kimse inanmadı. Parti yapıldı; doğum günü olan kişi kapıdan prova edilmiş bir “Aa!” ile girdi.",
+        "en": "Nobody bought it. The party happened. The birthday person walked in with a rehearsed “Oh wow.”",
+        "coach": [
+          {
+            "tr": "Oyun iyiydi. Seyirci biliyordu.",
+            "en": "Strong performance. The audience knew.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -430,
+        "flags": {
+          "add": [
+            "surpriz_pastasi"
+          ]
+        }
+      },
+      "tr": "Organizatörlere itiraf ettin. Ceza olarak pasta sana kaldı: 430 Para.",
+      "en": "You confessed to the organizers. Your penance: the cake. Four-thirty.",
+      "coach": [
+        {
+          "tr": "Pasta senden. Mumlar da.",
+          "en": "Cake's on you. Candles too.",
+          "roast": false
+        }
+      ]
+    },
+    "sus": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "surpriz_sessiz"
+          ]
+        }
+      },
+      "tr": "Hiçbir şey yazmadın. Mesaj grupta kaldı; parti yapıldı ve kimse konuyu açmadı.",
+      "en": "You said nothing. The message stayed up. The party went ahead and nobody mentioned it.",
+      "coach": [
+        {
+          "tr": "Herkes bildi, kimse söylemedi. Gruplar bunu iyi yapar.",
+          "en": "Everyone knew. Nobody said. Group chats excel at this.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "inkar",
+    "slip": {
+      "tr": "İDDİA: Bu hikâye pasta gününe kadar dayanmaz. — M.",
+      "en": "WAGER: That cover story won't last till the cake. — M."
+    }
+  },
+  "intent": {
+    "setup": "sürpriz doğum günü mesajını yanlışlıkla doğum günü olan kişinin olduğu gruba atmak",
+    "mechanism": "okundu, yazıyor, hâlâ yazıyor",
+    "mechanismId": "escalation",
+    "punch": "üç nokta, hâlâ yazıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "seyirci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

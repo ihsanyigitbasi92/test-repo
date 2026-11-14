@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gonulluluk_iyilik_market_listesi_01",
+  "tags": [
+    "sosyal",
+    "komsu",
+    "market",
+    "yardim",
+    "gonulluluk_iyilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "gonulluluk_iyilik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Peynir alacaksın. Tezgâhtaki değil, arkadaki. Soldaki tenekeden, üstten değil ortadan.",
+      "en": "Get the cheese. Not the one on display, the one in back. Left-hand tin, from the middle, not the top."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Domates sert olsun ama çok sert olmasın. Sen anlarsın.",
+      "en": "Tomatoes firm, but not too firm. You'll know.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "harfiyen",
+      "tr": "Listeye harfiyen uy",
+      "en": "Follow the list to the letter",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ara",
+      "tr": "Reyondan onu ara",
+      "en": "Call her from the aisle",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kendi",
+      "tr": "Gördüğün ilk peyniri al",
+      "en": "Grab the first cheese you see",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "harfiyen": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "luck": 1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 4
+            }
+          ],
+          "flags": {
+            "add": [
+              "komsunun_market_elcisi"
+            ]
+          }
+        },
+        "tr": "Ortadan kesilen peyniri ve doğru sertlikte domatesi buldun. Şükran Teyze poşete baktı ve \"olmuş\" dedi.",
+        "en": "You found cheese cut from the middle and tomatoes of the correct firmness. Mrs. Dale looked in the bag and said, \"That'll do.\"",
+        "coach": [
+          {
+            "tr": "Peynir kabul gördü. Haftaya liste yine sende.",
+            "en": "The cheese was accepted. Next week's list is yours too.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Peynir üstten kesilmiş çıktı. Şükran Teyze teşekkür etti ve haftaya listeyi krokiyle vereceğini söyledi.",
+        "en": "The cheese turned out to be from the top. Mrs. Dale thanked you and said next week's list would come with a diagram.",
+        "coach": [
+          {
+            "tr": "Kroki geliyor. Tenekenin yeri işaretli olacak.",
+            "en": "A diagram is coming. The tin will be marked.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "luck": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Reyondan dört kez aradın. Dördüncü aramada telefonu tezgâhtar aldı ve peyniri onunla konuşarak kesti.",
+      "en": "You called from the cheese counter four times. On the fourth call the clerk took the phone and cut the cheese under her direct instruction.",
+      "coach": [
+        {
+          "tr": "Dört arama. Peynir telefon gözetiminde kesildi.",
+          "en": "Four calls. The cheese was cut under telephone supervision.",
+          "roast": false
+        }
+      ]
+    },
+    "kendi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Tezgâhtaki peyniri ve gördüğün ilk domatesi aldın. Şükran Teyze peyniri ayırdı: \"Bu böreğe olur.\"",
+      "en": "You bought the cheese on display and the first tomatoes you saw. Mrs. Dale set the cheese aside: \"This one's for baking.\"",
+      "coach": [
+        {
+          "tr": "Peynir ikinci lige ayrıldı.",
+          "en": "The cheese has been assigned to the second division.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "harfiyen",
+    "slip": {
+      "tr": "İDDİA: Peynir beğenilmez. — M.",
+      "en": "WAGER: The cheese fails inspection. — M."
+    }
+  },
+  "intent": {
+    "setup": "yaşlı komşunun market listesindeki aşırı ayrıntılı tarifler",
+    "mechanism": "tarif gittikçe daralıyor: arkadaki, soldaki, ortadan",
+    "mechanismId": "escalation",
+    "punch": "üstten değil ortadan",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kroki"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

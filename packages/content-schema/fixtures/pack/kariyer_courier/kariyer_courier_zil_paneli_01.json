@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_zil_paneli_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Zilde o isim yok. Ama paketi ben alırım, bende emanet durur.",
+      "en": "That name's not on the buzzer, but I'll take it. Things are safe with me."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Kapıcı değilim. Sadece kapının önünde çok dururum.",
+      "en": "I'm not the doorman. I just stand by the door a lot.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Paketi ona ver",
+      "en": "Hand it over",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "ara",
+      "tr": "Alıcıyı ara, bekle",
+      "en": "Call the customer and wait",
+      "pattern": "patience"
+    },
+    {
+      "id": "geri",
+      "tr": "Depoya geri götür",
+      "en": "Take it back to the depot",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ver": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Kapının önündeki kişi alıcının ev arkadaşı çıktı. Teslimat onaylandı, vardiya sekiz dakika önde.",
+        "en": "The person by the door turned out to be the customer's roommate. Delivery confirmed, shift eight minutes ahead.",
+        "coach": [
+          {
+            "tr": "Sekiz dakika kazandın. Kaynağı: bir yabancının özgüveni.",
+            "en": "Eight minutes saved. Source: a stranger's confidence.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -350,
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "kurye_sikayet_dosyasi"
+            ]
+          }
+        },
+        "tr": "Alıcı paketi almadığını bildirdi. 350 Para hakedişinden kesildi, dosyana bir şikâyet eklendi.",
+        "en": "The customer reported no package. 350 came out of your pay, and a complaint went on your file.",
+        "coach": [
+          {
+            "tr": "Emanet sağlam çıktı. Sadece başka birinin emanetiydi.",
+            "en": "The package is safe somewhere. Just not with the customer.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ara": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "On dört dakika sonra alıcı açtı: zildeki isim eski kiracınınmış. Paketi kendisi indi aldı.",
+      "en": "Fourteen minutes later the customer picked up: the buzzer still had the old tenant's name. They came down for it.",
+      "coach": [
+        {
+          "tr": "On dört dakika, bir telefon, sıfır şikâyet. Hesap kapandı.",
+          "en": "Fourteen minutes, one call, zero complaints. Account settled.",
+          "roast": false
+        }
+      ]
+    },
+    "geri": {
+      "effects": {
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Paket depoya döndü, sistemde \"teslim edilemedi\" yazıyor. Ertesi gün aynı adrese ikinci tur var.",
+      "en": "The package went back to the depot, logged as undeliverable. Tomorrow it goes out to the same address again.",
+      "coach": [
+        {
+          "tr": "Paket bugün iki kez yolculuk yaptı. Yarın üçüncüsü.",
+          "en": "The package traveled twice today. Tomorrow makes three.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti iddia payı doldu"
+  },
+  "intent": {
+    "setup": "zilde alıcının adı yok, kapıdaki yabancı paketi istiyor",
+    "mechanism": "yabancı kendini kapıcı olmayan kapı görevlisi ilan ediyor",
+    "mechanismId": "literalism",
+    "punch": "sadece kapının önünde çok dururum",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "hesap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

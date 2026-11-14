@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_fortune_ev_sahibi_musteri_01",
+  "tags": [
+    "kariyer",
+    "fal",
+    "kariyer_fortune"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_fortune": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "fortune"
+      ],
+      "employed": true
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Ben, ev sahibin. Bu ay kira artışı yapacağım. Fincanda kiracı memnun görünüyor mu?",
+      "en": "Dear columnist: I'm your landlord. I'm raising rent this month. How will my tenant take it?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kiracı sensin ama tarafsız bak. Ben de tam ücret ödüyorum.",
+      "en": "Yes, the tenant is you. Stay objective. I paid for the premium reading.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "olumlu",
+      "tr": "\"Kiracı memnun\" de",
+      "en": "Say the tenant seems fine",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "dikkat",
+      "tr": "\"Ani değişimler kötü\" de",
+      "en": "Warn against sudden changes",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Falına bakmayı reddet",
+      "en": "Refuse the reading",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "olumlu": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -300,
+        "flags": {
+          "add": [
+            "fal_ev_sahibi_musterisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "\"Kiracı memnun\" dedin. Kira ertesi ay 300 Para arttı; ev sahibin fal ücretini kiradan düşmeyi teklif etti.",
+      "en": "You said the tenant seemed fine. Rent went up 300 the next month. The landlord offered to deduct the reading fee.",
+      "coach": [
+        {
+          "tr": "Kendi zammını onayladın. İndirimli.",
+          "en": "You approved your own rent hike. At a discount.",
+          "roast": true
+        }
+      ]
+    },
+    "dikkat": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "fal_kira_ertelendi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "\"Ani değişimler huzursuzluk getirir\" dedin. Ev sahibin artışı bir yıl erteledi ve bunu kendi fikri sandı.",
+        "en": "You wrote that sudden changes bring unrest. The landlord postponed the increase a year and believes it was their idea.",
+        "coach": [
+          {
+            "tr": "Fikir onun. Bir yıl senin.",
+            "en": "The idea is theirs. The year is yours.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -300,
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Ev sahibin \"tesadüf işte\" deyip artışı yaptı. Fal ücretini de ödemedi.",
+        "en": "The landlord called it \"just coincidence,\" raised the rent and skipped paying for the reading.",
+        "coach": [
+          {
+            "tr": "Tesadüf iki yönlü çalışıyor.",
+            "en": "Coincidence cuts both ways.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -300
+      },
+      "tr": "Reddettin. Kira yine arttı, bu kez yorumsuz.",
+      "en": "You declined. The rent went up anyway, without commentary.",
+      "coach": [
+        {
+          "tr": "Zam geldi. En azından sessizce.",
+          "en": "Rent went up. Quietly, at least.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dikkat",
+    "slip": {
+      "tr": "İDDİA: Ev sahibi tesadüfe sığınır. — M.",
+      "en": "WAGER: Your landlord calls it coincidence. — M."
+    }
+  },
+  "intent": {
+    "setup": "kendi ev sahibinin müşteri olarak gelip kira artışının kiracıyı nasıl etkileyeceğini sorması",
+    "mechanism": "kiracı kendi kirasının falına bakıyor",
+    "mechanismId": "reversal",
+    "punch": "kiracı sensin ama tarafsız bak",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kira"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "TR: kafede kahve falına bakan falcı; EN: gazetede burç köşesi yazarı. Durum iki dilde aynı iskelette, kabuk yerelleştirildi. Kehanet her yerde tesadüf çerçevesinde; inanç nesnesi yok."
+  }
+}

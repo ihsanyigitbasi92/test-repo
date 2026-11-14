@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aile_grubu_silinen_mesaj_01",
+  "tags": [
+    "aile",
+    "telefon",
+    "kardes",
+    "aile_grubu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "aile_grubu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "\"Bu mesaj silindi\" ne demek? Kardeşin ne yazdı? Sen gördün mü? Görmüşsündür.",
+      "en": "What does 'This message was deleted' mean? What did your sibling write? Did you see it? You saw it."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Bence işten ayrıldı. Benim zamanımda silinmezdi, yazılan kalırdı.",
+      "en": "I say they quit their job. In my day you couldn't delete. What you wrote stayed written.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sor",
+      "tr": "Kardeşine özelden sor",
+      "en": "Ask your sibling privately",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "uydur",
+      "tr": "Masum bir şey uydur",
+      "en": "Make up something harmless",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sus",
+      "tr": "Bilmiyorum de",
+      "en": "Say you don't know",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sor": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "momPressure": -3
+          },
+          "flags": {
+            "add": [
+              "kardes_sirri_sende"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Kardeşin özelden yazdı: \"Ev sahibine şikâyeti yanlış gruba attım.\" Annene \"tarif sormuş\" dedin; annen tarifi gönderdi.",
+        "en": "Your sibling messaged you: 'Sent a landlord complaint to the wrong group.' You told Mom they'd asked for a recipe. Mom sent the recipe.",
+        "coach": [
+          {
+            "tr": "Sır korundu. Tarif de geldi.",
+            "en": "Secret kept. Recipe received.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "momPressure": 4,
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Kardeşin \"sen de mi\" yazıp seni sessize aldı. Grupta artık iki kişi \"görmedim\" diyor; biri sensin.",
+        "en": "Your sibling wrote 'not you too' and muted you. Two people in the group now claim they didn't see it. One is you.",
+        "coach": [
+          {
+            "tr": "İki tanık, sıfır ifade.",
+            "en": "Two witnesses. No statements.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "uydur": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "flags": {
+          "add": [
+            "anne_surpriz_bekliyor"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "\"Doğum günü sürprizi planlıyor\" yazdın. Annen bir hafta boyunca kendi sürprizini bekledi.",
+      "en": "You wrote 'They're planning a surprise party.' Mom spent a week waiting for hers.",
+      "coach": [
+        {
+          "tr": "Sürpriz bekleniyor. Planlayan yok.",
+          "en": "A surprise is expected. Nobody is planning it.",
+          "roast": false
+        }
+      ]
+    },
+    "sus": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        }
+      },
+      "tr": "\"Bilmiyorum\" dedin. Dayın teorisini üç kez daha yazdı; üçüncüsünde kardeşin evleniyordu.",
+      "en": "'No idea,' you said. Your uncle posted his theory three more times. By the third, your sibling was getting married.",
+      "coach": [
+        {
+          "tr": "Teori, üçüncü sürüm.",
+          "en": "Theory, version three.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sor",
+    "slip": {
+      "tr": "İDDİA: Kardeşin sana da söylemez. — M.",
+      "en": "WAGER: Your sibling won't tell you either. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşin gruba yazıp sildiği mesajın herkesin tahmin yarışına dönmesi",
+    "mechanism": "\"bu mesaj silindi\" teorileri büyüyor",
+    "mechanismId": "escalation",
+    "punch": "üçüncü teoride kardeşin evleniyordu",
+    "lift": "Sır korundu. Tarif de geldi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "teori"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

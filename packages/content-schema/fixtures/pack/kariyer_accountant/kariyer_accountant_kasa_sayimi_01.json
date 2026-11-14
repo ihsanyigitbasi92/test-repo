@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_kasa_sayimi_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "İlk haftan ama ay sonu kasa sayımı sende. Sistemle birebir tutmalı.",
+      "en": "First week, but the month-end cash count is yours. It has to match the system exactly."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Beş Para mı eksik? Geçen yıl üç Para için iki gün aradık. Çekmecenin arkasındaydı.",
+      "en": "Five short? Last year we spent two days looking for three. It was behind the drawer.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "say",
+      "tr": "Baştan say",
+      "en": "Count again from zero",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cep",
+      "tr": "Cebinden beş Para koy",
+      "en": "Put in five of your own",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kayit",
+      "tr": "Kasa farkı olarak kaydet",
+      "en": "Book it as a variance",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "say": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Üçüncü sayımda buldun: beş Para, bozuk para rulosunun içine ters sarılmış. Kasa tuttu.",
+        "en": "Third count, found it: five, rolled backward inside a coin roll. The till balances.",
+        "coach": [
+          {
+            "tr": "İki saat, beş Para. Saati iki buçuk.",
+            "en": "Two hours for five. That works out to 2.5 an hour.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Dördüncü sayımda fark on Para'ya çıktı. Bıraktın; ertesi sabah patron ilk seferde tutturdu.",
+        "en": "By count four, you were ten short. You stopped. Next morning the boss balanced it on the first try.",
+        "coach": [
+          {
+            "tr": "Beş eksikti. Sen sayınca on oldu.",
+            "en": "It was five short. You counted it up to ten.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cep": {
+      "effects": {
+        "money": -5,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 1
+        }
+      },
+      "tr": "Cebinden beş Para koydun, kasa tuttu. Ertesi ay kasa beş Para fazla çıktı.",
+      "en": "You put in five of your own. It balanced. Next month the till came out five over.",
+      "coach": [
+        {
+          "tr": "Kasa önce beş eksikti, sonra beş fazla. Sen hâlâ beş eksiksin.",
+          "en": "The till was five short, then five over. You're still five short.",
+          "roast": true
+        }
+      ]
+    },
+    "kayit": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Farkı \"kasa sayım farkı\" olarak kayda geçtin. Denetçi yıl sonunda satıra bir soru işareti koydu, sonra sildi.",
+      "en": "You booked it as a 'cash count variance.' At year end the auditor put a question mark next to it. Then erased it.",
+      "coach": [
+        {
+          "tr": "Beş Para, bir satır, silinmiş bir soru işareti.",
+          "en": "Five. One line. One erased question mark.",
+          "roast": false
+        },
+        {
+          "tr": "Kasa sayacı: denk.",
+          "en": "Till counter: balanced.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "say",
+    "slip": {
+      "tr": "İDDİA: O beş Para bugün bulunmaz. — M.",
+      "en": "WAGER: That missing five stays missing today. — M."
+    }
+  },
+  "intent": {
+    "setup": "stajyer muhasebecinin ilk kasa sayımında beş Para fark",
+    "mechanism": "küçük fark aradıkça büyüyor",
+    "mechanismId": "escalation",
+    "punch": "sen sayınca on oldu",
+    "lift": "kasa sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bes"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

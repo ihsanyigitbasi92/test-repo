@@ -1,0 +1,227 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_konsol_velayeti_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "ev",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "annoyed",
+      "tr": "Yarısı benim. Taşınan sensin, konsol taşınmıyor.",
+      "en": "Half of it's mine. You're the one moving out. The console isn't."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kavga etmeyin. Haftada bir gün sende, bir gün onda olsa? Olur mu? Olur.",
+      "en": "Don't fight. One day with you, one day with them? Would that work? It would.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Kollardan biri zaten benim. Hangisi bilmiyorum ama biri.",
+      "en": "One controller is mine anyway. I don't know which, but one is.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Konsolu almak için ikna et",
+      "en": "Argue to take the console",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "satin",
+      "tr": "Kardeşinin yarısını satın al",
+      "en": "Buy out their half",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "birak",
+      "tr": "Konsolu bırak",
+      "en": "Leave it behind",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "konsol_sende"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -2,
+              "memory": "konsolu_aldi"
+            }
+          ]
+        },
+        "tr": "Konsol seninle geldi. Kardeşin kollardan birini rehin aldı, hangisi olduğunu söylemiyor.",
+        "en": "The console came with you. Your sibling kept a controller hostage and won't say which.",
+        "coach": [
+          {
+            "tr": "Konsol sende. Kol rehin.",
+            "en": "Console: yours. Controller: hostage.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "konsol_annede"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Annen kararı verdi: konsol evde kalıyor, senin oyun kaydın da.",
+        "en": "Mom ruled: the console stays home. So does your save file.",
+        "coach": [
+          {
+            "tr": "Kayıt dosyan anne evinde yaşıyor.",
+            "en": "Your save file still lives at Mom’s.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "satin": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -900,
+        "flags": {
+          "add": [
+            "konsol_sende"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "900 Para verdin. Kardeşin parayla yeni bir konsol aldı ve senin oyunlarını ödünç istedi.",
+      "en": "You paid 900. Your sibling bought a new console with it and asked to borrow your games.",
+      "coach": [
+        {
+          "tr": "900 Para ikinci bir konsol doğurdu.",
+          "en": "Your 900 gave birth to a second console.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "flags": {
+          "add": [
+            "konsol_annede"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 4,
+            "memory": "konsolu_birakti"
+          }
+        ]
+      },
+      "tr": "Konsolu bıraktın. Kardeşin her hafta oyundaki ilerlemesinin fotoğrafını gönderiyor.",
+      "en": "You left it. Every week your sibling sends a photo of their progress.",
+      "coach": [
+        {
+          "tr": "Haftalık ilerleme raporu geldi.",
+          "en": "Weekly progress report: received.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Konsol anne evinden çıkmaz. — M.",
+      "en": "WAGER: That console never leaves Mom’s house. — M."
+    }
+  },
+  "intent": {
+    "setup": "anne evinden ayrılırken kardeşinle yarı yarıya alınmış oyun konsolunun kimde kalacağı",
+    "mechanism": "mülkiyetin yarıya bölünmesi; rehin kol, kalan kayıt dosyası",
+    "mechanismId": "literalism",
+    "punch": "taşınan sensin, konsol taşınmıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kol"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

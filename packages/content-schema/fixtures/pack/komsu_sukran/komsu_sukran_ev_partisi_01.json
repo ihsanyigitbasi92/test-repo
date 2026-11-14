@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_ev_partisi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "parti",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Bir şey demeyeceğim. Sadece saat on ikiye geliyor, onu söyleyeyim dedim.",
+      "en": "I won't say anything. I just thought I'd mention it's nearly midnight."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Bir de bu duvar saatini getirdim. Sizde saat yoktur diye düşündüm.",
+      "en": "I also brought you this wall clock. I assumed you didn't own one.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kis",
+      "tr": "Müziği kıs, devam et",
+      "en": "Turn it down, carry on",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "davet",
+      "tr": "Teyzeyi içeri davet et",
+      "en": "Invite her in",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bitir",
+      "tr": "Partiyi bitir",
+      "en": "Call it a night",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kis": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "parti_saati"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Müzik kısıldı. Saat duvara asıldı; gece boyunca herkes ona baktı.",
+      "en": "Music down. The clock went on the wall, and everyone kept checking it.",
+      "coach": [
+        {
+          "tr": "Saat hediye. Mesaj ücretsiz.",
+          "en": "The clock was a gift. The message came free.",
+          "roast": true
+        }
+      ]
+    },
+    "davet": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "sukran_parti_davetlisi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 4,
+              "memory": "partiye_geldi"
+            }
+          ]
+        },
+        "tr": "Şükran Teyze içeri girdi, yarım saat oturdu, iki arkadaşınla numara alıştı. On ikide kendisi kalkıp gitti.",
+        "en": "Mrs. Dale came in, stayed half an hour and swapped numbers with two of your friends. At midnight she left on her own.",
+        "coach": [
+          {
+            "tr": "Partiden ilk ayrılan, en çok numarayı topladı.",
+            "en": "First to leave, most numbers collected.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "parti_tutanagi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Davet kibarca reddedildi. Ertesi sabah partinin bitiş saati apartman grubunda paylaşıldı: 01.40.",
+        "en": "She politely declined. Next morning the building chat had the party's end time: 1:40 a.m.",
+        "coach": [
+          {
+            "tr": "Parti bitti. Tutanağı yeni başlıyor.",
+            "en": "The party's over. The minutes are just getting started.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bitir": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "flags": {
+          "add": [
+            "erken_parti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Misafirler on ikide gitti. Saat hâlâ paketinde, kapının yanında duruyor.",
+      "en": "Your guests left at midnight. The clock is still in its box by the door.",
+      "coach": [
+        {
+          "tr": "Saat kutusundan çıkmadı. Görevini zaten yaptı.",
+          "en": "The clock never left its box. It had already done its job.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "davet",
+    "slip": {
+      "tr": "İDDİA: Teyze partiye adım atmaz. — M.",
+      "en": "WAGER: She won't set foot in the party. — M."
+    }
+  },
+  "intent": {
+    "setup": "evde ilk partinde komşu gece yarısına doğru elinde duvar saatiyle kapıda",
+    "mechanism": "dolaylı uyarı hediye kılığında",
+    "mechanismId": "escalation",
+    "punch": "sizde saat yoktur diye düşündüm",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "saat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

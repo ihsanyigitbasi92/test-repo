@@ -1,0 +1,232 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "apartman_komsuluk_kopek_havlamasi_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "gurultu",
+    "hayvan",
+    "apartman_komsuluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "apartman_komsuluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Köpeğim mi? Ben işteyken havlıyor mu? Hiç duymadım.",
+      "en": "My dog? Barks while I'm at work? I've never heard it."
+    },
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "smug",
+      "tr": "Dokuzdan beşe havlıyor. Öğlen yarım saat mola veriyor.",
+      "en": "Nine to five. Takes a half-hour lunch break.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kayit",
+      "tr": "Ses kaydını sahibine dinlet",
+      "en": "Play the owner a recording",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "gezdir",
+      "tr": "Öğlen köpeği gezdirmeyi teklif et",
+      "en": "Offer to walk the dog at noon",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kulaklik",
+      "tr": "Gürültü önleyici kulaklık al",
+      "en": "Buy noise-canceling headphones",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "kayit": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "kopek_gezdiricisi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Sahibi kaydı dinledi, sesi tanıdı. Ertesi hafta öğlenleri bir köpek gezdiricisi gelmeye başladı.",
+        "en": "The owner listened, recognized the bark and hired a dog walker the following week.",
+        "coach": [
+          {
+            "tr": "Köpek artık öğle arasını dışarıda geçiriyor.",
+            "en": "The dog now takes its lunch break outdoors.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kopek_inkari"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Sahibi 'bu bizimki değil' dedi. Tam o anda duvarın arkasından aynı havlama geldi.",
+        "en": "The owner said, 'That's not mine.' Right on cue, the same bark came through the wall.",
+        "coach": [
+          {
+            "tr": "Delil canlı yayına geçti. İnkâr sürüyor.",
+            "en": "The evidence went live. The denial continues.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gezdir": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "ogle_yuruyusu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Her öğlen köpekle yarım saat yürüyorsun. Havlama azaldı, adımların arttı.",
+      "en": "Every noon you walk the dog for half an hour. Less barking. More steps.",
+      "coach": [
+        {
+          "tr": "Gürültü şikâyeti bir yürüyüş programına döndü.",
+          "en": "A noise complaint turned into a walking program.",
+          "roast": true
+        }
+      ]
+    },
+    "kulaklik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -900,
+        "flags": {
+          "add": [
+            "gurultu_kulakligi"
+          ]
+        }
+      },
+      "tr": "Kulaklığı aldın, 900 Para. Havlama da gitti, kapı zili de; iki kargoyu kaçırdın.",
+      "en": "You bought the headphones: 900. Gone went the barking, and the doorbell with it. Two missed deliveries.",
+      "coach": [
+        {
+          "tr": "Sessizlik satın alındı. Kapı zili dahil.",
+          "en": "Silence purchased. Doorbell included.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef kumbarası: eksi 900.",
+          "en": "Goal jar: minus 900.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kayit",
+    "slip": {
+      "tr": "İDDİA: Sahibi kabul etmez. — M.",
+      "en": "WAGER: The owner won't admit it. — M."
+    }
+  },
+  "intent": {
+    "setup": "yan dairedeki köpek sahibi işteyken bütün gün havlıyor",
+    "mechanism": "mesai saatli havlama",
+    "mechanismId": "escalation",
+    "punch": "öğlen yarım saat mola veriyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mola"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

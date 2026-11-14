@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_realtor_yer_gosterme_belgesi_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "evrak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "EMLAK OFİSİ · YER GÖSTERME BELGESİ (kurgusal)",
+      "en": "REAL ESTATE OFFICE · PROPERTY VIEWING FORM (fictional)"
+    },
+    "body": {
+      "tr": "Müşteri, kendisine gösterilen taşınmazı ofis aracılığı olmaksızın satın almayacağını ya da kiralamayacağını kabul eder.",
+      "en": "The client agrees not to purchase or lease the property shown to them other than through this office."
+    },
+    "translate": {
+      "tr": {
+        "from": "ofis aracılığı olmaksızın",
+        "to": "arkamdan ev sahibiyle anlaşarak"
+      },
+      "en": {
+        "from": "other than through this office",
+        "to": "by calling the owner behind my back"
+      }
+    },
+    "glossaryKey": "yer_gosterme"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "İmza mı? Biz sadece bakıyoruz. Bakmak için imza mı atılır?",
+      "en": "A signature? We're only looking. Since when do you sign to look?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "sart",
+      "tr": "İmzasız kapıyı açma",
+      "en": "No signature, no viewing",
+      "pattern": "pride"
+    },
+    {
+      "id": "imzasiz",
+      "tr": "İmzasız gezdir",
+      "en": "Show it without the form",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "anlat",
+      "tr": "Belgeyi sakince anlat",
+      "en": "Explain the form calmly",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "sart": {
+      "effects": {
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -2
+          },
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ],
+        "glossary": "yer_gosterme"
+      },
+      "tr": "Müşteri imzalamadı, eve de girmedi. Patron dosyandaki boş belgeye bakıp başını salladı.",
+      "en": "The client didn't sign and didn't go in. The boss looked at the blank form in your folder and nodded.",
+      "coach": [
+        {
+          "tr": "Belge boş, kapı kapalı.",
+          "en": "Blank form, closed door.",
+          "roast": false
+        }
+      ]
+    },
+    "imzasiz": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "imzasiz_gosterim"
+          ]
+        },
+        "glossary": "yer_gosterme"
+      },
+      "tr": "İmzasız gezdirdin. Çıkarken müşteri zile ve zilin altındaki ev sahibi adına uzun uzun baktı.",
+      "en": "You showed it without the form. On the way out the client took a long look at the doorbell and the owner's name beneath it.",
+      "coach": [
+        {
+          "tr": "Zilde bir isim yazıyor. Okundu.",
+          "en": "There's a name on the doorbell. It has been read.",
+          "roast": false
+        }
+      ]
+    },
+    "anlat": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": 1
+            },
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "yer_gosterme_imzali"
+            ]
+          },
+          "glossary": "yer_gosterme"
+        },
+        "tr": "Belgeyi üç cümleyle anlattın, müşteri imzaladı. Kalemi sen vermiştin; geri gelmedi.",
+        "en": "You explained it in three sentences and the client signed. With your pen, which did not come back.",
+        "coach": [
+          {
+            "tr": "İmza alındı. Kalem gitti.",
+            "en": "Signature obtained. Pen lost.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "glossary": "yer_gosterme"
+        },
+        "tr": "Sen anlattıkça müşteri daha çok soru sordu. Yirmi dakika sonra belge imzasızdı, gösterim saati de dolmuştu.",
+        "en": "The more you explained, the more questions came. Twenty minutes later the form was unsigned and the viewing slot was over.",
+        "coach": [
+          {
+            "tr": "Yirmi dakika, sıfır imza.",
+            "en": "Twenty minutes. No signature.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "müşteri eve girmeden önce yer gösterme belgesini imzalamak istemiyor",
+    "mechanism": "yer gösterme belgesi tercümesi",
+    "mechanismId": "translation",
+    "punch": "ofis aracılığı olmaksızın = arkamdan ev sahibiyle anlaşarak",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kalem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

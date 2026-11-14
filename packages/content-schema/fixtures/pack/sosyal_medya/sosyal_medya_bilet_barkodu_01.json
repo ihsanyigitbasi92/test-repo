@@ -1,0 +1,178 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "sosyal_medya_bilet_barkodu_01",
+  "tags": [
+    "teknoloji",
+    "konser",
+    "sosyal_medya"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "sosyal_medya": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Selam, tanışmıyoruz. Paylaştığın konser biletinde barkod açık seçik görünüyor.",
+      "en": "Hi, we don't know each other. The barcode on that concert ticket you posted is fully visible."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Ben kullanmam. Ama ben tek kişiyim, senin takipçin daha çok.",
+      "en": "I won't use it. But I'm one person. You have more followers than that.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sil",
+      "tr": "Sil ve bekle",
+      "en": "Delete it and hope",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "yenile",
+      "tr": "Satıcıdan yeni barkod iste",
+      "en": "Ask the seller for a new barcode",
+      "pattern": "patience"
+    },
+    {
+      "id": "birak",
+      "tr": "Bırak, kim uğraşacak",
+      "en": "Leave it, who'd bother",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sil": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "bilet_kurtuldu"
+            ]
+          }
+        },
+        "tr": "Sildin. Konser günü barkod ilk okutuşta geçti.",
+        "en": "You deleted it. On the night, the barcode scanned on the first try.",
+        "coach": [
+          {
+            "tr": "Kapıdaki cihaz tek bip sesi çıkardı. Yetti.",
+            "en": "The scanner beeped once. That was enough.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -4
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Sildin ama geç kalmıştın. Kapıda barkod \"kullanıldı\" çıktı; konseri otoparktan dinledin.",
+        "en": "You deleted it, too late. At the door the barcode read \"already used.\" You heard the concert from the parking lot.",
+        "coach": [
+          {
+            "tr": "Otoparkta ses fena değilmiş. Görüntü yok.",
+            "en": "Decent sound in the parking lot. No visuals.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yenile": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -100,
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Satıcıya yazdın. Yeni barkod, işlem ücretiyle birlikte geldi: 100 Para.",
+      "en": "You wrote to the seller. A new barcode arrived, along with a processing fee: 100.",
+      "coach": [
+        {
+          "tr": "Yüz Para'lık bir fotoğraf oldu.",
+          "en": "That photo cost 100.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Bıraktın. Konser günü içeri girdin; koltuğunda biri oturuyordu. Onun da bileti vardı, aynısı.",
+      "en": "You left it up. On the night you got in. Someone was in your seat. They had a ticket too. The same one.",
+      "coach": [
+        {
+          "tr": "İki bilet, bir koltuk. Görevli üçüncü kişiydi.",
+          "en": "Two tickets, one seat. The usher made three.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sil",
+    "slip": {
+      "tr": "İDDİA: Barkod kapıdan senden önce girer. — M.",
+      "en": "WAGER: That barcode gets in before you do. — M."
+    }
+  },
+  "intent": {
+    "setup": "paylaşılan konser bileti fotoğrafında barkodun açıkça görünmesi ve bir yabancının uyarması",
+    "mechanism": "yabancı tehlikeyi takipçi sayısıyla ölçüyor",
+    "mechanismId": "deadpan_report",
+    "punch": "konseri otoparktan dinledin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "otopark"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

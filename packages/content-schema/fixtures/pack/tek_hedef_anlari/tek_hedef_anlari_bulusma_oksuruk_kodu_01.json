@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_bulusma_oksuruk_kodu_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "iliski",
+    "ev_arkadasi",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "date"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "İlk buluşma mı? Ben yan masada otururum. Bir şey olursa öksürürüm.",
+      "en": "First date? I'll sit at the next table. If it goes badly, I'll cough."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "İki öksürük: konuyu değiştir. Üç öksürük: hesabı iste.",
+      "en": "Two coughs: change the subject. Three coughs: ask for the check.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "yalniz",
+      "tr": "Yalnız git",
+      "en": "Go alone",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "date"
+      }
+    },
+    {
+      "id": "baris",
+      "tr": "Barış da gelsin",
+      "en": "Bring Jordan along",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ertele",
+      "tr": "Buluşmayı ertele",
+      "en": "Postpone the date",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yalniz": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -180,
+          "stats": {
+            "joy": 5,
+            "charm": 1
+          },
+          "flags": {
+            "add": [
+              "ilk_bulusma_iyi_gecti"
+            ]
+          }
+        },
+        "tr": "İki saat sürdü; hesap 180 Para. Çıkışta ikinci buluşmanın günü kondu: perşembe.",
+        "en": "It lasted two hours. The check was 180. A second date was set on the way out: Thursday.",
+        "coach": [
+          {
+            "tr": "Hedef: tamam. Perşembe ekstra.",
+            "en": "Goal: done. Thursday is extra.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -90,
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "ilk_bulusma_kisa_surdu"
+            ]
+          }
+        },
+        "tr": "Kırk dakikada bitti. Hesabı bölüştünüz; karşı taraf otobüsünün 'hemen şimdi' kalktığını söyledi.",
+        "en": "It ended at forty minutes. You split the check. Your date said their bus was leaving 'right now.'",
+        "coach": [
+          {
+            "tr": "Buluşma gerçekleşti. Hedef bunu sayıyor.",
+            "en": "A date occurred. The goal counts that.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "baris": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 5
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "bulusmaya_baris_geldi"
+          ]
+        }
+      },
+      "tr": "Barış yedi kez öksürdü. Buluştuğun kişi ona pastil uzattı; tatlıyı üçünüz yediniz.",
+      "en": "Jordan coughed seven times. Your date offered them a lozenge. The three of you shared dessert.",
+      "coach": [
+        {
+          "tr": "Hedef tamam. Masa üç kişilikti.",
+          "en": "Goal done. It was a table for three.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "bulusma_ertelendi"
+          ]
+        }
+      },
+      "tr": "'Bu hafta yoğunum' yazdın. Cevap bir başparmak oldu. Barış öksürük provasını iptal etti.",
+      "en": "You texted that this week is busy. The reply was a thumbs-up. Jordan canceled the cough rehearsal.",
+      "coach": [
+        {
+          "tr": "Hedef yerinde duruyor. Gün belli değil.",
+          "en": "The goal hasn't moved. The date has no date.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yalniz",
+    "slip": {
+      "tr": "İDDİA: İkinci buluşma çıkmaz. — M.",
+      "en": "WAGER: No second date comes of it. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk buluşmaya ev arkadaşının yan masada destek olarak gelmeyi önermesi",
+    "mechanism": "destek planı bir işaret sistemine dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "üç öksürük: hesabı iste",
+    "lift": "hedef tamam",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "persembe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

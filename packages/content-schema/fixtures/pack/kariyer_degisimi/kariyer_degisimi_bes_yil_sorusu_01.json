@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_degisimi_bes_yil_sorusu_01",
+  "tags": [
+    "is",
+    "kariyer_degisimi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_degisimi": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 32,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Yıllık değerlendirmenin son sorusu: beş yıl sonra kendinizi nerede görüyorsunuz?",
+      "en": "Last question on your annual review: where do you see yourself in five years?"
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "typing",
+      "tr": "Formda üç seçenek var: ekip lideri, kıdemli uzman, diğer.",
+      "en": "The form has three options: team lead, senior specialist, other."
+    }
+  ],
+  "choices": [
+    {
+      "id": "diger",
+      "tr": "'Diğer' de, açıkla",
+      "en": "Pick 'other' and explain",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "lider",
+      "tr": "Ekip lideri de",
+      "en": "Say team lead",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sonra",
+      "tr": "Düşünüp dönerim de",
+      "en": "Say you'll get back to them",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "diger": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "npc:hr",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "ik_destekli_gecis"
+            ]
+          }
+        },
+        "tr": "Yeni mesleği anlattın. İK uzmanı formu kapattı ve eğitim bütçesinden sana bir kurs ayırdı.",
+        "en": "You described the new career. The HR rep closed the form and earmarked a course for you from the training budget.",
+        "coach": [
+          {
+            "tr": "'Diğer' kutusu ilk kez dolu. Kurs dahil.",
+            "en": "The 'other' box, filled for once. Course included.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -3
+          },
+          "npc": [
+            {
+              "role": "npc:hr",
+              "memory": "baska_meslek"
+            }
+          ],
+          "flags": {
+            "add": [
+              "ayrilik_riski"
+            ]
+          }
+        },
+        "tr": "Yeni mesleği anlattın. Notun aynı kaldı ama dosyana 'bağlılık: gözlem altında' eklendi.",
+        "en": "You described the new career. Your score held, but your file now says 'commitment: under observation.'",
+        "coach": [
+          {
+            "tr": "Beş yıllık plan istediler. İzleme listesi verdin.",
+            "en": "They asked for a five-year plan. You gave them a watch list.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "lider": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "lider_hedefi"
+          ]
+        }
+      },
+      "tr": "Ekip lideri dedin. Gelecek çeyreğe 'liderlik gelişimi' atölyesine yazıldın, cumartesi sabahları.",
+      "en": "You said team lead. You're now enrolled in a 'leadership development' workshop next quarter. Saturday mornings.",
+      "coach": [
+        {
+          "tr": "Cumartesi sabahların liderliğe geçti.",
+          "en": "Your Saturday mornings now report to leadership.",
+          "roast": true
+        }
+      ]
+    },
+    "sonra": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "bes_yil_cevapsiz"
+          ]
+        }
+      },
+      "tr": "'Düşünüp döneceğim' dedin. İK takvimine 'dönüş: beş yıllık plan' başlıklı on dakikalık bir toplantı koydu.",
+      "en": "You said you'd get back to them. HR put a ten-minute meeting on your calendar: 'Follow-up: five-year plan.'",
+      "coach": [
+        {
+          "tr": "Beş yıl için on dakika ayrıldı.",
+          "en": "Ten minutes allotted for five years.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "diger",
+    "slip": {
+      "tr": "İDDİA: 'Diğer' kutusu dosyanda kalır. — M.",
+      "en": "WAGER: The 'other' box ends up in your file. — M."
+    }
+  },
+  "intent": {
+    "setup": "yıllık değerlendirmede beş yıl sorusuna dürüstçe başka bir meslek cevabı vermek",
+    "mechanism": "formun üç kutusu hayatı sınıflıyor",
+    "mechanismId": "literalism",
+    "punch": "ekip lideri, kıdemli uzman, diğer",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dakika"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

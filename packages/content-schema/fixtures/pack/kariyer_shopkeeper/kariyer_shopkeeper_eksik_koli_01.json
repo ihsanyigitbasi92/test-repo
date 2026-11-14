@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_eksik_koli_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 24
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bankaya gidiyorum, bir saat. Dükkân sende. Bir şey olursa arama, idare et.",
+      "en": "Off to the bank, one hour. The shop's yours. If anything comes up, don't call. Handle it."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Siparişte on iki koli var, kamyonda dokuz. İmza atıyor musun, atmıyor musun?",
+      "en": "Order says twelve boxes, truck has nine. Are you signing or not?",
+      "delayMs": 600
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Benim daha sekiz durağım var. Hepsinde birileri imza atıyor.",
+      "en": "I've got eight more stops. People sign at every one of them.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "imza",
+      "tr": "Dokuz koliye imza at",
+      "en": "Sign for nine boxes",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "not",
+      "tr": "İrsaliyeye eksik notu düş",
+      "en": "Write 'three short' on the slip",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ara",
+      "tr": "Yine de patronu ara",
+      "en": "Call the boss anyway",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "imza": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "esnaf_eksik_koli_imza"
+          ]
+        }
+      },
+      "tr": "İmzaladın. Patron döndüğünde eksik üç koliyi yüksek sesle saydı: üçü de en çok satan çaydı.",
+      "en": "You signed. The boss came back and counted the missing three out loud. All three were the bestselling tea.",
+      "coach": [
+        {
+          "tr": "Dokuz imza, on iki sipariş.",
+          "en": "Nine signed for, twelve ordered.",
+          "roast": false
+        }
+      ]
+    },
+    "not": [
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "İrsaliyeye \"3 koli eksik\" yazdın, şoför de parafladı. Eksik koliler ertesi sabah ayrı bir kamyonla geldi.",
+        "en": "You wrote 'three boxes short' and the driver initialed it. The missing boxes came next morning in their own truck.",
+        "coach": [
+          {
+            "tr": "İrsaliye konuştu.",
+            "en": "The slip did the talking.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Not düştün ama şoför paraflamadan gitti. Toptancı \"parafsız not geçmez\" dedi; konu hâlâ açık.",
+        "en": "You wrote the note, but the driver left without initialing it. The wholesaler says unsigned notes 'don't count.'",
+        "coach": [
+          {
+            "tr": "Not var, paraf yok.",
+            "en": "Note yes, initials no.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Patron banka sırasından açtı: \"İdare et dedim.\" Sonra sesini alçalttı: \"Sakın dokuza imza atma.\"",
+      "en": "The boss picked up from the bank line: 'I said handle it.' Then, quieter: 'Do not sign for nine.'",
+      "coach": [
+        {
+          "tr": "Talimat geldi. Kamyon gittikten sonra.",
+          "en": "Instructions arrived. After the truck left.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "patron dükkânı ilk kez sana bırakınca eksik kolili tedarik kamyonu imza istiyor",
+    "mechanism": "arama dedi; şoför acele ediyor",
+    "mechanismId": "escalation",
+    "punch": "hepsinde birileri imza atıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koli"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

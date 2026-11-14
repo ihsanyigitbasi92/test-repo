@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_ise_alim_botu_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "basvuru",
+    "ev_arkadasi",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Başvuruyu gönderdin mi? Gelen kutuna bir şey düştü.",
+      "en": "Did you send that application? Something just hit your inbox."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Konu: \"Başvurunuz dikkatle incelendi.\" Sen 02.21'de gönderdin, cevap 02.25'te geldi.",
+      "en": "Subject: \"Your application was carefully reviewed.\" You applied at 2:21. Reply at 2:25.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "tesekkur",
+      "tr": "Kibarca teşekkür et",
+      "en": "Reply with a polite thank-you",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tekrar",
+      "tr": "İlandaki kelimelerle tekrar başvur",
+      "en": "Reapply using the ad's keywords",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "uyu",
+      "tr": "Telefonu kapat, uyu",
+      "en": "Phone off, sleep",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "tesekkur": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "bot_tesekkur"
+          ]
+        }
+      },
+      "tr": "Teşekkür ettin. Dört dakika sonra ikinci bir mail geldi: \"Bu adres yanıt almamaktadır.\"",
+      "en": "You sent a thank-you. Four minutes later, a second email: \"This address does not receive replies.\"",
+      "coach": [
+        {
+          "tr": "Dört dakika. İkisinde de aynı hız.",
+          "en": "Four minutes. Consistent turnaround both ways.",
+          "roast": false
+        }
+      ]
+    },
+    "tekrar": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "bot_gecildi"
+            ]
+          }
+        },
+        "tr": "CV'ye ilandaki kelimeleri ekleyip yeniden gönderdin. Bu kez bir insan yazdı: perşembe mülakat.",
+        "en": "You worked the ad's keywords into your CV and resent it. This time a human replied: interview Thursday.",
+        "coach": [
+          {
+            "tr": "Karşıda bir insan. Perşembe.",
+            "en": "A human this time. Thursday.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "İkinci ret 02.53'te geldi. Bu inceleme üç dakika sürmüş.",
+        "en": "The second rejection came at 2:53. This review took three minutes.",
+        "coach": [
+          {
+            "tr": "Üç dakika. İnceleme hızlanıyor.",
+            "en": "Three minutes. Reviews are getting faster.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "uyu": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Telefonu kapattın. Sabaha iki yeni ilan açılmıştı; ikisinin altında da bir insan adı vardı.",
+      "en": "You turned your phone off. By morning, two new listings were up, both signed by actual people.",
+      "coach": [
+        {
+          "tr": "Sabah, insan imzalı iki ilan.",
+          "en": "Morning: two listings with human signatures.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "gece gönderilen iş başvurusuna dört dakikada otomatik ret gelmesi",
+    "mechanism": "\"dikkatle incelendi\" ile dört dakika",
+    "mechanismId": "count",
+    "punch": "Sen 02.21'de gönderdin, cevap 02.25'te geldi.",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "inceleme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

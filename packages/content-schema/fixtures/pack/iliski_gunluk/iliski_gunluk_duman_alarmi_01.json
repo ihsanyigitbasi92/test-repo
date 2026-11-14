@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_duman_alarmi_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Gece ikide tost yaptım. Alarmın bu kadar hassas olduğunu bilmiyordum.",
+      "en": "I made a toastie at 2 a.m. I didn't know the alarm was this sensitive."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Bütün apartman merdivende. Yangın var mı, yok mu?",
+      "en": "The whole building is on the stairs. Is there a fire or not?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ozur",
+      "tr": "Komşudan özür dile",
+      "en": "Apologize to the neighbor",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "havalandir",
+      "tr": "Pencereleri aç, sesini çıkarma",
+      "en": "Open the windows, lie low",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "tost",
+      "tr": "Herkese tost öner",
+      "en": "Offer everyone a toastie",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ozur": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Özür diledin; Şükran Teyze kabul etti. Yukarı çıkarken alarmı susturmayı değil, tostu doğru yapmayı anlattı.",
+        "en": "You apologized and Mrs. Dale accepted. On her way upstairs she explained not how to silence the alarm, but how to make a proper toastie.",
+        "coach": [
+          {
+            "tr": "Özür kabul. Tarif bonus.",
+            "en": "Apology accepted. Recipe included.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Özrün merdiven boşluğunda yankılandı. Apartman grubuna 'gece mutfak saati' önerisi düştü.",
+        "en": "Your apology echoed up the stairwell. The building chat received a proposal for 'kitchen curfew.'",
+        "coach": [
+          {
+            "tr": "Bir tost, bir yönetmelik taslağı.",
+            "en": "One toastie. One draft regulation.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "havalandir": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "gece_alarmi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Pencereleri açtın. Kırk dakika sonra apartman yatağa döndü; siz hâlâ tost kokuyordunuz.",
+      "en": "You opened the windows. Forty minutes later the building went back to bed. You two still smelled like toast.",
+      "coach": [
+        {
+          "tr": "Apartman uyudu. Koku uyumadı.",
+          "en": "The building slept. The smell stayed up.",
+          "roast": false
+        }
+      ]
+    },
+    "tost": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -60,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          },
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Merdivende altı tost dağıttınız. Şükran Teyze ikincisini istedi.",
+      "en": "You handed out six toasties on the stairs. Mrs. Dale asked for seconds.",
+      "coach": [
+        {
+          "tr": "Altı tost. Alarm affedildi.",
+          "en": "Six toasties. The alarm is forgiven.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'siz ya da düşük gerilimli gün"
+  },
+  "intent": {
+    "setup": "partnerin gece ikide yaptığı tostun duman alarmını çalıp bütün apartmanı merdivene indirmesi",
+    "mechanism": "alarm yangın değil tost yüzünden; komşu tarif veriyor",
+    "mechanismId": "escalation",
+    "punch": "yangın var mı, yok mu",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tost"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

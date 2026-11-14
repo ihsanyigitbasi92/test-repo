@@ -1,0 +1,233 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_terfi_komitesi_01",
+  "tags": [
+    "is",
+    "terfi",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Terfi komitesi sizi on dakika dinleyecek. Sunum en fazla dört slayt.",
+      "en": "The promotion committee will hear you for ten minutes. Four slides, max."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "tired",
+      "tr": "Komitede üç kişi var. Biri dışarıdan, telefondan bağlanacak. Kamerası hep kapalıdır.",
+      "en": "Three people on the committee. One dials in from outside. Camera's always off.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "typing",
+      "tr": "Sorulara iki dakika ayrıldı. Genelde soru çıkmaz, biri \"teşekkürler\" der.",
+      "en": "Two minutes for questions. There usually aren't any. Someone just says \"thanks.\"",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "dort",
+      "tr": "Dört slaytla sun",
+      "en": "Present four slides",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tek",
+      "tr": "Tek slayt, tek rakam",
+      "en": "One slide, one number",
+      "pattern": "risk"
+    },
+    {
+      "id": "patron",
+      "tr": "Patronun seni anlatsın",
+      "en": "Let your boss pitch you",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "dort": [
+      {
+        "p": 5500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "money": 500,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "terfi_aldi"
+            ]
+          }
+        },
+        "tr": "On dakika sürdü. Telefondaki üye \"teşekkürler\" dedi; terfin ertesi gün onaylandı, maaşa 500 Para eklendi.",
+        "en": "Ten minutes. The phone member said \"thanks.\" Your promotion was approved the next day, plus 500 a month.",
+        "coach": [
+          {
+            "tr": "Dört slayt, bir onay.",
+            "en": "Four slides. One approval.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir basamak ilerledi.",
+            "en": "Goal tracker: one rung up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "flags": {
+            "add": [
+              "terfi_ertelendi"
+            ]
+          }
+        },
+        "tr": "Komite \"bir sonraki döneme\" dedi. Telefondaki üyenin bağlantısı üçüncü slaytta kopmuştu.",
+        "en": "The committee said \"next cycle.\" The phone member had dropped off during slide three.",
+        "coach": [
+          {
+            "tr": "Üçüncü slaytta bir dinleyici eksildi. Karar iki kişiyle çıktı.",
+            "en": "One listener lost at slide three. Two people decided.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tek": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "meters": {
+          "ego": 6
+        },
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "terfi_aldi"
+          ]
+        },
+        "envelope": {
+          "teaserKey": "terfi_maas_farki",
+          "dueDays": [
+            30,
+            60
+          ],
+          "weight": 2,
+          "resolverEventId": "maas_terfi_zam_geriye_donuk_fark_01"
+        }
+      },
+      "tr": "Tek slayt açtın: geçen yıl şirkete kazandırdığın rakam. Komite dokuz dakika erken kalktı; terfi onaylandı, maaş farkı \"bütçe döneminde\".",
+      "en": "One slide: the number you made them last year. The committee left nine minutes early. Promotion approved. The pay bump is \"pending budget season.\"",
+      "coach": [
+        {
+          "tr": "Komite dokuz dakika kazandı. Senin payın zarfta.",
+          "en": "The committee got nine minutes back. Your share is in an envelope.",
+          "roast": false
+        }
+      ]
+    },
+    "patron": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "terfi_ertelendi"
+          ]
+        }
+      },
+      "tr": "Nevin Hanım seni anlattı, sen sessiz kaldın. Komite \"adayın kendi sesini duymak isteriz\" notunu düştü.",
+      "en": "Ms. Carver talked you up while you sat silent. The committee noted: \"We'd like to hear from the candidate.\"",
+      "coach": [
+        {
+          "tr": "Komite seni duymak istedi. Sıradaki dönemde.",
+          "en": "The committee wants to hear you. Next cycle.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dort",
+    "slip": {
+      "tr": "İDDİA: Dört slaytın biri telefonda kaybolur. — M.",
+      "en": "WAGER: One of your four slides dies on speakerphone. — M."
+    }
+  },
+  "intent": {
+    "setup": "terfi komitesine dört slaytlık on dakikalık sunum",
+    "mechanism": "kurumsal ritüel olduğu gibi aktarılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "biri teşekkürler der",
+    "lift": "hedef sayacı bir basamak",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "slayt"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

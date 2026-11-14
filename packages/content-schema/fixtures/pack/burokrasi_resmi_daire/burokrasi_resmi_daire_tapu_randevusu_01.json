@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_tapu_randevusu_01",
+  "tags": [
+    "burokrasi",
+    "ev",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "career": {
+      "employed": true
+    },
+    "money": {
+      "min": 4000
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Satıcı yok. Randevunuzun on beş dakikası kaldı, sonra sistem sizi düşürür.",
+      "en": "The seller isn't here. You have fifteen minutes left, then the system drops you."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Satıcınız arka koltukta, kemerini takıyor. Köprü boş, ben buradayım.",
+      "en": "Your seller's in my back seat, buckling up. The bridge is clear. I'm on it.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Kapıda bekle",
+      "en": "Wait by the door",
+      "pattern": "patience"
+    },
+    {
+      "id": "rica",
+      "tr": "Görevliden biraz zaman iste",
+      "en": "Ask the clerk for a little time",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yeni",
+      "tr": "Hemen yeni randevu al",
+      "en": "Book a new slot right away",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "tapu_ertelendi"
+          ]
+        }
+      },
+      "tr": "Satıcı on altıncı dakikada geldi. Sistem on beşte randevuyu düşürmüştü; yeni tarih üç hafta sonra.",
+      "en": "The seller arrived at minute sixteen. The system had dropped you at fifteen. New date: three weeks out.",
+      "coach": [
+        {
+          "tr": "Bir dakika, üç hafta.",
+          "en": "One minute cost three weeks.",
+          "roast": false
+        }
+      ]
+    },
+    "rica": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "tapu_tamam"
+            ]
+          },
+          "housing": "mortgage",
+          "status": {
+            "home": {
+              "kind": "mortgage",
+              "rent": 2200
+            },
+            "assets": {
+              "add": [
+                "ev"
+              ]
+            }
+          }
+        },
+        "tr": "Görevli sıradaki dosyayı çok yavaş açtı. Satıcı on dördüncü dakikada girdi; ev artık senin, kredisiyle birlikte.",
+        "en": "The clerk opened the next file very, very slowly. The seller walked in at minute fourteen. The flat is yours, mortgage included.",
+        "coach": [
+          {
+            "tr": "On dört dakika. Ardından yıllarca taksit.",
+            "en": "Fourteen minutes. Then years of installments.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef panosuna bir anahtar.",
+            "en": "One key added to the goal board.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "tapu_ertelendi"
+            ]
+          }
+        },
+        "tr": "Görevli \"sistem benden büyük\" dedi. Satıcı merdivendeyken randevu düştü.",
+        "en": "The clerk said, \"The system outranks me.\" The seller was on the stairs when it dropped.",
+        "coach": [
+          {
+            "tr": "Merdivende kalan bir imza.",
+            "en": "One signature, stranded on the stairs.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yeni": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "tapu_ertelendi"
+          ]
+        }
+      },
+      "tr": "Üç hafta sonrasına yeni randevu aldın. Onay mesajı geldiği anda satıcı kapıdan girdi.",
+      "en": "You booked a new slot three weeks out. The confirmation arrived the second the seller walked in.",
+      "coach": [
+        {
+          "tr": "Zamanlama kusursuz. Yön ters.",
+          "en": "Perfect timing. Wrong direction.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rica",
+    "slip": {
+      "tr": "İDDİA: Rica edersin, sistem dinlemez. — M.",
+      "en": "WAGER: You ask nicely. The system doesn't listen. — M."
+    }
+  },
+  "intent": {
+    "setup": "tapu devri randevusunda satıcının gecikmesi ve sistemin randevuyu düşürecek olması",
+    "mechanism": "bir ömürlük karar on beş dakikalık pencereye sıkışıyor",
+    "mechanismId": "understatement",
+    "punch": "on beş dakika sonra sistem sizi düşürür",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dakika"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

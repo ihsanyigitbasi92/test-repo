@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_bozuk_para_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Bozuk yok hocam. Sabahtan beri herkes büyük para veriyor.",
+      "en": "No change, sorry. Everyone's been handing me big notes since dawn."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Benim teorim şu: bozuk paralar bir yerde toplanıyor. Bir gün o yeri bulacağım.",
+      "en": "My theory: all the coins are gathering somewhere. One day I'll find the place.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ustu",
+      "tr": "Üstü kalsın",
+      "en": "Keep the change",
+      "pattern": "generosity"
+    },
+    {
+      "id": "bozdur",
+      "tr": "Büfeden bozdur",
+      "en": "Break it at the kiosk",
+      "pattern": "patience"
+    },
+    {
+      "id": "kart",
+      "tr": "Kartla ödemeyi dene",
+      "en": "Try paying by card",
+      "pattern": "risk",
+      "check": {
+        "base": 4000
+      }
+    }
+  ],
+  "outcomes": {
+    "ustu": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Ücret 185 Para’ydı, 300 verdin. Taksici dikiz aynasından iki kez teşekkür etti.",
+      "en": "The fare was 185. You handed over 300. He thanked you twice through the rearview mirror.",
+      "coach": [
+        {
+          "tr": "Bir yolculuğa iki teşekkür. Birim fiyatı 57,5 Para.",
+          "en": "Two thank-yous for one ride. Unit price: 57.5 each.",
+          "roast": false
+        }
+      ]
+    },
+    "bozdur": {
+      "effects": {
+        "money": -205,
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Büfeden bir paket sakız alıp bozdurdun. Taksimetre bu arada 15 Para daha yürüdü.",
+      "en": "You bought gum at the kiosk to break the note. The meter walked another fifteen meanwhile.",
+      "coach": [
+        {
+          "tr": "Sakız 5, bekleme 15. Ağız taze.",
+          "en": "Gum: five. Waiting: fifteen. Breath: fresh.",
+          "roast": false
+        }
+      ]
+    },
+    "kart": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -185,
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Cihaz arka koltuğun altından çıktı. Üçüncü denemede çekti.",
+        "en": "The card reader surfaced from under the back seat. It worked on the third try.",
+        "coach": [
+          {
+            "tr": "Cihaz vardı. Sadece saklanıyordu.",
+            "en": "The reader existed. It was just shy.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -185,
+          "flags": {
+            "add": [
+              "taksi_borclu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Cihaz “bağlantı yok” dedi. Taksici numaranı alıp borcu bir kâğıda yazdı, kâğıdı güneşliğe sıkıştırdı.",
+        "en": "The reader said “no signal.” He took your number, wrote the debt on a scrap and tucked it in the sun visor.",
+        "coach": [
+          {
+            "tr": "185 Para’lık senet. Güneşlikte, vadesiz.",
+            "en": "A 185 IOU. Sun visor. No due date.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kart",
+    "slip": {
+      "tr": "İDDİA: O cihaz çekmez. — M.",
+      "en": "WAGER: That card reader won’t work. — M."
+    }
+  },
+  "intent": {
+    "setup": "taksicinin hiç bozuğu yok, büyük parayla ödemek",
+    "mechanism": "bozuk paraların gizli toplanma yeri teorisi",
+    "mechanismId": "escalation",
+    "punch": "bir gün o yeri bulacağım",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "senet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

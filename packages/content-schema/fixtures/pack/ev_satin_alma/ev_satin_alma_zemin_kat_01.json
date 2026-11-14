@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_zemin_kat_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1200,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 75
+    },
+    "money": {
+      "min": 20000
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "zemin_kat_ev"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kredi vadesi yaşınızı geçemiyor. Teknik olarak size dört yıllık kredi verebilirim.",
+      "en": "The loan term can't outrun your age. Technically, I can offer you four years."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Krediye gerek yok. Zemin kat, merdiven yok, önünde bir parça toprak var. Domates.",
+      "en": "We don't need a loan. Ground floor, no stairs, a scrap of soil out front. Tomatoes.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "nakit",
+      "tr": "Birikimle peşin al",
+      "en": "Buy it outright with savings",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "kredi",
+      "tr": "Dört yıllık krediyi al",
+      "en": "Take the four-year loan",
+      "pattern": "risk"
+    },
+    {
+      "id": "kal",
+      "tr": "Merdivenli evde kal",
+      "en": "Stay with the stairs",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "nakit": {
+      "effects": {
+        "hidden": {
+          "stress": -3
+        },
+        "money": -10000,
+        "flags": {
+          "add": [
+            "zemin_kat_ev",
+            "ev_satin_alindi"
+          ]
+        },
+        "housing": "owned",
+        "status": {
+          "home": {
+            "kind": "owned",
+            "rent": 0
+          }
+        }
+      },
+      "tr": "Evi birikimle aldınız. Taşındığınız gün partnerin önüne üç domates fidesi dikti.",
+      "en": "You bought it outright. On moving day your partner planted three tomato seedlings out front.",
+      "coach": [
+        {
+          "tr": "Sıfır basamak, üç fide.",
+          "en": "Zero steps. Three seedlings.",
+          "roast": false
+        }
+      ]
+    },
+    "kredi": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": -4000,
+        "flags": {
+          "add": [
+            "zemin_kat_ev",
+            "ev_satin_alindi"
+          ]
+        },
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 2600
+          }
+        }
+      },
+      "tr": "Dört yıllık kredi onaylandı. Taksitler yüksek ama merdiven yok.",
+      "en": "The four-year loan went through. Steep payments. No stairs.",
+      "coach": [
+        {
+          "tr": "Basamaklar gitti. Taksitler taşındı.",
+          "en": "The stairs moved out. The installments moved in.",
+          "roast": false
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "balkon_domates"
+          ]
+        }
+      },
+      "tr": "Merdivenli evde kaldınız. Partnerin domatesleri balkonda saksıda yetiştirmeye başladı.",
+      "en": "You stayed put. Your partner started growing tomatoes in pots on the balcony.",
+      "coach": [
+        {
+          "tr": "Domates kendine yer buldu.",
+          "en": "The tomatoes found a way.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "emeklilikte bahçeli zemin kat daire almak, kredi vadesi yaşa takılıyor",
+    "mechanism": "domatese geri dönüş; her seçenekte bitki",
+    "mechanismId": "callback",
+    "punch": "kredi vadesi yaşınızı geçemiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fide"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

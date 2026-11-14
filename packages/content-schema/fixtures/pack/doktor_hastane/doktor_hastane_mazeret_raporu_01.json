@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_mazeret_raporu_01",
+  "tags": [
+    "saglik",
+    "sinav",
+    "rapor",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Dün sınav günüydü, ateşle uyandın. Bugün mazeret raporu için hastanedesin.",
+      "en": "Yesterday was exam day and you woke up with a fever. Today you're at the hospital for a sick note."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Ateşiniz normal. Dün yüksekti diyorsunuz. Keşke dün gelseydiniz.",
+      "en": "Your temperature is normal. You say it was high yesterday. Shame you didn't come yesterday."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Rapor bugünün durumuna yazılır. Bugün de siz gayet iyisiniz, maalesef.",
+      "en": "Reports describe today. And today, unfortunately, you're fine.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Dünü ayrıntılı anlat",
+      "en": "Describe yesterday in detail",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Raporsuz dön, bütünlemeye kal",
+      "en": "Leave, take the makeup exam",
+      "pattern": "patience"
+    },
+    {
+      "id": "eposta",
+      "tr": "Hocaya e-posta yaz",
+      "en": "Email the professor",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "anlat": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "diagnosis": "soguk_alginligi",
+          "flags": {
+            "add": [
+              "mazeret_raporu"
+            ]
+          }
+        },
+        "tr": "Doktor dünkü öksürüğünün canlandırmasını izledi, sonra bir günlük rapor yazdı. Raporda \"hasta beyanı\" yazıyor.",
+        "en": "The doctor watched your reenactment of yesterday's cough, then wrote a one-day note. It says \"per patient's account.\"",
+        "coach": [
+          {
+            "tr": "Öksürük canlandırman resmî kayda girdi. Jenerikte adın var.",
+            "en": "Your cough reenactment made the official record. You're in the credits.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "but_sinavi"
+            ]
+          }
+        },
+        "tr": "Doktor dinledi, \"geçmiş olsun\" dedi, rapor yazmadı. Sınav bütünlemeye kaldı.",
+        "en": "The doctor listened, said \"feel better,\" and wrote nothing. The exam moved to the makeup session.",
+        "coach": [
+          {
+            "tr": "Performans beğenildi. Bilet kesilmedi.",
+            "en": "The performance was well received. No ticket issued.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "but_sinavi"
+          ]
+        }
+      },
+      "tr": "Raporsuz döndün. Bütünleme tarihi takvime kırmızı kalemle girdi.",
+      "en": "You left without a note. The makeup exam went on the calendar in red.",
+      "coach": [
+        {
+          "tr": "Ateş bir gün erken düştü. Takvim bunu affetmedi.",
+          "en": "The fever broke one day early. The calendar holds grudges.",
+          "roast": true
+        }
+      ]
+    },
+    "eposta": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "hoca_eposta"
+          ]
+        }
+      },
+      "tr": "Hocaya uzun bir e-posta yazdın. Cevap tek kelime geldi: \"Rapor?\"",
+      "en": "You wrote the professor a long email. The reply was one word: \"Note?\"",
+      "coach": [
+        {
+          "tr": "Uzun e-posta, tek kelime. Hoca tasarruflu.",
+          "en": "Long email, one-word reply. Your professor conserves words.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlat",
+    "slip": {
+      "tr": "İDDİA: Hikâye rapora dönüşmez. — M.",
+      "en": "WAGER: The story doesn't turn into a doctor's note. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınav günü ateşlenip ertesi gün mazeret raporu almaya gidince ateşin düşmüş olması",
+    "mechanism": "ateş tam gerektiği gün düşüyor",
+    "mechanismId": "reversal",
+    "punch": "bugün de siz gayet iyisiniz, maalesef",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bilet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

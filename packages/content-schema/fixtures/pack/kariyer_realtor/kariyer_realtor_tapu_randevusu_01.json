@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_tapu_randevusu_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Randevu mesajı geldi: \"En yakın uygun saate kaydırıldı.\" Üç hafta sonrası!",
+      "en": "I got the text: \"Moved to the nearest available time.\" That's three weeks out."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Kredi onayım yarın bitiyor. Üç hafta bekleyemem. Siz bir şey yapın.",
+      "en": "My loan approval expires tomorrow. I can't wait three weeks. You do something.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sira",
+      "tr": "Sabah erkenden kapıda bekle",
+      "en": "Be at the door at dawn",
+      "pattern": "patience",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "uzatma",
+      "tr": "Bankadan uzatma yazısı al",
+      "en": "Get a loan extension letter",
+      "pattern": "overwork"
+    },
+    {
+      "id": "birak",
+      "tr": "Alıcıyı bırak",
+      "en": "Let the buyer walk",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sira": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 1500,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "realtor_satis_kapandi"
+            ]
+          }
+        },
+        "tr": "06.30'da kapıdaydın. Bir iptal çıktı, işlem öğlen bitti; komisyon 1.500 Para.",
+        "en": "You were at the door by 6:30 a.m. A slot opened, the deal closed by noon. Commission: 1,500.",
+        "coach": [
+          {
+            "tr": "Bir iptal, bir imza.",
+            "en": "One cancellation. One signature.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "06.30'da kapıdaydın. Önünde aynı mesajı almış on bir kişi vardı.",
+        "en": "You were there at 6:30 a.m. Eleven people were ahead of you, all with the same text.",
+        "coach": [
+          {
+            "tr": "On bir kişi, tek mesaj.",
+            "en": "Eleven people. One text.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "uzatma": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "tapu_uc_hafta"
+          ]
+        }
+      },
+      "tr": "Alıcıyla bankaya gidip uzatma yazısı aldınız. Tapu üç hafta sonra sorunsuz bitti.",
+      "en": "You and the buyer got an extension letter from the bank. The transfer went through three weeks later, smoothly.",
+      "coach": [
+        {
+          "tr": "Üç hafta. Herkes bekledi.",
+          "en": "Three weeks. Everyone waited.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "emlak_satis_kacti"
+          ]
+        }
+      },
+      "tr": "Alıcı vazgeçti. Daire ertesi gün aynı fotoğraflarla yeniden ilana çıktı.",
+      "en": "The buyer walked. The flat went back online the next day, same photos.",
+      "coach": [
+        {
+          "tr": "İlan geri döndü. Alıcı dönmedi.",
+          "en": "The listing came back. The buyer didn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da parti iddia payı doldu"
+  },
+  "intent": {
+    "setup": "tapu devri randevusu sistem nedeniyle üç hafta sonraya kayıyor, alıcının kredisi yarın bitiyor",
+    "mechanism": "en yakın uygun saat üç hafta sonrası",
+    "mechanismId": "literalism",
+    "punch": "en yakın uygun saat",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "randevu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

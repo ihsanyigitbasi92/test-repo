@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_ev_ofis_gideri_01",
+  "tags": [
+    "para",
+    "vergi",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Elektriğin hepsini gider yazamazsın. Buzdolabı da çalışıyor.",
+      "en": "You can't expense all the electricity. The fridge runs on it too."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Akşam izlediğimiz dizi de iş toplantısı mı?",
+      "en": "Is our evening show a business meeting too?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "pay",
+      "tr": "Makul bir payını yaz",
+      "en": "Claim a reasonable share",
+      "pattern": "patience"
+    },
+    {
+      "id": "hepsi",
+      "tr": "Faturanın hepsini yaz",
+      "en": "Claim the whole bill",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "hic",
+      "tr": "Hiç uğraşma",
+      "en": "Don't bother",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "pay": {
+      "effects": {
+        "money": 180,
+        "glossary": "ev_ofis_gideri",
+        "flags": {
+          "add": [
+            "ev_ofis_gideri"
+          ]
+        }
+      },
+      "tr": "Faturaların üçte birini yazdın. Muhasebeci \"savunulabilir\" dedi; yıllık fark 180 Para.",
+      "en": "You claimed a third of the bills. The accountant called it \"defensible.\" Yearly difference: 180.",
+      "coach": [
+        {
+          "tr": "Savunulabilir. Sakin bir kelime.",
+          "en": "Defensible. A calm word.",
+          "roast": false
+        }
+      ]
+    },
+    "hepsi": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 520,
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ev_ofis_gideri_tam"
+            ]
+          }
+        },
+        "tr": "Beyan kabul edildi. Bu yıl buzdolabını soran olmadı.",
+        "en": "The return went through. Nobody asked about the fridge this year.",
+        "coach": [
+          {
+            "tr": "Bu yıl.",
+            "en": "This year.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -650,
+          "hidden": {
+            "stress": 4
+          },
+          "glossary": "ev_ofis_gideri",
+          "flags": {
+            "add": [
+              "vergi_incelemesi"
+            ]
+          }
+        },
+        "tr": "Vergi ofisinden yazı geldi: mesai dışı tüketimin açıklanması isteniyor. Düzeltme ve gecikme farkı 650 Para.",
+        "en": "A letter from the tax office asked you to explain consumption outside working hours. Correction plus late charge: 650.",
+        "coach": [
+          {
+            "tr": "Buzdolabı ifade verdi.",
+            "en": "The fridge testified.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hic": {
+      "effects": {
+        "money": -150,
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "ev_ofis_yok"
+          ]
+        }
+      },
+      "tr": "Hiçbir şey yazmadın. Muhasebeci \"bu da bir tercih\" dedi ve ücretini yine aldı.",
+      "en": "You claimed nothing. The accountant said \"That's a choice,\" and billed you anyway.",
+      "coach": [
+        {
+          "tr": "Tercih ücretsiz değilmiş.",
+          "en": "The choice wasn't free.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hepsi",
+    "slip": {
+      "tr": "İDDİA: Buzdolabı sorulur. — M.",
+      "en": "WAGER: Someone asks about the fridge. — M."
+    }
+  },
+  "intent": {
+    "setup": "evden serbest çalışırken elektrik faturasının ne kadarını iş gideri yazacağına karar vermek",
+    "mechanism": "partnerin buzdolabı ve dizi itirazı",
+    "mechanismId": "callback",
+    "punch": "buzdolabı da çalışıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ifade"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

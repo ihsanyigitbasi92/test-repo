@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_pozisyon_donusumu_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 7500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    },
+    "stats": {
+      "joy": {
+        "min": 30
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "{name}, pozisyonun dönüştürülüyor. Tam zamanlı bant, yarı zamanlı bir yapıya hizalanıyor.",
+      "en": "{name}, your position is being transformed. The full-time band is aligning to a part-time structure."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Kabul edilmemesi hâlinde iş akdi, yasal haklar saklı kalmak kaydıyla sona erecektir.",
+      "en": "Should you decline, your employment will end, with your statutory rights preserved.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bunu bir yeniden çerçeveleme fırsatı olarak gör. Takviminin yarısı özgürleşiyor.",
+      "en": "Think of it as a reframing opportunity. Half your calendar is being liberated.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Yarı zamanlıyı kabul et",
+      "en": "Accept part-time",
+      "pattern": "patience"
+    },
+    {
+      "id": "ayril",
+      "tr": "Tazminatla ayrıl",
+      "en": "Take the severance and go",
+      "pattern": "risk"
+    },
+    {
+      "id": "dortgun",
+      "tr": "Dört gün iste",
+      "en": "Ask for four days instead",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "career": {
+          "rungDelta": -1
+        },
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "memory": "yari_zamanli"
+          }
+        ]
+      },
+      "tr": "Yarı zamanlıyı imzaladın. Masan aynı kaldı, isim etiketinin altına 'Salı–Perşembe' eklendi.",
+      "en": "You signed for part-time. Same desk. Your nameplate now has 'Tue–Thu' underneath.",
+      "coach": [
+        {
+          "tr": "Masa aynı, günler yarım. Takvim yeniden çizildi.",
+          "en": "Same desk, half the days. The calendar's been redrawn.",
+          "roast": false
+        }
+      ]
+    },
+    "ayril": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "money": 8000,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Tazminatı kabul ettin: 8.000 Para. Kutuya kupa, şarj aleti ve on bir yıllık bir zımba girdi.",
+      "en": "You took the severance: 8,000. The box held a mug, a charger and an eleven-year-old stapler.",
+      "coach": [
+        {
+          "tr": "On bir yıl, bir kutu. Zımba da seninle geliyor.",
+          "en": "Eleven years, one box. The stapler's coming with you.",
+          "roast": false
+        }
+      ]
+    },
+    "dortgun": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "dort_gun"
+            }
+          ]
+        },
+        "tr": "Dört gün istedin. Nevin Hanım 'esnekliğe esneklikle cevap' dedi ve kabul etti; cuma artık senin.",
+        "en": "You asked for four days. Ms. Carver called it 'meeting flexibility with flexibility' and agreed. Fridays are yours now.",
+        "coach": [
+          {
+            "tr": "Dört gün iş, üç gün hafta sonu. Cuma geri alındı.",
+            "en": "Four days on, three days off. Friday reclaimed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "dort_gun_red"
+            }
+          ]
+        },
+        "tr": "Nevin Hanım dört günün 'şu an önceliklendirilmediğini' söyledi. Yarı zamanlı teklif cumaya kadar masada.",
+        "en": "Ms. Carver said four days 'hasn't been prioritized at this time.' The part-time offer stays on the table until Friday.",
+        "coach": [
+          {
+            "tr": "Öncelik listesinde dört gün yok. Süre cumaya kadar.",
+            "en": "Four days isn't on the priority list. The deadline is Friday.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti iddia kotası"
+  },
+  "intent": {
+    "setup": "tam zamanlı pozisyon yarı zamanlıya dönüştürülüyor",
+    "mechanism": "takvimin yarısı özgürleşiyor",
+    "mechanismId": "bathos",
+    "punch": "takviminin yarısı özgürleşiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zimba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

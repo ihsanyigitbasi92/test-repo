@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_hesap_makinesi_listesi_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "sertifika",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Hesap makinenizin modeli onaylı listede yok. Listede bir önceki modeliniz var.",
+      "en": "Your calculator model isn’t on the approved list. The one before it is."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tuşları aynı mı bilmiyorum. Listesi aynı değil.",
+      "en": "I can’t say if the buttons are the same. The list isn’t.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yedek",
+      "tr": "Merkezin yedeğini al",
+      "en": "Take the center’s spare",
+      "pattern": "patience"
+    },
+    {
+      "id": "kafadan",
+      "tr": "Kafadan hesapla",
+      "en": "Do it in your head",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "al",
+      "tr": "Koşup yenisini al",
+      "en": "Run out and buy one",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "yedek": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sertifika_sinavi_girildi"
+          ]
+        }
+      },
+      "tr": "Yedek makinenin eşittir tuşu yapışıyordu. Her işlemi iki kez yaptın, süre son soruya yetti.",
+      "en": "The spare’s equals key stuck. You ran every calculation twice and finished on the last minute.",
+      "coach": [
+        {
+          "tr": "Her işlem iki kez. Sonuçlar tutarlı.",
+          "en": "Every sum done twice. Results consistent.",
+          "roast": false
+        }
+      ]
+    },
+    "kafadan": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "brain": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "sertifika_sinavi_girildi",
+              "kafadan_hesap"
+            ]
+          }
+        },
+        "tr": "Kafadan hesapladın. Kenar boşlukları rakamla doldu, cevaplar kâğıda sığdı.",
+        "en": "Mental math it was. The margins filled with numbers, and the answers fit.",
+        "coach": [
+          {
+            "tr": "Makine yasaklandı. Kafa onaylandı.",
+            "en": "Calculator: rejected. Head: approved.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "sertifika_sinavi_girildi"
+            ]
+          }
+        },
+        "tr": "Yedinci soruda bir basamak kaydı, sonraki üç soru o basamağın üstüne kuruldu.",
+        "en": "A digit slipped on question seven. The next three questions were built on that digit.",
+        "coach": [
+          {
+            "tr": "Bir basamak. Dört soru taşıdı.",
+            "en": "One digit. Carried through four questions.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "al": {
+      "effects": {
+        "money": -450,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sertifika_sinavi_girildi",
+            "onayli_hesap_makinesi"
+          ]
+        }
+      },
+      "tr": "Karşıdaki kırtasiyeden onaylı modeli 450 Para’ya aldın. Salona altı dakika geç girdin.",
+      "en": "You bought an approved model across the street for 450. You walked in six minutes late.",
+      "coach": [
+        {
+          "tr": "Makine onaylı. Altı dakika onaysız.",
+          "en": "Calculator approved. Six minutes not.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kafadan",
+    "slip": {
+      "tr": "İDDİA: Bir basamak kayar. — M.",
+      "en": "WAGER: A digit slips somewhere. — M."
+    }
+  },
+  "intent": {
+    "setup": "sertifika sınavına giriş kapısında hesap makinesinin onaylı listede olmaması",
+    "mechanism": "görevli listeyi tuşlardan önemli tutuyor",
+    "mechanismId": "literalism",
+    "punch": "listesi aynı değil",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "model"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

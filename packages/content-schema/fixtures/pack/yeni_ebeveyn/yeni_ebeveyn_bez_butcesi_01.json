@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yeni_ebeveyn_bez_butcesi_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "para",
+    "yeni_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yeni_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "kumas_bez"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bu ay bez 900 Para tuttu. Kumaş beze mi geçsek? Yılda 6.000 kâr çıkıyor.",
+      "en": "Diapers cost us 900 this month. Should we switch to cloth? I make it six thousand a year saved."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Biz hep yıkardık. O makineye güvenmeyin, elde yıkayın.",
+      "en": "We always washed ours. Don't trust that machine. Do them by hand.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kumas",
+      "tr": "Kumaş beze geç",
+      "en": "Switch to cloth",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "toptan",
+      "tr": "Toptan bez al",
+      "en": "Buy diapers in bulk",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "ikisi",
+      "tr": "Gündüz kumaş, gece hazır",
+      "en": "Cloth by day, disposable by night",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kumas": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -700,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "kumas_bez"
+            ]
+          }
+        },
+        "tr": "Başlangıç seti 700 Para. Makine günde iki kez dönüyor; bez masrafı yarıya indi.",
+        "en": "The starter kit cost 700. The machine runs twice a day, and diaper spending halved.",
+        "coach": [
+          {
+            "tr": "Günde iki yıkama. Bütçe nefes aldı.",
+            "en": "Two loads a day. The budget can breathe.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kumas_bez_denendi"
+            ]
+          }
+        },
+        "tr": "On dört günde kırk iki yıkama. Kumaş bezler dolaba, hazır bezler eve döndü.",
+        "en": "Forty-two loads in fourteen days. The cloth went in a cupboard and the disposables came back.",
+        "coach": [
+          {
+            "tr": "Kırk iki yıkama. Kumaş emekli.",
+            "en": "Forty-two loads. Cloth retired.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "toptan": {
+      "effects": {
+        "money": -2400,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "bez_kolisi_fazla"
+          ]
+        }
+      },
+      "tr": "2.400 Para'lık koliler koridoru doldurdu. İki ay sonra beden değişti; üç koli kaldı.",
+      "en": "2,400 worth of boxes filled the hallway. Two months later the size changed. Three boxes left over.",
+      "coach": [
+        {
+          "tr": "Beden değişti. Koridor hâlâ dar.",
+          "en": "The size changed. The hallway is still narrow.",
+          "roast": false
+        }
+      ]
+    },
+    "ikisi": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kumas_bez_yarim"
+          ]
+        }
+      },
+      "tr": "Gündüz kumaş, gece hazır bez. Aylık masraf 400 Para düştü.",
+      "en": "Cloth by day, disposables by night. Monthly costs dropped by 400.",
+      "coach": [
+        {
+          "tr": "Gündüz tasarruf, gece uyku.",
+          "en": "Savings by day. Sleep by night.",
+          "roast": false
+        },
+        {
+          "tr": "Zarfa ayda 400 Para.",
+          "en": "400 a month to the envelope.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kumas",
+    "slip": {
+      "tr": "İDDİA: İki haftaya kalmaz, hazır beze dönülür. — M.",
+      "en": "WAGER: Back to disposables within two weeks. — M."
+    }
+  },
+  "intent": {
+    "setup": "bez masrafı yüzünden kumaş beze geçmeyi tartışmak",
+    "mechanism": "yıkama sayısı birikiyor",
+    "mechanismId": "count",
+    "punch": "elde yıkayın",
+    "lift": "Zarfa ayda 400 Para.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yikama"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

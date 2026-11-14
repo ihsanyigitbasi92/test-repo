@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gec_ask_yalnizlik_arti_bir_01",
+  "tags": [
+    "iliski",
+    "gec_ask_yalnizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "gec_ask_yalnizlik": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Davetiyede \"artı bir\" yazıyor. Kuzenini götür.",
+      "en": "The invitation says \"plus one.\" Take your cousin."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Kuzenin gelemiyormuş. Komşunun kızı boşmuş. Ya da ben gelirim.",
+      "en": "Your cousin can't. The neighbor's kid is free. Or I could come.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "is_arkadasi",
+      "tr": "İş arkadaşını davet et",
+      "en": "Invite a coworker",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Anneni götür",
+      "en": "Take your mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "tek",
+      "tr": "Tek git",
+      "en": "Go solo",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "is_arkadasi": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "flags": {
+            "add": [
+              "dugun_artibir_is"
+            ]
+          }
+        },
+        "tr": "İş arkadaşın kabul etti. Bütün gece dans ettiniz, pazartesi ofiste herkes biliyordu.",
+        "en": "Your coworker said yes. You danced all night. By Monday the whole office knew.",
+        "coach": [
+          {
+            "tr": "Artı bir doldu. Ofis de.",
+            "en": "Plus-one filled. So did the office rumor mill.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "İş arkadaşın o gün başka bir düğündeymiş. Yerine bir kek tarifini önerdi.",
+        "en": "Your coworker had another wedding that day. They offered a cake recipe instead.",
+        "coach": [
+          {
+            "tr": "Tarif artı bir sayılmıyor.",
+            "en": "A recipe does not count as a plus-one.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Annenle gittin. Annen seni sekiz kişiye tanıttı, beşine numaranı verdi.",
+      "en": "You went with Mom. She introduced you to eight people and gave your number to five.",
+      "coach": [
+        {
+          "tr": "Beş numara dağıtıldı. Senin numaran.",
+          "en": "Five numbers handed out. All yours.",
+          "roast": false
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "dugun_tek_gitti"
+          ]
+        }
+      },
+      "tr": "Tek gittin. Masanda iki boş sandalye vardı, ikisine de çanta koydun.",
+      "en": "You went alone. Two empty chairs at your table. You gave both of them a bag.",
+      "coach": [
+        {
+          "tr": "Çantalar iyi misafirdi.",
+          "en": "The bags were excellent company.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe tek kişilik bir adım.",
+          "en": "One solo step toward the goal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "is_arkadasi",
+    "slip": {
+      "tr": "İDDİA: Davet geri çevrilir. — M.",
+      "en": "WAGER: The invite gets declined. — M."
+    }
+  },
+  "intent": {
+    "setup": "düğün davetiyesindeki artı bir hakkına kimi götüreceğini bulamamak",
+    "mechanism": "annenin aday listesi kuzenden kendisine tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "ben de gelirim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "arti_bir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

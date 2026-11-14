@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gece_hayati_eglence_karisik_hesap_01",
+  "tags": [
+    "sosyal",
+    "gece",
+    "restoran",
+    "gece_hayati_eglence"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "gece_hayati_eglence": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "tired",
+      "tr": "Hesabınız. On dört meze, iki ızgara, bir doğum günü pastası.",
+      "en": "Your check. Fourteen small plates, two grills, one birthday cake."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "İki kişi misiniz? Hm. Pastanın mumları da yazılmış. Onu ben eklemedim.",
+      "en": "Party of two? Hm. They charged for the candles too. That wasn't me.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "soyle",
+      "tr": "Yanlış hesap olduğunu söyle",
+      "en": "Point out it's the wrong check",
+      "pattern": "patience"
+    },
+    {
+      "id": "ode",
+      "tr": "Tartışma, öde, çık",
+      "en": "Don't argue, pay, leave",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "yanmasa",
+      "tr": "Yan masaya git, durumu anlat",
+      "en": "Go explain it to the next table",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "soyle": {
+      "effects": {
+        "money": -320,
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Garson hesabı geri aldı, doğrusunu getirdi: 320 Para. On dakika daha bekledin.",
+      "en": "The waiter took it back and brought the right one: 320. Ten more minutes of waiting.",
+      "coach": [
+        {
+          "tr": "Kendi hesabın, on dakika gecikmeli.",
+          "en": "Your own check, ten minutes late.",
+          "roast": false
+        },
+        {
+          "tr": "Bütçe korundu: 2.480 Para.",
+          "en": "Budget intact: 2,480 saved.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -2800,
+        "stats": {
+          "joy": -4
+        },
+        "flags": {
+          "add": [
+            "yanlis_hesap_odendi"
+          ]
+        }
+      },
+      "tr": "Ödedin: 2.800 Para. Yan masa pastayı kesti, sana bir dilim yolladı.",
+      "en": "You paid. 2,800. The next table cut the cake and sent you a slice.",
+      "coach": [
+        {
+          "tr": "2.800 Para’lık dilim. Pahalı pasta.",
+          "en": "A 2,800 slice. Pricey cake.",
+          "roast": true
+        }
+      ]
+    },
+    "yanmasa": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -320,
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "yan_masa_dostlugu"
+            ]
+          }
+        },
+        "tr": "Yan masaya gidip anlattın. Hesaplar ayrıldı; doğum günü şarkısına sen de katıldın.",
+        "en": "You went over and explained. The checks got sorted, and you ended up singing the birthday song with them.",
+        "coach": [
+          {
+            "tr": "Yanlış hesap, doğru masa.",
+            "en": "Wrong check, right table.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -320,
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 5
+          }
+        },
+        "tr": "Yan masa seni pastaya göz diken biri sandı. Garson seni yerine geri götürdü.",
+        "en": "The next table thought you were after their cake. The waiter walked you back to your seat.",
+        "coach": [
+          {
+            "tr": "Masaya gittin, pastaya şüpheli oldun.",
+            "en": "You visited a table and became a cake suspect.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "garsonun yan masanın kalabalık hesabını sana getirmesi",
+    "mechanism": "kalem kalem sayım: on dört meze, mum",
+    "mechanismId": "count",
+    "punch": "onu ben eklemedim",
+    "lift": "bütçe",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dilim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

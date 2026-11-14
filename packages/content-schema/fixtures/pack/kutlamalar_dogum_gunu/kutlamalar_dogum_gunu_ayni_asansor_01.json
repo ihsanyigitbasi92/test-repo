@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kutlamalar_dogum_gunu_ayni_asansor_01",
+  "tags": [
+    "sosyal",
+    "kutlama",
+    "surpriz",
+    "kutlamalar_dogum_gunu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "kutlamalar_dogum_gunu": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "text": [
+    {
+      "id": "giris",
+      "tr": "Ortak arkadaşınız için evde sürpriz parti var ve sen geç kaldın. Asansörde elinde pastayla doğum günü sahibiyle yalnızsın.",
+      "en": "There's a surprise party at your place for a friend, and you're late. In the elevator, holding the cake, it's just you and the birthday friend."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "NEREDESİN. O da yolda, saklanıyoruz. Işıkları kapattık.",
+      "en": "WHERE ARE YOU. They're on the way, we're hiding. Lights are off."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Asansör sesi geliyor. Sakın onunla aynı asansöre binme.",
+      "en": "I hear the elevator. Whatever you do, don't ride up with them.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "rol",
+      "tr": "Pasta komşuya de",
+      "en": "Say the cake's for a neighbor",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "merdiven",
+      "tr": "Bir katta in, merdivenden koş",
+      "en": "Hop off and run the stairs",
+      "pattern": "overwork"
+    },
+    {
+      "id": "ver",
+      "tr": "Pastayı ona ver",
+      "en": "Just hand over the cake",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "rol": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "surpriz_basarili"
+            ]
+          }
+        },
+        "tr": "'Komşuya' dedin, inandı. Kapı açıldı, ışıklar yandı; doğum günü sahibi gerçekten şaşırdı.",
+        "en": "'It's for a neighbor,' you said, and they bought it. The door opened, the lights came on, and they were genuinely shocked.",
+        "coach": [
+          {
+            "tr": "Komşu hikâyesi bir kat dayandı. Yetti.",
+            "en": "The neighbor story held for one floor. Enough.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "surpriz_yari_basarili"
+            ]
+          }
+        },
+        "tr": "Pastanın üstünde adı yazıyordu. Kapıya kadar ikiniz de konuşmadınız, sonra beraber 'Sürpriz' dediniz.",
+        "en": "Their name was piped on the cake. Neither of you spoke till the door, then you both yelled 'Surprise.'",
+        "coach": [
+          {
+            "tr": "Sürpriz iki kişilik oldu. Biri sürprizin kendisiydi.",
+            "en": "A surprise for two. One of you was the surprise.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "merdiven": {
+      "effects": {
+        "stats": {
+          "joy": 4,
+          "health": -2
+        },
+        "flags": {
+          "add": [
+            "surpriz_basarili"
+          ]
+        }
+      },
+      "tr": "Bir kat sonra inip altı kat merdiven çıktın. Kapıya asansörden önce, nefes nefese vardın.",
+      "en": "You hopped off one floor up and ran six flights. You beat the elevator to the door, wheezing.",
+      "coach": [
+        {
+          "tr": "Altı kat, bir pasta, sıfır nefes. İlk sen vardın.",
+          "en": "Six flights, one cake, zero breath. First one there.",
+          "roast": true
+        }
+      ]
+    },
+    "ver": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Pastayı asansörde verdin. Partinin ilk on dakikası, karanlıkta saklanan yirmi kişiye 'Çıkabilirsiniz' demekle geçti.",
+      "en": "You handed over the cake in the elevator. The first ten minutes of the party were spent telling twenty people in the dark they could come out.",
+      "coach": [
+        {
+          "tr": "Sürpriz asansörde açıldı. Yirmi kişi boşuna eğildi.",
+          "en": "The surprise opened in the elevator. Twenty people crouched for nothing.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check var ama wager bütçesi başka olaylarda"
+  },
+  "intent": {
+    "setup": "sürpriz partiye geç kalıp doğum günü sahibiyle aynı asansöre binmek",
+    "mechanism": "sürpriz taşıyanın kendisi yakalanıyor",
+    "mechanismId": "bathos",
+    "punch": "sakın onunla aynı asansöre binme",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

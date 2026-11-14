@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_hoa_sessiz_havuz_01",
+  "tags": [
+    "kariyer",
+    "site_yonetici",
+    "kariyer_hoa"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_hoa": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 52
+    },
+    "career": {
+      "anyOf": [
+        "hoa"
+      ],
+      "employed": true
+    },
+    "season": [
+      "summer"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Havuza sessiz yüzme saati istiyorum. Sabah yedi ile sekiz. Sıçratmak yok, konuşmak yok.",
+      "en": "I want a quiet swim hour at the pool. Seven to eight a.m. No splashing, no talking."
+    },
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "smug",
+      "tr": "Ben sessiz yüzerim. Ama su ses çıkarıyor, suyu tutamam.",
+      "en": "I can swim quietly. But the water makes noise. I can't control the water.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ilan",
+      "tr": "Sessiz saati ilan et",
+      "en": "Announce the quiet hour",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "uzlas",
+      "tr": "İki tarafı uzlaştır",
+      "en": "Broker a compromise",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "Havuzu o saatte kapat",
+      "en": "Close the pool for that hour",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ilan": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          },
+          {
+            "role": "npc:neighborKid",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Sessiz saat başladı. İlk hafta sabah yedide havuza yalnızca talep sahibi girdi.",
+      "en": "Quiet hour began. The first week, the only swimmer at seven was the one who asked for it.",
+      "coach": [
+        {
+          "tr": "Bir kişilik saat. Tam sessizlik.",
+          "en": "An hour for one. Total silence.",
+          "roast": false
+        }
+      ]
+    },
+    "uzlas": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            },
+            {
+              "role": "npc:neighborKid",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "hoa_havuz_kulvar"
+            ]
+          }
+        },
+        "tr": "Havuzu iple ikiye böldün: bir yanda sessiz kulvar, bir yanda serbest. İki taraf da öbür yanın geniş olduğunu söyleyip girdi.",
+        "en": "You split the pool with a rope: one quiet lane, one free-for-all. Both sides said the other half was bigger. Both got in.",
+        "coach": [
+          {
+            "tr": "İki taraf da şikâyetçi. Uzlaşma tam olarak bu.",
+            "en": "Both sides are complaining. That's what a compromise looks like.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Toplantıda kimse ipe razı olmadı. Konu bir sonraki genel kurula, yani havuz kapandıktan sonraya kaldı.",
+        "en": "Nobody agreed to the rope. The matter went to the next general meeting, scheduled for after the pool closes.",
+        "coach": [
+          {
+            "tr": "Sorun çözüldü. Takvim çözdü.",
+            "en": "Problem solved. By the calendar.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          },
+          {
+            "role": "npc:neighborKid",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Havuz yedi ile sekiz arası kapatıldı. Talep sahibi ertesi gün sekizden dokuza sessiz saat istedi.",
+      "en": "The pool now closes from seven to eight. The next day, the same resident asked for a quiet hour from eight to nine.",
+      "coach": [
+        {
+          "tr": "Sessiz saat bir saat ileri kaydı.",
+          "en": "Quiet hour has moved up an hour.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "uzlas",
+    "slip": {
+      "tr": "İDDİA: İp iki tarafı da kızdırır, kimseyi ikna etmez. — M.",
+      "en": "WAGER: The rope annoys everyone and convinces no one. — M."
+    }
+  },
+  "intent": {
+    "setup": "bir sakinin site havuzuna sessiz yüzme saati istemesi",
+    "mechanism": "çocuk sessiz yüzebileceğini ama suyun ses çıkardığını söylüyor",
+    "mechanismId": "literalism",
+    "punch": "suyu tutamam",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "takvim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

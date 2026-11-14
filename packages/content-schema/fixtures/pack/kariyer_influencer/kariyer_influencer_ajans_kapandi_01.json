@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_influencer_ajans_kapandi_01",
+  "tags": [
+    "kariyer",
+    "influencer",
+    "kariyer_influencer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_influencer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "influencer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Ajansı kapatıyoruz. Son üç ayın ödemesi ajansın hesabında. Hesap da kapanıyor.",
+      "en": "We're closing the agency. The last three months of payments are in the agency account. Which is also closing."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Karşılığında ofisteki kanepeyi verebilirim. Üstünde çok içerik çekildi.",
+      "en": "I could give you the office sofa instead. A lot of content was shot on it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "marka",
+      "tr": "Doğrudan markaya yaz",
+      "en": "Write to the brand directly",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kanepe",
+      "tr": "Kanepeyi al",
+      "en": "Take the sofa",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "bekle",
+      "tr": "Tasfiyeyi bekle",
+      "en": "Wait for the wind-down",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "marka": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 3200,
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "infl_dogrudan_marka"
+            ]
+          }
+        },
+        "tr": "Markaya faturalarınla yazdın. Marka ödemeyi doğrudan sana yaptı ve sonraki işleri ajanssız teklif etti.",
+        "en": "You wrote to the brand with your invoices. They paid you directly and offered the next jobs agency-free.",
+        "coach": [
+          {
+            "tr": "Ödeme üç ay bekledi, ajans kapanınca dört günde geldi.",
+            "en": "Three months of waiting. Four days once the agency was gone.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef kartında alacak kapandı.",
+            "en": "Debt closed on the goal card.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "infl_tasfiye_listesi"
+            ]
+          }
+        },
+        "tr": "Marka ödemeyi ajansa yaptığını yazıp dekontu ekledi. Alacağın ajansın kapanış listesine girdi.",
+        "en": "The brand replied that it had paid the agency, receipt attached. Your claim went onto the closing list.",
+        "coach": [
+          {
+            "tr": "Alacağın artık bir listede, on birinci sırada.",
+            "en": "Your money is now on a list. Eleventh in line.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kanepe": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": 1
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "ajans_kanepesi"
+            ]
+          }
+        }
+      },
+      "tr": "Kanepeyi eve getirttin; nakliye 450 Para tuttu. Alacak kapandı, salon daraldı.",
+      "en": "You had the sofa delivered. Shipping: 450. The debt is settled, and the living room got smaller.",
+      "coach": [
+        {
+          "tr": "Üç aylık emek, iki buçuk kişilik.",
+          "en": "Three months of work. Seats two and a half.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "infl_tasfiye_listesi"
+          ]
+        }
+      },
+      "tr": "Tasfiye listesine adını yazdırdın. Ajans sahibi her ay kibar bir 'gelişme yok' e-postası atıyor.",
+      "en": "You put your name on the wind-down list. The owner sends a polite 'no update' email every month.",
+      "coach": [
+        {
+          "tr": "Ayda bir e-posta. İçerik üretimi sürüyor.",
+          "en": "A monthly email. Content production continues.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "marka",
+    "slip": {
+      "tr": "İDDİA: Marka parayı sana ödemez. — M.",
+      "en": "WAGER: The brand won't pay you directly. — M."
+    }
+  },
+  "intent": {
+    "setup": "çalıştığın ajans üç aylık ödemen içerideyken kapanıyor",
+    "mechanism": "alacak kanepe olarak teklif ediliyor",
+    "mechanismId": "deadpan_report",
+    "punch": "üç aylık emek, iki buçuk kişilik",
+    "lift": "Hedef kartında alacak kapandı.",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kanepe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

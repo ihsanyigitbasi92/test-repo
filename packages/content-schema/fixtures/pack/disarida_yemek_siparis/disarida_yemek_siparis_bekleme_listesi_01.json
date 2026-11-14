@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_bekleme_listesi_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "restoran",
+    "partner",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 33
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Yarım saat dediler. Bir saat oldu. Kapıdaki menüyü ezberledim.",
+      "en": "They said half an hour. It's been an hour. I've memorized the menu taped to the door."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Şu masa hesap istedi galiba. Yanlarında durursak belki anlarlar.",
+      "en": "I think that table just asked for the check. If we stand next to them, maybe they'll get the hint.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dikil",
+      "tr": "Masanın yanında bekle",
+      "en": "Hover by that table",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yan",
+      "tr": "Yan sokaktaki boş yere git",
+      "en": "Try the empty place next door",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ev",
+      "tr": "Eve dön, makarna yap",
+      "en": "Go home, make pasta",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "dikil": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -520,
+          "flags": {
+            "add": [
+              "siparis_masa_kapildi"
+            ]
+          }
+        },
+        "tr": "Masa iki dakikada boşaldı ve size verildi. Yemek beklemeye değdi, hesap 520 Para.",
+        "en": "The table cleared in two minutes and it was yours. Dinner was worth the wait. Check: 520.",
+        "coach": [
+          {
+            "tr": "Bekleme bitti. Kapıdaki menü artık ömürlük.",
+            "en": "Wait over. The door menu is memorized for life.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -520,
+          "flags": {
+            "add": [
+              "siparis_masa_gerginligi"
+            ]
+          }
+        },
+        "tr": "Masadakiler kahveyle tatlı söyledi. Yarım saat yanlarında durduktan sonra oturdunuz, kimse kimseyle göz göze gelmedi.",
+        "en": "The table ordered coffee and dessert. After thirty minutes of hovering you sat down, and nobody made eye contact.",
+        "coach": [
+          {
+            "tr": "Siz yanlarında durdunuz, onlar tatlı söyledi.",
+            "en": "You hovered. They ordered dessert.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yan": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -310,
+        "flags": {
+          "add": [
+            "siparis_bos_restoran"
+          ]
+        }
+      },
+      "tr": "Yan sokaktaki boş restoranda hemen oturdunuz. Yemek orta karar, hesap 310 Para, garson çok mutluydu.",
+      "en": "Next door you were seated instantly. The food was fine, the check was 310, and the waiter was thrilled.",
+      "coach": [
+        {
+          "tr": "Boş restoranın tek artısı: garson seni seviyor.",
+          "en": "Perk of an empty restaurant: the waiter adores you.",
+          "roast": false
+        }
+      ]
+    },
+    "ev": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": 1
+        },
+        "money": -60,
+        "flags": {
+          "add": [
+            "siparis_eve_donus"
+          ]
+        }
+      },
+      "tr": "Eve dönüp makarna yaptınız, 60 Para. Partnerin kapıdaki menüden üç yemeği ezberden sayıp hangisini seçeceğini anlattı.",
+      "en": "You went home and made pasta: 60. Your partner recited three dishes from the door menu and explained which one they would have ordered.",
+      "coach": [
+        {
+          "tr": "Hiç yenmeyen bir yemeğin en uzun eleştirisi.",
+          "en": "The longest review yet of a meal nobody ate.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dikil",
+    "slip": {
+      "tr": "İDDİA: O masa kalkmaz. — M.",
+      "en": "WAGER: That table isn't going anywhere. — M."
+    }
+  },
+  "intent": {
+    "setup": "rezervasyonsuz gidilen restoranda yarım saatlik beklemenin bir saate çıkması",
+    "mechanism": "menünün ezberlenmesi ve masanın yanında dikilme planı",
+    "mechanismId": "bathos",
+    "punch": "kapıdaki menüyü ezberledim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "elestiri"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

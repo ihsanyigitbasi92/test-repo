@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_developer_ilk_proje_kefil_01",
+  "tags": [
+    "kariyer",
+    "muteahhit",
+    "kariyer_developer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_developer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 33
+    },
+    "career": {
+      "anyOf": [
+        "developer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "İlk projeniz olduğu için bir kefil istiyoruz. Düzenli geliri olan, sizden yaşça büyük biri.",
+      "en": "As it's your first project, we need a guarantor. Someone older than you, with a steady income."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bu arada anneniz aradı. Evinin tapusunu getireceğini söyledi. Biz istemedik.",
+      "en": "Your mother called, by the way. She said she'd bring in the deed to her house. We didn't ask.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "anne",
+      "tr": "Annenin teklifini kabul et",
+      "en": "Accept your mom's offer",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "ortak",
+      "tr": "Bir yatırım ortağı bul",
+      "en": "Find an investment partner",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kucult",
+      "tr": "Projeyi küçült, kefilsiz başla",
+      "en": "Shrink the project, skip the guarantor",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "anne": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "dev_anne_kefil"
+          ]
+        }
+      },
+      "tr": "Annenin tapusu dosyaya girdi, kredi onaylandı. Annen o günden beri şantiyeyi her pazar ziyaret ediyor.",
+      "en": "Your mom's deed went into the file and the loan was approved. She has visited the site every Sunday since.",
+      "coach": [
+        {
+          "tr": "Kredi onaylı. Pazar günleri bir ziyaretçin var.",
+          "en": "Loan approved. You now have a Sunday visitor.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe ilk temel atıldı.",
+          "en": "First foundation laid toward the goal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "ortak": [
+      {
+        "p": 4500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "dev_ilk_ortak"
+            ]
+          }
+        },
+        "tr": "Eski bir okul arkadaşın yüzde otuzla ortak oldu. Banka kefil yerine ortağın bilançosunu kabul etti.",
+        "en": "An old school friend came in for thirty percent. The bank accepted their balance sheet in place of a guarantor.",
+        "coach": [
+          {
+            "tr": "Ortaklık imzalandı. Kâr paylaşımı ileride.",
+            "en": "Partnership signed. Profit sharing, later.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Görüştüğün üç yatırımcı da ‘ilk proje’ sözünü duyunca kalktı. Başvuru dosyası bir ay bekledi.",
+        "en": "All three investors you met stood up at the words 'first project.' The application sat for a month.",
+        "coach": [
+          {
+            "tr": "Üç toplantı, aynı iki kelime.",
+            "en": "Three meetings. The same two words.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kucult": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "flags": {
+          "add": [
+            "dev_kucuk_ilk_proje"
+          ]
+        }
+      },
+      "tr": "Projeyi altı daireden dörde indirdin. Kefil istenmedi, temel bir ay sonra atıldı.",
+      "en": "You cut the project from six units to four. No guarantor was needed, and ground broke a month later.",
+      "coach": [
+        {
+          "tr": "Dört daire. Kimsenin tapusu dosyada değil.",
+          "en": "Four units. Nobody's deed in the file.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "ilk proje kredisi için bankanın kefil istemesi ve annenin habersizce evinin tapusunu teklif etmesi",
+    "mechanism": "banka kefil arıyor; anne sorulmadan tapuyla yola çıkmış",
+    "mechanismId": "escalation",
+    "punch": "biz istemedik",
+    "lift": "hedefe ilk temel atıldı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "pazar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bebek_yolda_puset_kurulumu_01",
+  "tags": [
+    "ebeveynlik",
+    "partner",
+    "bebek",
+    "dayi",
+    "bebek_yolda"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "bebek_yolda": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "all": [
+        "bebek_yolda"
+      ],
+      "none": [
+        "puset_hazir",
+        "puset_dayi_kurdu"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Kılavuz mu? Benim zamanımda kılavuz yoktu. Bebek vardı, puset vardı.",
+      "en": "A manual? In my day there were no manuals. There was a baby, and there was a stroller."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Ver şu anahtarı. Yarım saate gezmeye çıkarız.",
+      "en": "Hand me that wrench. We'll be out for a stroll in half an hour.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dayi",
+      "tr": "Dayına bırak",
+      "en": "Let Uncle handle it",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "kilavuz",
+      "tr": "Kılavuzla kendin kur",
+      "en": "Build it yourself, by the manual",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "magaza",
+      "tr": "Mağazada kurdur",
+      "en": "Pay the store to assemble it",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "dayi": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "puset_dayi_kurdu"
+          ]
+        }
+      },
+      "tr": "Dört saat sonra puset ayağa kalktı, yanında altı vida arttı. Tekerlek tamiri 250 Para tuttu.",
+      "en": "Four hours later, the stroller stood. Six screws were left over. Fixing the wheel cost 250.",
+      "coach": [
+        {
+          "tr": "Altı vida arttı. Dayına göre yedek.",
+          "en": "Six screws left over. Uncle calls them spares.",
+          "roast": true
+        }
+      ]
+    },
+    "kilavuz": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "puset_hazir"
+            ]
+          }
+        },
+        "tr": "Kılavuzun dokuz dilinden birini izledin; puset kırk dakikada hazırdı. Dayın \"Şans\" dedi.",
+        "en": "You followed one of the manual's nine languages. The stroller was ready in forty minutes. Uncle called it luck.",
+        "coach": [
+          {
+            "tr": "Kırk dakika. Kılavuz haklı çıktı.",
+            "en": "Forty minutes. The manual had a point.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -250,
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "puset_hazir"
+            ]
+          }
+        },
+        "tr": "Kılavuzun dördüncü sayfası başka bir modele aitmiş. Sonunda puseti dayın kurdu, iki vida arttı.",
+        "en": "Page four of the manual was for a different model. Uncle finished it in the end. Two screws left over.",
+        "coach": [
+          {
+            "tr": "Kılavuz yanılttı. Dayı farkı kapattı.",
+            "en": "The manual misled. Uncle closed the gap.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "magaza": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "puset_hazir"
+          ]
+        }
+      },
+      "tr": "Mağaza puseti kurulu teslim etti. Dayın tekerlekleri tek tek sallayıp \"Gevşek\" dedi.",
+      "en": "The store delivered it fully assembled. Uncle wiggled each wheel and pronounced them loose.",
+      "coach": [
+        {
+          "tr": "Kurulu teslim. Dayı denetimi hariç.",
+          "en": "Delivered assembled. Uncle inspection not included.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kilavuz",
+    "slip": {
+      "tr": "İDDİA: Kılavuz seni dayına geri yollar. — M.",
+      "en": "WAGER: The manual sends you back to Uncle. — M."
+    }
+  },
+  "intent": {
+    "setup": "bebek pusetini dayıyla birlikte kurmak",
+    "mechanism": "dayının kılavuzsuz yöntemi kuru bir montaj raporuyla",
+    "mechanismId": "deadpan_report",
+    "punch": "benim zamanımda kılavuz yoktu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "vida"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

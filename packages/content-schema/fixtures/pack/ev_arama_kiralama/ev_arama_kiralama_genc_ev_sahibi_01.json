@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_genc_ev_sahibi_01",
+  "tags": [
+    "ev",
+    "sozlesme",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "worried",
+      "tr": "Merhaba efendim. Daire dedemden kaldı, ilk kez kiraya veriyorum.",
+      "en": "Hello there. The apartment was my grandpa's, this is my first time renting it out."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Sözleşmeyi internetten indirdim. Bir sayfası eksik ama önemli değilmiş.",
+      "en": "I downloaded a lease online. One page is missing, but apparently it doesn't matter.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yardim",
+      "tr": "Sözleşmeyi beraber düzelt",
+      "en": "Fix the lease together",
+      "pattern": "generosity"
+    },
+    {
+      "id": "indir",
+      "tr": "Kirayı aşağı çek",
+      "en": "Talk the rent down",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "imzala",
+      "tr": "Eksik sayfayla imzala",
+      "en": "Sign it as is",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "yardim": {
+      "effects": {
+        "money": -1600,
+        "stats": {
+          "joy": 3
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "genc_ev_sahibine_mentor"
+          ]
+        }
+      },
+      "tr": "Eksik sayfayı iki saatte birlikte yazdınız. Ev sahibi seni acil durum kişisi olarak kaydetti.",
+      "en": "You wrote the missing page together in two hours. The landlord listed you as their emergency contact.",
+      "coach": [
+        {
+          "tr": "Kiracı. Ayrıca acil durum kişisi.",
+          "en": "Tenant. Also, emergency contact.",
+          "roast": true
+        }
+      ]
+    },
+    "indir": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -1400,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1400
+            }
+          },
+          "flags": {
+            "add": [
+              "genc_ev_sahibi"
+            ]
+          }
+        },
+        "tr": "Kira 1.400 Para oldu. Ev sahibi akşam rakamı annesine telefonda onaylattı.",
+        "en": "Rent came down to 1,400. That evening, the landlord ran the number past their mom on the phone.",
+        "coach": [
+          {
+            "tr": "Rakam aile kurulundan geçti.",
+            "en": "The number cleared the family board.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -1600,
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1600
+            }
+          },
+          "flags": {
+            "add": [
+              "genc_ev_sahibi"
+            ]
+          }
+        },
+        "tr": "Ev sahibi internetten emsal kiralara baktı ve 1.600 Para'da kaldı. Ekran görüntüsünü de yolladı.",
+        "en": "The landlord looked up comparable rents online and held at 1,600. Then sent you the screenshot.",
+        "coach": [
+          {
+            "tr": "Emsale bakılmış. Kanıtı da sana gelmiş.",
+            "en": "They checked the comps. Then cc'd you.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "imzala": {
+      "effects": {
+        "money": -1600,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "flags": {
+          "add": [
+            "eksik_sayfa_sozlesme"
+          ]
+        }
+      },
+      "tr": "İmzaladın. Eksik sayfa, depozito iadesini anlatan sayfaymış.",
+      "en": "You signed. The missing page turned out to be the one about the deposit refund.",
+      "coach": [
+        {
+          "tr": "Dördüncü sayfa. Kayıp ilan verildi.",
+          "en": "Page four. Last seen: never.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı doldu"
+  },
+  "intent": {
+    "setup": "orta yaşta, mirasla ev sahibi olmuş çok genç birinden ev kiralamak",
+    "mechanism": "rol tersine: kiracı deneyimli, ev sahibi acemi",
+    "mechanismId": "reversal",
+    "punch": "bir sayfası eksik ama önemli değilmiş",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sayfa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

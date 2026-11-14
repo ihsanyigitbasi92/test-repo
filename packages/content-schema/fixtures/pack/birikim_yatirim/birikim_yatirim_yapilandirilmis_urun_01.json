@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_yapilandirilmis_urun_01",
+  "tags": [
+    "para",
+    "birikim",
+    "banka",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "money": {
+      "min": 6000
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Anaparanız korumalı. Altı yılın sonunda en kötü ihtimalle paranız aynen geri gelir.",
+      "en": "Your principal is protected. Worst case, after six years, you get your money back exactly."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Aynen. Altı yıl önceki haliyle.",
+      "en": "Exactly. Just as it was six years ago.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "gir",
+      "tr": "3.000 Para ile gir",
+      "en": "Put in 3,000",
+      "pattern": "risk",
+      "check": {
+        "base": 4500
+      }
+    },
+    {
+      "id": "kisa",
+      "tr": "Bir yıllık vadeliye koy",
+      "en": "Do a one-year deposit",
+      "pattern": "patience"
+    },
+    {
+      "id": "sor",
+      "tr": "Kötü senaryoyu sor",
+      "en": "Ask about the bad scenario",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "gir": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -2700,
+          "stats": {
+            "joy": 2
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "yapilandirilmis_urun"
+              ]
+            }
+          },
+          "flags": {
+            "add": [
+              "yapilandirilmis_urun"
+            ]
+          }
+        },
+        "tr": "3.000 Para altı yıllığına kilitlendi. İlk yıl koşul sağlandı, hesaba 300 Para ara ödeme yattı.",
+        "en": "The 3,000 is locked up for six years. Year one, the condition hit and a 300 payout landed.",
+        "coach": [
+          {
+            "tr": "İlk yıl ödedi. Beş yıl daha var.",
+            "en": "Year one paid. Five to go.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -3000,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "yapilandirilmis_urun"
+              ]
+            }
+          },
+          "flags": {
+            "add": [
+              "yapilandirilmis_urun"
+            ]
+          }
+        },
+        "tr": "3.000 Para altı yıllığına kilitlendi. İlk yıl koşul tutmadı; özet 'anapara korunuyor' diyor.",
+        "en": "The 3,000 is locked up for six years. Year one, the condition missed. The statement says: 'Principal protected.'",
+        "coach": [
+          {
+            "tr": "Para korunuyor. Senden de.",
+            "en": "Your money is protected. From you, too.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kisa": {
+      "effects": {
+        "money": 120,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "vadeli_hesap"
+          ]
+        }
+      },
+      "tr": "Bir yıllık vadeliye koydun. Bankacı 'altı yıl daha güzel olurdu' dedi ve broşürü masada bıraktı.",
+      "en": "You went with a one-year deposit. The banker said 'six would've been nicer' and left the brochure on the desk.",
+      "coach": [
+        {
+          "tr": "Broşür masada kaldı. Para sende.",
+          "en": "The brochure stayed on the desk. The money stayed with you.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "urun_sorgulandi"
+          ]
+        }
+      },
+      "tr": "Bankacı kötü senaryoyu anlattı, sonra daha kötüsünü. Görüşme bir saat sürdü, karar haftaya kaldı.",
+      "en": "The banker walked you through the bad scenario, then the worse one. An hour later, the decision was pushed to next week.",
+      "coach": [
+        {
+          "tr": "Kötü senaryonun bir devamı varmış.",
+          "en": "Turns out the worst case has a sequel.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gir",
+    "slip": {
+      "tr": "İDDİA: İlk yıl ara ödeme yatmaz. — M.",
+      "en": "WAGER: No payout in year one. — M."
+    }
+  },
+  "intent": {
+    "setup": "bankacının altı yıl kilitli anapara korumalı ürün önermesi",
+    "mechanism": "'aynen geri gelir' sözünün altı yıl önceki haliyle kısıtlanması",
+    "mechanismId": "understatement",
+    "punch": "aynen, altı yıl önceki haliyle",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "korunuyor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

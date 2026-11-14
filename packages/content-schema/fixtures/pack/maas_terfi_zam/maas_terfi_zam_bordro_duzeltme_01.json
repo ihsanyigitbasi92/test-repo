@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "maas_terfi_zam_bordro_duzeltme_01",
+  "tags": [
+    "is",
+    "bordro",
+    "evrak",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "DEMİRTEPE MAKİNE — BORDRO VE MUHASEBE (kurgusal)",
+      "en": "IRONHILL MACHINERY — PAYROLL & ACCOUNTS (fictional)"
+    },
+    "body": {
+      "tr": "Sistemsel bir hata nedeniyle son iki ayda tarafınıza 400 Para fazla ödeme yapılmıştır. Mağduriyet yaşamamanız için bu tutar önümüzdeki iki ay boyunca kolaylıkla geri alınacaktır.",
+      "en": "Due to a system error, you were overpaid by 400 over the past two months. To spare you any inconvenience, this amount will be conveniently recovered over the next two months."
+    },
+    "translate": {
+      "tr": {
+        "from": "kolaylıkla geri alınacaktır",
+        "to": "maaşından ayda 200 Para kesilecek"
+      },
+      "en": {
+        "from": "conveniently recovered",
+        "to": "200 off each payslip"
+      }
+    },
+    "glossaryKey": "bordro_mahsup"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Fazla ödemeleri fark ettiğimiz an bildiririz. Eksik ödemelerde süreç biraz daha uzun.",
+      "en": "We report overpayments the moment we spot them. Underpayments take a little longer."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kesinti",
+      "tr": "Kesintiyi kabul et",
+      "en": "Accept the deductions",
+      "pattern": "patience"
+    },
+    {
+      "id": "tek",
+      "tr": "Tek seferde öde",
+      "en": "Repay it all at once",
+      "pattern": "pride"
+    },
+    {
+      "id": "eksik",
+      "tr": "Eksik ödemeleri de sor",
+      "en": "Ask about underpayments too",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "kesinti": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": -1
+        },
+        "glossary": "bordro_mahsup"
+      },
+      "tr": "İki ay boyunca bordronda \"mahsup\" satırı göründü. Fazla ödemeyi hiç fark etmemiştin, kesintiyi fark ettin.",
+      "en": "For two months your payslip showed a \"recovery\" line. You never noticed the overpayment. You noticed the deduction.",
+      "coach": [
+        {
+          "tr": "Para gelirken sessizdi. Giderken satır açtı.",
+          "en": "The money arrived quietly. It left with its own line item.",
+          "roast": true
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "money": -400,
+        "meters": {
+          "ego": 2
+        },
+        "glossary": "bordro_mahsup",
+        "flags": {
+          "add": [
+            "bordro_temiz"
+          ]
+        }
+      },
+      "tr": "400 Para'yı tek seferde iade ettin. Muhasebe teşekkür e-postasına bir dosya numarası ekledi.",
+      "en": "You repaid the 400 in one go. Accounting thanked you and included a file number.",
+      "coach": [
+        {
+          "tr": "Hesap kapandı. Dosya numarası kaldı.",
+          "en": "Account settled. A file number remains.",
+          "roast": false
+        }
+      ]
+    },
+    "eksik": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": -100,
+          "meters": {
+            "ego": 3
+          },
+          "glossary": "bordro_mahsup"
+        },
+        "tr": "Kayıtlardan üç yıl önceki eksik bir yemek ödemesi çıktı. Mahsup sonrası borcun 100 Para'ya indi.",
+        "en": "The records turned up a meal allowance shortfall from three years back. After netting, you owe just 100.",
+        "coach": [
+          {
+            "tr": "Hatalar iki yönde çalışıyormuş. Bu sefer senin yönünde.",
+            "en": "Errors run both ways. This one ran yours.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -400,
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "glossary": "bordro_mahsup"
+        },
+        "tr": "Muhasebe eksik ödeme sorunu \"ayrı süreç\" olarak kaydetti. Süreç numarası verildi, tarih verilmedi.",
+        "en": "Accounting logged your underpayment query as a \"separate process.\" You got a process number. No date.",
+        "coach": [
+          {
+            "tr": "Bir yönde iki ay. Öbür yönde bir süreç.",
+            "en": "One direction: two months. The other: a process.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "fazla ödenen maaşın geri kesileceğini bildiren bordro yazısı",
+    "mechanism": "\"kolaylıkla geri alınacaktır\" cümlesinin kesintiye tercümesi",
+    "mechanismId": "translation",
+    "punch": "mağduriyet yaşamamanız için",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "mahsup",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

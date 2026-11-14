@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dugun_davetli_zarf_defteri_01",
+  "tags": [
+    "sosyal",
+    "dugun",
+    "aile",
+    "dugun_davetli"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "dugun_davetli": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Bu düğünde ne vereceğine ben bakarım. Defterim var.",
+      "en": "I'll tell you what to give at this wedding. I keep a ledger."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Onlar senin mezuniyetinde 300 vermişti. Bir de kalem. Kalemi saymıyorum.",
+      "en": "They gave three hundred at your graduation. And a pen. I'm not counting the pen.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Az verirsen bilirler. Çok verirsen de bilirler.",
+      "en": "Give too little, they'll know. Give too much, they'll also know.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "aynen",
+      "tr": "Defterdeki kadar ver",
+      "en": "Give exactly what the ledger says",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "fazla",
+      "tr": "Biraz fazlasını koy",
+      "en": "Round it up",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kendi",
+      "tr": "Kendi hesabına göre ver",
+      "en": "Go by your own math",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "aynen": {
+      "effects": {
+        "money": -300,
+        "meters": {
+          "momPressure": -5
+        },
+        "flags": {
+          "add": [
+            "zarf_defteri_esit"
+          ]
+        }
+      },
+      "tr": "Zarfa 300 koydun. Annen deftere tarihi ve \"eşit\" kelimesini yazdı.",
+      "en": "You put three hundred in the envelope. Mom logged the date and the word 'even.'",
+      "coach": [
+        {
+          "tr": "Hesap kapandı. Bir sonraki düğüne kadar.",
+          "en": "Account settled. Until the next wedding.",
+          "roast": false
+        },
+        {
+          "tr": "Bütçe sayacı: plan içinde.",
+          "en": "Budget counter: on plan.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "fazla": {
+      "effects": {
+        "money": -500,
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "zarf_defteri_fazla"
+          ]
+        }
+      },
+      "tr": "500 koydun. Annen deftere not düştü: \"Bize 200 borçlandılar.\"",
+      "en": "You gave five hundred. Mom made a note: 'They now owe us two hundred.'",
+      "coach": [
+        {
+          "tr": "Hediye verdin, alacak doğdu. Aile ekonomisi böyle büyüyor.",
+          "en": "You gave a gift and created a receivable. That's how family economies grow.",
+          "roast": true
+        }
+      ]
+    },
+    "kendi": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 6
+        },
+        "flags": {
+          "add": [
+            "zarf_defteri_eksik"
+          ]
+        }
+      },
+      "tr": "200 koydun. Annen zarfı görmedi ama çıkışta sordu. İki kez.",
+      "en": "You gave two hundred. Mom never saw the envelope. She asked about it on the way out. Twice.",
+      "coach": [
+        {
+          "tr": "Zarf kapalıydı. Annenin sorusu açık kaldı.",
+          "en": "The envelope was sealed. Mom's question stayed open.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "annenin kim ne verdi defterine göre düğün zarfı",
+    "mechanism": "mezuniyetteki 300 ve kalem geri çağrılıyor",
+    "mechanismId": "callback",
+    "punch": "kalemi saymıyorum",
+    "lift": "bütçe sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "acik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Düğünde zarf/takı verme geleneği; EN’de nakit hediye zarfı olarak okunur, dinî öge yok."
+  }
+}

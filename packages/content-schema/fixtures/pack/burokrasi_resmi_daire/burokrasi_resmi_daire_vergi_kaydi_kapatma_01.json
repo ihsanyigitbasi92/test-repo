@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_vergi_kaydi_kapatma_01",
+  "tags": [
+    "burokrasi",
+    "vergi",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Açılış tek imzayla oluyor. Kapanış için faaliyetin bittiğini gösteren belge lazım.",
+      "en": "Opening takes one signature. To close, we need proof the activity has ended."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Hiç faaliyet olmadıysa, olmadığını gösteren belge.",
+      "en": "And if there never was any activity, proof of that.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "belge",
+      "tr": "Olmayan işin belgesini topla",
+      "en": "Gather proof of no business",
+      "pattern": "overwork",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "musavir",
+      "tr": "Bir mali müşavire devret",
+      "en": "Hand it to an accountant",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "acik",
+      "tr": "Kaydı açık bırak",
+      "en": "Leave the registration open",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "belge": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "vergi_kaydi_kapandi"
+            ]
+          }
+        },
+        "tr": "Boş banka dökümü, kullanılmamış fatura koçanı ve boş bir beyanla geldin. Kayıt kapandı.",
+        "en": "You came back with an empty bank statement, an unused invoice book, and a blank declaration. The registration is closed.",
+        "coach": [
+          {
+            "tr": "Üç boş belgeyle bir yokluğu kanıtladın. Kaşeli.",
+            "en": "Three blank documents proved one absence. Stamped.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Koçanın ilk yaprağı eksikti: tek faturan. Aslı müşteride, müşteri telefonu açmıyor.",
+        "en": "The first page of the invoice book was missing: your only invoice. The customer has the original. The customer isn't picking up.",
+        "coach": [
+          {
+            "tr": "Tek müşterin hâlâ işin en zor kısmı.",
+            "en": "Your one client is still the hardest part of the job.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "musavir": {
+      "effects": {
+        "hidden": {
+          "stress": -2
+        },
+        "money": -350,
+        "flags": {
+          "add": [
+            "vergi_kaydi_kapandi"
+          ]
+        }
+      },
+      "tr": "Müşavir kaydı dört günde kapattı: 350 Para. Bu, o işten kazandığının iki katı.",
+      "en": "The accountant closed it in four days for 350. That is twice what the business ever earned.",
+      "coach": [
+        {
+          "tr": "Girişimin bilançosu kesinleşti.",
+          "en": "The venture's books are final.",
+          "roast": true
+        }
+      ]
+    },
+    "acik": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "bos_beyan_aylik"
+          ]
+        }
+      },
+      "tr": "Kayıt açık kaldı. Her ay \"faaliyet yok\" beyanı vermen gerekiyor; ilk hatırlatma ayın yirmisinde geldi.",
+      "en": "The registration stays open. You now file a \"no activity\" return every month. The first reminder came on the twentieth.",
+      "coach": [
+        {
+          "tr": "Her ay hiçbir şey yapmadığını bildireceksin. Resmen.",
+          "en": "Every month you'll report doing nothing. Officially.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "belge",
+    "slip": {
+      "tr": "İDDİA: Olmayan bir işi kanıtlayamazsın. — M.",
+      "en": "WAGER: You can't prove a business that never was. — M."
+    }
+  },
+  "intent": {
+    "setup": "tek fatura kesilen serbest iş için açılan vergi kaydını kapatmanın açmaktan zor çıkması",
+    "mechanism": "açılış tek imza, kapanış olmayan faaliyetin kanıtı",
+    "mechanismId": "reversal",
+    "punch": "hiç faaliyet olmadıysa olmadığını gösteren belge",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "yokluk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

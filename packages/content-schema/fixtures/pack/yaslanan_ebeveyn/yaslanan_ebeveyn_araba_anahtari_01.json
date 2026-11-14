@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_araba_anahtari_01",
+  "tags": [
+    "aile",
+    "anne",
+    "araba",
+    "kardes",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 58
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "worried",
+      "tr": "Annem geçen hafta park ederken kaldırıma çıkmış. Konuşman lazım.",
+      "en": "Mom drove up onto the curb parking last week. You need to talk to her."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Ben konuşamam. Ehliyetimi kaçıncı denemede aldığımı hâlâ anlatıyor.",
+      "en": "I can't. She still tells people how many tries my license took.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "O kaldırım yeni yapıldı. Yüksek yapmışlar.",
+      "en": "That curb is brand new. They built it too high.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Sadece gündüz sürmeyi öner",
+      "en": "Suggest daytime-only driving",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşine bırak",
+      "en": "Leave it to your sibling",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "sofor",
+      "tr": "Haftada iki gün şoförlük yap",
+      "en": "Drive her twice a week",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "anne_gece_surmuyor"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Annen kabul etti: hava kararınca araba yok. Karşılığında pazartesi pazarına sen götüreceksin.",
+        "en": "Mom agreed: no driving after dark. In exchange, you're on Monday-market duty.",
+        "coach": [
+          {
+            "tr": "Bir kural, bir pazar görevi.",
+            "en": "One rule. One market run.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "momPressure": 6
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Annen \"kaldırım yüksekti\" dedi ve konuyu kapattı. Akşam kardeşine seni şikâyet etti.",
+        "en": "Mom repeated that the curb was too high and closed the subject. That evening she complained about you to your sibling.",
+        "coach": [
+          {
+            "tr": "Kaldırım suçlu bulundu. Sen ikinci sanıksın.",
+            "en": "The curb was found guilty. You are the co-defendant.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kardes": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Kardeşine bıraktın. Kardeşin de sana bıraktı. Araba hâlâ annende.",
+      "en": "You left it to your sibling. Your sibling left it to you. Mom still has the car.",
+      "coach": [
+        {
+          "tr": "Konu iki kez devredildi. Araba yerinde.",
+          "en": "The topic changed hands twice. The car did not.",
+          "roast": false
+        }
+      ]
+    },
+    "sofor": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -4
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "anneye_soforluk"
+          ]
+        }
+      },
+      "tr": "Salı ve cuma annenin şoförüsün. Annen arka koltuktan yol tarif ediyor, her seferinde farklı.",
+      "en": "Tuesdays and Fridays, you drive Mom. She navigates from the back seat. A different route every time.",
+      "coach": [
+        {
+          "tr": "İki gün, iki farklı rota.",
+          "en": "Two days, two different routes.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: Kaldırım yine suçlanır. — M.",
+      "en": "WAGER: The curb takes the blame again. — M."
+    }
+  },
+  "intent": {
+    "setup": "yaşlanan annenin araba kullanması hakkında konuşmak",
+    "mechanism": "kaldırım suçlanıyor",
+    "mechanismId": "understatement",
+    "punch": "yüksek yapmışlar",
+    "lift": "bir kural kondu",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rota"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

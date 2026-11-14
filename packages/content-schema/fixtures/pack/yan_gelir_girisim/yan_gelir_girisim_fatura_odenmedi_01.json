@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_fatura_odenmedi_01",
+  "tags": [
+    "is",
+    "yan_gelir",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yan_gelir_girisim": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Faturanız muhasebede. Muhasebe onayda. Onay imzada. İmza izinde.",
+      "en": "Your invoice is with accounting. Accounting is in approval. Approval is at signature. Signature is on leave."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Her gün ara",
+      "en": "Call every day",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yeni_is",
+      "tr": "Yeni işlerini de al",
+      "en": "Take their next job anyway",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "durdur",
+      "tr": "Ödenene kadar işi durdur",
+      "en": "Stop work until paid",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ara": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 2400,
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Dokuz gün aradın. Onuncu gün 2.400 Para yattı; açıklamasında 'acil' yazıyordu. Altmış yedi gün gecikmeyle.",
+        "en": "You called for nine days. On the tenth, 2,400 arrived, marked 'urgent.' Sixty-seven days late.",
+        "coach": [
+          {
+            "tr": "Dokuz arama. Açıklamada 'acil' yazıyor.",
+            "en": "Nine calls. The memo line says 'urgent.'",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "alacak_birikti"
+            ]
+          }
+        },
+        "tr": "Dokuz gün aradın. Santral artık sesini tanıyor ve seni doğrudan bekleme müziğine alıyor.",
+        "en": "You called for nine days. The switchboard now recognizes your voice and routes you straight to hold music.",
+        "coach": [
+          {
+            "tr": "Bekleme müziği ezberlendi. İmza hâlâ izinde.",
+            "en": "The hold music is memorized. The signature is still on leave.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yeni_is": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "alacak_birikti"
+          ]
+        }
+      },
+      "tr": "Yeni işi de aldın. Artık iki fatura muhasebede. Toplam alacağın 4.100 Para.",
+      "en": "You took the next job too. Two invoices are now with accounting. Total owed to you: 4,100.",
+      "coach": [
+        {
+          "tr": "İki fatura aynı masada. Birbirlerine arkadaş oldular.",
+          "en": "Two invoices on one desk. They have each other for company.",
+          "roast": false
+        }
+      ]
+    },
+    "durdur": {
+      "effects": {
+        "money": 1200,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 3
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "İşi durdurdun. Üç gün ses çıkmadı; dördüncü gün yarısı yattı: 1.200 Para. 'Kalanı imzadan sonra.'",
+      "en": "You stopped work. Three days of silence; on the fourth, half arrived: 1,200. 'The rest after signature.'",
+      "coach": [
+        {
+          "tr": "Yarısı geldi. İmzanın izni sürüyor.",
+          "en": "Half arrived. The signature's leave continues.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ara",
+    "slip": {
+      "tr": "İDDİA: Onuncu gün de ödeme gelmez. — M.",
+      "en": "WAGER: Day ten, still no payment. — M."
+    }
+  },
+  "intent": {
+    "setup": "serbest iş faturasının iki aydır ödenmemesi",
+    "mechanism": "muhasebede, onayda, imzada, izinde",
+    "mechanismId": "escalation",
+    "punch": "imza izinde",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "imza2"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

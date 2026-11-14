@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_ofis_ortagi_tasindi_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Ben taşınıyorum, evden çalışacağım. Kiranın tamamı artık sende.",
+      "en": "I'm moving out, going to work from home. The whole rent's yours now."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Masamı bırakıyorum. Bir de saksıyı. Ben onunla konuşuyordum, sen de konuşursun.",
+      "en": "I'm leaving my desk. And the plant. I used to talk to it. You can take over.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tek",
+      "tr": "Odayı tek başına tut",
+      "en": "Keep the whole office",
+      "pattern": "pride"
+    },
+    {
+      "id": "ilan",
+      "tr": "Yeni oda ortağı ilanı ver",
+      "en": "Post for a new office mate",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ev",
+      "tr": "Evden çalışmaya geç",
+      "en": "Start working from home",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "tek": {
+      "effects": {
+        "money": -1200,
+        "hidden": {
+          "stress": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "ortak_saksi"
+            ]
+          }
+        }
+      },
+      "tr": "Kiranın tamamını üstlendin; aylık gider 1.200 Para arttı. Odada iki masa, bir saksı ve sen varsın.",
+      "en": "You took over the full rent: monthly costs up 1,200. The office now holds two desks, one plant and you.",
+      "coach": [
+        {
+          "tr": "İki masa. Bir kişi.",
+          "en": "Two desks. One person.",
+          "roast": false
+        }
+      ]
+    },
+    "ilan": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "koc_yeni_oda_ortagi"
+            ]
+          }
+        },
+        "tr": "İlana bir saat tamircisi başvurdu. Kira yine bölündü; seanslar artık tik taklarla geçiyor.",
+        "en": "A watch repairer answered the ad. Rent is split again, and your sessions now run to a ticking.",
+        "coach": [
+          {
+            "tr": "Kira yarıya indi. Saatler de sayıyor.",
+            "en": "Rent halved. The clocks keep count.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1200,
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "İlana iki hafta kimse yazmadı. Kiranın tamamı bu ay senin cebinden çıktı.",
+        "en": "Nobody answered the ad for two weeks. The full rent came out of your pocket this month.",
+        "coach": [
+          {
+            "tr": "İlan panoda, kira hesapta.",
+            "en": "Ad on the board. Rent on your account.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ev": {
+      "effects": {
+        "money": 400,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "koc_evden_seans"
+          ]
+        }
+      },
+      "tr": "Ofisi bıraktın, seansları salondan yapıyorsun. Danışan çamaşırlığı görmesin diye kamera tavana bakıyor.",
+      "en": "You gave up the office and now coach from your living room. The camera points at the ceiling so clients can't see the drying rack.",
+      "coach": [
+        {
+          "tr": "Kira sıfır. Seminerde buna 'esnek çalışma' derdik.",
+          "en": "Rent: zero. At the seminars we called this flexible working.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef kartında kira kalemi silindi.",
+          "en": "Rent line struck off the goal card.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "koçluk ofisini paylaştığın oda ortağı taşınıyor, kiranın tamamı sana kalıyor",
+    "mechanism": "giden ortak saksıyla konuşmayı devrediyor",
+    "mechanismId": "understatement",
+    "punch": "ben onunla konuşuyordum, sen de konuşursun",
+    "lift": "Hedef kartında kira kalemi silindi.",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "saksi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

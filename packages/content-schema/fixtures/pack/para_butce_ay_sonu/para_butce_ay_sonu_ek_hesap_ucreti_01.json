@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_ek_hesap_ucreti_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 34
+    },
+    "dayOfMonth": {
+      "max": 5
+    },
+    "flags": {
+      "all": [
+        "butce_ek_hesap_acik"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Ek hesabınızı düzenli kullandığınız için limitinizi artırmak istiyoruz. Tebrikler.",
+      "en": "Because you use your overdraft so consistently, we would like to raise your limit. Congratulations."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bu ayki işletim ücreti 38 Para olarak yansıdı. Ücret de limitle birlikte büyür.",
+      "en": "This month's maintenance fee was 38. The fee grows with the limit, of course."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Ek hesabı kapat",
+      "en": "Close the overdraft",
+      "pattern": "patience"
+    },
+    {
+      "id": "iptal",
+      "tr": "Ücretin iadesini iste",
+      "en": "Ask them to waive the fee",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "artir",
+      "tr": "Limit artışını kabul et",
+      "en": "Accept the higher limit",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "flags": {
+          "add": [
+            "butce_ek_hesap_kapandi"
+          ],
+          "remove": [
+            "butce_ek_hesap_acik"
+          ]
+        }
+      },
+      "tr": "Eksi bakiye kapatılıp hesap iptal edildi. Bankacı 'kapımız açık' dedi.",
+      "en": "You cleared the negative balance and closed it. The banker said, 'Our door is always open.'",
+      "coach": [
+        {
+          "tr": "Üç günlük ek hesap, iki ay sonra kapandı.",
+          "en": "A three-day overdraft, closed two months later.",
+          "roast": true
+        },
+        {
+          "tr": "Ek hesap sıfır. Hedef yolda.",
+          "en": "Overdraft at zero. Goal on track.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "iptal": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 38,
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Bu ayın 38 Paralık ücreti iade edildi. Limit artışı teklifi 'beklemede' bırakıldı.",
+        "en": "This month's 38 fee got refunded. The limit increase was left 'on hold.'",
+        "coach": [
+          {
+            "tr": "Otuz sekiz geri döndü. Teklif kapıda bekliyor.",
+            "en": "Thirty-eight back. The offer waits by the door.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -38,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Ücret 'sözleşme gereği' kaldı. Görüşmenin sonunda limit artışı bir kez daha önerildi.",
+        "en": "The fee stays, 'per your agreement.' The call closed with one more offer to raise your limit.",
+        "coach": [
+          {
+            "tr": "Ücret yerinde. Teklif daha da yüksek sesle.",
+            "en": "The fee stayed. The offer got louder.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "artir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "butce_ek_hesap_buyudu"
+          ]
+        }
+      },
+      "tr": "Limit 2.500'e çıktı. Ücret de.",
+      "en": "Limit up to 2,500. The fee too.",
+      "coach": [
+        {
+          "tr": "Tebrik edildin. Faturalı.",
+          "en": "Congratulations, itemized.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iptal",
+    "slip": {
+      "tr": "İDDİA: Ücret sözleşmeden çıkmaz. — M.",
+      "en": "WAGER: The fee stays in the contract. — M."
+    }
+  },
+  "intent": {
+    "setup": "ek hesabın ilk işletim ücreti kesilirken bankacının limit artışı teklif etmesi",
+    "mechanism": "önceki ayın ek hesabı tebrikle geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "tebrik edildin, faturalı",
+    "lift": "hedef aktifse sayaç satırı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tebrik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

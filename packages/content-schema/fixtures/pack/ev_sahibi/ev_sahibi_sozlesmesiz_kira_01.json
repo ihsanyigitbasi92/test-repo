@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_sozlesmesiz_kira_01",
+  "tags": [
+    "ev",
+    "sozlesme",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Sözleşme mi? Ben eski usulüm, söz senettir. El sıkışalım, yeter.",
+      "en": "A lease? I'm old school. My word is my contract. We shake hands, done."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Önceki kiracıyla da el sıkıştık. Gerçi o ne dediğimi hatırlamıyor.",
+      "en": "Shook hands with the last tenant too. Though they don't remember what I said.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yazili",
+      "tr": "Tek sayfalık yazılı sözleşme iste",
+      "en": "Ask for a one-page written lease",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "el",
+      "tr": "El sıkış",
+      "en": "Shake on it",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "mesaj",
+      "tr": "Konuşulanları mesajla özetle",
+      "en": "Recap the deal by text",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "yazili": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "yazili_sozlesme"
+            ]
+          },
+          "glossary": "yazili_sozlesme"
+        },
+        "tr": "Ev sahibi homurdanarak tek sayfa yazdı, ikiniz de imzaladınız. Kira ve depozito artık kâğıtta.",
+        "en": "The landlord grumbled and wrote one page. You both signed. Rent and deposit now exist on paper.",
+        "coach": [
+          {
+            "tr": "Bir sayfa. El sıkışmaktan daha az terletti.",
+            "en": "One page. Less sweaty than a handshake.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "sozlesmesiz"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -3
+            }
+          ],
+          "glossary": "yazili_sozlesme"
+        },
+        "tr": "Ev sahibi \"bana güvenmiyorsun demek\" dedi ve iki hafta selamı kesti. Sözleşme yine yok.",
+        "en": "\"So you don't trust me,\" said the landlord, and stopped saying hello for two weeks. Still no lease.",
+        "coach": [
+          {
+            "tr": "Kâğıt istedin, selam gitti.",
+            "en": "You asked for paper. You lost a hello.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "el": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "status": {
+          "rentDelta": 200
+        },
+        "flags": {
+          "add": [
+            "sozlesmesiz"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "El sıkıştınız. Üç ay sonra ev sahibi kiranın 1.500 konuşulduğunu hatırladı, sen 1.300 hatırlıyorsun.",
+      "en": "You shook hands. Three months later, the landlord remembered agreeing on 1,500. You remember 1,300.",
+      "coach": [
+        {
+          "tr": "İki hafıza, bir el sıkışma.",
+          "en": "Two memories. One handshake.",
+          "roast": true
+        }
+      ]
+    },
+    "mesaj": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "mesajla_kayit"
+          ]
+        }
+      },
+      "tr": "\"Konuştuklarımızı özetliyorum\" diye mesaj attın. Ev sahibi başparmak işaretiyle cevap verdi.",
+      "en": "You texted: \"Just summarizing what we agreed.\" The landlord replied with a thumbs-up.",
+      "coach": [
+        {
+          "tr": "Bir başparmak. Duygusal olarak bağlayıcı.",
+          "en": "One thumbs-up. Emotionally binding.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yazili",
+    "slip": {
+      "tr": "İDDİA: Yazılı sözleşme istersen selamı kaybedersin. — M.",
+      "en": "WAGER: Ask for a written lease, lose the hellos. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibinin yazılı sözleşme yerine el sıkışmayı yeterli bulması",
+    "mechanism": "söz senet ama kimse sözü hatırlamıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "o ne dediğimi hatırlamıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hafiza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

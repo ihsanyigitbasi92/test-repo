@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "sans_ikramiye_odul_kargosu_01",
+  "tags": [
+    "para",
+    "ikramiye",
+    "anne",
+    "sans_ikramiye"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 3500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "sans_ikramiye": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Kazanmışsın! Makine bana mı gelecek, sana mı?",
+      "en": "You won! Is the machine coming to me or to you?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kargo parası mı istiyorlar? Hediyenin parası olur mu? Bir sor bakalım.",
+      "en": "They want shipping money? Since when do prizes cost money? Go ask them.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Kargo ve vergiyi öde: 210",
+      "en": "Pay shipping and tax: 210",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "gidal",
+      "tr": "Gidip kendin almayı teklif et",
+      "en": "Offer to pick it up in person",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Ödülden vazgeç",
+      "en": "Forfeit the prize",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -210,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kahve_makinesi"
+          ]
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "kahve_makinesi"
+            ]
+          }
+        }
+      },
+      "tr": "210 Para ödedin. Kahve makinesi geldi; kapsülü tanesi 6 Para.",
+      "en": "You paid 210. The coffee machine arrived. Capsules: six apiece.",
+      "coach": [
+        {
+          "tr": "Ödül, aboneliğiyle birlikte geldi.",
+          "en": "The prize came with a subscription.",
+          "roast": false
+        }
+      ]
+    },
+    "gidal": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 1,
+            "momPressure": -1
+          },
+          "flags": {
+            "add": [
+              "kahve_makinesi"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "kahve_makinesi"
+              ]
+            }
+          }
+        },
+        "tr": "Kafe 'gel al' dedi. Makineyi koltuğunun altında eve taşıdın, sıfır Para.",
+        "en": "The café said, 'Come get it.' You carried it home under one arm for zero.",
+        "coach": [
+          {
+            "tr": "Sıfır kargo, bir kol ağrısı.",
+            "en": "Zero shipping. One sore arm.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -210,
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "kahve_makinesi"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "kahve_makinesi"
+              ]
+            }
+          }
+        },
+        "tr": "Kafe 'ödüller yalnızca kargoyla gönderilir' dedi. 210 Para ödedin, makine iki gün geç geldi.",
+        "en": "The café said prizes only ship by courier. You paid 210, and the machine came two days late.",
+        "coach": [
+          {
+            "tr": "Kural, kargodan yanaymış.",
+            "en": "The rules side with the courier.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "odul_birakildi"
+          ]
+        },
+        "glossary": "odul_masrafi"
+      },
+      "tr": "Ödülü bıraktın. Kafe makineyi ikinciye verdi; senin fotoğrafın hâlâ duvarlarında.",
+      "en": "You let it go. The café gave the machine to the runner-up. Your photo is still on their wall.",
+      "coach": [
+        {
+          "tr": "Fotoğraf duvarda, makine başka mutfakta.",
+          "en": "Your photo's on the wall. The machine's in someone else's kitchen.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gidal",
+    "slip": {
+      "tr": "İDDİA: Kafe 'kargo şart' der. — M.",
+      "en": "WAGER: The café insists on the courier. — M."
+    }
+  },
+  "intent": {
+    "setup": "kafenin fotoğraf yarışmasında kazanılan kahve makinesi için kargo ve vergi bedeli istenmesi",
+    "mechanism": "ödülün masrafla gelmesi",
+    "mechanismId": "reversal",
+    "punch": "hediyenin parası olur mu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kargo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

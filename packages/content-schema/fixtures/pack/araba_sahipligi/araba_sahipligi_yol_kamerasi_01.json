@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_yol_kamerasi_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Kamera mı aldın? Kaza olursa diye mi, manzara için mi?",
+      "en": "You bought a dash cam? For accidents, or for the scenery?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "İçeriyi de çekiyor mu? Bir sebebi var, soruyorum.",
+      "en": "Does it record the inside too? I'm asking for a reason.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tak",
+      "tr": "Servise taktır, 900 Para",
+      "en": "Have the shop install it: 900",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kendin",
+      "tr": "Kendin tak, kabloyu gizle",
+      "en": "Install it yourself, hide the cable",
+      "pattern": "pride",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "iade",
+      "tr": "Kutusunu açmadan iade et",
+      "en": "Return it unopened",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "tak": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "yol_kamerasi_var",
+            "nakarat_kaydi"
+          ]
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "yol_kamerasi"
+            ]
+          }
+        }
+      },
+      "tr": "Kamera takıldı. İlk hafta kaydettiği tek olay, kırmızı ışıkta senin nakarat söylemen; partnerin kaydı aile grubuna gönderdi.",
+      "en": "Installed. In week one it captured exactly one incident: you, at a red light, belting a chorus. Your partner sent it to the family group.",
+      "coach": [
+        {
+          "tr": "Arşivde tek kayıt var. Ses açık.",
+          "en": "One clip in the archive. Sound on.",
+          "roast": true
+        }
+      ]
+    },
+    "kendin": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "yol_kamerasi_var"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "yol_kamerasi"
+              ]
+            }
+          }
+        },
+        "tr": "Kabloyu tavan döşemesinin içinden geçirdin, hiçbir yeri görünmüyor. Kurulum için ayrılan 300 Para cepte kaldı.",
+        "en": "You threaded the cable through the headliner and nothing shows. The 300 set aside for installation stayed in your pocket.",
+        "coach": [
+          {
+            "tr": "Kablo görünmüyor, 300 Para duruyor.",
+            "en": "Cable: invisible. The 300: still here.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef kumbarasına 300 hazır.",
+            "en": "300 ready for the goal jar.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1050,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "yol_kamerasi_var"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "yol_kamerasi"
+              ]
+            }
+          }
+        },
+        "tr": "Kablo torpidonun önünden sarktı, kamera tavanı çekti. Sonunda servis taktı, söküm ücretiyle birlikte.",
+        "en": "The cable dangled across the glovebox and the camera filmed the roof. The shop installed it in the end, plus an uninstall fee.",
+        "coach": [
+          {
+            "tr": "Kameranın ilk filmi: tavan.",
+            "en": "The camera's debut film: the ceiling.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "iade": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "kamera_iade"
+          ]
+        }
+      },
+      "tr": "Kamerayı iade ettin. Partnerin \"İçerisi için iyi oldu\" dedi.",
+      "en": "You returned it. Your partner said, \"Probably for the best. For the inside.\"",
+      "coach": [
+        {
+          "tr": "Kayıt yok. Nakarat serbest.",
+          "en": "No footage. The chorus is free.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "arabaya yol kamerası taktırmak; kameranın ilk kaydının senin şarkı söylemen olması",
+    "mechanism": "güvenlik için alınan kamera sürücüyü kaydediyor",
+    "mechanismId": "reversal",
+    "punch": "kaydettiği tek olay senin nakaratın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "arsiv"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

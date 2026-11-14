@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_odeme_sozu_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "SEDEF BANK MÜŞTERİ İLETİŞİM (kurgusal)",
+      "en": "NACRE BANK CUSTOMER CONTACT (fictional)"
+    },
+    "body": {
+      "tr": "Kart borcunuzla ilgili 'cuma günü öderim' şeklindeki beyanınız kayda alınmıştır. Sözünüz bizim için değerlidir. Hangi cumanın kastedildiği belirtilmediğinden en yakın cuma esas alınmıştır.",
+      "en": "Your statement regarding your card balance, 'I'll pay Friday,' has been recorded. Your word matters to us. Since no specific Friday was named, the nearest Friday has been assumed."
+    },
+    "translate": {
+      "tr": {
+        "from": "Sözünüz bizim için değerlidir",
+        "to": "Cuma 09.00'da arayacağız"
+      },
+      "en": {
+        "from": "Your word matters to us",
+        "to": "We will call at 9 a.m. Friday"
+      }
+    },
+    "glossaryKey": "odeme_sozu"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Cuma sabahı sizi arayacağım. Ben de söz veriyorum.",
+      "en": "I'll call you Friday morning. That's my promise."
+    }
+  ],
+  "choices": [
+    {
+      "id": "cuma",
+      "tr": "Cuma öde",
+      "en": "Pay on Friday",
+      "pattern": "patience"
+    },
+    {
+      "id": "persembe",
+      "tr": "Perşembeden öde",
+      "en": "Pay a day early",
+      "pattern": "pride"
+    },
+    {
+      "id": "yeni",
+      "tr": "Yeni bir söz ver",
+      "en": "Make a new promise",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "cuma": {
+      "effects": {
+        "money": -1100,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "soz_tutuldu"
+          ]
+        }
+      },
+      "tr": "Cuma 08.50'de 1.100 Para ödendi. Bankacı 09.00'da yine aradı, teşekkür etmek için.",
+      "en": "Paid 1,100 at 8:50 a.m. Friday. The banker called at 9:00 anyway, to say thanks.",
+      "coach": [
+        {
+          "tr": "On dakika önce ödendi. Arama yine geldi.",
+          "en": "Paid ten minutes early. The call came anyway.",
+          "roast": false
+        }
+      ]
+    },
+    "persembe": {
+      "effects": {
+        "money": -1100,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "soz_tutuldu"
+          ]
+        }
+      },
+      "tr": "Perşembe ödendi. Cuma sabahı arama gelmedi; telefon bütün sabah masada ekranı yukarıda bekledi.",
+      "en": "Paid Thursday. No call Friday morning. The phone sat face up on the desk all morning.",
+      "coach": [
+        {
+          "tr": "Arama gelmedi. Telefon yine de bekledi.",
+          "en": "No call. The phone waited anyway.",
+          "roast": false
+        }
+      ]
+    },
+    "yeni": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "glossary": "odeme_sozu",
+        "flags": {
+          "add": [
+            "ikinci_soz",
+            "kredi_karti_borcu"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "borc_kredi_karti_kart_kapatildi_01",
+            "delayDays": [
+              20,
+              40
+            ],
+            "chance": 3000
+          }
+        ]
+      },
+      "tr": "İkinci söz kayda alındı: 'ayın 15'i'. Bankacı tarihi bu kez sesli tekrar ettirdi.",
+      "en": "Second promise logged: 'the 15th.' This time the banker had you repeat the date out loud.",
+      "coach": [
+        {
+          "tr": "Tarih iki kez söylendi. Biri kayıtta.",
+          "en": "The date was said twice. Once on tape.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "çağrı merkezine verilen 'cuma öderim' sözünün yazılı teyit mektubu",
+    "mechanism": "'sözünüz bizim için değerlidir' tercümesi ve hangi cuma sorusu",
+    "mechanismId": "literalism",
+    "punch": "hangi cumanın kastedildiği belirtilmediğinden",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cuma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

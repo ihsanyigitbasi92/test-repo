@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_depozito_taksit_01",
+  "tags": [
+    "para",
+    "borc",
+    "kira",
+    "ev_arkadasi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Depozito iki kira, komisyon bir kira. Kartında üç kira var mı?",
+      "en": "Deposit's two months, the agent's fee is one. Does your card have three months of rent on it?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Benimkinde yok. Ben buzdolabını getiriyorum.",
+      "en": "Mine doesn't. I'm bringing the fridge.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "taksit",
+      "tr": "Altı taksite böl",
+      "en": "Split it into six installments",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "anne",
+      "tr": "Depozitoyu anneden borç al",
+      "en": "Borrow the deposit from Mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "ucuz",
+      "tr": "Daha ucuz bir ev ara",
+      "en": "Look for a cheaper place",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "taksit": {
+      "effects": {
+        "money": -900,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "depozito_taksit",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Üç kira altı taksite bölündü, ayda 900 Para. Buzdolabı ev arkadaşından.",
+      "en": "Three months' rent became six installments of 900. The fridge is courtesy of your roommate.",
+      "coach": [
+        {
+          "tr": "Altı taksit. Buzdolabı ortak mal.",
+          "en": "Six installments. The fridge is communal property.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": 4
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "anneye_borc",
+            "anne_yedek_anahtar"
+          ]
+        }
+      },
+      "tr": "Anne depozitoyu verdi. Karşılığında yeni evin yedek anahtarını aldı.",
+      "en": "Your mom covered the deposit. In return, she received a spare key to the new place.",
+      "coach": [
+        {
+          "tr": "Bir depozito, bir yedek anahtar.",
+          "en": "One deposit. One spare key.",
+          "roast": false
+        }
+      ]
+    },
+    "ucuz": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "glossary": "depozito",
+        "flags": {
+          "add": [
+            "uzak_ev"
+          ]
+        }
+      },
+      "tr": "İki hafta daha arandı. Bulunan ev bir otobüs hattı daha uzakta ama depozitosu tek kira.",
+      "en": "Two more weeks of searching. The new place is one more bus line away, with a one-month deposit.",
+      "coach": [
+        {
+          "tr": "Bir kira daha az, bir aktarma daha fazla.",
+          "en": "One month's rent less. One transfer more.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ilk evin depozitosu ve emlak komisyonunu kredi kartına taksitle ödemek",
+    "mechanism": "ev arkadaşı kendi katkısını küçük bir eşyayla geçiştiriyor",
+    "mechanismId": "understatement",
+    "punch": "ben buzdolabını getiriyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "buzdolabi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

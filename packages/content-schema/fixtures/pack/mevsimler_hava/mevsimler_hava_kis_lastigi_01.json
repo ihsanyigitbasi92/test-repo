@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "mevsimler_hava_kis_lastigi_01",
+  "tags": [
+    "mevsim",
+    "araba",
+    "kis",
+    "mevsimler_hava"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "mevsimler_hava": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "season": [
+      "autumn"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Kışlıkları taktırdınız mı? Ben eylülde taktırdım. O zaman bile sıra iki haftaydı.",
+      "en": "Got your winter tires on yet? I did mine in September. Even then the wait was two weeks."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Şimdi sıra aralığa kalmış diyorlar. Kar da salıya.",
+      "en": "Now they say the wait runs into December. Snow's due Tuesday.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sira",
+      "tr": "Sıraya yazıl, bekle",
+      "en": "Book a slot and wait",
+      "pattern": "patience"
+    },
+    {
+      "id": "kendin",
+      "tr": "Lastikleri kendin tak",
+      "en": "Change them yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "dort",
+      "tr": "Dört mevsim lastik al",
+      "en": "Buy all-season tires",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "sira": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "kis_lastigi_sirada"
+          ]
+        }
+      },
+      "tr": "Aralığın on birine sıra aldın. Salı kar geldi; araba park yerinde kaldı, sen otobüse bindin.",
+      "en": "You got December eleventh. Snow arrived Tuesday. The car stayed parked and you took the bus.",
+      "coach": [
+        {
+          "tr": "Araba kışı içeride karşıladı.",
+          "en": "The car met winter from the sidelines.",
+          "roast": false
+        }
+      ]
+    },
+    "kendin": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -2300,
+          "flags": {
+            "add": [
+              "kis_lastigi_takildi"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "kis_lastigi"
+              ]
+            }
+          }
+        },
+        "tr": "Dört lastiği iki saatte taktın, lastiklere 2.300 Para. Bir bijon hâlâ cebinde, nereden çıktığı meçhul.",
+        "en": "Four tires in two hours, 2,300 for the rubber. One lug nut is still in your pocket. Origin unknown.",
+        "coach": [
+          {
+            "tr": "Bir bijon fazla. Bir emin olma eksik.",
+            "en": "One spare lug nut. One fewer certainty.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1,
+            "health": -2
+          },
+          "money": -2600,
+          "flags": {
+            "add": [
+              "kis_lastigi_takildi"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "kis_lastigi"
+              ]
+            }
+          }
+        },
+        "tr": "Kriko üçüncü lastikte kaydı. Son ikisini komşunun kayınbiraderi taktı, karşılığı bir öğle yemeği.",
+        "en": "The jack slipped on tire three. The neighbor's brother-in-law did the last two, for the price of lunch.",
+        "coach": [
+          {
+            "tr": "Üç lastik sende. Dördüncüsü bir kayınbiraderde.",
+            "en": "Three tires were yours. The fourth took a brother-in-law.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "dort": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -3200,
+        "flags": {
+          "add": [
+            "dort_mevsim_lastik"
+          ]
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "dort_mevsim_lastik"
+            ]
+          }
+        }
+      },
+      "tr": "Dört mevsim lastiğe 3.200 Para verdin. Satıcı 'her mevsime biraz uyar' dedi.",
+      "en": "All-season tires: 3,200. The seller said they 'suit every season a little.'",
+      "coach": [
+        {
+          "tr": "Her mevsime biraz. Hiçbirine tam.",
+          "en": "A little for every season. Fully for none.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "kış lastiği sırasının karın gelişinden uzun olması",
+    "mechanism": "komşu sıra sürelerini sayarak üstünlük kuruyor",
+    "mechanismId": "count",
+    "punch": "fazla bijon",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bijon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_kart_cekmiyor_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "restoran",
+    "garson",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 50
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "worried",
+      "tr": "Cihaz bağlanmıyor. Kartınızı biraz yukarı kaldırın, belki çeker.",
+      "en": "The machine won't connect. Hold your card up a bit higher, maybe it'll catch."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Olmadı. Nakit var mı? Yoksa iki sokak ötede bir para makinesi var.",
+      "en": "Nope. Any cash? If not, there's a cash machine two streets over.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yukari",
+      "tr": "Kartı havaya kaldır",
+      "en": "Hold the card up higher",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "makine",
+      "tr": "İki sokak öteye yürü",
+      "en": "Walk to the cash machine",
+      "pattern": "patience"
+    },
+    {
+      "id": "havale",
+      "tr": "Telefondan havale öner",
+      "en": "Offer a bank transfer",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "yukari": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -410,
+          "flags": {
+            "add": [
+              "siparis_kart_havada"
+            ]
+          }
+        },
+        "tr": "Kartı başının üstüne kaldırdın ve cihaz bip dedi. Yan masa alkışladı.",
+        "en": "You raised the card above your head and the machine beeped. The next table applauded.",
+        "coach": [
+          {
+            "tr": "Teknik destek: kol boyu.",
+            "en": "Tech support: arm length.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -1,
+            "health": 1
+          },
+          "money": -410,
+          "flags": {
+            "add": [
+              "siparis_kart_havada_basarisiz"
+            ]
+          }
+        },
+        "tr": "Kart üç dakika havada kaldı, cihaz bağlanmadı. Sonunda iki sokak öteye yürüdün.",
+        "en": "The card spent three minutes in the air. Nothing. You walked the two streets anyway.",
+        "coach": [
+          {
+            "tr": "Üç dakika kol kaldırma, sonra yürüyüş.",
+            "en": "Three minutes of arm raises. Then the walk.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "makine": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 1
+        },
+        "money": -410,
+        "flags": {
+          "add": [
+            "siparis_nakit_yuruyusu"
+          ]
+        }
+      },
+      "tr": "İki sokak gidip geldin ve 410 Parayı nakit ödedin. Döndüğünde masada bir ikram çay bekliyordu.",
+      "en": "Two streets there, two back, and you paid the 410 in cash. A complimentary tea was waiting at your table.",
+      "coach": [
+        {
+          "tr": "Dört sokaklık hesap, sonunda bir çay.",
+          "en": "A four-street check with a tea at the end.",
+          "roast": false
+        }
+      ]
+    },
+    "havale": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -410,
+        "flags": {
+          "add": [
+            "siparis_havale_altlik"
+          ]
+        }
+      },
+      "tr": "Hesap numarasını bir bardak altlığına yazdılar, havaleyi masada yaptın. Altlık hâlâ cüzdanında.",
+      "en": "They wrote the account number on a coaster and you sent the transfer at the table. The coaster is still in your wallet.",
+      "coach": [
+        {
+          "tr": "Cüzdanda bir bardak altlığı. Kayıt bu.",
+          "en": "A coaster in your wallet. That's the receipt.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "restoranda kart cihazının bağlanmaması ve nakit olmaması",
+    "mechanism": "garsonun kartı yukarı kaldırma önerisi",
+    "mechanismId": "literalism",
+    "punch": "kartınızı biraz yukarı kaldırın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "altlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

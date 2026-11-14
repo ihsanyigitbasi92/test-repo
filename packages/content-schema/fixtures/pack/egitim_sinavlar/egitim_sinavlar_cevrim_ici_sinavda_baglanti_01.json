@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_cevrim_ici_sinavda_baglanti_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "cevrim_ici",
+    "sertifika",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 38
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bağlantınız elli ikinci dakikada koptu. Yeniden giriş hakkınız bir kez. Sayaç durmadı.",
+      "en": "Your connection dropped at minute fifty-two. You get one re-entry. The timer did not stop."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Kalan süreniz otuz sekiz dakika. Siz bu mesajı okurken otuz yedi oldu.",
+      "en": "You have thirty-eight minutes remaining. While you read this message, it became thirty-seven.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "telefon",
+      "tr": "Telefondan internet paylaş",
+      "en": "Tether to your phone",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain",
+        "goal": "sertifika"
+      }
+    },
+    {
+      "id": "modem",
+      "tr": "Modemi kapatıp aç, bekle",
+      "en": "Restart the router and wait",
+      "pattern": "patience"
+    },
+    {
+      "id": "destek",
+      "tr": "Destekten yeni oturum iste",
+      "en": "Ask support for a new session",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "telefon": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "cevrim_ici_gecti"
+            ]
+          }
+        },
+        "tr": "Telefon bağlantısı tuttu. Otuz bir dakikada kalan on dokuz soruyu bitirdin; sonuç geçer.",
+        "en": "The phone connection held. Nineteen questions in thirty-one minutes. A passing score.",
+        "coach": [
+          {
+            "tr": "Otuz bir dakika, on dokuz soru, bir çizgi sinyal.",
+            "en": "Thirty-one minutes. Nineteen questions. One bar of signal.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "cevrim_ici_tekrar"
+            ]
+          }
+        },
+        "tr": "Telefonun kotası on dördüncü dakikada bitti. İkinci kopuş için giriş hakkı yoktu; sınav \"tamamlanmadı\" yazıyor.",
+        "en": "Your data ran out fourteen minutes in. No re-entry for a second drop. The exam reads \"incomplete.\"",
+        "nearMiss": {
+          "tr": "Kota son soruda bitti.",
+          "en": "The data ran out on the very last question."
+        },
+        "coach": [
+          {
+            "tr": "İki kopuş, bir giriş hakkı.",
+            "en": "Two drops. One re-entry.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "modem": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "cevrim_ici_tekrar"
+          ]
+        }
+      },
+      "tr": "Modemin ışıkları dört dakikada yeşile döndü. Kalan sürede on bir soru yapabildin; puan sınırın iki altında.",
+      "en": "The router lights went green after four minutes. You got through eleven more questions. Two points under the line.",
+      "coach": [
+        {
+          "tr": "Dört dakika ışık izledin.",
+          "en": "Four minutes of watching lights.",
+          "roast": false
+        }
+      ]
+    },
+    "destek": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "sinav_yeni_oturum"
+          ]
+        }
+      },
+      "tr": "Destek ekibi kayıtlara baktı, kopuşu doğruladı. Ücretsiz yeni oturum verildi: üç hafta sonra, sabah yedide.",
+      "en": "Support checked the logs and confirmed the drop. You got a free new session: three weeks out, seven a.m.",
+      "coach": [
+        {
+          "tr": "Oturum ücretsiz. Saat yedi.",
+          "en": "The session is free. It's at seven.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "telefon",
+    "slip": {
+      "tr": "İDDİA: Telefon da kopar. — M.",
+      "en": "WAGER: The phone drops too. — M."
+    }
+  },
+  "intent": {
+    "setup": "evden girilen çevrim içi sertifika sınavında internet bağlantısının kopması",
+    "mechanism": "sayaç mesaj okunurken bile düşüyor",
+    "mechanismId": "escalation",
+    "punch": "bu mesajı okurken otuz yedi oldu",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sayac"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

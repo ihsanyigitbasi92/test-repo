@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bayram_ozel_gunler_kapi_on_dort_kez_01",
+  "tags": [
+    "mevsim",
+    "bayram",
+    "misafir",
+    "cocuk",
+    "bayram_ozel_gunler"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "bayram_ozel_gunler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kolonya bitti mi? İki şişe yollamıştım. İki şişe bir bayrama yeter, yetmiyorsa misafir çok demek.",
+      "en": "Out of mints already? I sent two tins. Two tins cover a holiday. If not, you've had too many guests."
+    },
+    {
+      "speaker": "child",
+      "avatar": "happy",
+      "tr": "Kapı yine çaldı. Bu on dördüncü. Ben sayıyorum.",
+      "en": "Doorbell again. That's fourteen. I've been counting.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Koşup ikram al",
+      "en": "Dash out for more treats",
+      "pattern": "overwork",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "cocuk",
+      "tr": "Çocuğu ikram şefi yap",
+      "en": "Promote your kid to host",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "acma",
+      "tr": "Zile açma",
+      "en": "Let the bell ring",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "momPressure": -2
+          },
+          "money": -400,
+          "flags": {
+            "add": [
+              "bayram_ev_sahibi"
+            ]
+          }
+        },
+        "tr": "Bakkal kapanmadan yetiştin. On beşinci misafir tam sen dönerken geldi, tabak doluydu.",
+        "en": "You beat the shop's closing time. Guest fifteen arrived just as you got back. The plate was full.",
+        "coach": [
+          {
+            "tr": "On beşinci misafir dolu tabak gördü.",
+            "en": "Guest fifteen saw a full plate.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "money": -400,
+          "flags": {
+            "add": [
+              "kapida_bayram_notu"
+            ]
+          }
+        },
+        "tr": "Bakkal kapalıydı, iki sokak öteye gittin. Döndüğünde misafir kapıya not bırakıp gitmişti.",
+        "en": "The shop was shut, so you went two streets over. When you got back, the guest had left a note on the door.",
+        "coach": [
+          {
+            "tr": "Not bıraktılar. Kırıntı bırakmadılar.",
+            "en": "They left a note. Not a crumb.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cocuk": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "cocuk_ikram_sefi"
+          ]
+        }
+      },
+      "tr": "Çocuğun tabakla kapıda karşıladı: 'Bir tane alın, az kaldı.' Tabak akşama kadar yetti.",
+      "en": "Your kid met everyone at the door with the plate: 'Take one, we're running low.' It lasted till evening.",
+      "coach": [
+        {
+          "tr": "Arz yönetimi devredildi.",
+          "en": "Supply management, delegated.",
+          "roast": false
+        }
+      ]
+    },
+    "acma": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "flags": {
+          "add": [
+            "bayram_kapi_acilmadi"
+          ]
+        }
+      },
+      "tr": "On beşinci zile açmadın. Ertesi gün misafir annene 'evde yoklardı herhalde' demiş.",
+      "en": "You let the fifteenth ring go. Next day the guest told your mom, 'Must not have been home.'",
+      "coach": [
+        {
+          "tr": "Haber annene bir günde ulaştı.",
+          "en": "The news reached your mom within a day.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: Bakkal kapanmış olur. — M.",
+      "en": "WAGER: The shop will be shut. — M."
+    }
+  },
+  "intent": {
+    "setup": "bayramda ev sahibiyken misafir akını ve ikramın bitmesi",
+    "mechanism": "çocuk zil sayısını tutuyor",
+    "mechanismId": "count",
+    "punch": "bu on dördüncü",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kirinti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR bayram; EN 'the holidays'. Dini terim/tören yok, bayramın adı verilmiyor. Bayramda kapı kapı ziyaret ve kolonya ikramı; EN holiday open house, mints instead of cologne."
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_askerlik_borclanmasi_01",
+  "tags": [
+    "egitim",
+    "askerlik",
+    "para",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_ev_kredisi_on_gorusme_01",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 32
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "askerlik_borclanildi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Askerlik süreniz borçlanılabilir. Tutarı öderseniz emeklilik tarihiniz öne gelir.",
+      "en": "Your service period can be bought back. If you pay it, your retirement date moves up."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Ne kadar öne geleceğini şimdi söyleyemem. Ekran o kadar ileriyi göstermiyor.",
+      "en": "I can’t say how far up right now. The screen doesn’t show that far ahead.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Ben borçlanmadım. Bak, hâlâ çalışıyorum.",
+      "en": "I never bought mine back. Look at me, still working.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Şimdi borçlan",
+      "en": "Buy it back now",
+      "pattern": "patience"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayını dinle",
+      "en": "Listen to your uncle",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "ertele",
+      "tr": "Sonraya bırak",
+      "en": "Leave it for later",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -3000,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "askerlik_borclanildi"
+          ]
+        }
+      },
+      "tr": "Borçlanma tutarını iki taksitle ödemeye başladın; ilk taksit 3.000 Para. Kayıtta askerlik günlerin artık çalışma günü sayılıyor.",
+      "en": "You started paying it back in two installments, the first 3,000. On record, your service days now count as work days.",
+      "coach": [
+        {
+          "tr": "Nöbet geceleri de hizmet sayıldı.",
+          "en": "The night watches now count as service.",
+          "roast": false
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_borclanma_hikayesi"
+          ]
+        }
+      },
+      "tr": "Dayın sofrada yirmi dakika anlattı. Hikâyenin sonunda kendisi de borçlanmayı düşünmeye başladı.",
+      "en": "Your uncle held forth at dinner for twenty minutes. By the end of the story, he was thinking about buying his back.",
+      "coach": [
+        {
+          "tr": "Dayının hikâyesi kendi kararını değiştirdi.",
+          "en": "The uncle’s story changed the uncle’s mind.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "askerlik_borclanma_bekliyor"
+          ]
+        }
+      },
+      "tr": "Sonraya bıraktın. Bir yıl sonra tutar biraz daha yüksek olacak; dosya bekliyor.",
+      "en": "You left it, and a year from now the amount will be a bit higher. The file is waiting.",
+      "coach": [
+        {
+          "tr": "Dosya kapanmadı. Tutar büyümeye devam ediyor.",
+          "en": "The file is still open. The amount keeps growing.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "işe başladıktan sonra askerlik süresini emeklilik için borçlanma kararı",
+    "mechanism": "dayı kendi örneğini tersine kanıt olarak sunuyor",
+    "mechanismId": "understatement",
+    "punch": "ekran o kadar ileriyi göstermiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hesap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Askerlik TR’ye özgüdür (localeOnly, D-048); EN tarafında yayınlanmaz, ikizi öğrenim kredisi olayıdır. K7: kaçma/erteleme hilesi seçeneği yok; kurum değil deneyim anlatılıyor. Askerlik borçlanması nötr bir idari seçenek olarak geçer; tutar soyuttur (K17)."
+  },
+  "l10n": {
+    "onlyLocale": "tr",
+    "mechanismNote": "EN metni yalnızca inceleme içindir; EN oyuncu ikiz olayı (öğrenim kredisi) görür."
+  }
+}

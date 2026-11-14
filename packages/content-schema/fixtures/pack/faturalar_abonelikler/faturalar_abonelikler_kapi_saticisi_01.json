@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_kapi_saticisi_01",
+  "tags": [
+    "para",
+    "fatura",
+    "elektrik",
+    "satici",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 82
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Merhaba, elektrik faturanızı düşürmeye geldim. Son faturanızı görebilir miyim?",
+      "en": "Hello, I'm here to lower your power bill. May I see your latest bill?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "İmza burada, burada ve burada. Bu sayfa sadece bilgilendirme, onu da imzalıyoruz.",
+      "en": "Sign here, here, and here. This page is just for your information. We sign that too.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "oku",
+      "tr": "Sözleşmeyi baştan sona oku",
+      "en": "Read the whole contract",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "imzala",
+      "tr": "İmzala, yorgun görünüyor",
+      "en": "Sign, they look tired",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kapat",
+      "tr": "Kapıyı nazikçe kapat",
+      "en": "Close the door politely",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "oku": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 2
+          },
+          "flags": {
+            "add": [
+              "kapi_satisi_red"
+            ]
+          }
+        },
+        "tr": "Dördüncü sayfada iki yıllık taahhüt ve cayma bedeli çıktı. Satıcı bir sonraki kapıya geçti.",
+        "en": "Page four held a two-year contract and an exit fee. The salesperson moved on to the next door.",
+        "coach": [
+          {
+            "tr": "Dördüncü sayfa. Çoğu kapı üçte kalıyor.",
+            "en": "Page four. Most doors stop at three.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "enerji_sozlesmesi"
+            ]
+          }
+        },
+        "tr": "Sen okurken satıcı sayfaları çevirmeyi sürdürdü. Bir imza araya kaçtı; cayma süresi on dört gün.",
+        "en": "The salesperson kept turning pages while you read. One signature slipped through. Cancellation window: fourteen days.",
+        "coach": [
+          {
+            "tr": "On dört gün. Sayaç başladı.",
+            "en": "Fourteen days. The clock started.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "imzala": {
+      "effects": {
+        "money": -400,
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "enerji_sozlesmesi"
+          ]
+        }
+      },
+      "tr": "Üç imza atıldı. İlk fatura eskisinden 400 Para fazla geldi.",
+      "en": "Three signatures. The first bill came in 400 higher than the old one.",
+      "coach": [
+        {
+          "tr": "Bilgilendirme sayfası epey bilgilendirdi.",
+          "en": "The information page was very informative.",
+          "roast": true
+        }
+      ]
+    },
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kapi_brosuru"
+          ]
+        }
+      },
+      "tr": "Kapı kapandı. Satıcı broşürü kapı koluna astı.",
+      "en": "Door closed. The salesperson hung a flyer on the handle.",
+      "coach": [
+        {
+          "tr": "Broşür asılı. Fatura yerinde.",
+          "en": "The flyer hangs there. The bill stays put.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "oku",
+    "slip": {
+      "tr": "İDDİA: Dördüncü sayfaya gelmeden imza atılır. — M.",
+      "en": "WAGER: You'll sign before page four. — M."
+    }
+  },
+  "intent": {
+    "setup": "kapıya gelen enerji satış temsilcisinin tedarikçi değişikliği sözleşmesi imzalatmaya çalışması",
+    "mechanism": "imza sayısı ve sayfa sayısı artıyor, bilgilendirme sayfası bile imzalanıyor",
+    "mechanismId": "escalation",
+    "punch": "bu sayfa sadece bilgilendirme, onu da imzalıyoruz",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "sayfa",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

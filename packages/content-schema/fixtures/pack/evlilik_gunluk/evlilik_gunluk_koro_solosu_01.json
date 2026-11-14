@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_koro_solosu_01",
+  "tags": [
+    "iliski",
+    "yaslilik",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 2,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 80
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "koro_konseri"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Koroda solo bende. On altı ölçü. Sen ön sırada otur, el sallama.",
+      "en": "I've got the choir solo. Sixteen bars. You sit in the front row. No waving."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Konser dokuzda. Sen dokuzda genelde uyuyorsun, biliyorum. Bir kere uyuma.",
+      "en": "The concert's at nine. You're usually asleep by nine, I know. Just this once.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "uyanik",
+      "tr": "Sonuna kadar uyanık kal",
+      "en": "Stay awake to the end",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "kayit",
+      "tr": "Soloyu kayda al",
+      "en": "Record the solo",
+      "pattern": "overwork"
+    },
+    {
+      "id": "ayakta",
+      "tr": "Solo bitince ayağa kalk",
+      "en": "Stand up when the solo ends",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "uyanik": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 8
+          },
+          "flags": {
+            "add": [
+              "koro_konseri"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 5
+            }
+          ]
+        },
+        "tr": "On altı ölçünün hepsini gözlerin açık dinledin. Partner selamda doğrudan sana baktı.",
+        "en": "All sixteen bars, eyes open the whole time. At the bow, your partner looked straight at you.",
+        "coach": [
+          {
+            "tr": "On altı ölçü. Hepsine tanık var.",
+            "en": "Sixteen bars. All witnessed.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir ileri.",
+            "en": "Goal meter: one forward.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "koro_konseri"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "On ikinci ölçüde uyumuşsun. Alkışla uyandın, en çok sen alkışladın.",
+        "en": "You dozed off at bar twelve. The applause woke you. You clapped loudest.",
+        "coach": [
+          {
+            "tr": "Dört ölçü eksik, alkış tam.",
+            "en": "Four bars short. Full applause.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kayit": {
+      "effects": {
+        "stats": {
+          "joy": 5
+        },
+        "flags": {
+          "add": [
+            "koro_konseri",
+            "solo_kaydi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Soloyu kayda aldın. Kayıtta ses net; sonunda senin rahat bir \"oh\" deyişin de var.",
+      "en": "You recorded the solo. It's crisp. So is your sigh of relief at the end.",
+      "coach": [
+        {
+          "tr": "Kayıt aile grubuna gitti. İç çekiş de.",
+          "en": "The clip went to the family chat. With the sigh.",
+          "roast": false
+        }
+      ]
+    },
+    "ayakta": {
+      "effects": {
+        "stats": {
+          "joy": 6
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "koro_konseri"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Solo bitince ayağa kalktın, salonda tek ayakta olan sendin. Sonra arkadan iki kişi daha kalktı.",
+      "en": "When the solo ended you stood up, the only one. Then two more people behind you did.",
+      "coach": [
+        {
+          "tr": "Üç kişilik ayakta alkış. İlki sendin.",
+          "en": "A three-person standing ovation. You were first.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "uyanik",
+    "slip": {
+      "tr": "İDDİA: On ikinci ölçüde uyunur. — M.",
+      "en": "WAGER: Lights out by bar twelve. — M."
+    }
+  },
+  "intent": {
+    "setup": "emekli korosunda partnerin solosu, konser uyku saatinde",
+    "mechanism": "solo ölçüyle sayılıyor, uyku saatiyle çakışıyor",
+    "mechanismId": "count",
+    "punch": "bir kere uyuma",
+    "lift": "hedef açıksa tek satır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "olcu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_kira_gecikmesi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "kira",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 34
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Kiranın yarısı geldi. Öbür yarısını sana soruyorum, çünkü telefonu sen açıyorsun.",
+      "en": "Half the rent came in. I'm asking you about the other half, because you're the one who picks up."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Maaş pazartesi yatıyor. Yani yatması lazım. Yani pazartesi dediler.",
+      "en": "Payday's Monday. I mean, it should be. I mean, Monday is what they said.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sure",
+      "tr": "Ev sahibinden üç gün iste",
+      "en": "Ask the landlord for three days",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "Barış'ın payını sen öde",
+      "en": "Cover Jordan's share",
+      "pattern": "generosity"
+    },
+    {
+      "id": "numara",
+      "tr": "Barış'ın numarasını ver",
+      "en": "Give the landlord Jordan's number",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sure": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "kira_uzatma"
+            ]
+          }
+        },
+        "tr": "Ev sahibi üç gün verdi. Pazartesi maaş yattı; Barış kirayı yatırıp dekontu sana çerçeveletmeyi teklif etti.",
+        "en": "The landlord gave you three days. Monday, Jordan got paid, paid up, and offered to frame the receipt for you.",
+        "coach": [
+          {
+            "tr": "Üç gün istendi. Üç gün yetti.",
+            "en": "Three days requested. Three days used.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -75,
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Ev sahibi gecikme bedeli olarak 150 Para ekledi. Barış 'yarı yarıya' dedi; senin yarın 75 Para.",
+        "en": "The landlord tacked on a 150 late fee. Jordan said 'we'll split it.' Your half: 75.",
+        "coach": [
+          {
+            "tr": "Gecikme Barış'ın. Ceza ortak. Ev demokrasisi.",
+            "en": "Jordan's delay. Shared penalty. Household democracy.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 5,
+            "memory": "kira_borcu_900"
+          }
+        ],
+        "flags": {
+          "add": [
+            "baris_borclu_900"
+          ]
+        }
+      },
+      "tr": "Barış'ın 900 Paralık payını sen yatırdın. Barış buzdolabına 'BORCUM: 900' yazan bir mıknatıs yapıştırdı.",
+      "en": "You paid Jordan's 900. Jordan stuck a magnet on the fridge: 'I OWE: 900.'",
+      "coach": [
+        {
+          "tr": "Mıknatıs söz veriyor. Tarih vermiyor.",
+          "en": "The magnet makes a promise. It gives no date.",
+          "roast": false
+        }
+      ]
+    },
+    "numara": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Numarayı verdin. Ev sahibi Barış'ı aradı; Barış telefonu sana uzattı.",
+      "en": "You gave the landlord Jordan's number. The landlord called Jordan. Jordan handed you the phone.",
+      "coach": [
+        {
+          "tr": "Telefon tam tur attı ve sende durdu.",
+          "en": "The phone did a full lap and stopped at you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sure",
+    "slip": {
+      "tr": "İDDİA: Ev sahibi beklemez. — M.",
+      "en": "WAGER: The landlord won't wait. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış kira payını geciktiriyor, ev sahibi seni arıyor",
+    "mechanism": "ev sahibi telefonu açanı sorumlu sayıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "çünkü telefonu sen açıyorsun",
+    "target": "situation",
+    "closer": "miknatis",
+    "lift": "yok",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

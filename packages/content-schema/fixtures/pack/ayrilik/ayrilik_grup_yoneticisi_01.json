@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ayrilik_grup_yoneticisi_01",
+  "tags": [
+    "iliski",
+    "ayrilik_sonrasi",
+    "ayrilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "ayrilik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      },
+      "roommate": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "ayrildi"
+      ],
+      "none": [
+        "grup_barisi",
+        "yeni_grup",
+        "grup_sessizde"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Grupta ikiniz de yöneticisiniz. Herkes kimin kimi çıkaracağını bekliyor.",
+      "en": "You’re both admins in the group chat. Everyone’s waiting to see who removes who."
+    },
+    {
+      "speaker": "ex",
+      "avatar": "neutral",
+      "tr": "Ben gruptan çıkıyorum. Kimse üzülmesin.",
+      "en": "I’m leaving the group. Nobody be sad."
+    },
+    {
+      "speaker": "ex",
+      "avatar": "typing",
+      "tr": "Biri geri eklerse itiraz etmem bu arada.",
+      "en": "If someone adds me back, I won’t object, by the way.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "ekle",
+      "tr": "Geri ekle",
+      "en": "Add them back",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sustur",
+      "tr": "Grubu bir yıl sessize al",
+      "en": "Mute the group for a year",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "yeni",
+      "tr": "Yeni grup kur",
+      "en": "Start a new group",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ekle": {
+      "effects": {
+        "npc": [
+          {
+            "role": "ex",
+            "affinity": 3,
+            "memory": "gruba_geri_eklendi"
+          }
+        ],
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "grup_barisi"
+          ]
+        }
+      },
+      "tr": "Geri ekledin. Grup üç dakika sustu, sonra biri piknik tarihini sordu.",
+      "en": "You added them back. The chat went silent for three minutes. Then someone asked about the picnic date.",
+      "coach": [
+        {
+          "tr": "Piknik planı devam ediyor.",
+          "en": "The picnic is still on.",
+          "roast": false
+        }
+      ]
+    },
+    "sustur": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "grup_sessizde"
+          ]
+        }
+      },
+      "tr": "Grubu sessize aldın. Pikniği üç hafta sonra, fotoğraflardan öğrendin.",
+      "en": "You muted it. You found out about the picnic three weeks later, from the photos.",
+      "coach": [
+        {
+          "tr": "Fotoğraflar güzel çıkmış.",
+          "en": "The photos came out nice.",
+          "roast": false
+        }
+      ]
+    },
+    "yeni": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 4
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yeni_grup"
+          ]
+        }
+      },
+      "tr": "Yeni grubu kurdun, on dört kişi ekledin. On üçü eski grupta da yazmaya devam ediyor.",
+      "en": "You started a new group and added fourteen people. Thirteen of them still post in the old one.",
+      "coach": [
+        {
+          "tr": "İki grup, aynı on üç kişi.",
+          "en": "Two groups. Same thirteen people.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da sessizlik günü"
+  },
+  "intent": {
+    "setup": "ayrılıktan sonra ortak arkadaş grubunun mesaj grubunda ikinizin de yönetici olması",
+    "mechanism": "gruptan çıkan eski partner geri eklenmeyi ima ediyor",
+    "mechanismId": "reversal",
+    "punch": "biri geri eklerse itiraz etmem",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "piknik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

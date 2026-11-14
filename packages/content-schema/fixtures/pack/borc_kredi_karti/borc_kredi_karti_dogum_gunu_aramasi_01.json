@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dogum_gunu_aramasi_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "banka",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 38
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "İyi ki doğdunuz. Bankamız adına en içten dileklerimizle.",
+      "en": "Happy birthday from all of us at the bank, with our warmest wishes."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bu arada asgari ödemeniz üç gün gecikti. Bugün öderseniz ücret yansımaz.",
+      "en": "Also, your minimum payment is three days late. Pay today and we'll skip the late fee.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Hemen öde",
+      "en": "Pay right now",
+      "pattern": "patience"
+    },
+    {
+      "id": "rica",
+      "tr": "Doğum günü hatrına ücreti sildir",
+      "en": "Ask for a birthday fee waiver",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yarin",
+      "tr": "Yarın öderim de",
+      "en": "Say you'll pay tomorrow",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -520,
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "odeme_zamaninda"
+          ]
+        }
+      },
+      "tr": "Asgari ödeme olan 520 Para yatırıldı. Akşam hesabına 'doğum günü puanı' tanımlandı.",
+      "en": "The 520 minimum went in. That evening, some 'birthday points' appeared on your account.",
+      "coach": [
+        {
+          "tr": "520 Para çıktı, 50 puan girdi.",
+          "en": "520 out. Fifty points in.",
+          "roast": false
+        }
+      ]
+    },
+    "rica": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -520,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "gecikme_affi"
+            ]
+          }
+        },
+        "tr": "Temsilci gecikme ücretini sildi, kutlamayı bir kez daha tekrarladı. Ödeme aynı gün yapıldı.",
+        "en": "The rep waived the fee and wished you happy birthday one more time. You paid the same day.",
+        "coach": [
+          {
+            "tr": "Hediye: silinmiş bir ücret.",
+            "en": "Birthday present: one waived fee.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -600,
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "gecikme_ucreti"
+            ]
+          }
+        },
+        "tr": "Sistem affı kabul etmedi, temsilci çok üzgün olduğunu söyledi. 80 Para gecikme ücreti eklendi.",
+        "en": "The system wouldn't allow it; the rep said they were very sorry. An 80 late fee was added.",
+        "coach": [
+          {
+            "tr": "Kutlama ücretsizdi. Gecikme 80 Para.",
+            "en": "The wishes were free. The delay cost eighty.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yarin": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "gecikme_ucreti"
+          ]
+        }
+      },
+      "tr": "Ödeme ertesi gün değil, ondan sonraki gün yapıldı. Ekstreye 80 Para gecikme ücreti eklendi.",
+      "en": "The payment went out not tomorrow but the day after. An 80 late fee landed on the statement.",
+      "coach": [
+        {
+          "tr": "Yarın, ertesi güne kaydı.",
+          "en": "Tomorrow slid into the day after.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rica",
+    "slip": {
+      "tr": "İDDİA: Banka doğum günü tanımaz. — M.",
+      "en": "WAGER: Banks don't do birthday favors. — M."
+    }
+  },
+  "intent": {
+    "setup": "bankacının doğum gününü kutlamak için arayıp aynı görüşmede gecikmiş ödemeyi hatırlatması",
+    "mechanism": "en içten dilekler bir gecikme hatırlatmasının girişi",
+    "mechanismId": "bathos",
+    "punch": "bu arada asgari ödemeniz gecikti",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "puan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

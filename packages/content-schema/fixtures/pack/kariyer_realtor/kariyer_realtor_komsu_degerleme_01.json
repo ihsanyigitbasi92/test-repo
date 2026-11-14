@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_komsu_degerleme_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Satmayacağım, sadece merak. Bizim daire şimdi kaç eder?",
+      "en": "I'm not selling. Just curious. What's our flat worth these days?"
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Kimseye söyleme ama. Üçüncü kattaki de sordu mu, onu bana söyle.",
+      "en": "Don't tell anyone, though. But if the third floor asked too, tell me.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "degerle",
+      "tr": "Gerçek değeri söyle",
+      "en": "Give the honest valuation",
+      "pattern": "patience"
+    },
+    {
+      "id": "sisir",
+      "tr": "Biraz yüksek söyle",
+      "en": "Round it up a little",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "yetki",
+      "tr": "Değer biç, satış yetkisi iste",
+      "en": "Value it, then ask for the listing",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "degerle": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_komsu_degerleme"
+          ]
+        }
+      },
+      "tr": "Rakamı söyledin. Komşu yüzünü buruşturdu, akşam aynı rakamı bütün apartmana kendisi söyledi.",
+      "en": "You named the number. The neighbor winced, then told the entire building that evening.",
+      "coach": [
+        {
+          "tr": "Sır bir öğleden sonra dayandı.",
+          "en": "The secret held for one afternoon.",
+          "roast": true
+        }
+      ]
+    },
+    "sisir": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_sisirilmis_degerleme"
+          ]
+        }
+      },
+      "tr": "Yüksek rakamı duyan komşu ertesi gün ilan vermek istedi. Senin söylediğin fiyattan.",
+      "en": "Hearing the high number, the neighbor wanted to list it the next day. At your price.",
+      "coach": [
+        {
+          "tr": "Merak ilana döndü. Rakam da senin.",
+          "en": "Curiosity became a listing. At your number.",
+          "roast": true
+        }
+      ]
+    },
+    "yetki": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            },
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "realtor_komsu_yetki"
+            ]
+          }
+        },
+        "tr": "Komşu yetkiyi imzaladı, ilan bu akşam yayında. Asansörde artık seninle iş konuşuyor.",
+        "en": "The neighbor signed the listing agreement. It goes live tonight. They now talk shop with you in the elevator.",
+        "coach": [
+          {
+            "tr": "Bir merak, bir yetki belgesi.",
+            "en": "One bout of curiosity, one signed listing.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "'Ben sadece merak etmiştim' deyip kapıyı kapattı. Kapının önündeki paspas da içeri alındı.",
+        "en": "'I was only curious,' they said, and shut the door. The doormat went inside too.",
+        "coach": [
+          {
+            "tr": "Paspas bile çekildi.",
+            "en": "Even the doormat withdrew.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "apartmandaki komşu \"satmayacağım, sadece merak\" diyerek dairesine değer biçtiriyor",
+    "mechanism": "sır isteyen komşu başkalarının sırrını istiyor",
+    "mechanismId": "deadpan_report",
+    "punch": "üçüncü kattaki de sordu mu bana söyle",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "paspas"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

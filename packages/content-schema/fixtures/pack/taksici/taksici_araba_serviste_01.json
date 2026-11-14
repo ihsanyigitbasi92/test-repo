@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_araba_serviste_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Arabası serviste olan yolcuyu hemen tanırım. Arkadan fren yapar.",
+      "en": "I can always spot a passenger whose car is in the shop. They brake from the back seat."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Bir de yol tarif eder. Siz etmeyin, ben buralıyım.",
+      "en": "They give directions, too. Please don't. I'm from here.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kestirme",
+      "tr": "Kendi kestirmeni öner",
+      "en": "Suggest your own shortcut",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sus",
+      "tr": "Sus, ayağını frenden çek",
+      "en": "Stay quiet, feet off the brake",
+      "pattern": "patience"
+    },
+    {
+      "id": "telefon",
+      "tr": "Telefona gömül",
+      "en": "Bury yourself in your phone",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kestirme": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -280,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "taksici_kestirmen"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Kestirmen tuttu, yol sekiz dakika kısaldı. Taksici kestirmeyi \"bizim durakta da bilinir\" diye kaydetti.",
+        "en": "Your shortcut worked, eight minutes saved. He filed it under \"known at our stand.\"",
+        "coach": [
+          {
+            "tr": "Kestirme senin, telif durağın.",
+            "en": "Your shortcut. The stand's copyright.",
+            "roast": true
+          },
+          {
+            "tr": "Sekiz dakika hedef saatine yazıldı.",
+            "en": "Eight minutes back on the goal clock.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -420,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kestirme bir yol çalışmasında bitti. Taksici geri geri çıkarken hiçbir şey demedi, taksimetre 420 dedi.",
+        "en": "The shortcut ended at roadworks. He reversed out without a word. The meter said 420.",
+        "coach": [
+          {
+            "tr": "Taksici sustu, taksimetre konuştu.",
+            "en": "He said nothing. The meter said plenty.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sus": {
+      "effects": {
+        "money": -340,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Bir hafta sustun. Cuma günü sağ ayağın arka paspasta belirgin bir iz bırakmıştı.",
+      "en": "You stayed quiet all week. By Friday your right foot had worn a dent into the rear floor mat.",
+      "coach": [
+        {
+          "tr": "Bir haftada hayali bir fren balatası bitti.",
+          "en": "One week, one imaginary brake pad, worn through.",
+          "roast": true
+        }
+      ]
+    },
+    "telefon": {
+      "effects": {
+        "money": -340,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "servis_uzadi"
+          ]
+        }
+      },
+      "tr": "Telefona gömüldün. Yol bitince servisin mesajını gördün: \"Bir parça daha çıktı.\"",
+      "en": "You buried yourself in your phone. When you surfaced, the garage had texted: \"Found another part.\"",
+      "coach": [
+        {
+          "tr": "Taksi haftası bir gün uzadı.",
+          "en": "Cab week: extended by one day.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kestirme",
+    "slip": {
+      "tr": "İDDİA: Kestirmen kapalı çıkar. — M.",
+      "en": "WAGER: Your shortcut is closed. — M."
+    }
+  },
+  "intent": {
+    "setup": "kendi araban servisteyken taksiyle işe gidip arka koltuktan yol tarif etmek",
+    "mechanism": "taksicinin \"arabası serviste olan arkadan fren yapar\" teorisi",
+    "mechanismId": "reversal",
+    "punch": "kestirme senin, telif durağın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "telif"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

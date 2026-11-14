@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_vize_cakismasi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "sinav",
+    "takvim",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "İki sınav da çarşamba 10.00. İkisi de bölümün öncelikli dersi.",
+      "en": "Both exams: Wednesday at ten. Both are the department's priority course."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Mazeret sınavı dilekçesi yazabilirsiniz. Mazeret sınavı da çarşamba 10.00.",
+      "en": "You can request a makeup. The makeup is also Wednesday at ten.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "birini",
+      "tr": "Zor olana gir",
+      "en": "Take the harder one",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dekan",
+      "tr": "Dekanlığa dilekçe ver",
+      "en": "Petition the dean's office",
+      "pattern": "patience"
+    },
+    {
+      "id": "roommate",
+      "tr": "Ev arkadaşıyla strateji kur",
+      "en": "Plot with your roommate",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "birini": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "brain": 3,
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "vize_cakisma_cozuldu"
+            ]
+          }
+        },
+        "tr": "Zor olana girdin, 78 aldın. Diğerine ayrı bir gün verildi; bölüm hatayı fark etmiş.",
+        "en": "You took the harder one and scored 78. The other got rescheduled. The department noticed.",
+        "coach": [
+          {
+            "tr": "Takvim sonunda takvime baktı.",
+            "en": "The calendar finally checked the calendar.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "brain": 1,
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Zor olana girdin, 52 aldın. Diğeri devamsızlık olarak işlendi; mazeret için yine dilekçe.",
+        "en": "You took the harder one and scored 52. The other was logged as absent. Another petition required.",
+        "coach": [
+          {
+            "tr": "Bir sınav, bir yokluk, bir dilekçe daha.",
+            "en": "One exam, one absence, one more petition.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dekan": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "vize_cakisma_cozuldu"
+          ]
+        }
+      },
+      "tr": "Dekanlık sekreteri dilekçeni okudu: \"Bu dönem üçüncü.\" Sınavlardan biri cumaya alındı.",
+      "en": "The dean's secretary read it: \"Third one this term.\" One exam moved to Friday.",
+      "coach": [
+        {
+          "tr": "Üçüncü dilekçe işe yaradı. İlk ikisi zemin hazırlamış.",
+          "en": "Third petition worked. The first two laid the groundwork.",
+          "roast": false
+        }
+      ]
+    },
+    "roommate": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "devamsizlik_bir"
+          ]
+        }
+      },
+      "tr": "Ev arkadaşın bir plan çizdi: İkinci sınava kırk dakika geç girmek. Hoca seni kapıda durdurdu.",
+      "en": "Your roommate drew up a plan: walk into the second exam forty minutes late. The professor stopped you at the door.",
+      "coach": [
+        {
+          "tr": "Plan kâğıt üstünde iyiydi. Kapı kâğıt değildi.",
+          "en": "The plan looked good on paper. The door was not paper.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "dalga dengesi: bu partide wager payı dolu"
+  },
+  "intent": {
+    "setup": "iki vize sınavı aynı gün aynı saatte",
+    "mechanism": "bölüm sekreteri iki sınavın da 'öncelikli' olduğunu söylüyor",
+    "mechanismId": "reversal",
+    "punch": "ikisi de öncelikli",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mazeret"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

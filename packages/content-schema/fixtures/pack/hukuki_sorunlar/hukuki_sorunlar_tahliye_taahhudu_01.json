@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_tahliye_taahhudu_01",
+  "tags": [
+    "burokrasi",
+    "kira",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Standart bir kâğıt. Tarihi boş kalsın, imza dolu olsun yeter.",
+      "en": "Just standard paperwork. Leave the date blank. Signature filled in, that is all."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "annoyed",
+      "tr": "Tarihsiz kâğıt imzalanmaz. Benim zamanımda bir kere imzaladım, tarihi üç gün sonra geldi.",
+      "en": "You never sign without a date. I did it once, back in my day. The date showed up three days later.",
+      "delayMs": 700,
+      "when": {
+        "npc": {
+          "uncle": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzala",
+      "tr": "İmzala, sorun çıkarma",
+      "en": "Sign it, don't make waves",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "reddet",
+      "tr": "\"Tarihsiz imzalamam\" de",
+      "en": "Say you won't sign it undated",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sor",
+      "tr": "Hukukçu bir arkadaşa sor",
+      "en": "Ask a friend who knows the law",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "imzala": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "bos_tarihli_tahliye"
+          ]
+        }
+      },
+      "tr": "İmzaladın. Kâğıt ev sahibinin çekmecesinde; tarihinin ne zaman dolacağı belli değil.",
+      "en": "You signed. The paper is in the landlord's drawer, with a date that could arrive any day.",
+      "coach": [
+        {
+          "tr": "Çekmecede bir tarih bekliyor. Ben olsam önce sorardım. Sen bilirsin.",
+          "en": "There's a date waiting in a drawer. I'd have asked first. Your call.",
+          "roast": false
+        }
+      ]
+    },
+    "reddet": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "glossary": "tahliye_taahhudu",
+          "flags": {
+            "add": [
+              "kira_sozlesmesi_temiz"
+            ]
+          }
+        },
+        "tr": "Ev sahibi kâğıdı geri çekti, \"zaten formalite\" dedi. Sözleşme taahhütsüz imzalandı.",
+        "en": "The landlord withdrew it: \"Just a formality anyway.\" The lease was signed without it.",
+        "coach": [
+          {
+            "tr": "Formalite geri adım attı.",
+            "en": "The formality backed down.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "ev_arama_devam"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"o zaman başka kiracı\" dedi. İlan bir saat sonra yeniden yayındaydı.",
+        "en": "The landlord said, \"Then I will find another tenant.\" The listing was back up within the hour.",
+        "coach": [
+          {
+            "tr": "Ev gitti. İmzan sende kaldı.",
+            "en": "The flat is gone. Your signature stayed yours.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "glossary": "tahliye_taahhudu",
+        "flags": {
+          "add": [
+            "kira_sozlesmesi_temiz"
+          ]
+        }
+      },
+      "tr": "Arkadaşın sözleşmeye \"tahliye taahhüdü ancak teslimden sonra verilir\" maddesini ekletti. Ev sahibi kaşını kaldırıp imzaladı.",
+      "en": "Your friend had a line added: any move-out pledge can only come after move-in. The landlord raised an eyebrow and signed.",
+      "coach": [
+        {
+          "tr": "Bir madde eklendi. Çekmece boş kaldı. Sertifikasız görüş: soru sormak bedava.",
+          "en": "One clause added. The drawer stays empty. Uncertified opinion: questions are free.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "ev sahibinin kira sözleşmesiyle birlikte boş tarihli tahliye taahhüdü imzalatmak istemesi",
+    "mechanism": "\"standart kâğıt\" dilinin hafifliği; dayının üç günlük anısı",
+    "mechanismId": "understatement",
+    "punch": "tarihi üç gün sonra geldi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "cekmece"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

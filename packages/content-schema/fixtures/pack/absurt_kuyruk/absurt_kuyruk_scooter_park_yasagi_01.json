@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "absurt_kuyruk_scooter_park_yasagi_01",
+  "tags": [
+    "meta",
+    "absurt",
+    "sehir",
+    "uygulama",
+    "absurt_kuyruk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "absurt_kuyruk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Kiralık elektrikli scooter'ı bırakmak istedin. Uygulama \"Bu bölgede park yasak\" dedi. Yüz metre ileride de dedi.",
+      "en": "You tried to end your e-scooter rental. The app said \"No parking in this zone.\" A hundred meters later, it said it again."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "typing",
+      "tr": "Haritada yeşil alanlar park bölgesidir. Size en yakın yeşil alan, evinizin yanındaki park.",
+      "en": "Green areas on the map are parking zones. Your nearest green area is the park next to your home."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Ücret dakika başına işlemeye devam eder. Keyifli sürüşler dileriz.",
+      "en": "Charges continue per minute. Enjoy your ride.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Temsilciyi ikna et",
+      "en": "Talk the agent around",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "eve",
+      "tr": "Eve kadar sür",
+      "en": "Ride it all the way home",
+      "pattern": "patience"
+    },
+    {
+      "id": "birak",
+      "tr": "Bırak, cezayı göze al",
+      "en": "Ditch it, risk the fee",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -30,
+          "flags": {
+            "add": [
+              "absurt_scooter_haritasi"
+            ]
+          }
+        },
+        "tr": "Temsilci haritayı elle düzeltti. Durduğun kaldırım bir dakikalığına yeşile döndü; scooter kilitlendi.",
+        "en": "The agent edited the map by hand. Your patch of sidewalk turned green for one minute. The scooter locked.",
+        "coach": [
+          {
+            "tr": "Bir dakikalık park bölgesi, senin adına açıldı.",
+            "en": "A one-minute parking zone, opened in your honor.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -90,
+          "flags": {
+            "add": [
+              "absurt_scooter_eve"
+            ]
+          }
+        },
+        "tr": "Temsilci üç kez \"anlıyorum\" yazıp sohbeti kapattı. Ücret işlemeye devam etti.",
+        "en": "The agent typed \"I understand\" three times and closed the chat. The meter kept running.",
+        "coach": [
+          {
+            "tr": "Üç anlayış, sıfır park.",
+            "en": "Three understandings, zero parking.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "eve": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -140,
+        "flags": {
+          "add": [
+            "absurt_scooter_eve"
+          ]
+        }
+      },
+      "tr": "Scooter'ı evinin yanındaki parka kadar sürdün. İşe gitmek için bindiğin şey seni eve geri getirdi; ücret 140 Para.",
+      "en": "You rode it to the park by your home. The thing you took to get to work brought you right back. Fare: 140.",
+      "coach": [
+        {
+          "tr": "Varış noktası: başlangıç noktası.",
+          "en": "Destination: point of origin.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -250,
+        "meters": {
+          "cringe": 1
+        },
+        "flags": {
+          "add": [
+            "absurt_scooter_cezasi"
+          ]
+        }
+      },
+      "tr": "Bıraktın ve yürüdün. Akşam 250 Para \"uygunsuz park\" ücreti geldi; fotoğrafta scooter bir ağaca yaslanmış.",
+      "en": "You left it and walked. That evening: a 250 \"improper parking\" fee, with a photo of the scooter leaning on a tree.",
+      "coach": [
+        {
+          "tr": "Ağaç park bölgesi sayılmıyor. Ağaç da şaşkın.",
+          "en": "Trees don't count as parking zones. The tree seemed surprised too.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Temsilci haritayı değiştirmez. — M.",
+      "en": "WAGER: The agent won't redraw the map. — M."
+    }
+  },
+  "intent": {
+    "setup": "kiralık scooter'ı bırakmak isterken her yerin park yasağı bölgesi çıkması",
+    "mechanism": "park arayışı başladığın yere kadar büyüyor",
+    "mechanismId": "escalation",
+    "punch": "Varış noktası: başlangıç noktası",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "baslangic"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yeni_ebeveyn_muzik_kursu_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "kurs",
+    "partner",
+    "yeni_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "yeni_ebeveyn": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "bebek_muzik_kursu"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Müzik kursunda her veli sırayla tek başına ninni söylüyormuş. Bu hafta sıra sende.",
+      "en": "At baby music class each parent sings a lullaby solo. This week it's your turn."
+    },
+    {
+      "speaker": "child",
+      "avatar": "happy",
+      "tr": "(ritim çubuğunu yere vurur, tempo tutar)",
+      "en": "(bangs the rhythm stick on the floor, keeping time)",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "soyle",
+      "tr": "Ninniyi söyle",
+      "en": "Sing the lullaby",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "mirildan",
+      "tr": "Mırıldanarak geçiştir",
+      "en": "Hum your way through it",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "partner",
+      "tr": "Partnerine devret",
+      "en": "Hand it to your partner",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "soyle": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "bebek_muzik_kursu"
+            ]
+          }
+        },
+        "tr": "Ninniyi bitirdin. Çemberdeki üç bebek uyudu, bir veli not aldı.",
+        "en": "You finished the lullaby. Three babies in the circle fell asleep. One parent took notes.",
+        "coach": [
+          {
+            "tr": "Üç bebek uyudu. Sahne senin.",
+            "en": "Three babies down. The stage is yours.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "bebek_muzik_kursu"
+            ]
+          }
+        },
+        "tr": "İkinci kıtada sözleri unuttun, kalanını “na na na” ile bitirdin. Bebeğin alkışladı, yalnızca bebeğin.",
+        "en": "You lost the words in verse two and finished on “na na na.” Your baby clapped. Only your baby.",
+        "coach": [
+          {
+            "tr": "Tek alkış. Doğru kişiden.",
+            "en": "One clap. From the right person.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "mirildan": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "bebek_muzik_kursu"
+          ]
+        }
+      },
+      "tr": "Mırıldandın. Eğitmen “çok güzel, şimdi sözlerle” dedi.",
+      "en": "You hummed. The instructor said, “Lovely. Now with words.”",
+      "coach": [
+        {
+          "tr": "Mırıltı reddedildi. Sözler bekleniyor.",
+          "en": "Humming rejected. Lyrics pending.",
+          "roast": true
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "bebek_muzik_kursu"
+          ]
+        }
+      },
+      "tr": "Partnerin söyledi. Eğitmen gelecek haftanın sırasını yine sana yazdı.",
+      "en": "Your partner sang. The instructor put you down for next week anyway.",
+      "coach": [
+        {
+          "tr": "Erteleme bir hafta sürdü.",
+          "en": "Postponement: one week.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "soyle",
+    "slip": {
+      "tr": "İDDİA: Sözler ikinci kıtada biter. — M.",
+      "en": "WAGER: The lyrics run out in verse two. — M."
+    }
+  },
+  "intent": {
+    "setup": "bebek müzik kursunda velinin tek başına ninni söylemesi gerekmesi",
+    "mechanism": "sıra kaçınılmaz",
+    "mechanismId": "escalation",
+    "punch": "na na na",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ninni"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

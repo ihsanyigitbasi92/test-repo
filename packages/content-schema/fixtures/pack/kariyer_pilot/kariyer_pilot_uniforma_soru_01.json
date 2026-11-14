@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_uniforma_soru_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Pardon, siz pilotsunuz. Bu tren havalimanına gidiyor mu?",
+      "en": "Excuse me, you're a pilot. Does this train go to the airport?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ben de soracaktım. Bir de rötar var mı, biliyor musunuz?",
+      "en": "I was about to ask too. Also, do you know if there are delays?",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Bavulum göz kararı yirmi üç kiloyu geçer mi sizce?",
+      "en": "Just eyeballing it, is my suitcase over fifty pounds?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cevapla",
+      "tr": "Hepsine tek tek cevap ver",
+      "en": "Answer everyone, one by one",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ceket",
+      "tr": "Ceketi çıkar, kalabalığa karış",
+      "en": "Take off the jacket, blend in",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "anons",
+      "tr": "Vagona anons yap",
+      "en": "Make a carriage announcement",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "cevapla": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Altı soruyu cevapladın, birini tahminle. İnerken biri \"iyi uçuşlar kaptan\" dedi; o gün izinliydin.",
+      "en": "You answered six questions and guessed one. Getting off, someone said 'Have a good flight, captain.' It was your day off.",
+      "coach": [
+        {
+          "tr": "İzin günü, gönüllü mesai.",
+          "en": "Day off. Volunteer shift.",
+          "roast": false
+        }
+      ]
+    },
+    "ceket": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Ceketi çıkardın ama şapka hâlâ elindeydi. Bir kişi daha sordu, bu kez şapkaya bakarak.",
+      "en": "Jacket off, but the hat was still in your hand. One more person asked, addressing the hat.",
+      "coach": [
+        {
+          "tr": "Şapka görevde kaldı.",
+          "en": "The hat stayed on duty.",
+          "roast": false
+        }
+      ]
+    },
+    "anons": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "\"Sayın yolcular, bu tren havalimanına gider\" dedin. Vagon rahatladı, iki kişi haritayı kapattı.",
+        "en": "'Ladies and gentlemen, this train serves the airport.' The carriage relaxed. Two people closed their maps.",
+        "coach": [
+          {
+            "tr": "Kabin anonsu, kara versiyonu.",
+            "en": "Cabin announcement, ground edition.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Anonsa başladığın anda tren havalimanı hattından ayrıldı. Vagondaki altı kişi seninle birlikte indi.",
+        "en": "You started the announcement just as the train split off the airport line. Six passengers got off with you.",
+        "coach": [
+          {
+            "tr": "Altı yolcu, bir rota sapması. Yer seviyesinde.",
+            "en": "Six passengers, one diversion. At ground level.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anons",
+    "slip": {
+      "tr": "İDDİA: Tren rotayı değiştirir. — M.",
+      "en": "WAGER: The train changes routes on you. — M."
+    }
+  },
+  "intent": {
+    "setup": "üniformayla trene binen genç pilota bütün vagon havalimanı ve bavul soruları soruyor",
+    "mechanism": "sorular büyüyor, pilot danışma masasına dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "o gün izinliydin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "peron"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

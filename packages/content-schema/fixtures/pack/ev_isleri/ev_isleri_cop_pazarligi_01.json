@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_isleri_cop_pazarligi_01",
+  "tags": [
+    "ev",
+    "ev_isi",
+    "cocuk",
+    "ev_isleri"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_isleri": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "smug",
+      "tr": "Çöpü ben atarsam haftalığı ne olur? Pazarlığa açığım.",
+      "en": "If I take out the trash, what's the weekly rate? I'm open to negotiation."
+    },
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Geri dönüşüm ayrı ücret. Merdivenden inersem ayrı, asansörle ayrı.",
+      "en": "Recycling is a separate fee. Stairs cost one rate, elevator another.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlas",
+      "tr": "Haftalık ücrette anlaş",
+      "en": "Agree on a weekly rate",
+      "pattern": "generosity"
+    },
+    {
+      "id": "gorev",
+      "tr": "Ücretsiz ev görevi de",
+      "en": "Call it an unpaid house duty",
+      "pattern": "pride"
+    },
+    {
+      "id": "karsi",
+      "tr": "Karşı teklif ver",
+      "en": "Make a counteroffer",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "anlas": {
+      "effects": {
+        "money": -100,
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "cop_sozlesmesi"
+          ]
+        }
+      },
+      "tr": "Haftalık 100 Para'da anlaştınız. Çöp her akşam iniyor, fatura cuma günleri geliyor.",
+      "en": "You agreed on 100 a week. The trash goes out every evening. The invoice arrives Fridays.",
+      "coach": [
+        {
+          "tr": "Bir çöp torbası, bir fatura. Ekonomi evde başlar.",
+          "en": "One trash bag, one invoice. The economy starts at home.",
+          "roast": true
+        }
+      ]
+    },
+    "gorev": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Ücretsiz dedin. Çöp üç gün kapının yanında \"grevdeyim\" notuyla bekledi.",
+      "en": "Unpaid, you said. The trash waited by the door for three days with a note: 'On strike.'",
+      "coach": [
+        {
+          "tr": "Grev üç gün sürdü. Koku daha uzun.",
+          "en": "The strike lasted three days. The smell, longer.",
+          "roast": false
+        }
+      ]
+    },
+    "karsi": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -60,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "cop_sozlesmesi"
+            ]
+          }
+        },
+        "tr": "Haftalık 60 Para'da anlaştınız, geri dönüşüm dahil. Sözleşme buzdolabına asıldı.",
+        "en": "Settled at sixty a week, recycling included. The contract went up on the fridge.",
+        "coach": [
+          {
+            "tr": "Altmış Para, geri dönüşüm dahil.",
+            "en": "Sixty, recycling included.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -150,
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "cop_sozlesmesi"
+            ]
+          }
+        },
+        "tr": "Karşı teklifin \"asansör farkıyla\" 150 Para'ya çıktı. Nasıl olduğunu tam anlamadın.",
+        "en": "Your counteroffer somehow ended at 150, 'elevator surcharge' included. You're still not sure how.",
+        "coach": [
+          {
+            "tr": "Karşı teklif verdin. Karşı taraf daha iyisini verdi.",
+            "en": "You countered. They countered harder.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "çocuğun çöpü atmak için haftalık ücret pazarlığı açıyor",
+    "mechanism": "ücret kalemleri çoğalıyor",
+    "mechanismId": "escalation",
+    "punch": "merdivenden ayrı, asansörle ayrı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "grev"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

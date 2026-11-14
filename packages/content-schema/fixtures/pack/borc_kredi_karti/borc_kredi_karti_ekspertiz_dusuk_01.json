@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_ekspertiz_dusuk_01",
+  "tags": [
+    "para",
+    "kredi",
+    "konut",
+    "banka",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "TURNA BANKASI (kurgusal) — EKSPERTİZ RAPORU",
+      "en": "CRANE BANK (fictional) — APPRAISAL REPORT"
+    },
+    "body": {
+      "tr": "Taşınmazın ekspertiz değeri satış bedelinin altında belirlenmiştir. Kredi tutarı bu değere göre yeniden hesaplanmıştır.",
+      "en": "The property has been appraised below the agreed sale price. The loan amount has been recalculated accordingly."
+    },
+    "translate": {
+      "tr": {
+        "from": "satış bedelinin altında",
+        "to": "aradaki farkı sen bul"
+      },
+      "en": {
+        "from": "below the agreed sale price",
+        "to": "the difference is yours to find"
+      }
+    },
+    "glossaryKey": "ekspertiz"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Ekspertiz düşük geldi. Kredi buna göre azalıyor.",
+      "en": "The appraisal came in low. The loan shrinks accordingly."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Farkı kapatmak için size ayrıca ihtiyaç kredisi sunabiliriz.",
+      "en": "To cover the gap, we can offer you a separate personal loan.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ihtiyac",
+      "tr": "Farkı ihtiyaç kredisiyle kapat",
+      "en": "Cover the gap with a personal loan",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Raporla satıcıya git",
+      "en": "Take the report to the seller",
+      "pattern": "pride"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Bu evden vazgeç",
+      "en": "Walk away from this house",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ihtiyac": {
+      "effects": {
+        "money": -1200,
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "konut_kredisi",
+            "ihtiyac_kredisi"
+          ]
+        },
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 3300
+          }
+        },
+        "glossary": "ekspertiz"
+      },
+      "tr": "Ev alındı. Ayda iki ayrı taksit ödüyorsun: konut için 2.400, aradaki fark için 900 Para.",
+      "en": "The house is yours. Two payments a month: 2,400 for the mortgage, 900 for the gap.",
+      "coach": [
+        {
+          "tr": "İki kredi, bir ev.",
+          "en": "Two loans. One house.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": {
+      "effects": {
+        "money": -6000,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "konut_kredisi"
+          ]
+        },
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 2400
+          }
+        }
+      },
+      "tr": "Satıcı raporu görünce fiyatı yarı yolda indirdi. Kalan farkı birikimle kapattın, ev alındı.",
+      "en": "Shown the report, the seller met you halfway. Savings covered the rest, and the house was yours.",
+      "coach": [
+        {
+          "tr": "Rapor masada işe yaradı.",
+          "en": "The report earned its fee at the table.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "ev_arayisi"
+          ]
+        }
+      },
+      "tr": "Ekspertiz ücreti 400 Para tuttu, ilan listeden çıkarıldı. Arama sürüyor.",
+      "en": "Appraisal fee: 400. The listing came off your shortlist. The search goes on.",
+      "coach": [
+        {
+          "tr": "400 Para'lık rapor, alınmayan bir ev.",
+          "en": "A 400 report. One house not bought.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "konut kredisinde ekspertiz değerinin satış fiyatının altında çıkması",
+    "mechanism": "banka açığı kapatmak için ikinci kredi öneriyor",
+    "mechanismId": "translation",
+    "punch": "farkı kapatmak için ayrıca kredi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rapor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

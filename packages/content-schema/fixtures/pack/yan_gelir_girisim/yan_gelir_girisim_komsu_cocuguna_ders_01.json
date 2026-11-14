@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yan_gelir_girisim_komsu_cocuguna_ders_01",
+  "tags": [
+    "is",
+    "yan_gelir",
+    "yan_gelir_girisim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yan_gelir_girisim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Karşı komşunun kızı matematikte zorlanıyor. Sen verirsin dedim.",
+      "en": "The neighbor's daughter is struggling with math. I said you'd tutor her."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Parasını konuşmadık, ayıp olur. Sen konuşursun.",
+      "en": "We didn't discuss money. That would be rude. You'll discuss it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ucret",
+      "tr": "Ders ücretini söyle",
+      "en": "Name your rate",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bedava",
+      "tr": "Ücretsiz ver",
+      "en": "Do it for free",
+      "pattern": "generosity"
+    },
+    {
+      "id": "hayir",
+      "tr": "Vaktin olmadığını söyle",
+      "en": "Say you don't have time",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ucret": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 720,
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "ozel_ders"
+            ]
+          }
+        },
+        "tr": "Komşu ücreti hemen kabul etti. Haftada iki ders, ayda 720 Para.",
+        "en": "The neighbor agreed on the spot. Two lessons a week, 720 a month.",
+        "coach": [
+          {
+            "tr": "İlk müşteri annenin referansıyla geldi. Ayda 720.",
+            "en": "First client, referred by Mom. 720 a month.",
+            "roast": false
+          },
+          {
+            "tr": "Gelir sayacı: bir öğrenci.",
+            "en": "Income counter: one student.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": 150,
+          "meters": {
+            "momPressure": 4
+          },
+          "flags": {
+            "add": [
+              "ozel_ders"
+            ]
+          }
+        },
+        "tr": "Komşu rakamı duyunca annene baktı. Anlaşma: ayda 150 Para ve her derste bir kavanoz reçel.",
+        "en": "The neighbor looked at your mom when you named the number. Deal: 150 a month plus a jar of jam per lesson.",
+        "coach": [
+          {
+            "tr": "Ayda 150 Para artı reçel. Yıl sonunda reçele raf lazım.",
+            "en": "150 a month plus jam. By year's end the jam needs a shelf.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bedava": {
+      "effects": {
+        "meters": {
+          "momPressure": -3
+        },
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ozel_ders_bedava"
+          ]
+        }
+      },
+      "tr": "Ücretsiz verdin. Annen komşulara anlattı; ertesi hafta iki çocuk daha yazıldı, yine ücretsiz.",
+      "en": "You did it for free. Mom told the neighbors. The next week two more kids signed up. Also free.",
+      "coach": [
+        {
+          "tr": "Bir öğrenci üç oldu. Gelir sıfırda sabit.",
+          "en": "One student became three. Income holds steady at zero.",
+          "roast": true
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "meters": {
+          "momPressure": 3
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Vaktin olmadığını söyledin. Annen komşuya \"sınavları var\" dedi; sınavın yok.",
+      "en": "You said you were busy. Mom told the neighbor you had exams. You don't.",
+      "coach": [
+        {
+          "tr": "Bir ders reddedildi, bir sınav icat edildi.",
+          "en": "One lesson declined. One exam invented.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ucret",
+    "slip": {
+      "tr": "İDDİA: Komşu rakamı duyunca annene bakar. — M.",
+      "en": "WAGER: The neighbor looks at your mom when you name the number. — M."
+    }
+  },
+  "intent": {
+    "setup": "annenin komşu çocuğuna özel ders sözü vermesi",
+    "mechanism": "anne parayı konuşmayı ayıp bulup işi sana devrediyor",
+    "mechanismId": "reversal",
+    "punch": "ayıp olur, sen konuşursun",
+    "lift": "gelir sayacı",
+    "target": "npc",
+    "closer": "recel",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

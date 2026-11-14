@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "araba_sahipligi_gecis_ihlali_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "evrak",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KUZEY OTOYOLU İŞLETMESİ · GEÇİŞ İHLALİ BİLDİRİMİ (kurgusal)",
+      "en": "NORTHERN TOLLWAY OPERATIONS · TOLL VIOLATION NOTICE (fictional)"
+    },
+    "body": {
+      "tr": "Aracınızın geçişi okunamadığından ihlalli geçiş kaydı oluşturulmuştur. Ödenecek tutar geçiş ücretinin on katıdır. Bu bildirim bilgilendirme amaçlıdır.",
+      "en": "Your vehicle's passage could not be read and has been recorded as a violation. Amount due: ten times the toll. This notice is for information purposes."
+    },
+    "translate": {
+      "tr": {
+        "from": "bilgilendirme amaçlıdır",
+        "to": "bilgi şu: on katını öde"
+      },
+      "en": {
+        "from": "for information purposes",
+        "to": "the information is: pay ten times"
+      }
+    },
+    "glossaryKey": "ihlalli_gecis"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Etiketiniz camdaymış, sistem okumamış. Sistem okumayınca ihlal sayılıyor.",
+      "en": "Your tag was on the windshield. The system didn't read it. Unread counts as a violation."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "İtiraz formu var. Kırk beş günde döner.",
+      "en": "There's an appeal form. Takes forty-five days.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Öde, kapansın",
+      "en": "Pay and be done",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "itiraz",
+      "tr": "İtiraz formunu doldur",
+      "en": "File the appeal",
+      "pattern": "pride",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "etiket",
+      "tr": "Öde ve yeni etiket al",
+      "en": "Pay and get a new tag",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -650,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "glossary": "ihlalli_gecis"
+      },
+      "tr": "650 Para ödedin. Ertesi ay aynı köprüden geçerken etiketi başparmağınla cama bastırdın.",
+      "en": "You paid 650. Next month, crossing the same bridge, you pressed the tag to the glass with your thumb.",
+      "coach": [
+        {
+          "tr": "Başparmak artık sistemin parçası.",
+          "en": "Your thumb is part of the system now.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -65,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "itiraz_kazanildi"
+            ]
+          },
+          "glossary": "ihlalli_gecis"
+        },
+        "tr": "Kırk dört gün sonra itiraz kabul edildi. Yalnızca normal geçiş ücreti, 65 Para, tahsil edildi.",
+        "en": "Forty-four days later, the appeal went through. You paid only the regular toll: 65.",
+        "coach": [
+          {
+            "tr": "Bir gün erken bile döndü.",
+            "en": "It even came back a day early.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -650,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "ihlalli_gecis"
+        },
+        "tr": "İtiraz \"etiket bakiyesi yetersiz\" gerekçesiyle reddedildi. Bakiyeye baktın; haklılardı.",
+        "en": "Appeal denied: \"insufficient tag balance.\" You checked. They were right.",
+        "coach": [
+          {
+            "tr": "Bakiye konuştu.",
+            "en": "The balance had the last word.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "etiket": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "yeni_gecis_etiketi"
+            ]
+          }
+        },
+        "glossary": "ihlalli_gecis"
+      },
+      "tr": "Cezayı ödeyip yeni etiket aldın. Yenisi eskisinden büyük ve çok daha turuncu.",
+      "en": "You paid the fine and bought a new tag. It is bigger than the old one, and much more orange.",
+      "coach": [
+        {
+          "tr": "Turuncu ve görünür.",
+          "en": "Orange. Highly visible.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "otoyol geçiş etiketi okunmadığı için gelen on kat tutarlı kurgusal ihlal bildirimi",
+    "mechanism": "\"bilgilendirme amaçlıdır\" ifadesinin ödeme emrine tercümesi",
+    "mechanismId": "translation",
+    "punch": "bilgi şu: on katını öde",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bakiye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

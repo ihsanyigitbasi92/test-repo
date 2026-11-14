@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_ilk_misafir_sofrasi_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "misafir",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Misafirler yirmi dakikaya burada. Fırın hâlâ \"ısınıyor\" diyor. Bir saattir diyor.",
+      "en": "Guests in twenty minutes. The oven still says \"preheating.\" It's been saying that for an hour."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Ocakta iki göz çalışıyor. Bir tava, bir tencere, altı kişi.",
+      "en": "Two burners work. One pan, one pot, six people.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ocakta",
+      "tr": "Her şeyi ocakta çöz",
+      "en": "Do it all on the stovetop",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "siparis_ana",
+      "tr": "Ana yemeği sipariş et",
+      "en": "Order in the main course",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "oyala",
+      "tr": "Misafirleri çayla oyala",
+      "en": "Stall the guests with tea",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ocakta": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "yemek_ilk_sofra_basari"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Tavada tavuk, tencerede pilav, kalan gözde sos. Altı tabak boş döndü.",
+        "en": "Chicken in the pan, rice in the pot, sauce on the last burner. Six plates came back empty.",
+        "coach": [
+          {
+            "tr": "İki göz, altı tabak. Fırın hâlâ ısınıyor.",
+            "en": "Two burners, six plates. The oven is still preheating.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "money": -250,
+          "flags": {
+            "add": [
+              "yemek_ilk_sofra_pide"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Pilavla sos aynı anda tencereyi istedi. Saat dokuzda masaya sipariş pide geldi.",
+        "en": "The rice and the sauce both needed the pot at once. At nine, takeout flatbreads arrived at the table.",
+        "coach": [
+          {
+            "tr": "Plan iki gözlüktü. Menü üç gözlüktü.",
+            "en": "The plan had two burners. The menu needed three.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "siparis_ana": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -380,
+        "flags": {
+          "add": [
+            "yemek_salata_tarifi"
+          ]
+        }
+      },
+      "tr": "Ana yemeği sipariş ettin, salatayı sen yaptın. Herkes salatanın tarifini sordu.",
+      "en": "You ordered the main and made the salad yourself. Everyone asked for the salad recipe.",
+      "coach": [
+        {
+          "tr": "Tarifi istenen tek tabak seninkiydi.",
+          "en": "The only dish anyone wanted the recipe for was yours.",
+          "roast": false
+        }
+      ]
+    },
+    "oyala": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yemek_gec_sofra"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Misafirlere kırk dakika balkonda çay ikram ettin. Yemek dokuz buçukta geldi ve tencerede tek pirinç kalmadı.",
+      "en": "You served tea on the balcony for forty minutes. Dinner hit the table at nine-thirty, and not one grain of rice survived.",
+      "coach": [
+        {
+          "tr": "Kırk dakika gecikme, sıfır artık.",
+          "en": "Forty minutes late. Zero leftovers.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ocakta",
+    "slip": {
+      "tr": "İDDİA: Fırın kazanır. — M.",
+      "en": "WAGER: The oven wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk kez altı kişilik misafir sofrası, fırın ısınmıyor",
+    "mechanism": "iki göz, bir tava, altı kişi",
+    "mechanismId": "count",
+    "punch": "bir tava, bir tencere, altı kişi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "goz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_nurse_doktor_hatasi_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "annoyed",
+      "tr": "Bu saat neden yanlış yazılmış? Hasta önünde konuşmak istemiyorum ama konuşuyorum.",
+      "en": "Why is this time written wrong? I don't want to discuss this in front of the patient, and yet here I am."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Ben karışmam ama o kalem sizin cebinizden çıkmıştı.",
+      "en": "Not my business, but that pen came out of your pocket.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "goster",
+      "tr": "Order kâğıdını sakince göster",
+      "en": "Calmly produce the order sheet",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sus",
+      "tr": "Sus, sonra konuş",
+      "en": "Stay quiet, talk later",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "rapor",
+      "tr": "Yazılı bildirim yap",
+      "en": "File a written report",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "goster": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "npc:doctor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kâğıdı gösterdin. Doktor imzaya baktı, öksürdü ve 'sistem hatası' dedi.",
+        "en": "You showed the sheet. The doctor looked at the signature, coughed, and said, 'System error.'",
+        "coach": [
+          {
+            "tr": "Sistemin imzası tanıdık.",
+            "en": "The system's signature looks familiar.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:doctor",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Kâğıt dosyada yoktu, gece vardiyası arşive kaldırmıştı. Doktor konuyu 'neyse' diye kapattı.",
+        "en": "The sheet wasn't in the chart. Night shift had filed it away. The doctor closed the matter with 'Anyway.'",
+        "coach": [
+          {
+            "tr": "Kanıt arşivde uyuyor.",
+            "en": "The evidence is asleep in the archive.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sus": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Sustun. Öğlen doktor kahve getirdi, özür dilemedi ama şekerini doğru koydu.",
+      "en": "You kept quiet. At noon the doctor brought you coffee. No apology, but the sugar was exactly right.",
+      "coach": [
+        {
+          "tr": "Özür şeker kılığında geldi.",
+          "en": "The apology arrived disguised as sugar.",
+          "roast": false
+        }
+      ]
+    },
+    "rapor": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "order_tutanagi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Yazılı bildirim yaptın. Başhemşire okudu ve servise yeni bir form ekledi: 'saat teyidi'.",
+      "en": "You filed a written report. The head nurse read it and added a new form to the ward: 'time confirmation.'",
+      "coach": [
+        {
+          "tr": "Bir hata, bir form daha.",
+          "en": "One mistake, one more form.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "goster",
+    "slip": {
+      "tr": "İDDİA: Kâğıt tam lazımken kaybolur. — M.",
+      "en": "WAGER: The paper vanishes right when you need it. — M."
+    }
+  },
+  "intent": {
+    "setup": "doktor kendi yazdığı yanlış saat için hemşireyi hasta önünde azarlıyor",
+    "mechanism": "tanıklığı hasta yapıyor, suçlu kalem",
+    "mechanismId": "reversal",
+    "punch": "o kalem sizin cebinizden çıkmıştı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "seker"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

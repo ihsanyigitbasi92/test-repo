@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_izin_donusu_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 50
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Tatil nasıl geçiyor? Güzel. Yarın sabah gelebilir misin, bir kişi eksik kaldık.",
+      "en": "How's vacation? Good, good. Any chance you can come in tomorrow morning? We're one short."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "İznini sonra veririz, iki katı. Söz, yazılı da veririm.",
+      "en": "We'll give you the days back later. Double. I'll even put it in writing.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "don",
+      "tr": "Tatili kes, dön",
+      "en": "Cut the trip short",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "hayir",
+      "tr": "Hayır de",
+      "en": "Say no",
+      "pattern": "selfCare",
+      "check": {
+        "base": 5500,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "telefon",
+      "tr": "Telefondan danışmanlık ver",
+      "en": "Consult by phone",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "don": {
+      "effects": {
+        "money": -600,
+        "hidden": {
+          "stress": 4
+        },
+        "stats": {
+          "joy": -3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "izin_alacagi"
+          ]
+        }
+      },
+      "tr": "Uçak biletini 600 Para farkla değiştirdin. Sabah yedide servisteydin, bavul hâlâ arabada.",
+      "en": "You changed your flight for 600. At 7 a.m. you were on the ward, suitcase still in the car.",
+      "coach": [
+        {
+          "tr": "Bavul tatilde kaldı.",
+          "en": "Your suitcase is still on vacation.",
+          "roast": true
+        }
+      ]
+    },
+    "hayir": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "\"Hayır\" dedin. Başhekim bir an sustu, sonra \"tabii, tabii\" dedi. Tatilin kalan dört günü telefonsuz geçti.",
+        "en": "You said no. A pause, then \"Of course, of course.\" The last four days of vacation were phone-free.",
+        "coach": [
+          {
+            "tr": "Dört gün sessizlik. Bedeli iki \"tabii\".",
+            "en": "Four days of quiet. Price: two \"of course\"s.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "\"Hayır\" dedin ama başhekim üç saat sonra yeniden aradı, sonra bir daha. Tatilin kalanı ekrana bakarak geçti.",
+        "en": "You said no. They called back three hours later. And again. The rest of the trip was spent staring at your phone.",
+        "coach": [
+          {
+            "tr": "Cevap hayırdı. Soru dayanıklı çıktı.",
+            "en": "The answer was no. The question had stamina.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "telefon": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Plajdan üç vakaya danışmanlık verdin. Bir hemşire arkadaki dalga sesini duyup nerede olduğunu sordu.",
+      "en": "You consulted on three cases from the beach. A nurse heard the waves and asked where you were.",
+      "coach": [
+        {
+          "tr": "Dalga sesi tıbbi kayda girmedi.",
+          "en": "The waves were not entered into the medical record.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hayir",
+    "slip": {
+      "tr": "İDDİA: \"Hayır\" telefonu kapatmaz. — M.",
+      "en": "WAGER: 'No' doesn't end the call. — M."
+    }
+  },
+  "intent": {
+    "setup": "yıllık izindeyken başhekim ertesi sabah gelmeni istiyor",
+    "mechanism": "tek telefonun tatili tırmanarak yemesi",
+    "mechanismId": "escalation",
+    "punch": "bavul tatilde kaldı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bavul"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_ucak_gurultusu_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Sabah altı kırkta bir uçak geçiyor, camlar titriyor. O pilota biri bir şey söylemeli.",
+      "en": "A plane goes over at 6:40 every morning and the windows rattle. Someone should have a word with that pilot."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Yukarıdan bizi görüyorlardır. Bilerek alçaktan geçiyorlar.",
+      "en": "They can see us from up there. They fly low on purpose.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bizim üçüncü kattaki havacılıkta çalışıyormuş galiba.",
+      "en": "Isn't the third-floor tenant in aviation or something?",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "Pilot olduğunu söyle",
+      "en": "Admit you're a pilot",
+      "pattern": "pride"
+    },
+    {
+      "id": "sessiz",
+      "tr": "Bir şey deme",
+      "en": "Say nothing",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "rota",
+      "tr": "Rotaların nasıl belirlendiğini anlat",
+      "en": "Explain how flight paths work",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "itiraf": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "pilot_apartman_biliyor"
+          ]
+        }
+      },
+      "tr": "Pilot olduğunu söyledin. Toplantının geri kalanı rota sorularıyla geçti, aidat konusu ertelendi.",
+      "en": "You admitted you're a pilot. The rest of the meeting was flight-path questions. The maintenance fees got postponed.",
+      "coach": [
+        {
+          "tr": "Toplantı rotasını değiştirdi.",
+          "en": "The meeting changed course.",
+          "roast": false
+        }
+      ]
+    },
+    "sessiz": {
+      "effects": {
+        "meters": {
+          "cringe": 3
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Sessiz kaldın. Toplantı \"pilotlara mektup yazılması\" kararıyla bitti; mektup sana verildi, el yazın en güzeliymiş.",
+      "en": "You stayed quiet. The meeting voted to \"write to the pilots.\" You got the job. Apparently you have the nicest handwriting.",
+      "coach": [
+        {
+          "tr": "Mektup yazıldı. Alıcı belli.",
+          "en": "The letter is written. The recipient is known.",
+          "roast": false
+        }
+      ]
+    },
+    "rota": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 2
+          },
+          "money": -120
+        },
+        "tr": "Rotaları rüzgâr ve kule üzerinden anlattın, kimse soru sormadı. Toplantı cam contası için ortak sipariş kararıyla bitti.",
+        "en": "You walked them through wind and tower routing. No one asked how you knew. The meeting ended with a group order for window seals.",
+        "coach": [
+          {
+            "tr": "Conta sipariş edildi.",
+            "en": "Window seals ordered.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "cringe": 3,
+            "ego": -1
+          },
+          "flags": {
+            "add": [
+              "pilot_apartman_biliyor"
+            ]
+          }
+        },
+        "tr": "Rüzgâr yönünü anlatırken biri \"sen nereden biliyorsun\" dedi. Cevap gecikti, herkes anladı.",
+        "en": "Halfway through the wind explanation, someone asked, \"How do you know all this?\" Your answer came late. Everyone got it.",
+        "coach": [
+          {
+            "tr": "Apartman artık biliyor.",
+            "en": "The building knows now.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "apartman toplantısında komşular sabah uçağının gürültüsünden şikâyet ediyor, pilot olduğunu kimse bilmiyor",
+    "mechanism": "şikâyet pilota yöneliyor, sonra üçüncü kata",
+    "mechanismId": "escalation",
+    "punch": "üçüncü kattaki havacılıkta çalışıyormuş galiba",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "el_yazisi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

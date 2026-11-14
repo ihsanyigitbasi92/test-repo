@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_ozel_klinik_teklifi_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "terfi",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "smug",
+      "tr": "Kliniğimize gelin. Hasta başı yedi dakika, maaş iki katı.",
+      "en": "Join our clinic: seven minutes per patient, double the pay."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Yedi dakika az değil. Ben altı dakikada hem muayene ederim hem kahve içerim.",
+      "en": "Seven minutes is plenty. I do an exam and a coffee in six.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Gitmeden bir hizalanalım. Kalırsan bandın yükselebilir, dinamik olarak.",
+      "en": "Before you go, let's align. If you stay, your band could rise, dynamically.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Özel kliniğe geç",
+      "en": "Move to the clinic",
+      "pattern": "risk"
+    },
+    {
+      "id": "kal",
+      "tr": "Hastanede kal",
+      "en": "Stay at the hospital",
+      "pattern": "patience"
+    },
+    {
+      "id": "goster",
+      "tr": "Teklifi patrona göster",
+      "en": "Show the offer to your boss",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "klinik hekimi",
+            "tier": 4,
+            "monthly": 3400
+          }
+        },
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "ozel_klinige_gecti"
+          ]
+        }
+      },
+      "tr": "Kliniğe geçtin. Maaş 3.400 Para, günde kırk iki hasta.",
+      "en": "You moved to the clinic at 3,400 a month. Forty-two patients a day.",
+      "coach": [
+        {
+          "tr": "Maaş iki katı, dakika yarısı. Matematik dengede.",
+          "en": "Double the pay, half the minutes. The math balances.",
+          "roast": false
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Hastanede kaldın. Bant aynı, hasta başı süre aynı.",
+      "en": "You stayed. Same band, same minutes per patient.",
+      "coach": [
+        {
+          "tr": "Aynı bant, aynı koridor. Sadakat bordroya yansımadı.",
+          "en": "Same band, same hallway. Loyalty didn't show up on the payslip.",
+          "roast": false
+        }
+      ]
+    },
+    "goster": [
+      {
+        "p": 4000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "status": {
+            "job": {
+              "title": "uzman hekim",
+              "tier": 4,
+              "monthly": 3000
+            }
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "Bant bir yukarı çıktı; uzman hekim kadrosu geldi. Maaş 3.000 Para.",
+        "en": "Your band went up one with a specialist post. Pay: 3,000 a month.",
+        "coach": [
+          {
+            "tr": "Bir teklif mektubu, bir kadro. Kâğıt işe yaradı.",
+            "en": "One offer letter, one promotion. The paper did its job.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ],
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "\"Bütçe takvimi henüz olgunlaşmadı.\" Klinik teklifinin süresi de bu arada doldu.",
+        "en": "\"The budget calendar hasn't matured yet.\" The clinic offer expired in the meantime.",
+        "coach": [
+          {
+            "tr": "İki kapı vardı. İkisi de aynı gün kapandı.",
+            "en": "There were two doors. Both closed on the same day.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "goster",
+    "slip": {
+      "tr": "İDDİA: Teklif mektubu bant açmaz. — M.",
+      "en": "WAGER: An outside offer won't move the band. — M."
+    }
+  },
+  "intent": {
+    "setup": "özel klinik yedi dakikalık muayeneyle iki kat maaş teklif ediyor",
+    "mechanism": "klinik hekimi yedi dakikayı bol buluyor",
+    "mechanismId": "literalism",
+    "punch": "altı dakikada hem muayene ederim hem kahve içerim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

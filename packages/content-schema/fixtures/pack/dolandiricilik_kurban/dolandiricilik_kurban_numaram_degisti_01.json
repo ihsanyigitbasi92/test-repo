@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_numaram_degisti_01",
+  "tags": [
+    "para",
+    "dolandiricilik",
+    "mesaj",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Selam, ben Ece. Numaram değişti, eski telefon bozuldu.",
+      "en": "Hey, it's Riley. New number, old phone died."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Acil 600 Para lazım. Yarın akşam iade, söz.",
+      "en": "Need 600 urgently. Back tomorrow night, promise."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Sesli arama olmaz, mikrofon da bozuk.",
+      "en": "Can't call. The mic's broken too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "gonder",
+      "tr": "Gönder, arkadaştır",
+      "en": "Send it, they're a friend",
+      "pattern": "generosity"
+    },
+    {
+      "id": "soru",
+      "tr": "Yalnızca onun bileceği şeyi sor",
+      "en": "Ask something only they know",
+      "pattern": "pride",
+      "check": {
+        "base": 7000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "eski",
+      "tr": "Eski numarayı ara",
+      "en": "Call the old number",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "gonder": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": -600,
+        "flags": {
+          "add": [
+            "numaram_degisti_odedi"
+          ]
+        },
+        "glossary": "numaram_degisti"
+      },
+      "tr": "600 Para gitti. Ece'yi eski numarasından aradın; telefonu hiç bozulmamış.",
+      "en": "Six hundred gone. You called Riley's old number. The phone works fine.",
+      "coach": [
+        {
+          "tr": "Arkadaşa 600 Para. Arkadaşın haberi yok.",
+          "en": "Six hundred to a friend. The friend has no idea.",
+          "roast": true
+        }
+      ]
+    },
+    "soru": [
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "flags": {
+            "add": [
+              "dolandirici_tanidi"
+            ]
+          },
+          "glossary": "numaram_degisti"
+        },
+        "tr": "\"İlk tanıştığımız gün ne yedik?\" diye sordun. Cevap: \"Yemek.\" Sonra sessizlik.",
+        "en": "You asked what you two ate the day you met. Reply: 'Food.' Then nothing.",
+        "coach": [
+          {
+            "tr": "Tek kelimelik cevap. Dosya kapandı.",
+            "en": "One-word answer. Case closed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -300,
+          "flags": {
+            "add": [
+              "numaram_degisti_odedi"
+            ]
+          }
+        },
+        "tr": "Soruyu bildi; ortak bir arkadaşın profilinde yazıyormuş. Yarısını gönderdin, sonra şüphelendin.",
+        "en": "They got it right. It was on a mutual friend's profile. You sent half, then got suspicious.",
+        "coach": [
+          {
+            "tr": "Soru iyiydi. Profil daha iyiydi.",
+            "en": "Good question. Better profile.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "eski": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "dolandirici_tanidi"
+          ]
+        }
+      },
+      "tr": "Eski numara çaldı. Ece açtı, hikâyeyi duyunca herkese uyarı attı.",
+      "en": "The old number rang. Riley picked up, heard the story, and warned everyone.",
+      "coach": [
+        {
+          "tr": "Bir arama, sıfır Para. Telefon zaten bunun içindi.",
+          "en": "One call, nothing spent. That's what phones were for.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacı yerinde. Para da.",
+          "en": "Goal counter intact. Money too.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "arkadaşın adına yeni numaradan acil para isteği",
+    "mechanism": "gizli soru harfiyen cevaplanıyor",
+    "mechanismId": "literalism",
+    "punch": "\"Yemek.\"",
+    "lift": "eski numarayı aradın, hedef sayacı sağlam",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "telefon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_tatil_kapatma_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 32,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Bir hafta kapalı mı? Ekmeği nereden alacağız, sütü, gazeteyi?",
+      "en": "Closed a whole week? Then where do we get bread? Milk? The paper?"
+    },
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "happy",
+      "tr": "Ben dükkâna bakarım. Kasayı bilirim, iki artı iki dört.",
+      "en": "I can watch the shop. I know the till. Two plus two is four.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Tabelayı as, git",
+      "en": "Hang the sign, go",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "yarim",
+      "tr": "Üç gün git, dört gün aç",
+      "en": "Go three days, open four",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ertele",
+      "tr": "Tatili sonbahara ertele",
+      "en": "Push the trip to autumn",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 8
+        },
+        "hidden": {
+          "stress": -6
+        },
+        "money": -600,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "shop_tatil_yapti"
+          ]
+        }
+      },
+      "tr": "Kapıya 'bir hafta tatildeyiz' yazdın. Döndüğünde komşular kâğıdın altına üç sayfa sipariş notu bırakmıştı.",
+      "en": "You taped 'Closed for one week' to the door. When you got back, the neighbors had left three pages of orders under it.",
+      "coach": [
+        {
+          "tr": "Tatil bitti. Sipariş listesi hazır.",
+          "en": "Holiday over. Order list ready.",
+          "roast": false
+        }
+      ]
+    },
+    "yarim": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "money": -250,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Üç gün gidip döndün. Dördüncü sabah komşu kepengin önünde boş süt şişesiyle bekliyordu.",
+      "en": "Three days away, then back. On day four, the neighbor was waiting at the shutter holding an empty milk bottle.",
+      "coach": [
+        {
+          "tr": "Üç gün tatil. Komşun da saymış.",
+          "en": "A three-day break. Your neighbor kept count.",
+          "roast": true
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "money": 300,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "shop_tatil_ertelendi"
+          ]
+        }
+      },
+      "tr": "Tatil sonbahara kaldı. Bu hafta kasaya 300 Para fazla girdi, sen sürekli esnedin.",
+      "en": "The trip moved to autumn. The till took 300 extra this week. You yawned through all of it.",
+      "coach": [
+        {
+          "tr": "Sonbahar takvime yazıldı.",
+          "en": "Autumn is on the calendar.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe 300 Para, tatil zarfta.",
+          "en": "Goal: plus 300. Trip in an envelope.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "bir haftalık tatil için dükkânı kapatmak isteyince müdavimler paniğe kapılıyor",
+    "mechanism": "komşunun ihtiyaç listesi uzuyor, çocuk dükkânı devralmayı teklif ediyor",
+    "mechanismId": "escalation",
+    "punch": "iki artı iki dört",
+    "lift": "zarf",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "siparis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

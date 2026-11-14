@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uzaktan_calisma_sabah_yuruyus_grubu_01",
+  "tags": [
+    "is",
+    "uzaktan",
+    "komsu",
+    "saglik",
+    "uzaktan_calisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "uzaktan_calisma": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Hep evdesin, perden bütün gün aralık. Sabah yürüyüş grubumuz var, saat yedide.",
+      "en": "You're always home, your curtains are open all day. We have a morning walking group. Seven sharp."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Üçüncü kattaki de geliyor. Onun adım sayısı seninkinin altı katıymış, kendi söyledi.",
+      "en": "The one on the third floor comes too. Says their step count is six times yours. Told me themselves.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "katil",
+      "tr": "Yarın yedide katıl",
+      "en": "Join tomorrow at seven",
+      "pattern": "selfCare",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "ogle",
+      "tr": "Öğle arasında tek başına yürü",
+      "en": "Walk alone at lunch",
+      "pattern": "patience"
+    },
+    {
+      "id": "perde",
+      "tr": "Perdeyi kapat",
+      "en": "Close the curtains",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "katil": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yuruyus_grubu"
+            ]
+          }
+        },
+        "tr": "Yedide kapıdaydın. Bir saatlik yürüyüşte apartmanın son iki yılını öğrendin, ilk toplantına da yetiştin.",
+        "en": "You were at the door by seven. In an hour's walk you caught up on two years of building news and still made your first meeting.",
+        "coach": [
+          {
+            "tr": "Bir saat yürüyüş, iki yıllık apartman arşivi.",
+            "en": "One hour of walking. Two years of building archives.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Alarm çaldı, yedi buçukta uyandın. Grup pencerenin önünden geçerken başını kaldırıp baktı.",
+        "en": "The alarm rang; you woke at seven-thirty. The group glanced up at your window as it passed.",
+        "coach": [
+          {
+            "tr": "Grup yedide geçti. Pencere izledi.",
+            "en": "The group passed at seven. The window watched.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ogle": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Öğle arasında yarım saat yürüdün. Akşam adım sayacın ilk kez 6.000'i geçti.",
+      "en": "You walked half an hour at lunch. That evening the step counter passed 6,000 for the first time.",
+      "coach": [
+        {
+          "tr": "Sayaç 6.000. Komşuya haber verilmedi.",
+          "en": "Counter: 6,000. The neighbor has not been informed.",
+          "roast": false
+        },
+        {
+          "tr": "Adım sayacı: 6.000.",
+          "en": "Step counter: 6,000.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "perde": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Perdeyi kapattın. Ertesi gün kapına yürüyüş grubunun saatlerini yazan bir not bırakılmıştı.",
+      "en": "You closed the curtains. Next day a note with the walking group's schedule appeared on your door.",
+      "coach": [
+        {
+          "tr": "Perde kapandı. Program kapıya geldi.",
+          "en": "Curtains shut. The schedule came to the door.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "evden çalıştığını fark eden komşunun sabah yürüyüş grubuna çağırması",
+    "mechanism": "komşu adım sayısını kat kat karşılaştırıyor",
+    "mechanismId": "count",
+    "punch": "seninkinin altı katı",
+    "lift": "adım sayacı",
+    "target": "npc",
+    "closer": "perde",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_hisse_orani_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 31,
+      "max": 40
+    },
+    "money": {
+      "min": 1500
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "ev_teklif_kabul"
+      ],
+      "none": [
+        "ev_satin_alindi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Hisseler nasıl yazılsın? Yarı yarıya mı, başka bir oran mı?",
+      "en": "How should the shares be recorded? Fifty-fifty, or some other split?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Mutfağı ben kullanıyorum, mutfak benim hisseme. Balkon seninki olsun.",
+      "en": "I'm the one who uses the kitchen, so the kitchen's on my share. You can have the balcony.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yari",
+      "tr": "Yarı yarıya yazdır",
+      "en": "Fifty-fifty",
+      "pattern": "generosity"
+    },
+    {
+      "id": "oda",
+      "tr": "Oda oda bölüşün",
+      "en": "Split it room by room",
+      "pattern": "pride"
+    },
+    {
+      "id": "pesinat",
+      "tr": "Peşinat oranına göre yazdır",
+      "en": "Split by down payment",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "yari": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 1300
+          }
+        },
+        "flags": {
+          "add": [
+            "ev_satin_alindi",
+            "ortak_tapu"
+          ]
+        }
+      },
+      "tr": "Tapuya yarı yarıya yazıldı. Partnerin eve dönünce mutfağa 'ortak alan' etiketi yapıştırdı.",
+      "en": "Recorded fifty-fifty. Back home, your partner labeled the kitchen 'common area.'",
+      "coach": [
+        {
+          "tr": "Tapuda iki isim, aynı punto.",
+          "en": "Two names on the deed. Same font size.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef dosyasına tapu eklendi.",
+          "en": "Deed added to the goal file.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "oda": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 1300
+          }
+        },
+        "flags": {
+          "add": [
+            "ev_satin_alindi",
+            "ortak_tapu"
+          ]
+        }
+      },
+      "tr": "Memur oda oda bölüşümü yazmadı ama tutanağa 'balkon konusu konuşuldu' notunu düştü. Tapu yarı yarıya çıktı.",
+      "en": "The clerk wouldn't record rooms but added a line to the minutes: 'balcony discussed.' The deed came out fifty-fifty anyway.",
+      "coach": [
+        {
+          "tr": "Balkon resmî tutanakta.",
+          "en": "The balcony is in the official minutes.",
+          "roast": false
+        }
+      ]
+    },
+    "pesinat": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 1300
+          }
+        },
+        "flags": {
+          "add": [
+            "ev_satin_alindi",
+            "ortak_tapu"
+          ]
+        }
+      },
+      "tr": "Hisseler peşinata göre altmışa kırk yazıldı. Partnerin o akşam bulaşığı da altmışa kırk böldü.",
+      "en": "Shares were recorded sixty-forty, by down payment. That evening your partner split the dishes sixty-forty too.",
+      "coach": [
+        {
+          "tr": "Oran lavaboya kadar indi.",
+          "en": "The ratio has reached the sink.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "partnerle ortak alınan evin tapusunda hisse oranını belirlemek",
+    "mechanism": "partner hisseyi oda oda, harfiyen bölmeye kalkıyor",
+    "mechanismId": "literalism",
+    "punch": "mutfak benim hisseme, balkon senin",
+    "lift": "hedef dosyasına tapu eklendi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "balkon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

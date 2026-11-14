@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_iban_hatasi_01",
+  "tags": [
+    "is",
+    "maas",
+    "bordro",
+    "ik",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 24
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Maaşlar yattı, herkes kutluyor. Sen niye ekrana bakıyorsun?",
+      "en": "Pay's in. Everyone's celebrating. Why are you staring at your screen?"
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "worried",
+      "tr": "Hesap numaranızda iki rakam yer değiştirmiş. Maaşınız başka birine gitmiş.",
+      "en": "Two digits in your account number got swapped. Your salary went to someone else."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "İade süreci on iş günü. Formu üç nüsha doldurun.",
+      "en": "The return process takes ten business days. Please fill out the form in triplicate.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "form",
+      "tr": "Formu üç nüsha doldur",
+      "en": "Fill it out in triplicate",
+      "pattern": "patience"
+    },
+    {
+      "id": "avans",
+      "tr": "Arada avans iste",
+      "en": "Ask for an advance meanwhile",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden on gün borç iste",
+      "en": "Borrow from Mom for ten days",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "form": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "maas_iade_edildi"
+          ]
+        }
+      },
+      "tr": "Üç nüsha doldurdun. Para on birinci gün geri geldi; arada kartın iki kez geri çevrildi.",
+      "en": "Triplicate, done. The money came back on day eleven. Your card got declined twice in between.",
+      "coach": [
+        {
+          "tr": "On gün. Hesap numaran artık ezberde.",
+          "en": "Ten days. You now know your account number by heart.",
+          "roast": false
+        }
+      ]
+    },
+    "avans": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "maas_iade_edildi"
+            ]
+          }
+        },
+        "tr": "Patron imzaladı; maaşın yarısı ertesi gün avans olarak yattı. Kalanı iade gelince.",
+        "en": "The boss signed off. Half your pay landed the next day as an advance. The rest comes with the refund.",
+        "coach": [
+          {
+            "tr": "Yarısı ertesi gün. Mutfak dolabı buna seviniyor.",
+            "en": "Half, next day. The kitchen cupboard approves.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "maas_iade_edildi"
+            ]
+          }
+        },
+        "tr": "Avans formu da üç nüsha çıktı. Onay, iadeden bir gün sonra geldi.",
+        "en": "The advance form was also in triplicate. Approval arrived the day after the refund.",
+        "coach": [
+          {
+            "tr": "Avans, iadeden sonra. Sıralama böyle işliyor.",
+            "en": "The advance arrived after the refund. That is the order of things.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "money": 1500,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "flags": {
+          "add": [
+            "anneye_borc_iban"
+          ]
+        }
+      },
+      "tr": "Annen parayı aynı gün gönderdi: 1.500 Para. Açıklamaya \"Rakamları iki kere oku\" yazmış.",
+      "en": "Mom sent 1,500 the same day. The transfer note read: \"Read the numbers twice.\"",
+      "coach": [
+        {
+          "tr": "Açıklama satırı da bir tavsiye taşıyor artık.",
+          "en": "Even the transfer memo carries advice now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ilk maaşların birinde hesap numarası hatasıyla maaşın yanlış kişiye gitmesi",
+    "mechanism": "iade formu üç nüsha, avans formu da üç nüsha",
+    "mechanismId": "escalation",
+    "punch": "Formu üç nüsha doldurun.",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "nusha"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_yanlis_bolum_01",
+  "tags": [
+    "saglik",
+    "hastane",
+    "yol",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Danışma \"yeşil çizgiyi takip edin\" dedi. Yeşil çizgi iki kat sonra doğumhanenin kapısında bitti.",
+      "en": "The front desk said, \"Follow the green line.\" Two floors later, the green line ended at the maternity ward door."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "Ziyaretçi misiniz, hasta mı? İkisi de değilseniz yanlış yerdesiniz.",
+      "en": "Visitor or patient? If you're neither, you're in the wrong place."
+    }
+  ],
+  "choices": [
+    {
+      "id": "geri",
+      "tr": "Çizgiyi baştan izle",
+      "en": "Follow the line from the start",
+      "pattern": "patience"
+    },
+    {
+      "id": "sor",
+      "tr": "Herkese sor",
+      "en": "Ask everyone",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "merdiven",
+      "tr": "Kendi rotanı çiz",
+      "en": "Plot your own route",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "geri": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "renkli_cizgi_ustasi"
+          ]
+        }
+      },
+      "tr": "Çizgiyi baştan izledin. Bu kez mavi çizgiyle kesiştiği yerde doğru yöne döndün.",
+      "en": "You followed the line from the start. This time you turned the right way where it crossed the blue one.",
+      "coach": [
+        {
+          "tr": "Çizgi haklıydı. Kavşaktan kimse bahsetmedi.",
+          "en": "The line was right. Nobody mentioned the intersection.",
+          "roast": true
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Üç kişiye sordun, üç farklı tarif aldın. Dördüncüsü seni kapıya kadar götürdü.",
+      "en": "You asked three people and got three sets of directions. The fourth walked you to the door.",
+      "coach": [
+        {
+          "tr": "Üç tarif ve bir refakatçi.",
+          "en": "Three sets of directions and an escort.",
+          "roast": true
+        }
+      ]
+    },
+    "merdiven": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Kat planına bakıp merdivenden indin. Randevuna iki dakika kala vardın.",
+        "en": "You checked the floor map and took the stairs. Made it with two minutes to spare.",
+        "coach": [
+          {
+            "tr": "İki dakika pay.",
+            "en": "Two minutes of margin.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "randevu_kacti_bolum"
+            ]
+          }
+        },
+        "tr": "Merdiven seni otoparka çıkardı. Randevu gelecek haftaya kaydı.",
+        "en": "The stairs let you out into the parking garage. Your appointment slid to next week.",
+        "coach": [
+          {
+            "tr": "Otoparka ulaşıldı. Hedef bir kat yukarıdaydı.",
+            "en": "Parking garage: reached. The target was one floor up.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "merdiven",
+    "slip": {
+      "tr": "İDDİA: Kestirme otoparkta biter. — M.",
+      "en": "WAGER: The shortcut ends in the parking garage. — M."
+    }
+  },
+  "intent": {
+    "setup": "hastanede yerdeki renkli çizgiyi takip edip yanlış bölüme varmak",
+    "mechanism": "talimatı harfiyen izlemek kavşaktan sonra çöküyor",
+    "mechanismId": "escalation",
+    "punch": "çizgi haklıydı, kavşaktan haberin yoktu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kavsak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

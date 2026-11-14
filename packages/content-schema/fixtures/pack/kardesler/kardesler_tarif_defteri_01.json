@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_tarif_defteri_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "yemek",
+    "hatira",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 85
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Annemin köftesi: bir tutam kimyon. Yazıyorum.",
+      "en": "Mom's meatballs: a pinch of cumin. Writing it down."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "annoyed",
+      "tr": "Senin tutamın benimkinden büyük. Çocukken şekerde de öyleydi.",
+      "en": "Your pinch is bigger than mine. Same thing with the sugar when we were kids.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tart",
+      "tr": "Tutamı terazide tart",
+      "en": "Weigh the pinch",
+      "pattern": "patience"
+    },
+    {
+      "id": "iki",
+      "tr": "İki ölçüyü de yaz",
+      "en": "Write down both versions",
+      "pattern": "generosity"
+    },
+    {
+      "id": "pisir",
+      "tr": "Pişir, torunlar seçsin",
+      "en": "Cook both, grandkids judge",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "joy"
+      }
+    }
+  ],
+  "outcomes": {
+    "tart": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "tarif_defteri"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Tutamlarınızı tarttınız: seninki iki gram, kardeşininki bir. Deftere \"1,5 gram, annemin tutamı\" yazıldı.",
+      "en": "You weighed your pinches: yours two grams, theirs one. The book now reads \"1.5 grams, Mom's pinch.\"",
+      "coach": [
+        {
+          "tr": "Ortalama anneye yazıldı.",
+          "en": "The average was credited to Mom.",
+          "roast": false
+        }
+      ]
+    },
+    "iki": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "tarif_defteri"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Defterde iki köfte var: \"Kardeşimin\" ve \"Doğrusu\". Hangisinin hangisi olduğu sayfayı kimin yazdığına bağlı.",
+      "en": "The book now has two meatball recipes: \"My sibling's\" and \"The right one.\" Which is which depends on who wrote the page.",
+      "coach": [
+        {
+          "tr": "Defter iki el yazısıyla.",
+          "en": "The book is in two handwritings.",
+          "roast": false
+        }
+      ]
+    },
+    "pisir": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "tarif_defteri",
+              "kofte_galibi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Torunlar seninkini seçti. Kardeşin sonucu kabul etti ve dipnot düştü: \"Çocuklar kimyon sevmez.\"",
+        "en": "The grandkids picked yours. Your sibling accepted the result and added a footnote: \"Kids don't like cumin.\"",
+        "coach": [
+          {
+            "tr": "Kazandın. Dipnotla.",
+            "en": "You won. With a footnote.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "flags": {
+            "add": [
+              "tarif_defteri"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 3,
+              "memory": "kofte_kazandi"
+            }
+          ]
+        },
+        "tr": "Torunlar kardeşininkini seçti. Kardeşin senin tutamını deftere \"fazla\" diye işledi.",
+        "en": "The grandkids picked theirs. Your sibling entered your pinch in the book as \"excessive.\"",
+        "coach": [
+          {
+            "tr": "Tutamın resmen fazla.",
+            "en": "Your pinch is officially excessive.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pisir",
+    "slip": {
+      "tr": "İDDİA: Torunlar kardeşinden yana çıkar. — M.",
+      "en": "WAGER: The grandkids side with your sibling. — M."
+    }
+  },
+  "intent": {
+    "setup": "torunlar için annenin tariflerini kardeşinle deftere geçirirken tutam ölçüsünde anlaşamamak",
+    "mechanism": "\"bir tutam\" gramla ölçülüyor",
+    "mechanismId": "literalism",
+    "punch": "senin tutamın benimkinden büyük",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tutam"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

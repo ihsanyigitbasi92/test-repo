@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_anne_pastasi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "yemek",
+    "kutlama",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 80
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Annemin bisküvili pastasını kim hatırlıyor? Kimse yapamadı ondan sonra.",
+      "en": "Who remembers Mom's biscuit cake? Nobody's managed it since."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Ben hatırlıyorum: kakaolu. Yok, kakaosuz. Ama kakao kokuyordu.",
+      "en": "I remember it. Cocoa. No, no cocoa. But it smelled like cocoa."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ezber",
+      "tr": "Ezberden yap",
+      "en": "Bake it from memory",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kuzen",
+      "tr": "Kuzenlere tarifi sor",
+      "en": "Ask the cousins for the recipe",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "hazir",
+      "tr": "Pastaneden benzerini al",
+      "en": "Buy a lookalike at the bakery",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ezber": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "anne_pastasi_tarifi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "Pasta çocukluğunuzdaki gibi oldu. Kardeşin ilk dilimde sustu, ikincide tarifi istedi.",
+        "en": "The cake came out exactly like childhood. Your sibling went quiet at the first slice and asked for the recipe at the second.",
+        "coach": [
+          {
+            "tr": "Tarif artık kâğıtta.",
+            "en": "The recipe is on paper now.",
+            "roast": false
+          },
+          {
+            "tr": "Tarif yazıldı. Hedefe bir satır.",
+            "en": "Recipe written. One line toward the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Pasta başka bir pastaya benzedi, iyi bir pastaya. Kardeşin “kakao kokuyor” dedi ve bunu yeterli buldu.",
+        "en": "It turned out like a different cake. A good one. Your sibling said, “Smells like cocoa,” and called that close enough.",
+        "coach": [
+          {
+            "tr": "Koku tuttu.",
+            "en": "The smell matched.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kuzen": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "dort_tarif"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Dört kuzen dört farklı tarif yolladı. Hepsini yaptın; kardeşin dördüne de “neredeyse” dedi.",
+      "en": "Four cousins sent four different recipes. You baked all four. Your sibling rated each one “almost.”",
+      "coach": [
+        {
+          "tr": "Dört neredeyse, bir doğum günü.",
+          "en": "Four almosts. One birthday.",
+          "roast": false
+        }
+      ]
+    },
+    "hazir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -250,
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Pastaneden 250 Para'ya benzerini aldın. Kardeşin kutuya bakıp “annem bunu yapmazdı, kutusu fazla düzgün” dedi.",
+      "en": "You bought a lookalike for 250. Your sibling eyed the box: “Mom's never came in a box this neat.”",
+      "coach": [
+        {
+          "tr": "Kutu ele verdi.",
+          "en": "The box gave it away.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ezber",
+    "slip": {
+      "tr": "İDDİA: Ezberden pasta tutmaz. — M.",
+      "en": "WAGER: That cake won't survive memory. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşinin doğum gününde annenin çocukluktaki bisküvili pastasını ezberden yapmaya çalışmak",
+    "mechanism": "kakaolu mu kakaosuz mu hafızasının geri dönmesi",
+    "mechanismId": "callback",
+    "punch": "kakao kokuyordu",
+    "lift": "tarif yazıldı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kakao"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

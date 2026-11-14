@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "burokrasi_resmi_daire_kimlik_memlekette_01",
+  "tags": [
+    "burokrasi",
+    "kimlik",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KUZEY İLÇE KAYIT MASASI (kurgusal)",
+      "en": "NORTH DISTRICT RECORDS DESK (fictional)"
+    },
+    "body": {
+      "tr": "Kimlik kartınız hazırlanmıştır. Başvurunuzu yaptığınız birimden şahsen teslim alınız.",
+      "en": "Your identity card is ready. Please collect it in person from the office where you applied."
+    },
+    "translate": {
+      "tr": {
+        "from": "şahsen teslim alınız",
+        "to": "memlekete git"
+      },
+      "en": {
+        "from": "collect it in person",
+        "to": "go back to your hometown"
+      }
+    },
+    "glossaryKey": "sahsen_teslim"
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kimliğin hazırmış. Ben alırım dedim, vermediler. Neden vermediler?",
+      "en": "Your ID is ready. I said I'd pick it up, they wouldn't give it to me. Why wouldn't they?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Gelirsen yemek yaparım. Ne zaman geliyorsun?",
+      "en": "If you come I'll cook. When are you coming?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Otobüsle git, al",
+      "en": "Take the bus and get it",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "nakil",
+      "tr": "Nakil talebi ver",
+      "en": "Request a transfer",
+      "pattern": "patience",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sonra",
+      "tr": "Sonraki ziyarette al",
+      "en": "Get it on your next visit",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "money": -300,
+        "meters": {
+          "momPressure": -3
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "glossary": "sahsen_teslim",
+        "flags": {
+          "add": [
+            "kimlik_alindi"
+          ]
+        }
+      },
+      "tr": "Altı saat otobüs, dört dakika gişe, iki gün annende. Kimlik cebinde döndün.",
+      "en": "Six hours on the bus, four minutes at the window, two days at your mom’s. You came back with the ID.",
+      "coach": [
+        {
+          "tr": "Dört dakikalık iş için iki günlük ziyaret. Annen kazandı.",
+          "en": "A four-minute errand, a two-day visit. Your mom won this one.",
+          "roast": false
+        }
+      ]
+    },
+    "nakil": [
+      {
+        "p": 3500,
+        "effects": {
+          "hidden": {
+            "stress": -1
+          },
+          "glossary": "sahsen_teslim",
+          "flags": {
+            "add": [
+              "kimlik_alindi"
+            ]
+          }
+        },
+        "tr": "Talep kabul edildi. Kimlik üç hafta sonra senin ilçene geldi, zarfında annenin el yazısıyla bir not vardı.",
+        "en": "The transfer went through. The ID reached your district three weeks later, with a note in your mom's handwriting on the envelope.",
+        "coach": [
+          {
+            "tr": "Kimlik geldi, annen de bir satırla eşlik etti.",
+            "en": "The ID arrived. Your mom tagged along in one line.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "meters": {
+            "momPressure": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "glossary": "sahsen_teslim"
+        },
+        "tr": "Talep 'sıraya alındı'. Annen her akşam arayıp sıranın kaçta olduğunu soruyor.",
+        "en": "The request was 'queued.' Your mom calls every evening to ask what number you are.",
+        "coach": [
+          {
+            "tr": "Bir sıra, her akşam bir telefon.",
+            "en": "One queue, one phone call per evening.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sonra": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "momPressure": 1
+        },
+        "flags": {
+          "add": [
+            "kimlik_bekliyor"
+          ]
+        }
+      },
+      "tr": "Eski kimliğinle idare ettin. Bankada memur fotoğrafa iki kez, sana bir kez baktı.",
+      "en": "You got by on the old ID. At the bank, the teller looked at the photo twice and at you once.",
+      "coach": [
+        {
+          "tr": "Eski kimlik, yeni yüz ifadesi. Bir süre daha.",
+          "en": "Old ID, new expression. For a while longer.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "yeni kimlik kartının başvurulan memleket biriminde hazır beklemesi",
+    "mechanism": "\"şahsen teslim\" altı saatlik otobüs demek",
+    "mechanismId": "translation",
+    "punch": "şahsen teslim = altı saat otobüs",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "eslik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

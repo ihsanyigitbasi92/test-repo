@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_lastik_patladi_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Lastik patlarsa yolcuya bakma, yola bak. Yol sana bir şey anlatıyor.",
+      "en": "When a tire blows, don't look at the passengers. Look at the road. The road is telling you something."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Toplantımız var ama siz rahat olun. Gerçekten. On beş dakikaya başlıyor.",
+      "en": "We have a meeting, but no pressure. Really. It starts in fifteen minutes.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "degistir",
+      "tr": "Lastiği kendin değiştir",
+      "en": "Change the tire yourself",
+      "pattern": "overwork",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "taksici",
+      "tr": "Taksiciden yardım iste",
+      "en": "Ask the cabbie for a hand",
+      "pattern": "patience"
+    },
+    {
+      "id": "aktar",
+      "tr": "Yolcuları başka araca ver",
+      "en": "Hand the riders to another car",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "degistir": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          }
+        },
+        "tr": "Yedi dakikada değiştirdin. Yolcular toplantıya bir dakika kala vardı.",
+        "en": "Seven minutes, new tire. The passengers made their meeting with sixty seconds to spare.",
+        "coach": [
+          {
+            "tr": "Lastik yeni. Kollar aynı.",
+            "en": "New tire. Same arms.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Bijon somunu sıkıştı. Yolcular yürüdü, sen krikonun başında çeyrek saat daha uğraştın.",
+        "en": "A lug nut seized. The passengers walked, and you spent another fifteen minutes with the jack.",
+        "coach": [
+          {
+            "tr": "Somun kazandı. Bugünlük.",
+            "en": "The lug nut won. For today.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "taksici": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Taksici lastiği değiştirirken yol teorisini iki kez anlattı. Lastik takıldı, teori yarım kaldı.",
+      "en": "The cabbie changed your tire while explaining the road theory twice. Tire on, theory unfinished.",
+      "coach": [
+        {
+          "tr": "Teorinin ikinci yarısı bir sonraki patlakta.",
+          "en": "Part two of the theory arrives with the next flat.",
+          "roast": false
+        }
+      ]
+    },
+    "aktar": {
+      "effects": {
+        "money": -700,
+        "hidden": {
+          "stress": -1
+        },
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Yolcuları arkadan gelen meslektaşına verdin. Hasılatın yarısı onlarla gitti.",
+      "en": "You handed the passengers to the next driver. Half the fare went with them.",
+      "coach": [
+        {
+          "tr": "Yarım hasılat, tam sessizlik.",
+          "en": "Half the fare. All of the quiet.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "degistir",
+    "slip": {
+      "tr": "İDDİA: Somun senden güçlüdür. — M.",
+      "en": "WAGER: The lug nut is stronger than you. — M."
+    }
+  },
+  "intent": {
+    "setup": "yolcu doluyken lastik patlıyor, yolcuların toplantısı yaklaşıyor",
+    "mechanism": "nazik baskı: rahat olun, gerçekten",
+    "mechanismId": "understatement",
+    "punch": "gerçekten, on beş dakikaya başlıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "somun"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş hattı; EN rideshare ikamesi. Uygulama/şirket adı yok."
+  }
+}

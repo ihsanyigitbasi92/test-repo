@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cenaze_taziye_tebrik_kurdelesi_01",
+  "tags": [
+    "sosyal",
+    "taziye",
+    "is",
+    "cenaze_taziye"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "cenaze_taziye": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 38
+    }
+  },
+  "text": [
+    {
+      "id": "giris",
+      "tr": "Bir iş arkadaşının teyzesi vefat etti. İş çıkışı taziyeye gidiyorsun; yolda açık tek dükkân bir pastane.",
+      "en": "A coworker's aunt has passed. You're heading over after work, and the only shop still open is a bakery."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bir tek kurabiye kutusu kaldı. Kurdeleyi de bağladım, hediye kurdelesi.",
+      "en": "Just one cookie box left. I've tied the ribbon on. The gift ribbon."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Üstünde 'Tebrikler' yazıyor ama içi aynı kurabiye.",
+      "en": "It says 'Congratulations,' but the cookies are the same.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sok",
+      "tr": "Kurdeleyi sökmeye çalış",
+      "en": "Try to pick off the ribbon",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "elibos",
+      "tr": "Eli boş git",
+      "en": "Go empty-handed",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "saksi",
+      "tr": "Başka dükkân ara",
+      "en": "Hunt for another shop",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "sok": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "taziye_ziyareti_yapildi"
+            ]
+          }
+        },
+        "tr": "Kurdeleyi kapının önünde söktün. Kutu sade ama düzgün girdi.",
+        "en": "You got the ribbon off on the doorstep. The box went in plain, but proper.",
+        "coach": [
+          {
+            "tr": "Kurdele dışarıda kaldı. Gerisi içeri girdi.",
+            "en": "The ribbon stayed outside. Everything else went in.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "taziye_ziyareti_yapildi"
+            ]
+          }
+        },
+        "tr": "Kurdele düğümlendi, 'Tebrik' kısmı kaldı. Ev sahibi kutuyu ters çevirip mutfağa götürdü.",
+        "en": "The ribbon knotted and 'Congrat' survived. The host flipped the box over and took it to the kitchen.",
+        "coach": [
+          {
+            "tr": "Kutu ters döndü. Herkes görmemiş gibi yaptı.",
+            "en": "The box got flipped. Everyone pretended not to see.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "elibos": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "taziye_ziyareti_yapildi"
+          ]
+        }
+      },
+      "tr": "Eli boş gittin. İçeride on iki kutu kurabiye vardı, kimse seninkini sormadı.",
+      "en": "You went empty-handed. There were twelve cookie boxes inside. Nobody asked about yours.",
+      "coach": [
+        {
+          "tr": "On iki kutu yeterliydi. Sen gelmiştin.",
+          "en": "Twelve boxes was plenty. You showed up.",
+          "roast": false
+        }
+      ]
+    },
+    "saksi": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "taziye_ziyareti_yapildi"
+          ]
+        }
+      },
+      "tr": "Üç sokak yürüyüp 350 Para'ya bir saksı aldın. Ziyaret saatinin son çeyreğine yetiştin.",
+      "en": "You walked three streets and paid 350 for a potted plant. You made the last fifteen minutes of visiting.",
+      "coach": [
+        {
+          "tr": "Kapı hâlâ açıktı. Saksı da yetişti.",
+          "en": "The door was still open. The plant made it too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "taziye günü, wager yok"
+  },
+  "intent": {
+    "setup": "taziyeye giderken açık tek dükkânda 'Tebrikler' kurdeleli kurabiye kutusu",
+    "mechanism": "mizah koşula: yanlış kurdele",
+    "mechanismId": "bathos",
+    "punch": "üstünde tebrikler yazıyor ama içi aynı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kurdele"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

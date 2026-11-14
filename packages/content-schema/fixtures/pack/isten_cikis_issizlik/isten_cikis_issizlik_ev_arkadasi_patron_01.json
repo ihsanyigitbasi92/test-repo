@@ -1,0 +1,234 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_ev_arkadasi_patron_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "ev_arkadasi",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Bizim yerde pozisyon açıldı. Başvurursan alırlar, ben söylerim.",
+      "en": "There's an opening at my place. Apply and you're in. I'll put in a word."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Tek şey: ekibin başı benim. Evde ev arkadaşı, işte patron. Sorun olmaz, değil mi?",
+      "en": "One thing: I run the team. Roommate at home, boss at work. That's fine, right?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "basvur",
+      "tr": "Başvur, mülakata gir",
+      "en": "Apply and interview",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Kibarca reddet",
+      "en": "Politely pass",
+      "pattern": "pride"
+    },
+    {
+      "id": "kural",
+      "tr": "Evde iş konuşmamak şartıyla gir",
+      "en": "Join, with a no-shop-talk rule",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "basvur": [
+      {
+        "p": 5500,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "operasyon asistanı",
+              "tier": 1,
+              "monthly": 1800
+            }
+          },
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ev_arkadasi_patron"
+            ]
+          }
+        },
+        "tr": "Mülakatı geçtin, pazartesi başlıyorsun. İlk akşam ev arkadaşın mutfakta \"yarınki toplantı dokuzda\" dedi.",
+        "en": "You passed. You start Monday. That first evening, your roommate said in the kitchen: \"Tomorrow's meeting is at nine.\"",
+        "coach": [
+          {
+            "tr": "Mutfak artık toplantı odası.",
+            "en": "The kitchen is now also a meeting room.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Panelde ev arkadaşın yoktu, onun yöneticisi vardı. Pozisyon \"daha deneyimli\" bir adaya gitti.",
+        "en": "Your roommate wasn't on the panel. Their manager was. The job went to someone \"more experienced.\"",
+        "coach": [
+          {
+            "tr": "Araya giren söz panele ulaşmadı.",
+            "en": "The good word never reached the panel.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Kibarca reddettin. Ev arkadaşın rahatladığını saklamadı.",
+      "en": "You politely passed. Your roommate didn't hide the relief.",
+      "coach": [
+        {
+          "tr": "İki kişi aynı anda rahatladı.",
+          "en": "Two people relaxed at once.",
+          "roast": false
+        }
+      ]
+    },
+    "kural": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "operasyon asistanı",
+            "tier": 1,
+            "monthly": 1800
+          }
+        },
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ev_arkadasi_patron",
+            "evde_is_yasak"
+          ]
+        }
+      },
+      "tr": "Kural kondu: kapıdan içeri iş girmez. İlk hafta kural iki kez bozuldu, ikisinde de ev arkadaşın tarafından.",
+      "en": "The rule: no work talk past the front door. Week one, it was broken twice. Both times by your roommate.",
+      "coach": [
+        {
+          "tr": "Kuralı patron koydu, patron bozdu. İkisi de ev arkadaşın.",
+          "en": "The boss made the rule. The boss broke it. Both are your roommate.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "basvur",
+    "slip": {
+      "tr": "İDDİA: Ev arkadaşının sözü panele ulaşmaz. — M.",
+      "en": "WAGER: Your roommate's good word never reaches the panel. — M."
+    }
+  },
+  "intent": {
+    "setup": "işsizken ev arkadaşının kendi ekibine iş önermesi",
+    "mechanism": "ev arkadaşı kelimenin tam anlamıyla patron oluyor",
+    "mechanismId": "literalism",
+    "punch": "evde ev arkadaşı, işte patron",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mutfak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

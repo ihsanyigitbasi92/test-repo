@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_once_kendine_ode_01",
+  "tags": [
+    "para",
+    "birikim",
+    "kira",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 34
+    },
+    "money": {
+      "min": 1000
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Kirada senin payın 180 eksik. Birikim hesabın vardı ya?",
+      "en": "Your share of the rent is 180 short. Don't you have that savings account?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Ya da bu ay ben öderim, sen bana yemek yaparsın. Bir ay. Her akşam.",
+      "en": "Or I cover you this month and you cook for me. One month. Every night.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "boz",
+      "tr": "Birikimden 180 çek",
+      "en": "Pull 180 from savings",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yemek",
+      "tr": "Bir ay yemek yap",
+      "en": "Cook for a month",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ek",
+      "tr": "Hafta sonu ek iş bul",
+      "en": "Find a weekend shift",
+      "pattern": "overwork",
+      "check": {
+        "base": 6000
+      }
+    }
+  ],
+  "outcomes": {
+    "boz": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "birikim_bozuldu"
+          ]
+        }
+      },
+      "tr": "Birikimden 180 Para çektin. Uygulama \"hedefinden uzaklaştın\" bildirimi gönderdi, yanında üzgün bir yüz.",
+      "en": "You pulled 180 from savings. The app sent a \"you've moved away from your goal\" alert with a sad face.",
+      "coach": [
+        {
+          "tr": "Önce kendine ödedin, sonra kendinden borç aldın. Faizsiz, neyse ki.",
+          "en": "You paid yourself first, then borrowed from yourself. Interest-free, at least.",
+          "roast": true
+        }
+      ]
+    },
+    "yemek": {
+      "effects": {
+        "money": -240,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_borcu_odendi"
+          ]
+        }
+      },
+      "tr": "Bir ay boyunca her akşam iki kişilik yemek yaptın. Market 240 Para tuttu.",
+      "en": "A month of dinner for two, every night. Groceries came to 240.",
+      "coach": [
+        {
+          "tr": "180 borç, 240 market. Ev arkadaşın bu aya \"verimli\" diyor.",
+          "en": "A 180 debt, 240 in groceries. Your roommate calls it a productive month.",
+          "roast": true
+        }
+      ]
+    },
+    "ek": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": 40,
+          "stats": {
+            "joy": 1,
+            "health": -1
+          },
+          "flags": {
+            "add": [
+              "birikim_korundu"
+            ]
+          }
+        },
+        "tr": "Cumartesi bir kafede garsonluk yaptın: 220 Para. Kira ödendi, birikim kıpırdamadı.",
+        "en": "A Saturday shift at a café: 220. Rent paid, savings untouched.",
+        "coach": [
+          {
+            "tr": "Birikim bir ay daha dokunulmaz.",
+            "en": "The savings stay untouched another month.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "birikim_bozuldu"
+            ]
+          }
+        },
+        "tr": "Ek iş bulamadın. Pazartesi birikimden 180 Para çektin; hafta sonu da ilan sayfalarında geçti.",
+        "en": "No shift turned up. On Monday you pulled 180 from savings. The weekend went to job boards.",
+        "coach": [
+          {
+            "tr": "Hafta sonu ilanlarda geçti. Birikim yine de açıldı.",
+            "en": "Weekend spent on job boards. The savings got opened anyway.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "maaş günü önce birikime aktarma kuralı yüzünden ay sonunda kirada 180 Para eksik kalmak",
+    "mechanism": "kendinden borç almak",
+    "mechanismId": "reversal",
+    "punch": "önce kendine ödedin, sonra kendinden borç aldın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "faizsiz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

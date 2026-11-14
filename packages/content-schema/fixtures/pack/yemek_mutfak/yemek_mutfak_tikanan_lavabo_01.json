@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_tikanan_lavabo_01",
+  "tags": [
+    "gundelik",
+    "komsu",
+    "ev",
+    "tamir",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Aşağıya su sesi geliyor. Lavabon mu tıkandı?",
+      "en": "I can hear water downstairs. Is your sink blocked?"
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Bende pompa var. Kırk yıllık. Bugüne kadar hiç yenilmedi.",
+      "en": "I've got a plunger. Forty years old. Never once defeated.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "pompa",
+      "tr": "Komşunun pompasını dene",
+      "en": "Try the neighbor's plunger",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Tesisatçı çağır",
+      "en": "Call a plumber",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kuvet",
+      "tr": "Bulaşığı küvette yıka",
+      "en": "Do the dishes in the tub",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "pompa": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "ym_pompa_borcu"
+            ]
+          }
+        },
+        "tr": "Üçüncü pompada bir şey \"glup\" dedi ve su aktı. Komşu pompasını bir kupa gibi yukarı taşıdı.",
+        "en": "On the third plunge something went \"glug\" and the water drained. The neighbor carried the plunger upstairs like a trophy.",
+        "coach": [
+          {
+            "tr": "Kırk yıl, yenilgisiz. Seri sürüyor.",
+            "en": "Forty years, undefeated. The streak continues.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -450,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Pompa ilk kez yenildi. Tesisatçı gece dokuzda geldi ve borudan bir avuç pirinç çıkardı.",
+        "en": "The plunger tasted its first defeat. A plumber came at nine and pulled a handful of rice out of the pipe.",
+        "coach": [
+          {
+            "tr": "Pompanın ilk mağlubiyeti senin lavabonda. Komşu unutmayacak.",
+            "en": "The plunger's first loss, in your sink. The neighbor won't forget.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Tesisatçı bir saatte geldi, beş dakikada açtı, 450 Para aldı. Komşu merdivende pompasıyla bekliyordu.",
+      "en": "The plumber arrived within the hour, fixed it in five minutes and charged 450. The neighbor waited on the stairs, plunger in hand.",
+      "coach": [
+        {
+          "tr": "Beş dakika iş, 450 Para. Pompa yedek kulübesinde kaldı.",
+          "en": "Five minutes of work, 450 to pay. The plunger stayed on the bench.",
+          "roast": true
+        }
+      ]
+    },
+    "kuvet": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "health": -1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Bulaşığı küvette yıkadın. Akşam yemeğinden sonra küvet de tıkandı.",
+      "en": "You washed the dishes in the bathtub. After dinner, the tub clogged too.",
+      "coach": [
+        {
+          "tr": "Bir lavabo, bir küvet. Sorun ev değiştirdi.",
+          "en": "One sink, one tub. The problem moved rooms.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pompa",
+    "slip": {
+      "tr": "İDDİA: Pompanın serisi bugün biter. — M.",
+      "en": "WAGER: The plunger's streak ends today. — M."
+    }
+  },
+  "intent": {
+    "setup": "akşam yemeği öncesi mutfak lavabosunun tıkanması, alt kat komşusunun yenilmez pompası",
+    "mechanism": "kırk yıllık yenilmezlik serisi",
+    "mechanismId": "callback",
+    "punch": "hiç yenilmedi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "seri"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_otopark_isgali_01",
+  "tags": [
+    "ev",
+    "otopark",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Arabam bir haftalığına senin yerde. Benimkinin önü boyanıyor, kurusun.",
+      "en": "My car's in your spot for a week. They're painting the lines in front of mine. Needs to dry."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Senin araban da benim önüme park etmiş. Zincirleme oldu bu iş.",
+      "en": "And your car's parked in front of mine. It's a chain reaction now."
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Bir hafta idare et",
+      "en": "Make do for a week",
+      "pattern": "patience"
+    },
+    {
+      "id": "konus",
+      "tr": "Yerini geri iste",
+      "en": "Ask for your spot back",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sokak",
+      "tr": "Arabayı üç sokak öteye bırak",
+      "en": "Park three streets away",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "otopark_zinciri"
+          ]
+        }
+      },
+      "tr": "Bir hafta komşunun önüne park ettin. Her sabah onunla aynı dakikada çıkmak zorundaydın.",
+      "en": "For a week you parked in front of the neighbor. Every morning you had to leave the minute they did.",
+      "coach": [
+        {
+          "tr": "Bir haftalığına komşunun mesaisinde çalıştın.",
+          "en": "For a week you worked the neighbor's hours.",
+          "roast": true
+        }
+      ]
+    },
+    "konus": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "otopark_geri"
+            ]
+          }
+        },
+        "tr": "Ev sahibi arabasını kendi yerine çekti, boyalı çizgiyi brandayla korudu.",
+        "en": "The landlord moved the car back to their own spot and covered the fresh paint with a tarp.",
+        "coach": [
+          {
+            "tr": "Yer geri geldi. Zincir koptu.",
+            "en": "Spot recovered. Chain broken.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "otopark_zinciri"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"boya nem kapar\" dedi ve yerinden kıpırdamadı. Komşu notunu senin camına bıraktı.",
+        "en": "The landlord said the paint would catch moisture and stayed put. The neighbor left a note on your windshield.",
+        "coach": [
+          {
+            "tr": "Not, zincirin son halkasına bırakıldı.",
+            "en": "The note went to the last link in the chain.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sokak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sokakta_park"
+          ]
+        }
+      },
+      "tr": "Arabayı üç sokak öteye bıraktın. Her sabah dokuz dakika yürüyüş; kira aynı.",
+      "en": "You parked three streets away. Nine minutes' walk every morning. Same rent.",
+      "coach": [
+        {
+          "tr": "Yer kirada senin. Kullanan başkası.",
+          "en": "The spot's in your lease. Someone else uses it.",
+          "roast": true
+        },
+        {
+          "tr": "Günde dokuz dakika, bedava yürüyüş.",
+          "en": "Nine free minutes of walking daily.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: O araba bir haftadan önce kalkmaz. — M.",
+      "en": "WAGER: That car won't move before the week's up. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi kiraya dahil otopark yerine kendi arabasını park ediyor",
+    "mechanism": "park zinciri komşuya uzanıyor",
+    "mechanismId": "escalation",
+    "punch": "zincirleme oldu bu iş",
+    "lift": "dokuz dakika yürüyüş",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "zincir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

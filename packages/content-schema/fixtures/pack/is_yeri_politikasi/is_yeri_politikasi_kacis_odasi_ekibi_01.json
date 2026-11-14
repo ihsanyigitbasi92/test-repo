@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_kacis_odasi_ekibi_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Ekip ruhu etkinliği: kaçış odası. Takımları sistem rastgele kurdu.",
+      "en": "Team spirit activity: an escape room. The system built the teams at random."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "annoyed",
+      "tr": "Bizim takım üç kişi ve ikisi geçen aydan beri konuşmuyor. Üçüncüsü sensin.",
+      "en": "There are three of us, and two haven't spoken since last month. The third one is you.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "arabulucu",
+      "tr": "Aradaki köprü ol",
+      "en": "Be the go-between",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tek",
+      "tr": "Bulmacaları tek başına çöz",
+      "en": "Solve it solo",
+      "pattern": "pride"
+    },
+    {
+      "id": "kose",
+      "tr": "Köşede bekle, onlar konuşsun",
+      "en": "Sit back, let them talk",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "arabulucu": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "ekip_arabulucu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 5
+            }
+          ]
+        },
+        "tr": "Bütün ipuçlarını sen taşıdın. Kırk dakikada çıktınız, kapıda ikisi ilk kez birbirine 'iyi iş' dedi.",
+        "en": "You relayed every clue. You got out in forty minutes, and at the door they said 'nice work' to each other.",
+        "coach": [
+          {
+            "tr": "Kapı açıldı, ikisi de konuştu. Bir odada iki kilit.",
+            "en": "The door opened, and so did they. Two locks, one room.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacına bir çentik.",
+            "en": "One notch on the goal counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Taşırken bir ipucunu yanlış aktardın. Süre doldu, görevli kapıyı dışarıdan açtı.",
+        "en": "Relaying clues, you garbled one. Time ran out, and the attendant opened the door from outside.",
+        "coach": [
+          {
+            "tr": "Kaçış odasından refakatle çıktın. Teknik olarak bir kurtarma.",
+            "en": "You left the escape room with an escort. Technically, a rescue.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tek": {
+      "effects": {
+        "meters": {
+          "ego": 4
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Bulmacaların çoğunu tek başına çözdün. Ekip fotoğrafında üçünüz üç ayrı yöne bakıyor.",
+      "en": "You solved most of it alone. In the team photo, the three of you face three different directions.",
+      "coach": [
+        {
+          "tr": "Oda çözüldü. Ekip hâlâ kilitli.",
+          "en": "The room got solved. The team stayed locked.",
+          "roast": true
+        }
+      ]
+    },
+    "kose": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Köşede bekledin. Mecbur kalan ikisi birbirine ipucu okudu ve süre rekor çıktı.",
+      "en": "You sat in a corner. Forced together, they read clues to each other. It was a record time.",
+      "coach": [
+        {
+          "tr": "Sessizlik strateji çıktı. Rekor tahtası da öyle diyor.",
+          "en": "The silence was the strategy. The record board agrees.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "arabulucu",
+    "slip": {
+      "tr": "İDDİA: Köprü bir ipucunu düşürür. — M.",
+      "en": "WAGER: The go-between drops a clue. — M."
+    }
+  },
+  "intent": {
+    "setup": "kaçış odası etkinliğinde küs iki iş arkadaşıyla aynı takım",
+    "mechanism": "üçüncü kişi sensin",
+    "mechanismId": "reversal",
+    "punch": "üçüncüsü sensin",
+    "lift": "Hedef sayacına bir çentik.",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kilit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

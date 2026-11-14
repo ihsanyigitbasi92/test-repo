@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_sira_numarasi_01",
+  "tags": [
+    "saglik",
+    "hastane",
+    "sira",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "A sırası ayrı, B sırası ayrı. C acil. Ekrana bakın.",
+      "en": "A queue is separate, B queue is separate. C is urgent. Watch the screen."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "D'yi sormayın. D'yi biz de bilmiyoruz.",
+      "en": "Don't ask about D. We don't know about D either.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sor",
+      "tr": "Danışmaya tekrar sor",
+      "en": "Ask the desk again",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Bekle",
+      "en": "Wait it out",
+      "pattern": "patience"
+    },
+    {
+      "id": "cik",
+      "tr": "Çık, başka gün gel",
+      "en": "Leave, come back another day",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sor": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "money": -300
+        },
+        "tr": "Numaranın yanlış basıldığı ortaya çıktı. Seni araya aldılar, on dakikada içerideydin.",
+        "en": "Turns out your ticket was misprinted. They slotted you in. Ten minutes later you were inside.",
+        "coach": [
+          {
+            "tr": "Bir soru, kırk dakika kazanç.",
+            "en": "One question, forty minutes saved.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Danışma aynı şeyi ikinci kez, daha yavaş anlattı. Arkandaki üç kişi de dinledi.",
+        "en": "The desk explained it again, slower. The three people behind you listened too.",
+        "coach": [
+          {
+            "tr": "Ekranda otuz bir B geçti, bir A. Sen ikinci açıklamayı aldın.",
+            "en": "Thirty-one B's went by, one A. You got the explanation twice.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "money": -300
+      },
+      "tr": "İki saat sonra adın okundu. Muayene dört dakika sürdü, 300 Para.",
+      "en": "Two hours later, they called you. The exam took four minutes. 300.",
+      "coach": [
+        {
+          "tr": "Yüz yirmi dakika sıra, dört dakika doktor. Otuza bir.",
+          "en": "A hundred and twenty minutes in line, four with the doctor. Thirty to one.",
+          "roast": true
+        }
+      ]
+    },
+    "cik": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "muayene_ertelendi"
+          ]
+        }
+      },
+      "tr": "Çıktın. Otoparkta fark ettin: ekranda senin numaran yanıyordu.",
+      "en": "You left. In the parking lot, you noticed: your number was on the screen.",
+      "coach": [
+        {
+          "tr": "Numaran yandı, sen otoparktaydın. Zamanlama saniyesi saniyesine.",
+          "en": "Your number lit up while you were in the parking lot. Timing: to the second.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sor",
+    "slip": {
+      "tr": "İDDİA: Danışma aynı şeyi iki kez anlatır. — M.",
+      "en": "WAGER: The desk says it twice. — M."
+    }
+  },
+  "intent": {
+    "setup": "hastane bekleme salonunda harfli sıra numarası düzeni",
+    "mechanism": "A, B, C sıraları; D'yi kurum da bilmiyor",
+    "mechanismId": "count",
+    "punch": "otuz bir B geçti, bir A",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "otopark"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

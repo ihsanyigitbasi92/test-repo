@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_tansiyon_olcumu_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "saglik",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tansiyonunuz yüksek çıktı. Hayat sigortası primi buna göre hesaplanacak.",
+      "en": "Your blood pressure came out high. The life insurance premium will be calculated accordingly."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Evde hep normal. Burada ölçülünce mi yükseliyor?",
+      "en": "It's always normal at home. Does it only go up when they measure it here?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tekrar",
+      "tr": "Yarım saat sonra tekrar ölçtür",
+      "en": "Ask for a re-test in half an hour",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Primi kabul et",
+      "en": "Accept the premium",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "rapor",
+      "tr": "Kendi doktorundan rapor getir",
+      "en": "Bring your own doctor's readings",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "tekrar": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -400,
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "hayat_sigortasi"
+            ]
+          }
+        },
+        "tr": "Koridorda yarım saat bekledin, ikinci ölçüm normaldi. Standart prim: yıllık 400 Para.",
+        "en": "Half an hour in the corridor, and the second reading was normal. Standard premium: 400 a year.",
+        "coach": [
+          {
+            "tr": "Koridor iyi geldi.",
+            "en": "The corridor did you good.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -520,
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "hayat_sigortasi"
+            ]
+          }
+        },
+        "tr": "İkinci ölçüm daha yüksek çıktı; beklerken gerildin. Prim yıllık 520 Para.",
+        "en": "The second reading was higher. Waiting wound you up. Premium: 520 a year.",
+        "coach": [
+          {
+            "tr": "Bekleme, ibreyi oynattı.",
+            "en": "The waiting moved the needle.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "money": -520,
+        "flags": {
+          "add": [
+            "hayat_sigortasi"
+          ]
+        }
+      },
+      "tr": "Primi kabul ettin. Poliçedeki 'yüksek tansiyon' satırı yıllarca seninle kalacak.",
+      "en": "You accepted. The 'high blood pressure' line will stay on your policy for years.",
+      "coach": [
+        {
+          "tr": "Bir ölçüm, yıllarca evrak.",
+          "en": "One reading. Years of paperwork.",
+          "roast": false
+        }
+      ]
+    },
+    "rapor": {
+      "effects": {
+        "money": -80,
+        "stats": {
+          "health": 0
+        },
+        "glossary": "beyaz_onluk_etkisi",
+        "flags": {
+          "add": [
+            "hayat_sigortasi_bekliyor"
+          ]
+        }
+      },
+      "tr": "Doktorundan bir haftalık ev ölçümü raporu getirdin. Sigorta raporu kabul etti, karar iki hafta sürecek.",
+      "en": "You brought a week of home readings from your doctor. The insurer accepted them. The decision takes two weeks.",
+      "coach": [
+        {
+          "tr": "Bir hafta ölçüm, iki hafta karar.",
+          "en": "One week measuring. Two weeks deciding.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "hayat sigortası muayenesinde ölçüm stresinden tansiyonun yüksek çıkması",
+    "mechanism": "partnerin 'burada mı yükseliyor' gözlemi",
+    "mechanismId": "reversal",
+    "punch": "burada ölçülünce mi yükseliyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koridor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

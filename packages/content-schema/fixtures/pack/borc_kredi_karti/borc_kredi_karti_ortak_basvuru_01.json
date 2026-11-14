@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_ortak_basvuru_01",
+  "tags": [
+    "para",
+    "kredi",
+    "konut",
+    "partner",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Sizin dosyanız temiz. Partnerinizin adına on iki yıl önceki bir mağaza kartında 85 Para var.",
+      "en": "Your file is clean. Your partner has eighty-five sitting on a store card from twelve years ago."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "O 85 Para yüzünden ortak puanınız 'orta' çıktı.",
+      "en": "Because of that eighty-five, your joint score came out 'average.'",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "85'i öde, üç ay bekle",
+      "en": "Pay the eighty-five, wait three months",
+      "pattern": "patience"
+    },
+    {
+      "id": "tek",
+      "tr": "Tek başına başvur",
+      "en": "Apply on your own",
+      "pattern": "pride"
+    },
+    {
+      "id": "devam",
+      "tr": "Bu puanla devam et",
+      "en": "Go ahead with this score",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "money": -85,
+        "stats": {
+          "joy": 0
+        },
+        "glossary": "kredi_notu",
+        "flags": {
+          "add": [
+            "ortak_basvuru_bekliyor"
+          ]
+        }
+      },
+      "tr": "85 Para ödendi. Puanın güncellenmesi için üç ay beklenecek, ilanlar kaydedildi.",
+      "en": "The eighty-five is paid. Three months for the score to update. The listings are saved.",
+      "coach": [
+        {
+          "tr": "Üç ay. Kaydedilen ilan sayısı artıyor.",
+          "en": "Three months. The saved listings keep piling up.",
+          "roast": false
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "tek_basvuru"
+          ]
+        }
+      },
+      "tr": "Tek başına başvuru onaylandı, limit düşük. Partner her ilanı 'senin evin' diye gönderiyor.",
+      "en": "Solo application approved, at a lower limit. Your partner now forwards every listing as 'your house.'",
+      "coach": [
+        {
+          "tr": "Senin evin. Henüz kimsenin değil.",
+          "en": "Your house. Nobody's yet.",
+          "roast": false
+        }
+      ]
+    },
+    "devam": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ortak_kredi_pahali",
+            "konut_kredisi_surecte"
+          ]
+        }
+      },
+      "tr": "Kredi onaylandı, taksit 'orta' puana göre hesaplandı. Fark otuz yıl boyunca her ay ödenecek.",
+      "en": "Approved, with the payment priced for an 'average' score. The difference repeats every month for thirty years.",
+      "coach": [
+        {
+          "tr": "85 Para'nın otuz yıllık gölgesi.",
+          "en": "An eighty-five with a thirty-year shadow.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "partnerle ortak konut kredisi başvurusunda partnerin unuttuğu küçük eski kart borcunun çıkması",
+    "mechanism": "koca bir krediyi minicik bir borç belirliyor",
+    "mechanismId": "bathos",
+    "punch": "o 85 para yüzünden ortak puanınız orta çıktı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "golge"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_otomatik_birikim_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "dayOfMonth": {
+      "min": 26
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Otomatik birikim talimatınız ayın birinde çalıştı. Ayın yirmi sekizinde iptal etmek istiyorsunuz.",
+      "en": "Your automatic savings order ran on the first. On the twenty-eighth, you would like to cancel it."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Edebilirsiniz. Ama talimatın amacı tam olarak bu gündü.",
+      "en": "You can. But this is exactly the day it was designed for.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dayan",
+      "tr": "Talimatı bırak, dayan",
+      "en": "Keep it, tough it out",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cek",
+      "tr": "Birikimden 500 çek",
+      "en": "Pull 500 from savings",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "iptal",
+      "tr": "Talimatı kalıcı iptal et",
+      "en": "Cancel it for good",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dayan": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "butce_birikim_talimati"
+            ]
+          }
+        },
+        "tr": "Talimat yerinde kaldı. Son üç gün dolaptaki bütün konserveler tarih sırasıyla yendi.",
+        "en": "The order stayed. The last three days ran on every can in the cupboard, oldest first.",
+        "coach": [
+          {
+            "tr": "Birikim bir ay daha büyüdü.",
+            "en": "Savings grew another month.",
+            "roast": false
+          },
+          {
+            "tr": "Birikim sayacı: bir ay daha.",
+            "en": "Savings counter: one more month.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -150,
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "butce_birikim_talimati"
+            ]
+          }
+        },
+        "tr": "Birikime dokunmadın ama dayanamadın: 150 Para kredi kartına gitti.",
+        "en": "You didn't touch savings. You didn't make it either: 150 went on the credit card.",
+        "coach": [
+          {
+            "tr": "Birikim sağlam. Kart yaralı.",
+            "en": "Savings unscathed. The card took the hit.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cek": {
+      "effects": {
+        "money": 500,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "butce_birikimden_cekildi"
+          ]
+        }
+      },
+      "tr": "Birikimden 500 çektin. Bankacı onayladı ve ayın birinde geri yatırmanı hatırlatan bir not ekledi.",
+      "en": "You pulled 500. The banker approved it, with a note reminding you to put it back on the first.",
+      "coach": [
+        {
+          "tr": "Not ayın birinde gelecek.",
+          "en": "The note arrives on the first.",
+          "roast": false
+        }
+      ]
+    },
+    "iptal": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "butce_talimat_iptal"
+          ]
+        }
+      },
+      "tr": "Talimatı iptal ettin, ay sonları rahatladı. Yıl sonunda birikim hesabında dört ayın parası vardı.",
+      "en": "You canceled it and month-ends got easier. By year's end, savings held four months' worth.",
+      "coach": [
+        {
+          "tr": "On iki aydan dördü.",
+          "en": "Four months out of twelve.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dayan",
+    "slip": {
+      "tr": "İDDİA: Talimat ayın sonunu görmez. — M.",
+      "en": "WAGER: The savings order won't see the month out. — M."
+    }
+  },
+  "intent": {
+    "setup": "ayın birinde çalışan otomatik birikim talimatını ayın yirmi sekizinde iptal etmek istemek",
+    "mechanism": "bankacı talimatın tam da bu gün için var olduğunu söylüyor",
+    "mechanismId": "literalism",
+    "punch": "talimatın amacı tam olarak bu gün",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kart"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

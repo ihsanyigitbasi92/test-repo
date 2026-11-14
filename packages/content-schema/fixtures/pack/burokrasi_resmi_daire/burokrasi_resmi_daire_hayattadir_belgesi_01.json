@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_hayattadir_belgesi_01",
+  "tags": [
+    "burokrasi",
+    "emeklilik",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66,
+      "max": 92
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kart yenilemesi için hayatta olduğunuza dair belge lazım.",
+      "en": "To renew the card, we need a document proving you are alive."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Siz buradasınız, görüyorum. Ama sistem görmüyor.",
+      "en": "You're here. I can see you. The system can't.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "belge",
+      "tr": "Belgeyi al, geri gel",
+      "en": "Get the document, come back",
+      "pattern": "patience"
+    },
+    {
+      "id": "goster",
+      "tr": "Amire kendini göster",
+      "en": "Present yourself to a supervisor",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "cocuk",
+      "tr": "Çocuğundan yardım iste",
+      "en": "Ask your kid to sort it out",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "belge": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yasam_belgesi"
+          ]
+        }
+      },
+      "tr": "Belgeyi alıp geri geldin. Memur kâğıda 'hayattadır' kaşesini bastı.",
+      "en": "You got the form and came back. The clerk stamped it: 'Alive.'",
+      "coach": [
+        {
+          "tr": "Kaşeli. Bir yıl geçerli.",
+          "en": "Stamped. Valid for one year.",
+          "roast": false
+        }
+      ]
+    },
+    "goster": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "yasam_belgesi"
+            ]
+          }
+        },
+        "tr": "Amir çıktı, sana baktı, sisteme 'şahsen görüldü' yazdı.",
+        "en": "A supervisor came out, looked at you, and typed 'seen in person.'",
+        "coach": [
+          {
+            "tr": "Şahsen görüldün. Sistem ikna oldu.",
+            "en": "Seen in person. The system is convinced.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Amir izindeydi. Yerine bakan 'Ben de görüyorum ama yetkim yok' dedi.",
+        "en": "The supervisor was on leave. The stand-in said, 'I can see you too. I'm just not authorized to.'",
+        "coach": [
+          {
+            "tr": "Görünür ama yetkisiz. Yarın yine.",
+            "en": "Visible but unauthorized. Tomorrow, again.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cocuk": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "yasam_belgesi"
+          ]
+        }
+      },
+      "tr": "Çocuğun belgeyi internetten iki dakikada aldı. Sonra yarım saat senin şifreni sıfırladı.",
+      "en": "Your kid got the form online in two minutes. Then spent half an hour resetting your password.",
+      "coach": [
+        {
+          "tr": "İki dakika belge, otuz dakika şifre.",
+          "en": "Two minutes of paperwork. Thirty of passwords.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "emekli kartı yenilemesi için hayatta olduğunu belgeleme şartı",
+    "mechanism": "memur görüyor, sistem görmüyor",
+    "mechanismId": "literalism",
+    "punch": "sistem görmüyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kase"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

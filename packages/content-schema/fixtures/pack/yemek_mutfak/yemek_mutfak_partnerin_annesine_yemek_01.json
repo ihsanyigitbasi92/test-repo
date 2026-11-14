@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_partnerin_annesine_yemek_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "partner",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 36
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Anneme ilk kez yemek götürüyoruz. Annem her şeyi yer, sonra tarifini sorar.",
+      "en": "First time we're bringing food to my mom's. She eats everything, then asks for the recipe."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Sorduğunda \"internetten\" deme. Bir kere biri dedi, hâlâ anlatıyorlar.",
+      "en": "When she asks, don't say \"the internet.\" Someone said that once. They still bring it up.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "borek",
+      "tr": "Kendi böreğini yap",
+      "en": "Bake your own pastry",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "pastane",
+      "tr": "Pastaneden tatlı al",
+      "en": "Buy dessert from a bakery",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden tarif iste",
+      "en": "Get your mom's recipe",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "borek": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -120,
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_kayin_tarif_verildi"
+            ]
+          }
+        },
+        "tr": "Börek ilk turda bitti. Partnerinin annesi tarifi sordu, sen de el yazınla kâğıda geçirdin.",
+        "en": "The pastry vanished in round one. Your partner's mom asked for the recipe, and you wrote it out by hand.",
+        "coach": [
+          {
+            "tr": "Tarif el değiştirdi. Artık iki mutfakta.",
+            "en": "The recipe changed hands. Two kitchens now.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -120,
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_kayin_borek_cig"
+            ]
+          }
+        },
+        "tr": "Böreğin ortası hamur kaldı. Partnerinin annesi kenarlarını yedi ve \"Ortası da olur\" dedi.",
+        "en": "The middle of the pastry was still dough. Your partner's mom ate the edges and said, \"The middle has potential.\"",
+        "coach": [
+          {
+            "tr": "Kenarlar onaylandı. Orta bölge incelemede.",
+            "en": "Edges approved. The middle is under review.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "pastane": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -260,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_kayin_pastane"
+          ]
+        }
+      },
+      "tr": "Pastaneden 260 Paralık baklava aldın. Partnerinin annesi kutuyu tanıdı ve pastanenin adını söyledi.",
+      "en": "You bought 260 worth of baklava at a bakery. Your partner's mom recognized the box and named the shop.",
+      "coach": [
+        {
+          "tr": "Kutu seni ele verdi.",
+          "en": "The box gave you away.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -80,
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          },
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_iki_anne_tarifi"
+          ]
+        }
+      },
+      "tr": "Annenin tarifiyle yaptığın biber dolması çok beğenildi. İki anne şimdi birbirinin numarasını istiyor.",
+      "en": "Your mom's stuffed-pepper recipe was a hit. Now the two moms want each other's numbers.",
+      "coach": [
+        {
+          "tr": "İki anne, tek hat. Bu konuşma bitmez.",
+          "en": "Two moms, one phone line. That call never ends.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "borek",
+    "slip": {
+      "tr": "İDDİA: Börek ilk turda bitmez. — M.",
+      "en": "WAGER: That pastry won't clear the table in round one. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin annesine ilk kez ev yemeği götürmek",
+    "mechanism": "\"ortası da olur\" kibarlığı",
+    "mechanismId": "understatement",
+    "punch": "ortası da olur",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Börek, baklava, biber dolması TR mutfağı; EN'de \"pastry\", \"baklava\", \"stuffed peppers\" olarak verildi. Partnerin annesi (inLaw) balon almadı, anlatıda geçiyor."
+  }
+}

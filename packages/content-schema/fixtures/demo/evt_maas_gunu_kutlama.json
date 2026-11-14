@@ -1,0 +1,167 @@
+{
+  "v": 1,
+  "type": "event",
+  "rarity": "common",
+  "universality": "universal",
+  "id": "evt_maas_gunu_kutlama",
+  "tags": [
+    "para",
+    "is",
+    "ofis"
+  ],
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 200
+  },
+  "pre": {
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Maaş yattı! Kutlayalım. Ben ısmarlarım.",
+      "en": "Payday! Let's celebrate. My treat."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Yani sen ısmarla, ben sonra öderim.",
+      "en": "I mean, you pay. I'll pay you back."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Sonra = bir sonraki maaş. Ya da bir sonraki.",
+      "en": "Back = next payday. Or the one after.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kutla",
+      "tr": "Kutla",
+      "en": "Celebrate",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "borc",
+      "tr": "Borç ver",
+      "en": "Lend it",
+      "pattern": "generosity",
+      "check": {
+        "base": 5000,
+        "goal": "borc"
+      }
+    },
+    {
+      "id": "kenara",
+      "tr": "Kenara koy",
+      "en": "Put it aside",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kutla": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": 5,
+          "health": -1
+        }
+      },
+      "tr": "Kutladınız. Hesap geldi; iş arkadaşın lavabodaydı.",
+      "en": "You celebrated. The bill came. Your coworker was in the restroom.",
+      "coach": [
+        {
+          "tr": "Maaş günü, maaş gecesi oldu. Ben olsam kutlamazdım. Ben de lavaboya giderdim.",
+          "en": "Payday became pay-night. I'd have skipped it. Or gone to the restroom at the right moment.",
+          "roast": true
+        }
+      ]
+    },
+    "borc": [
+      {
+        "effects": {
+          "money": 0,
+          "stats": {
+            "joy": 3
+          }
+        },
+        "tr": "Ay sonu para geri geldi. Yanında bir de kahve. Şoktasın.",
+        "en": "End of the month, it came back. With a coffee. You are in shock.",
+        "p": 5000,
+        "coach": [
+          {
+            "tr": "Haksız çıktım. Para döndü. Bunu altın mürekkeple yazıyorum; silgim zaten yok.",
+            "en": "I was wrong. The money came back. Gold ink for this one. I don't own an eraser anyway.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "effects": {
+          "money": -500,
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "'Haftaya' dedi. Dört hafta oldu.",
+        "en": "'Next week,' he said. Four weeks ago.",
+        "p": 5000,
+        "nearMiss": {
+          "tr": "Yarısını getirdi. 'Kalanı aklımda' dedi. Aklı dolu.",
+          "en": "Half came back. 'The rest is on my mind,' he said. Busy mind."
+        },
+        "coach": [
+          {
+            "tr": "Arkadaş kaybetmedin; parayı kaybettin.",
+            "en": "You didn't lose a friend. You lost the money.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kenara": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "brain": 1
+        }
+      },
+      "tr": "Kenara koydun. İş arkadaşın başkasını buldu.",
+      "en": "You put it aside. Your coworker found someone else.",
+      "coach": [
+        {
+          "tr": "Sıkıcı ve doğru. Seminerde bunu satamazdım. Sen satın aldın.",
+          "en": "Boring and correct. I could never sell this at a seminar. You bought it anyway.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "borc",
+    "slip": {
+      "tr": "İDDİA: Bu borç geri gelmez. — M.",
+      "en": "WAGER: This loan never comes back. — M."
+    }
+  },
+  "intent": {
+    "setup": "maaş günü iş arkadaşı",
+    "mechanism": "\"ben ısmarlarım\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "sonra = bir sonraki maaş",
+    "lift": "kenara koy",
+    "target": "decision"
+  },
+  "review": {
+    "status": "curated",
+    "legal": "ok"
+  }
+}

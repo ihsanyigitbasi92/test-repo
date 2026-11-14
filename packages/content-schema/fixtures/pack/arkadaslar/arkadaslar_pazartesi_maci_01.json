@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_pazartesi_maci_01",
+  "tags": [
+    "sosyal",
+    "spor",
+    "is",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Akşam maç var, bir kişi eksiğiz. Pozisyon fark etmez. Yani kaleye kimse geçmek istemiyor.",
+      "en": "Game tonight, we're one short. Any position. Well. Nobody wants goal."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Forma bende. Biraz büyük ama numarası güzel.",
+      "en": "I've got a jersey for you. It's big, but it's a nice number.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kale",
+      "tr": "Kaleye geç",
+      "en": "Go in goal",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "forvet",
+      "tr": "Forvet iste",
+      "en": "Ask to play up front",
+      "pattern": "pride"
+    },
+    {
+      "id": "kenar",
+      "tr": "Kenardan izle, su taşı",
+      "en": "Watch from the sideline",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kale": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": 6
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 4
+            }
+          ],
+          "flags": {
+            "add": [
+              "pazartesi_takimi"
+            ]
+          }
+        },
+        "tr": "Altı gol yedin, bir penaltı kurtardın. Takım seni pazartesilerin sabit kalecisi ilan etti.",
+        "en": "Six goals conceded, one penalty saved. You're now the permanent Monday keeper.",
+        "coach": [
+          {
+            "tr": "Altı gole bir kurtarış. Sözleşme uzatıldı.",
+            "en": "Six goals, one save. Contract extended.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -3,
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "pazartesi_takimi"
+            ]
+          }
+        },
+        "tr": "On bir gol yedin. Takım yine de “pazartesi gel” dedi; başka kaleci yok.",
+        "en": "Eleven goals against. They still said, “See you Monday.” There's no other keeper.",
+        "coach": [
+          {
+            "tr": "On bir gol. Kadrodaki yerin sağlam.",
+            "en": "Eleven goals. Your spot on the roster is secure.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "forvet": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Bütün maçta topa bir kez dokundun, o da taça gitti. İkinci yarıda yine de kaleye geçtin.",
+      "en": "One touch all game, and it went out for a throw-in. Second half, you ended up in goal anyway.",
+      "coach": [
+        {
+          "tr": "Forvet kariyeri bir devre sürdü.",
+          "en": "Striker career: one half.",
+          "roast": false
+        }
+      ]
+    },
+    "kenar": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "pazartesi_seyircisi"
+          ]
+        }
+      },
+      "tr": "Su şişelerini taşıdın, skoru tuttun. Maç sonrası yemeğe davet edildin.",
+      "en": "You carried water and kept score. Got invited to the post-game dinner.",
+      "coach": [
+        {
+          "tr": "Takıma saha dışından girdin.",
+          "en": "You joined the team from the sideline.",
+          "roast": false
+        },
+        {
+          "tr": "Sayaç bir yeni isim gösteriyor.",
+          "en": "The counter shows one new name.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kale",
+    "slip": {
+      "tr": "İDDİA: Kalede bir gece dayanamazsın. — M.",
+      "en": "WAGER: You won't last a night in goal. — M."
+    }
+  },
+  "intent": {
+    "setup": "iş arkadaşının pazartesi akşamı futbol takımına eksik oyuncu olarak çağırması",
+    "mechanism": "kimsenin istemediği kalenin yeni gelene kalması",
+    "mechanismId": "understatement",
+    "punch": "kaleye kimse geçmek istemiyor",
+    "lift": "sayaç yeni isim",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kadro"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

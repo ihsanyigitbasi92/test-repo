@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_saglik_mi_zam_01",
+  "tags": [
+    "is",
+    "maas",
+    "yan_hak",
+    "aile",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 52
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "child": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Bu yıl iki seçenek var: maaşa 300 Para artış ya da çocuklarınızı özel sağlık poliçesine ekleme.",
+      "en": "Two options this year: 300 more a month, or adding your kids to the private health plan."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "typing",
+      "tr": "Form cumaya kadar. Seçmezseniz sistem otomatik olarak \"hiçbiri\"ni seçiyor.",
+      "en": "Form's due Friday. If you don't choose, the system automatically selects \"neither.\"",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "zam",
+      "tr": "Zammı seç",
+      "en": "Take the raise",
+      "pattern": "risk"
+    },
+    {
+      "id": "police",
+      "tr": "Poliçeyi seç",
+      "en": "Take the health plan",
+      "pattern": "generosity"
+    },
+    {
+      "id": "cuma",
+      "tr": "Formu cumaya bırak",
+      "en": "Leave it till Friday",
+      "pattern": "procrastination",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "zam": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "zam_alindi"
+          ]
+        }
+      },
+      "tr": "Maaşına 300 Para eklendi. Aynı ay çocuğunun diş teli faturası 900 Para geldi.",
+      "en": "300 more a month. Same month, your kid's braces bill came to 900.",
+      "coach": [
+        {
+          "tr": "Üç aylık zam, bir ağız dolusu tel.",
+          "en": "Three months of raise. One mouthful of braces.",
+          "roast": true
+        }
+      ]
+    },
+    "police": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "cocuk_police"
+          ]
+        }
+      },
+      "tr": "Çocuklar poliçeye eklendi. Cüzdanında iki yeni kart var.",
+      "en": "Kids added to the plan. Two new cards in your wallet.",
+      "coach": [
+        {
+          "tr": "Maaş aynı. Cüzdan kalınlaştı.",
+          "en": "Same pay. Thicker wallet.",
+          "roast": false
+        }
+      ]
+    },
+    "cuma": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "cocuk_police"
+            ]
+          }
+        },
+        "tr": "Cuma 16.58'de hatırladın ve poliçeyi seçtin. Sistem 17.00'de kapandı.",
+        "en": "You remembered at 4:58 on Friday and picked the plan. The system closed at 5:00.",
+        "coach": [
+          {
+            "tr": "İki dakika pay. Yetmiş.",
+            "en": "Two minutes to spare. Plenty, apparently.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -1
+          }
+        },
+        "tr": "Cuma akşamı hatırladın. Sistem senin yerine \"hiçbiri\"ni seçmişti; itiraz dönemi seneye.",
+        "en": "You remembered Friday night. The system had chosen \"neither\" for you. Appeals open next year.",
+        "coach": [
+          {
+            "tr": "Sistem seçti. Hiçbirini.",
+            "en": "The system chose. Neither.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "zam ile çocukların sağlık poliçesi arasında seçim",
+    "mechanism": "seçmeyen için sistem 'hiçbiri'ni seçiyor",
+    "mechanismId": "reversal",
+    "punch": "sistem seçti, hiçbirini",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hicbiri"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

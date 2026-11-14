@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "telefon_teknoloji_numara_tasima_01",
+  "tags": [
+    "teknoloji",
+    "telefon",
+    "evrak",
+    "telefon_teknoloji"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "telefon_teknoloji": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "HATYOLU İLETİŞİM · NUMARA TAŞIMA BİLDİRİMİ (kurgusal)",
+      "en": "LINEWAY MOBILE · NUMBER TRANSFER NOTICE (fictional)"
+    },
+    "body": {
+      "tr": "Numara taşıma talebiniz alınmıştır. İşlem süresince hattınız kısa bir süre hizmet dışı kalabilir. Bu süre 24 ile 72 saat arasında değişebilir.",
+      "en": "Your number transfer request has been received. Your line may be briefly out of service during the process. This may take 24 to 72 hours."
+    },
+    "translate": {
+      "tr": {
+        "from": "kısa bir süre",
+        "to": "üç gün"
+      },
+      "en": {
+        "from": "briefly",
+        "to": "for three days"
+      }
+    },
+    "glossaryKey": "numara_tasima"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Bizden ayrılıyor musunuz? Size özel bir teklifimiz var, gitmeden önce.",
+      "en": "Leaving us? We have an exclusive offer for you. Before you go."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Aynı paket, aynı fiyat, yeni bir isimle.",
+      "en": "Same plan, same price. New name.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasi",
+      "tr": "Taşımaya devam et",
+      "en": "Go through with the transfer",
+      "pattern": "pride"
+    },
+    {
+      "id": "kal",
+      "tr": "Teklifi kabul et, kal",
+      "en": "Take the offer, stay",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Gerçek indirim iste",
+      "en": "Ask for a real discount",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "tasi": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "yeni_operator"
+          ]
+        },
+        "glossary": "numara_tasima"
+      },
+      "tr": "Hat üç gün sustu, dördüncü gün yeni operatörde açıldı. İlk mesaj eski operatörden geldi: \"Sizi özledik.\"",
+      "en": "The line went silent for three days and woke up on the new network on day four. First text, from the old one: \"We miss you.\"",
+      "coach": [
+        {
+          "tr": "Şebeke yeni, numara aynı.",
+          "en": "New network, same number.",
+          "roast": false
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "glossary": "numara_tasima"
+      },
+      "tr": "Kaldın. Paket aynı, fiyat aynı; faturada adı \"Sadakat Artı\" oldu.",
+      "en": "You stayed. Same plan, same price. The bill now calls it \"Loyalty Plus.\"",
+      "coach": [
+        {
+          "tr": "Artı eklendi.",
+          "en": "The Plus was added.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "operator_indirimi"
+            ]
+          }
+        },
+        "tr": "Üçüncü yöneticiye kadar çıktın. Aylık faturadan bir yıllığına 40 Para indi.",
+        "en": "You made it to the third supervisor. Forty off the monthly bill, for a year.",
+        "coach": [
+          {
+            "tr": "Üçüncü yönetici yetkiliymiş.",
+            "en": "The third supervisor had the power.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Yirmi dakika beklettiler, aynı \"özel teklif\" yeniden okundu. Bu arada taşıma talebin iptal olmuştu.",
+        "en": "Twenty minutes on hold, then the same \"exclusive offer,\" read again. Meanwhile your transfer had been canceled.",
+        "coach": [
+          {
+            "tr": "Teklif ikinci kez okundu.",
+            "en": "The offer, read twice.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "telefon hattını başka operatöre taşırken kurgusal numara taşıma bildirimi ve eski operatörün son dakika teklifi",
+    "mechanism": "\"kısa bir süre\" ifadesinin üç güne tercümesi",
+    "mechanismId": "translation",
+    "punch": "sizi özledik",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ozledik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

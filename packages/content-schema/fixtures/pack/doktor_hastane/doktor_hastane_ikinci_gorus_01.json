@@ -1,0 +1,171 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_ikinci_gorus_01",
+  "tags": [
+    "saglik",
+    "diz",
+    "partner",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Diz için küçük bir operasyon öneriyorum. Bir günlük iş.",
+      "en": "I'd recommend a small procedure on the knee. In and out in a day."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Öbür doktor fizik tedavi demişti. Üçüncüye gidelim, hangisi iki olursa.",
+      "en": "The other doctor said physical therapy. Let's see a third. Best of three.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Dördüncüyü de buldum. Kuzenimin komşusu, emekli ama hâlâ bakıyor.",
+      "en": "Found a fourth, too. My cousin's neighbor. Retired, still sees people.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "operasyon",
+      "tr": "Operasyonu ol",
+      "en": "Have the procedure",
+      "pattern": "risk"
+    },
+    {
+      "id": "fizik",
+      "tr": "Fizik tedaviyle başla",
+      "en": "Start physical therapy",
+      "pattern": "patience"
+    },
+    {
+      "id": "ucuncu",
+      "tr": "Üçüncü görüşe git",
+      "en": "Get a third opinion",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "operasyon": {
+      "effects": {
+        "stats": {
+          "health": 6,
+          "joy": -2
+        },
+        "money": -6500,
+        "flags": {
+          "add": [
+            "diz_operasyonu"
+          ]
+        }
+      },
+      "tr": "Operasyon bir gün sürdü, toparlanma üç hafta. Merdivenler yeniden senin.",
+      "en": "The procedure took a day. Recovery took three weeks. The stairs are yours again.",
+      "coach": [
+        {
+          "tr": "Üç hafta, bir diz. Merdiven sayacı sıfırlandı.",
+          "en": "Three weeks, one knee. Stair counter reset.",
+          "roast": false
+        }
+      ]
+    },
+    "fizik": {
+      "effects": {
+        "stats": {
+          "health": 5,
+          "joy": 2
+        },
+        "money": -1800,
+        "flags": {
+          "add": [
+            "fizik_tedavi"
+          ]
+        }
+      },
+      "tr": "On iki seans fizik tedavi, 1.800 Para. Dizin operasyonsuz yoluna girdi.",
+      "en": "Twelve sessions of physical therapy, 1,800. The knee came around without surgery.",
+      "coach": [
+        {
+          "tr": "On iki seans, hepsi işaretli.",
+          "en": "Twelve sessions: all checked off.",
+          "roast": false
+        }
+      ]
+    },
+    "ucuncu": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "money": -500,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Üçüncü doktor ikisinin ortasını söyledi. Partnerin dördüncüyü aramak için telefonu çoktan açmıştı.",
+      "en": "The third doctor split the difference. Your partner was already dialing number four.",
+      "coach": [
+        {
+          "tr": "Skor bir-bir-bir. Uzatmalara gidiyoruz.",
+          "en": "One, one, one. We're headed to extra time.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "diz için operasyon önerisi ve çelişen ikinci görüş",
+    "mechanism": "partner doktorları turnuvaya sokuyor",
+    "mechanismId": "escalation",
+    "punch": "dördüncüyü de buldum, emekli ama hâlâ bakıyor",
+    "lift": "on iki seans",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "uzatma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

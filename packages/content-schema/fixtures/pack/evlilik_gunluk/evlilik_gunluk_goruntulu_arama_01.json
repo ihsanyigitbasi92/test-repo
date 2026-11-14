@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_goruntulu_arama_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 63,
+      "max": 80
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "goruntulu_cozuldu"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "child": {
+        "exists": true
+      },
+      "neighbor": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "typing",
+      "tr": "Görüntülü arıyorum, torununuz el sallayacak. Bu sefer kamera tavana bakmasın.",
+      "en": "Video calling now — the grandkid wants to wave. Please don't point the camera at the ceiling this time."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Hangi tuştu? Kırmızı mı, yeşil mi? İkisi de yanıp sönüyor.",
+      "en": "Which button? Red or green? They're both blinking.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "yesil",
+      "tr": "Yeşile bas",
+      "en": "Press green",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ver",
+      "tr": "Telefonu partnerine ver",
+      "en": "Hand the phone to your partner",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşunun çocuğunu çağır",
+      "en": "Fetch the neighbor's kid",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "yesil": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "goruntulu_cozuldu"
+            ]
+          }
+        },
+        "tr": "Görüntü açıldı. Torunun on dakika el salladı, siz de. Kimse bir şey söylemedi.",
+        "en": "The picture came on. Your grandkid waved for ten minutes. So did you two. Nobody said a word.",
+        "coach": [
+          {
+            "tr": "On dakika el sallandı.",
+            "en": "Ten minutes of waving.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "goruntulu_tavan"
+            ]
+          }
+        },
+        "tr": "Görüntü açıldı, yine tavana baktı. Torunun tavana el salladı ve avizeyi beğendi.",
+        "en": "The call connected, camera on the ceiling again. Your grandkid waved at the ceiling and complimented the light fixture.",
+        "coach": [
+          {
+            "tr": "Avize beğenildi.",
+            "en": "The light fixture got good reviews.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ver": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "goruntulu_kulak"
+          ]
+        }
+      },
+      "tr": "Partnerin telefonu kulağına götürdü. Torun on dakika boyunca bir kulakla sohbet etti.",
+      "en": "Your partner held the phone to their ear like a normal call. The grandkid chatted with an ear for ten minutes.",
+      "coach": [
+        {
+          "tr": "Sohbet oldu. Görüntü kulaktı.",
+          "en": "A chat happened. The picture was an ear.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "goruntulu_cozuldu",
+            "torun_kisayolu"
+          ]
+        }
+      },
+      "tr": "Komşunun çocuğu iki saniyede açtı ve telefona 'TORUN' yazan bir kısayol koydu.",
+      "en": "The neighbor's kid fixed it in two seconds and added a shortcut labeled 'GRANDKID.'",
+      "coach": [
+        {
+          "tr": "Bir kısayol. Tek tuş.",
+          "en": "One shortcut. One button.",
+          "roast": false
+        },
+        {
+          "tr": "Kısayol sayısı: bir.",
+          "en": "Shortcuts: one.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "ileri yaşta çiftin torunla görüntülü aramada kamerayı açamaması",
+    "mechanism": "kamera hep yanlış yere bakıyor, torun sorunu kendince çözüyor",
+    "mechanismId": "deadpan_report",
+    "punch": "avizeyi beğendi",
+    "closer": "avize",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "Kısayol sayısı: bir."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

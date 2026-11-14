@@ -1,0 +1,161 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kronik_saglik_aile_gecmisi_sorusu_01",
+  "tags": [
+    "saglik",
+    "doktor",
+    "anne",
+    "kronik_saglik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kronik_saglik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Ailede benzer bir durum var mı? İsterseniz annenize sorun, bekleriz.",
+      "en": "Any similar history in the family? You can ask your mother. We'll wait."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Benzer mi? Teyzende vardı, kuzenlerinde var, karşı komşuda da var. Komşu aileden sayılmaz, değil mi?",
+      "en": "Similar? Your aunt had it, your cousins have it, so does the neighbor. Neighbors don't count, do they?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "hepsi",
+      "tr": "Hepsini doktora aktar",
+      "en": "Relay everything to the doctor",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ozet",
+      "tr": "Kısa bir özet ver",
+      "en": "Give a short summary",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "telefon",
+      "tr": "Telefonu doktora uzat",
+      "en": "Hand the phone to the doctor",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "hepsi": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "aile_gecmisi"
+          ]
+        }
+      },
+      "tr": "Hepsini aktardın, komşu dahil. Doktor komşuyu yazmadı ama iki tetkik ekledi.",
+      "en": "You relayed it all, neighbor included. The doctor didn't write down the neighbor, but added two tests.",
+      "coach": [
+        {
+          "tr": "Komşu elendi, tetkik eklendi.",
+          "en": "Neighbor cut. Two tests added.",
+          "roast": false
+        }
+      ]
+    },
+    "ozet": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "aile_gecmisi"
+          ]
+        }
+      },
+      "tr": "\"Annemin tarafında var\" dedin. Doktor yazdı, konu kapandı. Akşam annen kimleri saydığını sordu.",
+      "en": "You said, \"It runs on my mom's side.\" The doctor wrote it down. That evening your mom asked which ones you mentioned.",
+      "coach": [
+        {
+          "tr": "Doktor özetle yetindi. Annen yetinmedi.",
+          "en": "The doctor took the summary. Your mom wanted the full version.",
+          "roast": false
+        }
+      ]
+    },
+    "telefon": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "aile_gecmisi",
+            "anne_kontrolu"
+          ]
+        }
+      },
+      "tr": "Telefonu doktora uzattın. Annen dokuz dakika konuştu; doktor sonunda annene de randevu verdi.",
+      "en": "You handed the doctor the phone. Your mom talked for nine minutes. The doctor ended up booking her an appointment too.",
+      "coach": [
+        {
+          "tr": "Bir muayene, iki hasta.",
+          "en": "One visit. Two patients.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "doktorun aile geçmişini sorması ve annenin telefonda uzun liste vermesi",
+    "mechanism": "annenin listesi akrabalardan komşuya tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "komşu aileden sayılmaz, değil mi",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "telefon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

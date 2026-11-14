@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_arkadan_anlasma_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Senin gezdirdiğin aile üst kata taşınıyor, gördün mü? Ev sahibiyle kendi aralarında anlaşmışlar.",
+      "en": "That family you showed around is moving in upstairs, did you see? They sorted it out with the owner directly."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Seni yormayalım diye aramadık. Zaten tanıştırmıştın.",
+      "en": "We didn't want to trouble you. You'd already introduced us.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "belge",
+      "tr": "Yer gösterme belgesiyle iste",
+      "en": "Claim it with the viewing form",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Bırak, ders say",
+      "en": "Let it go, call it tuition",
+      "pattern": "patience"
+    },
+    {
+      "id": "yari",
+      "tr": "Yarı komisyona razı ol",
+      "en": "Settle for half the fee",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "belge": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 1500,
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "İmzalı belgeyi masaya koydun. Ev sahibi önce tarihe, sonra imzaya baktı; 1.500 Para komisyon bir hafta sonra yattı.",
+        "en": "You put the signed form on the table. The owner studied the date, then the signature. The 1,500 commission arrived a week later.",
+        "coach": [
+          {
+            "tr": "Bir sayfa kâğıt, 1.500 Para. Çekmecede iyi beklemiş.",
+            "en": "One sheet of paper, 1,500. It aged well in the drawer.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Dosyayı açtın: belge oradaydı, imza yeri boştu. Ev sahibi çayını bitirdi, sen dosyayı kapattın.",
+        "en": "You opened the folder. The form was there. The signature line was empty. The owner finished the tea and you closed the folder.",
+        "coach": [
+          {
+            "tr": "Belge eksiksiz. İmza hariç.",
+            "en": "The form is complete. Except for the signature.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "belgesiz_gezdirmez"
+          ]
+        }
+      },
+      "tr": "Peşine düşmedin. Ertesi gün dosyana yirmi boş yer gösterme belgesi, arabaya da yedek bir kalem koydun.",
+      "en": "You let it go. The next day you put twenty blank viewing forms in your folder and a spare pen in the car.",
+      "coach": [
+        {
+          "tr": "Dersin ücreti bir komisyon.",
+          "en": "Tuition for that lesson: one commission.",
+          "roast": false
+        }
+      ]
+    },
+    "yari": {
+      "effects": {
+        "money": 750,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Yarısını istedin, ev sahibi pazarlıksız verdi: 750 Para. Kamyondan inen koltuğu taşımaya da yardım ettin.",
+      "en": "You asked for half and the owner paid without haggling: 750. You also helped carry the sofa off the truck.",
+      "coach": [
+        {
+          "tr": "Yarım komisyon, tam koltuk.",
+          "en": "Half a commission. One full sofa.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "belge",
+    "slip": {
+      "tr": "İDDİA: O belgede imza yok. — M.",
+      "en": "WAGER: That form was never signed. — M."
+    }
+  },
+  "intent": {
+    "setup": "gezdirdiğin müşteri ev sahibiyle doğrudan anlaşıp taşınıyor, haberi komşudan alıyorsun",
+    "mechanism": "çekmecedeki belge yıllar sonra işe yarıyor ya da yaramıyor",
+    "mechanismId": "callback",
+    "punch": "çekmecede iyi beklemiş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koltuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

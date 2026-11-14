@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_waiter_denetci_geldi_01",
+  "tags": [
+    "kariyer",
+    "restoran",
+    "kariyer_waiter"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_waiter": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "waiter"
+      ],
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Denetçi geldi. Herkes doğal davransın. Doğal ama bonesi takılı.",
+      "en": "The inspector's here. Everyone act natural. Natural, but with hairnets on."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Soğuk dolabın derecesi dünden beri 'E' harfi gösteriyor.",
+      "en": "The cold room display has been showing the letter 'E' since yesterday.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "'E' iyi demek. Öyle söylüyoruz.",
+      "en": "'E' means excellent. That's what we're saying.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "durust",
+      "tr": "Arızayı kendin söyle",
+      "en": "Report the fault yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "oyala",
+      "tr": "Denetçiyi salonda oyala",
+      "en": "Stall the inspector out front",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "isine",
+      "tr": "Masalarına dön",
+      "en": "Go back to your tables",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "durust": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "denetim_temiz"
+            ]
+          }
+        },
+        "tr": "Arızayı sen söyledin, servis çağrısının fişini de gösterdin. Denetçi 'kayıt var' yazdı, ceza yazmadı.",
+        "en": "You reported the fault and showed the repair ticket. The inspector wrote 'documented' and issued no fine.",
+        "coach": [
+          {
+            "tr": "Fiş konuştu. Patron hâlâ terliyor.",
+            "en": "The ticket did the talking. Your boss is still sweating.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "denetim_tutanagi"
+            ]
+          }
+        },
+        "tr": "Arızayı söyledin. Servis fişi bulunamadı. Tutanak yazıldı; patron on gün içinde tamir belgesi götürecek.",
+        "en": "You reported the fault. Nobody could find the repair ticket. A notice was issued; your boss has ten days to file proof of repair.",
+        "coach": [
+          {
+            "tr": "Doğruyu söyledin. Fiş söylemedi.",
+            "en": "You told the truth. The ticket didn't back you up.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "oyala": {
+      "effects": {
+        "stats": {
+          "charm": 2
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Denetçiye çay götürdün, menüyü anlattın. Dolabı kimse tamir etmedi ama gösterge 'E'den '4'e kendi döndü.",
+      "en": "You brought the inspector tea and explained the menu. Nobody fixed the cold room, but the display went from 'E' to '4' on its own.",
+      "coach": [
+        {
+          "tr": "Dolap kendi kendine düzeldi. Çay tesadüf.",
+          "en": "The cold room recovered alone. The tea was a coincidence.",
+          "roast": false
+        }
+      ]
+    },
+    "isine": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "denetim_tutanagi"
+          ]
+        }
+      },
+      "tr": "Masalarına döndün. Tutanağa 'soğuk dolap göstergesi' maddesi girdi. Patron kimin haber vermediğini soruyor.",
+      "en": "You went back to your tables. The visit ended with one line about the cold room display. Your boss is asking who knew and said nothing.",
+      "coach": [
+        {
+          "tr": "Masalar sorunsuzdu.",
+          "en": "The tables went fine.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "durust",
+    "slip": {
+      "tr": "İDDİA: Servis fişi bulunamaz. — M.",
+      "en": "WAGER: Nobody finds the repair ticket. — M."
+    }
+  },
+  "intent": {
+    "setup": "öğle yoğunluğunda gıda denetçisinin gelmesi ve soğuk dolap göstergesinin arızası",
+    "mechanism": "doğal davran ama bone tak; E harfi iyi demek",
+    "mechanismId": "escalation",
+    "punch": "'E' iyi demek, öyle söylüyoruz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

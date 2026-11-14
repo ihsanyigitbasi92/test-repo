@@ -1,0 +1,162 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_cocuk_pasaportu_imza_01",
+  "tags": [
+    "burokrasi",
+    "pasaport",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Çocuk için iki velinin de imzası lazım. Diğer veli nerede?",
+      "en": "A child's passport needs both parents' signatures. Where's the other one?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Şehir dışındaysa oradaki noterden muvafakatname alsın, aslını kargolasın. Fotoğrafı geçmez.",
+      "en": "If they're out of town: notarized consent from there, original by courier. A photo of it won't do.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Biz üç haftadır kargo bekliyoruz. Tatil geçti, şimdi kışa alıyoruz.",
+      "en": "We've been waiting on the courier for three weeks. The holiday's gone. We're aiming for winter now.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "noter",
+      "tr": "Muvafakatname yolunu başlat",
+      "en": "Start the consent paperwork",
+      "pattern": "patience"
+    },
+    {
+      "id": "bekle",
+      "tr": "Diğer veli dönünce gel",
+      "en": "Come back when they return",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "tatil",
+      "tr": "Tatili yurt içine çevir",
+      "en": "Switch to a domestic trip",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "noter": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "money": -140,
+        "flags": {
+          "add": [
+            "cocuk_pasaportu_basvuru"
+          ]
+        }
+      },
+      "tr": "Muvafakatname altı günde geldi; noter ve kargo 140 Para tuttu. Pasaport başvurusu alındı.",
+      "en": "The consent form took six days. Notary and courier came to 140. The application is in.",
+      "coach": [
+        {
+          "tr": "Bir imza altı gün yol geldi.",
+          "en": "One signature traveled for six days.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "cocuk_pasaportu_basvuru",
+            "tatil_kacti"
+          ]
+        }
+      },
+      "tr": "Diğer veli iki hafta sonra döndü, birlikte geldiniz. Uçuş tarihi bir hafta önce geçmişti.",
+      "en": "The other parent got back in two weeks and you came in together. The flight had left a week earlier.",
+      "coach": [
+        {
+          "tr": "İmzalar tamam. Bavullar dolapta.",
+          "en": "Signatures complete. Suitcases still in the closet.",
+          "roast": false
+        }
+      ]
+    },
+    "tatil": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "money": -60,
+        "flags": {
+          "add": [
+            "yurtici_tatil"
+          ]
+        }
+      },
+      "tr": "Rezervasyonu deniz kenarında bir pansiyona çevirdin. Çocuk pasaportu sormadı, kovasını sordu.",
+      "en": "You rebooked to a guesthouse by the sea. Your kid didn't ask about the passport. They asked about the bucket.",
+      "coach": [
+        {
+          "tr": "Kova için imza gerekmiyor.",
+          "en": "Buckets need no signatures.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "çocuğun pasaport başvurusunda iki velinin de imzasının istenmesi ve diğer velinin şehir dışında olması",
+    "mechanism": "eksik tek imza noter, kargo ve tatil takvimine yayılıyor",
+    "mechanismId": "escalation",
+    "punch": "tatil geçti, şimdi kışa alıyoruz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kova"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

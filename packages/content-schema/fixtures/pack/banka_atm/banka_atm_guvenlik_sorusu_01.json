@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_guvenlik_sorusu_01",
+  "tags": [
+    "para",
+    "banka",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66,
+      "max": 90
+    },
+    "npc": {
+      "cat": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Güvenlik sorunuz: \"İlk evcil hayvanınızın adı.\"",
+      "en": "Your security question: \"Name of your first pet.\""
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "Sistemde cevap üç harfli görünüyor. Sadece o kadarını söyleyebilirim.",
+      "en": "The system shows three letters. That's all I'm allowed to say.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "say",
+      "tr": "Üç harfli isimleri say",
+      "en": "List every three-letter name",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kimlik",
+      "tr": "Kimlikle başka yoldan doğrula",
+      "en": "Verify another way with your ID",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kedi",
+      "tr": "Kedinin adını söyle",
+      "en": "Say the cat's name",
+      "pattern": "risk",
+      "requires": {
+        "npc": {
+          "cat": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "say": [
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "guvenlik_cozuldu"
+            ]
+          }
+        },
+        "tr": "Dördüncü isimde bankacı başını salladı: komşunun kaplumbağası. Yıllarca onu kendininki sanmışsın.",
+        "en": "On the fourth name, the banker nodded: the neighbor's tortoise. You'd been claiming it for years.",
+        "coach": [
+          {
+            "tr": "Kaplumbağa doğrulandı.",
+            "en": "Tortoise verified.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "guvenlik_sifirlandi"
+            ]
+          }
+        },
+        "tr": "Yedi isim saydın, hiçbiri tutmadı. Bankacı yeni güvenlik sorusu formunu uzattı.",
+        "en": "Seven names, no match. The banker slid over a new security-question form.",
+        "coach": [
+          {
+            "tr": "Yeni soru, yeni cevap. Bu kez kâğıtta.",
+            "en": "New question, new answer. On paper this time.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kimlik": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "guvenlik_sifirlandi"
+          ]
+        }
+      },
+      "tr": "Kimlik, imza ve bir selfie istendi. Selfie üçüncü denemede onaylandı.",
+      "en": "ID, signature and a selfie required. The selfie was approved on the third try.",
+      "coach": [
+        {
+          "tr": "Üçüncü selfie artık resmî fotoğrafın.",
+          "en": "Selfie three is now your official photo.",
+          "roast": false
+        }
+      ]
+    },
+    "kedi": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "guvenlik_sifirlandi"
+          ]
+        }
+      },
+      "tr": "Bankacı nazikçe cevabın kedi olmadığını söyledi. Pamuk o akşam bunu duymuş gibi davrandı.",
+      "en": "The banker gently said the answer wasn't the cat. That evening, Biscuit acted like it had heard.",
+      "coach": [
+        {
+          "tr": "Pamuk alındı. Sessizce.",
+          "en": "Biscuit took offense. Quietly.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "şubede yıllar önce belirlenen güvenlik sorusunun cevabını hatırlamamak",
+    "mechanism": "cevap komşunun kaplumbağası",
+    "mechanismId": "reversal",
+    "punch": "sadece o kadarını söyleyebilirim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kaplumbaga"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

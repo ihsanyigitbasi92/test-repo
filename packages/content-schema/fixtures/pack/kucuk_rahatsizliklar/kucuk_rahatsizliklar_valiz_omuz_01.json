@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kucuk_rahatsizliklar_valiz_omuz_01",
+  "tags": [
+    "saglik",
+    "kucuk_hastalik",
+    "kucuk_rahatsizliklar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kucuk_rahatsizliklar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Valizi indir, yarın yola çıkıyoruz. Mavi olanı. Hayır, büyük maviyi.",
+      "en": "Get the suitcase down, we leave tomorrow. The blue one. No, the big blue one."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Kolun neden havada kaldı? Tutuldu mu? Valiz de havada kaldı.",
+      "en": "Why is your arm stuck up there? Locked? The suitcase is stuck up there too.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "birak",
+      "tr": "Partnere bırak, otur",
+      "en": "Hand it off, sit down",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "zorla",
+      "tr": "Tek kolla indir",
+      "en": "Bring it down one-handed",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "kucuk",
+      "tr": "Küçük valizle git",
+      "en": "Pack the small bag instead",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "birak": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Partnerin indirdi, sen yönettin. Valizin içinden geçen yazın kumu döküldü.",
+      "en": "Your partner lifted, you directed. Last summer’s sand poured out of the suitcase.",
+      "coach": [
+        {
+          "tr": "Geçen yaz hâlâ bavulda bekliyormuş.",
+          "en": "Last summer was still packed and waiting.",
+          "roast": true
+        }
+      ]
+    },
+    "zorla": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": -1
+          },
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Valizi tek kolla indirdin. Omzun tatilin ilk iki gününü valiz taşıma pozisyonunda geçirdi.",
+        "en": "You got it down one-handed. Your shoulder spent the first two days of vacation in suitcase-lifting position.",
+        "coach": [
+          {
+            "tr": "Valiz indi. Omuz yukarıda kaldı.",
+            "en": "The suitcase came down. The shoulder stayed up.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": -3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "diagnosis": "omuz_tutulmasi"
+        },
+        "tr": "Valiz rafta kaldı, kolun yarı yolda. Partnerin komşudan merdiven istedi.",
+        "en": "The suitcase stayed on the shelf, your arm halfway there. Your partner borrowed a ladder from next door.",
+        "coach": [
+          {
+            "tr": "Merdiven ikinizi birden indirdi.",
+            "en": "The ladder brought you both down.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kucuk": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "tatilde_eksik_kiyafet"
+          ]
+        }
+      },
+      "tr": "Küçük valize üç günlük kıyafet sığdı. Tatil yedi gün.",
+      "en": "Three days of clothes fit in the small bag. The trip is seven.",
+      "coach": [
+        {
+          "tr": "Üç gün kıyafet, yedi gün tatil. Dört gün lavabo.",
+          "en": "Three days of clothes, seven days away. Four days of sink laundry.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "zorla",
+    "slip": {
+      "tr": "İDDİA: Valiz iner, omuz inmez. — M.",
+      "en": "WAGER: The bag comes down. The shoulder doesn't. — M."
+    }
+  },
+  "intent": {
+    "setup": "tatil arifesinde üst dolaptan valiz indirirken omuz tutulması",
+    "mechanism": "valiz iner, omuz yukarıda kalır",
+    "mechanismId": "reversal",
+    "punch": "valiz indi, omuz yukarıda kaldı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "lavabo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

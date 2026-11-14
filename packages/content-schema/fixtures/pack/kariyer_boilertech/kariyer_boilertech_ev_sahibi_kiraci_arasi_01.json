@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_boilertech_ev_sahibi_kiraci_arasi_01",
+  "tags": [
+    "kariyer",
+    "kombi",
+    "kariyer_boilertech"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_boilertech": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "boilerTech"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Kombi ev sahibinin, faturası da onun. Telefonda, buyur.",
+      "en": "It's the landlord's boiler, so it's the landlord's bill. Here, they're on the phone."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kiracı bozduysa kiracı öder. Sen usta olarak söyle: kim bozdu?",
+      "en": "If the tenant broke it, the tenant pays. You're the expert. Who broke it?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "teknik",
+      "tr": "Yalnızca arızayı anlat",
+      "en": "Describe the fault, nothing else",
+      "pattern": "patience"
+    },
+    {
+      "id": "hakem",
+      "tr": "Hakemlik yap",
+      "en": "Play referee",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "cik",
+      "tr": "Anlaşınca arayın de",
+      "en": "Tell them to call when agreed",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "teknik": {
+      "effects": {
+        "money": 300,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "'Genleşme tankı on iki yaşında' dedin, başka bir şey demedin. Ev sahibi ödedi: 300 Para.",
+      "en": "You said, 'The expansion tank is twelve years old,' and nothing else. The landlord paid: 300.",
+      "coach": [
+        {
+          "tr": "Tank on iki yaşında. Tanık olarak yeterli bulundu.",
+          "en": "The tank is twelve. It was accepted as a witness.",
+          "roast": false
+        }
+      ]
+    },
+    "hakem": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 300,
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Yarı yarıya bölüştürdün, ikisi de eşit derecede memnuniyetsiz. 300 Para iki ayrı havaleyle geldi.",
+        "en": "You split it down the middle, and both are equally unhappy. The 300 arrived as two separate transfers.",
+        "coach": [
+          {
+            "tr": "İki havale, tek kombi.",
+            "en": "Two transfers, one boiler.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "eksik_odeme_alacak"
+            ]
+          }
+        },
+        "tr": "İkisi de senin öbürünü tuttuğuna karar verdi. Tamir yapıldı, ödeme 'konuşulacak' oldu.",
+        "en": "Each decided you were on the other one's side. The repair got done. The payment became 'to be discussed.'",
+        "coach": [
+          {
+            "tr": "Hakem maçtan ücretsiz çıktı.",
+            "en": "The referee left the match unpaid.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Çantanı toplayıp çıktın. Akşam aradılar: anlaşmışlar, yarın sabah ilk iş onlar.",
+      "en": "You packed up and left. They called that evening: agreed, and they're your first job tomorrow.",
+      "coach": [
+        {
+          "tr": "Tartışma sensiz daha kısa sürmüş.",
+          "en": "The argument ran shorter without you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hakem",
+    "slip": {
+      "tr": "İDDİA: Hakem iki tarafı da kaybeder. — M.",
+      "en": "WAGER: The referee loses both sides. — M."
+    }
+  },
+  "intent": {
+    "setup": "kiracı ile telefondaki ev sahibi tamir parasını kimin ödeyeceğini ustaya soruyor",
+    "mechanism": "usta bilirkişi yapılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "kim bozdu",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tank"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

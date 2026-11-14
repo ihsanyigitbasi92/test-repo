@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evcil_pamuk_merdiven_kacisi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "kedi",
+    "komsu",
+    "apartman",
+    "evcil_pamuk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "evcil_pamuk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "cat": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Kedin dördüncü katta, benim paspasta oturuyor. Kapıyı açarsam içeri girecek gibi.",
+      "en": "Your cat is on the fourth floor, sitting on my doormat. If I open the door, she's coming in."
+    }
+  ],
+  "choices": [
+    {
+      "id": "yakala",
+      "tr": "Sessizce yaklaş, kucakla",
+      "en": "Creep up and scoop her",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "salla",
+      "tr": "Mama kabını salla",
+      "en": "Shake the food bowl",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ac",
+      "tr": "Komşu kapıyı açsın",
+      "en": "Let the neighbor open up",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "yakala": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            },
+            {
+              "role": "cat",
+              "memory": "merdiven_kacisi"
+            }
+          ]
+        },
+        "tr": "Sessizce çıktın ve Pamuk'u kucağına aldın. Komşu kapıyı aralayıp 'ne tatlıymış' dedi.",
+        "en": "You crept up and scooped her. The neighbor cracked the door and said she was adorable.",
+        "coach": [
+          {
+            "tr": "Yakalandı. Tek seferde.",
+            "en": "Caught. First try.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": 1
+          },
+          "npc": [
+            {
+              "role": "cat",
+              "memory": "merdiven_kacisi"
+            }
+          ]
+        },
+        "tr": "Pamuk bir kat daha çıktı. Onu terlikle, çatı kapısının önünde yakaladın.",
+        "en": "Biscuit went up another floor. You caught her in your slippers, at the door to the roof.",
+        "coach": [
+          {
+            "tr": "Dördüncü kattan çatıya, terlikle.",
+            "en": "Fourth floor to the roof, in slippers.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "salla": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "kapi_kontrolu"
+          ]
+        }
+      },
+      "tr": "Mama kabını salladın. Önce alt kattaki komşunun kedisi geldi, yirmi dakika sonra Pamuk.",
+      "en": "You shook the bowl. First the downstairs neighbor's cat showed up. Twenty minutes later, Biscuit.",
+      "coach": [
+        {
+          "tr": "Çağrı iki kediye ulaştı.",
+          "en": "The call reached two cats.",
+          "roast": false
+        }
+      ]
+    },
+    "ac": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Komşu kapıyı açtı. Pamuk içeri daldı, koltuğun altına girdi; çıkarmak bir çay ve kırk dakika sürdü.",
+      "en": "The neighbor opened up. Biscuit shot inside and under the armchair. Getting her out took a cup of tea and forty minutes.",
+      "coach": [
+        {
+          "tr": "Bir kaçış, bir komşu ziyareti.",
+          "en": "One escape, one social call.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yakala",
+    "slip": {
+      "tr": "İDDİA: Pamuk bir kat daha çıkar. — M.",
+      "en": "WAGER: Biscuit goes up one more floor. — M."
+    }
+  },
+  "intent": {
+    "setup": "kapı açık kalınca Pamuk'un merdiven boşluğundan üst kata kaçıp komşunun paspasına oturması",
+    "mechanism": "her yakalama denemesi bir kat yukarı",
+    "mechanismId": "escalation",
+    "punch": "önce alt kattaki kedi geldi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "terlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

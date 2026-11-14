@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_gece_yarisi_kek_01",
+  "tags": [
+    "gundelik",
+    "partner",
+    "cocuk",
+    "okul",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Çocuk yarın okula kek götürecekmiş. Saat on bir buçukta hatırladı.",
+      "en": "Turns out the kid needs a cake for school tomorrow. Remembered at eleven-thirty."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Un yok. Yumurta bir tane. Komşunun ışığı yanıyor.",
+      "en": "No flour. One egg. The neighbor's light is on.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "komsu",
+      "tr": "Komşudan un iste",
+      "en": "Ask the neighbor for flour",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "firin",
+      "tr": "Sabah fırından kek al",
+      "en": "Buy one at the bakery in the morning",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "biskuvi",
+      "tr": "Bisküvili pasta yap",
+      "en": "Make a no-bake biscuit cake",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "komsu": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "health": -1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ym_gece_keki"
+            ]
+          }
+        },
+        "tr": "Komşu sabahlıkla açtı, un ve iki yumurta verdi. Kek gece birde fırından çıktı, okulda ilk o bitti.",
+        "en": "The neighbor answered in a robe and handed over flour and two eggs. The cake came out at 1 a.m. and sold out first at school.",
+        "coach": [
+          {
+            "tr": "Gece birde fırın, sabah dokuzda ilk tükenen.",
+            "en": "Out of the oven at one, first to sell out by nine.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Zili çaldığın anda komşunun ışığı söndü. Sabah çocuk okula fırından alınmış bir kekle gitti.",
+        "en": "The neighbor's light went off the moment you rang. In the morning the kid went to school with a bakery cake.",
+        "coach": [
+          {
+            "tr": "Işık yanıyordu. Zil çalınca fikir değiştirdi.",
+            "en": "The light was on. The doorbell changed its mind.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "firin": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Sabah yedide fırındaydın. Okulda kimse kutuyu sorgulamadı; etiketi sen sökmüştün.",
+      "en": "You were at the bakery by seven. Nobody at school questioned the box. You'd peeled off the label yourself.",
+      "coach": [
+        {
+          "tr": "Etiket söküldü. Kek artık ev yapımı.",
+          "en": "Label removed. The cake is now homemade.",
+          "roast": true
+        }
+      ]
+    },
+    "biskuvi": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "ym_gece_keki"
+          ]
+        }
+      },
+      "tr": "Bisküvi ve kakaoyla buzdolabı pastası yaptın. Sabah donmuştu; çocuk kek yerine pasta götürdü.",
+      "en": "You made a no-bake fridge cake from biscuits and cocoa. By morning it had set. The kid brought cake, upgraded.",
+      "coach": [
+        {
+          "tr": "Fırın yok, un yok, sonuç pasta. Kategori yükseldi.",
+          "en": "No oven, no flour, outcome: cake. Category upgraded.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "komsu",
+    "slip": {
+      "tr": "İDDİA: Komşu kapıyı açmaz. — M.",
+      "en": "WAGER: The neighbor won't answer. — M."
+    }
+  },
+  "intent": {
+    "setup": "çocuğun okula götüreceği keki gece on bir buçukta hatırlaması, evde un olmaması",
+    "mechanism": "un yok, yumurta bir, komşunun ışığı yanıyor",
+    "mechanismId": "escalation",
+    "punch": "zil çalınca ışık söndü",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kategori"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

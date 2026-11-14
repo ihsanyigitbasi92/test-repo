@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_ilk_bordro_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Maaşım yatmış. Normalinden biraz fazla. Bir sıfır fazla, yani.",
+      "en": "My salary came in. A bit more than usual. One zero more, actually."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Bordroyu sen hazırladın, değil mi? Finans müdürü şu an tavana bakıyor.",
+      "en": "You ran payroll, right? The finance director is currently staring at the ceiling.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "rica",
+      "tr": "İş arkadaşından iade rica et",
+      "en": "Ask your coworker to send it back",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "itiraf",
+      "tr": "Patrona hemen anlat",
+      "en": "Tell the boss right away",
+      "pattern": "patience"
+    },
+    {
+      "id": "banka",
+      "tr": "Bankadan iade talimatı ver",
+      "en": "Request a bank reversal",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "rica": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "acc_bordro_hatasi"
+            ]
+          }
+        },
+        "tr": "İş arkadaşın fazlayı aynı gün iade etti, bir de 'iki saat zengindim' yazdı. Kayıt düzeltildi.",
+        "en": "Your coworker sent back the extra the same day, with a note: 'I was rich for two hours.' Records corrected.",
+        "coach": [
+          {
+            "tr": "İki saatlik zenginlik, sonra mutabakat.",
+            "en": "Two hours of wealth, then reconciliation.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 6
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -3
+            },
+            {
+              "role": "boss",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "acc_bordro_hatasi"
+            ]
+          }
+        },
+        "tr": "İş arkadaşın fazlanın bir kısmıyla buzdolabı almıştı. İade altı aylık taksitle yapılacak.",
+        "en": "Your coworker had already put part of it toward a refrigerator. The refund comes in six monthly installments.",
+        "coach": [
+          {
+            "tr": "Bu bordro altı ay daha sürecek.",
+            "en": "This payroll run will last six more months.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "itiraf": {
+      "effects": {
+        "meters": {
+          "ego": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_bordro_itiraf"
+          ]
+        }
+      },
+      "tr": "Patron dinledi ve bordroya ikinci bir kontrol adımı ekledi. Kontrolü yapacak kişi sensin.",
+      "en": "The boss listened and added a second check step to payroll. You are the second check.",
+      "coach": [
+        {
+          "tr": "Kalite kontrol ekibine yeni üye: yine sen.",
+          "en": "Quality control has a new member: also you.",
+          "roast": true
+        }
+      ]
+    },
+    "banka": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "money": -50,
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Banka iadeyi işledi; iş arkadaşının hesabı bir gün eksiye düştü ve elektrik faturası geri döndü.",
+      "en": "The bank processed the reversal. Your coworker's account dipped below zero for a day, and their electric bill bounced.",
+      "coach": [
+        {
+          "tr": "Sıfır gitti. Fatura geri geldi.",
+          "en": "The zero left. The bill came back.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rica",
+    "slip": {
+      "tr": "İDDİA: Fazla para çoktan harcandı. — M.",
+      "en": "WAGER: The extra zero's already been spent. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk hazırladığın bordroda bir iş arkadaşına bir sıfır fazla maaş yatıyor",
+    "mechanism": "fazla sıfır şirket içinde büyüyor",
+    "mechanismId": "escalation",
+    "punch": "bir sıfır fazla, yani",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "buzdolabi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

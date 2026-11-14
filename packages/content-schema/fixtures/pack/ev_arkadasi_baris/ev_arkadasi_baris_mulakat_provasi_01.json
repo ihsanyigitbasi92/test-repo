@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_mulakat_provasi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Yarın mülakatım var. Sen İK ol. Sert ol ama kırıcı olma. Ama sert ol.",
+      "en": "I've got an interview tomorrow. You be HR. Tough but not mean. But tough."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "En büyük zayıflığım mükemmeliyetçilik. Sorduğunda gözüm dolacak, provası yapıldı.",
+      "en": "My biggest weakness is perfectionism. When you ask, my eyes will well up. That part's rehearsed.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "sert",
+      "tr": "Gerçekten zor sorular sor",
+      "en": "Ask genuinely hard questions",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "alkis",
+      "tr": "Her cevabı alkışla",
+      "en": "Applaud every answer",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kisa",
+      "tr": "Beş dakika yap, yat",
+      "en": "Do five minutes, go to bed",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "sert": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 5,
+              "memory": "mulakat_hocasi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "baris_ise_girdi"
+            ]
+          }
+        },
+        "tr": "Üç saat prova ettiniz. Ertesi akşam Barış kapıdan 'ALDILAR' diye girdi, elinde sana bir tatlı vardı.",
+        "en": "Three hours of drills. Next evening Jordan burst in yelling 'THEY HIRED ME', holding a pastry for you.",
+        "coach": [
+          {
+            "tr": "Sorular senden, maaş Barış'tan, tatlı ortak.",
+            "en": "Your questions. Jordan's salary. Shared pastry.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "İkinci soruda Barış ağladı, ama provasız olanından. Mülakattan 'enerjiniz çok güzel' cümlesiyle döndü, teklifsiz.",
+        "en": "Jordan cried at question two. Not the rehearsed kind. Came home from the interview with 'great energy' and no offer.",
+        "coach": [
+          {
+            "tr": "Sen gerçek İK'dan sert çıktın. Gerçek İK daha nazikti, sonuç aynı.",
+            "en": "You out-toughed real HR. Real HR was nicer. Same result.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "alkis": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "baris_ikinci_gorusme"
+          ]
+        }
+      },
+      "tr": "Her cevabı alkışladın. Barış mülakata alkış bekleyerek girdi; alkış gelmedi ama ikinci görüşme daveti geldi.",
+      "en": "You clapped for everything. Jordan walked into the interview expecting applause. None came. A second-round invite did.",
+      "coach": [
+        {
+          "tr": "Alkış oraya taşınmadı. Bir tur yine de geçildi.",
+          "en": "The applause didn't travel. A round got cleared anyway.",
+          "roast": false
+        }
+      ]
+    },
+    "kisa": {
+      "effects": {
+        "stats": {
+          "health": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Beş dakikada iki soru sorup yattın. Barış aynaya karşı prova etti; ayna da kimseyi işe almadı.",
+      "en": "You asked two questions in five minutes and went to bed. Jordan rehearsed with the mirror. The mirror isn't hiring either.",
+      "coach": [
+        {
+          "tr": "Sekiz saat uyku, iki soru. Ayna fazla mesai yaptı.",
+          "en": "Eight hours of sleep, two questions. The mirror pulled overtime.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sert",
+    "slip": {
+      "tr": "İDDİA: Zor sorular gözyaşıyla biter. — M.",
+      "en": "WAGER: Hard questions end in tears. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış mülakat provası için seni İK rolüne sokuyor",
+    "mechanism": "provası yapılmış gözyaşı; sert ama kırıcı olmayan çelişki",
+    "mechanismId": "bathos",
+    "punch": "gözüm dolacak, provası yapıldı",
+    "target": "npc",
+    "closer": "tatli",
+    "lift": "yok",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ayrilik_iadesiz_tatil_01",
+  "tags": [
+    "iliski",
+    "ayrilik_sonrasi",
+    "ayrilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 2000,
+    "tags": {
+      "ayrilik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "ayrildi"
+      ],
+      "none": [
+        "tek_kisilik_tatil",
+        "tatil_iadesi",
+        "tatil_devredildi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "ex",
+      "avatar": "neutral",
+      "tr": "Otel rezervasyonu senin kartında. Ben gelmiyorum, haliyle. İadesi var mı, bir bak.",
+      "en": "The hotel's on your card. I'm obviously not coming. See if it's refundable."
+    },
+    {
+      "speaker": "ex",
+      "avatar": "tired",
+      "tr": "İadesizse sen git. Ciddiyim, deniz güzel orada.",
+      "en": "If it isn't, just go. Seriously. The sea's nice there.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Tek başına git",
+      "en": "Go solo",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "iade",
+      "tr": "İade için ara",
+      "en": "Call and ask for a refund",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "devret",
+      "tr": "Bir arkadaşa devret",
+      "en": "Sell it to a friend",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 7
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "tek_kisilik_tatil"
+          ]
+        }
+      },
+      "tr": "Beş gece tek başına kaldın. Otel her sabah iki kişilik masa kurdu, ikinci sandalyeye çantanı koydun.",
+      "en": "Five nights alone. Every morning the hotel set a table for two. Your bag took the second chair.",
+      "coach": [
+        {
+          "tr": "Çanta iyi yol arkadaşı. Az konuşuyor.",
+          "en": "The bag made a fine travel companion. Didn't talk much.",
+          "roast": false
+        }
+      ]
+    },
+    "iade": [
+      {
+        "p": 3500,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "money": 1800,
+          "flags": {
+            "add": [
+              "tatil_iadesi"
+            ]
+          }
+        },
+        "tr": "Üçüncü temsilcide iade onaylandı. 1.800 Para kartına geri yattı.",
+        "en": "The third agent approved it. 1,800 back on your card.",
+        "coach": [
+          {
+            "tr": "Üçüncü temsilci. İade oradaymış.",
+            "en": "Agent number three. That's where the refund lived.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "tatil_iadesiz"
+            ]
+          }
+        },
+        "tr": "İade yok. Temsilci ücretli tarih değişikliği önerdi, sen kapattın.",
+        "en": "No refund. The agent offered a paid date change. You hung up.",
+        "coach": [
+          {
+            "tr": "Kırk dakika bekleme müziği, sıfır iade. Müzik fena değildi.",
+            "en": "Forty minutes of hold music, zero refund. The music was decent.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "devret": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": 900,
+        "flags": {
+          "add": [
+            "tatil_devredildi"
+          ]
+        }
+      },
+      "tr": "Rezervasyonu bir arkadaşına yarı fiyatına devrettin. Arkadaşın ilk sabah denizden fotoğraf attı.",
+      "en": "You sold the booking to a friend at half price. On day one, the friend sent a photo of the sea.",
+      "coach": [
+        {
+          "tr": "Denizi fotoğraftan gördün. Yarı fiyatına.",
+          "en": "You saw the sea in a photo. At half price.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iade",
+    "slip": {
+      "tr": "İDDİA: Temsilci iade demez. — M.",
+      "en": "WAGER: Nobody's refunding that. — M."
+    }
+  },
+  "intent": {
+    "setup": "ayrılıktan önce alınmış iadesiz çift kişilik tatil rezervasyonu",
+    "mechanism": "otel ikinci sandalyeyi kurmaya devam ediyor",
+    "mechanismId": "reversal",
+    "punch": "ikinci sandalyeye çantan",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "canta"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

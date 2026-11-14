@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_ders_kaydi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "kayit",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 22
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sistem yoğunluk nedeniyle yavaş. Lütfen sayfayı yenilemeyin.",
+      "en": "The system is slow due to high demand. Please do not refresh the page."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Yenilemezseniz oturumunuz düşer. İki durum da sizin tercihinizdir.",
+      "en": "If you don't refresh, your session expires. Either way, that's your choice.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "toprak",
+      "tr": "Kalan dersi al",
+      "en": "Take what’s left",
+      "pattern": "patience"
+    },
+    {
+      "id": "yenile",
+      "tr": "Yine de yenile",
+      "en": "Refresh anyway",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gise",
+      "tr": "Öğrenci işlerine git",
+      "en": "Go to the registrar",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "toprak": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "sabah_dersi"
+          ]
+        }
+      },
+      "tr": "Kalan tek seçmeli: Toprak Bilimine Giriş, Pazartesi 08.00. Kaydın tamamlandı.",
+      "en": "Only elective left: Intro to Soil, Mondays at 8 a.m. You are registered.",
+      "coach": [
+        {
+          "tr": "On dört pazartesi, sabah sekiz. Toprak acele etmez.",
+          "en": "Fourteen Mondays at eight. Soil is never in a hurry.",
+          "roast": false
+        }
+      ]
+    },
+    "yenile": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "secmeli_foto"
+            ]
+          }
+        },
+        "tr": "Yeniledin. Sayfa açıldı; fotoğrafçılıktaki son kontenjan senin.",
+        "en": "You refreshed. The page loaded. Last seat in Photography: yours.",
+        "coach": [
+          {
+            "tr": "Kural çiğnendi, ders alındı. Kalan kontenjan: sıfır.",
+            "en": "Rule broken, seat secured. Seats remaining: zero.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "sabah_dersi"
+            ]
+          }
+        },
+        "tr": "Yeniledin. Oturum düştü; sistem seni otomatik olarak Toprak Bilimine yazdı.",
+        "en": "You refreshed. Session expired. The system auto-enrolled you in Intro to Soil.",
+        "coach": [
+          {
+            "tr": "Tek tıkla bir dönem toprak. Üstelik sabah sekizde.",
+            "en": "One click, one semester of soil. At 8 a.m., no less.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gise": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yedek_liste_foto"
+          ]
+        }
+      },
+      "tr": "Gişede form doldurdun. Fotoğrafçılık yedek listesinde üçüncüsün.",
+      "en": "You filled out a form at the window. You are third on the Photography waitlist.",
+      "coach": [
+        {
+          "tr": "Yedek liste üç kişilik. Üçüncü sensin. Kimse ders bırakmazsa dönem böyle geçer.",
+          "en": "Waitlist: three names. Yours is third. If nobody drops, that is the semester.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yenile",
+    "slip": {
+      "tr": "İDDİA: Yenile tuşu seni toprağa gömer. — M.",
+      "en": "WAGER: That refresh button buries you in soil. — M."
+    }
+  },
+  "intent": {
+    "setup": "ders kayıt sisteminde seçmeli kapışması",
+    "mechanism": "görevli iki zıt uyarıyı aynı anda veriyor",
+    "mechanismId": "reversal",
+    "punch": "iki durum da sizin tercihiniz",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kontenjan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

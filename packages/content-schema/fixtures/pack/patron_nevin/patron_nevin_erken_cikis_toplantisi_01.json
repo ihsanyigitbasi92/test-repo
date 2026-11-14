@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_erken_cikis_toplantisi_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Tabii ki, annenin randevusu önemli. Saat üçte çık, hiç sorun değil.",
+      "en": "Of course, your mom's appointment matters. Leave at three. No problem at all."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "typing",
+      "tr": "Bu arada 15.30'a küçük bir toplantı koydum. Telefondan katılırsın, değil mi?",
+      "en": "By the way, I put a quick meeting at 3:30. You can dial in from your phone, right?",
+      "delayMs": 1200
+    }
+  ],
+  "choices": [
+    {
+      "id": "telefon",
+      "tr": "Bekleme salonundan katıl",
+      "en": "Dial in from the waiting room",
+      "pattern": "overwork"
+    },
+    {
+      "id": "kapali",
+      "tr": "'Telefonum kapalı olacak' de",
+      "en": "Say your phone will be off",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "devret",
+      "tr": "Toplantıyı iş arkadaşına devret",
+      "en": "Send a coworker in your place",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "telefon": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Bekleme salonundan bağlandın. Annenin adı okunduğunda sen 'bir saniye, sessize alıyorum' diyordun.",
+      "en": "You dialed in from the waiting room. When your mom's name was called, you were saying, 'One sec, going on mute.'",
+      "coach": [
+        {
+          "tr": "Toplantı sürdü, randevu da. İkisinde de yarımdın.",
+          "en": "The meeting ran on. So did the appointment. You were half-present at both.",
+          "roast": false
+        }
+      ]
+    },
+    "kapali": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1,
+            "memory": "telefon_kapali"
+          }
+        ]
+      },
+      "tr": "Telefonun kapalı olacağını söyledin. Nevin Hanım 'tabii, tabii' dedi ve toplantıyı ertesi sabah 08.00'e aldı.",
+      "en": "You said your phone would be off. Ms. Carver said, 'Of course, of course,' and moved the meeting to 8 a.m.",
+      "coach": [
+        {
+          "tr": "Toplantı iptal olmadı. Sabaha taşındı.",
+          "en": "The meeting didn't cancel. It relocated to 8 a.m.",
+          "roast": true
+        }
+      ]
+    },
+    "devret": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          },
+          {
+            "role": "boss",
+            "memory": "devretti"
+          }
+        ]
+      },
+      "tr": "Yan masadakini gönderdin. Ertesi günkü özet tek satırdı: 'Konuşuldu, sende.'",
+      "en": "You sent your desk neighbor. The next day's summary was one line: 'Discussed. It's yours.'",
+      "coach": [
+        {
+          "tr": "Tek satır özet. Görev eve döndü.",
+          "en": "A one-line summary. The task found its way home.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddiasız gün"
+  },
+  "intent": {
+    "setup": "annenin doktor randevusu için erken çıkış izni ve 15.30 toplantısı",
+    "mechanism": "hiç sorun değil, sonra toplantı",
+    "mechanismId": "reversal",
+    "punch": "telefondan katılırsın, değil mi",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": true,
+    "closer": "sessiz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

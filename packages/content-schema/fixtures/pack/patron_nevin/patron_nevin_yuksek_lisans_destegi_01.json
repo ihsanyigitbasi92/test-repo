@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_yuksek_lisans_destegi_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 55
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "nevin_emekli"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Şirket yüksek lisansın yarısını karşılıyor. Seni önerdim. Akşam dersleri, iki yıl.",
+      "en": "The company covers half of a master's. I put your name in. Evening classes, two years."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Küçük bir not: mezuniyetten sonra iki yıl ayrılmama taahhüdü var. Standart.",
+      "en": "One small note: you commit to staying two years after graduating. Standard.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kaydol",
+      "tr": "Kabul et, kaydol",
+      "en": "Accept and enroll",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sertifika",
+      "tr": "Sertifika programı iste",
+      "en": "Ask for a certificate instead",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "gec",
+      "tr": "Teşekkür edip geri çevir",
+      "en": "Thank her and pass",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kaydol": {
+      "effects": {
+        "stats": {
+          "brain": 4
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "money": -3000,
+        "flags": {
+          "add": [
+            "yuksek_lisans_taahhudu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Kaydoldun. Kendi payın 3.000 Para; haftada üç akşam ders ve bir 'iki yıl' imzası.",
+      "en": "You enrolled. Your share: 3,000. Three evenings a week, plus a signature that says 'two more years.'",
+      "coach": [
+        {
+          "tr": "Dört yıl: ikisi sınıfta, ikisi imzada.",
+          "en": "Four years: two in class, two in the fine print.",
+          "roast": true
+        },
+        {
+          "tr": "Sayaç: hedefe dört dönem.",
+          "en": "Counter: four terms to the goal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "sertifika": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "sertifika_programi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Altı aylık sertifika programı onaylandı. Taahhüt altı aya, akşam dersleri haftada bire indi.",
+        "en": "A six-month certificate was approved. The commitment shrank to six months, and classes to one evening a week.",
+        "coach": [
+          {
+            "tr": "İki yıl, pazarlıkla altı aya indi.",
+            "en": "Two years, negotiated down to six months.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "İK sertifikanın 'bu dönem bütçede olmadığını' söyledi. Yüksek lisans teklifi masada duruyor.",
+        "en": "HR said certificates 'aren't in this period's budget.' The master's offer is still on the table.",
+        "coach": [
+          {
+            "tr": "Masada tek seçenek kaldı. Büyük olanı.",
+            "en": "One option left on the table. The big one.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gec": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Teşekkür edip geri çevirdin. Kontenjan yan ekipteki genç çalışana geçti; o da seni gayriresmî tez danışmanı olarak yazdı.",
+      "en": "You thanked her and passed. The spot went to a junior on the next team, who listed you as an unofficial thesis advisor.",
+      "coach": [
+        {
+          "tr": "Okula gitmeden danışman oldun.",
+          "en": "You became an advisor without enrolling.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da parti kotası dolu"
+  },
+  "intent": {
+    "setup": "patronun şirket destekli yüksek lisans önerip iki yıllık bağlılık şartı koyması",
+    "mechanism": "yıl hesabı: ikisi derste, ikisi imzada",
+    "mechanismId": "count",
+    "punch": "iki yıl ayrılmama taahhüdü",
+    "lift": "hedefe dört dönem",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "donem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

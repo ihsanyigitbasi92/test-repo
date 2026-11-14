@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_evi_sana_satmak_01",
+  "tags": [
+    "ev",
+    "ev_alma",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Emekli oluyorum, sahile taşınıyorum. Evi yabancıya satmak istemem.",
+      "en": "I'm retiring to the coast. I'd rather not sell to a stranger."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "On beş yıldır buradasın. Musluğu benden iyi tanıyorsun.",
+      "en": "You've been here fifteen years. You know that faucet better than I do.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "al",
+      "tr": "Krediye başvur, al",
+      "en": "Apply for a loan and buy",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dusun",
+      "tr": "Düşünmek için süre iste",
+      "en": "Ask for time to think",
+      "pattern": "patience"
+    },
+    {
+      "id": "gec",
+      "tr": "Teklifi geri çevir",
+      "en": "Turn it down",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "al": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "money": -9000,
+          "flags": {
+            "add": [
+              "kiradaki_evi_aldi"
+            ]
+          },
+          "status": {
+            "home": {
+              "kind": "mortgage",
+              "rent": 2100
+            }
+          },
+          "housing": "mortgage"
+        },
+        "tr": "Peşinat 9.000 Para. Aynı ev, aynı musluk; kira artık banka taksiti.",
+        "en": "Down payment: 9,000. Same flat, same faucet. Rent is now a mortgage payment.",
+        "coach": [
+          {
+            "tr": "Kapı aynı. Tapu başka.",
+            "en": "Same door. Different deed.",
+            "roast": false
+          },
+          {
+            "tr": "Ev hedefi: anahtar zaten cepte.",
+            "en": "Home goal: key already in pocket.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -1500,
+          "flags": {
+            "add": [
+              "ev_satista"
+            ]
+          }
+        },
+        "tr": "Kredi ön onayı peşinatı tutmadı. Ekspertiz 1.500 Para; ev ilana çıktı.",
+        "en": "The loan pre-approval fell short. The appraisal cost 1,500. The flat went on the market.",
+        "coach": [
+          {
+            "tr": "Ekspertiz ödendi. Ev başkasına değerlendi.",
+            "en": "Appraisal paid. Someone else's house now, eventually.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef kumbarası: eksi 1.500.",
+            "en": "Goal jar: minus 1,500.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "dusun": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "satis_teklifi_acik"
+          ]
+        }
+      },
+      "tr": "'Düşüneyim' dedin. Ev sahibi 'yaz sonuna kadar' dedi ve takvimine yazdı.",
+      "en": "You said you'd think. The landlord said 'until end of summer' and wrote it down.",
+      "coach": [
+        {
+          "tr": "Teklif açık. Takvimde bir tarih var.",
+          "en": "The offer's open. There's a date on a calendar.",
+          "roast": false
+        }
+      ]
+    },
+    "gec": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "ev_satista"
+          ]
+        }
+      },
+      "tr": "Teklifi geri çevirdin. Ev cumartesi ilana çıktı.",
+      "en": "You turned it down. The flat was listed on Saturday.",
+      "coach": [
+        {
+          "tr": "Kiracılık sürüyor. Cumartesi gezmeleri başlıyor.",
+          "en": "You're still renting. Saturday viewings begin.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası başka olaylarda"
+  },
+  "intent": {
+    "setup": "emekli olan ev sahibi oturduğun kiralık evi sana satmayı teklif ediyor",
+    "mechanism": "on beş yıllık kiracılığın musluk bilgisine indirgenmesi",
+    "mechanismId": "callback",
+    "punch": "musluğu benden iyi tanıyorsun",
+    "lift": "aktif hedefe bağlı tek satır",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "tapu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

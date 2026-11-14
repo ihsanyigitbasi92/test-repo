@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_sarj_cay_ocagi_01",
+  "tags": [
+    "burokrasi",
+    "telefon",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Randevu kodunu ekranda göreceğim. Kâğıda yazılmış kod geçmiyor.",
+      "en": "I need to see the booking code on your screen. Handwritten codes aren't accepted."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Salonda priz yok. Çay ocağında var ama orası çaycının bölgesi.",
+      "en": "No outlets in the hall. There's one in the tea kitchen, but that's the tea man's territory.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cayci",
+      "tr": "Çaycıdan priz iste",
+      "en": "Ask the tea man for the outlet",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kis",
+      "tr": "Parlaklığı kısıp bekle",
+      "en": "Dim the screen and wait",
+      "pattern": "patience",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "kablo",
+      "tr": "Salondakilerden kablo iste",
+      "en": "Borrow a charger in the hall",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "cayci": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -6,
+        "flags": {
+          "add": [
+            "randevu_islemi_tamam"
+          ]
+        }
+      },
+      "tr": "Çaycı telefonu demliğin yanındaki prize taktı, karşılığında üç çay sattı. Sıran geldiğinde telefon yüzde kırktı, sen üç çay içmiştin.",
+      "en": "The tea man plugged your phone in beside the kettle and sold you three teas for the favor. By your turn the phone was at 40% and you were three teas in.",
+      "coach": [
+        {
+          "tr": "Binanın en işlek gişesi çay ocağıymış.",
+          "en": "The busiest counter in the building sells tea.",
+          "roast": false
+        }
+      ]
+    },
+    "kis": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "randevu_islemi_tamam"
+            ]
+          }
+        },
+        "tr": "Telefon gişeye yüzde birle ulaştı. Görevli kodu okudu, ekran karardı.",
+        "en": "The phone reached the counter at 1%. The clerk read the code. The screen went dark.",
+        "coach": [
+          {
+            "tr": "Yüzde bir yetti.",
+            "en": "One percent was enough.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "randevu_dustu"
+            ]
+          }
+        },
+        "tr": "Telefon, numarana iki kişi kala kapandı. Randevu düştü; yenisi dokuz gün sonra.",
+        "en": "The phone died two numbers before yours. The booking lapsed. The next slot is in nine days.",
+        "coach": [
+          {
+            "tr": "Dokuz gün var. Şarj için yeterli.",
+            "en": "Nine days. Plenty of time to charge.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kablo": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "charm": 1
+        },
+        "money": -4,
+        "flags": {
+          "add": [
+            "randevu_islemi_tamam"
+          ]
+        }
+      },
+      "tr": "Salonda dört kişi kablo değiştirdi, hiçbiri seninkine uymadı. Sonunda çay ocağına gittin; iki çay içtin.",
+      "en": "Four people in the hall swapped chargers and none fit yours. You ended up in the tea kitchen anyway, two teas down.",
+      "coach": [
+        {
+          "tr": "Dört kablo denendi. Çay herkese uydu.",
+          "en": "Four cables tried. The tea fit everyone.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "resmî dairede randevu kodu telefondayken pilin bitmek üzere olması ve tek boş prizin çay ocağında çıkması",
+    "mechanism": "binanın asıl hizmet noktası çay ocağı çıkıyor",
+    "mechanismId": "reversal",
+    "punch": "telefon yüzde kırk, sen üç çay",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "demlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_ekip_bolunmesi_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Ekibi ikiye bölüyoruz: 'Strateji' ve 'Operasyon'. Sen hangisini istersen. İkisi de çok önemli.",
+      "en": "We're splitting the team in two: 'Strategy' and 'Operations.' Your pick. Both are very important."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Strateji üst kata çıkıyor. Operasyon işin tamamını alıyor.",
+      "en": "Strategy moves upstairs. Operations gets all of the work."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bir de 'Koordinasyon' var, ikisinin arasında. Henüz kimse seçmedi, masası koridorda.",
+      "en": "There's also 'Coordination,' in between. Nobody's picked it yet. The desk is in the hallway.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "strateji",
+      "tr": "Strateji'yi seç",
+      "en": "Pick Strategy",
+      "pattern": "pride"
+    },
+    {
+      "id": "operasyon",
+      "tr": "Operasyon'u seç",
+      "en": "Pick Operations",
+      "pattern": "overwork"
+    },
+    {
+      "id": "koordinasyon",
+      "tr": "Koordinasyon'u seç",
+      "en": "Pick Coordination",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "strateji": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "ekip_strateji"
+          ]
+        }
+      },
+      "tr": "Strateji'ye geçtin. İlk ay üç sunum hazırladın; üçü de Operasyon'a 'bilgi için' gönderildi.",
+      "en": "You joined Strategy. In month one you produced three decks. All three were sent to Operations 'for information.'",
+      "coach": [
+        {
+          "tr": "Üç sunum bir kat aşağı indi.",
+          "en": "Three decks traveled one floor down.",
+          "roast": false
+        }
+      ]
+    },
+    "operasyon": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ekip_operasyon"
+          ]
+        }
+      },
+      "tr": "Operasyon'a geçtin. İş listesi aynı kaldı; yalnızca üst kattan gelen sunumlar eklendi.",
+      "en": "You joined Operations. The workload stayed the same, plus the decks arriving from upstairs.",
+      "coach": [
+        {
+          "tr": "Aynı iş, yeni tabela.",
+          "en": "Same work, new sign.",
+          "roast": false
+        }
+      ]
+    },
+    "koordinasyon": [
+      {
+        "p": 4000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "ekip_koordinasyon"
+            ]
+          }
+        },
+        "tr": "Koordinasyon'u seçtin. İki ekip de her şeyi sana sormaya başladı; üç ay sonra unvanına 'müdür' eklendi.",
+        "en": "You picked Coordination. Both teams started routing everything through you. Three months later 'manager' was added to your title.",
+        "coach": [
+          {
+            "tr": "Koridordaki masa bir kademe yukarıdaymış.",
+            "en": "The hallway desk turned out to be one rung up.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ekip_koordinasyon"
+            ]
+          }
+        },
+        "tr": "Koordinasyon'u seçtin. İki ekip de seni bilgiye ekledi: günde yüz otuz e-posta, sıfır karar.",
+        "en": "You picked Coordination. Both teams copied you on everything: one hundred thirty emails a day, zero decisions.",
+        "coach": [
+          {
+            "tr": "Koridor iki yönden de esiyor.",
+            "en": "The hallway gets a draft from both directions.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti iddia kotası"
+  },
+  "intent": {
+    "setup": "ekip strateji ve operasyon diye ikiye bölünüyor, taraf seçmek gerek",
+    "mechanism": "iki seçenek üçe çıkıyor, üçüncünün masası koridorda",
+    "mechanismId": "escalation",
+    "punch": "masası koridorda",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koridor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

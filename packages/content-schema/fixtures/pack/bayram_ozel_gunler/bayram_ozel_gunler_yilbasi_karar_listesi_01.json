@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bayram_ozel_gunler_yilbasi_karar_listesi_01",
+  "tags": [
+    "mevsim",
+    "kardes",
+    "yilbasi",
+    "liste",
+    "bayram_ozel_gunler"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "bayram_ozel_gunler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Geçen yılın listesini buldum. Birinci madde: \"Bu yıl listeyi kaybetme.\"",
+      "en": "Found last year's list. Item one: \"Don't lose this list.\""
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Kalan altı madde bu yılkiyle aynı. El yazın bile aynı.",
+      "en": "The other six match this year's. Even the handwriting matches.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "basla",
+      "tr": "İkinci maddeye bugün başla",
+      "en": "Start item two today",
+      "pattern": "selfCare",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "ayni",
+      "tr": "Eski listeyi yeniden kullan",
+      "en": "Reuse last year's list",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yirt",
+      "tr": "Listeyi yırt, madde yazma",
+      "en": "Tear it up, no list",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "basla": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "yil_karari_basladi"
+            ]
+          }
+        },
+        "tr": "Madde iki: \"spora başla.\" Otuz dakika yürüdün, listeye ilk kez bir tik atıldı.",
+        "en": "Item two: \"start exercising.\" You walked for thirty minutes, and the list got its first-ever check mark.",
+        "coach": [
+          {
+            "tr": "Liste iki yaşında. İlk tikini bugün gördü.",
+            "en": "The list is two years old. Today it saw its first check mark.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "money": -350,
+          "flags": {
+            "add": [
+              "kosu_ayakkabisi_siparisi"
+            ]
+          }
+        },
+        "tr": "Yürüyüşe çıkmadan önce ayakkabı baktın. Akşam oldu, sepette bir çift koşu ayakkabısı vardı.",
+        "en": "Before the walk, you looked at shoes. By evening there was a pair of running shoes in your cart.",
+        "coach": [
+          {
+            "tr": "Adım atılmadı. Ayakkabı yolda.",
+            "en": "No steps taken. The shoes are in transit.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ayni": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "liste_devretti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Eski listenin tarihini çizip yenisini yazdın. Kardeşin altına şahit olarak imza attı.",
+      "en": "You crossed out the old date and wrote in the new one. Your sibling signed underneath as a witness.",
+      "coach": [
+        {
+          "tr": "Yedi madde devretti. Kayıp yok.",
+          "en": "Seven items carried over. No losses.",
+          "roast": false
+        }
+      ]
+    },
+    "yirt": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Listeyi yırttın. Kardeşin parçaları topladı, \"seneye lazım olur\" diye çekmeceye koydu.",
+      "en": "You tore it up. Your sibling collected the pieces and put them in the drawer \"for next year.\"",
+      "coach": [
+        {
+          "tr": "Liste yok. Çekmecede yedeği var.",
+          "en": "No list. There's a backup in the drawer.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "basla",
+    "slip": {
+      "tr": "İDDİA: Yürüyüş bugün başlamaz. — M.",
+      "en": "WAGER: The walk doesn't start today. — M."
+    }
+  },
+  "intent": {
+    "setup": "yılbaşı kararları yazılırken geçen yılın aynı maddeli listesinin çekmeceden çıkması",
+    "mechanism": "geçen yılın listesi bu yılın listesini önceden yazmış",
+    "mechanismId": "callback",
+    "punch": "birinci madde: bu yıl listeyi kaybetme",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR bayram/yılbaşı/özel gün ↔ EN holidays/New Year/special occasions. Dini tören ya da terim yok."
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_yatirim_fonu_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "dayOfMonth": {
+      "min": 25
+    },
+    "money": {
+      "max": 400
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Dönem sonunda hesabınızda atıl para görüyoruz. Size uygun bir fonumuz var.",
+      "en": "We see idle funds in your account at period-end. We have a fund that suits you."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Asgari giriş 5.000 Para. Hesabınızdaki 120 Para için ayrıca kumbara uygulamamız var.",
+      "en": "Minimum entry is 5,000. For the 120 in your account, we also have a piggy bank app."
+    }
+  ],
+  "choices": [
+    {
+      "id": "dinle",
+      "tr": "Sunumu sonuna kadar dinle",
+      "en": "Hear the whole pitch",
+      "pattern": "patience"
+    },
+    {
+      "id": "masraf",
+      "tr": "Masrafları sor",
+      "en": "Ask about the fees",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kumbara",
+      "tr": "Kumbara uygulamasını aç",
+      "en": "Open the piggy bank app",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "dinle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "butce_fon_brosuru"
+          ]
+        }
+      },
+      "tr": "Sunum 25 dakika sürdü. Elinde üç sayfalık bir broşür ve bir kalem var.",
+      "en": "The pitch ran twenty-five minutes. You walked out with a three-page brochure and a pen.",
+      "coach": [
+        {
+          "tr": "Sertifikasız görüş: kalem iyi kalem.",
+          "en": "Uncertified opinion: it's a good pen.",
+          "roast": false
+        }
+      ]
+    },
+    "masraf": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "butce_masraf_sorusu"
+            ]
+          }
+        },
+        "tr": "Yönetim ücretini sordun. Bankacı 'sizin tutarınızda anlamlı olmaz' dedi, görüşme üç dakikada bitti.",
+        "en": "You asked about the management fee. The banker said 'at your balance, it wouldn't make sense,' and it was over in three minutes.",
+        "coach": [
+          {
+            "tr": "Tek soru, üç dakika.",
+            "en": "One question, three minutes.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "butce_fon_brosuru"
+            ]
+          }
+        },
+        "tr": "Masrafları sordun, cevap bir tablo oldu. Tablonun dipnotu ayrıca anlatıldı.",
+        "en": "You asked about fees, and the answer was a table. The table's footnote got its own presentation.",
+        "coach": [
+          {
+            "tr": "Dipnot ana metinden uzundu.",
+            "en": "The footnote outran the document.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kumbara": {
+      "effects": {
+        "money": -20,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "butce_kumbara_uygulamasi"
+          ]
+        }
+      },
+      "tr": "Uygulamada 'tatil' adlı bir hedef kurup 20 Para yatırdın. Uygulama hedefe 249 hafta kaldığını hesapladı.",
+      "en": "You set up a 'vacation' goal and deposited twenty. The app calculated 249 weeks to go.",
+      "coach": [
+        {
+          "tr": "Tatil takvime girdi. Beş yıl sonrasına.",
+          "en": "Vacation booked. Five years out.",
+          "roast": false
+        },
+        {
+          "tr": "Tatil sayacı: 249 hafta.",
+          "en": "Vacation counter: 249 weeks.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "masraf",
+    "slip": {
+      "tr": "İDDİA: Masraf sorusu tabloya döner. — M.",
+      "en": "WAGER: Ask about fees, get a spreadsheet. — M."
+    }
+  },
+  "intent": {
+    "setup": "hesapta 120 Para varken bankacının asgari 5.000 Paralık yatırım fonu önermesi",
+    "mechanism": "atıl para 120; çözüm kumbara uygulaması",
+    "mechanismId": "bathos",
+    "punch": "120 Para için kumbara uygulaması",
+    "lift": "hedef aktifse sayaç satırı",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "dipnot"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

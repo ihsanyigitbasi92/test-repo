@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_borc_taksidi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "para",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Sekiz yıl önceki borç. Ayda 75 Para göndereceğim. Açıklamaya not yazarım.",
+      "en": "That loan from eight years ago. I'll send seventy-five a month. With a memo."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Bu ayın notu: \"Mont için. Hâlâ giyiyorum.\"",
+      "en": "This month's memo: 'For the coat. Still wearing it.'",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Taksitleri kabul et",
+      "en": "Accept the installments",
+      "pattern": "patience"
+    },
+    {
+      "id": "sil",
+      "tr": "Borcu sil",
+      "en": "Forgive the loan",
+      "pattern": "generosity"
+    },
+    {
+      "id": "toplu",
+      "tr": "Hepsini birden iste",
+      "en": "Ask for it all at once",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": 75,
+        "flags": {
+          "add": [
+            "kardes_borc_taksitte"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "İlk 75 Para geldi. Açıklama: \"Taksit 1/24. Mont iyi durumda.\"",
+      "en": "The first seventy-five arrived. Memo: 'Installment 1 of 24. Coat holding up.'",
+      "coach": [
+        {
+          "tr": "Sayaç: yirmi üç taksit kaldı.",
+          "en": "Counter: twenty-three to go.",
+          "roast": false
+        }
+      ]
+    },
+    "sil": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "kardes_borc_silindi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 5
+          }
+        ]
+      },
+      "tr": "Borcu sildin. Kardeşin yine de her ay bir not gönderiyor, parasız.",
+      "en": "You forgave it. Your sibling still sends a memo every month. No money attached.",
+      "coach": [
+        {
+          "tr": "Para durdu. Notlar sürüyor.",
+          "en": "The money stopped. The memos didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "toplu": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": 1800,
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Kardeşin 1.800 Para'yı bir kerede gönderdi. Açıklama satırı boştu.",
+        "en": "Your sibling sent all 1,800 in one go. The memo line was blank.",
+        "coach": [
+          {
+            "tr": "Hesap kapandı. Mektup arkadaşlığı da.",
+            "en": "Account closed. So was the pen-pal thing.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "money": 75,
+          "flags": {
+            "add": [
+              "kardes_borc_taksitte"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kardeşin toplu ödemeyi değerlendirdi, taksitte kaldı. Bu ayın notu: \"Talebin alındı.\"",
+        "en": "Your sibling weighed a lump sum and stuck with installments. This month's memo: 'Request received.'",
+        "coach": [
+          {
+            "tr": "Talep alındı. İşleme konmadı.",
+            "en": "Request received. Not processed.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia payı başka olaylarda"
+  },
+  "intent": {
+    "setup": "kardeşin yıllar önceki borcunu aylık küçük taksitlerle ve notlarla ödemeye başlaması",
+    "mechanism": "her taksit bir açıklama notuyla geliyor",
+    "mechanismId": "callback",
+    "punch": "Mont için, hâlâ giyiyorum",
+    "lift": "sayaç: yirmi üç taksit",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "taksit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

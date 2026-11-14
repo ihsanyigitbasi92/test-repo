@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_komsu_ihbari_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Dün gece dört kişi çıkmış senden. Evi pansiyon mu yaptın?",
+      "en": "Four people left your place last night, I hear. Running a hostel now?"
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Ben söylemedim canım. Sadece saydım.",
+      "en": "I didn't tell anyone, dear. I only counted.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "acikla",
+      "tr": "Doğum günüydü de",
+      "en": "Explain it was a birthday",
+      "pattern": "patience"
+    },
+    {
+      "id": "davet",
+      "tr": "Komşuyu bir dahakine davet et",
+      "en": "Invite the neighbor next time",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sozlesme",
+      "tr": "Sözleşmeyi göster",
+      "en": "Point to the lease",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "acikla": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "misafir_aciklandi"
+          ]
+        }
+      },
+      "tr": "Doğum günü olduğunu anlattın. Ev sahibi 'bir dahakine bana da söyle' dedi.",
+      "en": "You explained it was a birthday. The landlord said, 'Next time, let me know.'",
+      "coach": [
+        {
+          "tr": "Davet mi denetim mi, henüz belli değil.",
+          "en": "Invitation or inspection: unclear.",
+          "roast": false
+        }
+      ]
+    },
+    "davet": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "sukran_partide"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Bir sonraki akşama Şükran Teyze'yi de çağırdın. Sayım artık masadan yapılıyor.",
+      "en": "You invited Mrs. Dale to the next one. The headcount now happens from the table.",
+      "coach": [
+        {
+          "tr": "Sayan kişi artık misafir.",
+          "en": "The counter is now a guest.",
+          "roast": true
+        }
+      ]
+    },
+    "sozlesme": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "glossary": "misafir_maddesi"
+        },
+        "tr": "Sözleşmede misafir maddesi yok. Ev sahibi 'ben sadece sordum' dedi.",
+        "en": "The lease says nothing about guests. The landlord said, 'I was only asking.'",
+        "coach": [
+          {
+            "tr": "Madde yok. Soru geri çekildi.",
+            "en": "No clause. Question withdrawn.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_sahibi_listesinde"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Son sayfada 'geceleme misafiri bildirilir' maddesi çıktı. Artık bildiriyorsun.",
+        "en": "The last page had it: 'overnight guests must be reported.' You report them now.",
+        "coach": [
+          {
+            "tr": "Son sayfa okundu. Geç ama okundu.",
+            "en": "The last page has been read. Late, but read.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası başka olaylarda"
+  },
+  "intent": {
+    "setup": "komşu gece kaç misafirin çıktığını sayıp ev sahibine iletmiş",
+    "mechanism": "\"söylemedim, sadece saydım\" ayrımı",
+    "mechanismId": "count",
+    "punch": "ben söylemedim, sadece saydım",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sayım"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

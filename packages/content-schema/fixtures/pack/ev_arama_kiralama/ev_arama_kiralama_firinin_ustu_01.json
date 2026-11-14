@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_firinin_ustu_01",
+  "tags": [
+    "ev",
+    "ev",
+    "ev_gezisi",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 38
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Gece de gelip bakmak istediniz, peki. Sokak sessiz, görüyorsunuz.",
+      "en": "You wanted to see it at night. Fine. Quiet street, as you can see."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "tired",
+      "tr": "Alt kat fırın. Dörtte başlıyor ama sesi yok. Sadece kokusu var.",
+      "en": "Downstairs is a bakery. Starts at four, but it's silent. Just the smell.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tut",
+      "tr": "Tut, kokuya razı ol",
+      "en": "Take it, live with the smell",
+      "pattern": "risk"
+    },
+    {
+      "id": "indirim",
+      "tr": "Koku indirimi iste",
+      "en": "Ask for a bread discount",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "dusun",
+      "tr": "Bir gece düşün",
+      "en": "Sleep on it",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "tut": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 5
+        },
+        "money": -1500,
+        "flags": {
+          "add": [
+            "firin_ustu"
+          ]
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1500
+          }
+        }
+      },
+      "tr": "Taşındın. Her sabah dörtte sıcak ekmek kokusuyla uyanıyorsun; alarm kurmayı bıraktın.",
+      "en": "You moved in. Every morning at four you wake to fresh bread. You've stopped setting an alarm.",
+      "coach": [
+        {
+          "tr": "Saat dört. Alarm emekliye ayrıldı.",
+          "en": "Four a.m. The alarm has retired.",
+          "roast": false
+        }
+      ]
+    },
+    "indirim": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "money": -1350,
+          "flags": {
+            "add": [
+              "firin_ustu"
+            ]
+          },
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1350
+            }
+          }
+        },
+        "tr": "Ev sahibi kirayı 1.350'ye indirdi. Fırıncı duyunca her cumartesi kapına bir simit bırakmaya başladı.",
+        "en": "The landlord dropped the rent to 1,350. The baker heard and now leaves a sesame ring at your door every Saturday.",
+        "coach": [
+          {
+            "tr": "Kira 150 eksik. Cumartesiler bir simit fazla.",
+            "en": "Rent down a hundred fifty. Saturdays up one pastry.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "money": -1500,
+          "flags": {
+            "add": [
+              "firin_ustu"
+            ]
+          },
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1500
+            }
+          }
+        },
+        "tr": "Ev sahibi \"koku bedava, kira aynı\" dedi. Yine de tuttun.",
+        "en": "The landlord said, 'The smell is free. The rent isn't.' You took it anyway.",
+        "coach": [
+          {
+            "tr": "Pazarlığı kaybettin. Ekmeği kazandın.",
+            "en": "Lost the haggle. Won the bread.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "dusun": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Bir gece düşündün. Sabah dörtte kokuyu hatırlayıp aradın; daire tutulmuştu.",
+      "en": "You slept on it. At four a.m. you remembered the smell and called. Already taken.",
+      "coach": [
+        {
+          "tr": "Bir gece düşündün. Başkası düşünmedi.",
+          "en": "You thought it over for a night. Someone else didn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "gece ev gezisi, alt kat fırın",
+    "mechanism": "gürültü kontrolüne gidip kokuya yakalanmak",
+    "mechanismId": "reversal",
+    "punch": "sesi yok, sadece kokusu var",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "alarm"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_takim_elbise_pazarligi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "alisveris",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "money": {
+      "min": 1900
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda takım elbise bir kere alınırdı, ömür boyu giyilirdi. Fiyatı da konuşulurdu.",
+      "en": "In my day you bought one suit and wore it for life. And you talked the price down."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Sen sus. Satıcıya 'yeğenim işe başlıyor' diyeceğim, gerisini o anlar.",
+      "en": "You stay quiet. I'll tell the clerk this one's starting a job. They'll get the picture."
+    }
+  ],
+  "choices": [
+    {
+      "id": "birak",
+      "tr": "Pazarlığı dayına bırak",
+      "en": "Let your uncle haggle",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "kendin",
+      "tr": "Pazarlığı sen yap",
+      "en": "Haggle yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "etiket",
+      "tr": "Etiket fiyatını öde",
+      "en": "Pay the sticker price",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -1600,
+        "flags": {
+          "add": [
+            "dayi_takim_elbise"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Dayınla satıcı aynı memleketten çıktı. Takım 1.600 Para, kemer hediye.",
+      "en": "Turned out your uncle and the clerk were from the same town. Suit: 1,600. Belt: free.",
+      "coach": [
+        {
+          "tr": "Hemşehri indirimi uygulandı.",
+          "en": "Hometown discount applied.",
+          "roast": false
+        }
+      ]
+    },
+    "kendin": [
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "money": -1400,
+          "flags": {
+            "add": [
+              "takim_pazarligi_kazandi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Fiyatı 1.400'e indirdin. Dayın kasada 'benden öğrendi' dedi.",
+        "en": "You got it down to 1,400. At the register your uncle said, 'Learned it from me.'",
+        "coach": [
+          {
+            "tr": "İki yüz Para indirim. Telif hakkı dayında.",
+            "en": "Two hundred off. Your uncle holds the copyright.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "money": -1900,
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Pazarlığın ortasında satıcı fiyatı \"unuttu\" ve yenisini söyledi: 1.900. Dayın kapıda bekliyordu.",
+        "en": "Mid-haggle the clerk \"forgot\" the price and quoted a new one: 1,900. Your uncle waited by the door.",
+        "coach": [
+          {
+            "tr": "Pazarlık ters yönde işledi. Fark: artı üç yüz.",
+            "en": "The haggle ran in reverse. Net change: plus three hundred.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "etiket": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -1800,
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2,
+            "memory": "etiket_odedi"
+          }
+        ]
+      },
+      "tr": "Etiket fiyatını ödedin. Dayın bir hafta boyunca herkese 'parası bol' diye anlattı.",
+      "en": "You paid sticker price. For a week your uncle told everyone you're 'rolling in it.'",
+      "coach": [
+        {
+          "tr": "Hızlı alışveriş. Yavaş dedikodu.",
+          "en": "Fast purchase. Slow gossip.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kendin",
+    "slip": {
+      "tr": "İDDİA: Fiyat inmez, çıkar. — M.",
+      "en": "WAGER: That price goes up, not down. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayınla ilk takım elbiseyi almaya gitmek, pazarlık",
+    "mechanism": "pazarlık tersine dönüyor",
+    "mechanismId": "escalation",
+    "punch": "'benden öğrendi'",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "telif"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

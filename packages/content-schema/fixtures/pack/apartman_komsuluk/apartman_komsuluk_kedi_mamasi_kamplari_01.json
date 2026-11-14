@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "apartman_komsuluk_kedi_mamasi_kamplari_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "hayvan",
+    "giris",
+    "apartman_komsuluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "apartman_komsuluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 38
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Girişe kedi maması koyan kim? Böcek geliyor. İmza topluyorum, kaldırılsın.",
+      "en": "Who's leaving cat food at the entrance? It brings bugs. I'm collecting signatures to stop it."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Mamayı ben koyuyorum. Ben de karşı imza topluyorum. Sen hangi taraftasın?",
+      "en": "That's my cat food. I'm collecting counter-signatures. Whose side are you on?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "orta",
+      "tr": "Kulübe ve mama saati öner",
+      "en": "Propose a cat house and set hours",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kaldir",
+      "tr": "Kaldırılmasına imza at",
+      "en": "Sign to remove the food",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "destek",
+      "tr": "Mamaya destek imzası at",
+      "en": "Sign in support of the food",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "orta": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "money": -200,
+          "flags": {
+            "add": [
+              "kedi_kulubesi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Bahçeye bir kulübe kondu, mama saati sabah sekiz oldu. İki imza listesi de geri dönüşüme gitti.",
+        "en": "A cat house went up in the garden and feeding time was set at 8 a.m. Both petitions went in the recycling.",
+        "coach": [
+          {
+            "tr": "İki kampa bir kulübe. Kazanan kediler.",
+            "en": "Two camps, one cat house. The cats won.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "iki_kamp_kirgin"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Öneri iki taraftan da ret yedi. Şimdi iki listede de adının yanında soru işareti var.",
+        "en": "Both sides rejected it. Your name now has a question mark beside it on both lists.",
+        "coach": [
+          {
+            "tr": "İki listede adın var. İkisinde de yanlış taraftasın.",
+            "en": "You're on both lists. On the wrong side of each.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kaldir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "mama_kaldirildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -4
+          }
+        ]
+      },
+      "tr": "Mama kaldırıldı. Her sabah giriş kapısında üç kedi oturup seni bekliyor.",
+      "en": "The food was removed. Now three cats wait at the entrance every morning. For you, specifically.",
+      "coach": [
+        {
+          "tr": "Kediler imza listesini okumuş.",
+          "en": "The cats have read the petition.",
+          "roast": true
+        }
+      ]
+    },
+    "destek": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "mama_kampi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Mama yerinde kaldı. İmza toplayan komşu artık asansöre seninle binmiyor.",
+      "en": "The food stays. The petition neighbor no longer rides the elevator with you.",
+      "coach": [
+        {
+          "tr": "Taraf seçtin. Asansör tek kişilik oldu.",
+          "en": "You picked a side. The elevator is now single occupancy.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "orta",
+    "slip": {
+      "tr": "İDDİA: Orta yolu kimse kabul etmez. — M.",
+      "en": "WAGER: Nobody goes for the middle ground. — M."
+    }
+  },
+  "intent": {
+    "setup": "girişteki sokak kedisi maması binayı iki imza kampına bölüyor",
+    "mechanism": "taraf seçme baskısı",
+    "mechanismId": "reversal",
+    "punch": "sen hangi taraftasın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kulube"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

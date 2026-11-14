@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_park_calismasi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "araba",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "worried",
+      "tr": "Sınav perşembe. Bana paralel park öğret. Annemin arabası, çizik olursa sen yaptın.",
+      "en": "Test's Thursday. Teach me parallel parking. It's Mom's car, so any scratch is yours."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Arabayı mı alıyorsunuz? Aynaları kim ayarlayacak? Tamam, ben ayarlarım.",
+      "en": "You're taking the car? Who's doing the mirrors? Fine, I'll do the mirrors.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ogret",
+      "tr": "Sabırla öğret",
+      "en": "Teach them, patiently",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kendin",
+      "tr": "Arabayı sen park et",
+      "en": "Park it yourself",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kurs",
+      "tr": "Kursa gitsin de",
+      "en": "Send them to the school",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ogret": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "kardes_park_dersi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "Dördüncü denemede araba iki çizginin arasına girdi. Kardeşin arabanın fotoğrafını çekti.",
+        "en": "On the fourth try, the car fit between the lines. Your sibling took a picture of it.",
+        "coach": [
+          {
+            "tr": "Dört deneme, sıfır çizik.",
+            "en": "Four tries. Zero scratches.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "momPressure": 3
+          },
+          "money": -250,
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Arka tampon çöp konteynerine dokundu. Annen izi senin adına kaydetti; boyası 250 Para.",
+        "en": "The back bumper kissed a dumpster. Mom logged the mark under your name. Touch-up: 250.",
+        "coach": [
+          {
+            "tr": "Kural baştan konmuştu. Çizik sahibini buldu.",
+            "en": "The rule was set in advance. The scratch found its owner.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kendin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Arabayı sen park ettin, kardeşin izledi. Perşembe günü sınavda izleyecek kimse yoktu.",
+      "en": "You parked it while your sibling watched. On Thursday, there was nobody to watch.",
+      "coach": [
+        {
+          "tr": "Gösteri yapıldı. Sınavda seyirci yok.",
+          "en": "Great demonstration. The test has no audience.",
+          "roast": true
+        }
+      ]
+    },
+    "kurs": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 1
+        },
+        "money": -300,
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kardeşin kursa iki ek ders yazdırdı. Faturayı annene, annen sana gösterdi: 300 Para.",
+      "en": "Your sibling booked two extra lessons. They showed Mom the bill. Mom showed you: 300.",
+      "coach": [
+        {
+          "tr": "Fatura iki el değiştirdi. Sende durdu.",
+          "en": "The bill changed hands twice. It stopped at you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ogret",
+    "slip": {
+      "tr": "İDDİA: O araba o çizgilere girmez. — M.",
+      "en": "WAGER: That car won't fit between those lines. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşin ehliyet sınavı öncesi annenin arabasıyla sana park çalıştırması",
+    "mechanism": "çizik kuralı baştan konuyor, deneme sayısı artıyor",
+    "mechanismId": "escalation",
+    "punch": "çizik olursa sen yaptın",
+    "lift": "dört deneme sıfır çizik",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cizik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

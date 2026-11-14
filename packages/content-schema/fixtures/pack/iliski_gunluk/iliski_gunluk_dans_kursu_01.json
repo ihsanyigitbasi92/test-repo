@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_dans_kursu_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 1000
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "İkimizi de dans kursuna yazdırdım. Perşembe akşamları, sekiz hafta.",
+      "en": "I signed us both up for dance lessons. Thursday evenings, eight weeks."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Hoca sonunda bir gösteri yapacağımızı söyledi. Sahnede.",
+      "en": "The teacher says we perform at the end. On a stage.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Sekiz haftaya katıl",
+      "en": "Commit to all eight weeks",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "deneme",
+      "tr": "Önce bir deneme dersi",
+      "en": "Try a single class first",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "iptal",
+      "tr": "Kaydını iptal ettir",
+      "en": "Cancel your spot",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "git": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -800,
+          "stats": {
+            "joy": 6,
+            "health": 2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 5,
+              "memory": "dans_gosterisi"
+            }
+          ]
+        },
+        "tr": "Sekiz haftanın sekizine de gittin, 800 Para. Gösteride ikinci sıradaydınız, adımlar çoğunlukla tuttu.",
+        "en": "Eight weeks out of eight, 800. At the recital you were in row two, and the steps mostly held.",
+        "coach": [
+          {
+            "tr": "Sekiz perşembe, bir gösteri. Devam tam.",
+            "en": "Eight Thursdays, one recital. Perfect attendance.",
+            "roast": false
+          },
+          {
+            "tr": "Sekiz hafta, hedef sayacına yazıldı.",
+            "en": "Eight weeks, onto the goal counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -800,
+          "stats": {
+            "joy": -1,
+            "health": -1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Dördüncü haftada bileğin burkuldu. Gösteriyi seyircilerin arasından izledin, partnerin hocayla dans etti.",
+        "en": "Week four you twisted an ankle. You watched the recital from the seats while your partner danced with the teacher.",
+        "coach": [
+          {
+            "tr": "Gösteriye yine katıldın. Yeni rolün: seyirci.",
+            "en": "You still made the recital. New role: audience.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "deneme": {
+      "effects": {
+        "money": -800,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "dans_kursu_kayitli"
+          ]
+        }
+      },
+      "tr": "Bir deneme dersine gittin. Hoca seni ön sıraya koydu, kayıt sekiz haftalık oldu.",
+      "en": "You went to one trial class. The teacher put you in the front row. You are now enrolled for eight weeks.",
+      "coach": [
+        {
+          "tr": "Deneme bir ders sürdü. Taahhüt sekiz hafta.",
+          "en": "The trial lasted one class. The commitment lasts eight weeks.",
+          "roast": true
+        }
+      ]
+    },
+    "iptal": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Kaydını iptal ettirdin. Partnerin perşembeleri tek gitti, gösteri videosunu sana üç kez izletti.",
+      "en": "You cancelled your spot. Your partner went alone on Thursdays and has now shown you the recital video three times.",
+      "coach": [
+        {
+          "tr": "Gösteri izlendi. Üç kez.",
+          "en": "Recital viewed. Three times.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "git",
+    "slip": {
+      "tr": "İDDİA: Gösteriyi seyirciden izlersin. — M.",
+      "en": "WAGER: You watch the recital from a seat. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin ikinizi de sekiz haftalık dans kursuna yazdırması",
+    "mechanism": "deneme dersi tam kayda dönüşüyor; rol değişiyor",
+    "mechanismId": "understatement",
+    "punch": "sonunda bir gösteri yapacağız, sahnede",
+    "lift": "sekiz hafta, hedef sayacına yazıldı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gosteri"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

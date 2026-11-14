@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_serbest_calisan_bordro_01",
+  "tags": [
+    "ev",
+    "basvuru",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Bordro getir yeter. Ayda bir maaş, düzenli, saat gibi.",
+      "en": "Just bring a payslip. One salary a month, regular as clockwork."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "worried",
+      "tr": "Serbest mi çalışıyorsun? Yani bazen mi çalışıyorsun?",
+      "en": "Freelance? So you work... sometimes?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dokum",
+      "tr": "Banka dökümünü göster",
+      "en": "Show bank statements",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "pesin",
+      "tr": "Üç ay peşin teklif et",
+      "en": "Offer three months upfront",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "cik",
+      "tr": "Teşekkür et, çık",
+      "en": "Say thanks and leave",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dokum": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -1500,
+          "stats": {
+            "joy": 2
+          },
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1500
+            }
+          },
+          "flags": {
+            "add": [
+              "serbest_kiraci"
+            ]
+          }
+        },
+        "tr": "Altı ayın dökümünü gösterdin. Ev sahibi en yüksek ayı işaretleyip \"hep böyle mi\" dedi ve imzaladı.",
+        "en": "You showed six months of statements. The landlord circled the best month, asked \"always like this?\" and signed.",
+        "coach": [
+          {
+            "tr": "En iyi ay seçildi. Diğer beşi sessiz kaldı.",
+            "en": "They picked your best month. The other five kept quiet.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_aramaya_devam"
+            ]
+          }
+        },
+        "tr": "Dökümde üç ayrı ödeme günü saydı. \"Düzensiz\" deyip bir sonraki adaya geçti.",
+        "en": "They counted three different paydays on the statement, said \"irregular,\" and moved on to the next applicant.",
+        "coach": [
+          {
+            "tr": "Üç maaş günü. Ev sahibinin hesabında sıfır.",
+            "en": "Three paydays. On the landlord's math, zero.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "pesin": {
+      "effects": {
+        "money": -4500,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1500
+          }
+        },
+        "flags": {
+          "add": [
+            "pesin_kira_odedi"
+          ]
+        }
+      },
+      "tr": "Üç ayı peşin ödedin, 4.500 Para. Ev sahibi sonunda düzenli bir kiracı bulduğunu söyledi.",
+      "en": "You paid three months upfront: 4,500. The landlord said they had finally found a reliable tenant.",
+      "coach": [
+        {
+          "tr": "Düzenli göründün. Üç ay boyunca.",
+          "en": "You look reliable. For three months.",
+          "roast": false
+        }
+      ]
+    },
+    "cik": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Çıktın. Merdivende bordrolu bir aday aynı daireye çıkıyordu.",
+      "en": "You left. On the stairs, an applicant with a payslip was on the way up.",
+      "coach": [
+        {
+          "tr": "Merdiven aynı. Kâğıt başka.",
+          "en": "Same stairs. Different paperwork.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dokum",
+    "slip": {
+      "tr": "İDDİA: Döküm bordroyu yenemez. — M.",
+      "en": "WAGER: Statements lose to payslips. — M."
+    }
+  },
+  "intent": {
+    "setup": "serbest çalışanın bordro isteyen ev sahibine gelirini kanıtlaması",
+    "mechanism": "\"serbest\" kelimesi \"bazen\" diye okunuyor",
+    "mechanismId": "literalism",
+    "punch": "yani bazen mi çalışıyorsun",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kagit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

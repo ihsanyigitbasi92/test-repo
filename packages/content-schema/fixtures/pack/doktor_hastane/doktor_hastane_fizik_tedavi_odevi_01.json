@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_fizik_tedavi_odevi_01",
+  "tags": [
+    "saglik",
+    "doktor",
+    "fizik_tedavi",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 650,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Evde egzersizleri yaptınız mı? Günde iki kere demiştim.",
+      "en": "Did you do the home exercises? I said twice a day."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "smug",
+      "tr": "Lastik bandın ambalajı hâlâ üzerinde. Çantanızdan görünüyor.",
+      "en": "The resistance band is still in its wrapper. I can see it in your bag.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "İtiraf et, baştan başla",
+      "en": "Confess and start over",
+      "pattern": "patience"
+    },
+    {
+      "id": "yaptim",
+      "tr": "\"Yaptım\" de",
+      "en": "Say you did them",
+      "pattern": "pride",
+      "check": {
+        "base": 2500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bagla",
+      "tr": "Diş fırçalamaya bağla",
+      "en": "Attach it to toothbrushing",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "health": 4,
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "egzersiz_duzeni"
+          ]
+        }
+      },
+      "tr": "İtiraf ettin. Fizyoterapist ambalajı kendi eliyle açtı. İki hafta sonra kolun üst rafa ağrısız uzandı.",
+      "en": "You confessed. The physiotherapist opened the wrapper personally. Two weeks later your arm reached the top shelf, no pain.",
+      "coach": [
+        {
+          "tr": "Ambalaj açıldı. Üst raf geri kazanıldı.",
+          "en": "Wrapper opened. Top shelf recovered.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef çizelgesinde bir işaret.",
+          "en": "One tick on the goal sheet.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "yaptim": [
+      {
+        "p": 2500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "\"Yaptım\" dedin. İnandı, sonra göstermeni istedi. Uydurduğun hareket tesadüfen doğruydu.",
+        "en": "You said you had. They believed you, then asked for a demonstration. The move you improvised happened to be correct.",
+        "coach": [
+          {
+            "tr": "Doğaçlama tuttu. Bant hâlâ ambalajında.",
+            "en": "The improvisation landed. The band is still wrapped.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 7500,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "odev_yapilmadi"
+            ]
+          }
+        },
+        "tr": "\"Yaptım\" dedin. Göstermeni istedi. Gösterdiğin şey bir egzersiz değil, bir selamlamaydı.",
+        "en": "You said you had. They asked you to show them. What you performed was not an exercise. It was a wave.",
+        "coach": [
+          {
+            "tr": "Hareketin adı kondu: el sallama.",
+            "en": "The exercise has been identified: waving.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bagla": {
+      "effects": {
+        "stats": {
+          "health": 5,
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "egzersiz_duzeni"
+          ]
+        }
+      },
+      "tr": "Egzersizi diş fırçalamaya bağladın: sabah, akşam, aynanın önünde. On iki gündür seri bozulmadı.",
+      "en": "You tied the exercises to brushing your teeth: morning, night, at the mirror. Twelve days without breaking the streak.",
+      "coach": [
+        {
+          "tr": "On iki gün. Seri sürüyor.",
+          "en": "Twelve days. The streak holds.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "fizik tedavi seansında ev egzersizi ödevinin yapılmadığının anlaşılması",
+    "mechanism": "ambalajı açılmamış bant delil oluyor",
+    "mechanismId": "callback",
+    "punch": "hareketin adı kondu: el sallama",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "el_sallama"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

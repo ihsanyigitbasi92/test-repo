@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_profesorluk_jurisi_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 650,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Dosyanız beş jüri üyesine gönderildi. Dördünden rapor geldi.",
+      "en": "Your file went to five committee members. Four reports are in."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Beşinci hocamız \"dosya gelmedi\" diyor. Kargo \"teslim edildi\" diyor. İkisi de imzalı.",
+      "en": "The fifth says the file never arrived. The courier says it was delivered. Both signed."
+    }
+  ],
+  "choices": [
+    {
+      "id": "yeniden",
+      "tr": "Dosyayı yeniden çoğalt",
+      "en": "Print the file again",
+      "pattern": "patience"
+    },
+    {
+      "id": "elden",
+      "tr": "Dosyayı elden götür",
+      "en": "Deliver it by hand",
+      "pattern": "overwork"
+    },
+    {
+      "id": "bekle",
+      "tr": "Kargonun bulmasını bekle",
+      "en": "Wait for the courier to find it",
+      "pattern": "procrastination",
+      "check": {
+        "base": 4000
+      }
+    }
+  ],
+  "outcomes": {
+    "yeniden": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -350,
+        "career": {
+          "rungDelta": 1
+        }
+      },
+      "tr": "Dosyayı bir kez daha çoğalttın, 350 Para. Üç hafta sonra raporlar tamamlandı; profesörlük kadrosu senin.",
+      "en": "You printed the file again for 350. Three weeks later the reports were complete. The full professorship is yours.",
+      "coach": [
+        {
+          "tr": "Aynı dosya, ikinci baskı. Unvan ilk baskıda.",
+          "en": "Same file, second printing. Title, first edition.",
+          "roast": false
+        }
+      ]
+    },
+    "elden": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "money": -900,
+        "flags": {
+          "add": [
+            "juri_kapisi"
+          ]
+        },
+        "career": {
+          "rungDelta": 1
+        }
+      },
+      "tr": "Dosyayı trenle götürdün; jüri üyesinin kapısında açılmamış ilk dosya duruyordu. İki hafta sonra profesörlük kadrosu senindi.",
+      "en": "You took the file by train. The first one was sitting unopened on the reviewer's doormat. Two weeks later, the professorship was yours.",
+      "coach": [
+        {
+          "tr": "İki dosya, bir paspas. Unvan geldi.",
+          "en": "Two files, one doormat. The title arrived.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Kargo dosyayı jüri üyesinin komşusunda buldu. Raporlar tamamlandı, kadro bir ay gecikmeyle senin.",
+        "en": "The courier found the file at the reviewer's neighbor's. Reports done. The professorship arrived a month late.",
+        "coach": [
+          {
+            "tr": "Komşu da dosyayı incelemiş olabilir.",
+            "en": "The neighbor may have reviewed it too.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Kargo dosyayı bulamadı, ikinci dosya istendi. Süreç bir dönem kaydı.",
+        "en": "The courier never found it. A second file was requested. The process slipped a semester.",
+        "coach": [
+          {
+            "tr": "Bir dönem. Kargo hâlâ arıyor.",
+            "en": "One semester. The courier is still looking.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "profesörlük dosyan jüriye gidiyor, beş jüri üyesinden biri dosyanın hiç gelmediğini yazıyor",
+    "mechanism": "unvan bir paspasın üstünde bekliyor",
+    "mechanismId": "understatement",
+    "punch": "açılmamış ilk dosya kapıda",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "paspas"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

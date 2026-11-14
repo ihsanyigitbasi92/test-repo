@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_emanet_dolabi_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "merkez",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "t",
+      "tr": "Sınav merkezinde telefonunu ve anahtarlarını emanet dolabına kilitledin. Sınav bitti. Dolap anahtarı cebinde değil.",
+      "en": "At the testing center you locked your phone and keys in a locker. Exam over. The locker key is not in your pocket."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Yedek anahtar merkez müdüründe. Müdür yarın gelecek.",
+      "en": "The spare key is with the center manager. The manager comes in tomorrow."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Kilitçi çağırabiliriz. Kilitçinin de kendi mesai saatleri var.",
+      "en": "We can call a locksmith. Locksmiths keep their own hours.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kilitci",
+      "tr": "Kilitçiyi bekle",
+      "en": "Wait for the locksmith",
+      "pattern": "patience"
+    },
+    {
+      "id": "yarin",
+      "tr": "Yarın gel",
+      "en": "Come back tomorrow",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "ara",
+      "tr": "Salonda anahtarı ara",
+      "en": "Search the exam hall",
+      "pattern": "pride",
+      "check": {
+        "base": 5000
+      }
+    }
+  ],
+  "outcomes": {
+    "kilitci": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "kilitci_bekleme"
+          ]
+        }
+      },
+      "tr": "Kilitçi iki saat sonra geldi, dolabı on saniyede açtı.",
+      "en": "The locksmith arrived two hours later and opened it in ten seconds.",
+      "coach": [
+        {
+          "tr": "İki saat bekleme, on saniye iş.",
+          "en": "Two hours of waiting. Ten seconds of work.",
+          "roast": true
+        }
+      ]
+    },
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "dolap_ertesi_gun"
+          ]
+        }
+      },
+      "tr": "Eve telefonsuz, anahtarsız döndün. Kapıyı komşudaki yedek anahtarla açtın.",
+      "en": "Home with no phone and no keys. You got in with the spare at the neighbor's.",
+      "coach": [
+        {
+          "tr": "Bir yedek anahtar, bir komşu.",
+          "en": "One spare key. One neighbor.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Anahtar sıranın altına düşmüştü. Gözetmen 'Her oturumda bir tane olur' dedi.",
+        "en": "The key had fallen under your desk. The proctor said, 'There's one every session.'",
+        "coach": [
+          {
+            "tr": "Bu oturumun anahtar düşüreni belli oldu.",
+            "en": "This session's key-dropper, identified.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "anahtar_kapida"
+            ]
+          }
+        },
+        "tr": "Salonu yarım saat aradın, bulamadın. Anahtar dolabın kapısında asılı duruyormuş.",
+        "en": "Half an hour searching the hall. Nothing. The key had been hanging in the locker door the whole time.",
+        "coach": [
+          {
+            "tr": "Anahtar başından beri görev yerindeydi.",
+            "en": "The key never left its post.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia dışı"
+  },
+  "intent": {
+    "setup": "sınav merkezinde emanet dolabı anahtarını kaybetmek",
+    "mechanism": "kayıp anahtar kapıda asılı çıkıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "kilitçinin kendi mesai saatleri var",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "anahtar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

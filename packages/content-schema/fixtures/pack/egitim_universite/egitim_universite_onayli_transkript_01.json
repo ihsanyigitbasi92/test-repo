@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_onayli_transkript_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "evrak",
+    "ogrenci_isleri",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Onaylı transkript yarın çıkar. Onaysızı şimdi verebilirim. Ama onaysız.",
+      "en": "A certified transcript takes until tomorrow. I can give you an uncertified one now. But it's uncertified."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "İmza yetkilisi öğle yemeğinde. Öğle yemeği dörtte bitiyor.",
+      "en": "The person who signs is at lunch. Lunch ends at four.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Dörde kadar bekle",
+      "en": "Wait until four",
+      "pattern": "patience"
+    },
+    {
+      "id": "onaysiz",
+      "tr": "Onaysızı al, öyle gönder",
+      "en": "Take the uncertified one and send it",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm",
+        "goal": "is"
+      }
+    },
+    {
+      "id": "yarin",
+      "tr": "Yarın tekrar gel",
+      "en": "Come back tomorrow",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "money": -40,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "transkript_onayli"
+          ]
+        }
+      },
+      "tr": "Dörtte imza atıldı. Koridorda üç saat bekledin; transkript 40 Para.",
+      "en": "Signed at four. Three hours in the hallway. The transcript cost 40.",
+      "coach": [
+        {
+          "tr": "Üç saat, bir mühür.",
+          "en": "Three hours. One stamp.",
+          "roast": false
+        }
+      ]
+    },
+    "onaysiz": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "basvuru_islemde"
+            ]
+          }
+        },
+        "tr": "Şirket onaysız transkripti kabul etti. Başvurun aynı gün işleme alındı.",
+        "en": "The company accepted the uncertified copy. Your application went through the same day.",
+        "coach": [
+          {
+            "tr": "Mühür kimseye lazım olmadı.",
+            "en": "Nobody needed the stamp.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -40,
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Şirket \"Onaylısını bekliyoruz\" diye yazdı. Ertesi gün yine sıradaydın.",
+        "en": "The company wrote back: \"We'll wait for the certified copy.\" You were back in line the next day.",
+        "coach": [
+          {
+            "tr": "İki gün, aynı gişe.",
+            "en": "Two days. Same window.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: bir gün gecikme.",
+            "en": "Goal counter: one day behind.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "yarin": {
+      "effects": {
+        "money": -40,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "transkript_onayli"
+          ]
+        }
+      },
+      "tr": "Ertesi gün geldin. İmza yetkilisi bu kez toplantıdaydı; toplantı da dörtte bitiyordu.",
+      "en": "You came back the next day. The signer was in a meeting this time. It also ended at four.",
+      "coach": [
+        {
+          "tr": "Dört, bu koridorun tek saati.",
+          "en": "Four is the only hour this hallway has.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "onaysiz",
+    "slip": {
+      "tr": "İDDİA: Onaysız kâğıt geri döner. — M.",
+      "en": "WAGER: The uncertified copy bounces. — M."
+    }
+  },
+  "intent": {
+    "setup": "iş başvurusu için öğrenci işlerinden onaylı transkript almak",
+    "mechanism": "görevli her şeyi kelimesi kelimesine söylüyor",
+    "mechanismId": "literalism",
+    "punch": "öğle yemeği dörtte bitiyor",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "dort"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

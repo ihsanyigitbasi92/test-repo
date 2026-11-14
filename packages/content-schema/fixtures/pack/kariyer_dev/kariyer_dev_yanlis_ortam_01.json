@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_dev_yanlis_ortam_01",
+  "tags": [
+    "kariyer",
+    "yazilimci",
+    "kariyer_dev"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_dev": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "dev"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Az önce müşteri tablosunu sildin. Test ortamında olduğunu sanıyordun, değil mi?",
+      "en": "You just dropped the customers table. You thought that was the test environment, didn't you?"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "İki pencere de aynı renk. Yedek dün gece üçten.",
+      "en": "Both windows are the same color. The backup is from three o'clock last night."
+    }
+  ],
+  "choices": [
+    {
+      "id": "geri",
+      "tr": "Yedekten geri yükle",
+      "en": "Restore from backup",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bildir",
+      "tr": "Önce Nevin Hanım'a söyle",
+      "en": "Tell Ms. Carver first",
+      "pattern": "patience"
+    },
+    {
+      "id": "gizle",
+      "tr": "Kimse fark etmeden düzelt",
+      "en": "Fix it before anyone notices",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "geri": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": 1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Yedek kırk dakikada döndü. Sabahtan beri gelen on yedi sipariş elle yeniden girildi.",
+        "en": "The backup restored in forty minutes. Seventeen orders from this morning were re-entered by hand.",
+        "coach": [
+          {
+            "tr": "On yedi sipariş elle girildi. Eller senindi.",
+            "en": "Seventeen orders entered by hand. Yours.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Yedek dosyası bozuk çıktı. Bir önceki yedek üç günlüktü; müşterilere özür e-postası gitti.",
+        "en": "The backup file was corrupt. The one before it was three days old. An apology email went out to customers.",
+        "coach": [
+          {
+            "tr": "E-posta gitti. Altında ekibin adı var.",
+            "en": "The email went out. Signed by the team.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bildir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "canli_pencere_kirmizi"
+          ]
+        }
+      },
+      "tr": "Nevin Hanım bir \"kök neden toplantısı\" kurdu. Karar: canlı ortam penceresi bundan sonra kırmızı.",
+      "en": "Ms. Carver called a root-cause meeting. Outcome: the production window is now red.",
+      "coach": [
+        {
+          "tr": "Bir tablo gitti, bir renk geldi.",
+          "en": "One table lost. One color gained.",
+          "roast": true
+        }
+      ]
+    },
+    "gizle": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "ego": -3
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -4
+          }
+        ]
+      },
+      "tr": "İki saat sessizce uğraştın. O sırada destek ekibi otuz bir şikâyet aldı ve işlem kayıtlarına baktı.",
+      "en": "You worked on it quietly for two hours. Meanwhile support took thirty-one complaints and checked the logs.",
+      "coach": [
+        {
+          "tr": "Kayıtlar konuştu. Senin adınla.",
+          "en": "The logs talked. They used your name.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "geri",
+    "slip": {
+      "tr": "İDDİA: Yedek bozuk çıkar. — M.",
+      "en": "WAGER: The backup turns out corrupt. — M."
+    }
+  },
+  "intent": {
+    "setup": "test ortamı sanılan pencerede canlı müşteri tablosu siliniyor",
+    "mechanism": "felaketin nedeni iki pencerenin aynı renk olması",
+    "mechanismId": "understatement",
+    "punch": "iki pencere de aynı renk",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kirmizi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

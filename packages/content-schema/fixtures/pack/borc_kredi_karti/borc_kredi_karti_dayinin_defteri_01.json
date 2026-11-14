@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dayinin_defteri_01",
+  "tags": [
+    "para",
+    "borc",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 78
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda borç deftere yazılırdı. Bak, sinemaya iki bilet. Hâlâ açık.",
+      "en": "In my day, debts went in a notebook. Look here: two movie tickets. Still open."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Faizini istemem. Bir çay ısmarla, kapatırım.",
+      "en": "I won't charge interest. Buy me a tea and I'll close it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cay",
+      "tr": "Çay ısmarla, defteri kapat",
+      "en": "Buy the tea, close the line",
+      "pattern": "generosity"
+    },
+    {
+      "id": "bugun",
+      "tr": "Bugünün parasıyla öde",
+      "en": "Pay it in today's money",
+      "pattern": "pride"
+    },
+    {
+      "id": "karsi",
+      "tr": "Onun sana borçlarını say",
+      "en": "List what he owes you",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "cay": {
+      "effects": {
+        "money": -30,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_defteri_kapandi"
+          ]
+        }
+      },
+      "tr": "Çay içildi, defterdeki satırın üstü çizildi. Dayın defteri cebine koyarken 'başkaları da var' dedi.",
+      "en": "Tea was had and the line got crossed out. Pocketing the notebook, your uncle said, 'There are others in here.'",
+      "coach": [
+        {
+          "tr": "Bir satır kapandı. Defter açık.",
+          "en": "One line closed. The notebook stays open.",
+          "roast": false
+        }
+      ]
+    },
+    "bugun": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_defteri_kapandi"
+          ]
+        }
+      },
+      "tr": "400 Para verildi. Dayın parayı saydı, 'o zaman bununla ev alınırdı' dedi.",
+      "en": "You handed over 400. Your uncle counted it and said you could have bought a house with that back then.",
+      "coach": [
+        {
+          "tr": "400 Para'ya çoktan izlenmiş bir film.",
+          "en": "400 for a movie watched long ago.",
+          "roast": false
+        }
+      ]
+    },
+    "karsi": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "dayi_hesap_esit"
+            ]
+          }
+        },
+        "tr": "Senin de bir listen çıktı: üç taşınma günü, bir düğün masrafı. Hesap eşit sayıldı.",
+        "en": "Turns out you had a list too: three moving days and one wedding bill. The books were called even.",
+        "coach": [
+          {
+            "tr": "İki defter, sıfır bakiye.",
+            "en": "Two ledgers. Zero balance.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -30,
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "dayi_defterinde"
+            ]
+          }
+        },
+        "tr": "Dayın listeyi dinledi, defterine yeni bir satır ekledi: 'hesap sordu.'",
+        "en": "Your uncle heard out your list, then added a new line to his notebook: 'asked for an accounting.'",
+        "coach": [
+          {
+            "tr": "Bir satır daha. Bu kez senin adına.",
+            "en": "One more line. Under your name this time.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "yaşlı dayının gençliğinde ondan aldığın küçük borçları yazdığı eski defteri getirmesi",
+    "mechanism": "onlarca yıllık sinema borcu bir çaya bağlanıyor",
+    "mechanismId": "callback",
+    "punch": "sinemaya iki bilet, hâlâ açık",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "defter"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

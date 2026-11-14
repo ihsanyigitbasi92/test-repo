@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_nurse_zor_hastalar_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Bugün 4, 7 ve 11 sende. Alışırsın. Ben de alıştım.",
+      "en": "Today you've got four, seven and eleven. You'll get used to it. I did."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Ben 2 ve 3'teyim. Onlar uyuyor ama uyanırlarsa biri yanlarında olmalı.",
+      "en": "I'll take two and three. They're asleep, but someone should be there if they wake up.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Adil dağılım iste",
+      "en": "Ask for a fair split",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Kabul et, idare et",
+      "en": "Take it and manage",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sorumlu",
+      "tr": "Sorumlu hemşireye söyle",
+      "en": "Tell the charge nurse",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kıdemli bir an durdu, sonra 7'yi aldı. Yarın 4'ü de alacağını söyledi.",
+        "en": "Your senior paused, then took seven. Said they'd take four tomorrow.",
+        "coach": [
+          {
+            "tr": "Dağılım düzeldi. Uyuyanlar hâlâ onda.",
+            "en": "The split is fair now. The sleepers remain theirs.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Kıdemli \"ilk yıl herkese böyle\" dedi ve kahvesini aldı. Üçü de hâlâ sende.",
+        "en": "Your senior said, \"Everyone gets this their first year,\" and picked up their coffee. All three are still yours.",
+        "coach": [
+          {
+            "tr": "Gelenek, itirazından kıdemli çıktı.",
+            "en": "Tradition outranks your objection.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "flags": {
+          "add": [
+            "onbir_numara_not"
+          ]
+        }
+      },
+      "tr": "Üç zor hastayla on iki saat. 11 numara vardiya sonunda adını sorup bir kâğıda yazdı.",
+      "en": "Twelve hours, three difficult patients. At the end of the shift, bed eleven asked your name and wrote it down.",
+      "coach": [
+        {
+          "tr": "Adın bir hastanın kâğıdında. Ne için olduğu yarın belli olur.",
+          "en": "Your name is on a patient's notepad. What for, tomorrow will tell.",
+          "roast": false
+        }
+      ]
+    },
+    "sorumlu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          },
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Sorumlu hemşire dağılımı yeniden yaptı. Kıdemli iki gün seninle konuşmadı, üçüncü gün çay getirdi.",
+      "en": "The charge nurse redid the assignments. Your senior didn't speak to you for two days. On day three, they brought you tea.",
+      "coach": [
+        {
+          "tr": "İki günlük sessizlik bir bardakla kapandı.",
+          "en": "Two days of silence, settled with one cup.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Kıdem itirazı dinler ama duymaz. — M.",
+      "en": "WAGER: Seniority listens. Seniority does not hear. — M."
+    }
+  },
+  "intent": {
+    "setup": "kıdemli hemşire yeni başlayana bütün zor hastaları veriyor",
+    "mechanism": "kibar devir: uyuyanlar ona, uyanıklar sana",
+    "mechanismId": "understatement",
+    "punch": "gelenek itirazından kıdemli",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gelenek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

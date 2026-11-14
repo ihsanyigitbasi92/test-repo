@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "yaslilik_gundelik_yasam_belgesi_01",
+  "tags": [
+    "yaslilik",
+    "evrak",
+    "emeklilik",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 72,
+      "max": 95
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "Emekli Ödemeleri Ofisi · Yıllık Kontrol (kurgusal)",
+      "en": "Pension Payments Office · Annual Check (fictional)"
+    },
+    "body": {
+      "tr": "Aylığınızın kesintisiz ödenebilmesi için hayatta olduğunuzu gösterir belgeyi şahsen ibraz etmeniz gerekmektedir.",
+      "en": "To keep your pension payments uninterrupted, you must appear in person with a document certifying that you are alive."
+    },
+    "translate": {
+      "tr": {
+        "from": "hayatta olduğunuzu gösterir belge",
+        "to": "geldiysen yaşıyorsun, ama kâğıdı da getir"
+      },
+      "en": {
+        "from": "a document certifying that you are alive",
+        "to": "you showing up isn't proof; bring paper"
+      }
+    },
+    "glossaryKey": "yasam_belgesi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Belge yanınızda mı? Sizi görmem yetmiyor, kâğıt lazım.",
+      "en": "Do you have the certificate? Seeing you isn't enough. I need paper."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Yan binadaki ofis de veriyor.",
+      "en": "The office next door issues them too.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Yan binaya git, belgeyi al",
+      "en": "Get it from next door",
+      "pattern": "patience"
+    },
+    {
+      "id": "cocuk",
+      "tr": "Çocuğunu gönder",
+      "en": "Send your kid",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "itiraz",
+      "tr": "\"Karşınızdayım\" diye itiraz et",
+      "en": "Object: \"I'm standing right here\"",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "yasam_belgesi_verildi"
+          ]
+        },
+        "glossary": "yasam_belgesi"
+      },
+      "tr": "Belge yan binada üç dakikada çıktı. Üstünde \"hayattadır\" yazıyor, altında senin imzan.",
+      "en": "Next door, the certificate took three minutes. It says \"is alive,\" signed by you.",
+      "coach": [
+        {
+          "tr": "Yaşadığını imzanla onayladın.",
+          "en": "You've co-signed your own existence.",
+          "roast": false
+        }
+      ]
+    },
+    "cocuk": {
+      "effects": {
+        "flags": {
+          "add": [
+            "yasam_belgesi_beklemede"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -1
+          }
+        ],
+        "glossary": "yasam_belgesi"
+      },
+      "tr": "Çocuğun gitti. Belge vekâletle verilmiyormuş; seni almak için geri geldi.",
+      "en": "Your kid went. Turns out they don't issue it by proxy. Your kid came back to collect you.",
+      "coach": [
+        {
+          "tr": "Vekâlet reddedildi. Aranan: şahsın kendisi.",
+          "en": "Proxy rejected. They need the living original.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "yasam_belgesi_beklemede"
+          ]
+        },
+        "glossary": "yasam_belgesi"
+      },
+      "tr": "Memur seni dinledi, başını salladı ve formu uzattı. Kuyruktaki herkes formunu çoktan doldurmuştu.",
+      "en": "The clerk heard you out, nodded, and slid the form across. Everyone else in line had already filled theirs in.",
+      "coach": [
+        {
+          "tr": "Kanıt karşıdaydı. Form daha ikna ediciydi.",
+          "en": "The evidence was standing right there. The form was more persuasive.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "emekli ödemesi için yıllık \"hayatta olduğunu gösterir belge\" istenmesi",
+    "mechanism": "kurum dilinde yaşamak belgelenmeli",
+    "mechanismId": "translation",
+    "punch": "sizi görmem yetmiyor, kâğıt lazım",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "imza",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

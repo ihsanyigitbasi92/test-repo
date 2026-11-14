@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ilk_ask_yagmur_yedek_anahtar_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yagmur",
+    "ilk_ask_yagmur"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 3650,
+    "tags": {
+      "ilk_ask_yagmur": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Ben şehir dışındayım. Yedek anahtar mı? Hani Yağmur'a vermiştin ya.",
+      "en": "I'm out of town. The spare key? You gave it to Sam, remember."
+    },
+    {
+      "speaker": "ex",
+      "avatar": "typing",
+      "tr": "Hâlâ bende. Anahtarlığıma taktım, artık benimmiş gibi geliyor.",
+      "en": "Still have it. It's on my keyring. Honestly it feels like mine now.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "rica",
+      "tr": "Gidip anahtarı rica et",
+      "en": "Go ask for the key back",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "cilingir",
+      "tr": "Çilingir çağır",
+      "en": "Call a locksmith",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "merdiven",
+      "tr": "Merdivende sabahı bekle",
+      "en": "Wait it out on the stairs",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "rica": [
+      {
+        "p": 5500,
+        "effects": {
+          "npc": [
+            {
+              "role": "ex",
+              "affinity": 2,
+              "memory": "anahtari_geri_verdi"
+            }
+          ],
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "yagmur_anahtar_iade"
+            ]
+          }
+        },
+        "tr": "Yağmur anahtarı kapına kadar getirdi. Anahtarlıktan çıkarması on dakika sürdü.",
+        "en": "Sam brought the key to your door. Getting it off the keyring took ten minutes.",
+        "coach": [
+          {
+            "tr": "On dakika sürdü. Ayrılık bundan kısaydı.",
+            "en": "Ten minutes. The breakup was quicker.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "npc": [
+            {
+              "role": "ex",
+              "affinity": -1
+            }
+          ],
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "money": -350
+        },
+        "tr": "Yağmur'un kapısı kapalıydı, telefonu da. Dönüşte çilingire 350 Para verdin.",
+        "en": "Sam's door: shut. Sam's phone: off. The locksmith on the way back: 350.",
+        "coach": [
+          {
+            "tr": "İki kapalı kapı, bir açık cüzdan.",
+            "en": "Two closed doors. One open wallet.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cilingir": {
+      "effects": {
+        "money": -350,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "yedek_anahtar_yagmurda"
+          ]
+        }
+      },
+      "tr": "Çilingir kilidi iki dakikada açtı, 350 Para aldı. Yedek anahtar hâlâ Yağmur'un anahtarlığında.",
+      "en": "The locksmith had it open in two minutes and charged 350. Your spare still lives on Sam's keyring.",
+      "coach": [
+        {
+          "tr": "Dakikası 175 Para. Yedeğin başka bir evde oturuyor.",
+          "en": "That's 175 a minute. Your spare has its own address now.",
+          "roast": true
+        }
+      ]
+    },
+    "merdiven": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Geceyi merdivende geçirdin. Sabah yedide kapıcı açtı.",
+      "en": "You spent the night on the stairs. The super let you in at seven.",
+      "coach": [
+        {
+          "tr": "Bedava bir gece. Faturayı boyun kesecek.",
+          "en": "A free night. Your neck will send the bill.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rica",
+    "slip": {
+      "tr": "İDDİA: O anahtar bu gece eve dönmez. — M.",
+      "en": "WAGER: That key isn't coming home tonight. — M."
+    }
+  },
+  "intent": {
+    "setup": "kapıda kalınca yedek anahtarın hâlâ Yağmur'da olduğunu hatırlamak",
+    "mechanism": "kapalı kapılar üst üste biniyor",
+    "mechanismId": "escalation",
+    "punch": "artık benimmiş gibi geliyor",
+    "target": "decision",
+    "closer": "cuzdan",
+    "lift": "yok",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

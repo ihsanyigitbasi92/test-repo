@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_acik_ev_gunu_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Bizim daire bunun aynısı ama güney cephe. Fiyatı merak ettim, o kadar.",
+      "en": "Ours is the same layout but south-facing. I just wanted to know the price. That is all."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ben de üst kattanım. Biz de merak ettik.",
+      "en": "Upstairs neighbor. Also just curious."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Ben gerçekten almak istiyorum. Mutfak dolapları kalıyor mu?",
+      "en": "I actually want to buy. Do the kitchen cabinets stay?",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "alici",
+      "tr": "Gerçek alıcıyla ilgilen",
+      "en": "Focus on the real buyer",
+      "pattern": "patience"
+    },
+    {
+      "id": "komsular",
+      "tr": "Komşulardan ilan topla",
+      "en": "Pitch the neighbors to list",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ikram",
+      "tr": "Herkese çay ikram et",
+      "en": "Serve everyone tea",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "alici": {
+      "effects": {
+        "money": 4500,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Alıcı teklif verdi, satıcı kabul etti. Komisyonun 4.500 Para; dolaplar kaldı.",
+      "en": "The buyer made an offer. The seller accepted. Your commission: 4,500. The cabinets stay.",
+      "coach": [
+        {
+          "tr": "Yirmi iki ziyaretçi, bir alıcı.",
+          "en": "Twenty-two visitors, one buyer.",
+          "roast": false
+        },
+        {
+          "tr": "Satış sayacına bir çentik.",
+          "en": "One notch on the sales counter.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "komsular": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "emlak_uc_komsu_ilani"
+            ]
+          }
+        },
+        "tr": "Üç komşu evini sana verdi. Fiyatı öğrenmişlerdi; üçü de kendi evine daha fazlasını istedi.",
+        "en": "Three neighbors listed with you. Having learned the price, each asked for more than it.",
+        "coach": [
+          {
+            "tr": "Portföy üç daire büyüdü. Beklenti de.",
+            "en": "Listings up by three. Expectations, too.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Komşular broşürü alıp \"düşünürüz\" dedi. Alıcı bu arada başka bir ilana gitti.",
+        "en": "The neighbors took brochures and said they'd think about it. Meanwhile, the buyer left for another viewing.",
+        "coach": [
+          {
+            "tr": "Meraklılara satış yaptın. Alıcı merakını kaybetti.",
+            "en": "You pitched the curious. The buyer lost interest.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ikram": {
+      "effects": {
+        "money": -80,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Sekiz bardak çay gitti. Alıcı dolaplara bakarken komşu fiyatı yüksek sesle sordu; gün apartman toplantısına döndü.",
+      "en": "Eight cups of tea went out. While the buyer inspected cabinets, the neighbor asked the price out loud. It became a residents' meeting.",
+      "coach": [
+        {
+          "tr": "Sekiz çay, sıfır teklif. Apartman memnun.",
+          "en": "Eight teas. Zero offers. The building is delighted.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "açık ev gününe gelenlerin çoğu fiyat meraklısı komşular",
+    "mechanism": "komşular kendi evini ölçüyor, tek alıcı dolabı soruyor",
+    "mechanismId": "deadpan_report",
+    "punch": "mutfak dolapları kalıyor mu",
+    "lift": "satış sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dolap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

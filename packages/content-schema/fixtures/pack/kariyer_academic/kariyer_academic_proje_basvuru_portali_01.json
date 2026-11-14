@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_proje_basvuru_portali_01",
+  "tags": [
+    "kariyer",
+    "akademi",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Portal 23.59'da kapanıyor. Dosya iki megabaytı geçerse yüklemiyor.",
+      "en": "The portal closes at 11:59 p.m. Anything over two megabytes won't upload."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "tired",
+      "tr": "Bütçe tablosuna bir daha bak. Ben yatıyorum, kolay gelsin.",
+      "en": "Check the budget table again. I'm off to bed. Good luck.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sikistir",
+      "tr": "Dosyayı sıkıştır",
+      "en": "Compress the file",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "kes",
+      "tr": "Şekilleri sil",
+      "en": "Delete the figures",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sonraki",
+      "tr": "Sonraki çağrıya bırak",
+      "en": "Wait for the next call",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "sikistir": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "proje_basvurusu_yapildi"
+            ]
+          }
+        },
+        "tr": "Dosyayı 1,9 megabayta indirdin. 23.57'de \"başvurunuz alınmıştır\" yazısı çıktı.",
+        "en": "You squeezed it to 1.9 megabytes. At 11:57 p.m.: \"Your application has been received.\"",
+        "coach": [
+          {
+            "tr": "İki dakika pay. Bu portal için lüks.",
+            "en": "Two minutes to spare. Luxury, by portal standards.",
+            "roast": true
+          },
+          {
+            "tr": "Zarf yolda. Sayaç işliyor.",
+            "en": "Envelope in the mail. Counter running.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Sıkıştırınca şekiller okunmaz hale geldi. Gönder tuşuna 00.00'da bastın; portal \"süre doldu\" dedi.",
+        "en": "Compression turned the figures to soup. You hit submit at midnight on the dot. The portal said: time's up.",
+        "coach": [
+          {
+            "tr": "Bir dakika. Portal yukarı yuvarlamıyor.",
+            "en": "One minute. The portal doesn't round up.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kes": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": -2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "proje_basvurusu_yapildi",
+            "proje_eksik_sekil"
+          ]
+        }
+      },
+      "tr": "Şekilleri sildin, yerlerine \"bkz. ek\" yazdın. Portalda ek yükleme alanı yoktu.",
+      "en": "You deleted the figures and wrote \"see appendix.\" The portal had no appendix upload.",
+      "coach": [
+        {
+          "tr": "Ek'e gönderme var. Ek yok.",
+          "en": "See appendix. There is no appendix.",
+          "roast": true
+        }
+      ]
+    },
+    "sonraki": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "proje_sonraki_cagri"
+          ]
+        }
+      },
+      "tr": "Başvuruyu sonraki çağrıya bıraktın. Sonraki çağrı on bir ay sonra açılıyor.",
+      "en": "You let this call go. The next one opens in eleven months.",
+      "coach": [
+        {
+          "tr": "On bir ay. Dosya belki o zamana sığar.",
+          "en": "Eleven months. The file might fit by then.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sikistir",
+    "slip": {
+      "tr": "İDDİA: Dosya iki megabayta sığmaz. — M.",
+      "en": "WAGER: That file won't fit under two megabytes. — M."
+    }
+  },
+  "intent": {
+    "setup": "proje başvuru portalı gece yarısı kapanıyor ve dosya sınırı aşıyor",
+    "mechanism": "dakika hesabı ve portalın katılığı",
+    "mechanismId": "deadpan_report",
+    "punch": "portal yukarı yuvarlamıyor",
+    "lift": "zarf yolda",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "megabayt"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

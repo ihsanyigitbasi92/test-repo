@@ -1,0 +1,161 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_son_endeks_01",
+  "tags": [
+    "para",
+    "fatura",
+    "elektrik",
+    "tasinma",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Aboneliği kapatmak için sayacın güncel fotoğrafı lazım. Tarih görünsün.",
+      "en": "To close the account we need a current photo of the meter. Date visible."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sayaç bodrumdaysa bodrumun fotoğrafı olmaz. Sayacın olacak.",
+      "en": "If the meter's in the basement, a photo of the basement won't do. The meter, please.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bodrum",
+      "tr": "Kapıcıdan anahtarı iste",
+      "en": "Get the basement key",
+      "pattern": "patience"
+    },
+    {
+      "id": "tahmin",
+      "tr": "Endeksi tahmini bildir",
+      "en": "Report an estimated reading",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "acik",
+      "tr": "Aboneliği açık bırak",
+      "en": "Leave the account open",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bodrum": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "eski_abonelik_kapandi"
+          ]
+        }
+      },
+      "tr": "Anahtar üçüncü kattaydı, sayaç bodrumun en dibinde. Fotoğraf çekildi, abonelik kapandı.",
+      "en": "The key was on the third floor, the meter at the very back of the basement. Photo taken, account closed.",
+      "coach": [
+        {
+          "tr": "Dört kat, bir fotoğraf. Kapandı.",
+          "en": "Four floors down, one photo. Closed.",
+          "roast": false
+        }
+      ]
+    },
+    "tahmin": {
+      "effects": {
+        "money": -260,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "eski_abonelik_kapandi"
+          ]
+        }
+      },
+      "tr": "Bildirilen rakam düşük çıktı. Kapanış faturasına 260 Para fark eklendi.",
+      "en": "Your number came in low. A 260 difference was added to the closing bill.",
+      "coach": [
+        {
+          "tr": "Tahmin senindi. Fark onların.",
+          "en": "The guess was yours. The difference was theirs.",
+          "roast": true
+        }
+      ]
+    },
+    "acik": {
+      "effects": {
+        "money": -340,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "eski_ev_aboneligi_acik"
+          ]
+        }
+      },
+      "tr": "Abonelik açık kaldı. Yeni kiracının ilk ayı senin faturana yazıldı: 340 Para.",
+      "en": "The account stayed open. The new tenant's first month landed on your bill: 340.",
+      "coach": [
+        {
+          "tr": "Yeni kiracı sıcak bir duş aldı. Senin hesabından.",
+          "en": "The new tenant enjoyed a hot shower. On you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "taşınırken eski evin elektrik aboneliğini kapatmak için tarihli sayaç fotoğrafı istenmesi",
+    "mechanism": "görevli talimatı kelimesi kelimesine uyguluyor: bodrum değil sayaç",
+    "mechanismId": "literalism",
+    "punch": "bodrumun fotoğrafı olmaz",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "bodrum",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

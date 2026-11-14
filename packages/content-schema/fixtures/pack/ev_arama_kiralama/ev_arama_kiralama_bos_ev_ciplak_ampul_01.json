@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_bos_ev_ciplak_ampul_01",
+  "tags": [
+    "ev",
+    "ilan",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Ev bomboş, tertemiz. Avizeleri, kornişleri, dolap kapaklarını söktük.",
+      "en": "Empty and spotless. We took down the light fixtures, the curtain rods and the cabinet doors."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Kendi zevkinize göre takın diye. Musluğu bıraktık, o bizim zevkimiz.",
+      "en": "So you can pick your own. We left the tap. That one's our taste.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tut",
+      "tr": "Tut, eksikleri al",
+      "en": "Take it, buy the missing bits",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "indirim",
+      "tr": "İlk ay indirim iste",
+      "en": "Ask for a first-month discount",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ampul",
+      "tr": "Çıplak ampulle başla",
+      "en": "Start life under bare bulbs",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "tut": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -2600,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "flags": {
+          "add": [
+            "bos_ev_donatildi"
+          ]
+        }
+      },
+      "tr": "Ev ayda 1.600 Para'ya senin. Kornişler, avizeler, kapaklar: 1.000 Para daha.",
+      "en": "The flat is yours at 1,600 a month. Rods, fixtures, cabinet doors: another 1,000.",
+      "coach": [
+        {
+          "tr": "Zevkin 1.000 Para tuttu.",
+          "en": "Your taste came to 1,000.",
+          "roast": false
+        }
+      ]
+    },
+    "indirim": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -1000,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1600
+            }
+          },
+          "flags": {
+            "add": [
+              "bos_ev_donatildi"
+            ]
+          }
+        },
+        "tr": "İlk ay kirası düştü, eksikleri onunla tamamladın. Ev sahibi \"zevkiniz güzelmiş\" dedi.",
+        "en": "First month's rent waived. You spent it on the missing parts. The landlord said you have lovely taste.",
+        "coach": [
+          {
+            "tr": "İlk ay kapaklara gitti.",
+            "en": "Month one went to cabinet doors.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -1600,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1600
+            }
+          },
+          "flags": {
+            "add": [
+              "ciplak_ampul"
+            ]
+          }
+        },
+        "tr": "Ev sahibi indirime \"musluk yeni\" diye cevap verdi. Evi tuttun, ilk ay kapaksız.",
+        "en": "The landlord answered the discount request with \"the tap is new.\" You took the flat. Month one: no doors.",
+        "coach": [
+          {
+            "tr": "Musluk gerçekten yeni.",
+            "en": "The tap really is new.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ampul": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -1600,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "flags": {
+          "add": [
+            "ciplak_ampul"
+          ]
+        }
+      },
+      "tr": "Taşındın, akşam yemekleri çıplak ampul altında. Tabaklar açık rafta, kapaksız.",
+      "en": "You moved in. Dinners now happen under a bare bulb, plates on doorless shelves.",
+      "coach": [
+        {
+          "tr": "Işık var. Abajur ileride.",
+          "en": "There is light. Lampshades pending.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "ilk eşyasız evde ev sahibinin avize, korniş ve dolap kapaklarını sökmüş olması",
+    "mechanism": "sökülen her şey kiracıya zevk özgürlüğü diye sunuluyor",
+    "mechanismId": "understatement",
+    "punch": "musluğu bıraktık, o bizim zevkimiz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "musluk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

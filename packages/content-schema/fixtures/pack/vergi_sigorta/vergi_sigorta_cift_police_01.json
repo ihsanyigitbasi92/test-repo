@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_cift_police_01",
+  "tags": [
+    "para",
+    "vergi",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hesabınızdan on dört aydır her ay bir sağlık poliçesi ödemesi çıkıyor.",
+      "en": "A health policy payment has left your account every month for fourteen months."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "İşvereniniz de sizi sigortalamış görünüyor. İki kez sigortalısınız.",
+      "en": "Your employer seems to have you covered too. You're insured twice.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iptal",
+      "tr": "Hemen iptal et",
+      "en": "Cancel it now",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "iade",
+      "tr": "Geriye dönük iade iste",
+      "en": "Demand a refund",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yedek",
+      "tr": "Yedek olarak tut",
+      "en": "Keep it as a backup",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "iptal": {
+      "effects": {
+        "money": -120,
+        "hidden": {
+          "stress": 1
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "cift_police_iptal"
+          ]
+        }
+      },
+      "tr": "Poliçe iptal edildi. Dönem sonu kuralı yüzünden bir ay daha 120 Para kesilecek.",
+      "en": "Policy cancelled. Under the end-of-term rule, one more 120 comes out.",
+      "coach": [
+        {
+          "tr": "On beş ay, iki kat güvende.",
+          "en": "Fifteen months, doubly safe.",
+          "roast": true
+        }
+      ]
+    },
+    "iade": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": 700,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "cift_police_iptal"
+            ]
+          }
+        },
+        "tr": "Sigortacı son altı ayı iade etti: 700 Para. Öncesi \"kullanılabilir teminat\" sayıldı.",
+        "en": "The insurer refunded the last six months: 700. Everything earlier counted as \"available coverage.\"",
+        "coach": [
+          {
+            "tr": "Altı ay geri geldi. Sekiz ay \"teminattı\".",
+            "en": "Six months came back. Eight were \"coverage.\"",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -120,
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "cift_sigorta",
+          "flags": {
+            "add": [
+              "cift_police_iptal"
+            ]
+          }
+        },
+        "tr": "Sigortacı \"teminat kullanılabilirdi\" dedi, iade yok. Bir ay daha 120 Para kesilecek.",
+        "en": "The insurer said the coverage \"was available.\" No refund. One more 120 to go.",
+        "coach": [
+          {
+            "tr": "On dört ay hiç hastalanmadın. Bu da hesaba katılmadı.",
+            "en": "Fourteen months without getting sick. That didn't count for anything.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yedek": {
+      "effects": {
+        "money": -1440,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "cift_police"
+          ]
+        }
+      },
+      "tr": "Yedek poliçe kaldı. Yıl içinde iki kartla tek muayeneye gittin; ikincisini soran olmadı.",
+      "en": "The backup stayed. That year you made one clinic visit carrying two cards. Nobody asked for the second.",
+      "coach": [
+        {
+          "tr": "Cüzdanda 1.440 Para'lık bir yedek kart.",
+          "en": "A 1,440 backup card, riding in your wallet.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "işveren sigortası varken eski bireysel sağlık poliçesinin on dört aydır ödenmeye devam etmesi",
+    "mechanism": "iki kat güvence, sıfır kullanım",
+    "mechanismId": "deadpan_report",
+    "punch": "iki kez sigortalısınız",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yedek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

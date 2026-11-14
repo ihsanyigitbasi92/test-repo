@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_icap_cagrisi_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Doğum günüm bu yıl seninle güzel. Benim zamanımda doktorlar yemekte telefon açmazdı.",
+      "en": "Nice birthday this year, with you here. In my day, doctors didn't answer the phone at dinner."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "worried",
+      "tr": "İcaptasın, acilde senin hastan var. Yarım saatte gelebilir misin?",
+      "en": "You're on call. There's a patient of yours in the ER. Can you be here in thirty minutes?"
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "annoyed",
+      "tr": "Pastayı kesmeden gitmek yok. Bu mumlar kırk dakika yanar.",
+      "en": "Not before the cake. These candles burn for forty minutes.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Hemen çık",
+      "en": "Leave right away",
+      "pattern": "overwork"
+    },
+    {
+      "id": "pasta",
+      "tr": "Pastayı kes, sonra çık",
+      "en": "Cut the cake, then go",
+      "pattern": "risk"
+    },
+    {
+      "id": "telefon",
+      "tr": "Telefonla yönlendir",
+      "en": "Handle it by phone",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "doctor_dayi_pasta"
+          ]
+        }
+      },
+      "tr": "Hastaneye yirmi beş dakikada vardın. Dayın senin dilimini buzdolabına koydu, üstüne adını yazdı.",
+      "en": "You made it to the hospital in twenty-five minutes. Your uncle put your slice in the fridge with your name on it.",
+      "coach": [
+        {
+          "tr": "Dilim seni bekliyor. Üstünde adın var.",
+          "en": "Your slice is waiting. It's labeled.",
+          "roast": false
+        }
+      ]
+    },
+    "pasta": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          },
+          {
+            "role": "npc:doctor",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Mumlar söndü, pastayı kestin, otuz beşinci dakikada hastanedeydin. Nöbetçi meslektaşın saatine baktı ve bir şey demedi.",
+      "en": "Candles out, cake cut, at the hospital by minute thirty-five. The on-call colleague glanced at their watch and said nothing.",
+      "coach": [
+        {
+          "tr": "Beş dakika geç, bir dilim önde.",
+          "en": "Five minutes late. One slice ahead.",
+          "roast": false
+        }
+      ]
+    },
+    "telefon": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Pastanın yanında yarım saat telefonda kaldın. Sonunda yine de gittin; dayın \"benim zamanımda\" cümlesini bitirebildi.",
+      "en": "Half an hour on the phone, next to the cake. In the end you went anyway, and your uncle finally finished his \"in my day\" sentence.",
+      "coach": [
+        {
+          "tr": "Yarım saat telefon, sonra yine yol.",
+          "en": "Thirty minutes on the phone. Then the drive anyway.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia yok"
+  },
+  "intent": {
+    "setup": "dayının doğum günü yemeğinde icap nöbeti çağrısı geliyor",
+    "mechanism": "dayının zaman teorisi ile acil çağrı çarpışıyor",
+    "mechanismId": "escalation",
+    "punch": "mumlar kırk dakika yanar",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mum"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_developer_ses_yalitimi_01",
+  "tags": [
+    "kariyer",
+    "muteahhit",
+    "kariyer_developer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_developer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 48,
+      "max": 56
+    },
+    "career": {
+      "anyOf": [
+        "developer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Yan daire hapşırınca 'çok yaşa' diyorum, o da 'sen de gör' diyor. Duvarın içinden.",
+      "en": "Next door sneezes, I say 'gesundheit,' they say 'thanks.' Through the wall."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Ölçüm için iki dairede de biri olmalı. Biri ses çıkaracak, biri dinleyecek.",
+      "en": "For the test we need someone in each unit. One makes noise, one listens.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sen",
+      "tr": "Duvarın öbür yanında sen dur",
+      "en": "Be the one next door",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yalitim",
+      "tr": "Duvara ek yalıtım yaptır",
+      "en": "Add insulation anyway",
+      "pattern": "generosity"
+    },
+    {
+      "id": "rapor",
+      "tr": "Eski ölçüm raporunu göster",
+      "en": "Show the old test report",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sen": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Duvarın öbür yanında hapşırdın. Ölçüm sınırın altında çıktı, alıcı hapşırığı duyduğunu ama 'kibar' bulduğunu söyledi.",
+        "en": "You sneezed on the other side. The reading came in under the limit. The buyer said they heard it, but it sounded polite.",
+        "coach": [
+          {
+            "tr": "Belgeli hapşırık. Yönetmelik nezaket konusunda sessiz.",
+            "en": "A certified sneeze. The building code is silent on manners.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -2000,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "dev_yalitim_eksigi"
+            ]
+          }
+        },
+        "tr": "Hapşırdın, alıcı 'çok yaşa' dedi, cihaz da onayladı. Ek yalıtım için 2.000 Para ayrıldı.",
+        "en": "You sneezed. The buyer said 'gesundheit.' The meter agreed. 2,000 set aside for extra insulation.",
+        "coach": [
+          {
+            "tr": "Duvar ince, ölçüm net.",
+            "en": "Thin wall. Clear reading.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yalitim": {
+      "effects": {
+        "money": -2500,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Duvara ek yalıtım yapıldı, 2.500 Para. İki hafta sonra alıcı 'şimdi de çok sessiz' diye yazdı.",
+      "en": "Extra insulation: 2,500. Two weeks later the buyer wrote: 'Now it's too quiet.'",
+      "coach": [
+        {
+          "tr": "Şikâyet tersine döndü. Bedeli ödenmiş hâliyle.",
+          "en": "The complaint flipped. Fully paid for.",
+          "roast": true
+        }
+      ]
+    },
+    "rapor": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Eski raporu gösterdin. Alıcı raporu okurken yan daire hapşırdı. İkiniz birden 'çok yaşa' dediniz.",
+      "en": "You showed the old report. While the buyer read it, next door sneezed. You both said 'gesundheit.'",
+      "coach": [
+        {
+          "tr": "Rapor uygun diyor. Duvar katılmıyor.",
+          "en": "The report says compliant. The wall disagrees.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sen",
+    "slip": {
+      "tr": "İDDİA: Hapşırık duvardan geçer. — M.",
+      "en": "WAGER: The sneeze gets through. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni taşınan alıcının komşunun hapşırığını duyduğunu söyleyip ses yalıtımı ölçümü istemesi",
+    "mechanism": "ölçümün harfiyen bir hapşırıkla yapılması",
+    "mechanismId": "literalism",
+    "punch": "duvarın içinden çok yaşa",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hapsirik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

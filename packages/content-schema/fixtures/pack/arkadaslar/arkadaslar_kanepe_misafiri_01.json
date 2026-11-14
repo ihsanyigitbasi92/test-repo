@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_kanepe_misafiri_01",
+  "tags": [
+    "sosyal",
+    "ev",
+    "misafir",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Arkadaşın üç gece kalacaktı. Bugün on dokuzuncu gün. Diş fırçası bardağa yerleşti.",
+      "en": "Your friend was staying three nights. It's day nineteen. Their toothbrush has moved into the cup."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Bu sabah bana “günaydın ev arkadaşım” dedi. Kira sözleşmesinde adı yok.",
+      "en": "This morning they said “morning, roomie.” Their name is not on the lease.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Nazikçe çıkış tarihi sor",
+      "en": "Gently ask for a move-out date",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kira",
+      "tr": "Kiraya ortak et",
+      "en": "Ask them to chip in on rent",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sus",
+      "tr": "Bir hafta daha bekle",
+      "en": "Give it another week",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "misafir_gitti"
+            ]
+          }
+        },
+        "tr": "Tarih sordun. Pazar günü gitti; giderken kanepenin minderlerini ters çevirdi.",
+        "en": "You asked. They left Sunday, and flipped the couch cushions on the way out.",
+        "coach": [
+          {
+            "tr": "Minderler ters, salon senin. Kabul edilebilir.",
+            "en": "Cushions upside down, living room back. Acceptable.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "misafir_kaldi"
+            ]
+          }
+        },
+        "tr": "“Tabii, ay sonu” dedi. Hangi ayın sonu olduğunu söylemedi.",
+        "en": "“Sure, end of the month,” they said. They didn't say which month.",
+        "coach": [
+          {
+            "tr": "Bir tarih aldın. Takvimi yok.",
+            "en": "You got a date. No calendar attached.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kira": {
+      "effects": {
+        "money": 700,
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "misafir_kiraci"
+          ]
+        }
+      },
+      "tr": "Haftalık 700 Para istedin. Ertesi gün kanepenin yanına bir uzatma kablosu kuruldu.",
+      "en": "You asked for 700 a week. Next day an extension cord appeared by the couch.",
+      "coach": [
+        {
+          "tr": "Misafir kiracılığa terfi etti. Kanepe artık bir daire.",
+          "en": "Guest promoted to tenant. The couch is now a unit.",
+          "roast": true
+        }
+      ]
+    },
+    "sus": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "misafir_uzadi"
+          ]
+        }
+      },
+      "tr": "Bir hafta daha bekledin. Ev arkadaşın buzdolabındaki yiyeceklere isim etiketi yapıştırmaya başladı.",
+      "en": "You waited another week. Your roommate started labeling food in the fridge.",
+      "coach": [
+        {
+          "tr": "Etiketler çoğaldı. Sabır azaldı.",
+          "en": "More labels. Less patience.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "üç gece kalacağım diyen arkadaşın kanepede on dokuzuncu gününe girmesi",
+    "mechanism": "üç gece → on dokuzuncu gün → diş fırçası bardakta",
+    "mechanismId": "count",
+    "punch": "kira sözleşmesinde adı yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "daire"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

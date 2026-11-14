@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "orta_yas_yarim_kalan_diploma_01",
+  "tags": [
+    "yaslilik",
+    "egitim",
+    "hedef",
+    "orta_yas"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "orta_yas": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 54
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Üniversiteden mektup var. \"Eksik iki dersinizi tamamlamanız hâlinde\" diye başlıyor.",
+      "en": "A letter from the university. It starts, \"Should you complete your two remaining courses…\""
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Yirmi üç yıl önce bıraktığın iki ders. İkisi de sabah sekizde.",
+      "en": "The two you dropped twenty-three years ago. Both still at 8 a.m.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kayit",
+      "tr": "Kaydol, iki dersi bitir",
+      "en": "Enroll and finish both",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tek",
+      "tr": "Sadece birini dene",
+      "en": "Try just one",
+      "pattern": "patience"
+    },
+    {
+      "id": "cercevele",
+      "tr": "Mektubu çerçevele, geç",
+      "en": "Frame the letter, skip it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kayit": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -1800,
+          "stats": {
+            "joy": 7
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "diploma_tamam"
+            ]
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "lisans_diplomasi"
+              ]
+            }
+          }
+        },
+        "tr": "İki dersi de geçtin. Mezuniyette kepi en yükseğe sen attın.",
+        "en": "You passed both. At graduation, your cap went highest.",
+        "coach": [
+          {
+            "tr": "Sabah sekiz dersleri, yirmi üç yıl gecikmeyle teslim.",
+            "en": "The 8 a.m. classes, delivered twenty-three years late.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef kapandı: diploma.",
+            "en": "Goal closed: diploma.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1800,
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -2
+          },
+          "flags": {
+            "add": [
+              "diploma_bir_ders"
+            ]
+          }
+        },
+        "tr": "Birini geçtin, öbüründe finalde iki puanla kaldın. Hoca \"gelecek dönem bekleriz\" dedi.",
+        "en": "Passed one. Missed the other by two points on the final. The professor said, \"See you next term.\"",
+        "coach": [
+          {
+            "tr": "Yirmi üç yıllık ara, iki puanlık fark.",
+            "en": "A twenty-three-year gap, a two-point miss.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tek": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "diploma_bir_ders"
+          ]
+        }
+      },
+      "tr": "Tek derse yazıldın ve geçtin. Diplomaya bir ders kaldı.",
+      "en": "You took one course and passed. One class left between you and the diploma.",
+      "coach": [
+        {
+          "tr": "Bir ders kaldı. Sabah sekizde.",
+          "en": "One class left. At 8 a.m.",
+          "roast": false
+        }
+      ]
+    },
+    "cercevele": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "diploma_mektubu"
+          ]
+        }
+      },
+      "tr": "Mektup çerçevelenip koridora asıldı. Misafirler onu diploma sanıyor.",
+      "en": "The letter got framed and hung in the hallway. Guests assume it's the diploma.",
+      "coach": [
+        {
+          "tr": "Koridor mezun oldu.",
+          "en": "The hallway graduated.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kayit",
+    "slip": {
+      "tr": "İDDİA: Sabah sekiz dersi yine kazanır. — M.",
+      "en": "WAGER: The 8 a.m. class wins again. — M."
+    }
+  },
+  "intent": {
+    "setup": "yirmi üç yıl önce iki dersi kalan üniversitenin 'tamamlama' mektubu göndermesi",
+    "mechanism": "bırakılan iki ders hâlâ sabah sekizde",
+    "mechanismId": "callback",
+    "punch": "ikisi de sabah sekizde",
+    "lift": "hedef kapandı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koridor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

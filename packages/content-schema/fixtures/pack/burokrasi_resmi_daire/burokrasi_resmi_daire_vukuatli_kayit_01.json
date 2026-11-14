@@ -1,0 +1,166 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_vukuatli_kayit_01",
+  "tags": [
+    "burokrasi",
+    "aile",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Vukuatlı mı olsun, vukuatsız mı? Vukuatlıda bütün olaylar çıkar.",
+      "en": "Standard extract or the full one \"with events\"? The full one lists everything that ever happened."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sizinki iki sayfa. Bir isim düzeltme, iki adres değişikliği, bir de geç tescil var.",
+      "en": "Yours runs two pages. One name correction, two changes of address, and a late registration.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Geç tescil senin doğumun. Kar vardı, yol kapalıydı. On gün sonra yazdırdık.",
+      "en": "The late registration is your birth. It snowed. The road was closed. We filed ten days late.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "sor",
+      "tr": "Annene geç tescili sor",
+      "en": "Ask your mom about it",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "al",
+      "tr": "Belgeyi al, kurcalama",
+      "en": "Take it and don't dig",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "duzelt",
+      "tr": "Tarihi düzelttirmeyi sor",
+      "en": "Ask about correcting the date",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": -1
+        },
+        "flags": {
+          "add": [
+            "gec_tescil_ogrenildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Annen karı, kapalı yolu ve memurun \"bugünü yazıyorum\" deyişini anlattı. Resmî doğum günün gerçeğinden on gün sonraymış.",
+      "en": "Your mom told you about the snow, the closed road, and the clerk who said, \"I'm writing today's date.\" Your official birthday is ten days after the real one.",
+      "coach": [
+        {
+          "tr": "On gün gençsin. Kâğıt üzerinde.",
+          "en": "You're ten days younger. On paper.",
+          "roast": false
+        }
+      ]
+    },
+    "al": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kayit_ornegi_verildi"
+          ]
+        }
+      },
+      "tr": "Belgeyi dosyaya koydun, başvurunu tamamladın. İki sayfalık aile tarihi bir zımbayla kredi dosyasına iliştirildi.",
+      "en": "You filed the extract and finished your application. Two pages of family history, stapled into a loan folder.",
+      "coach": [
+        {
+          "tr": "Aile tarihi artık ek üç.",
+          "en": "The family history is now Attachment 3.",
+          "roast": false
+        }
+      ]
+    },
+    "duzelt": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "iki_dogum_gunu"
+          ]
+        }
+      },
+      "tr": "Düzeltme için mahkeme kararı ve doğumu hatırlayan iki tanık gerekiyormuş. Vazgeçtin; iki doğum günün kaldı.",
+      "en": "A correction needs a court order and two witnesses who remember the birth. You dropped it. You now have two birthdays.",
+      "coach": [
+        {
+          "tr": "İki doğum günü. Pasta sayısı sana kalmış.",
+          "en": "Two birthdays. The cake count is up to you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "vukuatlı nüfus kayıt örneği istenince ailenin bütün kayıtlı olaylarının iki sayfada dökülmesi ve kendi doğumunun geç tescil çıkması",
+    "mechanism": "olaylı belge kelimesi kelimesine aile olaylarını sıralıyor",
+    "mechanismId": "literalism",
+    "punch": "geç tescil senin doğumun; kar vardı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "gec_tescil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_odeme_gunu_maastan_once_01",
+  "tags": [
+    "egitim",
+    "kredi",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_gece_uc_bes_nobeti_01",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Ödeme gününüz her ayın 14'ü. Kayıtlarımıza göre maaşınız 15'inde yatıyor.",
+      "en": "Your due date is the fourteenth. Our records show you get paid on the fifteenth."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Gecikme ücreti 25 Para. Bir gün gecikene de otuz gün gecikene de aynı. Adil.",
+      "en": "The late fee is twenty-five. Same for one day late or thirty. It's very fair.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "degistir",
+      "tr": "Ödeme gününü değiştirmeyi iste",
+      "en": "Request a new due date",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "gecik",
+      "tr": "Bir gün geç öde",
+      "en": "Pay one day late",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden bir günlüğüne iste",
+      "en": "Borrow from Mom for one day",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "degistir": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "kredi_odeme_gunu_degisti"
+            ]
+          }
+        },
+        "tr": "Talep onaylandı. Yeni ödeme günün ayın 20'si; değişiklik iki dönem sonra geçerli olacak.",
+        "en": "Request approved. Your new due date is the twentieth, effective in two billing cycles.",
+        "coach": [
+          {
+            "tr": "Altı gün kazanıldı. İki ay sonra başlıyor.",
+            "en": "Six days gained. Starting in two months.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -25,
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "kredi_gecikme_ucreti"
+            ]
+          }
+        },
+        "tr": "Form \"işleme alındı\" oldu, tarih değişmedi. Bu ayın 14'ü sana 25 Para'ya mal oldu.",
+        "en": "The form went to \"processing.\" The date didn't move. This month's fourteenth cost you twenty-five.",
+        "coach": [
+          {
+            "tr": "Form işlemde. Takvim yerinde.",
+            "en": "Form in processing. Calendar unchanged.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gecik": {
+      "effects": {
+        "money": -25,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kredi_gecikme_ucreti"
+          ]
+        }
+      },
+      "tr": "Ayın 15'inde ödedin. 25 Para ücret yansıdı; ekstrede \"gecikmiş\" kelimesi kırmızı harfle duruyor.",
+      "en": "You paid on the fifteenth. The fee posted: twenty-five. The statement prints \"PAST DUE\" in red.",
+      "coach": [
+        {
+          "tr": "Bir gün. Kırmızı mürekkep dahil.",
+          "en": "One day. Red ink included.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "anne_ayin_onucu"
+          ]
+        }
+      },
+      "tr": "Annen parayı on dakikada yolladı, ertesi gün geri ödedin. O günden beri her ayın 13'ünde \"lazım mı\" diye yazıyor.",
+      "en": "Mom sent the money in ten minutes, and you paid her back the next day. She now texts on the thirteenth of every month: \"Need it?\"",
+      "coach": [
+        {
+          "tr": "Yeni bir hatırlatma servisi. Bedava sayılmaz.",
+          "en": "A new reminder service. It isn't free.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "degistir",
+    "slip": {
+      "tr": "İDDİA: Tarih yerinden oynamaz. — M.",
+      "en": "WAGER: The date won't budge. — M."
+    }
+  },
+  "intent": {
+    "setup": "öğrenim kredisi taksit gününün maaş gününden bir gün önceye düşmesi",
+    "mechanism": "görevli tek fiyatlı gecikme ücretini \"adil\" diye sunuyor",
+    "mechanismId": "deadpan_report",
+    "punch": "otuz gün gecikene de aynı; adil",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "gun"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "EN-only ikiz (D-048): askerlik yerine öğrenim kredisi. TR bundle’ına girmez. Faiz oranı/kurum adı yok (K17)."
+  },
+  "l10n": {
+    "onlyLocale": "en",
+    "mechanismNote": "TR metni yalnızca inceleme içindir; TR oyuncu askerlik ikizini görür."
+  }
+}

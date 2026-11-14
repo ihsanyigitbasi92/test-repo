@@ -1,0 +1,34 @@
+{ "id": "evt_baris_kesin_plan_01", "v": 1, "type": "event", "tags": ["para", "evArkadasi", "risk", "lol"], "rarity": "common",
+  "valence": 0, "intensity": 6000, "isLOL": true, "punchOwner": "dialog", "universality": "universal", "maxPerLife": 1, "exclusiveGroup": "zincirBaslat",
+  "pre": { "npc": { "roommate": { "exists": true, "alive": true } }, "age": { "max": 32 }, "money": { "min": 1000 } },
+  "chain": { "id": "kesin", "node": "c1", "next": [ { "node": "c2", "delayDays": [60, 90] } ] },
+  "dialog": [
+    { "speaker": "roommate", "avatar": "smug", "tr": "KESİN.", "en": "SURE THING." },
+    { "speaker": "roommate", "avatar": "happy", "tr": "BU SEFER KESİN. KATLANIR SU ŞİŞESİ. HERKES SUSUYOR, KİMSE KATLAMIYOR.", "en": "THIS TIME IT'S A SURE THING. COLLAPSIBLE WATER BOTTLES. EVERYBODY'S THIRSTY, NOBODY'S FOLDING.", "delayMs": 500 },
+    { "speaker": "roommate", "avatar": "smug", "tr": "SENDEN SADECE 2.000 VE SESSİZLİĞİN.", "en": "ALL I NEED IS 2,000 AND YOUR SILENCE." },
+    { "speaker": "roommate", "avatar": "worried", "tr": "ANNEME SÖYLEME.", "en": "DON'T TELL MY MOM." }
+  ],
+  "choices": [
+    { "id": "ver", "tr": "Ver. Kesinmiş.", "en": "Pay up. It's sure.", "pattern": "risk", "check": { "base": 2500, "goal": "kesin_plan" } },
+    { "id": "yarim", "tr": "Yarısını veririm", "en": "I'll do half", "pattern": "shortcut" },
+    { "id": "hayir", "tr": "Hayır. Yüksek sesle.", "en": "No. Out loud.", "pattern": "patience" }
+  ],
+  "outcomes": {
+    "ver": [
+      { "p": 2500, "luckScaled": true, "effects": { "money": 4000, "meters": { "ego": 6 }, "chainNext": "c2_geldi", "npc": [ { "role": "roommate", "memory": "kesin_tuttu" } ] },
+        "tr": "İlk 40 şişe satıldı. Barış 'DEMİŞTİM' tişörtü bastırdı.", "en": "First forty bottles sold. Jordan had 'TOLD YOU' shirts made.",
+        "coach": [ { "tr": "Oran %25'ti. İddiaya girmedim; iddia 0,35'ten başlar, kural. Şimdi pişmanım; o da defterde.", "en": "Odds were 25 percent. No wager; wagers start at 35, house rule. Now I'm annoyed. That's in the notebook too.", "roast": true } ] },
+      { "p": 7500, "effects": { "money": -2000, "meters": { "cringe": 6 }, "chainNext": "c2_gelmedi", "npc": [ { "role": "roommate", "memory": "kesin_batti" } ] },
+        "tr": "Şişeler geldi. 400 tane. Katlanıyorlar; satılmıyorlar.", "en": "The bottles arrived. Four hundred. They fold; they don't sell.",
+        "coach": [ { "tr": "2.000 gitti. Karşılığı: 400 şişe ve 'kesin'. Birim fiyat 5. Seminerde buna 'tedarik zinciri' derdik.", "en": "Two thousand gone. In return: four hundred bottles and one word, 'sure.' At the seminars we'd call that a supply chain.", "roast": true },
+                   { "tr": "Şişeleri sat; yarısı yeter.", "en": "Sell the bottles. Half is plenty.", "roast": false, "lift": true } ] } ],
+    "yarim": { "effects": { "money": -1000, "hidden": { "stress": 3 }, "chainNext": "c2_gelmedi", "npc": [ { "role": "roommate", "affinity": 5, "memory": "yarim_ortak" } ] },
+      "tr": "1.000 verdin. Barış 'ORTAK' dedi. Yüzde: belirsiz.", "en": "You gave 1,000. Jordan said 'PARTNER.' Equity: unspecified.",
+      "coach": [ { "tr": "Yarım ortak. Yarım şişe gibi: ne dolu ne boş, sadece ıslak. Seminerde buna 'esnek ortaklık' derdik.", "en": "Half a partner. Like half a bottle: not full, not empty, just damp. At the seminars we called this a flexible partnership.", "roast": true } ] },
+    "hayir": { "effects": { "meters": { "ego": 3 }, "npc": [ { "role": "roommate", "affinity": -8, "memory": "reddetti" } ], "notebook": { "kind": "note", "key": "note.ilk_hayir" } },
+      "tr": "'TAMAM.' Üç gün konuşmadı. Dördüncü gün: 'SAUNA.'", "en": "'FINE.' Three days of silence. Day four: 'SAUNA.'",
+      "coach": [ { "tr": "Hayır dedin. İlk 'hayır'. Sessizce kutladım; Barış duvardan duyar. Seminerde bunu hiç başaramadım.", "en": "You said no. Your first one. I celebrated quietly; Jordan hears through walls. I never managed it at seminars.", "roast": true } ] }
+  },
+  "wager": { "eligible": true, "check": "ver", "reason": "base 0,25 → yalnızca Şans/stat ile banda girerse fiş iğnelenir (nadir)" },
+  "intent": { "setup": "ev arkadaşının 'kesin' planı, büyük harf", "mechanism": "oran bandın altında, koç iddiaya bile girmiyor", "mechanismId": "escalation", "punch": "400 şişe katlanıyor, satılmıyor", "lift": "yarısını sat", "target": "decision" },
+  "review": { "status": "curated", "legal": "ok", "funnyTr": 4, "funnyEn": 5 } }

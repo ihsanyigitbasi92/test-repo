@@ -1,0 +1,172 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aile_grubu_konum_paylasimi_01",
+  "tags": [
+    "aile",
+    "anne",
+    "telefon",
+    "aile_grubu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "aile_grubu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Herkes konumunu paylaşsın. Merak etmeyeyim diye.",
+      "en": "Everyone share your location. So I don't worry."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Paylaştım. Şu an kütüphanedeyim.",
+      "en": "Done. I'm at the library right now.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Kütüphane gece ikide açık mı?",
+      "en": "Is the library open at two a.m.?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "paylas",
+      "tr": "Konumunu paylaş",
+      "en": "Share your location",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "bir_saat",
+      "tr": "Bir saatliğine paylaş",
+      "en": "Share it for one hour",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "paylasma",
+      "tr": "Paylaşma",
+      "en": "Don't share",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "paylas": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "flags": {
+          "add": [
+            "konum_paylasiyor"
+          ]
+        }
+      },
+      "tr": "Konumun açık. Annen ilk gün dört kez \"orada ne işin var\" yazdı; biri eczaneydi.",
+      "en": "Location on. On day one Mom texted \"what are you doing there\" four times. One was a pharmacy.",
+      "coach": [
+        {
+          "tr": "Dört soru, bir eczane. Harita konuşuyor.",
+          "en": "Four questions, one pharmacy. The map talks.",
+          "roast": true
+        }
+      ]
+    },
+    "bir_saat": {
+      "effects": {
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "konum_bir_saatlik"
+          ]
+        }
+      },
+      "tr": "Bir saat paylaştın. Süre dolunca annen \"nokta durdu, iyi misin\" diye aradı.",
+      "en": "You shared for an hour. When it ran out, Mom called: \"Your dot stopped. Are you okay?\"",
+      "coach": [
+        {
+          "tr": "Paylaşım bitti, endişe başladı. Süre: bir saat.",
+          "en": "Sharing ended. Worry began. Duration: one hour.",
+          "roast": true
+        }
+      ]
+    },
+    "paylasma": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 5,
+          "ego": 2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Paylaşmadın. Kardeşin özelden \"akıllıca\" yazdı; annen gruba \"neden\" yazdı.",
+      "en": "You didn't share. Your sibling privately wrote \"smart move.\" Mom asked the whole group \"why.\"",
+      "coach": [
+        {
+          "tr": "Bir onay, bir soru. Skor eşit.",
+          "en": "One approval, one question. Even score.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "anne aile grubunda herkesten canlı konum istiyor",
+    "mechanism": "kardeşin sahte konumu saatle ele veriliyor",
+    "mechanismId": "reversal",
+    "punch": "kütüphane gece ikide açık mı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "harita"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_ehliyet_paralel_park_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "ehliyet",
+    "sinav",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 200,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "license"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Paralel park. Arkadaki iki duba benim, öndeki araba da benim.",
+      "en": "Parallel parking. The two cones behind you are mine. So is the car in front."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Sakin olun. Ben sakinim. Arabam da sakin.",
+      "en": "Stay calm. I'm calm. My car is calm.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "park",
+      "tr": "Tek manevrada gir",
+      "en": "Do it in one move",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain",
+        "goal": "license"
+      }
+    },
+    {
+      "id": "sohbet",
+      "tr": "Eksperle sohbet aç",
+      "en": "Make small talk with the examiner",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "erte",
+      "tr": "Sınavı ertele",
+      "en": "Postpone the test",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "park": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "flags": {
+            "add": [
+              "license",
+              "ehliyet_alindi"
+            ]
+          }
+        },
+        "tr": "Tek manevrada girdin. Eksper önce arabasına, sonra sana baktı ve formu imzaladı.",
+        "en": "In on the first try. The examiner looked at the car, then at you, and signed the form.",
+        "coach": [
+          {
+            "tr": "Hedef sayacı: tamam. Ayaktaki duba: iki.",
+            "en": "Goal tracker: done. Cones standing: two.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "ehliyet_sinav_1"
+            ]
+          }
+        },
+        "tr": "Arka duba devrildi. Sınav kırk beş gün sonraya kaldı.",
+        "en": "The back cone went down. Retest in forty-five days.",
+        "nearMiss": {
+          "tr": "Teker dubaya bir parmak kala durdu. Eksper \"bir parmak\" dedi ve kırmızı kalemi açtı.",
+          "en": "Your wheel stopped a finger from the cone. \"A finger,\" the examiner said, and uncapped the red pen."
+        },
+        "coach": [
+          {
+            "tr": "Bir duba, kırk beş gün.",
+            "en": "One cone. Forty-five days.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sohbet": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "ehliyet_sinav_1"
+          ]
+        }
+      },
+      "tr": "Eksper sohbete girmedi, park da olmadı. Puan kâğıdının kenarına \"konuşkan\" yazdı.",
+      "en": "The examiner did not chat, and the parking did not happen. \"Talkative\" went in the margin of the score sheet.",
+      "coach": [
+        {
+          "tr": "Kenar notu puan değil. Okunaklı ama.",
+          "en": "A margin note isn't a score. It is legible, though.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "ehliyet_ertelendi"
+          ]
+        }
+      },
+      "tr": "Sınavı erteledin. Yeni randevu otuz gün sonra; dubalar o gün de orada olacak.",
+      "en": "You postponed. New slot in thirty days. The cones will be there too.",
+      "coach": [
+        {
+          "tr": "Hedef sürüyor. Dubalar bekliyor.",
+          "en": "Goal still open. Cones on standby.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "park",
+    "slip": {
+      "tr": "İDDİA: Dubalar bugün ayakta kalmaz. — M.",
+      "en": "WAGER: The cones won't survive today. — M."
+    }
+  },
+  "intent": {
+    "setup": "ehliyet sınavında paralel park",
+    "mechanism": "eksperin her şeyi sahiplenmesi; duba sayımı",
+    "mechanismId": "count",
+    "punch": "öndeki araba da benim",
+    "lift": "duba sayacı",
+    "target": "decision",
+    "closer": "sayac",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

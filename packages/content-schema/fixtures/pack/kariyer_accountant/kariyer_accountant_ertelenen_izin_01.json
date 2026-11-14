@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_ertelenen_izin_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "İznini kapanıştan sonraya alalım. Kapanış bitince rahat rahat.",
+      "en": "Let's move your leave to after the close. Once the close is done, you can really relax."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Kapanış her ay var. Ben geçen yıl iznimi iki kapanış arasına sıkıştırdım, bir buçuk gün.",
+      "en": "There's a close every month. Last year I squeezed my leave in between two closes. A day and a half.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Yine ertele",
+      "en": "Postpone it again",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "israr",
+      "tr": "Tarih ver, ısrar et",
+      "en": "Name a date and insist",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "cuma",
+      "tr": "Hafta sonuna bir cuma ekle",
+      "en": "Tack a Friday onto a weekend",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "hidden": {
+          "stress": 4
+        },
+        "stats": {
+          "joy": -2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Erteledin. Takvimde izin günleri yeşil, kapanışlar kırmızı; takvimde yeşil yok.",
+      "en": "You postponed it. On the calendar, leave is green and closes are red. There is no green.",
+      "coach": [
+        {
+          "tr": "Üç erteleme, on iki kapanış, sıfır yeşil.",
+          "en": "Three postponements. Twelve closes. Zero green.",
+          "roast": true
+        }
+      ]
+    },
+    "israr": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "hidden": {
+            "stress": -5
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "acc_izin_onay"
+            ]
+          }
+        },
+        "tr": "Patron takvime baktı, iki kapanış arasında dokuz gün buldu. İzin onaylandı.",
+        "en": "Your boss studied the calendar and found nine days between two closes. Leave approved.",
+        "coach": [
+          {
+            "tr": "Dokuz gün. Takvimde ilk yeşil.",
+            "en": "Nine days. The calendar's first green.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Patron yıl sonu kapanışını hatırlattı. İzin yeni yılın ilk kapanışından sonraya kaldı.",
+        "en": "Your boss reminded you of the year-end close. Your leave moved to after the first close of next year.",
+        "coach": [
+          {
+            "tr": "İzin kapanışı kovalıyor. Kapanış önde.",
+            "en": "Your leave is chasing the close. The close is winning.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cuma": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Cumayı izin yaptın, üç günlük bir kaçamak. Pazartesi masanda kapanış klasörü ve \"hoş geldin\" notu vardı.",
+      "en": "You took Friday off for a three-day weekend. Monday, your desk had a closing binder and a \"welcome back\" note.",
+      "coach": [
+        {
+          "tr": "Bir cuma, üç gün.",
+          "en": "One Friday. Three days.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "patron yıllık iznini üçüncü kez \"kapanıştan sonra\"ya erteliyor; kapanış her ay var",
+    "mechanism": "her ay kapanış olduğundan \"kapanıştan sonra\" hiç gelmiyor",
+    "mechanismId": "count",
+    "punch": "kapanış her ay var",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yesil_yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

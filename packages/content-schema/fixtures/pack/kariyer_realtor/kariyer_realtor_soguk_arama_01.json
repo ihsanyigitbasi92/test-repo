@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_soguk_arama_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Camına kendi tabelasını asan herkesi ara. Günde otuz numara. Portföy böyle büyür.",
+      "en": "Call everyone with a homemade sign in the window. Thirty numbers a day. That's how a portfolio grows."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Tabelada ne yazıyor evladım? 'Emlakçı aramasın.' Büyük harfle yazdım.",
+      "en": "What does the sign say? 'No agents.' I wrote it in capitals.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Otuz numarayı da ara",
+      "en": "Call all thirty",
+      "pattern": "overwork"
+    },
+    {
+      "id": "durust",
+      "tr": "Emlakçı olduğunu baştan söyle",
+      "en": "Open with 'I'm an agent'",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "alici",
+      "tr": "Alıcı gibi ara",
+      "en": "Call posing as a buyer",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "devam": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Otuz numarayı aradın. Yirmi iki kişi kapattı, yedisi evinin kaç ettiğini sordu, biri seni yanlış numara sanıp yarım saat torunlarını anlattı.",
+      "en": "You called all thirty. Twenty-two hung up, seven asked what their place was worth, and one took you for a wrong number and spent half an hour on the grandchildren.",
+      "coach": [
+        {
+          "tr": "Otuz arama, sıfır yetki. En uzun görüşme yanlış numaraydı.",
+          "en": "Thirty calls, zero listings. The longest one was a wrong number.",
+          "roast": true
+        }
+      ]
+    },
+    "durust": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "soguk_aramadan_portfoy"
+            ]
+          }
+        },
+        "tr": "İlk cümlede emlakçı olduğunu söyledin. On dördüncü aramada biri 'en azından dürüstsün' dedi ve daireyi sana verdi.",
+        "en": "You said 'agent' in the first sentence. On the fourteenth call someone said 'at least you're honest' and gave you the listing.",
+        "coach": [
+          {
+            "tr": "On üç kapanan telefon, bir yetki.",
+            "en": "Thirteen hang-ups, one listing.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "İlk cümlede emlakçı olduğunu söyledin. Ortalama görüşme dört saniyeye indi; liste öğlene bitti.",
+        "en": "You said 'agent' in the first sentence. Average call length dropped to four seconds. You were through the list by noon.",
+        "coach": [
+          {
+            "tr": "Görüşme başına dört saniye. Verim arttı, portföy aynı.",
+            "en": "Four seconds a call. Efficiency up, portfolio unchanged.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "alici": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Alıcı gibi arayıp randevu aldın. Kapıda kartvizitin çıkınca ev sahibi tabelanın altına ikinci bir satır ekledi.",
+      "en": "You called as a buyer and got a viewing. When your business card came out at the door, the owner added a second line to the sign.",
+      "coach": [
+        {
+          "tr": "Tabela güncellendi. Yeni satır sana ithaf edilmiş.",
+          "en": "The sign has been updated. The new line is dedicated to you.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "durust",
+    "slip": {
+      "tr": "İDDİA: 'Emlakçıyım' cümlesi telefonu kapattırır. — M.",
+      "en": "WAGER: The word 'agent' ends the call. — M."
+    }
+  },
+  "intent": {
+    "setup": "patron kendi tabelasını asan ev sahiplerini aratıyor, tabelada emlakçı aramasın yazıyor",
+    "mechanism": "arama sonuçları istatistik gibi raporlanıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "en uzun görüşme yanlış numaraydı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tabela_satiri"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

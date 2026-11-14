@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_ust_kat_wifi_01",
+  "tags": [
+    "para",
+    "internet",
+    "bolusum",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Üst kattayım. İnternetiniz mutfağımıza kadar geliyor. Şifreye faturanın üçte biri?",
+      "en": "I'm upstairs. Your signal reaches our kitchen. A third of the bill for the password?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Gece indirme yapmam. Sadece ödev. Bir de dizi. Az.",
+      "en": "No downloads at night. Just homework. And shows. A few.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et, şartları yaz",
+      "en": "Agree, put the terms in writing",
+      "pattern": "generosity"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Faturanın yarısını iste",
+      "en": "Ask for half the bill",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "red",
+      "tr": "Şifreyi verme",
+      "en": "Keep the password",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 120,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "wifi_ortagi"
+          ]
+        }
+      },
+      "tr": "Anlaşma yapıldı: ayda 120 Para. Akşam saatlerinde hız yarıya düştü.",
+      "en": "Deal: 120 a month. Evening speeds dropped by half.",
+      "coach": [
+        {
+          "tr": "Ayda 120 Para gelir. Akşamları yarım internet gider.",
+          "en": "120 a month in. Half your internet out, every evening.",
+          "roast": true
+        },
+        {
+          "tr": "Hedefe ayda 120 Para akıyor.",
+          "en": "Goal fund: plus 120 a month.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 180,
+          "stats": {
+            "charm": 1
+          },
+          "flags": {
+            "add": [
+              "wifi_ortagi"
+            ]
+          }
+        },
+        "tr": "Öğrenci yarıyı kabul etti: ayda 180 Para. 'Az' dizi sözü de sözleşmeye yazıldı.",
+        "en": "They agreed to half: 180 a month. The 'a few shows' promise went into the agreement.",
+        "coach": [
+          {
+            "tr": "Yarı fatura, yarım söz. Söz kısmı muğlak.",
+            "en": "Half the bill, half a promise. The promise part is vague.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "Öğrenci yarıyı fazla buldu, yan dairenin ağını denemeye gitti. Şifre sende kaldı.",
+        "en": "Half was too much. They went to try the network next door. Your password stays yours.",
+        "coach": [
+          {
+            "tr": "Pazarlık bitti. Şifre de fatura da tamamen sende.",
+            "en": "Haggling over. Password and bill: all yours.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "wifi_kapali"
+          ]
+        }
+      },
+      "tr": "Şifre paylaşılmadı. Ağın adı ertesi gün 'ÜST KAT DEĞİL' oldu.",
+      "en": "No password shared. The next day, your network was renamed NOT UPSTAIRS.",
+      "coach": [
+        {
+          "tr": "Ağın adı artık bir duyuru.",
+          "en": "Your network name is now a public notice.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Yarıyı vermez. — M.",
+      "en": "WAGER: They won't go for half. — M."
+    }
+  },
+  "intent": {
+    "setup": "üst kattaki öğrencinin internet şifresi karşılığında faturanın üçte birini teklif etmesi",
+    "mechanism": "'sadece ödev, bir de dizi, az' diye büyüyen kullanım",
+    "mechanismId": "escalation",
+    "punch": "sadece ödev, bir de dizi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "duyuru"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

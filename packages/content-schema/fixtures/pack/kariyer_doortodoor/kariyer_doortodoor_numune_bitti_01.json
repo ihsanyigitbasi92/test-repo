@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doortodoor_numune_bitti_01",
+  "tags": [
+    "kariyer",
+    "kapidan_satis",
+    "kariyer_doortodoor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doortodoor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "doorToDoor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Komşuma numune vermişsiniz, bayılmış. Ben de istiyorum, parasıyla.",
+      "en": "My neighbor got a free sample and loved it. I want one. I will pay."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Gösteri ürünü satılmaz. Üstündeki etikette yazıyor.",
+      "en": "Demo units are not for sale. It says so on the label.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "siparis",
+      "tr": "Sipariş formu doldur",
+      "en": "Take a pre-order",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "goster",
+      "tr": "Gösteri ürününü sat",
+      "en": "Sell the demo unit",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yarin",
+      "tr": "Yarın gelirim de",
+      "en": "Promise to come back tomorrow",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "siparis": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 220,
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Sipariş formunu doldurdun, müşteri peşin ödedi. Ürün dört gün sonra kargoyla geldi, komşusu da bir tane istedi.",
+        "en": "You filled out a pre-order, paid upfront. It shipped four days later, and the neighbor ordered one too.",
+        "coach": [
+          {
+            "tr": "İki satış. Sıfır numune.",
+            "en": "Two sales. Zero samples.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Müşteri formda 'dört-altı gün' yazısını görünce vazgeçti. Komşusunun numunesini ödünç almayı seçti.",
+        "en": "The customer saw 'four to six days' on the form and backed out. Decided to borrow the neighbor's sample instead.",
+        "coach": [
+          {
+            "tr": "Rakibin bugün kendi numunendi.",
+            "en": "Your competition today: your own free sample.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "goster": {
+      "effects": {
+        "money": 200,
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "d2d_gosteri_satildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Gösteri ürününü sattın. Ertesi sabahki toplantıda elinde gösterecek ürünü olmayan tek temsilci sendin.",
+      "en": "You sold the demo unit. At the next morning meeting, you were the only rep with nothing to demo.",
+      "coach": [
+        {
+          "tr": "Satış tamam. Sunum eksik.",
+          "en": "Sale closed. Pitch missing.",
+          "roast": false
+        }
+      ]
+    },
+    "yarin": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Ertesi gün aynı kapıyı çaldın. Müşteri bir gecede başka bir satıcıdan benzerini almıştı.",
+      "en": "You came back the next day. Overnight, the customer had bought a lookalike from another rep.",
+      "coach": [
+        {
+          "tr": "Bir gün. Piyasa beklemedi.",
+          "en": "One day. The market didn't wait.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "siparis",
+    "slip": {
+      "tr": "İDDİA: \"Dört-altı gün\" lafı satışı bozar. — M.",
+      "en": "WAGER: 'Four to six days' kills the sale. — M."
+    }
+  },
+  "intent": {
+    "setup": "gün boyu dağıtılan numune bitince son kapıdaki müşterinin satın almak istemesi ama elde yalnız gösteri ürünü kalması",
+    "mechanism": "bedava numunenin kendi satışına rakip olması",
+    "mechanismId": "reversal",
+    "punch": "rakibin kendi numunendi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "numune"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_cam_catlagi_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Taş izi küçük. Şimdi yaparsak 250. Büyürse ön cam komple, 3.000.",
+      "en": "It's a small chip. Now it's 250. If it spreads, the whole windshield: 3,000."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Ama büyümeyebilir de. Bazıları sahibi emekli olana kadar bekler.",
+      "en": "Then again, it might not. Some of them wait until the owner retires.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "simdi",
+      "tr": "Hemen tamir ettir",
+      "en": "Fix it now",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "bekle",
+      "tr": "Büyümez diye bekle",
+      "en": "Wait and see",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "bant",
+      "tr": "Üstüne şeffaf bant yapıştır",
+      "en": "Put clear tape over it",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "simdi": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "cam_onarildi"
+          ]
+        }
+      },
+      "tr": "Reçine sürüldü, yirmi dakikada iz neredeyse kayboldu. 250 Para.",
+      "en": "Resin in, and in twenty minutes the chip had nearly vanished. 250.",
+      "coach": [
+        {
+          "tr": "Küçük sorun, küçük fatura.",
+          "en": "Small problem, small bill.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Taş izi yerinde saydı. Üç kış geçti, hâlâ mercimek kadar.",
+        "en": "The chip stayed put. Three winters later, still the size of a lentil.",
+        "coach": [
+          {
+            "tr": "Mercimek emekli olana kadar bekleyecek.",
+            "en": "The lentil plans to stay until retirement.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -3000,
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "yeni_on_cam"
+              ]
+            }
+          }
+        },
+        "tr": "İlk soğuk sabah çatlak camın bir ucundan öbürüne yürüdü. Ön cam komple: 3.000 Para.",
+        "en": "On the first cold morning the crack walked across the whole windshield. New glass: 3,000.",
+        "coach": [
+          {
+            "tr": "Mercimek büyüdü. Bir gecede.",
+            "en": "The lentil grew up. Overnight.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bant": {
+      "effects": {
+        "money": -15,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "cam_bantli"
+          ]
+        }
+      },
+      "tr": "Bant iki hafta dayandı. Sonra kenarları kalktı ve çatlakla birlikte rüzgârda öttü.",
+      "en": "The tape lasted two weeks. Then its edges lifted and it whistled in the wind along with the crack.",
+      "coach": [
+        {
+          "tr": "Ön camda artık bir düdük var.",
+          "en": "The windshield now comes with a whistle.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Çatlak kışı görmez. — M.",
+      "en": "WAGER: That chip won't survive winter. — M."
+    }
+  },
+  "intent": {
+    "setup": "ön camda taş izi; şimdi küçük tamir mi, büyümesini beklemek mi",
+    "mechanism": "usta fiyatı ihtimalle söylüyor",
+    "mechanismId": "reversal",
+    "punch": "bazıları emekli olana kadar bekler",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "mercimek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

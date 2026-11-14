@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_ekspertiz_dusuk_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Ekspertiz raporu geldi. Değer, anlaştığımız fiyatın altında kalmış.",
+      "en": "The appraisal came in. It is below the price we agreed on."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Benim ev o fiyata değmez mi? Manzarası var.",
+      "en": "My place isn't worth that? It has a view."
+    }
+  ],
+  "choices": [
+    {
+      "id": "komisyon",
+      "tr": "Komisyonundan indir",
+      "en": "Cut your commission",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ikna",
+      "tr": "Satıcıyı indirime ikna et",
+      "en": "Talk the seller down",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yeniden",
+      "tr": "Yeniden değerleme iste",
+      "en": "Request a reappraisal",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "komisyon": {
+      "effects": {
+        "money": 2500,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Komisyonundan 2.000 Para indirdin, satış kapandı. Alıcı tapuda sana kahve ısmarladı.",
+      "en": "You cut 2,000 from your commission. The deal closed. The buyer bought you coffee at the deed office.",
+      "coach": [
+        {
+          "tr": "Komisyonun yarısı gitti. Satış kaldı.",
+          "en": "Half the commission gone. The sale stayed.",
+          "roast": false
+        },
+        {
+          "tr": "Satış sayacı: bir kapanış.",
+          "en": "Sales counter: one closed.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "ikna": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 4500,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Satıcı fiyatı 1.500 Para indirdi. Raporu okurken sesi de indi: \"Manzara: karşı binanın duvarı.\"",
+        "en": "The seller dropped 1,500. Their voice dropped too, reading the report: 'View: neighboring building's wall.'",
+        "coach": [
+          {
+            "tr": "Raporu okuttun, fiyat kendi indi.",
+            "en": "You let the report do the talking.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Satıcı raporu yırttı, evi başka ofise verdi. Raporun kopyası sende: \"Manzara: duvar. Sıva iyi durumda.\"",
+        "en": "The seller tore up the report and listed with another agency. You kept a copy: 'View: wall. Plaster in good condition.'",
+        "coach": [
+          {
+            "tr": "Satış gitti. Rapor kaldı.",
+            "en": "The sale left. The report stayed.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yeniden": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "emlak_satis_kacti"
+          ]
+        }
+      },
+      "tr": "İkinci ekspertiz üç hafta sürdü, değer aynı çıktı. Alıcı bu sürede kredisini başka bir eve kullandı.",
+      "en": "The second appraisal took three weeks. Same number. Meanwhile the buyer used their loan on another place.",
+      "coach": [
+        {
+          "tr": "Üç hafta, aynı rakam.",
+          "en": "Three weeks. Same number.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "ekspertiz değeri anlaşılan satış fiyatının altında kalıyor",
+    "mechanism": "manzara maddesi raporda harfiyen: duvar",
+    "mechanismId": "literalism",
+    "punch": "manzara: duvar, sıva iyi durumda",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "duvar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "miras_vasiyet_dayi_saati_01",
+  "tags": [
+    "yaslilik",
+    "dayi",
+    "hatira",
+    "miras",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Saatimi şimdi sana veriyorum. Benim zamanımda miras beklenmezdi, elden verilirdi.",
+      "en": "I'm giving you my watch now. In my day you didn't wait for an inheritance. You handed it over."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Tek şartım var: her pazar kurduğunu görmek istiyorum.",
+      "en": "One condition: I want to see you wind it every Sunday.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Saati al, kur",
+      "en": "Take it, wind it",
+      "pattern": "patience"
+    },
+    {
+      "id": "reddet",
+      "tr": "\"Sende kalsın\" de",
+      "en": "Tell him to keep it",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşinle paylaştırmayı öner",
+      "en": "Suggest sharing with your sibling",
+      "pattern": "generosity",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "flags": {
+          "add": [
+            "dayi_saati"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Saati taktın. Dayın her pazar arıyor; saat de dayın da dakikası dakikasına.",
+      "en": "You put it on. Your uncle calls every Sunday. He and the watch are both right on time.",
+      "coach": [
+        {
+          "tr": "Pazar denetimi haftalık. Saat geçti.",
+          "en": "Weekly Sunday inspection. The watch passes.",
+          "roast": false
+        }
+      ]
+    },
+    "reddet": {
+      "effects": {
+        "flags": {
+          "add": [
+            "dayi_saati_dayide"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Saat dayında kaldı. Ertesi hafta arkasına senin adını kazıttırdı.",
+      "en": "The watch stayed with your uncle. The next week he had your name engraved on the back.",
+      "coach": [
+        {
+          "tr": "Teslim ertelendi. Alıcı adı kazındı.",
+          "en": "Delivery postponed. Recipient engraved.",
+          "roast": false
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "flags": {
+          "add": [
+            "dayi_saati_ortak"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          },
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Dayın saati sana, kayışını kardeşine verdi. İkiniz de yarım mirasla dolaşıyorsunuz.",
+      "en": "Your uncle gave you the watch and your sibling the strap. You each walk around with half an heirloom.",
+      "coach": [
+        {
+          "tr": "Bir saat, iki yarım miras.",
+          "en": "One watch. Two half-inheritances.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "dayının sağken saatini sana vermesi",
+    "mechanism": "miras beklenmeden, şartla teslim",
+    "mechanismId": "reversal",
+    "punch": "her pazar kurduğunu görmek istiyorum",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "kazindi",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

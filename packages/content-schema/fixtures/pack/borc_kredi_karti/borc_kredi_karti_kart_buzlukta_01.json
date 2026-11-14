@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_kart_buzlukta_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "ev_arkadasi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Buzlukta bir bardak buz var. İçinde kredi kartın. Sanat projesi mi bu?",
+      "en": "There's a glass of ice in the freezer. Your credit card is inside it. Is this an art project?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Bu gece yarısı indirim başlıyormuş. Saç kurutma makinesi nerede, biliyor musun?",
+      "en": "Apparently there's a midnight sale tonight. Do you know where the hair dryer is?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dokunma",
+      "tr": "Buza dokunma",
+      "en": "Don't touch the ice",
+      "pattern": "patience"
+    },
+    {
+      "id": "erit",
+      "tr": "Saç kurutmayla erit",
+      "en": "Thaw it with the hair dryer",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "ezber",
+      "tr": "Kart numarasını ezberden gir",
+      "en": "Type the number from memory",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "dokunma": {
+      "effects": {
+        "money": 600,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kart_buzlukta"
+          ]
+        }
+      },
+      "tr": "İndirim gecesi kart buzda kaldı. Ay sonunda harcamalar 600 Para azdı.",
+      "en": "Sale night came and went with the card on ice. Month-end spending: 600 lower.",
+      "coach": [
+        {
+          "tr": "Kart dondu, ekstre soğudu.",
+          "en": "Card frozen. Statement cooled.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe 600 Para kaldı.",
+          "en": "Goal fund: 600 kept.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "erit": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "kart_eritildi",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Kart on dört dakikada eritildi, indirim bitmeden ayakkabı alındı: 450 Para. Kartta bir su lekesi kaldı.",
+      "en": "The card thawed in fourteen minutes. Shoes bought before the sale ended: 450. The card has a water stain now.",
+      "coach": [
+        {
+          "tr": "On dört dakika kurutma. Ayakkabılar yolda.",
+          "en": "Fourteen minutes of blow-drying. Shoes en route.",
+          "roast": false
+        }
+      ]
+    },
+    "ezber": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "kart_numarasi_ezber",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Kart buzda kaldı; numara, son kullanma tarihi ve güvenlik kodu ezberden girildi. Ayakkabı yolda.",
+      "en": "The card stayed frozen. Number, expiry date and security code, all entered from memory. Shoes en route.",
+      "coach": [
+        {
+          "tr": "Kart buzda. Numara sende.",
+          "en": "The card is on ice. The number isn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "harcamayı durdurmak için kredi kartını su dolu bardakla buzluğa koymak",
+    "mechanism": "kart donduruluyor; ev arkadaşı saç kurutma makinesini soruyor",
+    "mechanismId": "literalism",
+    "punch": "saç kurutma makinesi nerede",
+    "lift": "hedefe 600",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "buz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

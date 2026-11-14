@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_ilk_randevu_01",
+  "tags": [
+    "saglik",
+    "anne",
+    "randevu",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 21
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Randevuyu kendin mi alacaksın? Hangi doktor? Neren ağrıyor? Ne zamandır?",
+      "en": "You're booking it yourself? Which doctor? Where does it hurt? Since when?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Niye bana söylemedin? Dur, ben bir de komşuya sorayım.",
+      "en": "Why didn't you tell me? Hold on, let me ask the neighbor too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "anne",
+      "tr": "Annem halletsin",
+      "en": "Let Mom handle it",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "ara",
+      "tr": "Kendin ara",
+      "en": "Call them yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "uygulama",
+      "tr": "Uygulamadan en erken tarih",
+      "en": "Book the earliest slot online",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "anne": {
+      "effects": {
+        "meters": {
+          "ego": -2,
+          "momPressure": -4
+        },
+        "flags": {
+          "add": [
+            "anne_randevu_aldi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Annen yarım saatte randevu aldı: kendi doktoruna, kendi saatine. Kendisi de geliyor.",
+      "en": "Mom booked it in thirty minutes: her doctor, her time slot. She's coming too.",
+      "coach": [
+        {
+          "tr": "Randevu senin, refakat zorunlu. Paket böyle.",
+          "en": "Your appointment. Mandatory escort. That's the package.",
+          "roast": true
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "ilk_randevu_kendin"
+            ]
+          }
+        },
+        "tr": "Santral bir kez aktardı, bölümü doğru söyledin. Perşembe 10.40.",
+        "en": "Transferred once, you named the right department. Thursday, 10:40.",
+        "coach": [
+          {
+            "tr": "İlk randevu kayıtta. Sayaç bir.",
+            "en": "First appointment: logged. Counter at one.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "yanlis_bolum_randevusu"
+            ]
+          }
+        },
+        "tr": "Dizin ağrıyordu, seni kulak burun boğaza yazdılar. Telefonu kapatınca fark ettin.",
+        "en": "Your knee hurts. They booked you with ear, nose and throat. You noticed after hanging up.",
+        "coach": [
+          {
+            "tr": "Bölüm yanlış, saat doğru. Kulakların çok sağlıklı çıkacak.",
+            "en": "Wrong department, right time. Your ears are about to get a clean bill of health.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uygulama": {
+      "effects": {
+        "stats": {
+          "health": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ilk_randevu_kendin"
+          ]
+        }
+      },
+      "tr": "En erken tarih beş hafta sonra çıktı. Randevu cepte, ağrı yerinde.",
+      "en": "Earliest slot: five weeks out. Appointment in hand, pain still in place.",
+      "coach": [
+        {
+          "tr": "Beş hafta. Takvime işlendi.",
+          "en": "Five weeks. It's on the calendar.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ara",
+    "slip": {
+      "tr": "İDDİA: İlk telefonda bölüm yanlış çıkar. — M.",
+      "en": "WAGER: First call, wrong department. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk kez kendi doktor randevunu kendin alman",
+    "mechanism": "annenin soruları cevap beklemeden çoğalıyor",
+    "mechanismId": "escalation",
+    "punch": "ben bir de komşuya sorayım",
+    "lift": "ilk randevu kayıtta",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "refakat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

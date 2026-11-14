@@ -1,0 +1,217 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_sinif_temsilcisi_tarih_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "temsilci",
+    "sinav_tarihi",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Temsilci sizsiniz, değil mi? Final için üç tarih var. Sınıf hangisini isterse.",
+      "en": "You're the class rep, right? Three options for the final. Whichever the class wants."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Grupta anket açtım: üç tarih, yüz yirmi kişi, yüz yirmi farklı görüş.",
+      "en": "I opened a poll in the chat: three dates, a hundred and twenty people, a hundred and twenty opinions.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anket",
+      "tr": "Anket sonucunu götür",
+      "en": "Bring the poll result",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Dördüncü tarih için pazarlık et",
+      "en": "Bargain for a fourth date",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kendin",
+      "tr": "Kendine uyan tarihi seç",
+      "en": "Pick the date that suits you",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "anket": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sinif_temsilcisi"
+          ]
+        }
+      },
+      "tr": "Kazanan tarih yüzde otuz dördün oyunu aldı. Kalan yüzde altmış altı grupta sana yazdı.",
+      "en": "The winning date got thirty-four percent. The other sixty-six percent messaged you.",
+      "coach": [
+        {
+          "tr": "Oylama bitti. Bildirim yağmuru başladı.",
+          "en": "The vote closed. The notifications opened.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "charm": 2
+          },
+          "flags": {
+            "add": [
+              "sinif_temsilcisi",
+              "final_ertelendi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Hoca dördüncü tarihi kabul etti: bir hafta sonrası. Grupta adının yanına on yedi kalp geldi.",
+        "en": "The professor agreed to a fourth date, a week later. Seventeen hearts landed next to your name in the chat.",
+        "coach": [
+          {
+            "tr": "Bir hafta, on yedi kalp.",
+            "en": "One week. Seventeen hearts.",
+            "roast": false
+          },
+          {
+            "tr": "Hedefe bir hafta pay eklendi.",
+            "en": "A week of slack for the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "sinif_temsilcisi"
+            ]
+          }
+        },
+        "tr": "Hoca dördüncü tarih istendiği için üçüncüyü de kaldırdı. Kalan iki tarihin ikisi de en erken olanlar.",
+        "en": "Since a fourth date was requested, the professor dropped the third one too. Both remaining dates are the earliest.",
+        "coach": [
+          {
+            "tr": "Üç seçenek ikiye indi. Pazarlık ters yöne işledi.",
+            "en": "Three options became two. The bargaining ran in reverse.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kendin": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "sinif_temsilcisi",
+            "temsilci_sikayet"
+          ]
+        }
+      },
+      "tr": "Tarihi sen seçtin. Grupta \"temsilci kendi takvimine göre seçmiş\" mesajı sabitlendi.",
+      "en": "You picked the date. A pinned message in the chat now reads \"the rep picked their own calendar.\"",
+      "coach": [
+        {
+          "tr": "Sabitlenmiş mesaj. Silmek için yönetici olmak lazım.",
+          "en": "A pinned message. You need admin rights to remove it.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Hoca dördüncü tarih vermez. — M.",
+      "en": "WAGER: No fourth date. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınıf temsilcisi olarak hocayla final tarihini belirlemek",
+    "mechanism": "anket her büyüdükçe görüş çoğalıyor; pazarlık seçenek azaltıyor",
+    "mechanismId": "escalation",
+    "punch": "yüz yirmi kişi, yüz yirmi farklı görüş",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sabit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

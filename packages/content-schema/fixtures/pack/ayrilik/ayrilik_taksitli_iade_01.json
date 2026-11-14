@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ayrilik_taksitli_iade_01",
+  "tags": [
+    "iliski",
+    "ayrilik_sonrasi",
+    "ayrilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "ayrilik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "ayrildi"
+      ],
+      "none": [
+        "borc_kapandi",
+        "borc_silindi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "ex",
+      "avatar": "neutral",
+      "tr": "Sana olan borcu taksitle ödüyorum. İlki bugün yattı.",
+      "en": "I’m paying back what I owe you in installments. First one went through today."
+    },
+    {
+      "speaker": "ex",
+      "avatar": "typing",
+      "tr": "Açıklamaya bir şey yazdım. Okumasan da olur.",
+      "en": "I wrote something in the memo. You don’t have to read it.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Her taksiti kabul et",
+      "en": "Accept every installment",
+      "pattern": "patience"
+    },
+    {
+      "id": "sil",
+      "tr": "Kalanını sil",
+      "en": "Forgive the rest",
+      "pattern": "generosity"
+    },
+    {
+      "id": "cevap",
+      "tr": "Açıklamalara cevap yaz",
+      "en": "Reply to the memos",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 1200,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "borc_kapandi"
+          ]
+        }
+      },
+      "tr": "Altı ay boyunca her ay 200 Para geldi. Açıklamalar: “ilk”, “ikinci”, “kış”, “boşver”, “az kaldı”, “son”.",
+      "en": "Two hundred a month for six months. Memos: “first,” “second,” “winter,” “never mind,” “almost,” “last.”",
+      "coach": [
+        {
+          "tr": "Altı açıklama. Bir hikâye.",
+          "en": "Six memos. One story.",
+          "roast": false
+        }
+      ]
+    },
+    "sil": {
+      "effects": {
+        "money": 200,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "affinity": 5,
+            "memory": "borc_silindi"
+          }
+        ],
+        "flags": {
+          "add": [
+            "borc_silindi"
+          ]
+        }
+      },
+      "tr": "“Kalanı kalsın” yazdın. Tek taksit geldi. Açıklaması: “sağ ol”.",
+      "en": "You texted “keep the rest.” One installment arrived. Memo: “thank you.”",
+      "coach": [
+        {
+          "tr": "Bir taksit, bir teşekkür.",
+          "en": "One payment. One thank-you.",
+          "roast": false
+        }
+      ]
+    },
+    "cevap": {
+      "effects": {
+        "money": 1200,
+        "meters": {
+          "cringe": 5
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "borc_kapandi",
+            "havale_yazismasi"
+          ]
+        }
+      },
+      "tr": "Sen de 1 Para gönderip açıklamaya cevap yazdın. Banka ikinize de “şüpheli işlem” uyarısı attı.",
+      "en": "You sent back one Para with a reply in the memo. The bank flagged both accounts for “unusual activity.”",
+      "coach": [
+        {
+          "tr": "Banka da okudu.",
+          "en": "The bank read them too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da sessizlik günü"
+  },
+  "intent": {
+    "setup": "eski partnerin borcunu taksitle ödeyip her havaleye açıklama yazması",
+    "mechanism": "havale açıklamaları küçük bir yazışmaya dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "banka şüpheli işlem uyarısı attı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "havale"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

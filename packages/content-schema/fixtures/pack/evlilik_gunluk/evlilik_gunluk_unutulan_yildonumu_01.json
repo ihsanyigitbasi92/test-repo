@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_unutulan_yildonumu_01",
+  "tags": [
+    "iliski",
+    "yildonumu",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 36
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "yildonumu_takvimde"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Geçen yıl bugün balkonunuzda pasta vardı. Mum da vardı. Bu yıl yok mu?",
+      "en": "This day last year there was cake on your balcony. Candles too. Nothing this year?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Bugün mü? Ben haftaya sanıyordum. Sen de mi?",
+      "en": "Today? I thought it was next week. You too?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dogac",
+      "tr": "Akşama sürpriz doğaçla",
+      "en": "Improvise a surprise by tonight",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "itiraf",
+      "tr": "Unuttuğunuzu kabul edin",
+      "en": "Admit you both forgot",
+      "pattern": "patience"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşuya teşekkür et",
+      "en": "Thank the neighbor",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "dogac": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "money": -350,
+          "flags": {
+            "add": [
+              "yildonumu_takvimde"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 4
+            }
+          ]
+        },
+        "tr": "Akşama masa hazırdı: iki mum, bir pasta, 350 Para. Partner de yolda çiçek almıştı.",
+        "en": "By evening the table was set: two candles, one cake, 350. Your partner had picked up flowers on the way.",
+        "coach": [
+          {
+            "tr": "İkiniz de doğaçladınız. Masada buluştunuz.",
+            "en": "You both improvised. You met in the middle, at the table.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "money": -350,
+          "flags": {
+            "add": [
+              "yildonumu_karisik"
+            ]
+          }
+        },
+        "tr": "Pasta geldi, üstünde \"İyi ki doğdun\" yazıyordu. Pastanede başka yazı kalmamış.",
+        "en": "The cake arrived reading \"Happy Birthday.\" The bakery was out of other wording.",
+        "coach": [
+          {
+            "tr": "Pasta yanlış şeyi kutladı. Ama kutladı.",
+            "en": "The cake celebrated the wrong occasion. But it celebrated.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "yildonumu_takvimde"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "İkiniz de unuttuğunuzu itiraf ettiniz ve güldünüz. Tarih artık iki telefonda da hatırlatıcı.",
+      "en": "You both confessed and laughed. The date is now a reminder on both phones.",
+      "coach": [
+        {
+          "tr": "Hatırlatıcı kuruldu. İki telefona.",
+          "en": "Reminder set. Two phones.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "komsu_takvim"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Komşuya teşekkür ettin. Komşu tarihi kendi takvimine yazdı: \"Seneye ben hatırlatırım.\"",
+      "en": "You thanked the neighbor. She wrote the date in her own calendar. \"I'll remind you next year.\"",
+      "coach": [
+        {
+          "tr": "Yıldönümünüzün artık bir sekreteri var.",
+          "en": "Your anniversary now has a secretary.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dogac",
+    "slip": {
+      "tr": "İDDİA: Akşama masa kurulmaz. — M.",
+      "en": "WAGER: No table by tonight. — M."
+    }
+  },
+  "intent": {
+    "setup": "evlilik yıldönümünü iki eşin de unutup komşunun hatırlatması",
+    "mechanism": "komşu balkon gözlemiyle çiftin takvimini tutuyor",
+    "mechanismId": "callback",
+    "punch": "geçen yıl bugün balkonda pasta",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sekreter"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

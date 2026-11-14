@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_evinde_yasam_market_listesi_peynir_01",
+  "tags": [
+    "ev",
+    "market",
+    "anne_evinde_yasam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 2500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "anne_evinde_yasam": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "housing": [
+      "momsHouse"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Bizim peynirden al. Mavi kapaklı değil, öbürü. Üstünde inek olmayan.",
+      "en": "Get our cheese. Not the blue lid one, the other one. The one without a cow on it."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Bir de ekmek. Bir de o senin sevdiğin bisküvi. Hani benim sevmediğim.",
+      "en": "And bread. And those cookies you like. The ones I don't."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ara",
+      "tr": "Reyondan görüntülü ara",
+      "en": "Video-call her from the aisle",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "tahmin",
+      "tr": "Tahminle al",
+      "en": "Go with your gut",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ikisi",
+      "tr": "İki peyniri de al",
+      "en": "Buy both cheeses",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "ara": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": -1
+        },
+        "flags": {
+          "add": [
+            "market_goruntulu"
+          ]
+        }
+      },
+      "tr": "Annen seni raf raf gezdirdi. Peynir en alt raftaydı, üstünde inek vardı.",
+      "en": "Mom walked you shelf by shelf. The cheese was on the bottom shelf. It had a cow on it.",
+      "coach": [
+        {
+          "tr": "İnek oradaydı.",
+          "en": "The cow was there all along.",
+          "roast": false
+        }
+      ]
+    },
+    "tahmin": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "momPressure": -2
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "peynir_dogru"
+            ]
+          }
+        },
+        "tr": "Doğru peyniri tek seferde aldın. Annen \"kimden öğrendin\" diye sordu.",
+        "en": "Right cheese, first try. Mom asked who taught you.",
+        "coach": [
+          {
+            "tr": "Yirmi yıllık gözlem, tek atış.",
+            "en": "Twenty years of observation, one shot.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "money": -90,
+          "meters": {
+            "momPressure": 2
+          },
+          "flags": {
+            "add": [
+              "peynir_yanlis"
+            ]
+          }
+        },
+        "tr": "Yanlış peynir. Annen onu kahvaltıda ayrı bir tabağa koydu: \"misafir peyniri\".",
+        "en": "Wrong cheese. Mom served it at breakfast on its own plate. \"Guest cheese.\"",
+        "coach": [
+          {
+            "tr": "Peynir artık misafir. Uzun süreli.",
+            "en": "The cheese is a guest now. Long-term.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ikisi": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "iki_peynir"
+          ]
+        }
+      },
+      "tr": "İki peyniri de aldın. Biri doğruydu, öbürü buzdolabında bir ay daha durdu.",
+      "en": "You bought both. One was right. The other lived in the fridge for another month.",
+      "coach": [
+        {
+          "tr": "Yüzde elli isabet, yüzde yüz masraf.",
+          "en": "Fifty percent accuracy. A hundred percent spend.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "annenin markasız tarifle \"bizim peynir\" istemesi",
+    "mechanism": "tarif olumsuzlarla yapılıyor; kuru rapor",
+    "mechanismId": "deadpan_report",
+    "punch": "üstünde inek olmayan",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "inek"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

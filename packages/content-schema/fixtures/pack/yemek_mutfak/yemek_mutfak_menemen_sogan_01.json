@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_menemen_sogan_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "ev_arkadasi",
+    "misafir",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Menemene soğan koyarsan çocukluk arkadaşlarım kalkıp gider. Ciddiyim, bu bir aile meselesi.",
+      "en": "If you put onions in the menemen, my childhood friends will walk out. I'm serious. It's a family thing."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Ama biri de soğansızı yemiyor. Hangisi olduğunu hatırlamıyorum.",
+      "en": "But one of them won't eat it without onions. I can't remember which one.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikiye",
+      "tr": "Tavayı ikiye böl",
+      "en": "Split the pan down the middle",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sogansiz",
+      "tr": "Soğansız yap",
+      "en": "Skip the onions",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "soganli",
+      "tr": "Soğanlı yap, arkasında dur",
+      "en": "Onions in. Own it.",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ikiye": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_menemen_ikiye"
+            ]
+          }
+        },
+        "tr": "Tavanın ortasına çatalla bir sınır çizdin. Sınır tuttu, iki taraf da tabağını ekmekle sildi.",
+        "en": "You drew a fork line down the middle of the pan. The border held. Both sides wiped their plates with bread.",
+        "coach": [
+          {
+            "tr": "Tek tavada ateşkes. İmzalar ekmekle atıldı.",
+            "en": "A ceasefire in one pan. Signed in bread.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -90,
+          "flags": {
+            "add": [
+              "yemek_menemen_karisti"
+            ]
+          }
+        },
+        "tr": "Yumurta sınırı tanımadı, iki taraf karıştı. Misafirler sessizce simit almaya çıktı, 90 Para senden çıktı.",
+        "en": "The eggs ignored the border and everything merged. The guests quietly went out for bagels. You covered the 90.",
+        "coach": [
+          {
+            "tr": "Yumurta harita okumuyor.",
+            "en": "Eggs don't read maps.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sogansiz": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_menemen_sogansiz"
+          ]
+        }
+      },
+      "tr": "Soğansız yaptın. Misafirlerden biri her lokmada \"güzel olmuş ama\" dedi, cümlenin sonunu hiç getirmedi.",
+      "en": "No onions. One guest said \"it's good, but\" after every bite and never finished the sentence.",
+      "coach": [
+        {
+          "tr": "Cümle yarım kaldı. Tava boşaldı.",
+          "en": "The sentence stayed unfinished. The pan didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "soganli": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_menemen_soganli"
+          ]
+        }
+      },
+      "tr": "Soğanlı yaptın. Tavanın yarısı yendi, kalan yarısı kırk dakika tartışıldı.",
+      "en": "Onions in. Half the pan got eaten. The other half got debated for forty minutes.",
+      "coach": [
+        {
+          "tr": "Menemen beş dakikada pişti. Tartışma kırk.",
+          "en": "The menemen took five minutes. The debate took forty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikiye",
+    "slip": {
+      "tr": "İDDİA: Yumurta sınır tanımaz. — M.",
+      "en": "WAGER: The eggs won't respect the border. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının misafirlerine menemen yaparken soğanlı mı soğansız mı çatışması",
+    "mechanism": "ev arkadaşı kesin kural koyuyor ama kimin kuralı olduğunu hatırlamıyor",
+    "mechanismId": "reversal",
+    "punch": "hangisi olduğunu hatırlamıyorum",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "ateskes"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Menemene soğan konur mu tartışması TR'ye özgü; EN'de menemen adı korunur, domatesli yumurta tavası olarak okunur."
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ilk_ask_yagmur_evi_satiyor_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yagmur",
+    "ilk_ask_yagmur"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3650,
+    "tags": {
+      "ilk_ask_yagmur": 20
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 50
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "ex",
+      "avatar": "neutral",
+      "tr": "Hoş geldin.",
+      "en": "Welcome."
+    },
+    {
+      "speaker": "ex",
+      "avatar": "neutral",
+      "tr": "Mutfak yeni.",
+      "en": "New kitchen.",
+      "delayMs": 1000
+    },
+    {
+      "speaker": "ex",
+      "avatar": "smug",
+      "tr": "Pazarlık yok.",
+      "en": "No haggling.",
+      "delayMs": 1600
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Yine de pazarlık et",
+      "en": "Haggle anyway",
+      "pattern": "risk",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annenle ikinci kez gez",
+      "en": "Bring Mom for a second viewing",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "cik",
+      "tr": "Teşekkür et, çık",
+      "en": "Thank them and leave",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "ex",
+              "affinity": 2,
+              "memory": "pazarlik_kabul"
+            }
+          ],
+          "flags": {
+            "add": [
+              "yagmur_evi_indirim"
+            ]
+          }
+        },
+        "tr": "Pazarlık ettin. Yağmur 'Bir şartla' dedi: balkondaki saksılar evle kalacak ve sulanacak.",
+        "en": "You haggled. Sam said, 'One condition': the balcony plants stay with the flat, and get watered.",
+        "coach": [
+          {
+            "tr": "İndirim geldi. Sulama göreviyle birlikte.",
+            "en": "The discount came with watering duty.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 5
+          },
+          "npc": [
+            {
+              "role": "ex",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Pazarlık ettin. Yağmur 'Yok dedim' dedi ve kapıyı tuttu.",
+        "en": "You haggled. Sam said, 'I said no,' and held the door.",
+        "coach": [
+          {
+            "tr": "Kural ilan edilmişti. Üçüncü balonda.",
+            "en": "The rule was posted. Third bubble.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 4
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          },
+          {
+            "role": "ex",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annenle ikinci kez geldin. Annen Yağmur'a sarılıp yirmi dakika ağladı; ev hiç konuşulmadı.",
+      "en": "You came back with Mom. Mom hugged Sam and cried for twenty minutes. Nobody mentioned the flat.",
+      "coach": [
+        {
+          "tr": "İkinci gösterim. Konu değişti.",
+          "en": "Second viewing. Different subject.",
+          "roast": false
+        }
+      ]
+    },
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "memory": "evi_gezdi"
+          }
+        ]
+      },
+      "tr": "Teşekkür edip çıktın. Merdivende ilanı yeniden açtın; 'acil satılık' ibaresi bugün eklenmiş.",
+      "en": "You thanked them and left. On the stairs you reopened the listing. 'Must sell' had been added today.",
+      "coach": [
+        {
+          "tr": "Acele onun. Karar senin.",
+          "en": "Their hurry. Your call.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Kapı tutulur. — M.",
+      "en": "WAGER: Door held, deal dead. — M."
+    }
+  },
+  "intent": {
+    "setup": "satın almak için gezdiğin dairenin sahibinin Yağmur çıkması",
+    "mechanism": "Yağmur'un 'Pazarlık yok.' kuralı harfiyen uygulanır",
+    "mechanismId": "literalism",
+    "punch": "Pazarlık yok.",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

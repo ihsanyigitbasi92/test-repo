@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_adimsayar_kontrol_01",
+  "tags": [
+    "saglik",
+    "kontrol",
+    "yuruyus",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Üç aylık kontrol. Geçen sefer hekim her gün yürüyüş demişti, sen de \"tabii\" demiştin.",
+      "en": "Three-month follow-up. Last time the doctor said walk every day, and you said \"of course.\""
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Telefonunuz adım sayıyor mu? Bir bakalım, merak ettim.",
+      "en": "Does your phone count steps? Let's have a look. I'm curious."
+    }
+  ],
+  "choices": [
+    {
+      "id": "goster",
+      "tr": "Telefonu uzat",
+      "en": "Hand over the phone",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "anlat",
+      "tr": "Yürüyüşleri anlat, telefonu verme",
+      "en": "Describe the walks, keep the phone",
+      "pattern": "pride"
+    },
+    {
+      "id": "itiraf",
+      "tr": "Yürümediğini söyle",
+      "en": "Admit you haven't been",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "goster": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 2
+          },
+          "diagnosis": "rutin_kontrol_temiz",
+          "flags": {
+            "add": [
+              "yuruyus_aliskanligi"
+            ]
+          }
+        },
+        "tr": "Grafik dört haftadır düzenli yükseliyordu. Hekim ekranı stajyere de gösterdi.",
+        "en": "The chart had been climbing steadily for four weeks. The doctor turned the screen toward the intern.",
+        "coach": [
+          {
+            "tr": "Grafik senden önce konuştu. Lehine konuştu.",
+            "en": "The chart spoke before you did. It spoke in your favor.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "yuruyus_sozu"
+            ]
+          }
+        },
+        "tr": "Grafikte tek bir tepe vardı: geçen ayki düğün. Hekim \"dans sayılmaz\" dedi.",
+        "en": "The chart had exactly one peak: last month's wedding. The doctor said, \"Dancing doesn't count.\"",
+        "coach": [
+          {
+            "tr": "Ayın tek yürüyüşü dans pistindeydi.",
+            "en": "The month's only walk took place on a dance floor.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anlat": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yuruyus_sozu"
+          ]
+        }
+      },
+      "tr": "Sahil yolunu, köpekli komşuyu, yokuşu anlattın. Hekim dinledi ve telefonun ne dediğini yeniden sordu.",
+      "en": "You described the shore path, the neighbor with the dog, the hill. The doctor listened, then asked again what the phone said.",
+      "coach": [
+        {
+          "tr": "Hikâye güzeldi. Telefon hâlâ cebinde.",
+          "en": "Lovely story. Phone still in the pocket.",
+          "roast": true
+        }
+      ]
+    },
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yuruyus_yeniden"
+          ]
+        }
+      },
+      "tr": "Yürümediğini söyledin. Hekim hedefi günde on beş dakikaya indirdi ve reçete kâğıdına yazdı.",
+      "en": "You admitted it. The doctor cut the target to fifteen minutes a day and wrote it on a prescription pad.",
+      "coach": [
+        {
+          "tr": "On beş dakika. Telefon sayacak.",
+          "en": "Fifteen minutes. The phone will be counting.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe on beş dakikalık basamak.",
+          "en": "A fifteen-minute step toward the goal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "goster",
+    "slip": {
+      "tr": "İDDİA: Telefon seni ele verir. — M.",
+      "en": "WAGER: The phone gives you away. — M."
+    }
+  },
+  "intent": {
+    "setup": "kontrolde hekimin önerdiği yürüyüşü telefondaki adım sayarla doğrulamak istemesi",
+    "mechanism": "sözlü beyan yerine grafik konuşuyor",
+    "mechanismId": "reversal",
+    "punch": "ayın tek yürüyüşü dans pistindeydi",
+    "lift": "hedefe on beş dakikalık basamak",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pist"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

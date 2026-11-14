@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kayin_aile_ikramiye_tavsiyesi_01",
+  "tags": [
+    "aile",
+    "kayin_aile"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "kayin_aile": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 33,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "kayin_ikramiye"
+      ],
+      "any": [
+        "evli",
+        "nisanli"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "dosya",
+      "tr": "Kayınpeder emekli oldu. İkramiyeyle ne yapacağını aile içinde yalnızca sana sordu, önüne bir dosya koyarak.",
+      "en": "Your father-in-law just retired. Of the whole family, he asked only you what to do with his lump sum. He brought a folder."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Babam bana hiç sormaz. Bana yalnızca yemek yiyip yemediğimi sorar.",
+      "en": "Dad never asks me anything. He only asks whether I've eaten."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Dosyada üç seçenek var. Babam dördüncüsünü çoktan seçmiş olabilir.",
+      "en": "There are three options in the folder. He may have already picked a fourth.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tablo",
+      "tr": "Tablo hazırla, anlat",
+      "en": "Build a spreadsheet, walk him through",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bilmem",
+      "tr": "Uzman olmadığını söyle",
+      "en": "Say you're no expert",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "partnere",
+      "tr": "Partnerine yönlendir",
+      "en": "Hand it to your partner",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "tablo": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kayin_ikramiye",
+              "kayinpeder_danisman"
+            ]
+          }
+        },
+        "tr": "Kayınpeder tabloyu iki saat inceledi ve en temkinli seçeneği seçti. Çıktısını cüzdanında taşıyor.",
+        "en": "He studied your spreadsheet for two hours and chose the safest option. He keeps a printout in his wallet.",
+        "coach": [
+          {
+            "tr": "Cüzdanında senin tablon var. Fotoğrafın yok.",
+            "en": "He carries your spreadsheet in his wallet. Not your photo.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kayin_ikramiye",
+              "yazlik_ikinci_kat"
+            ]
+          }
+        },
+        "tr": "Kayınpeder tabloyu dinledi, teşekkür etti ve dördüncü seçeneği seçti: yazlığa ikinci kat.",
+        "en": "He listened, thanked you, and went with option four: a second floor on the summer house.",
+        "coach": [
+          {
+            "tr": "İki saatlik sunum, bir kat yukarı.",
+            "en": "Two hours of slides. One extra floor.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bilmem": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "kayin_ikramiye"
+          ]
+        }
+      },
+      "tr": "Kayınpeder dosyayı kapattı: \"Haklısın, kimse bilmez.\" Ertesi gün aynı dosyayla komşusuna gitti.",
+      "en": "He closed the folder. \"Fair. Nobody knows.\" The next day he took the same folder next door.",
+      "coach": [
+        {
+          "tr": "Dosya komşuya geçti.",
+          "en": "The folder lives next door now.",
+          "roast": false
+        }
+      ]
+    },
+    "partnere": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kayin_ikramiye"
+          ]
+        }
+      },
+      "tr": "Partnerin babasıyla ilk kez para konuştu. Dönüşte arabada yirmi dakika hiç konuşmadı.",
+      "en": "Your partner talked money with their dad for the first time. On the drive home: twenty minutes of silence.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika sessizlik. Fatura sana kesilmedi.",
+          "en": "Twenty quiet minutes. Not billed to you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tablo",
+    "slip": {
+      "tr": "İDDİA: Kayınpeder yine kendi bildiğini seçer. — M.",
+      "en": "WAGER: He picks his own option anyway. — M."
+    }
+  },
+  "intent": {
+    "setup": "emekli kayınpederin ikramiyesini değerlendirmek için kendi çocuğuna değil sana danışması",
+    "mechanism": "damat/gelin danışman olur, çocuk yalnızca yemek sorusu alır",
+    "mechanismId": "reversal",
+    "punch": "cüzdanında senin tablon var, fotoğrafın yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "cuzdan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_gelmeyen_koltuk_01",
+  "tags": [
+    "burokrasi",
+    "alacak",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Arabuluculuk görüşmesi başlıyor. Karşı taraf burada, koltuk değil.",
+      "en": "The mediation session is starting. The other party is present. The sofa is not."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Koltuk yolda. Üç aydır yolda. Yol uzun.",
+      "en": "The sofa's on its way. Has been for three months. Long road.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "uzlas",
+      "tr": "Yarısına razı ol",
+      "en": "Settle for half",
+      "pattern": "patience"
+    },
+    {
+      "id": "dava",
+      "tr": "Uzlaşmayı reddet, dava aç",
+      "en": "Refuse and go to court",
+      "pattern": "pride",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Koltuğun peşini bırak",
+      "en": "Let the sofa go",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "uzlas": {
+      "effects": {
+        "money": 450,
+        "hidden": {
+          "stress": -2
+        },
+        "glossary": "arabuluculuk",
+        "flags": {
+          "add": [
+            "koltuk_uzlasma"
+          ]
+        }
+      },
+      "tr": "Kaporanın yarısı, 450 Para, iki taksitte iade edildi. Koltuk hâlâ yolda.",
+      "en": "Half your deposit, 450, came back in two installments. The sofa is still on its way.",
+      "coach": [
+        {
+          "tr": "Yarım kapora, sıfır koltuk. Dosya kapandı.",
+          "en": "Half a deposit, zero sofas. File closed.",
+          "roast": false
+        }
+      ]
+    },
+    "dava": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 900,
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "glossary": "arabuluculuk",
+          "flags": {
+            "add": [
+              "koltuk_davasi_kazanildi"
+            ]
+          }
+        },
+        "tr": "Mahkeme kaporanın tamamını ve masrafları sana verdi. Satıcı ödemeyi koltuk resmiyle birlikte yaptı.",
+        "en": "The court awarded your full deposit plus costs. The seller paid, and enclosed a photo of the sofa.",
+        "coach": [
+          {
+            "tr": "900 Para ve bir koltuk fotoğrafı. Tam iade.",
+            "en": "900 and a photo of the sofa. Full refund.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 5
+          },
+          "flags": {
+            "add": [
+              "koltuk_davasi_kaybedildi"
+            ]
+          }
+        },
+        "tr": "Dava dört ay sürdü. Satıcının adresi değişmiş, tebligat dönünce masrafı sen ödedin.",
+        "en": "The case dragged on four months. The seller had moved, the notice bounced, and you covered the costs.",
+        "coach": [
+          {
+            "tr": "Dört ay, bir dönen zarf, 300 Para.",
+            "en": "Four months, one returned envelope, 300.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "eski_koltuk"
+          ]
+        }
+      },
+      "tr": "Koltuğun peşini bıraktın. Salonda eski koltuk yerinde kaldı ve biraz daha çöktü.",
+      "en": "You let the sofa go. The old one stayed in the living room and sagged a little more.",
+      "coach": [
+        {
+          "tr": "Eski koltuk bir sezon daha kadroda.",
+          "en": "The old sofa, signed on for another season.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dava",
+    "slip": {
+      "tr": "İDDİA: Koltuk mahkemeye de gelmez. — M.",
+      "en": "WAGER: The sofa won't show up in court either. — M."
+    }
+  },
+  "intent": {
+    "setup": "ikinci el satıcıya kapora verilen ve üç ay gelmeyen koltuk için arabuluculuk",
+    "mechanism": "satıcı \"yolda\" diyor",
+    "mechanismId": "understatement",
+    "punch": "yol uzun",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "koltuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

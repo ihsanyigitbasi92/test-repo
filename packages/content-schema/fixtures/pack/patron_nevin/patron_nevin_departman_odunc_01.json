@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_departman_odunc_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Pazarlama direktörü seni üç aylık bir proje için istiyor. Nevin Hanım'ın onayı gerekiyor.",
+      "en": "The marketing director wants you for a three-month project. Needs Ms. Carver's sign-off."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Seni ödünç veririm tabii. Ama kalbimin bir parçası da seninle gider, ona göre.",
+      "en": "Of course I'll lend you out. But a piece of my heart goes with you. Just so you know.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Projeye git",
+      "en": "Take the project",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Nevin Hanım'ın yanında kal",
+      "en": "Stay with Ms. Carver",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "bol",
+      "tr": "Haftada iki gün öner",
+      "en": "Offer two days a week",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "git": [
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": 5
+          },
+          "flags": {
+            "add": [
+              "departman_deneyimi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ],
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Proje bitti, pazarlama seni geri vermek istemedi. İki departmanın pazarlığından bir kademe yukarıda çıktın.",
+        "en": "The project wrapped and marketing didn't want to give you back. Two departments negotiated, and you came out a rung higher.",
+        "coach": [
+          {
+            "tr": "İki departman seni paylaşamadı. Kademe oradan.",
+            "en": "Two departments fought over you. That's where the rung came from.",
+            "roast": false
+          },
+          {
+            "tr": "Sayaç: hedefe bir kademe.",
+            "en": "Counter: one rung toward the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "geri_dondu"
+            }
+          ]
+        },
+        "tr": "Proje iki ay sonra iptal oldu, geri döndün. Masanda bir 'tekrar hoş geldin' kartı ve iki aylık birikmiş iş vardı.",
+        "en": "The project was canceled after two months and you came back. Waiting on your desk: a 'welcome back' card and two months of backlog.",
+        "coach": [
+          {
+            "tr": "Kart da iş de seni beklemiş. Biri daha kalın.",
+            "en": "The card and the backlog both waited. One is thicker.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 5,
+            "memory": "sadik"
+          }
+        ]
+      },
+      "tr": "Kaldın. Nevin Hanım ekibe 'sadakat' konulu bir mail yazdı, adın geçmedi ama herkes anladı.",
+      "en": "You stayed. Ms. Carver emailed the team about 'loyalty.' She didn't name you, but everyone knew.",
+      "coach": [
+        {
+          "tr": "Mail isimsizdi. Ofis değil.",
+          "en": "The email named no one. The office did.",
+          "roast": false
+        }
+      ]
+    },
+    "bol": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "İki gün pazarlama, üç gün Nevin Hanım. İki takvim de seni tam zamanlı sanıyor.",
+      "en": "Two days for marketing, three for Ms. Carver. Both calendars think you're full-time.",
+      "coach": [
+        {
+          "tr": "İki takvim, iki tam zaman. Çalışan sayısı bir.",
+          "en": "Two calendars, two full-time jobs, one employee.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "git",
+    "slip": {
+      "tr": "İDDİA: Proje sen dönmeden kapanır. — M.",
+      "en": "WAGER: The project folds before you're back. — M."
+    }
+  },
+  "intent": {
+    "setup": "başka departmanın seni üç aylık projeye ödünç istemesi",
+    "mechanism": "iki takvim, iki tam zaman, bir çalışan",
+    "mechanismId": "count",
+    "punch": "kalbimin bir parçası da seninle gider",
+    "lift": "Sayaç: hedefe bir kademe.",
+    "target": "decision",
+    "antithesis": true,
+    "closer": "takvim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_hesap_blokesi_01",
+  "tags": [
+    "para",
+    "banka",
+    "sube",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "Hesabınızda bloke var. Tutar küçük: 73 Para. Bloke büyük: hesabın tamamı.",
+      "en": "There's a hold on your account. The amount is small: seventy-three. The hold is large: everything."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Eski adresinizden kalan bir su faturası. Ödeyince bloke iki iş gününde kalkıyor.",
+      "en": "It's an old water bill from your previous address. Pay it and the hold lifts in two business days."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Hemen öde",
+      "en": "Pay it now",
+      "pattern": "patience"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Borca itiraz et",
+      "en": "Dispute the bill",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "nakit",
+      "tr": "Bu hafta nakitle idare et",
+      "en": "Live on cash this week",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -73,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "bloke_kalkti"
+          ]
+        },
+        "glossary": "hesap_blokesi"
+      },
+      "tr": "73 Para’yı ödedin. Bloke iki iş günü sonra kalktı; o iki gün markete nakitle gittin.",
+      "en": "You paid the seventy-three. The hold lifted two business days later. Those two days you shopped with cash.",
+      "coach": [
+        {
+          "tr": "İki gün nakit hayatı. Bozuk paralar dolaşıma geri döndü.",
+          "en": "Two days of cash life. The coins are back in circulation.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "bloke_kalkti"
+            ]
+          }
+        },
+        "tr": "Faturanın taşındığın aydan sonraya ait olduğunu belgeledin. Borç silindi, bloke kalktı.",
+        "en": "You proved the bill was from after you moved out. Debt cancelled, hold lifted.",
+        "coach": [
+          {
+            "tr": "Eski kira sözleşmesi çekmecedeki yerini hak etti.",
+            "en": "The old lease finally earned its drawer space.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "money": -85,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "bloke_kalkti"
+            ]
+          }
+        },
+        "tr": "İtiraz incelemeye alındı. Üç hafta sonra ret geldi; 73 Para ve 12 Para gecikme ödedin.",
+        "en": "The dispute went to review. Three weeks later: rejected. You paid the seventy-three plus twelve in late fees.",
+        "coach": [
+          {
+            "tr": "Üç hafta sürdü. Fark 12 Para.",
+            "en": "It took three weeks. The difference was twelve.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "nakit": {
+      "effects": {
+        "money": -73,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "bloke_kalkti"
+          ]
+        }
+      },
+      "tr": "Bir hafta nakitle yaşadın, sonra yine ödedin. Bloke toplam dokuz gün sürdü.",
+      "en": "You lived on cash for a week, then paid anyway. The hold lasted nine days in total.",
+      "coach": [
+        {
+          "tr": "Dokuz gün. Fatura baştan sona 73 Para’ydı.",
+          "en": "Nine days. The bill was seventy-three the whole time.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "eski adresten kalan ödenmemiş su faturası yüzünden banka hesabına bloke konması",
+    "mechanism": "küçük borç, büyük bloke",
+    "mechanismId": "understatement",
+    "punch": "tutar küçük, bloke büyük",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bozuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

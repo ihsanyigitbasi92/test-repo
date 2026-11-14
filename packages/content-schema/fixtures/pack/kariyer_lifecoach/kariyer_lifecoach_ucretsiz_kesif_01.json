@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_ucretsiz_kesif_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Ben kaydoldum, teyzen de. Seans bitince kira konusunu da konuşalım.",
+      "en": "I signed up. So did your aunt. After the session, let's talk about your rent."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Galiba yanlış bağlantıya tıkladım. Burası yoga değil mi?",
+      "en": "I think I clicked the wrong link. Is this the yoga class?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Seansı üç kişiyle yap",
+      "en": "Run it with all three",
+      "pattern": "patience"
+    },
+    {
+      "id": "yogaci",
+      "tr": "Yanlış geleni ikna et",
+      "en": "Win over the wrong-link person",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "\"Bağlantı sorunu\" deyip kapat",
+      "en": "Cite 'connection issues,' hang up",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "devam": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Kırk dakika anlattın. Annen not tuttu, teyzen iki kez \"ben bunu hep söylüyorum\" dedi. Sonra kira konusu açıldı.",
+      "en": "You spoke for forty minutes. Your mom took notes. Your aunt said 'I always say that' twice. Then the rent came up.",
+      "coach": [
+        {
+          "tr": "Üç katılımcı, iki akraba, bir kira gündemi.",
+          "en": "Three attendees, two relatives, one rent agenda item.",
+          "roast": false
+        }
+      ]
+    },
+    "yogaci": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 800,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "kocluk_ilk_ucretli"
+            ]
+          }
+        },
+        "tr": "Yanlış bağlantıya tıklayan kişi ilk ücretli müşterin oldu: dört seans, 800 Para.",
+        "en": "The person who clicked the wrong link became your first paying client: four sessions, 800.",
+        "coach": [
+          {
+            "tr": "İlk müşteri, yanlış bir bağlantıdan.",
+            "en": "First client: via wrong link.",
+            "roast": false
+          },
+          {
+            "tr": "Müşteri sayacı: bir.",
+            "en": "Client counter: one.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "ego": -2,
+            "cringe": 3,
+            "momPressure": 1
+          }
+        },
+        "tr": "Yoga arayan kişi kibarca ayrıldı. Annen \"o da gitti\" diye ekledi; kayıt baştan beri açıktı.",
+        "en": "The yoga person left politely. Your mom added, 'There goes another one.' The session was recording the whole time.",
+        "coach": [
+          {
+            "tr": "Kayıt açıktı. Annenin mikrofonu da.",
+            "en": "The recording was on. So was your mom's mic.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Görüşmeyi \"bağlantı sorunu\" diyerek kapattın. Annen bir dakika sonra aradı; onun bağlantısı gayet iyiydi.",
+      "en": "You ended it citing 'connection issues.' Your mom called a minute later. Her connection was fine.",
+      "coach": [
+        {
+          "tr": "Bağlantı koptu. Annenin bağlantısı kopmadı.",
+          "en": "The connection dropped. Your mom's didn't.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yogaci",
+    "slip": {
+      "tr": "İDDİA: Yanlış gelen kalmaz. — M.",
+      "en": "WAGER: The wrong-link person won't stay. — M."
+    }
+  },
+  "intent": {
+    "setup": "ücretsiz çevrim içi keşif seansına anne, teyze ve yanlış gelen biri katılıyor",
+    "mechanism": "katılımcılar müşteri yerine akraba",
+    "mechanismId": "deadpan_report",
+    "punch": "burası yoga değil mi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "baglanti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

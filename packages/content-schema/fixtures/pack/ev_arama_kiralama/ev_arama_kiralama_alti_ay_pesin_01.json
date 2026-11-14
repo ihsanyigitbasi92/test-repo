@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_alti_ay_pesin_01",
+  "tags": [
+    "ev",
+    "depozito",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ],
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Bordron yok, iş yeni. Altı ay peşin verirsen gönlüm rahat olur.",
+      "en": "No pay stubs, new job. Six months up front and I'll sleep fine."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Benim gönlüm rahat olunca kiracım da rahat eder. Öyle bir sistem.",
+      "en": "When I sleep fine, my tenant sleeps fine. That's the system."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Altı ayı peşin öde",
+      "en": "Pay six months up front",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Üç aya pazarlık et",
+      "en": "Haggle down to three",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annemi kefil göster",
+      "en": "Offer Mom as guarantor",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1300
+          }
+        },
+        "money": -7800,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "pesin_kira_alti"
+          ]
+        }
+      },
+      "tr": "7.800 Para tek seferde çıktı. Ev sahibi makbuzu el yazısıyla, altı satır yazdı.",
+      "en": "7,800 went out in one go. The landlord wrote the receipt by hand, six lines long.",
+      "coach": [
+        {
+          "tr": "Altı ay kira derdi yok. Altı ay market derdi var.",
+          "en": "Six months without rent worries. Six months of grocery worries.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1300
+            }
+          },
+          "money": -3900,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "pesin_kira_uc"
+            ]
+          }
+        },
+        "tr": "Üç ayda anlaştınız. Ev sahibi \"işin oturunca yine konuşuruz\" dedi.",
+        "en": "You settled on three months. The landlord said \"we'll talk again once the job settles.\"",
+        "coach": [
+          {
+            "tr": "Peşinat yarıya indi. Hesap ayakta.",
+            "en": "Up-front cut in half. Account still standing.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_ariyor"
+            ]
+          }
+        },
+        "tr": "Ev sahibi altıda direndi. Daire peşin ödeyebilen başka birine gitti.",
+        "en": "The landlord held at six. The place went to someone who could pay it all up front.",
+        "coach": [
+          {
+            "tr": "Pazarlık kısa sürdü. Masa ev sahibinindi.",
+            "en": "The negotiation was short. It was the landlord's table.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1300
+          }
+        },
+        "money": -2600,
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 8
+        },
+        "flags": {
+          "add": [
+            "anne_kefil"
+          ]
+        }
+      },
+      "tr": "Annen kefil formunu imzaladı. Ev sahibi iki kira depozitoyla yetindi.",
+      "en": "Mom signed as guarantor. The landlord settled for a two-month deposit.",
+      "coach": [
+        {
+          "tr": "Kefil hazır. Annen artık sözleşmenin bir maddesi.",
+          "en": "Guarantor secured. Mom is now a clause in your lease.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Altı ay, altı ay kalır. — M.",
+      "en": "WAGER: Six months stays six months. — M."
+    }
+  },
+  "intent": {
+    "setup": "bordrosu olmayan ilk işte ev sahibinin altı ay peşin kira istemesi",
+    "mechanism": "gönül rahatlığı sistem diye sunuluyor",
+    "mechanismId": "deadpan_report",
+    "punch": "öyle bir sistem",
+    "lift": "hesap ayakta",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sistem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_terfi_ve_anne_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "is",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 35,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "career": {
+      "employed": true
+    },
+    "flags": {
+      "none": [
+        "anne_uzakta",
+        "terfi_reddedildi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Başka şehirde terfi mi? Git tabii. Ben başımın çaresine bakarım.",
+      "en": "A promotion in another city? Go, of course. I can look after myself."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Sadece kavanozları açacak biri lazım. Bir de ampuller. Bir de pazartesiler.",
+      "en": "I just need someone for the jar lids. And the light bulbs. And Mondays.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Terfiyi kabul et",
+      "en": "Take the promotion",
+      "pattern": "overwork"
+    },
+    {
+      "id": "reddet",
+      "tr": "Terfiyi geri çevir",
+      "en": "Turn it down",
+      "pattern": "generosity"
+    },
+    {
+      "id": "uzaktan",
+      "tr": "Uzaktan çalışmayı pazarla",
+      "en": "Negotiate it as remote",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 6
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "flags": {
+          "add": [
+            "anne_uzakta"
+          ]
+        }
+      },
+      "tr": "Terfiyi aldın, taşındın. Annen her pazartesi görüntülü arayıp sana kavanoz kapağı gösteriyor.",
+      "en": "You took the promotion and moved. Every Monday, Mom video-calls to show you a jar lid.",
+      "coach": [
+        {
+          "tr": "Yeni unvan, yeni şehir. Pazartesiler hâlâ annende.",
+          "en": "New title, new city. Mondays still belong to Mom.",
+          "roast": false
+        }
+      ]
+    },
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "terfi_reddedildi"
+          ]
+        }
+      },
+      "tr": "Teklifi geri çevirdin. Annen bir hafta \"benim yüzümden\" dedi, sonra kavanozları sana sıraladı.",
+      "en": "You turned it down. For a week Mom said \"because of me,\" then lined the jars up for you.",
+      "coach": [
+        {
+          "tr": "Unvan bekledi, kavanozlar açıldı.",
+          "en": "The title waited. The jars got opened.",
+          "roast": false
+        }
+      ]
+    },
+    "uzaktan": [
+      {
+        "p": 4000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "uzaktan_terfi"
+            ]
+          }
+        },
+        "tr": "Şirket kabul etti: ayda bir hafta merkezde, gerisi uzaktan. Pazartesiler annende.",
+        "en": "The company agreed: one week a month at HQ, the rest remote. Mondays stay at Mom's.",
+        "coach": [
+          {
+            "tr": "İki şehir, bir ekran. Kapak görevi sende.",
+            "en": "Two cities, one screen. Lid duty stays with you.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: bir basamak.",
+            "en": "Goal counter: one rung up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "terfi_kacti"
+            ]
+          }
+        },
+        "tr": "Teklif geri çekildi. Pozisyona iki hafta sonra başkası atandı.",
+        "en": "The offer was withdrawn. Someone else got the job two weeks later.",
+        "coach": [
+          {
+            "tr": "Masa yeniden kuruldu, sensiz.",
+            "en": "The table got reset. Without you.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "başka şehirde terfi teklifi ile yaşlanan anne arasında kalmak",
+    "mechanism": "annenin 'sadece' listesi uzuyor",
+    "mechanismId": "escalation",
+    "punch": "bir de pazartesiler",
+    "lift": "Hedef sayacı: bir basamak.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kavanoz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

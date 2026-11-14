@@ -1,0 +1,176 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_scooter_park_cezasi_01",
+  "tags": [
+    "burokrasi",
+    "ulasim",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Fotoğrafta scooter kaldırımın tam ortasında. Sözleşmede 'uygun bir yere bırakın' yazıyor.",
+      "en": "In the photo the scooter is dead center on the sidewalk. The terms say 'leave it somewhere suitable.'"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Ortası uygun sayılmıyor. Kenarı sayılıyor. Ceza 340 Para, hizmet bedeli 60.",
+      "en": "The middle doesn't count as suitable. The edge does. The fine is 340, plus a handling fee of sixty.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Öde, kapat",
+      "en": "Pay and be done",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Kendi park fotoğrafını gönder",
+      "en": "Send your own parking photo",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bedel",
+      "tr": "Yalnız hizmet bedelini sor",
+      "en": "Dispute only the handling fee",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "scooter_cezasi"
+          ]
+        }
+      },
+      "tr": "400 Para ödedin. Hesabın yeniden açıldı; uygulama bir sonraki sürüş için indirim kodu gönderdi.",
+      "en": "You paid 400. Your account was unlocked, and the app sent a discount code for your next ride.",
+      "coach": [
+        {
+          "tr": "Kenar bir adım ötedeydi.",
+          "en": "The edge was one step away.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 1
+          }
+        },
+        "tr": "Sürüş sonunda çektiğin fotoğrafta scooter duvar dibindeydi. Ceza iptal edildi; onu ortaya kimin taşıdığı bilinmiyor.",
+        "en": "Your own end-of-ride photo showed the scooter against the wall. The fine was cancelled. Who moved it to the middle remains unknown.",
+        "coach": [
+          {
+            "tr": "Fotoğraf çekmişsin. Ben olsam çekmezdim. Sen bilirsin.",
+            "en": "You took a photo. I wouldn't have. Your call.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "money": -400,
+          "flags": {
+            "add": [
+              "scooter_cezasi"
+            ]
+          }
+        },
+        "tr": "Fotoğrafın karanlık çıkmış; hangisi scooter hangisi duvar, belli değil. İtiraz reddedildi, 400 Para tahsil edildi.",
+        "en": "Your photo was too dark to tell scooter from wall. The dispute was denied and 400 was charged.",
+        "coach": [
+          {
+            "tr": "Delil karanlıkta kaldı.",
+            "en": "The evidence stayed in the dark.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bedel": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -340,
+        "flags": {
+          "add": [
+            "scooter_cezasi"
+          ]
+        },
+        "glossary": "idari_para_cezasi"
+      },
+      "tr": "Hizmet bedeli 'bir defaya mahsus' silindi. Ceza kaldı: 340 Para.",
+      "en": "The handling fee was waived as a one-time courtesy. The fine stood: 340.",
+      "coach": [
+        {
+          "tr": "Altmış Para geri döndü. Küçük ama senin.",
+          "en": "Sixty came back. Small, but yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kiralık elektrikli scooter'ı kaldırımın ortasına bıraktığın için belediye cezasının kiralama şirketince sana yansıtılması",
+    "mechanism": "sözleşmedeki 'uygun yer' ifadesinin harfiyen okunması",
+    "mechanismId": "literalism",
+    "punch": "ortası uygun sayılmıyor, kenarı sayılıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kenar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

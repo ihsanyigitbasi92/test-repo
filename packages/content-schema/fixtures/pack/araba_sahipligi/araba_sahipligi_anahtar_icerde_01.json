@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_anahtar_icerde_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Askıyla açarım. Gençken her arabayı açardım. Kendi arabalarımızı tabii.",
+      "en": "I can open it with a hanger. I opened every car in my youth. Our own cars, of course."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bir de cam lastiğinden girilir. O biraz daha uzun sürer.",
+      "en": "You can also go in through the window seal. That one takes longer.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "askilik",
+      "tr": "Yabancının askısını dene",
+      "en": "Try the stranger's coat hanger",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cilingir",
+      "tr": "Çilingir çağır",
+      "en": "Call a locksmith",
+      "pattern": "patience"
+    },
+    {
+      "id": "yedek",
+      "tr": "Ev arkadaşından yedeği iste",
+      "en": "Get the spare from home",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "askilik": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "torpidoda_aski"
+              ]
+            }
+          }
+        },
+        "tr": "Kırkıncı dakikada kilit pıt diye açıldı. Yabancı elini sıkıp gitti, askısını bıraktı.",
+        "en": "At minute forty the lock popped. The stranger shook your hand and left, leaving the hanger behind.",
+        "coach": [
+          {
+            "tr": "Torpidoda artık bir askı var. Acil durum kiti.",
+            "en": "There is now a hanger in the glovebox. Emergency kit.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -450,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Askı içeride kayboldu. Cama bir çizik, sonra yine çilingir: 450 Para.",
+        "en": "The hanger vanished inside the door. One scratched window later, a locksmith anyway: 450.",
+        "coach": [
+          {
+            "tr": "Bir anahtar ve bir askı. İkisi de içeride.",
+            "en": "One key, one hanger. Both inside now.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cilingir": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Çilingir bir saatte geldi, dokuz saniyede açtı. Ücret 400 Para.",
+      "en": "The locksmith arrived in an hour and opened it in nine seconds. Fee: 400.",
+      "coach": [
+        {
+          "tr": "Dokuz saniye, bir saat bekleme. Saniyesi pahalı.",
+          "en": "Nine seconds of work, an hour of waiting. Pricey seconds.",
+          "roast": false
+        }
+      ]
+    },
+    "yedek": {
+      "effects": {
+        "money": -30,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yedek_anahtar_ev_arkadasinda"
+          ]
+        }
+      },
+      "tr": "Yedek anahtar çekmecede değil, ev arkadaşının cebindeydi. İki otobüs, 30 Para yol.",
+      "en": "The spare wasn't in the drawer; it was in your roommate's pocket. Two buses, thirty in fares.",
+      "coach": [
+        {
+          "tr": "Yedek anahtar da bir insanın cebine güvenmek.",
+          "en": "A spare key is just trust in someone else's pocket.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "askilik",
+    "slip": {
+      "tr": "İDDİA: Askı içeride kalır. — M.",
+      "en": "WAGER: The hanger stays in the door. — M."
+    }
+  },
+  "intent": {
+    "setup": "benzinlikte anahtarı kontakta unutup kapıyı kilitlemek",
+    "mechanism": "yabancının elbise askısı yöntemi",
+    "mechanismId": "escalation",
+    "punch": "her araba açılır, yeter ki inan",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "icerde"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

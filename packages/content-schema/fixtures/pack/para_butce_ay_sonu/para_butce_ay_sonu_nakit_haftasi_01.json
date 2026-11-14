@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_nakit_haftasi_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 37
+    },
+    "dayOfMonth": {
+      "min": 24
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Son hafta sadece nakit. Cüzdanına 350 koydum, kartları dolaba kilitledim.",
+      "en": "Last week of the month: cash only. I put 350 in your wallet and locked the cards in the cupboard."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Anahtar bende. Acil durum olursa ara. 'Acil'in tanımını da ben yapıyorum.",
+      "en": "I have the key. Call if there's an emergency. I'll be defining 'emergency.'"
+    }
+  ],
+  "choices": [
+    {
+      "id": "diren",
+      "tr": "Hafta boyu nakitte kal",
+      "en": "Stay cash-only all week",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "acil",
+      "tr": "Bir 'acil durum' bildir",
+      "en": "Report an 'emergency'",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "atla",
+      "tr": "Ofisteki hediye fonunu atla",
+      "en": "Skip the office gift fund",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "diren": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 35,
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "butce_nakit_haftasi"
+            ]
+          }
+        },
+        "tr": "Hafta 350 Para ile bitti, cüzdanda 35 kaldı. Kartlar dolapta yedi gün dinlendi.",
+        "en": "The week ended on 350, with thirty-five to spare. The cards rested in the cupboard for seven days.",
+        "coach": [
+          {
+            "tr": "Yedi gün, otuz beş Para artı. Dolap anahtarı iade edildi.",
+            "en": "Seven days, thirty-five to spare. Cupboard key returned.",
+            "roast": false
+          },
+          {
+            "tr": "Defterde yedi temiz gün.",
+            "en": "Seven clean days in the notebook.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -150,
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "joy": -2
+          }
+        },
+        "tr": "Nakit perşembe bitti. Cuma öğle yemeğinde iş arkadaşına 150 Para borçlandın, partnerin bunun acil olup olmadığını sordu.",
+        "en": "Cash ran out Thursday. At Friday lunch you owed a coworker 150, and your partner asked whether it counted as an emergency.",
+        "coach": [
+          {
+            "tr": "Plan beş gün sürdü. Hafta yedi.",
+            "en": "The plan lasted five days. The week lasted seven.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "acil": {
+      "effects": {
+        "money": -200,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "meters": {
+          "cringe": 3
+        },
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "'Acil durum' dedin: kahvaltılık simit. Partnerin dolabı açtı ve tanımı güncelledi.",
+      "en": "You declared an emergency: a breakfast bagel. Your partner unlocked the cupboard and updated the definition.",
+      "coach": [
+        {
+          "tr": "Acil durum listesi bir maddeyle büyüdü.",
+          "en": "The emergency list grew by one item.",
+          "roast": false
+        }
+      ]
+    },
+    "atla": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "butce_hediye_fonu_atlandi"
+          ]
+        }
+      },
+      "tr": "Ofisteki doğum günü hediye fonuna katılmadın. Kartta herkesin imzası vardı, seninki hariç.",
+      "en": "You skipped the office birthday gift fund. The card had everyone's signature except yours.",
+      "coach": [
+        {
+          "tr": "Bütçe korundu. İmza listesi bir eksik.",
+          "en": "Budget protected. Signature count: one short.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "diren",
+    "slip": {
+      "tr": "İDDİA: Nakit cumaya varmaz. — M.",
+      "en": "WAGER: The cash doesn't make it to Friday. — M."
+    }
+  },
+  "intent": {
+    "setup": "ayın son haftası partnerin kartları kilitleyip nakit bütçe koyması",
+    "mechanism": "'acil' kelimesinin tanımı partnerde",
+    "mechanismId": "literalism",
+    "punch": "acilin tanımını da ben yapıyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tanim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

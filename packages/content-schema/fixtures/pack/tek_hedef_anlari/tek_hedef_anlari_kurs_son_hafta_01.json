@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_kurs_son_hafta_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "egitim",
+    "nevin",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "course"
+      ]
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Perşembe akşamına bir gelişim alanı toplantısı koydum. Öz-yönlendirmeli olacak.",
+      "en": "I've set a growth area session for Thursday evening. It'll be self-directed."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Katılım serbest. Görünürlük açısından tavsiye ederim.",
+      "en": "Attendance is optional. For visibility, I'd recommend it.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kurs",
+      "tr": "Kursa git",
+      "en": "Go to class",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "toplanti",
+      "tr": "Toplantıya katıl",
+      "en": "Attend the session",
+      "pattern": "overwork"
+    },
+    {
+      "id": "ikisi",
+      "tr": "İkisine birden bağlan",
+      "en": "Log into both",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kurs": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "kurs_bitti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kursun son dersine gittin ve sertifikayı aldın. Cuma sabahı toplantı notları \"katılmayanlar\" başlığıyla geldi.",
+      "en": "You went to the last class and got the certificate. Friday morning the session notes arrived under the heading \"Did Not Attend.\"",
+      "coach": [
+        {
+          "tr": "Sertifika çerçevede. Kurs kapandı.",
+          "en": "Certificate framed. Course closed.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "toplanti": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "kurs_son_ders_kacti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Toplantıya katıldın. Öz-yönlendirmeli çalışma, Nevin Hanım'ın yönlendirmesiyle iki saat sürdü.",
+      "en": "You attended. The self-directed session ran two hours, directed by Ms. Carver.",
+      "coach": [
+        {
+          "tr": "İki saat, tek yönlendiren.",
+          "en": "Two hours, one director.",
+          "roast": false
+        }
+      ]
+    },
+    "ikisi": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "kurs_bitti",
+            "iki_ekran"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "İki ekranı yan yana açtın. Kursta soru sana geldiğinde cevabı Nevin Hanım'a verdin.",
+      "en": "You ran both screens side by side. When the instructor called on you, you answered Ms. Carver.",
+      "coach": [
+        {
+          "tr": "İki ekran, bir yanlış adres.",
+          "en": "Two screens, one wrong recipient.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da alan dışı"
+  },
+  "intent": {
+    "setup": "kurs bitirme hedefinde son derse patronun aynı saate toplantı koyması",
+    "mechanism": "öz-yönlendirmeli toplantıyı patron yönlendiriyor",
+    "mechanismId": "reversal",
+    "punch": "öz-yönlendirmeli olacak",
+    "lift": "kurs kapandı",
+    "target": "situation",
+    "closer": "ekran",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_kaptanlik_kursu_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Kaptanlık kursunda bir yer açıldı. Üç ay, başka şehirde. Cumaya kadar cevap.",
+      "en": "A captain upgrade slot opened. Three months, another city. Answer by Friday."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Üç ay mı? Orada ne yiyeceksin? Ben köfte dondururum, kargo olur mu?",
+      "en": "Three months? What will you eat there? I can freeze meatballs. Can those be shipped?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kursa git",
+      "en": "Take the course",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      },
+      "swipe": "right"
+    },
+    {
+      "id": "ertele",
+      "tr": "Bir sonraki döneme ertele",
+      "en": "Wait for the next round",
+      "pattern": "procrastination",
+      "swipe": "left"
+    }
+  ],
+  "outcomes": {
+    "kabul": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "pilot_kaptan"
+            ]
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Kursu geçtin, dördüncü çizgi geldi. Annenin köfteleri üç ay boyunca her pazartesi kargoyla ulaştı.",
+        "en": "You passed. Fourth stripe. Mom's meatballs arrived by courier every Monday for three months.",
+        "coach": [
+          {
+            "tr": "Dört çizgi. On iki koli köfte.",
+            "en": "Four stripes. Twelve parcels of meatballs.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef çizelgesinde bir kutu doldu.",
+            "en": "One box filled on the goal chart.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "money": -600
+        },
+        "tr": "Simülatör sınavında bir madde takıldı, kurs bir ay uzadı. Kira iki şehirde birden ödendi.",
+        "en": "One item tripped you up on the sim check and the course ran a month longer. Rent got paid in two cities.",
+        "coach": [
+          {
+            "tr": "Bir madde, iki kira.",
+            "en": "One item, two rents.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          },
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kursu erteledin. Annen köfteleri yine de dondurdu, \"bir sonraki döneme\" diye.",
+      "en": "You postponed. Mom froze the meatballs anyway, 'for the next round.'",
+      "coach": [
+        {
+          "tr": "Köfteler senden önce hazır.",
+          "en": "The meatballs are more ready than you are.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kabul",
+    "slip": {
+      "tr": "İDDİA: Simülatörde bir madde takılır. — M.",
+      "en": "WAGER: One sim item trips you up. — M."
+    }
+  },
+  "intent": {
+    "setup": "kaptanlık kursu için başka şehirde üç aylık eğitim teklifi geliyor, annen yemeği dert ediyor",
+    "mechanism": "anne lojistiği kariyer basamağından hızlı",
+    "mechanismId": "reversal",
+    "punch": "köfteler senden önce hazır",
+    "lift": "hedef çizelgesi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kofte"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

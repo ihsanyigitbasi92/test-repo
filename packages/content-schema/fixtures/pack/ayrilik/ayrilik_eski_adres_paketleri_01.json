@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ayrilik_eski_adres_paketleri_01",
+  "tags": [
+    "iliski",
+    "ayrilik_sonrasi",
+    "ayrilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 2000,
+    "tags": {
+      "ayrilik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 55
+    },
+    "npc": {
+      "ex": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "ayrildi"
+      ],
+      "none": [
+        "eski_paketleri",
+        "paket_iade"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "ex",
+      "avatar": "typing",
+      "tr": "Benim adıma paket gelirse kapıda bırakma lütfen. Bir de... yedi tane gelecek.",
+      "en": "If a package comes for me, please don't leave it outside. Also... seven are coming."
+    },
+    {
+      "speaker": "ex",
+      "avatar": "worried",
+      "tr": "Adresi değiştirmeyi unuttum. Her sitede ayrı ayrı.",
+      "en": "I forgot to update the address. On every site. Separately.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "topla",
+      "tr": "Paketleri biriktir, teslim et",
+      "en": "Collect them and hand them over",
+      "pattern": "generosity"
+    },
+    {
+      "id": "iade",
+      "tr": "Hepsini iade ettir",
+      "en": "Send them all back",
+      "pattern": "pride"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşuya emanet et",
+      "en": "Leave them with the neighbor",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "topla": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "eski_paketleri"
+          ]
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "affinity": 2,
+            "memory": "paket_teslim"
+          }
+        ]
+      },
+      "tr": "Yedi paket bir hafta salonda durdu. Teslim günü eskin sekizincinin yolda olduğunu söyledi.",
+      "en": "Seven packages sat in your living room for a week. At the handover, your ex mentioned an eighth was on its way.",
+      "coach": [
+        {
+          "tr": "Yedi teslim edildi, sekizinci yolda. Kargo ayrılık tanımıyor.",
+          "en": "Seven delivered, one in transit. Shipping doesn't recognize breakups.",
+          "roast": true
+        }
+      ]
+    },
+    "iade": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "paket_iade"
+          ]
+        },
+        "npc": [
+          {
+            "role": "ex",
+            "affinity": -3,
+            "memory": "paketler_iade"
+          }
+        ]
+      },
+      "tr": "Kuryeye hepsini geri verdin. Eskin adresini o akşam değiştirdi, bütün sitelerde.",
+      "en": "You sent every one back with the courier. Your ex updated the address that night. On every site.",
+      "coach": [
+        {
+          "tr": "Adres değişti. Kapı yine senin.",
+          "en": "Address changed. The door's yours again.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "komsuda_paket"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Paketler komşuya gitti. Komşu her teslimde kapını çalıp \"yine onun\" dedi.",
+      "en": "The packages went to the neighbor. With each one, the neighbor knocked to announce: \"Another one of theirs.\"",
+      "coach": [
+        {
+          "tr": "Komşu bilgilendirildi. Yedi kez.",
+          "en": "The neighbor has been briefed. Seven times.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ayrılıktan sonra eski partnerin internet siparişlerinin hâlâ senin adresine gelmesi",
+    "mechanism": "paket sayısı mesajın ortasında açıklanıyor",
+    "mechanismId": "count",
+    "punch": "yedi tane gelecek",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kargo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

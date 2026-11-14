@@ -1,0 +1,170 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_son_on_bes_dakika_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "salon",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Son on beş dakika. Kâğıtlarınızı kontrol edin.",
+      "en": "Fifteen minutes left. Check your papers."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Son on beş dakika. Kâğıtlarınızı kontrol edin.",
+      "en": "Fifteen minutes left. Check your papers.",
+      "delayMs": 3000
+    }
+  ],
+  "choices": [
+    {
+      "id": "sor",
+      "tr": "Saati sor",
+      "en": "Ask the time",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hizlan",
+      "tr": "Son soruları hızla bitir",
+      "en": "Rush the last questions",
+      "pattern": "overwork"
+    },
+    {
+      "id": "kontrol",
+      "tr": "Bildiklerini kontrol et",
+      "en": "Recheck what you know",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "sor": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Gözetmen saatine baktı: on iki dakika vardı. Son iki soruyu yetiştirdin.",
+        "en": "The proctor checked: twelve minutes left. You finished the last two questions.",
+        "coach": [
+          {
+            "tr": "İkinci duyuru yirmi dakika sonra gelmişti. Saat ise gerçekti.",
+            "en": "The second announcement came twenty minutes after the first. The clock was real.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "sinav_tutanak"
+            ]
+          }
+        },
+        "tr": "Gözetmen \"Konuşmak yasak\" dedi ve adını tutanağa yazdı. Saat sorusu cevapsız kaldı.",
+        "en": "The proctor said, \"No talking,\" and wrote your name in the report. The time question went unanswered.",
+        "coach": [
+          {
+            "tr": "Tutanakta bir satır. Saat hâlâ bilinmiyor.",
+            "en": "One line in the incident report. Time still unknown.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hizlan": {
+      "effects": {
+        "stats": {
+          "brain": -1
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Son altı soruyu dört dakikada işaretledin. Sınav ondan sonra on bir dakika daha sürdü.",
+      "en": "You bubbled the last six in four minutes. The exam then ran another eleven.",
+      "coach": [
+        {
+          "tr": "On bir dakika boyunca dört dakikayı izledin.",
+          "en": "For eleven minutes, you reviewed four.",
+          "roast": true
+        }
+      ]
+    },
+    "kontrol": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "İşaretlediklerini tek tek kontrol ettin, iki hatayı düzelttin.",
+      "en": "You rechecked every answer and fixed two mistakes.",
+      "coach": [
+        {
+          "tr": "İki hata düzeldi. Duyuru üçüncü kez gelmedi.",
+          "en": "Two mistakes fixed. No third announcement.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da oran düşük değil"
+  },
+  "intent": {
+    "setup": "gözetmen \"son on beş dakika\"yı iki kez duyuruyor",
+    "mechanism": "aynı duyuru iki kez, saat yok",
+    "mechanismId": "reversal",
+    "punch": "aynı cümle 20 dakika arayla",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "duyuru"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

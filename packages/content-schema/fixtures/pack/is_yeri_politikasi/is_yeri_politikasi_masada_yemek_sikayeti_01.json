@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_masada_yemek_sikayeti_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "worried",
+      "tr": "{name}, küçük bir konu. Anonim bir geri bildirim aldık: 'masada yemek kokusu.'",
+      "en": "{name}, small thing. We got anonymous feedback: 'food smell at desks.'"
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Kimseyi suçlamıyoruz. Sadece bu kattaki tek mercimek sizinkiymiş.",
+      "en": "We're not blaming anyone. It's just that the only lentils on this floor were yours.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "mutfak",
+      "tr": "Bundan sonra mutfakta ye",
+      "en": "Eat in the kitchen from now on",
+      "pattern": "patience"
+    },
+    {
+      "id": "bul",
+      "tr": "Şikâyetçiyi bulmaya çalış",
+      "en": "Try to find the complainer",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "balik",
+      "tr": "Yan masanın balığını an",
+      "en": "Mention the next desk's fish",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "mutfak": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:hr",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Öğle yemeğini mutfağa taşıdın. Her gün aynı üç kişiyle yemeye başladın; biri tarifini sordu.",
+      "en": "You moved lunch to the kitchen. You started eating with the same three people daily. One asked for your recipe.",
+      "coach": [
+        {
+          "tr": "Şikâyet sana bir öğle grubu kazandırdı.",
+          "en": "The complaint got you a lunch group.",
+          "roast": false
+        }
+      ]
+    },
+    "bul": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "sikayetci_biliniyor"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Şikâyetçiyi buldun: arka masada her öğlen sarımsaklı makarna yiyen kişi.",
+        "en": "You found the complainer: the person in the back who eats garlic pasta every day.",
+        "coach": [
+          {
+            "tr": "Sarımsak, mercimeği ihbar etmiş.",
+            "en": "Garlic reported the lentils.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Herkese tek tek sordun. Akşama İK'ya ikinci bir anonim not ulaştı: 'soruşturma yapan çalışan.'",
+        "en": "You asked around, one by one. By evening HR had a second anonymous note: 'employee conducting investigations.'",
+        "coach": [
+          {
+            "tr": "İkinci şikâyet ilkinden hızlı geldi.",
+            "en": "The second complaint arrived faster than the first.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "balik": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "npc": [
+          {
+            "role": "npc:hr",
+            "affinity": -1
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Yan masanın her cuma balık yediğini söyledin. İK iki dosyayı birleştirdi; artık bütün katın koku politikası var.",
+      "en": "You mentioned the next desk's Friday fish. HR merged both cases. The whole floor now has a scent policy.",
+      "coach": [
+        {
+          "tr": "Bir mercimek, bir balık, bir politika.",
+          "en": "One lentil, one fish, one policy.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bul",
+    "slip": {
+      "tr": "İDDİA: Şikâyetçi bulunmaz, sen bulunursun. — M.",
+      "en": "WAGER: The complainer stays hidden. You don't. — M."
+    }
+  },
+  "intent": {
+    "setup": "masada yediğin öğle yemeğinin kokusu için İK'ya anonim şikâyet gitmesi",
+    "mechanism": "İK'nın suçlamadan suçlaması",
+    "mechanismId": "deadpan_report",
+    "punch": "tek mercimek sizinkiymiş",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "politika"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

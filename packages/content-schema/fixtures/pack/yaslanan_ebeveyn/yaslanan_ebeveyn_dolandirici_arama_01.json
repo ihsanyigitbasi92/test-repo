@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_dolandirici_arama_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "telefon",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 55
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Biri aradı, sesi sana benziyordu. \"Anne, başım dertte\" dedi.",
+      "en": "Someone called. Sounded like you. Said, 'Mom, I'm in trouble.'"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Ben de parayı yolladım. Sen hiç \"başım dertte\" demezsin, merak ettim.",
+      "en": "So I sent the money. You never tell me when you're in trouble. I got curious.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "mom",
+      "avatar": "tired",
+      "tr": "1.800 Para gitti. Ama sesini duydum ya.",
+      "en": "Eighteen hundred, gone. But at least I heard your voice."
+    }
+  ],
+  "choices": [
+    {
+      "id": "parola",
+      "tr": "Aileye parola koyun",
+      "en": "Set up a family code word",
+      "pattern": "patience"
+    },
+    {
+      "id": "banka",
+      "tr": "Bankayı ara, itiraz et",
+      "en": "Call the bank and dispute it",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "hergun",
+      "tr": "Bundan sonra her gün ara",
+      "en": "Start calling her every day",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "parola": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "aile_parolasi"
+          ]
+        }
+      },
+      "tr": "Parola belirlendi: annenin en sevdiği yemek. Annen ertesi gün parolayı bütün komşulara söyledi.",
+      "en": "A code word was chosen: Mom's favorite dish. The next day Mom told the whole building the code word.",
+      "coach": [
+        {
+          "tr": "Parola kuruldu. Güvenlik seviyesi: annen.",
+          "en": "Code word set. Security clearance: Mom.",
+          "roast": true
+        }
+      ]
+    },
+    "banka": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "dolandirici_iade"
+            ]
+          }
+        },
+        "tr": "İtiraz kabul edildi, para hesaba döndü. Annen banka görevlisine teşekkür kartı yazdı.",
+        "en": "The dispute went through and the money came back. Mom wrote the bank clerk a thank-you card.",
+        "coach": [
+          {
+            "tr": "İade tamam. Kart yolda.",
+            "en": "Refund done. Card in the mail.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -1800,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "dolandirici_iade_yok"
+            ]
+          }
+        },
+        "tr": "İade çıkmadı. 1.800 Para'yı annene sen verdin; annen \"borç\" dedi, sen \"değil\" dedin.",
+        "en": "No refund. You gave Mom the eighteen hundred yourself. She called it a loan. You didn't.",
+        "coach": [
+          {
+            "tr": "Kayıp kapandı. Konu açık.",
+            "en": "The loss is covered. The subject isn't.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hergun": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 4
+          }
+        ],
+        "flags": {
+          "add": [
+            "anneye_gunluk_arama"
+          ]
+        }
+      },
+      "tr": "Her akşam sekizde arıyorsun. Üçüncü gün annen \"Sen bu kadar sık aramazsın\" deyip kim olduğunu sordu.",
+      "en": "You call every night at eight. On day three, Mom said, \"You never call this often,\" and asked who this was.",
+      "coach": [
+        {
+          "tr": "Sık aramak da şüpheli bulundu.",
+          "en": "Calling too often: also flagged as suspicious.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "yaşlı anneyi sesini taklit eden dolandırıcının araması",
+    "mechanism": "annenin parayı merakından yollaması; sık arayan çocuk şüpheli",
+    "mechanismId": "reversal",
+    "punch": "sen hiç başım dertte demezsin, merak ettim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "parola"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

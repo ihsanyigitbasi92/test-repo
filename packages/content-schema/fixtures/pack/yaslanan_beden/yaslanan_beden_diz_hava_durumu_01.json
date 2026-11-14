@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_beden_diz_hava_durumu_01",
+  "tags": [
+    "saglik",
+    "diz",
+    "partner",
+    "yaslanan_beden"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yaslanan_beden": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 58
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Yarın piknik var. Dizin ne diyor?",
+      "en": "Picnic tomorrow. What does your knee say?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Telefondaki hava durumuna bakmadım. Dizin daha tutarlı.",
+      "en": "Didn't check the forecast. Your knee's more consistent.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "yagmur",
+      "tr": "\"Yağmur yağacak\" de",
+      "en": "Say \"it'll rain\"",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "bilmem",
+      "tr": "\"Bilmiyorum\" de",
+      "en": "Say \"no idea\"",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "hava",
+      "tr": "Hava durumunu aç",
+      "en": "Pull up the forecast",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "yagmur": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "diz_tahmincisi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Ertesi gün öğleden sonra yağdı. Piknik bir gün önceden balkona taşınmıştı.",
+        "en": "It rained the next afternoon. The picnic had already moved to the balcony.",
+        "coach": [
+          {
+            "tr": "Diz bir, uydu sıfır.",
+            "en": "Knee one, satellite zero.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "diz_tahmincisi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Dizin yağmur dedi, güneş açtı. Piknik iptal edilmişti; balkonda oturdunuz.",
+        "en": "Your knee said rain. The sun came out. The picnic was already canceled. You sat on the balcony.",
+        "coach": [
+          {
+            "tr": "Diz yanıldı, balkon kazandı.",
+            "en": "The knee was wrong. The balcony won.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bilmem": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "\"Bilmiyorum\" dedin. Partnerin dizine dokunup \"ona sor\" dedi.",
+      "en": "You said, \"No idea.\" Your partner tapped your knee: \"Ask it.\"",
+      "coach": [
+        {
+          "tr": "Diz sorgulandı. Yorum yok.",
+          "en": "The knee was questioned. No comment.",
+          "roast": false
+        }
+      ]
+    },
+    "hava": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Hava durumu güneş dedi. Piknik yapıldı; dizin akşam itiraz etti, yağmur yağmadı.",
+      "en": "The forecast said sun. The picnic happened. Your knee filed a complaint that evening. No rain.",
+      "coach": [
+        {
+          "tr": "Uydu haklı çıktı. Dizin itirazı kayıtta.",
+          "en": "The satellite was right. The knee's objection is on file.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yagmur",
+    "slip": {
+      "tr": "İDDİA: Dizin yanılır. — M.",
+      "en": "WAGER: The knee gets it wrong. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin piknik için dizine hava durumu sorması",
+    "mechanism": "diz meteoroloji kaynağı yerine geçiyor",
+    "mechanismId": "literalism",
+    "punch": "dizin ne diyor",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "balkon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

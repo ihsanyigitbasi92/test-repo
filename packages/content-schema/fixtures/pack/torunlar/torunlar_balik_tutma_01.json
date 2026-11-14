@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "torunlar_balik_tutma_01",
+  "tags": [
+    "ebeveynlik",
+    "aile",
+    "dis_mekan",
+    "torunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "torunlar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 78
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "any": [
+        "torun_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Torunla göl kenarına balık tutmaya geldiniz. Oltayı torun tutuyor, termosu sen. Kurallar torunun: tutulan balık geri bırakılacak ve adı konacak.",
+      "en": "You took the grandkid fishing at the lake. They hold the rod, you hold the thermos. Their rules: every fish gets released, and named."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "smug",
+      "tr": "Ben buraya her gün geliyorum. Burada balık yok. Bir tane var, adı Kaptan.",
+      "en": "I come here every day. There are no fish. There's one. His name is Captain."
+    },
+    {
+      "speaker": "npc:neighborKid",
+      "avatar": "neutral",
+      "tr": "Kaptan öğleden sonra gelir. Bazen.",
+      "en": "Captain comes in the afternoon. Sometimes.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Sabırla bekle",
+      "en": "Wait it out",
+      "pattern": "patience",
+      "check": {
+        "base": 3500,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "yer",
+      "tr": "Yeri değiştir",
+      "en": "Move to a new spot",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "dondurma",
+      "tr": "Bırak, dondurmaya git",
+      "en": "Quit and get ice cream",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "bekle": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "flags": {
+            "add": [
+              "kaptan_tutuldu"
+            ]
+          }
+        },
+        "tr": "Kırkıncı dakikada Kaptan oltaya geldi. Torun onu tanıttı, geri bıraktı ve el salladı.",
+        "en": "At minute forty, Captain took the bait. The grandkid introduced him, released him, and waved.",
+        "coach": [
+          {
+            "tr": "Bir balık, bir tören. Kaptan göreve döndü.",
+            "en": "One fish, one ceremony. Captain is back on duty.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "health": -1
+          },
+          "flags": {
+            "add": [
+              "bos_olta"
+            ]
+          }
+        },
+        "tr": "İki saat geçti, olta boş döndü. Torun göle yine de \"görüşürüz Kaptan\" dedi.",
+        "en": "Two hours. Empty line. The grandkid still told the lake, \"See you, Captain.\"",
+        "coach": [
+          {
+            "tr": "Kaptan bugün izinliydi.",
+            "en": "Captain took the day off.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yer": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "gizli_balik_yeri"
+          ]
+        }
+      },
+      "tr": "Mahalle çocuğu sizi \"gizli yere\" götürdü. Orada da balık yoktu ama bir kaplumbağa vardı.",
+      "en": "The local kid led you to \"the secret spot.\" No fish there either. One turtle.",
+      "coach": [
+        {
+          "tr": "Hedef balıktı, çıkan kaplumbağa. Müşteri memnun.",
+          "en": "Target: fish. Result: turtle. Client satisfied.",
+          "roast": false
+        }
+      ]
+    },
+    "dondurma": {
+      "effects": {
+        "money": -90,
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "gol_dondurmasi"
+          ]
+        }
+      },
+      "tr": "Dondurmacıya yürüdünüz. Torun eve \"balık tuttuk\" diye rapor verdi; dondurmanın adı Kaptan oldu.",
+      "en": "You walked to the ice cream stand. At home the grandkid reported \"we went fishing.\" The ice cream was named Captain.",
+      "coach": [
+        {
+          "tr": "Rapor kısmen doğru.",
+          "en": "The report is partially accurate.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: Kaptan bugün oltaya gelmez. — M.",
+      "en": "WAGER: Captain doesn't show today. — M."
+    }
+  },
+  "intent": {
+    "setup": "torunla göl kenarında balık tutmak, yakalananı adlandırıp bırakmak",
+    "mechanism": "mahalle çocuğu gölün tek balığını tanıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "burada balık yok, bir tane var, adı Kaptan",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kaptan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

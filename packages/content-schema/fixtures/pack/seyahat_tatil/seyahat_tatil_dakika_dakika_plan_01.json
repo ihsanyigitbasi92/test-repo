@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "seyahat_tatil_dakika_dakika_plan_01",
+  "tags": [
+    "bos_zaman",
+    "partner",
+    "sehir",
+    "seyahat_tatil"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "seyahat_tatil": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Plan hazır: 09:10 müze, 10:40 kahve, 11:15 surlar. Öğle için üç seçenek var.",
+      "en": "Plan's ready: 9:10 museum, 10:40 coffee, 11:15 the old walls. Three lunch options."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "typing",
+      "tr": "Akşamı akışına bıraktım. 19:30'dan itibaren akış serbest.",
+      "en": "I left the evening open. Spontaneity starts at 7:30 sharp.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "uy",
+      "tr": "Plana uy",
+      "en": "Follow the plan",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "haritasiz",
+      "tr": "Haritasız gezmeyi öner",
+      "en": "Suggest wandering, no map",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bol",
+      "tr": "Sabah onun, öğleden sonra senin",
+      "en": "Their morning, your afternoon",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "uy": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "memory": "planli_tatil"
+          }
+        ]
+      },
+      "tr": "Programın tamamı yapıldı, 11:15'te surlardaydınız. Akış başladığında ikiniz de uyuyordunuz.",
+      "en": "Every item done, on the walls at 11:15. When spontaneity began, you were both asleep.",
+      "coach": [
+        {
+          "tr": "Akış zamanında geldi. Karşılayan olmadı.",
+          "en": "Spontaneity arrived on time. Nobody was up to greet it.",
+          "roast": true
+        }
+      ]
+    },
+    "haritasiz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "flags": {
+            "add": [
+              "gizli_lokanta"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "memory": "kaybolduk_lokanta"
+            }
+          ]
+        },
+        "tr": "Partnerin ikna oldu. Kaybolduğunuz sokakta haritada olmayan bir lokanta buldunuz, o masa hâlâ partnerinin kilit ekranında.",
+        "en": "Your partner agreed. Lost on a side street, you found a restaurant that isn't on any map. That table is still their lock screen.",
+        "coach": [
+          {
+            "tr": "Haritada yok. Kilit ekranında var.",
+            "en": "Not on the map. On the lock screen.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "memory": "kaybolduk_yorulduk"
+            }
+          ]
+        },
+        "tr": "Kayboldunuz, sonra yine kayboldunuz. Saat 15:00'te partnerin planı telefonda sessizce açtı.",
+        "en": "You got lost, then lost again. At three o'clock your partner quietly opened the plan on their phone.",
+        "coach": [
+          {
+            "tr": "Plan hiç gitmemişti. Bekliyordu.",
+            "en": "The plan never left. It was waiting.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bol": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "memory": "tatil_bolundu"
+          }
+        ]
+      },
+      "tr": "Gün ikiye bölündü. Sabah dört müze gezildi, öğleden sonra tek bir bankta iki saat oturuldu.",
+      "en": "The day was split. Four museums before lunch. Two hours on one bench after.",
+      "coach": [
+        {
+          "tr": "İki tatil, tek bilet.",
+          "en": "Two vacations, one ticket.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "haritasiz",
+    "slip": {
+      "tr": "İDDİA: Saat üçte plan geri döner. — M.",
+      "en": "WAGER: The plan is back by three o'clock. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerle ilk ortak şehir tatilinde dakika dakika plan ile serbest gezme çatışması",
+    "mechanism": "akışın bile saatinin olması",
+    "mechanismId": "literalism",
+    "punch": "akış 19:30'dan itibaren serbest",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "akis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

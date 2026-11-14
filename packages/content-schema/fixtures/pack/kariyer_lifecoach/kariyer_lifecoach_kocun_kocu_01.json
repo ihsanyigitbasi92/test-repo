@@ -1,0 +1,168 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_kocun_kocu_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "İlk seansımız. Sana bir soru: hedeflerin ölçülebilir mi?",
+      "en": "First session. Let me ask you: are your goals measurable?"
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Bu cümle tanıdık geldi mi? Senin sitenden aldım.",
+      "en": "Sound familiar? I got it off your website.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Seansa dürüstçe devam et",
+      "en": "Stick with the session, honestly",
+      "pattern": "patience"
+    },
+    {
+      "id": "kaynak",
+      "tr": "Kaynak gösterilmesini iste",
+      "en": "Ask to be credited",
+      "pattern": "pride"
+    },
+    {
+      "id": "ortak",
+      "tr": "Cümleyi birlikte geliştirin",
+      "en": "Rework the line together",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "devam": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": 4,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": -3
+        }
+      },
+      "tr": "Seansın sonunda üç ölçülebilir hedefin vardı. Ücret, kendi sitendeki fiyatla aynıydı: 500 Para.",
+      "en": "You left with three measurable goals. The fee matched your own website: 500.",
+      "coach": [
+        {
+          "tr": "Kendi cümlen, kendi fiyatın. İkisi de sende işe yaradı.",
+          "en": "Your line, your rate. Both worked on you.",
+          "roast": true
+        }
+      ]
+    },
+    "kaynak": {
+      "effects": {
+        "money": -500,
+        "meters": {
+          "ego": 3,
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Koçun cümlenin altına kaynak olarak senin adını yazdı. Seans ücreti değişmedi.",
+      "en": "Your coach added your name as the source. The fee stayed the same.",
+      "coach": [
+        {
+          "tr": "Atıf alındı. İndirim alınmadı.",
+          "en": "Credit received. Discount not.",
+          "roast": true
+        }
+      ]
+    },
+    "ortak": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "koc_ortak_cumle"
+          ]
+        }
+      },
+      "tr": "Cümleyi birlikte yeniden yazdınız: 'Hedefin ölçülebilir mi, yoksa sadece uzun mu?' İkiniz de sitenize koydunuz.",
+      "en": "You rewrote it together: 'Is your goal measurable, or just long?' You both put it on your websites.",
+      "coach": [
+        {
+          "tr": "Bir cümle, iki site.",
+          "en": "One line, two websites.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef kartında artık ölçü birimi var.",
+          "en": "Your goal card has units now.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "hayat koçu kendine koç tutuyor, koç ilk seansta onun sitesindeki cümleyi kullanıyor",
+    "mechanism": "koçun cümlesi koça geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "senin sitenden aldım",
+    "lift": "hedef kartında ölçü birimi",
+    "target": "coach",
+    "antithesis": false,
+    "closer": "site"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

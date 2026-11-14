@@ -1,0 +1,167 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "ofis_hayati_ilk_izin_talebi_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "İZİN TALEP FORMU · Form İK-7 (kurgusal)",
+      "en": "LEAVE REQUEST FORM · Form HR-7 (fictional)"
+    },
+    "body": {
+      "tr": "Bir (1) günlük izin talebiniz alınmıştır. Lütfen gerekçenizi, yerinize bakacak kişiyi ve ulaşılabileceğiniz telefonu belirtiniz. Gerekçe alanı zorunludur.",
+      "en": "Your request for one (1) day of leave has been received. Please state your reason, your cover, and a number where you can be reached. The reason field is mandatory."
+    },
+    "translate": {
+      "tr": {
+        "from": "ulaşılabileceğiniz telefon",
+        "to": "izinde de arayacağız"
+      },
+      "en": {
+        "from": "a number where you can be reached",
+        "to": "we will be calling"
+      }
+    },
+    "glossaryKey": "ulasilabilir_telefon"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "İlk izniniz, ne güzel. Gerekçeye 'kişisel' yazanları sistem geri çeviriyor ama.",
+      "en": "Your first day off, how lovely. Just so you know, the system rejects 'personal' as a reason."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "En çok onaylanan gerekçe 'taşınma'. Geçen ay on dört kişi taşındı.",
+      "en": "The most approved reason is 'moving house.' Fourteen people moved last month.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "durust",
+      "tr": "Gerçeği yaz: dinleneceğim",
+      "en": "Write the truth: resting",
+      "pattern": "pride"
+    },
+    {
+      "id": "tasinma",
+      "tr": "\"Taşınma\" yaz",
+      "en": "Write \"moving house\"",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Talebi geri çek",
+      "en": "Withdraw the request",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "durust": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "glossary": "ulasilabilir_telefon"
+      },
+      "tr": "'Dinleneceğim' yazdın. Sistem geri çevirmedi; İK formu 'örnek gerekçe' diye dosyaladı.",
+      "en": "You wrote 'to rest.' The system let it through. HR filed the form as a 'sample reason.'",
+      "coach": [
+        {
+          "tr": "Bir gün izin. Telefon alanı boş kaldı.",
+          "en": "One day off. The phone field stayed blank.",
+          "roast": false
+        }
+      ]
+    },
+    "tasinma": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "izin_tasinma_gerekcesi"
+          ]
+        }
+      },
+      "tr": "'Taşınma' yazdın, onaylandı. Dönüşte iki kişi yeni evin nerede olduğunu sordu.",
+      "en": "You wrote 'moving house.' Approved. When you got back, two people asked where the new place was.",
+      "coach": [
+        {
+          "tr": "Geçen ay on dört taşınma. Bu ay on beş.",
+          "en": "Fourteen moves last month. Fifteen this month.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "glossary": "ulasilabilir_telefon"
+      },
+      "tr": "Talebi geri çektin. Form 'iptal gerekçesi' alanı açtı; o da zorunluydu.",
+      "en": "You withdrew the request. The form opened a 'reason for cancellation' field. Also mandatory.",
+      "coach": [
+        {
+          "tr": "İzin sayacı aynı yerde duruyor.",
+          "en": "The leave counter hasn't moved.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "ilk kez bir günlük izin istemek, formda zorunlu gerekçe alanı",
+    "mechanism": "izin formundaki ulaşılabilir telefon tercümesi",
+    "mechanismId": "translation",
+    "punch": "ulaşılabilir telefon = izinde de arayacağız",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tasinma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

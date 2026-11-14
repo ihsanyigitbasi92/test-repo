@@ -1,0 +1,166 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_sifre_bloke_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "banka",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 80
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kartınız güvenliğiniz için bloke edildi. Açmak için şifre gerekiyor.",
+      "en": "Your card has been blocked for your security. You'll need a PIN to unblock it."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hayır, o şifre değil. Yeni bir şifre.",
+      "en": "No, not that PIN. A new one.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dogum",
+      "tr": "Doğum tarihini şifre yap",
+      "en": "Make your birthday the PIN",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ezber",
+      "tr": "Dört yeni rakamı ezberle",
+      "en": "Memorize four new digits",
+      "pattern": "patience"
+    },
+    {
+      "id": "gise",
+      "tr": "Kartı bırak, şubeden öde",
+      "en": "Ditch the card, pay at the branch",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dogum": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kart_sifresi_kolay"
+          ]
+        }
+      },
+      "tr": "Şifre doğum tarihin oldu. Uygulama 'kolay tahmin edilir' uyarısı verdi, uyarı kabul edildi.",
+      "en": "The PIN is now your birthday. The app warned it was 'easy to guess.' Warning accepted.",
+      "coach": [
+        {
+          "tr": "Kolay şifre. Herkes için kolay.",
+          "en": "An easy PIN. Easy for everyone.",
+          "roast": false
+        }
+      ]
+    },
+    "ezber": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kart_sifresi_yeni"
+          ]
+        }
+      },
+      "tr": "Yeni şifre ezberlendi. Ayrıca buzdolabının üstüne, tersten yazıldı.",
+      "en": "The new PIN was memorized. It was also written backwards on top of the fridge.",
+      "coach": [
+        {
+          "tr": "Ezberde ve buzdolabında. İki yedek.",
+          "en": "Memorized, and on the fridge. Two backups.",
+          "roast": false
+        }
+      ]
+    },
+    "gise": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "glossary": "kart_blokesi",
+        "flags": {
+          "add": [
+            "subeden_odeme"
+          ]
+        }
+      },
+      "tr": "Kart çekmeceye kaldırıldı. Taksitler her ay şubede, sıra numarasıyla ödeniyor.",
+      "en": "The card went in a drawer. Installments are now paid at the branch each month, with a queue ticket.",
+      "coach": [
+        {
+          "tr": "Ayda bir sıra numarası. Şifre gerekmiyor.",
+          "en": "One queue ticket a month. No PIN required.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kart şifresini üç kez yanlış girince kartın bloke olması ve açmak için yeni şifre istenmesi",
+    "mechanism": "şifre sorununun çözümü yine şifre",
+    "mechanismId": "reversal",
+    "punch": "hayır, o şifre değil, yeni bir şifre",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sifre"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

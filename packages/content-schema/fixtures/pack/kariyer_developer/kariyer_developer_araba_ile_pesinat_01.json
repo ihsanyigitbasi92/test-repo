@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_developer_araba_ile_pesinat_01",
+  "tags": [
+    "kariyer",
+    "muteahhit",
+    "kariyer_developer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_developer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "developer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Alıcı peşinatın yarısını nakit, yarısını arabayla ödemek istiyor. Araba otoparkta, motoru çalışıyor.",
+      "en": "The buyer wants to pay half the deposit in cash, half in car. The car's in the lot. Engine running."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Kapatırsa bir daha çalışmıyormuş. Ondan çalışıyor.",
+      "en": "Apparently if it's switched off it won't start again. That's why it's running.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Arabayı kabul et",
+      "en": "Accept the car",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "nakit",
+      "tr": "Tamamını nakit iste",
+      "en": "Insist on cash",
+      "pattern": "pride"
+    },
+    {
+      "id": "indirim",
+      "tr": "Arabasız, küçük indirimle sat",
+      "en": "Skip the car, offer a small discount",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kabul": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 2000,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 1
+          }
+        },
+        "tr": "Araba ekspertizden temiz çıktı, bir hafta sonra iki bin Para kârla satıldı. Alıcı yeni anahtarını alırken arabaya el salladı.",
+        "en": "The car passed inspection and sold a week later at a two-thousand profit. Collecting their new keys, the buyer waved goodbye to it.",
+        "coach": [
+          {
+            "tr": "Bir daire, bir araba. İkisi de el değiştirdi.",
+            "en": "One flat, one car. Both changed hands.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -400,
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "dev_satilik_araba"
+            ]
+          }
+        },
+        "tr": "Araba ekspertize giderken bir kavşakta durdu. Çekici ve tamir dört yüz Para tuttu, araba hâlâ satılık.",
+        "en": "The car stalled at a junction on the way to inspection. Tow and repair: four hundred. Still for sale.",
+        "coach": [
+          {
+            "tr": "Motor durdu. Dendiği gibi.",
+            "en": "The engine stopped. Exactly as advertised.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "nakit": {
+      "effects": {
+        "money": 1500,
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Alıcı bir hafta düşünüp bankadan kredi buldu. Peşinat nakit geldi, araba otoparktan çalışır hâlde ayrıldı.",
+      "en": "The buyer thought it over for a week and found a loan. The deposit came in cash, and the car left the lot still running.",
+      "coach": [
+        {
+          "tr": "Peşinat nakit. Motor hâlâ açık.",
+          "en": "Deposit in cash. Engine still on.",
+          "roast": false
+        }
+      ]
+    },
+    "indirim": {
+      "effects": {
+        "money": 1000,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:clerk",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Küçük bir indirimle anlaştınız. Satış ofisinin önündeki motor sesi nihayet sustu.",
+      "en": "You settled on a small discount. Outside the sales office, the engine finally went quiet.",
+      "coach": [
+        {
+          "tr": "Otopark sessizliğe kavuştu.",
+          "en": "The parking lot is quiet at last.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kabul",
+    "slip": {
+      "tr": "İDDİA: Araba ekspertize varamaz. — M.",
+      "en": "WAGER: The car never makes it to inspection. — M."
+    }
+  },
+  "intent": {
+    "setup": "daire alıcısının peşinatın yarısı yerine motoru kapanınca çalışmayan eski arabasını vermeyi teklif etmesi",
+    "mechanism": "motorun açık durmasının sebebi kapanırsa açılmaması",
+    "mechanismId": "deadpan_report",
+    "punch": "ondan çalışıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "motor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uzaktan_calisma_masa_rezervasyonu_01",
+  "tags": [
+    "is",
+    "hibrit",
+    "ofis",
+    "rezervasyon",
+    "uzaktan_calisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "uzaktan_calisma": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "annoyed",
+      "tr": "Hibrit günler için masa rezervasyonu başladı. Pazartesi 09.00'da açılıyor, 09.01'de doluyor.",
+      "en": "Desk booking for hybrid days is live. It opens Monday at 9:00. Full by 9:01."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Ben alarm kurdum. Saniyesinde tıklıyorum. Pencere kenarı benim.",
+      "en": "I set an alarm. I click on the second. Window seat's mine.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "alarm",
+      "tr": "Alarm kur, 09.00'da tıkla",
+      "en": "Set an alarm, click at 9:00",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kalan",
+      "tr": "Kalan masaya razı ol",
+      "en": "Take whatever is left",
+      "pattern": "patience"
+    },
+    {
+      "id": "ev",
+      "tr": "Ofis gününü evden geç",
+      "en": "Work the office day from home",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "alarm": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "masa_pencere"
+            ]
+          }
+        },
+        "tr": "09.00.00'da tıkladın. Pencere kenarı senin; iş arkadaşın klimanın altına düştü.",
+        "en": "You clicked at 9:00:00 on the dot. The window seat is yours. Your coworker landed under the AC vent.",
+        "coach": [
+          {
+            "tr": "Bir saniye, bir pencere.",
+            "en": "One second, one window.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": -1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Sayfa yüklenirken masalar bitti. Kalan tek yer yazıcının yanıydı; yazıcı gün boyu çalıştı.",
+        "en": "The page was still loading when the desks ran out. Only spot left: next to the printer. It printed all day.",
+        "coach": [
+          {
+            "tr": "Yazıcı bütün gün yanındaydı. Pek konuşkan değil.",
+            "en": "The printer kept you company all day. Not much of a talker.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kalan": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "masa_kalan"
+          ]
+        }
+      },
+      "tr": "Salı günü kalan masaya geçtin: mutfak kapısının yanı. Kahveye giden herkes seni selamladı.",
+      "en": "On Tuesday you took the leftover desk by the kitchen door. Everyone heading for coffee said hi.",
+      "coach": [
+        {
+          "tr": "Yirmi selam, sıfır sessizlik.",
+          "en": "Twenty hellos. Zero quiet.",
+          "roast": false
+        }
+      ]
+    },
+    "ev": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ofis_gunu_kacti"
+          ]
+        }
+      },
+      "tr": "Evden çalıştın. Akşam Nevin Hanım ekibe \"Ofis günleri birlikte olmak için\" diye yazdı.",
+      "en": "You worked from home. That evening Ms. Carver messaged the team: \"Office days are for being together.\"",
+      "coach": [
+        {
+          "tr": "Mesaj bütün ekibe gitti. Adın geçmedi.",
+          "en": "The message went to the whole team. Your name wasn't in it.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "alarm",
+    "slip": {
+      "tr": "İDDİA: Bir saniye yetmez. — M.",
+      "en": "WAGER: One second won't be enough. — M."
+    }
+  },
+  "intent": {
+    "setup": "hibrit ofis günleri için masa rezervasyonunun açıldığı dakikada dolması",
+    "mechanism": "rezervasyon bir dakikalık yarış",
+    "mechanismId": "count",
+    "punch": "09.01'de doluyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "saniye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

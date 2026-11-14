@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_el_yazisi_sozlesme_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Sözleşmeyi avukata yazdırmadım, kendim yazdım. Daha samimi oldu.",
+      "en": "I didn't use a lawyer for the lease. Wrote it myself. Feels more personal."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Madde 9: Kiracı yılda bir kez beni yemeğe davet eder. O madde pazarlığa kapalı.",
+      "en": "Clause 9: tenant hosts me for dinner once a year. That one's non-negotiable.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sil",
+      "tr": "Maddeyi sildirmeye çalış",
+      "en": "Try to get it struck",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "oyle",
+      "tr": "Kiracıya kabul ettir",
+      "en": "Get the tenant to accept",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tatli",
+      "tr": "\"Yılda bir tatlı\" diye yumuşat",
+      "en": "Soften it to \"one dessert\"",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "sil": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 700,
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "realtor_kira_imzalandi"
+            ]
+          }
+        },
+        "tr": "Maddeyi sildirdin. Ev sahibi yerine \"kiracı yılbaşında arar\" yazdı, kiracı imzaladı.",
+        "en": "You got it struck. The landlord wrote in \"tenant calls on New Year's\" instead. The tenant signed.",
+        "coach": [
+          {
+            "tr": "Yemek gitti. Telefon kaldı.",
+            "en": "Dinner's off. The phone call stays.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "kira_madde_dokuz"
+            ]
+          }
+        },
+        "tr": "Ev sahibi maddeyi silmedi, yanına \"iki kişilik\" ekledi.",
+        "en": "The landlord kept the clause and added \"for two.\"",
+        "coach": [
+          {
+            "tr": "Pazarlık bir sandalye ekledi.",
+            "en": "The negotiation added a chair.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "oyle": {
+      "effects": {
+        "money": 700,
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kira_madde_dokuz",
+            "realtor_kira_imzalandi"
+          ]
+        }
+      },
+      "tr": "Kiracı maddeyi kabul etti, sözleşme imzalandı. Sen de davetlisin: madde 9/b.",
+      "en": "The tenant agreed. Signed. You're invited too: clause 9(b).",
+      "coach": [
+        {
+          "tr": "Komisyon geldi. Davetiye de.",
+          "en": "Commission received. Invitation attached.",
+          "roast": false
+        }
+      ]
+    },
+    "tatli": {
+      "effects": {
+        "money": 700,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_kira_imzalandi"
+          ]
+        }
+      },
+      "tr": "Maddeyi \"yılda bir tatlı\" diye değiştirdin. Ev sahibi tatlının cinsini ayrı bir ek sayfada belirtti.",
+      "en": "You softened it to \"one dessert a year.\" The landlord specified the dessert on a separate appendix.",
+      "coach": [
+        {
+          "tr": "Ek sayfa tek tatlıya ayrıldı.",
+          "en": "A full appendix. One dessert.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da parti iddia payı doldu"
+  },
+  "intent": {
+    "setup": "ev sahibinin kendi yazdığı kira sözleşmesinde kiracının onu yılda bir yemeğe davet etmesi maddesi",
+    "mechanism": "samimi sözleşmede pazarlığa kapalı yemek",
+    "mechanismId": "escalation",
+    "punch": "iki kişilik",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "madde9"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

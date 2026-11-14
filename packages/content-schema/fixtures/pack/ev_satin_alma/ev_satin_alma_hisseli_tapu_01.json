@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_hisseli_tapu_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "money": {
+      "min": 6000
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "momsHouse"
+    ],
+    "flags": {
+      "none": [
+        "ev_satin_alindi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tapuda dört hissedar görünüyor. Satıcı ve üç kardeşi.",
+      "en": "The deed lists four co-owners. The seller and three siblings."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Dördü de imzaya gelmeli. Biri yurt dışında, biri küs, biri telefonu açmıyor.",
+      "en": "All four have to sign. One lives abroad, one isn't speaking to the others, one never picks up.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "Bütün imzaları bekle",
+      "en": "Wait for every signature",
+      "pattern": "patience"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Bu evden vazgeç",
+      "en": "Walk away from this one",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayını arabulucu yap",
+      "en": "Send your uncle in to mediate",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "uncle": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 6
+        },
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "hisseli_tapu_bekleniyor"
+          ]
+        }
+      },
+      "tr": "Altı hafta bekledin. İki imza geldi; üçüncü kardeş evi kendisinin de almak istediğini açıkladı.",
+      "en": "You waited six weeks. Two signatures came in. The third sibling announced they'd also like to buy the flat.",
+      "coach": [
+        {
+          "tr": "Alıcı sayısı ikiye çıktı.",
+          "en": "Buyer count: two.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "hidden": {
+          "stress": -2
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ev_arama_devam"
+          ]
+        }
+      },
+      "tr": "Kaporanı geri alıp aramaya döndün. İlan iki ay sonra 'hisseler hazır' notuyla yeniden yayına girdi.",
+      "en": "You got the deposit back and resumed the search. Two months later the listing returned: 'all shares ready.'",
+      "coach": [
+        {
+          "tr": "İlan hazır. İki ay gecikmeyle.",
+          "en": "The listing is ready. Two months late.",
+          "roast": false
+        }
+      ]
+    },
+    "dayi": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "hisseli_tapu_bekleniyor"
+          ]
+        }
+      },
+      "tr": "Dayın küs kardeşi 'benim zamanımda kardeşler küsmezdi' diye aradı. İmza geldi; dayın artık onunla pazar çayı içiyor.",
+      "en": "Your uncle phoned the estranged sibling and opened with 'In my day, siblings didn't feud.' The signature came through, and now they do Sunday tea.",
+      "coach": [
+        {
+          "tr": "İmza tamam. Dayının yeni bir çay arkadaşı var.",
+          "en": "Signature secured. Your uncle has a new tea buddy.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "alınacak dairenin tapusunda satıcının üç kardeşinin de hissedar çıkması",
+    "mechanism": "hissedarlar tek tek çoğalıyor, her biri ayrı bir engel",
+    "mechanismId": "escalation",
+    "punch": "biri küs, biri telefonu açmıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "alici"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

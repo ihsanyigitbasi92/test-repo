@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "trafik_cezalar_park_itirazi_01",
+  "tags": [
+    "ulasim",
+    "trafik",
+    "ceza",
+    "trafik_cezalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "trafik_cezalar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "İtiraz formu burada. İtiraz formuna itiraz formu da burada.",
+      "en": "Here's the appeal form. And here's the form for appealing the appeal form."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "İkisini birlikte doldurun. Biri reddedilirse öbürü hazır olur.",
+      "en": "Fill them in together. If one’s rejected, the other’s ready.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Fotoğrafla itiraz et",
+      "en": "Appeal with photos",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Erken öde, indirimli",
+      "en": "Pay early at the discount",
+      "pattern": "patience"
+    },
+    {
+      "id": "beklet",
+      "tr": "Sonra bakarsın",
+      "en": "Deal with it later",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "ceza_iptal"
+            ]
+          }
+        },
+        "tr": "Fotoğrafta tabelanın bir ağacın arkasında kaldığı görülüyordu. Ceza iptal edildi, ağaca dokunulmadı.",
+        "en": "Your photo showed the sign hidden behind a tree. The fine was cancelled. The tree was not.",
+        "coach": [
+          {
+            "tr": "Kazanan sen ve bir ağaç.",
+            "en": "Winners: you and one tree.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -600,
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "itiraz_suresi"
+        },
+        "tr": "İtiraz reddedildi. İndirim süresi itirazı beklerken doldu; ceza tam tarifeden 600 Para.",
+        "en": "Appeal rejected. The early-payment discount expired while you waited. Full fare: 600.",
+        "coach": [
+          {
+            "tr": "İtiraz bir ay sürdü. İndirim on beş gün.",
+            "en": "The appeal took a month. The discount lasted fifteen days.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -450,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Erken ödedin, 450 Para. Makbuzu ağacın fotoğrafıyla aynı klasöre koydun.",
+      "en": "You paid early: 450. The receipt went in the same folder as the photo of the tree.",
+      "coach": [
+        {
+          "tr": "450 Para ve bir klasör dolusu haklılık.",
+          "en": "450, plus one folder of being right.",
+          "roast": false
+        }
+      ]
+    },
+    "beklet": {
+      "effects": {
+        "money": -900,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ceza_gecikti"
+          ]
+        }
+      },
+      "tr": "Unuttun. Üç ay sonra ceza gecikme zammıyla 900 Para olarak geri geldi.",
+      "en": "You forgot. Three months later it came back with late fees: 900.",
+      "coach": [
+        {
+          "tr": "Ceza seni unutmadı. Gecikme zammı da.",
+          "en": "The fine remembered you. It brought the late fee.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: İtiraz reddedilir. — M.",
+      "en": "WAGER: The appeal gets rejected. — M."
+    }
+  },
+  "intent": {
+    "setup": "haksız bulunan park cezasına gişede itiraz etmek",
+    "mechanism": "itiraz formuna itiraz formu",
+    "mechanismId": "escalation",
+    "punch": "biri reddedilirse öbürü hazır",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "klasor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

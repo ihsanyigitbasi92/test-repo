@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_pesin_fiyatina_01",
+  "tags": [
+    "para",
+    "taksit",
+    "mobilya",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "'Peşin fiyatına taksit' diyor. Peki peşin alana peşin fiyatı ne? Sor bakalım.",
+      "en": "It says 'installments at the cash price.' So what's the cash price for cash? Go on, ask."
+    }
+  ],
+  "choices": [
+    {
+      "id": "indirim",
+      "tr": "Nakit indirimi iste",
+      "en": "Ask for a cash discount",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "taksit",
+      "tr": "12 taksiti al",
+      "en": "Take the twelve installments",
+      "pattern": "patience"
+    },
+    {
+      "id": "cik",
+      "tr": "Mağazadan çık",
+      "en": "Walk out",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "indirim": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -5100,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "pesin_indirim"
+            ]
+          }
+        },
+        "tr": "Satıcı 'peşine ayrı fiyat' çıkardı: 5.100 Para. Taksitli fiyat 5.800'dü.",
+        "en": "The salesperson produced a 'separate cash price': 5,100. The installment price had been 5,800.",
+        "coach": [
+          {
+            "tr": "Tek soru, 700 Para. Dayı bunu yıllarca anlatacak.",
+            "en": "One question, 700 saved. Your uncle will tell this story for years.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -480,
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "kanepe_taksit",
+              "kredi_karti_borcu"
+            ]
+          }
+        },
+        "tr": "Satıcı 'peşin fiyat zaten bu' dedi. Kanepe 12 taksitle, ayda 480 Para.",
+        "en": "The salesperson said, 'That is the cash price.' The sofa went on twelve installments of 480.",
+        "coach": [
+          {
+            "tr": "Soru soruldu. Fiyat kıpırdamadı, dayı kıpırdadı.",
+            "en": "Question asked. The price didn't budge. Your uncle did.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "taksit": {
+      "effects": {
+        "money": -480,
+        "flags": {
+          "add": [
+            "kanepe_taksit",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Kanepe 12 taksitle alındı. Kanepeye ilk oturan dayın oldu.",
+      "en": "Sofa bought on twelve installments. Your uncle was the first to sit on it.",
+      "coach": [
+        {
+          "tr": "Kanepe evde. İlk müşterisi dayı.",
+          "en": "Sofa delivered. First customer: your uncle.",
+          "roast": true
+        }
+      ]
+    },
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "kanepe_ertelendi"
+          ]
+        }
+      },
+      "tr": "Mağazadan çıkıldı. Eski kanepe bir yıl daha görevde.",
+      "en": "You walked out. The old sofa serves another year.",
+      "coach": [
+        {
+          "tr": "Eski kanepe, bir dönem daha.",
+          "en": "The old sofa, re-elected.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "mobilya mağazasında 'peşin fiyatına taksit' etiketinde nakit indirimi sormak",
+    "mechanism": "etiketteki ifade harfi harfine sorgulanıyor",
+    "mechanismId": "literalism",
+    "punch": "peşin alana peşin fiyatı ne",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kanepe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

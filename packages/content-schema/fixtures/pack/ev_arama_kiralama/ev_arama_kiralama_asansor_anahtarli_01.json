@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_asansor_anahtarli_01",
+  "tags": [
+    "ev",
+    "gezi",
+    "asansor",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Asansörlü bina. Dizleriniz için tam aradığınız.",
+      "en": "Elevator building. Exactly what your knees ordered."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Asansör anahtarla çalışır. Anahtar yöneticide, yönetici dördüncü katta. Merdivenle.",
+      "en": "The elevator runs on a key. The key's with the manager. The manager's on four. Take the stairs.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "tut",
+      "tr": "Yine de tut",
+      "en": "Take it anyway",
+      "pattern": "risk"
+    },
+    {
+      "id": "anahtar",
+      "tr": "Anahtarı sözleşmeye yazdır",
+      "en": "Get a key written into the lease",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "zemin",
+      "tr": "Zemin kat aramaya dön",
+      "en": "Go back to ground-floor listings",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "tut": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -2000,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 2000
+          }
+        },
+        "flags": {
+          "add": [
+            "anahtarli_asansor"
+          ]
+        }
+      },
+      "tr": "Evi 2.000 Para'ya tuttun. Haftada üç kez dördüncü kata çıkıp anahtar istiyorsun.",
+      "en": "You took it at 2,000. Three times a week you climb to four to borrow the elevator key.",
+      "coach": [
+        {
+          "tr": "Asansör var. Önce merdiven.",
+          "en": "There is an elevator. Stairs first.",
+          "roast": false
+        }
+      ]
+    },
+    "anahtar": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -2000,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 2000
+            }
+          },
+          "flags": {
+            "add": [
+              "asansor_anahtari"
+            ]
+          }
+        },
+        "tr": "Sözleşmeye \"asansör anahtarı: 1 adet\" satırı eklendi. Yönetici seni dördüncü katta son kez karşıladı.",
+        "en": "The lease now lists \"elevator key: one.\" The manager greeted you on four for the last time.",
+        "coach": [
+          {
+            "tr": "Bir anahtar, sıfır merdiven.",
+            "en": "One key. Zero stairs.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ev_aramaya_devam"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"o yönetimin işi\" dedi, yönetim \"o ev sahibinin işi\". Daireyi tutmadın.",
+        "en": "The landlord said it's management's job. Management said it's the landlord's. You passed on the flat.",
+        "coach": [
+          {
+            "tr": "Anahtar iki kapı arasında kaldı.",
+            "en": "The key got stuck between two doors.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "zemin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "zemin_kat_arayisi",
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Arama filtresine \"zemin kat\" ekledin. İlk sonuç bahçeye bakan, basamaksız bir daire; iki ay sonra boşalıyor.",
+      "en": "You added \"ground floor\" to your filters. First result: a step-free unit facing a garden, free in two months.",
+      "coach": [
+        {
+          "tr": "Filtreye bir kelime eklendi.",
+          "en": "One word added to the filter.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "dizler için asansörlü bina ararken asansörün anahtarla çalışması ve anahtarın dördüncü kattaki yöneticide olması",
+    "mechanism": "asansörlü bina vaadi merdivene dönüşüyor",
+    "mechanismId": "reversal",
+    "punch": "yönetici dördüncü katta, merdivenle",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "anahtar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

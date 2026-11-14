@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_duman_alarmi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "mutfak",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Gece ikide aklıma geldi: hiç karamel yapmadım. Şimdi yapıyorum.",
+      "en": "It hit me at two a.m.: I've never made caramel. So now I'm making caramel."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Karamel kararınca karamel mi oluyor yoksa başka bir şey mi?",
+      "en": "When caramel goes black, is it still caramel or is it something else now?",
+      "delayMs": 600
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Alarm susmuyor. Havluyla sallıyorum, daha çok bağırıyor.",
+      "en": "The alarm won't stop. I'm waving a towel and it's yelling louder.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "pil",
+      "tr": "Sandalyeye çık, alarmı sustur",
+      "en": "Climb a chair, silence the alarm",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "pencere",
+      "tr": "Bütün pencereleri aç",
+      "en": "Open every window",
+      "pattern": "patience"
+    },
+    {
+      "id": "yatak",
+      "tr": "Yorganı başına çek",
+      "en": "Pull the duvet over your head",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "pil": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "alarm_pilsiz"
+            ]
+          }
+        },
+        "tr": "Kapağı açıp pili çıkardın. Sessizlik geldi; tencere balkona çıktı.",
+        "en": "You popped the cover and pulled the battery. Silence. The pot went to the balcony.",
+        "coach": [
+          {
+            "tr": "Alarm sustu. Tencere sürgünde.",
+            "en": "Alarm quiet. Pot in exile.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": -2,
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Sandalye kaydı, dizini masaya vurdun. Alarm sonunda kendi kendine sustu.",
+        "en": "The chair slid and your knee met the table. The alarm eventually quit on its own.",
+        "coach": [
+          {
+            "tr": "Diz morardı. Alarm bunu kendi başına da yapabiliyormuş.",
+            "en": "Knee bruised. Turns out the alarm could stop by itself.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "pencere": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3,
+            "memory": "karamel_gecesi"
+          }
+        ]
+      },
+      "tr": "Pencereleri açtın. Duman çıktı, soğuk girdi; ikiniz battaniyeyle sabahı ettiniz.",
+      "en": "Windows open. Smoke out, cold in. You both saw sunrise wrapped in blankets.",
+      "coach": [
+        {
+          "tr": "Duman gitti. Isı da gitti.",
+          "en": "Smoke gone. Heat too.",
+          "roast": false
+        }
+      ]
+    },
+    "yatak": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Yorgan sesi kesmedi. Alarm yirmi dakika çaldı; sabah kapında yanık karamelden bir özür kurabiyesi vardı.",
+      "en": "The duvet didn't help. Twenty minutes of alarm. In the morning, an apology cookie made of burnt caramel sat outside your door.",
+      "coach": [
+        {
+          "tr": "Kurabiye geldi. Uyku gelmedi.",
+          "en": "The cookie arrived. Sleep didn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pil",
+    "slip": {
+      "tr": "İDDİA: Sandalye seni taşımaz. — M.",
+      "en": "WAGER: That chair won't hold. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış gece ikide ilk kez karamel yapıyor, duman alarmı çalıyor",
+    "mechanism": "plan sorudan soruya büyüyor, havlu alarmı daha da kızdırıyor",
+    "mechanismId": "escalation",
+    "punch": "kararınca karamel mi oluyor",
+    "target": "situation",
+    "closer": "surgun",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

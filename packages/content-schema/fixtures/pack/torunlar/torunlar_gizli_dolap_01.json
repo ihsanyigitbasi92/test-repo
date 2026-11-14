@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "torunlar_gizli_dolap_01",
+  "tags": [
+    "ebeveynlik",
+    "aile",
+    "kural",
+    "torunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "torunlar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "any": [
+        "torun_var",
+        "torun_yolda"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Kurallar buzdolabında: şeker yok, ekran yok, dokuzda yatış.",
+      "en": "The rules are on the fridge: no sugar, no screens, bed at nine."
+    },
+    {
+      "speaker": "child",
+      "avatar": "annoyed",
+      "tr": "Dün küçük “sizin evde gizli bir dolap var” dedi. Açıklama bekliyorum.",
+      "en": "Yesterday the little one said “your house has a secret cupboard.” I’m waiting for an explanation.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "İtiraf et",
+      "en": "Confess",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "savun",
+      "tr": "“Büyüklerin evi” kuralını savun",
+      "en": "Defend grandparents’ house rules",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "elma",
+      "tr": "Dolabı elmayla doldur",
+      "en": "Restock the cupboard with apples",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "gizli_dolap_kapandi"
+          ]
+        }
+      },
+      "tr": "İtiraf ettin. Dolap boşaltıldı: on iki paket bisküvi çıktı.",
+      "en": "You confessed. The cupboard was emptied: twelve packs of cookies.",
+      "coach": [
+        {
+          "tr": "On iki paket. Atıştırmalık sınırı aşıldı, depo sınıfına geçildi.",
+          "en": "Twelve packs. That moves it from snack drawer to warehouse.",
+          "roast": true
+        }
+      ]
+    },
+    "savun": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "buyukler_gunu"
+            ]
+          }
+        },
+        "tr": "Ayda bir “büyüklerin evi günü” kabul edildi. O gün buzdolabındaki liste duvara doğru çevriliyor.",
+        "en": "A monthly “grandparents’ rules day” was approved. On that day, the list on the fridge gets turned to face the wall.",
+        "coach": [
+          {
+            "tr": "Ayda bir gün, liste duvara bakıyor.",
+            "en": "One day a month, the list faces the wall.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Savunma kabul görmedi. Bir hafta ziyaret olmadı; dolap dolu, ev sessiz.",
+        "en": "The defense was rejected. No visits for a week. The cupboard is full and the house is quiet.",
+        "coach": [
+          {
+            "tr": "Dava kaybedildi. Bisküviler tanık olarak kaldı.",
+            "en": "Case lost. The cookies remain as witnesses.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "elma": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "gizli_dolap_elma"
+          ]
+        }
+      },
+      "tr": "Bisküvileri komşuya verdin. Bir sonraki ziyarette küçük dolabı açtı, elmaları gördü ve bir süre sustu.",
+      "en": "You gave the cookies to the neighbor. On the next visit the little one opened the cupboard, saw apples, and fell silent for a while.",
+      "coach": [
+        {
+          "tr": "Dolap aynı, içerik yeni.",
+          "en": "Same cupboard. New management.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddiaya uygun değil"
+  },
+  "intent": {
+    "setup": "torunun büyük ebeveyn evindeki gizli bisküvi dolabını ailesine anlatması",
+    "mechanism": "kural listesi ve ihbar",
+    "mechanismId": "deadpan_report",
+    "punch": "gizli bir dolap var",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dava"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

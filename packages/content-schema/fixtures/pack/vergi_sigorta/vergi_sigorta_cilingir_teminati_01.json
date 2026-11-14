@@ -1,0 +1,137 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_cilingir_teminati_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "konut",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 85
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Konut poliçenizde acil çilingir teminatı var. Yılda iki kez, ücretsiz.",
+      "en": "Your home policy includes emergency locksmith service. Twice a year, free."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "On beş yıldır hiç kullanmamışsınız. Sistem sizi kapıyı hiç kilitlemiyor sanıyordu.",
+      "en": "You haven't used it in fifteen years. The system assumed you never lock your door.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cagir",
+      "tr": "Çilingiri çağır",
+      "en": "Send the locksmith",
+      "pattern": "patience",
+      "swipe": "right"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşudaki yedek anahtarı dene",
+      "en": "Try the neighbor's spare key",
+      "pattern": "peoplePleasing",
+      "swipe": "left"
+    }
+  ],
+  "outcomes": {
+    "cagir": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "cilingir_teminati_kullanildi",
+            "yedek_anahtar_cuzdanda"
+          ]
+        },
+        "glossary": "acil_cilingir"
+      },
+      "tr": "Çilingir yirmi beş dakikada geldi, kapıyı iki dakikada açtı; fatura \"teminat kapsamında\" çıktı. Yedek anahtar artık saksının altında değil, cüzdanda.",
+      "en": "The locksmith came in twenty-five minutes and opened the door in two. The bill said \"covered.\" The spare key now lives in your wallet instead of under the plant pot.",
+      "coach": [
+        {
+          "tr": "On beş yıllık teminat, iki dakikada açıldı.",
+          "en": "Fifteen years of coverage, opened in two minutes.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "cilingir_teminati_kullanildi"
+          ]
+        }
+      },
+      "tr": "Komşudaki yedek anahtar 2011’den kalmaymış; kilit o zamandan beri değişmiş. Sonunda çilingir çağrıldı, ücretsiz.",
+      "en": "The neighbor's spare was from 2011. The lock had been changed since. In the end you called the locksmith anyway. Free.",
+      "coach": [
+        {
+          "tr": "Komşunun anahtarı eski kilide sadık kalmış.",
+          "en": "The neighbor's key stayed loyal to the old lock.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ileri yaşta kapıda kalınca konut sigortasındaki hiç kullanılmamış acil çilingir teminatını kullanmak",
+    "mechanism": "sistem kapıyı kilitlemiyor sanmış",
+    "mechanismId": "deadpan_report",
+    "punch": "kapıyı hiç kilitlemiyor sanıyordu",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "saksi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

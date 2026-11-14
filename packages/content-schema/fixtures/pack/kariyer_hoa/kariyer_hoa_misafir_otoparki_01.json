@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_hoa_misafir_otoparki_01",
+  "tags": [
+    "kariyer",
+    "site_yonetici",
+    "kariyer_hoa"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_hoa": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 35,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "hoa"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Misafir yerindeki gri araba beş aydır orada. Misafir mi bu, kiracı mı?",
+      "en": "That gray car in the guest spot has been there five months. Is it a guest or a tenant?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Araba benim misafirim. B blokta oturuyorum, ona ben bakıyorum.",
+      "en": "The car is my guest. I live in Block B. I'm hosting it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Sahibiyle konuş",
+      "en": "Talk to the owner",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kagit",
+      "tr": "Cama uyarı kağıdı yapıştır",
+      "en": "Stick a notice on the windshield",
+      "pattern": "pride"
+    },
+    {
+      "id": "yeni",
+      "tr": "İkinci bir misafir yeri çizdir",
+      "en": "Paint a second guest spot",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Sahibiyle yarım saat konuştun. Araba ertesi gün kendi yerine geçti, oradaki bisiklet misafir yerine.",
+        "en": "Half an hour with the owner. Next day the car moved to its own spot, and the bike that lived there moved to the guest one.",
+        "coach": [
+          {
+            "tr": "Bir taşınma tamamlandı. Bir yenisi başladı.",
+            "en": "One relocation complete. Another underway.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Sahibi aracın \"uzun süreli misafir\" olduğunu, yönetim planında süre yazmadığını söyledi. Haklıydı.",
+        "en": "The owner said the car was a 'long-term guest' and the bylaws set no time limit. Correct on both counts.",
+        "coach": [
+          {
+            "tr": "Yönetim planı okunmuş. Senden önce.",
+            "en": "Someone read the bylaws. Before you did.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kagit": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Cama uyarı yapıştırdın. Ertesi sabah kağıt silecek altında özenle katlanmış, üstüne \"teşekkürler\" yazılmıştı.",
+      "en": "You stuck a notice on the windshield. Next morning it was folded neatly under the wiper with 'thanks' written on it.",
+      "coach": [
+        {
+          "tr": "Kağıt alındı. Mesaj teslim edilmedi.",
+          "en": "Paper received. Message not delivered.",
+          "roast": false
+        }
+      ]
+    },
+    "yeni": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "hoa_ikinci_misafir_yeri"
+          ]
+        }
+      },
+      "tr": "Boyacıya ikinci bir misafir yeri çizdirdin. Bir ay sonra orada da ikinci bir gri araba duruyordu.",
+      "en": "You had a second guest spot painted. A month later, a second gray car was living in it.",
+      "coach": [
+        {
+          "tr": "İki misafir yeri. Sıfır misafir.",
+          "en": "Two guest spots. Zero guests.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: Konuşma, o arabayı yerinden kıpırdatmaz. — M.",
+      "en": "WAGER: The talk won't move that car an inch. — M."
+    }
+  },
+  "intent": {
+    "setup": "misafir park yerinde beş aydır duran bir sakinin ikinci aracı",
+    "mechanism": "\"misafir\" kelimesinin harfiyen savunulması",
+    "mechanismId": "literalism",
+    "punch": "araba benim misafirim",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sifir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_toplanti_siparisi_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Apartman toplantısı akşam yedide. Elli kişilik çay, simit, kurabiye. Mahalle esnafından alalım dedik.",
+      "en": "Building meeting, seven tonight. Tea, bagels and cookies for fifty. We said, let's buy local."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Geçen toplantıda kurabiye yetmedi. Kavga zaten ondan çıktı.",
+      "en": "Last meeting we ran out of cookies. That's what started the fight.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yetistir",
+      "tr": "Tek başına yetiştir",
+      "en": "Handle it all yourself",
+      "pattern": "overwork",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "firin",
+      "tr": "Siparişi fırınla paylaş",
+      "en": "Split the order with the bakery",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kucult",
+      "tr": "Otuz kişilik hazırla",
+      "en": "Prep for thirty",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "yetistir": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": 1800,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Elli tabak altıda hazırdı. Toplantıda kavga çıktı ama bu kez kurabiye yüzünden değil.",
+        "en": "Fifty plates ready by six. A fight broke out at the meeting, but not over cookies this time.",
+        "coach": [
+          {
+            "tr": "Ciro 1.800. Kurabiye gündem dışı.",
+            "en": "1,800 in. Cookies off the agenda.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacına 1.800 yazıldı.",
+            "en": "Goal counter: 1,800 added.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": 900,
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Simitler yedi buçukta yetişti, toplantı yedide başlamıştı. Gündemin ilk maddesi 'gecikmeler' oldu.",
+        "en": "The bagels arrived at 7:30. The meeting started at seven. Item one on the agenda: 'delays.'",
+        "coach": [
+          {
+            "tr": "900 Para girdi. Bir de gündem maddesi.",
+            "en": "900 in. Plus an agenda item.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "firin": {
+      "effects": {
+        "money": 900,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "esnaf_firin_ortaklik"
+          ]
+        }
+      },
+      "tr": "Siparişi fırınla böldün. Herkes zamanında doydu, kasaya yarısı girdi.",
+      "en": "You split the order with the bakery. Everyone ate on time. Half the money came your way.",
+      "coach": [
+        {
+          "tr": "Yarım ciro, sıfır gecikme.",
+          "en": "Half the take. Zero delay.",
+          "roast": false
+        }
+      ]
+    },
+    "kucult": {
+      "effects": {
+        "money": 1100,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Otuz kişilik hazırladın, elli kişi geldi. Kurabiye kavgası bu yıl da gündemde.",
+      "en": "You prepped for thirty. Fifty showed up. The cookie feud is back on the agenda.",
+      "coach": [
+        {
+          "tr": "Otuz tabak, elli el.",
+          "en": "Thirty plates, fifty hands.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yetistir",
+    "slip": {
+      "tr": "İDDİA: Simitler toplantıya yetişmez. — M.",
+      "en": "WAGER: The bagels miss the meeting. — M."
+    }
+  },
+  "intent": {
+    "setup": "apartman toplantısı için elli kişilik çay-simit siparişi dükkâna geliyor",
+    "mechanism": "geçen yılki kurabiye kavgası geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "kavga zaten ondan çıktı",
+    "lift": "hedef sayacı 1.800",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gundem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

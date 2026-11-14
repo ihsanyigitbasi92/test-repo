@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_kiraci_tavsiyesi_01",
+  "tags": [
+    "ev",
+    "kira",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Üst kat boşaldı. Senin gibi sessiz, kirayı aksatmayan biri var mı?",
+      "en": "Upstairs is empty. Know anyone like you? Quiet, pays on time?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "arkadas",
+      "tr": "Yakın arkadaşını öner",
+      "en": "Recommend your best friend",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kimse",
+      "tr": "Kimseyi tanımıyorum de",
+      "en": "Say you don't know anyone",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "komisyon",
+      "tr": "Karşılığında indirim iste",
+      "en": "Ask for a finder's discount",
+      "pattern": "shortcut",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "arkadas": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "arkadas_ust_katta"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Arkadaşın üst kata taşındı. İlk gece saat birde tavanından 'uyudun mu' diye vurdu.",
+      "en": "Your friend moved in upstairs. First night, 1 a.m., three knocks on your ceiling: 'You up?'",
+      "coach": [
+        {
+          "tr": "Sessiz kiracı arandı. Bulunan, tavandan selam veriyor.",
+          "en": "They asked for quiet. You delivered someone who knocks.",
+          "roast": true
+        }
+      ]
+    },
+    "kimse": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ust_kat_davul"
+          ]
+        }
+      },
+      "tr": "Kimseyi önermedin. Üst kata hafta sonları davul dersi veren biri taşındı.",
+      "en": "You recommended no one. The new upstairs tenant teaches drums on weekends.",
+      "coach": [
+        {
+          "tr": "Sessiz kalmanın da sesi çıktı.",
+          "en": "Your silence turned out to have a drum kit.",
+          "roast": true
+        }
+      ]
+    },
+    "komisyon": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kira_indirimi_referans"
+            ]
+          },
+          "status": {
+            "rentDelta": -60
+          }
+        },
+        "tr": "Bulduğun kiracı için kirandan 60 Para indi. Ev sahibi 'aramızda kalsın' dedi.",
+        "en": "Your referral took 60 off your rent. The landlord said, 'This stays between us.'",
+        "coach": [
+          {
+            "tr": "Altmış Para, her ay, sessizce.",
+            "en": "Sixty a month, quietly.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef bütçesine her ay altmış.",
+            "en": "Sixty a month toward the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Ev sahibi talebi 'ticari' buldu. Üst kat ilana çıktı.",
+        "en": "The landlord found the request 'commercial.' Upstairs went on the market.",
+        "coach": [
+          {
+            "tr": "Komisyon reddedildi. İlan yayında.",
+            "en": "Commission denied. Listing live.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası başka olaylarda"
+  },
+  "intent": {
+    "setup": "ev sahibi üst kattaki boş daireye senin gibi sessiz biri istiyor",
+    "mechanism": "sessiz kiracı yerine geceleri tavana vuran arkadaş",
+    "mechanismId": "bathos",
+    "punch": "saat birde tavana vurdu",
+    "lift": "aktif hedefe bağlı tek satır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tavan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

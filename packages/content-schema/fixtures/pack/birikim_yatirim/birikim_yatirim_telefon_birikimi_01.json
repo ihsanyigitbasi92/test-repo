@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_telefon_birikimi_01",
+  "tags": [
+    "para",
+    "birikim",
+    "telefon",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "money": {
+      "min": 600
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Taksitle al. Ayda bir kahve parası. On sekiz kahve, bitti.",
+      "en": "Get it on installments. It's one coffee a month. Eighteen coffees, done."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Ben üç telefonu taksitle aldım. Üçünün de taksidi hâlâ sürüyor.",
+      "en": "I bought three phones on installments. All three are still being paid off.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "biriktir",
+      "tr": "Dört ay biriktir, peşin al",
+      "en": "Save four months, pay cash",
+      "pattern": "patience",
+      "check": {
+        "base": 5500
+      }
+    },
+    {
+      "id": "taksit",
+      "tr": "Taksitle al",
+      "en": "Buy on installments",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pil",
+      "tr": "Eski telefona pil taktır",
+      "en": "Put a new battery in the old one",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "biriktir": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -2200,
+          "stats": {
+            "joy": 6
+          },
+          "flags": {
+            "add": [
+              "telefon_pesin"
+            ]
+          }
+        },
+        "tr": "Dört ay sonra telefonu peşin aldın: 2.200 Para, taksitli fiyattan 200 Para az.",
+        "en": "Four months later you paid cash: 2,200, two hundred less than the installment price.",
+        "coach": [
+          {
+            "tr": "Dört ay. Kutudaki jelatin bile peşin ödendi.",
+            "en": "Four months. Even the plastic film was paid in full.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef kutusuna bir tik.",
+            "en": "One tick in the goal box.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1100,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "telefon_taksit"
+            ]
+          }
+        },
+        "tr": "Üçüncü ayda birikim bir konser biletine ve bir monta dönüştü. Telefonu yine taksitle aldın.",
+        "en": "By month three the savings had turned into a concert ticket and a coat. You bought the phone on installments anyway.",
+        "coach": [
+          {
+            "tr": "Konser iyiydi, mont sıcak. Telefon yine taksitte.",
+            "en": "The concert was good. The coat is warm. The phone is on installments anyway.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "taksit": {
+      "effects": {
+        "money": -160,
+        "stats": {
+          "joy": 5
+        },
+        "flags": {
+          "add": [
+            "telefon_taksit"
+          ]
+        }
+      },
+      "tr": "On sekiz taksitle aldın. İlk taksit ve dosya ücreti hesaptan çekildi: 160 Para.",
+      "en": "Eighteen installments. The first one plus a file fee came out today: 160.",
+      "coach": [
+        {
+          "tr": "On sekiz kahvenin ilki bugün içildi.",
+          "en": "The first of eighteen coffees has been drunk.",
+          "roast": false
+        }
+      ]
+    },
+    "pil": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "telefon_pil_degisti"
+          ]
+        }
+      },
+      "tr": "Yeni pil 150 Para tuttu. Telefon sabaha kadar dayanıyor; ev arkadaşın \"müze parçası\" diyor.",
+      "en": "A new battery cost 150. The phone lasts all day now. Your roommate calls it \"a museum piece.\"",
+      "coach": [
+        {
+          "tr": "Yeni pil, eski telefon, bir yıl daha.",
+          "en": "New battery, old phone, one more year.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "biriktir",
+    "slip": {
+      "tr": "İDDİA: Dört ay dayanamazsın. — M.",
+      "en": "WAGER: You won't last four months. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni telefon için dört ay biriktirmek ile ev arkadaşının taksit ısrarı arasında kalmak",
+    "mechanism": "taksiti kahveye çevirmek",
+    "mechanismId": "escalation",
+    "punch": "üçünün de taksidi sürüyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kahve"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

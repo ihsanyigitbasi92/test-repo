@@ -1,0 +1,169 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_limit_asimi_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "banka",
+    "market",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "typing",
+      "tr": "Kartınız limitini aştı. Limit aşımına izin için EVET yazın.",
+      "en": "Your card is over its limit. Reply YES to allow over-limit purchases."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Limit aşım ücreti tek seferliktir. Her seferinde.",
+      "en": "The over-limit fee is a one-time charge. Every time.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "evet",
+      "tr": "EVET yaz",
+      "en": "Reply YES",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "bol",
+      "tr": "Yarısını banka kartıyla öde",
+      "en": "Split it with your debit card",
+      "pattern": "patience"
+    },
+    {
+      "id": "birak",
+      "tr": "Sepetten bir şeyler çıkar",
+      "en": "Put some items back",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "evet": {
+      "effects": {
+        "money": -150,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "limit_asimi_acik",
+            "kredi_karti_borcu"
+          ]
+        },
+        "glossary": "limit_asimi"
+      },
+      "tr": "Market alışverişi geçti. Ay sonunda ekstrede üç ayrı limit aşım ücreti vardı, toplam 150 Para.",
+      "en": "The groceries went through. By month's end, the statement showed three separate over-limit fees: 150 total.",
+      "coach": [
+        {
+          "tr": "Üç kez tek seferlik.",
+          "en": "One-time, three times.",
+          "roast": false
+        }
+      ]
+    },
+    "bol": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "limit_dolu"
+          ]
+        }
+      },
+      "tr": "Kasada iki kart kullandın, arkadaki kişi bekledi. Kredi kartında kullanılabilir limit sıfır.",
+      "en": "Two cards at the register; the person behind you waited. Available credit: zero.",
+      "coach": [
+        {
+          "tr": "Limit sıfır, alışveriş evde.",
+          "en": "Limit maxed. Groceries home.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "limit_dolu"
+          ]
+        }
+      },
+      "tr": "Deterjanı ve peyniri rafa geri koydun. Kasiyer ikisini de kasanın yanına ayırdı.",
+      "en": "You put back the detergent and the cheese. The cashier set both aside by the register.",
+      "coach": [
+        {
+          "tr": "Deterjan ve peynir beklemede.",
+          "en": "Detergent and cheese, on hold.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "market kasasında limit dolunca bankanın limit aşımı onayı için mesaj atması",
+    "mechanism": "'tek seferlik' ücretin her seferinde alınması",
+    "mechanismId": "literalism",
+    "punch": "tek seferliktir, her seferinde",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tek_sefer"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

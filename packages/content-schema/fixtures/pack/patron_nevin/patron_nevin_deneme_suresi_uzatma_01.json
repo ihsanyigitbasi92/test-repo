@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_deneme_suresi_uzatma_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "{name}, deneme süren doldu. Çok memnunuz, o kadar memnunuz ki üç ay daha emin olmak istiyoruz.",
+      "en": "{name}, your probation's up. We're so pleased that we'd like three more months to be sure."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Uzatma formu hazır. İmzanın yanındaki 'gelişim alanları' kutusu boş, Nevin Hanım doldurmadı.",
+      "en": "The extension form's ready. The 'development areas' box by the signature is blank. Ms. Carver left it empty.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzala",
+      "tr": "İmzala",
+      "en": "Sign it",
+      "pattern": "patience"
+    },
+    {
+      "id": "gerekce",
+      "tr": "Gerekçeyi yazılı iste",
+      "en": "Ask for the reason in writing",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hedef",
+      "tr": "Uzatmaya hedef bağla",
+      "en": "Tie the extension to targets",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "imzala": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "deneme_uzatildi"
+          ]
+        }
+      },
+      "tr": "İmzaladın. Üç ay boyunca her toplantıdan sonra Nevin Hanım'ın defterine bir şey yazdığını gördün.",
+      "en": "You signed. For three months you watched Ms. Carver write something in her notebook after every meeting.",
+      "coach": [
+        {
+          "tr": "Üç ay daha gözlem altındasın. Defter bu kez onun.",
+          "en": "Three more months under observation. Her notebook, this time.",
+          "roast": false
+        }
+      ]
+    },
+    "gerekce": [
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            },
+            {
+              "role": "npc:hr",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "kadro_onaylandi"
+            ]
+          }
+        },
+        "tr": "Gerekçeyi yazılı istedin. İK kutuyu doldurmasını isteyince Nevin Hanım uzatmayı geri çekti, kadron ertesi gün onaylandı.",
+        "en": "You asked for the reason in writing. When HR asked her to fill in the box, Ms. Carver withdrew the extension. You were confirmed the next day.",
+        "coach": [
+          {
+            "tr": "Kutu boş kaldı. Kadro onaylandı.",
+            "en": "The box stayed blank. You got confirmed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2,
+              "memory": "gerekce_istedi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "deneme_uzatildi"
+            ]
+          }
+        },
+        "tr": "Gerekçe yazılı geldi: 'Genel olarak daha fazla sahiplenme.' Uzatma da geldi.",
+        "en": "The reason arrived in writing: 'More ownership, generally.' So did the extension.",
+        "coach": [
+          {
+            "tr": "Tek satır gerekçe, üç ay uzatma.",
+            "en": "One line of reason. Three months of extension.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hedef": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "deneme_uzatildi"
+          ]
+        }
+      },
+      "tr": "'Üç ayda şu iki hedef tutarsa kadro' diye yazdırdın. Nevin Hanım kabul etti ve yanına üçüncü hedefi kurşun kalemle ekledi.",
+      "en": "You got it in writing: hit two targets in three months, get confirmed. Ms. Carver agreed, then added a third target in pencil.",
+      "coach": [
+        {
+          "tr": "İki hedef mürekkeple, biri kurşun kalemle.",
+          "en": "Two targets in ink. One in pencil.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gerekce",
+    "slip": {
+      "tr": "İDDİA: Gerekçe tek satır gelir. — M.",
+      "en": "WAGER: The reason arrives in one line. — M."
+    }
+  },
+  "intent": {
+    "setup": "deneme süresi sonunda 'çok memnunuz' diye uzatılması",
+    "mechanism": "memnuniyet uzatma gerekçesi oluyor",
+    "mechanismId": "reversal",
+    "punch": "o kadar memnunuz ki üç ay daha",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kalem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

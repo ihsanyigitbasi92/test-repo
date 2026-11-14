@@ -1,0 +1,169 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_sonradan_taksit_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "taksit",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc",
+        "ilk_kredi_karti"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Geçen haftaki 1.800 Para'lık harcamanızı altı taksite bölebiliriz. 'EVET' yazmanız yeterli.",
+      "en": "We can split last week's 1,800 purchase into six installments. Just reply YES."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Küçük bir işlem ücreti var. Küçük. Ekstrede görürsünüz.",
+      "en": "There's a small processing fee. Small. You'll see it on the statement.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "evet",
+      "tr": "EVET yaz",
+      "en": "Reply YES",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sor",
+      "tr": "Ücretin tutarını sor",
+      "en": "Ask how small 'small' is",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "Tek seferde öde",
+      "en": "Pay it in one go",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "evet": {
+      "effects": {
+        "money": -330,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kredi_karti_borcu",
+            "sonradan_taksit"
+          ]
+        }
+      },
+      "tr": "Harcama altıya bölündü. İlk taksit ve işlem ücreti 330 Para olarak ekstreye geçti.",
+      "en": "Split into six. The first installment plus fee hit your statement: 330.",
+      "coach": [
+        {
+          "tr": "Altı ay, altı satır. Küçük olan satırların sayısı değil.",
+          "en": "Six months, six lines. The small part isn't the number of lines.",
+          "roast": true
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "brain": 1
+        },
+        "glossary": "islem_ucreti",
+        "flags": {
+          "add": [
+            "kredi_karti_borcu",
+            "sonradan_taksit"
+          ]
+        }
+      },
+      "tr": "Ücret soruldu: toplam 180 Para. Taksitlendirme yine yapıldı, bu kez bilerek.",
+      "en": "The fee: 180 in total. You split it anyway, but this time with your eyes open.",
+      "coach": [
+        {
+          "tr": "180 Para'nın takma adı 'küçük'.",
+          "en": "180 goes by the nickname 'small.'",
+          "roast": true
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "money": -1800,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "tek_cekim_odendi"
+          ]
+        }
+      },
+      "tr": "1.800 Para tek seferde ödendi. Banka iki gün sonra aynı teklifi yeniden yolladı.",
+      "en": "Paid 1,800 at once. Two days later, the bank sent the same offer again.",
+      "coach": [
+        {
+          "tr": "Borç bitti. Teklif bitmedi.",
+          "en": "The debt is done. The offer isn't.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "tek çekim yapılan telefon tamirine bankanın sonradan taksitlendirme teklifi göndermesi",
+    "mechanism": "'küçük bir işlem ücreti' sözünün küçüklüğü",
+    "mechanismId": "literalism",
+    "punch": "küçük, küçük",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kucuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

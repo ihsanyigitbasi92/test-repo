@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_maas_karsilastirma_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "happy",
+      "tr": "Zam yazım geldi, fena değil. Seninki de aynıdır herhalde, aynı işi yapıyoruz.",
+      "en": "Got my raise letter. Not bad. Yours must be the same, we do the same job."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Bir dakika. Yüzün neden öyle oldu?",
+      "en": "Hang on. Why is your face doing that?",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "soyle",
+      "tr": "Kendi rakamını söyle",
+      "en": "Tell them your number",
+      "pattern": "risk"
+    },
+    {
+      "id": "iste",
+      "tr": "İK'dan eşitleme iste",
+      "en": "Ask HR to match it",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yut",
+      "tr": "Gülümse, konuyu değiştir",
+      "en": "Smile, change the subject",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "soyle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "maas_farki"
+          ]
+        }
+      },
+      "tr": "Söyledin. Aradaki fark bir aylık market alışverişi kadardı. İş arkadaşın özür diledi, sanki bordroyu o kesmiş gibi.",
+      "en": "You told them. The gap came to about a month of groceries. Your colleague apologized as though they ran payroll.",
+      "coach": [
+        {
+          "tr": "Fark belli oldu. Özür yanlış masadan geldi.",
+          "en": "The gap is known. The apology came from the wrong desk.",
+          "roast": true
+        }
+      ]
+    },
+    "iste": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 600,
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "maas_farki",
+              "maas_duzeltildi"
+            ]
+          }
+        },
+        "tr": "İK'ya iki rakamı yan yana yazdın. Üç hafta sonra fark 'düzeltme' adıyla kapatıldı.",
+        "en": "You put the two figures side by side for HR. Three weeks later the gap was closed under the heading 'adjustment.'",
+        "coach": [
+          {
+            "tr": "Adı 'düzeltme' kondu. Hata diyen olmadı.",
+            "en": "They called it an adjustment. Nobody called it a mistake.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "ego": -3
+          },
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "npc:hr",
+              "affinity": -1,
+              "memory": "maas_sordu"
+            }
+          ],
+          "flags": {
+            "add": [
+              "maas_farki"
+            ]
+          }
+        },
+        "tr": "İK 'ücretler kişiye özeldir' dedi ve bilgiyi nereden aldığını sordu. İş arkadaşın artık bordrosunu ters çevirip okuyor.",
+        "en": "HR said compensation is confidential and asked where you got the figure. Your colleague now reads their payslip face-down.",
+        "coach": [
+          {
+            "tr": "Rakam yerinde. Gizlilik arttı.",
+            "en": "The number didn't move. The secrecy did.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yut": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "'Aynıdır' dedin. Öğleden sonra aynı işi yaparken farkı üç kez daha hesapladın.",
+      "en": "'Must be the same,' you said. That afternoon, doing the same job, you recalculated the gap three more times.",
+      "coach": [
+        {
+          "tr": "Aynı iş, üç hesap. Sonuç her seferinde aynı çıktı.",
+          "en": "Same job, three recalculations. Same answer each time.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iste",
+    "slip": {
+      "tr": "İDDİA: İK farkı kapatmaz. — M.",
+      "en": "WAGER: HR won't close the gap. — M."
+    }
+  },
+  "intent": {
+    "setup": "aynı işi yapan iş arkadaşının zammının seninkinden yüksek çıkması",
+    "mechanism": "iş arkadaşı bordroyu kendisi kesmiş gibi özür diliyor",
+    "mechanismId": "bathos",
+    "punch": "özür yanlış masadan geldi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "bordro"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

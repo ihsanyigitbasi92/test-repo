@@ -1,0 +1,257 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_buyuk_ev_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 38
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "buyuk_ev_karari"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Kira sözleşmesi bitiyor. Bir odası fazla bir daire buldum. Kirası 600 fazla.",
+      "en": "The lease is up. I found a place with one extra room. Rent's 600 more."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Fazla oda için bir planım yok. Sadece kapısı olsun istiyorum.",
+      "en": "I have no plan for the extra room. I just want a door I can close.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasin",
+      "tr": "Büyük eve taşının",
+      "en": "Move to the bigger place",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kal",
+      "tr": "Burada kalın",
+      "en": "Stay put",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Ev sahibiyle pazarlık et",
+      "en": "Haggle with the landlord",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "tasin": {
+      "effects": {
+        "money": -1800,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "status": {
+          "home": {
+            "kind": "wide",
+            "rent": 2400
+          }
+        },
+        "flags": {
+          "add": [
+            "buyuk_ev_karari",
+            "fazla_oda"
+          ]
+        }
+      },
+      "tr": "Taşındınız; depozito ve nakliye 1.800 Para. Fazla oda bir haftada kolilerle doldu.",
+      "en": "You moved: deposit and movers, 1,800. The extra room filled up with boxes within a week.",
+      "coach": [
+        {
+          "tr": "Bir oda fazla. Kapısı kolilere açılıyor.",
+          "en": "One extra room. Its door opens onto boxes.",
+          "roast": true
+        },
+        {
+          "tr": "Kira: 2.400 Para.",
+          "en": "Rent: 2,400.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "buyuk_ev_karari"
+          ]
+        }
+      },
+      "tr": "Sözleşme uzatıldı. Partnerin banyo kapısına 'özel oda' yazan bir tabela astı.",
+      "en": "Lease renewed. Your partner hung a 'private room' sign on the bathroom door.",
+      "coach": [
+        {
+          "tr": "Fazla oda bulundu. Küveti var.",
+          "en": "Extra room located. It has a tub.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": -1500,
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ],
+          "status": {
+            "home": {
+              "kind": "wide",
+              "rent": 2100
+            }
+          },
+          "flags": {
+            "add": [
+              "buyuk_ev_karari",
+              "fazla_oda"
+            ]
+          }
+        },
+        "tr": "Ev sahibi 300 indirdi. Fazla oda partnerinin oldu, kapısı kapalı.",
+        "en": "The landlord came down 300. The extra room went to your partner. Door closed.",
+        "coach": [
+          {
+            "tr": "300 indirim. Kapı fiyata dahil.",
+            "en": "300 off. Door included.",
+            "roast": false
+          },
+          {
+            "tr": "Kira: 2.100 Para.",
+            "en": "Rent: 2,100.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "buyuk_ev_karari"
+            ]
+          }
+        },
+        "tr": "Ev sahibi inmedi ve daireyi ertesi gün başkasına verdi.",
+        "en": "The landlord didn't budge and let the place to someone else the next day.",
+        "coach": [
+          {
+            "tr": "Pazarlık bitti. Daire de.",
+            "en": "Negotiation over. So is the flat.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "kira sözleşmesi biterken bir odası fazla daireye geçmek",
+    "mechanism": "fazla oda hayali tek bir kapıya iniyor",
+    "mechanismId": "understatement",
+    "punch": "sadece kapısı olsun",
+    "closer": "kapi",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "Kira: 2.100 Para."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

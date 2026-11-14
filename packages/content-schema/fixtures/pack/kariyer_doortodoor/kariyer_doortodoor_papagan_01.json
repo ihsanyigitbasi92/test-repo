@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doortodoor_papagan_01",
+  "tags": [
+    "kariyer",
+    "kapidan_satis",
+    "kariyer_doortodoor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doortodoor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "doorToDoor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "(Kapının arkasından) Almıyoruz! Almıyoruz!",
+      "en": "(Behind the door) Not buying! Not buying!"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "O ses ben değilim, papağan. Ben henüz bir şey demedim.",
+      "en": "That wasn't me. That was the parrot. I haven't said anything yet.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Ürünü sahibine anlat",
+      "en": "Pitch to the owner",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ogret",
+      "tr": "Papağana \"alıyoruz\" öğret",
+      "en": "Teach the parrot 'we're buying'",
+      "pattern": "risk"
+    },
+    {
+      "id": "git",
+      "tr": "Teşekkür edip git",
+      "en": "Say thanks and leave",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "anlat": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 400,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 1
+          }
+        },
+        "tr": "Sahibi dinledi ve bir set aldı. Kapı kapanırken papağan \"Almıyoruz!\" diye bağırdı, makbuzu sahibi imzaladı.",
+        "en": "The owner listened and bought a kit. As the door closed the parrot yelled 'Not buying!' The owner signed the receipt anyway.",
+        "coach": [
+          {
+            "tr": "Evde iki görüş var. Biri imza atıyor.",
+            "en": "Two opinions in that house. One of them signs.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "Sahibi papağanın evin sözcüsü olduğunu, son kararı onun verdiğini söyledi.",
+        "en": "The owner explained that the parrot speaks for the household and has the final say.",
+        "coach": [
+          {
+            "tr": "Karar mercii tüylü.",
+            "en": "The decision-maker has feathers.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ogret": {
+      "effects": {
+        "meters": {
+          "cringe": 4
+        },
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "d2d_papagan_dersi"
+          ]
+        }
+      },
+      "tr": "Kapıda on dakika papağanla çalıştın. \"Alıyoruz\" demedi ama artık senin kapı vuruşunu taklit ediyor.",
+      "en": "Ten minutes of parrot lessons at the door. It never said 'we're buying,' but it now does a perfect impression of your knock.",
+      "coach": [
+        {
+          "tr": "Satış yok. Kalıcı bir izlenim var.",
+          "en": "No sale. A lasting impression, though.",
+          "roast": false
+        }
+      ]
+    },
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Teşekkür edip ayrıldın. Sokağın sonuna kadar arkandan \"Almıyoruz!\" sesi geldi.",
+      "en": "You thanked them and left. 'Not buying!' followed you to the end of the street.",
+      "coach": [
+        {
+          "tr": "Sokak bilgilendirildi.",
+          "en": "The street has been informed.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlat",
+    "slip": {
+      "tr": "İDDİA: Bu evde son sözü papağan söyler. — M.",
+      "en": "WAGER: In that house, the parrot has the final say. — M."
+    }
+  },
+  "intent": {
+    "setup": "kapıyı çaldığında içeriden papağanın \"almıyoruz\" diye bağırması",
+    "mechanism": "papağan evin sözcüsü; aynı replik geri dönüp duruyor",
+    "mechanismId": "callback",
+    "punch": "o ses ben değilim, papağan",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "izlenim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_ev_kavanozu_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 34
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Ortak kavanozda 300 Para eksik. Ben almadım. Kavanoz da almadı, sordum.",
+      "en": "The house jar is 300 short. I didn't take it. Neither did the jar. I asked."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Bundan sonra kavanoza kilit. Anahtar bende dursun, çünkü ben almadım.",
+      "en": "From now on the jar gets a lock. I'll hold the key. Because I didn't take it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "fis",
+      "tr": "Fişleri tek tek incele",
+      "en": "Go through every receipt",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yari",
+      "tr": "Yarısını sen koy",
+      "en": "Put in half yourself",
+      "pattern": "generosity"
+    },
+    {
+      "id": "kilit",
+      "tr": "Kilit fikrine evet de",
+      "en": "Agree to the lock",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "fis": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "kavanoz_cozuldu"
+            ]
+          }
+        },
+        "tr": "Fişte buldun: Barış'ın geçen hafta aldığı 'ortak' kahve makinesi. Barış makineyi ortak ilan edip kavanoza borç senedi yazdı.",
+        "en": "Found it in the receipts: the 'shared' coffee maker Jordan bought last week. Jordan declared it communal and wrote the jar an IOU.",
+        "coach": [
+          {
+            "tr": "Kavanoz soruşturması kapandı. Şüpheli kahve yapıyor.",
+            "en": "Jar inquiry closed. The suspect is making coffee.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2,
+              "memory": "kavanoz_supheli"
+            }
+          ]
+        },
+        "tr": "Fişlerin yarısı kayıp çıktı. Para bulunmadı; evde artık 'ben almadım' bir selamlaşma.",
+        "en": "Half the receipts were gone. The money never turned up. 'I didn't take it' is now how you two say hello.",
+        "coach": [
+          {
+            "tr": "Dava açık kaldı. Selam değişti.",
+            "en": "Case unsolved. The greeting changed.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yari": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "150 Para koydun. Barış kalan 150'yi koydu ve kavanoza 'GÜVEN' yazan bir etiket yapıştırdı.",
+      "en": "You put in 150. Jordan put in the other 150 and labeled the jar 'TRUST.'",
+      "coach": [
+        {
+          "tr": "Kavanoz doldu. Etiket iddialı.",
+          "en": "The jar is whole again. The label is ambitious.",
+          "roast": false
+        }
+      ]
+    },
+    "kilit": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "kavanoz_kilitli"
+          ]
+        }
+      },
+      "tr": "Kavanoza 40 Paralık bir asma kilit takıldı. Anahtar Barış'ın boynunda, bir iple.",
+      "en": "A padlock went on the jar, 40 well spent. The key now hangs around Jordan's neck on a string.",
+      "coach": [
+        {
+          "tr": "Kavanoz kilitli. Anahtar kolye takıyor.",
+          "en": "The jar is locked. The key wears a necklace.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "fis",
+    "slip": {
+      "tr": "İDDİA: Fişler bu parayı bulamaz. — M.",
+      "en": "WAGER: The receipts won't find that money. — M."
+    }
+  },
+  "intent": {
+    "setup": "ortak market kavanozundan para eksik, Barış kilit öneriyor",
+    "mechanism": "'ben almadım' her cümlede geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "kavanoz da almadı, sordum",
+    "target": "situation",
+    "closer": "kavanoz",
+    "lift": "yok",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

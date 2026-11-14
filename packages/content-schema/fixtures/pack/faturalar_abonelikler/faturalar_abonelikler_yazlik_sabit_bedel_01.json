@@ -1,0 +1,168 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_yazlik_sabit_bedel_01",
+  "tags": [
+    "para",
+    "yazlik",
+    "elektrik",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "housing": [
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "season": [
+      "autumn",
+      "winter"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tüketim sıfır, doğru. Sabit bedel, sayaç bedeli ve bakım payı var.",
+      "en": "Usage is zero, correct. There's the fixed fee, the meter fee and the maintenance share."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kapatırsanız yazın yeniden açılış ücreti alınır. Aynı tutar.",
+      "en": "If you close it, there's a reopening fee in summer. Same amount.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Kışın aboneliği kapat",
+      "en": "Close the account for winter",
+      "pattern": "pride"
+    },
+    {
+      "id": "tut",
+      "tr": "Açık tut, öde",
+      "en": "Keep it open and pay",
+      "pattern": "patience"
+    },
+    {
+      "id": "kirala",
+      "tr": "Yazlığı kışlık kiraya ver",
+      "en": "Rent the place out for winter",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yazlik_kapali"
+          ]
+        }
+      },
+      "tr": "Abonelik kapatıldı, kış faturası sıfır. Haziranda 300 Para açılış ücreti ödenecek.",
+      "en": "Account closed. Winter bill: zero. In June, a 300 reopening fee.",
+      "coach": [
+        {
+          "tr": "Kışın sıfır, haziranda 300. Takvim değişti.",
+          "en": "Zero in winter, 300 in June. Only the calendar changed.",
+          "roast": false
+        }
+      ]
+    },
+    "tut": {
+      "effects": {
+        "money": -280,
+        "flags": {
+          "add": [
+            "yazlik_acik"
+          ]
+        }
+      },
+      "tr": "Altı aylık sabit bedel 280 Para. Yazlığın sayacı kış boyu aynı rakamı gösterdi.",
+      "en": "Six months of fixed fees: 280. The meter showed the same number all winter.",
+      "coach": [
+        {
+          "tr": "Sayaç uyudu. Fatura uyanık kaldı.",
+          "en": "The meter slept. The bill stayed up.",
+          "roast": false
+        }
+      ]
+    },
+    "kirala": {
+      "effects": {
+        "money": 1200,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yazlik_kis_kiracisi"
+          ]
+        }
+      },
+      "tr": "Yazlık kış için iki öğretmene kiralandı: ayda 1.200 Para. Faturalar artık onların adına geliyor.",
+      "en": "The summer place was rented to two teachers for the winter: 1,200 a month. The bills go to them now.",
+      "coach": [
+        {
+          "tr": "Sabit bedelin yeni sahipleri var.",
+          "en": "The fixed fee has new owners.",
+          "roast": false
+        },
+        {
+          "tr": "Hedefe kış boyu ayda 1.200.",
+          "en": "Goal fund: 1,200 monthly all winter.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "kışın kimsenin kalmadığı yazlıkta tüketim sıfırken sabit bedelli faturaların gelmesi",
+    "mechanism": "kapatırsan açılış ücreti, aynı tutar",
+    "mechanismId": "deadpan_report",
+    "punch": "kapatırsanız açılış ücreti, aynı tutar",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sabit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

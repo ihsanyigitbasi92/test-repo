@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cocuk_buyutme_konser_bileti_kotasi_01",
+  "tags": [
+    "ebeveynlik",
+    "okul",
+    "anne",
+    "cocuk_buyutme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "cocuk_buyutme": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 52
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Okul konseri için her öğrenciye iki bilet veriyorlar. İki.",
+      "en": "For the school concert, every student gets two tickets. Two."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Ben zaten geliyorum. İkinciyi kim alacak, siz bakın.",
+      "en": "Well, I'm coming. You figure out who gets the other one."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "O parçayı altı aydır duvarın arkasından dinliyorum. Ön sırayı hak ettim.",
+      "en": "I've heard that piece through the wall for six months. I've earned the front row.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anne",
+      "tr": "Anneye ver, yayından izle",
+      "en": "Give it to Mom, watch the stream",
+      "pattern": "generosity"
+    },
+    {
+      "id": "partner",
+      "tr": "Partnerle sen git",
+      "en": "Go with your partner",
+      "pattern": "pride"
+    },
+    {
+      "id": "ek",
+      "tr": "Okuldan ek bilet iste",
+      "en": "Ask the school for a spare",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          },
+          {
+            "role": "child",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Annen ve partnerin ön sırada oturdu. Sen konseri tek elle çekilmiş, sallanan bir videodan izledin.",
+      "en": "Your mom and partner sat in the front row. You watched a shaky, one-handed video of it.",
+      "coach": [
+        {
+          "tr": "Konser izlendi. Bir kısmı tavandan.",
+          "en": "Concert watched. Some of it from the ceiling.",
+          "roast": false
+        }
+      ]
+    },
+    "partner": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          },
+          {
+            "role": "mom",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "konser_anne_kirgin"
+          ]
+        }
+      },
+      "tr": "Konseri ön sıradan izlediniz. Annen ertesi gün arayıp konseri \"kuzenlerden dinlediğini\" söyledi.",
+      "en": "You watched from the front row. Next day your mom called to say she'd heard all about it \"from the cousins.\"",
+      "coach": [
+        {
+          "tr": "Konser bitti. Aile içi yayın sürüyor.",
+          "en": "The concert's over. The family broadcast continues.",
+          "roast": false
+        }
+      ]
+    },
+    "ek": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 3
+            },
+            {
+              "role": "mom",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Okul yedek listeden bir bilet buldu. Üçünüz yan yana oturdunuz, annen sahneye el salladı.",
+        "en": "The school found one spare. All three of you sat together, and your mom waved at the stage.",
+        "coach": [
+          {
+            "tr": "Üç koltuk. Tek sıra.",
+            "en": "Three seats. One row.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Yedek liste doluydu. Konser başlarken üçünüz kapıda pazarlık ettiniz, ikiniz içeri girdi.",
+        "en": "The spare list was full. As the concert began, the three of you negotiated at the door. Two got in.",
+        "coach": [
+          {
+            "tr": "Kararı kapı verdi.",
+            "en": "The door decided.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddiaya uygun değil"
+  },
+  "intent": {
+    "setup": "okul konserinde öğrenci başına iki bilet verilmesi ve üç aday",
+    "mechanism": "iki bilet, üç kişi: sayı tutmuyor",
+    "mechanismId": "count",
+    "punch": "İki.",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

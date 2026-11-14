@@ -1,0 +1,168 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_kart_aidati_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "dayOfMonth": {
+      "min": 20
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Aidat iadesi için sizi müşteri bağlılığı birimine aktarıyorum. Tahmini bekleme süresi: kısa.",
+      "en": "I'm transferring you to customer loyalty about the fee refund. Estimated wait: brief."
+    }
+  ],
+  "choices": [
+    {
+      "id": "israr",
+      "tr": "Sakin ama ısrarlı iste",
+      "en": "Ask calmly, keep asking",
+      "pattern": "patience"
+    },
+    {
+      "id": "kapat",
+      "tr": "Kartı kapatacağını söyle",
+      "en": "Say you'll close the card",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "Aidatı ödemeye devam et",
+      "en": "Just keep paying the fee",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "israr": {
+      "effects": {
+        "money": 180,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Yirmi beş dakika sonra aidatın yarısı iade edildi. Temsilci \"seneye yine arayın\" dedi.",
+      "en": "Twenty-five minutes later, half the fee was refunded. The rep said, \"Call again next year.\"",
+      "coach": [
+        {
+          "tr": "Yarısı geri döndü. Hatırlatma seneye.",
+          "en": "Half back. Reminder set for next year.",
+          "roast": false
+        }
+      ]
+    },
+    "kapat": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 360,
+          "stats": {
+            "joy": 3
+          }
+        },
+        "tr": "Hat bir süre sustu, sonra aidatın tamamı iade edildi. Üstüne \"size özel\" bir puan kampanyası eklendi.",
+        "en": "The line went quiet, then the full fee came back. A \"just for you\" points promotion came with it.",
+        "coach": [
+          {
+            "tr": "Blöf işe yaradı. Kibarca.",
+            "en": "The bluff worked. Politely.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "butce_kart_kapandi"
+            ]
+          }
+        },
+        "tr": "Temsilci \"kapatma talebiniz alındı\" dedi ve kart gerçekten kapandı. Otomatik ödemeler yeni bir kart bekliyor.",
+        "en": "The rep said \"your closure request is received,\" and the card actually closed. The autopays are waiting for a new home.",
+        "coach": [
+          {
+            "tr": "Blöf onaylandı.",
+            "en": "Bluff accepted.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -360,
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Aidat ödendi. Kartın bir yıllık puanı tek bir çaydanlığa yetti.",
+      "en": "Fee paid. A full year of card points added up to one teakettle.",
+      "coach": [
+        {
+          "tr": "Bir çaydanlık. 360 Paralık çaydanlık.",
+          "en": "One teakettle. A 360 teakettle.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kapat",
+    "slip": {
+      "tr": "İDDİA: Banka blöfünü görür. — M.",
+      "en": "WAGER: The bank calls your bluff. — M."
+    }
+  },
+  "intent": {
+    "setup": "kredi kartının yıllık aidatını iade ettirmek için bankayı aramak",
+    "mechanism": "kapatma tehdidi ya iadeye ya gerçek kapanışa dönüşüyor",
+    "mechanismId": "reversal",
+    "punch": "blöf onaylandı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "blof"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

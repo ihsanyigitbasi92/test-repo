@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_ic_ilan_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "İç ilan açıldı, bir üst kademe. Başvurular gizli; yalnızca yöneticinize bildirim gidiyor.",
+      "en": "There's an internal opening, one level up. Applications are confidential. Only your manager is notified."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Geçen yıl başvuran oldu. Hâlâ burada ama patron ona 'gezgin' diyor.",
+      "en": "Someone applied last year. Still here, but the boss calls them 'the tourist' now.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "basvur",
+      "tr": "Başvur",
+      "en": "Apply",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "once_konus",
+      "tr": "Önce patronla konuş",
+      "en": "Talk to the boss first",
+      "pattern": "patience"
+    },
+    {
+      "id": "pas",
+      "tr": "Bu ilanı pas geç",
+      "en": "Sit this one out",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "basvur": [
+      {
+        "p": 4500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "stats": {
+            "joy": 6
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "ic_ilan_kazandi"
+            ]
+          }
+        },
+        "tr": "Mülakatı geçtin. Yeni masan iki kat yukarıda; Nevin Hanım vedalaşırken 'hep biliyordum' dedi.",
+        "en": "You got it. The new desk is two floors up. Ms. Carver said goodbye with 'I always knew.'",
+        "coach": [
+          {
+            "tr": "Bir kademe yukarı. Bildirim bu kez iyi haberdi.",
+            "en": "One rung up. For once the notification was good news.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ic_ilan_gezgin"
+            ]
+          }
+        },
+        "tr": "Kadro başkasına gitti. Pazartesi toplantısında Nevin Hanım seni 'aramızda kalmayı seçen arkadaşımız' diye andı.",
+        "en": "The role went to someone else. On Monday Ms. Carver introduced you as 'our colleague who chose to stay.'",
+        "coach": [
+          {
+            "tr": "Bir mülakat yapıldı. İkincisi daha kısa sürer.",
+            "en": "One interview done. The second is always shorter.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "once_konus": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ic_ilan_patron_bilgili"
+          ]
+        }
+      },
+      "tr": "Önce Nevin Hanım'a söyledin. On saniye sustu, sonra referans yazısını kendisi yazmayı teklif etti.",
+      "en": "You told Ms. Carver first. She was quiet for ten seconds, then offered to write the reference herself.",
+      "coach": [
+        {
+          "tr": "On saniyelik sessizlik. Sonu imzalı.",
+          "en": "Ten seconds of silence. It ended in a signature.",
+          "roast": false
+        }
+      ]
+    },
+    "pas": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Başvurmadın. Kadro, senden sekiz ay sonra işe giren birine verildi.",
+      "en": "You didn't apply. The role went to someone who joined eight months after you.",
+      "coach": [
+        {
+          "tr": "İlan kapandı. Sekiz aylık fark artık ters yönde.",
+          "en": "The posting closed. The eight-month gap now runs the other way.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "basvur",
+    "slip": {
+      "tr": "İDDİA: Kadro başkasına gider. — M.",
+      "en": "WAGER: The role goes to someone else. — M."
+    }
+  },
+  "intent": {
+    "setup": "şirket içi üst kademe ilanına başvurmak, bildirim patrona gidiyor",
+    "mechanism": "gizli başvurunun tek alıcısı patron",
+    "mechanismId": "reversal",
+    "punch": "gizli; yalnızca yöneticinize bildirim gidiyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kademe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

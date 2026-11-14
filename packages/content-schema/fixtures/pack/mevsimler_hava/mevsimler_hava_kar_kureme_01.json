@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "mevsimler_hava_kar_kureme_01",
+  "tags": [
+    "mevsim",
+    "kar",
+    "araba",
+    "mevsimler_hava"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "mevsimler_hava": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    },
+    "season": [
+      "winter"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Sabah altıda kalkıp arabamın önünü açtım. Sizinki hâlâ bir kar tepesi.",
+      "en": "I was up at six digging out my car. Yours is still a snow hill."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Küreği verebilirim. Ama bugün yine lazım olabilir, akşam getirin.",
+      "en": "You can borrow the shovel. I might need it again today, though. Back by tonight.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kaz",
+      "tr": "Küreği al, kaz",
+      "en": "Take the shovel and dig",
+      "pattern": "overwork",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Erimesini bekle",
+      "en": "Wait for the melt",
+      "pattern": "patience"
+    },
+    {
+      "id": "otobus",
+      "tr": "Arabayı bırak, otobüse bin",
+      "en": "Leave the car, take the bus",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kaz": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "health": 2
+          },
+          "flags": {
+            "add": [
+              "kar_kazildi",
+              "kurek_iade_kurabiye"
+            ]
+          }
+        },
+        "tr": "Kırk beş dakikada arabayı çıkardın, belin sağlam kaldı. Küreği akşam bir kutu kurabiyeyle iade ettin.",
+        "en": "Forty-five minutes and the car was free, back intact. You returned the shovel that evening with a box of cookies.",
+        "coach": [
+          {
+            "tr": "Araba hazır. Komşuluk da.",
+            "en": "Car ready. Neighborly relations too.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1,
+            "health": -3
+          },
+          "flags": {
+            "add": [
+              "kar_kazildi"
+            ]
+          }
+        },
+        "tr": "Arabayı çıkardın, sonra belin oturdu. Öğleden sonrayı sıcak su torbasıyla geçirdin.",
+        "en": "You freed the car, then your back gave out. You spent the afternoon with a hot-water bottle.",
+        "coach": [
+          {
+            "tr": "Araba kurtuldu. Kurtarıcı yatakta.",
+            "en": "Car rescued. Rescuer bedridden.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kaputta_kardan_adam"
+          ]
+        }
+      },
+      "tr": "Üç gün bekledin. Kar eridi, kaputta çocukların yaptığı kardan adamın izi kaldı.",
+      "en": "You waited three days. When it melted, the hood still showed the outline of a snowman the kids had built.",
+      "coach": [
+        {
+          "tr": "Araba üç gün sanat eseriydi.",
+          "en": "For three days, the car was an art installation.",
+          "roast": false
+        }
+      ]
+    },
+    "otobus": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -60
+      },
+      "tr": "Otobüs yirmi dakika gecikti. Durakta elinde kürek taşıyan dört kişi gördün.",
+      "en": "The bus ran twenty minutes late. At the stop you saw four people carrying shovels.",
+      "coach": [
+        {
+          "tr": "Durakta bile kürek var.",
+          "en": "Even the bus stop has shovels.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kaz",
+    "slip": {
+      "tr": "İDDİA: Kürek bu maçı alır. — M.",
+      "en": "WAGER: The shovel takes this round. — M."
+    }
+  },
+  "intent": {
+    "setup": "karla kaplı arabayı komşunun küreğiyle kazmak",
+    "mechanism": "komşu sayarak üstünlük kuruyor, küreği şartlı veriyor",
+    "mechanismId": "count",
+    "punch": "sizinki hâlâ kar tepesi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kurtarici"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gec_ask_yalnizlik_arkadasim_tanitimi_01",
+  "tags": [
+    "iliski",
+    "gec_ask_yalnizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "gec_ask_yalnizlik": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 68,
+      "max": 85
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "evli",
+        "arkadasim_tanitimi"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "text": [
+    {
+      "id": "kapi",
+      "tr": "Partnerinin torunları hafta sonu için geldi. Partnerin seni kapıda tanıttı: \"Bu benim arkadaşım.\"",
+      "en": "Your partner's grandkids came for the weekend. At the door, your partner introduced you: \"This is my friend.\""
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Çocuklar küçük, kafaları karışmasın dedim. Sonra düzeltirim.",
+      "en": "The kids are little. I didn't want to confuse them. I'll fix it later."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Sen de beni arkadaşlarına 'komşum' diye tanıtmıştın, hatırlatayım.",
+      "en": "You introduced me to your friends as 'my neighbor,' just so you remember.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Akşam bunu konuş",
+      "en": "Bring it up tonight",
+      "pattern": "patience"
+    },
+    {
+      "id": "kabul",
+      "tr": "Arkadaş rolünü sürdür",
+      "en": "Keep playing the friend",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "anlat",
+      "tr": "Torunlara kendin anlat",
+      "en": "Tell the grandkids yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "konus": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "arkadasim_tanitimi"
+          ]
+        }
+      },
+      "tr": "Akşam konuştunuz. Sabah kahvaltıda partnerin düzeltti: \"Arkadaşım, yani sevgilim.\"",
+      "en": "You talked it through that night. At breakfast your partner revised it: \"My friend. I mean, my sweetheart.\"",
+      "coach": [
+        {
+          "tr": "Düzeltme yayımlandı.",
+          "en": "A correction has been issued.",
+          "roast": false
+        }
+      ]
+    },
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "arkadasim_tanitimi"
+          ]
+        }
+      },
+      "tr": "Hafta sonu boyunca arkadaş oldun. Pazar akşamı torunlardan biri sordu: \"Arkadaşın neden hep burada?\"",
+      "en": "You were the friend all weekend. Sunday evening one of the grandkids asked, \"Why is your friend always here?\"",
+      "coach": [
+        {
+          "tr": "Soru açık kaldı.",
+          "en": "The question is still open.",
+          "roast": false
+        }
+      ]
+    },
+    "anlat": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "arkadasim_tanitimi",
+              "torunlar_biliyor"
+            ]
+          }
+        },
+        "tr": "Torunlara \"Biz birbirimizi seviyoruz\" dedin. En küçüğü \"Biliyorduk\" deyip oyununa döndü.",
+        "en": "You told the grandkids, \"We love each other.\" The youngest said, \"We knew,\" and went back to playing.",
+        "coach": [
+          {
+            "tr": "Biliyorlarmış.",
+            "en": "They knew.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "arkadasim_tanitimi"
+            ]
+          }
+        },
+        "tr": "Anlatmaya başladın; en büyükleri \"Bunu annemize sorun\" dedi. Konu pazartesiye kaldı.",
+        "en": "You started explaining. The oldest said, \"Ask our mom about that.\" The topic was tabled until Monday.",
+        "coach": [
+          {
+            "tr": "Konu bir üst makama gitti.",
+            "en": "Escalated to a higher authority.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "ileri yaşta yeni partnerin seni torunlarına 'arkadaşım' diye tanıtması",
+    "mechanism": "partner, oyuncunun kendisini 'komşum' diye tanıttığı günü hatırlatıyor",
+    "mechanismId": "callback",
+    "punch": "Sen de beni 'komşum' diye tanıtmıştın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "duzeltme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

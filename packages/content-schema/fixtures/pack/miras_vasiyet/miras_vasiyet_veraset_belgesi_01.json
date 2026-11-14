@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "miras_vasiyet_veraset_belgesi_01",
+  "tags": [
+    "yaslilik",
+    "banka",
+    "evrak",
+    "anne",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "mom": {
+        "alive": false
+      },
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇINAR BANKASI · Miras İşlemleri (kurgusal)",
+      "en": "PLANE TREE BANK · Estate Services (fictional)"
+    },
+    "body": {
+      "tr": "Annenize ait hesaplar, mirasçılık belgesi ibraz edilinceye kadar işleme kapatılmıştır. Tüm mirasçıların imzası gerekmektedir.",
+      "en": "Your late mother's accounts are frozen pending a certificate of inheritance. Signatures from all heirs are required."
+    },
+    "translate": {
+      "tr": {
+        "from": "tüm mirasçıların imzası",
+        "to": "kardeşini de getir, evet o kardeşini"
+      },
+      "en": {
+        "from": "signatures from all heirs",
+        "to": "bring your sibling. Yes, that one."
+      }
+    },
+    "glossaryKey": "mirascilik_belgesi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hesapta 3.180 Para var. Kardeşinizin de imzası gerekiyor.",
+      "en": "There's 3,180 in the account. We need your sibling's signature too."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "annoyed",
+      "tr": "O gün çalışıyorum. Belgeyi bana yollasınlar, imzalarım.",
+      "en": "I'm working that day. Have them mail me the form, I'll sign it.",
+      "delayMs": 700
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Yollamıyoruz.",
+      "en": "We don't mail it.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "birlikte",
+      "tr": "Kardeşinle aynı gün git",
+      "en": "Go together, same day",
+      "pattern": "patience"
+    },
+    {
+      "id": "vekalet",
+      "tr": "Kardeşinden vekâlet al",
+      "en": "Get power of attorney",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "birak",
+      "tr": "Hesabı şimdilik bırak",
+      "en": "Leave the account for now",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "birlikte": {
+      "effects": {
+        "money": 1590,
+        "flags": {
+          "add": [
+            "veraset_tamam"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "glossary": "mirascilik_belgesi"
+      },
+      "tr": "İkiniz aynı gün geldiniz, imzalar on dakikada bitti. Hesap ikiye bölündü: kişi başı 1.590 Para.",
+      "en": "You both showed up on the same day. Ten minutes of signing. The account split two ways: 1,590 each.",
+      "coach": [
+        {
+          "tr": "Bir hesap, iki imza, eşit pay.",
+          "en": "One account. Two signatures. Even split.",
+          "roast": false
+        }
+      ]
+    },
+    "vekalet": {
+      "effects": {
+        "money": 1190,
+        "flags": {
+          "add": [
+            "veraset_tamam"
+          ]
+        },
+        "glossary": "mirascilik_belgesi"
+      },
+      "tr": "Vekâlet 400 Para tuttu. Banka vekâleti kabul etti ama fotokopisini etmedi; aslını iki kez getirdin.",
+      "en": "Power of attorney cost 400. The bank accepted it, but not the copy. You brought the original in twice.",
+      "coach": [
+        {
+          "tr": "Asıl belge: kabul. Fotokopi: iki kez ret.",
+          "en": "Original: accepted. Copy: declined twice.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "flags": {
+          "add": [
+            "veraset_beklemede"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -1
+          }
+        ],
+        "glossary": "mirascilik_belgesi"
+      },
+      "tr": "Hesap kapalı kaldı. Banka her ay bir \"bilgilendirme\" mektubu yolluyor; posta ücreti hesaptan düşülüyor.",
+      "en": "The account stays frozen. The bank sends a monthly \"update\" letter, postage deducted from the account.",
+      "coach": [
+        {
+          "tr": "Hesap kendini pulla eritiyor.",
+          "en": "The account is slowly spending itself on stamps.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "annenin hesabı için mirasçılık belgesi ve tüm kardeşlerin imzası",
+    "mechanism": "banka mektup yollamıyor ama mektup ücreti kesiyor",
+    "mechanismId": "translation",
+    "punch": "yollamıyoruz",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "pul",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

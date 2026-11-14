@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_ilk_bordro_01",
+  "tags": [
+    "para",
+    "vergi",
+    "maas",
+    "ilk_is",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bordronuz bu. Üstteki brüt, alttaki net. Aradaki her satırın bir adı var.",
+      "en": "Here's your payslip. Top line is gross, bottom line is net. Every line in between has a name."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Hepsinin adını ben de ezbere bilmem. Ama hepsi kesiliyor.",
+      "en": "I don't know all the names by heart either. But they all come out.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "satir",
+      "tr": "Her satırı tek tek sor",
+      "en": "Ask about every line",
+      "pattern": "patience"
+    },
+    {
+      "id": "net",
+      "tr": "Neti bil, yeter",
+      "en": "Know the net, done",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Bir kesintiye itiraz et",
+      "en": "Dispute one deduction",
+      "pattern": "pride",
+      "check": {
+        "base": 2000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "satir": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "glossary": "brut_net",
+        "flags": {
+          "add": [
+            "bordro_okur"
+          ]
+        }
+      },
+      "tr": "On iki satırın on birini öğrendin. Sonuncusunu memur da bilmiyordu, birini aradı.",
+      "en": "You learned eleven of the twelve lines. The clerk didn't know the last one either and phoned someone.",
+      "coach": [
+        {
+          "tr": "On bir satır çözüldü. Biri hâlâ gizemli.",
+          "en": "Eleven lines decoded. One remains classified.",
+          "roast": false
+        }
+      ]
+    },
+    "net": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "bordro_net"
+          ]
+        }
+      },
+      "tr": "Bordroyu katlayıp cüzdana koydun. Net rakam akşama kadar aklında kaldı.",
+      "en": "You folded the payslip into your wallet. The net figure stayed in your head until dinner.",
+      "coach": [
+        {
+          "tr": "Net rakam akşama kadar dayandı.",
+          "en": "The net figure lasted till dinner.",
+          "roast": true
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 2000,
+        "effects": {
+          "money": 180,
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "bordro_duzeltildi"
+            ]
+          }
+        },
+        "tr": "Gerçekten hata varmış: yemek kartı kesintisi iki kez yapılmış. Fark gelecek maaşla, 180 Para.",
+        "en": "There really was an error: the meal card deduction was taken twice. 180 comes back next paycheck.",
+        "coach": [
+          {
+            "tr": "İtiraz tuttu. 180 Para eve dönüyor.",
+            "en": "The dispute held. 180 is coming home.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 8000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Memur satırı parmağıyla gösterdi. Kesinti doğruymuş, sadece adı uzunmuş.",
+        "en": "The clerk pointed at the line. The deduction was correct. It just had a long name.",
+        "coach": [
+          {
+            "tr": "Kesinti masumdu. Adı korkutucuydu.",
+            "en": "The deduction was innocent. Its name was just scary.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ilk maaş bordrosunda brüt ile net arasındaki satırlar",
+    "mechanism": "memur da satırların adını bilmiyor ama hepsi kesiliyor",
+    "mechanismId": "deadpan_report",
+    "punch": "hepsinin adını ben de bilmem, ama hepsi kesiliyor",
+    "lift": "itiraz tuttu",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "gizem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

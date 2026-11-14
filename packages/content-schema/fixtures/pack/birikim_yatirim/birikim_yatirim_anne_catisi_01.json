@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_anne_catisi_01",
+  "tags": [
+    "para",
+    "birikim",
+    "aile",
+    "dayi",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "money": {
+      "min": 2500
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "worried",
+      "tr": "Annenin çatısı akıyor. Benim zamanımda çatıya naylon gerilirdi, yirmi yıl giderdi.",
+      "en": "Your mom's roof is leaking. In my day we'd stretch a tarp over it and it'd last twenty years."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Usta 2.200 dedi. Annen sana söylememi istemedi. Söyledim.",
+      "en": "The roofer says 2,200. Your mom told me not to tell you. I'm telling you.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Tamamını birikimden öde",
+      "en": "Cover it all from savings",
+      "pattern": "generosity"
+    },
+    {
+      "id": "yari",
+      "tr": "Dayınla yarı yarıya",
+      "en": "Split it with your uncle",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "naylon",
+      "tr": "Önce naylonu dene",
+      "en": "Try the tarp first",
+      "pattern": "shortcut",
+      "check": {
+        "base": 3500
+      }
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -2200,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "flags": {
+          "add": [
+            "anne_cati_tamir"
+          ]
+        }
+      },
+      "tr": "Çatı iki günde yapıldı. Annen 'hiç gerek yoktu' dedi ve ustaya üç kez çay koydu.",
+      "en": "The roof was done in two days. Your mom said 'there was really no need' and made the roofer tea three times.",
+      "coach": [
+        {
+          "tr": "Gerek yoktu. Üç çay.",
+          "en": "No need. Three teas.",
+          "roast": false
+        }
+      ]
+    },
+    "yari": {
+      "effects": {
+        "money": -1100,
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_cati_tamir"
+          ]
+        }
+      },
+      "tr": "Dayın payını iki taksitte getirdi, ilkini bir zarfın içinde. Çatı yapıldı.",
+      "en": "Your uncle paid his half in two installments, the first in an envelope. The roof got fixed.",
+      "coach": [
+        {
+          "tr": "Zarf geldi. Çatı akmıyor.",
+          "en": "The envelope came. The roof holds.",
+          "roast": false
+        }
+      ]
+    },
+    "naylon": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": -150,
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "anne_cati_naylon"
+            ]
+          }
+        },
+        "tr": "Naylon gerildi ve bütün kış dayandı. Dayın baharda herkese ustaya gerek olmadığını anlattı.",
+        "en": "The tarp went up and held all winter. Come spring, your uncle told everyone roofers are unnecessary.",
+        "coach": [
+          {
+            "tr": "Naylon bir kış kazandı.",
+            "en": "The tarp won a winter.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -2350,
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "anne_cati_tamir"
+            ]
+          }
+        },
+        "tr": "İlk yağmurda naylon uçtu. Usta yine geldi; bu kez fiyat 2.200 artı naylon.",
+        "en": "First rain, the tarp blew off. The roofer came anyway, now 2,200 plus the tarp.",
+        "coach": [
+          {
+            "tr": "Naylon da faturaya girdi.",
+            "en": "The tarp made it onto the invoice.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "annenin çatısı akınca tamir masrafının birikimden karşılanması",
+    "mechanism": "dayının naylon tavsiyesi faturaya geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "benim zamanımda naylon gerilirdi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "naylon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

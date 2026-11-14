@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_harcamasiz_ay_01",
+  "tags": [
+    "tanidik_yuzler",
+    "para",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 33
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      },
+      "cat": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Harcamasız ay başlıyor. Sadece zorunlu şeyler. Seni de yazdım, ikimiz daha güçlüyüz.",
+      "en": "No-spend month starts now. Essentials only. I signed you up too. We're stronger together."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Zorunlu listesi: ekmek, fatura, kedi maması, bir de yeni kulaklık. O ihtiyaç.",
+      "en": "Essentials list: bread, bills, cat food, and new headphones. Those are a need.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "katil",
+      "tr": "Sen de katıl",
+      "en": "Join in",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "liste",
+      "tr": "Kulaklığı listeden çıkar",
+      "en": "Strike the headphones off",
+      "pattern": "pride"
+    },
+    {
+      "id": "pas",
+      "tr": "Bu ay pas geç",
+      "en": "Sit this one out",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "katil": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 600,
+          "stats": {
+            "joy": 1,
+            "brain": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "harcamasiz_ay_tamam"
+            ]
+          }
+        },
+        "tr": "Ay bitti. İkiniz toplam 1.200 Para biriktirdiniz; Barış kutlamak için kulaklık aldı.",
+        "en": "The month ended. You saved 1,200 between you. Jordan celebrated by buying headphones.",
+        "coach": [
+          {
+            "tr": "Bir ay sürdü. Kutlama bir dakika.",
+            "en": "Thirty days of discipline. One minute of celebrating.",
+            "roast": true
+          },
+          {
+            "tr": "Birikim sayacı 600 yukarıda.",
+            "en": "Savings counter: up 600.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -90,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "On ikinci gün ikiniz de dayanamadınız ve aynı akşam kendinize aynı tatlıyı sipariş ettiniz.",
+        "en": "Day twelve, you both cracked and ordered the same dessert, the same night.",
+        "coach": [
+          {
+            "tr": "On iki gün. Tatlı ortak.",
+            "en": "Twelve days. Shared dessert.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "liste": {
+      "effects": {
+        "money": 300,
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "harcamasiz_ay_tamam"
+          ]
+        }
+      },
+      "tr": "Kulaklık listeden çıktı. Barış eski kulaklığını bantla tamir etti ve bütün ay bir kulaktan dinledi.",
+      "en": "The headphones came off the list. Jordan taped up the old pair and listened in one ear all month.",
+      "coach": [
+        {
+          "tr": "Liste kısaldı. Ses yarıya indi.",
+          "en": "Shorter list. Half the sound.",
+          "roast": true
+        }
+      ]
+    },
+    "pas": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Sen harcamaya devam ettin. Barış her alışverişinde sana 'kendine iyi bak' bakışı attı.",
+      "en": "You kept spending. Every bag you brought in got a 'good for you, I guess' look from Jordan.",
+      "coach": [
+        {
+          "tr": "Bakışlar bedava. Alışveriş değil.",
+          "en": "The looks were free. The shopping wasn't.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "katil",
+    "slip": {
+      "tr": "İDDİA: Bu ay ikinci haftayı görmez. — M.",
+      "en": "WAGER: This month doesn't make it past week two. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış ikinizi birden harcamasız aya yazıyor ama listesine kulaklık koyuyor",
+    "mechanism": "zorunlu listesi tek kalemle çöküyor",
+    "mechanismId": "count",
+    "punch": "kutlamak için kulaklık aldı",
+    "target": "decision",
+    "closer": "kutlama",
+    "antithesis": false,
+    "lift": "Birikim sayacı 600 yukarıda."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

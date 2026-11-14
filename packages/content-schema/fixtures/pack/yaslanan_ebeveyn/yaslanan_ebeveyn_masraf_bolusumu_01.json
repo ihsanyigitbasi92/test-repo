@@ -1,0 +1,247 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_masraf_bolusumu_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "para",
+    "kardes",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "kardes_masrafa_ortak"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Annemin masraflarını tabloya döktüm. Sen kira ve faturalar, ben manevi destek.",
+      "en": "I put Mom's costs in a spreadsheet. You cover rent and bills, I cover emotional support."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Haftada iki kez arıyorum. Saatlik hesaplasan benim pay daha büyük.",
+      "en": "I call twice a week. Billed hourly, my share's bigger.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "hesap",
+      "tr": "Tabloyu kalem kalem çürüt",
+      "en": "Audit the sheet line by line",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Kabul et, tartışma",
+      "en": "Accept it, skip the fight",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "anne",
+      "tr": "Tabloyu annene göster",
+      "en": "Show the sheet to Mom",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "hesap": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 600,
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "kardes_masrafa_ortak"
+            ]
+          }
+        },
+        "tr": "Telefon görüşmelerinin dakika ücretini sorunca kardeşin her ay 600 Para göndermeyi kabul etti.",
+        "en": "When you asked for the per-minute rate on those calls, your sibling agreed to send 600 a month.",
+        "coach": [
+          {
+            "tr": "Tablo revize edildi. İki sütun da nakit.",
+            "en": "Sheet revised. Both columns now in cash.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Kardeşin ikinci bir tablo yolladı: “duygusal emek”. Buluşmadaki kahveleri sen ödedin.",
+        "en": "Your sibling sent a second sheet titled “emotional labor.” You paid for the coffees.",
+        "coach": [
+          {
+            "tr": "Tablolar çoğaldı. Para azaldı.",
+            "en": "More spreadsheets. Less money.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "masraf_sende"
+          ]
+        }
+      },
+      "tr": "Faturalar sende. Kardeşin pazar günü arayıp annene iyi bakılıp bakılmadığını sordu.",
+      "en": "The bills are yours. On Sunday your sibling called to ask Mom if she was being well looked after.",
+      "coach": [
+        {
+          "tr": "Destek hattı açık. Faturalar sana yönleniyor.",
+          "en": "The support line is open. Invoices route to you.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "money": 400,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -1
+          },
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kardes_masrafa_ortak"
+          ]
+        }
+      },
+      "tr": "Annen tabloyu okudu ve kardeşine manevi desteğini nakit göndermesini söyledi.",
+      "en": "Mom read the sheet and told your sibling to send the emotional support in cash.",
+      "coach": [
+        {
+          "tr": "Hakem kararı: nakit.",
+          "en": "Referee's ruling: cash.",
+          "roast": false
+        },
+        {
+          "tr": "Zarfa ilk katkı geldi.",
+          "en": "First deposit in the envelope.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hesap",
+    "slip": {
+      "tr": "İDDİA: Tablo kazanır. — M.",
+      "en": "WAGER: The spreadsheet wins this round. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşle annenin aylık masraflarını bölüşme, kardeşin payını manevi destek olarak yazması",
+    "mechanism": "manevi destek bir masraf kalemi",
+    "mechanismId": "literalism",
+    "punch": "saatlik hesaplasan benim pay büyük",
+    "lift": "zarfa katkı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "nakit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

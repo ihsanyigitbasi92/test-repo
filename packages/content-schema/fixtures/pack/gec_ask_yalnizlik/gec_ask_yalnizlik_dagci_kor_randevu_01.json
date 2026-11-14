@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gec_ask_yalnizlik_dagci_kor_randevu_01",
+  "tags": [
+    "iliski",
+    "gec_ask_yalnizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "gec_ask_yalnizlik": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    },
+    "flags": {
+      "none": [
+        "flort",
+        "dagci_randevu"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "ayar",
+      "tr": "Bir arkadaşın seni biriyle tanıştırdı. Kafede ilk on dakika iyi geçti.",
+      "en": "A friend set you up. The first ten minutes at the café went fine."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Arkadaşın dağcı olduğunu söyledi. Hafta sonu için bir rota çizdim bile.",
+      "en": "Your friend said you’re a climber. I already mapped a route for this weekend."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Zirveye altı saat. Sen hangi tempoda çıkıyorsun?",
+      "en": "Six hours to the summit. What pace do you usually keep?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "Dağcı olmadığını söyle",
+      "en": "Admit you’ve never climbed",
+      "pattern": "patience"
+    },
+    {
+      "id": "cik",
+      "tr": "Rotaya evet de",
+      "en": "Say yes to the route",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "konu",
+      "tr": "Konuyu değiştir",
+      "en": "Change the subject",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "flort",
+            "dagci_randevu"
+          ]
+        }
+      },
+      "tr": "Güldü. Rota “yarım saatlik yürüyüş ve çay” olarak güncellendi.",
+      "en": "They laughed. The route was revised to “half-hour walk, then tea.”",
+      "coach": [
+        {
+          "tr": "Rota kısaldı. Buluşma uzadı.",
+          "en": "Shorter route. Longer date.",
+          "roast": false
+        }
+      ]
+    },
+    "cik": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 6,
+            "health": 2
+          },
+          "flags": {
+            "add": [
+              "flort",
+              "dagci_randevu"
+            ]
+          }
+        },
+        "tr": "Zirveye yedi saatte çıktınız. Fotoğrafta nefes nefesesin ama yanındaki ikinci randevuyu sordu.",
+        "en": "Seven hours to the top. You’re gasping in the photo, but they asked about a second date.",
+        "coach": [
+          {
+            "tr": "Yedi saat. Bir saat fazlası hoş görüldü.",
+            "en": "Seven hours. The extra hour was forgiven.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacında bir zirve.",
+            "en": "One summit on the goal counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2,
+            "health": -1
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "dagci_randevu"
+            ]
+          }
+        },
+        "tr": "İkinci saatte bir kayaya oturdun. Dönüşte yanındaki “dağcılar da yorulur” dedi; sesi kibar ama mesafeli.",
+        "en": "Two hours in, you sat on a rock. On the way down they said “Climbers get tired too,” politely, from a distance.",
+        "coach": [
+          {
+            "tr": "İki saat, bir kaya.",
+            "en": "Two hours. One rock.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "konu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "dagci_randevu"
+          ]
+        }
+      },
+      "tr": "Sohbeti filmlere çevirdin. Hesap gelince “rota hâlâ geçerli” dedi.",
+      "en": "You steered the chat to movies. When the bill came: “The route’s still on, by the way.”",
+      "coach": [
+        {
+          "tr": "Rota beklemede.",
+          "en": "Route on hold.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cik",
+    "slip": {
+      "tr": "İDDİA: Zirveyi göremezsin. — M.",
+      "en": "WAGER: You don’t see the summit. — M."
+    }
+  },
+  "intent": {
+    "setup": "arkadaşın kör randevuda seni olmadığın biri (dağcı) olarak anlatmış",
+    "mechanism": "yalan rota olarak büyüyor",
+    "mechanismId": "escalation",
+    "punch": "rota çizdim bile",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "rota"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

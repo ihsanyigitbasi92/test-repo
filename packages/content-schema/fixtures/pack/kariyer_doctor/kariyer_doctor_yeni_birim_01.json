@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_yeni_birim_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Yeni bir birim kuruyoruz, sorumlusu siz olacaksınız. Hayırlı olsun.",
+      "en": "We're founding a new unit, and you'll be in charge. Congratulations."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Şimdilik bir oda, bir masa ve bir sekreter adayı var. Aday henüz karar vermedi.",
+      "en": "For now there's a room, a desk, and a candidate for secretary. The candidate hasn't decided yet."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Sorumluluğu al",
+      "en": "Accept the post",
+      "pattern": "overwork"
+    },
+    {
+      "id": "butce",
+      "tr": "Önce bütçe iste",
+      "en": "Ask for a budget first",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "oner",
+      "tr": "Genç meslektaşı öner",
+      "en": "Recommend a younger colleague",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "status": {
+          "job": {
+            "title": "Birim sorumlusu hekim",
+            "tier": 4,
+            "monthly": 4200
+          }
+        },
+        "meters": {
+          "ego": 4
+        },
+        "hidden": {
+          "stress": 4
+        }
+      },
+      "tr": "Birim sorumlusu oldun. İlk ay masayı iki kez taşıdın, sekreter adayı başka birime gitti.",
+      "en": "You're unit head. First month, you moved the desk twice. The secretary candidate went to another unit.",
+      "coach": [
+        {
+          "tr": "Kadro: bir masa, bir hekim.",
+          "en": "Staff: one desk, one physician.",
+          "roast": false
+        }
+      ]
+    },
+    "butce": [
+      {
+        "p": 4500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "status": {
+            "job": {
+              "title": "Birim sorumlusu hekim",
+              "tier": 4,
+              "monthly": 4200
+            }
+          },
+          "meters": {
+            "ego": 5
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Bütçe onaylandı: iki hemşire, bir cihaz, bir sekreter. Sekreter adayı da kararını verdi.",
+        "en": "Budget approved: two nurses, one machine, one secretary. The candidate made up their mind.",
+        "coach": [
+          {
+            "tr": "Aday karar verdi. Bütçe ikna etti.",
+            "en": "The candidate decided. The budget was persuasive.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "status": {
+            "job": {
+              "title": "Birim sorumlusu hekim",
+              "tier": 4,
+              "monthly": 4200
+            }
+          },
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 5
+          }
+        },
+        "tr": "Bütçeye \"gelecek mali yıl\" dendi. Birim bir oda, bir masa ve senin kişisel zımbanla açıldı.",
+        "en": "Budget: \"next fiscal year.\" The unit opened with a room, a desk, and your personal stapler.",
+        "coach": [
+          {
+            "tr": "Zımba kişiseldi. Artık kurumsal.",
+            "en": "The stapler was personal. Now it's institutional.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "oner": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": -2
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": 5
+          }
+        ]
+      },
+      "tr": "Genç meslektaşını önerdin, kabul edildi. İlk gün birimin kapısına senin adını \"danışman\" olarak yazdı.",
+      "en": "You recommended your younger colleague, and it went through. On day one, they put your name on the door as \"Advisor.\"",
+      "coach": [
+        {
+          "tr": "Kapıda adın var. Masa onun.",
+          "en": "Your name is on the door. The desk is theirs.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "butce",
+    "slip": {
+      "tr": "İDDİA: Bütçe gelecek yıla kalır. — M.",
+      "en": "WAGER: The budget gets pushed to next year. — M."
+    }
+  },
+  "intent": {
+    "setup": "kıdemli hekim henüz bir oda ve bir masadan ibaret yeni birimin kurucu sorumlusu yapılıyor",
+    "mechanism": "büyük unvan, küçük envanter",
+    "mechanismId": "understatement",
+    "punch": "aday henüz karar vermedi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zimba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

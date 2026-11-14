@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_isleri_yatak_cevirme_01",
+  "tags": [
+    "ev",
+    "ev_isi",
+    "ev_isleri"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_isleri": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 85
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Yatak altı ayda bir çevrilirmiş. Biz en son ne zaman çevirdik?",
+      "en": "Apparently a mattress gets flipped every six months. When did we last do ours?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Bence taşındığımız yıl. Çocuklar daha okula gidiyordu.",
+      "en": "The year we moved in, I think. The kids were still at school.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "birlikte",
+      "tr": "İkiniz birlikte çevirin",
+      "en": "Flip it together",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "cocuk",
+      "tr": "Çocuğunu çağır",
+      "en": "Call your kid over",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "dondur",
+      "tr": "Çevirme, yalnızca döndür",
+      "en": "Don't flip it, just rotate it",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "birlikte": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "yatak_cevrildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Yatağı ikinci denemede çevirdiniz. Altından yirmi yıl önce kaybolan bir terlik çıktı.",
+        "en": "You flipped it on the second try. Underneath lay a slipper that went missing twenty years ago.",
+        "coach": [
+          {
+            "tr": "Terlik bulundu. Eşi aranıyor.",
+            "en": "Slipper found. Its pair is still at large.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Yatak yarı yolda kaldı, duvara dayalı bir gece geçirdi. Siz de kanepede.",
+        "en": "The mattress got halfway and spent the night propped against the wall. You two spent it on the couch.",
+        "coach": [
+          {
+            "tr": "Yatak dik. Siz kanepede.",
+            "en": "Mattress upright. You two on the couch.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cocuk": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "cocuk_yardim"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Çocuğun pazar geldi, yatağı iki dakikada çevirdi. Sonra bir saat neden daha önce çağrılmadığını sordu.",
+      "en": "Your kid came over Sunday and flipped it in two minutes. Then spent an hour asking why nobody called sooner.",
+      "coach": [
+        {
+          "tr": "İki dakika iş. Bir saat soru.",
+          "en": "Two minutes of work. An hour of questions.",
+          "roast": false
+        }
+      ]
+    },
+    "dondur": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yatak_donduruldu"
+          ]
+        }
+      },
+      "tr": "Yatağı çevirmek yerine baş ucunu ayak ucuna döndürdünüz. Yarım iş, tam rahatlama.",
+      "en": "Instead of flipping it, you swung it head to foot. Half the job, all of the relief.",
+      "coach": [
+        {
+          "tr": "Yarım tur. Kimse fark etmedi.",
+          "en": "Half a turn. Nobody noticed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "ileri yaşta partnerle yirmi yıldır çevrilmeyen yatağı çevirmek",
+    "mechanism": "yatağın altından taşınma yılından kalan eşyalar çıkıyor",
+    "mechanismId": "callback",
+    "punch": "yirmi yıllık terlik",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "terlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "stres_tukenmislik_deneme_suresi_01",
+  "tags": [
+    "saglik",
+    "is",
+    "ilk_is",
+    "stres_tukenmislik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "stres_tukenmislik": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Deneme süren cuma bitiyor. Değerlendirmeyi pazartesi konuşuruz, merak etme.",
+      "en": "Your probation ends Friday. We will go over the review Monday. Nothing to worry about."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "typing",
+      "tr": "Bu arada perşembe akşamki sunumu sen alabilir misin? Ufak bir şey.",
+      "en": "Also, could you take Thursday evening's presentation? Small thing.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Sunumu al, gece hazırlan",
+      "en": "Take it, prep all night",
+      "pattern": "overwork"
+    },
+    {
+      "id": "normal",
+      "tr": "Normal temponda hazırlan",
+      "en": "Prep at your normal pace",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sor",
+      "tr": "Değerlendirme ölçütlerini sor",
+      "en": "Ask what the review covers",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "health": -3,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 6
+        },
+        "flags": {
+          "add": [
+            "st_deneme_gecesi"
+          ]
+        }
+      },
+      "tr": "Sunumu yaptın, patron \"güzel\" dedi. Üç gece boyunca dörder saat uyumuştun.",
+      "en": "You gave the presentation. Your boss said \"nice.\" You had slept four hours a night for three nights.",
+      "coach": [
+        {
+          "tr": "On iki saatlik uyku, bir \"güzel\" karşılığında gitti.",
+          "en": "Twelve hours of sleep, spent on one \"nice.\"",
+          "roast": true
+        }
+      ]
+    },
+    "normal": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "st_deneme_gecti"
+            ]
+          }
+        },
+        "tr": "Sunumu mesai içinde hazırladın. Pazartesi değerlendirme kısa sürdü: kadroya alındın.",
+        "en": "You prepped during working hours. Monday's review was short: you are on the permanent team.",
+        "coach": [
+          {
+            "tr": "Mesai içinde hazırlandı. Kadro yine geldi.",
+            "en": "Built during office hours. Hired anyway.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "st_deneme_uzadi"
+            ]
+          }
+        },
+        "tr": "Sunum yarım kaldı. Deneme süren bir ay uzatıldı.",
+        "en": "The presentation came out half-baked. Your probation was extended by a month.",
+        "coach": [
+          {
+            "tr": "Bir ay daha deneme. Uyku yerinde.",
+            "en": "One more trial month. Sleep intact.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "st_olcut_soruldu"
+          ]
+        }
+      },
+      "tr": "Sordun. Patron bir sayfalık ölçüt listesi gönderdi.",
+      "en": "You asked. Your boss sent a one-page rubric.",
+      "coach": [
+        {
+          "tr": "Liste geldi. Perşembe listede yok.",
+          "en": "Rubric received. Thursday is not on it.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "normal",
+    "slip": {
+      "tr": "İDDİA: Normal tempo deneme süreni uzatır. — M.",
+      "en": "WAGER: Normal pace buys you another month of probation. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk işte deneme süresinin son haftasında patronun \"ufak\" bir sunum daha yüklemesi",
+    "mechanism": "\"ufak bir şey\" ölçüt listesinde hiç yok",
+    "mechanismId": "escalation",
+    "punch": "perşembe listede yok",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "liste"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

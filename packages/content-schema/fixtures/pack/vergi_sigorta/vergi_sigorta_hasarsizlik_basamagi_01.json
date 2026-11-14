@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_hasarsizlik_basamagi_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "araba",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Geçen yılki çizik başvurunuz yüzünden hasarsızlık basamağınız bir kademe düştü.",
+      "en": "Because of last year's scratch claim, your no-claims level has dropped one step."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Size 60 Para ödemiştik. Yeni priminiz 340 Para fazla. Başka sorunuz var mı?",
+      "en": "We paid you sixty for it. Your new premium is 340 higher. Any other questions?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Yeni primi öde",
+      "en": "Pay the new premium",
+      "pattern": "patience"
+    },
+    {
+      "id": "baska",
+      "tr": "Başka şirketten teklif al",
+      "en": "Shop for another insurer",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kural",
+      "tr": "Küçük hasarı artık kendin öde",
+      "en": "Swear off small claims",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -340,
+        "hidden": {
+          "stress": 1
+        },
+        "glossary": "hasarsizlik_indirimi"
+      },
+      "tr": "Yeni primi ödedin. Çizik hâlâ kapıda, parlıyor.",
+      "en": "You paid the new premium. The scratch is still on the door, gleaming.",
+      "coach": [
+        {
+          "tr": "Çizik artık sigortalı bir anı.",
+          "en": "The scratch is now an insured memory.",
+          "roast": false
+        }
+      ]
+    },
+    "baska": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -150,
+          "stats": {
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "sigorta_degisti"
+            ]
+          }
+        },
+        "tr": "Yeni bir şirket teklif verdi, basamağını hiç sormadı. Fark 190 Para.",
+        "en": "A new insurer quoted you without asking about your step. Difference: 190.",
+        "coach": [
+          {
+            "tr": "Yeni şirket, temiz sayfa.",
+            "en": "New insurer. Clean slate.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -340,
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Üç şirket de aynı basamağı gördü. Kayıt her yere seninle gelmiş.",
+        "en": "Three insurers saw the same step. The record had followed you everywhere.",
+        "coach": [
+          {
+            "tr": "Basamak seninle taşınıyor.",
+            "en": "The step moves house with you.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kural": {
+      "effects": {
+        "money": -340,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "kucuk_hasar_kendin"
+          ]
+        }
+      },
+      "tr": "Primi ödedin ve torpidoya bir not koydun: 'Çizik = kendi cebinden.'",
+      "en": "You paid and left a note in the glovebox: 'Scratches = out of pocket.'",
+      "coach": [
+        {
+          "tr": "Torpidoda bir yönetmelik var artık.",
+          "en": "The glovebox has regulations now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "küçük bir çizik için yapılan kasko başvurusunun hasarsızlık basamağını düşürmesi",
+    "mechanism": "60 Para ödeme, 340 Para prim artışı",
+    "mechanismId": "deadpan_report",
+    "punch": "başka sorunuz var mı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "basamak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

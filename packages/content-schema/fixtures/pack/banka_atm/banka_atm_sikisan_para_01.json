@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_sikisan_para_01",
+  "tags": [
+    "para",
+    "banka",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Çekmeyin. Makine geri yutarsa banka iki hafta inceliyor.",
+      "en": "Don't pull it. If it swallows it back, the bank 'investigates' for two weeks."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bende oldu. İnceleme hâlâ sürüyor bence.",
+      "en": "Happened to me. I think they're still investigating.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cek",
+      "tr": "Yavaşça çek",
+      "en": "Ease it out",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Bekle, makine bıraksın",
+      "en": "Wait for it to let go",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Kartın arkasındaki hattı ara",
+      "en": "Call the number on the card"
+    }
+  ],
+  "outcomes": {
+    "cek": [
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "para_cekildi"
+            ]
+          }
+        },
+        "tr": "Banknotlar tek tek çıktı. Sonuncusunun köşesi biraz yırtıldı ama geçerli.",
+        "en": "The notes came out one by one. The last one tore at the corner. Still good.",
+        "coach": [
+          {
+            "tr": "Makineyle halat çektin. Yırtık köşe hatıra.",
+            "en": "Tug-of-war with a machine. The torn corner is a souvenir.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -400,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "atm_inceleme"
+            ]
+          }
+        },
+        "tr": "Makine parayı geri yuttu. Ekranda: \"İşleminiz incelemeye alınmıştır.\"",
+        "en": "The machine swallowed it back. Screen: \"Your transaction is under review.\"",
+        "coach": [
+          {
+            "tr": "Makine 400 Para'yla iki haftalık tatile çıktı.",
+            "en": "The machine just took 400 on a two-week vacation.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "para_cekildi"
+          ]
+        }
+      },
+      "tr": "Otuz saniye sonra makine parayı bıraktı. Arkadaki yabancı biraz hayal kırıklığına uğramış göründü.",
+      "en": "Thirty seconds later the machine let go. The stranger behind you looked a little disappointed.",
+      "coach": [
+        {
+          "tr": "Otuz saniye. Kayıtlardaki en kısa inceleme.",
+          "en": "Thirty seconds. Shortest review on record.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "glossary": "atm_inceleme",
+        "flags": {
+          "add": [
+            "para_cekildi"
+          ]
+        }
+      },
+      "tr": "Hat seni 12 dakika beklettikten sonra \"makine sorunsuz görünüyor\" dedi. O sırada makine parayı bırakmıştı.",
+      "en": "The hotline kept you on hold for twelve minutes, then said the machine looked fine. By then it had let go.",
+      "coach": [
+        {
+          "tr": "Hat ile makine aynı anda karara vardı.",
+          "en": "The hotline and the machine reached a verdict together.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cek",
+    "slip": {
+      "tr": "İDDİA: O para makineden çıkmaz. — M.",
+      "en": "WAGER: That cash stays in the machine. — M."
+    }
+  },
+  "intent": {
+    "setup": "ATM'nin çekilen parayı ağızda yarım bırakıp sıkıştırması",
+    "mechanism": "yabancının inceleme korkusu, makinenin tatili",
+    "mechanismId": "understatement",
+    "punch": "inceleme hâlâ sürüyor bence",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tatil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

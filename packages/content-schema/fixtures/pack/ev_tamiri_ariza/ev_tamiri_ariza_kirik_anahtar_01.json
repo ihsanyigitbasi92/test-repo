@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_tamiri_ariza_kirik_anahtar_01",
+  "tags": [
+    "ev",
+    "tamir",
+    "ev_tamiri_ariza"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "ev_tamiri_ariza": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Anahtarın yarısı kilitte mi kaldı? Bende firkete var, kendi kapımı da hep böyle açarım.",
+      "en": "Half your key's in the lock? I've got a hairpin, it's how I open my own door."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Çilingir gece tarifesi alır. Ben almam, ama çay koyarsın.",
+      "en": "A locksmith charges the night rate. I charge tea.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "firkete",
+      "tr": "Şükran Teyze firketeyle denesin",
+      "en": "Let Mrs. Dale try the hairpin",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "cilingir",
+      "tr": "Çilingir çağır",
+      "en": "Call a locksmith",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sabah",
+      "tr": "Geceyi komşuda geçir",
+      "en": "Spend the night next door",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "firkete": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 4,
+              "memory": "firkete_kapisi"
+            }
+          ]
+        },
+        "tr": "Firkete on dakikada parçayı çıkardı. Kapı açıldı, Şükran Teyze iki bardak çayını içti.",
+        "en": "The hairpin fished the stub out in ten minutes. Door open. Mrs. Dale drank two of your teas.",
+        "coach": [
+          {
+            "tr": "Kilit açıldı. Çay stoğu düştü.",
+            "en": "Lock open. Tea reserves down.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -650,
+          "flags": {
+            "add": [
+              "kilit_degisti"
+            ]
+          }
+        },
+        "tr": "Firkete de kilidin içinde kaldı. Çilingir ikisini birden çıkardı ve göbeği değiştirdi: 650 Para.",
+        "en": "The hairpin got stuck in there too. The locksmith removed both and replaced the cylinder: 650.",
+        "coach": [
+          {
+            "tr": "Kilit bir koleksiyona başlamıştı.",
+            "en": "The lock had started a collection.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cilingir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -480
+      },
+      "tr": "Çilingir yirmi dakikada geldi, üç dakikada açtı. Gece tarifesi 480 Para.",
+      "en": "The locksmith arrived in twenty minutes and took three to open it. Night rate: 480.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika bekleme, üç dakika iş. Ücret ikisini de saydı.",
+          "en": "Twenty minutes waiting, three minutes working. The bill counted both.",
+          "roast": false
+        }
+      ]
+    },
+    "sabah": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "komsu_kanepesi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Gece Şükran Teyze'nin kanepesinde geçti. Sabah ev sahibi yedek anahtarı getirdi, yanında da bir yorum.",
+      "en": "You spent the night on Mrs. Dale's couch. In the morning the landlord brought the spare key, plus commentary.",
+      "coach": [
+        {
+          "tr": "Kanepe ücretsizdi. Sabah yorumu dahildi.",
+          "en": "The couch was free. Morning commentary included.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "firkete",
+    "slip": {
+      "tr": "İDDİA: Kilit firketeyi yener. — M.",
+      "en": "WAGER: The lock beats the hairpin. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece yarısı anahtar kilidin içinde kırılıyor, komşu firketeyle açmayı teklif ediyor",
+    "mechanism": "komşu kendi kapısını da firketeyle açıyor; ücreti çay",
+    "mechanismId": "deadpan_report",
+    "punch": "kendi kapımı da hep böyle açarım",
+    "lift": "çay stoğu",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "cay"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

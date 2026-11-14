@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_gecikme_ucreti_01",
+  "tags": [
+    "para",
+    "borc",
+    "kredi_karti",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Son ödeme tarihi dündü. Ödemeniz bugün 09.02'de gelmiş.",
+      "en": "The due date was yesterday. Your payment came in today at 9:02 a.m."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Gecikme ücreti ve gecikme faizi yansıdı. Toplam 230 Para.",
+      "en": "A late fee and late interest were applied. Total: 230.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "rica",
+      "tr": "Bir defalık silinmesini rica et",
+      "en": "Ask for a one-time waiver",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 6500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "talimat",
+      "tr": "Otomatik ödeme talimatı ver",
+      "en": "Set up autopay",
+      "pattern": "patience"
+    },
+    {
+      "id": "ode",
+      "tr": "230'u öde, kapat",
+      "en": "Pay the 230, move on",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "rica": [
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "gecikme_affi_kullanildi"
+            ]
+          }
+        },
+        "tr": "Ücret \"ilk gecikmeniz olduğu için\" silindi. Sistemde artık \"af kullanıldı\" notu var.",
+        "en": "The fee was waived \"since it's your first late payment.\" The system now shows \"courtesy used.\"",
+        "coach": [
+          {
+            "tr": "Bir af kullanıldı. Bir tane vardı.",
+            "en": "One courtesy used. There was one.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 3500,
+        "effects": {
+          "money": -230,
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "Bankacı \"sistem izin vermiyor\" dedi. 230 Para ekstrede kaldı.",
+        "en": "The banker said, \"The system won't allow it.\" The 230 stays on the statement.",
+        "coach": [
+          {
+            "tr": "Bir gün iki dakika. Sistem ikisini de saydı.",
+            "en": "One day, two minutes. The system counted both.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "talimat": {
+      "effects": {
+        "money": -230,
+        "stats": {
+          "brain": 1
+        },
+        "glossary": "gecikme_ucreti",
+        "flags": {
+          "add": [
+            "otomatik_kart_odeme"
+          ]
+        }
+      },
+      "tr": "230 Para ödendi, otomatik ödeme talimatı kuruldu. Gelecek ay ödeme kendiliğinden çıkacak.",
+      "en": "Paid the 230 and set up autopay. Next month, the payment goes out on its own.",
+      "coach": [
+        {
+          "tr": "Talimat kuruldu. Takvim artık bankada.",
+          "en": "Autopay on. The calendar lives at the bank now.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -230,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kart_hatirlatici"
+          ]
+        }
+      },
+      "tr": "230 Para ödendi. Telefona \"kart son gün\" adında bir hatırlatıcı eklendi.",
+      "en": "Paid 230. A reminder called \"card due\" went into your phone.",
+      "coach": [
+        {
+          "tr": "Bir hatırlatıcı. Yanında bir de erteleme tuşu.",
+          "en": "One reminder. With a snooze button.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rica",
+    "slip": {
+      "tr": "İDDİA: Sistem affetmez. — M.",
+      "en": "WAGER: The system doesn't forgive. — M."
+    }
+  },
+  "intent": {
+    "setup": "kart ödemesinin son günden bir gün iki dakika sonra yapılması ve gecikme ücreti",
+    "mechanism": "bir günlük gecikme bankacının düz sesiyle küçücük anlatılıyor",
+    "mechanismId": "understatement",
+    "punch": "ödemeniz bugün 09.02'de gelmiş",
+    "lift": "takvim artık bankada",
+    "target": "decision",
+    "closer": "af",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

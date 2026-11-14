@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_tavsiye_zinciri_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Teyzeme ev bulmuşsunuz, sizi çok övdü. Biz de aynısından istiyoruz. Aynı fiyata.",
+      "en": "You found my aunt her place. She raves about you. We'd like the same one. Same price."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Dört yıl önceymiş, biliyorum. Ama 'o bulur' dedi.",
+      "en": "It was four years ago, I know. But she said you'd manage."
+    }
+  ],
+  "choices": [
+    {
+      "id": "gercek",
+      "tr": "Bugünkü fiyatları anlat",
+      "en": "Walk them through today's prices",
+      "pattern": "patience"
+    },
+    {
+      "id": "uc_aile",
+      "tr": "Üç akrabaya da ev ara",
+      "en": "Take on all three relatives",
+      "pattern": "overwork",
+      "check": {
+        "base": 4000,
+        "stat": "charm",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "kucuk",
+      "tr": "Bir oda küçüğünü göster",
+      "en": "Show them one room smaller",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "gercek": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Güncel fiyat listesini gösterdin. Biri vazgeçti, biri düşünecek, üçüncüsü teyzeyi arayıp doğrulattı.",
+      "en": "You showed them the current price list. One dropped out, one will think about it, and the third phoned the aunt to verify.",
+      "coach": [
+        {
+          "tr": "Üç akrabadan biri kaldı. Teyze hatta bekliyor.",
+          "en": "Three relatives, one remaining. The aunt is holding on the line.",
+          "roast": true
+        }
+      ]
+    },
+    "uc_aile": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 3000,
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "tavsiyeyle_buyuyen_portfoy"
+            ]
+          }
+        },
+        "tr": "Altı haftada üç aileye üç ev buldun, 3.000 Para komisyon. Teyze şimdi seni komşularına anlatıyor.",
+        "en": "Three homes for three families in six weeks. Commission: 3,000. The aunt has moved on to telling her neighbors.",
+        "coach": [
+          {
+            "tr": "Teyze ofisin en verimli çalışanı. Bordroda yok.",
+            "en": "The aunt is the firm's top performer. She's not on payroll.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef sayacı: üç satış.",
+            "en": "Goal counter: three sales.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": 1000,
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 5
+          }
+        },
+        "tr": "Altı haftada kırk bir ev gezdirdin, bir aile tuttu: 1.000 Para. Diğer ikisi hâlâ teyzenin fiyatını arıyor.",
+        "en": "Forty-one viewings in six weeks. One family signed: 1,000. The other two are still looking for the aunt's price.",
+        "coach": [
+          {
+            "tr": "Kırk bir gösterim. Dört yıl öncesi bulunamadı.",
+            "en": "Forty-one viewings. Nobody found four years ago.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kucuk": {
+      "effects": {
+        "money": 1500,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Aynı fiyata bir oda eksiğini gösterdin. İki aile tuttu, 1.500 Para; teyzeye 'aynısı ama derli toplu' demişler.",
+      "en": "You showed them the same price with one room fewer. Two families took it, 1,500. They told the aunt it's 'the same, but compact.'",
+      "coach": [
+        {
+          "tr": "Fiyat yerinde kaldı. Oda sayısı uzlaştı.",
+          "en": "The price held. The room count compromised.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "memnun müşterinin üç akrabası aynı evi dört yıl önceki fiyata istiyor",
+    "mechanism": "bir tavsiye üç aileye, sonra komşulara yayılıyor",
+    "mechanismId": "escalation",
+    "punch": "teyze ofisin en verimli çalışanı",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "teyze"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

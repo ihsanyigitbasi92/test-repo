@@ -1,0 +1,234 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_universite_tercihi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "egitim",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 19
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Tercih listeni gördüm. Ben de bir liste yaptım, kırmızı kalemle.",
+      "en": "I saw your college list. I made one too. In red pen."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Birinci sıra: dayının yanında oku. Benim evden yürüme mesafesi.",
+      "en": "First choice: study near your uncle. Walking distance from my place.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Ağabey, yemek soğuyor. Çocuk ne istiyor, onu da sorsak mı?",
+      "en": "Brother, dinner's getting cold. Should we maybe ask what the kid wants?",
+      "delayMs": 400
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Benim zamanımda listeyi dayı yazardı. Çocuk imzalardı.",
+      "en": "In my day the uncle wrote the list. The kid signed it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kendi",
+      "tr": "Kendi listeni savun",
+      "en": "Defend your own list",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "harmanla",
+      "tr": "İki listeyi harmanla",
+      "en": "Merge the two lists",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "imzala",
+      "tr": "Dayının listesini imzala",
+      "en": "Sign your uncle's list",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "kendi": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "dayi_liste_reddedildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1,
+              "memory": "tercih_itirazi"
+            }
+          ]
+        },
+        "tr": "Listen kaldı. Dayın kırmızı kalemi cebine koydu ve tatlıya kadar konuşmadı.",
+        "en": "Your list stands. Your uncle pocketed the red pen and said nothing until dessert.",
+        "coach": [
+          {
+            "tr": "Liste senin. Sessizlik tatlıya kadar sürdü.",
+            "en": "The list is yours. The silence lasted until dessert.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "dayi_tercih_listesi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Savunman dört dakika sürdü. Dayının cevabı on dakika sürdü ve ikinci sıraya kendi semtindeki okul girdi.",
+        "en": "Your defense took four minutes. His rebuttal took ten, and his neighborhood school is now your second choice.",
+        "coach": [
+          {
+            "tr": "Dört dakikaya on. Masa dayıda kaldı.",
+            "en": "Four minutes against ten. He held the table.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "harmanla": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "dayi_tercih_listesi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          },
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Listenin tek sayıları senin, çift sayıları dayının oldu. Annen listeyi fotokopiyle çoğaltıp buzdolabına astı.",
+      "en": "Odd-numbered picks are yours, even-numbered are his. Mom photocopied the list and taped it to the fridge.",
+      "coach": [
+        {
+          "tr": "Yarım liste, tam buzdolabı.",
+          "en": "Half a list. A full fridge door.",
+          "roast": false
+        }
+      ]
+    },
+    "imzala": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "flags": {
+          "add": [
+            "dayi_tercih_listesi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 5,
+            "memory": "listeyi_imzaladi"
+          }
+        ]
+      },
+      "tr": "İmzaladın. Dayın imzanın altına kendi imzasını da attı, yanına “tasdik” yazarak.",
+      "en": "You signed. He countersigned underneath and wrote “approved” next to it.",
+      "coach": [
+        {
+          "tr": "İki imza, bir tercih.",
+          "en": "Two signatures. One choice.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kendi",
+    "slip": {
+      "tr": "İDDİA: Kırmızı kalem kazanır. — M.",
+      "en": "WAGER: The red pen wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "üniversite tercih listesini dayının yemek masasında kırmızı kalemle yeniden yazması",
+    "mechanism": "dayı çocuğun listesini imzaya bağlıyor; annenin araya girişi",
+    "mechanismId": "escalation",
+    "punch": "listeyi dayı yazardı, çocuk imzalardı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tasdik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

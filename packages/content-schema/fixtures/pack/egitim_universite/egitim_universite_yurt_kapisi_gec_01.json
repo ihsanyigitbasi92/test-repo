@@ -1,0 +1,188 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_yurt_kapisi_gec_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "yurt",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 21
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    },
+    "housing": [
+      "room"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "Kapı on birde kapandı. Saat on biri dört geçiyor. Dört dakika da geç sayılır.",
+      "en": "The gate closed at eleven. It's four past. Four minutes is still late."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Geç giriş defterine imza atacaksın. Üç imzada evine haber verilir.",
+      "en": "You sign the late book. Three signatures and we call home.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Durumu anlat",
+      "en": "Explain what happened",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "imza",
+      "tr": "İmzayı at",
+      "en": "Sign the book",
+      "pattern": "patience"
+    },
+    {
+      "id": "arkadas",
+      "tr": "Geceyi arkadaşında geçir",
+      "en": "Stay at a friend's",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "gec_giris_affi"
+            ]
+          }
+        },
+        "tr": "Otobüsün arıza yaptığını anlattın. Görevli imzasız açtı, 'Son kez' dedi.",
+        "en": "You explained the bus broke down. The guard let you in, no signature. 'Last time.'",
+        "coach": [
+          {
+            "tr": "Son kez. Aynı zamanda ilk kez.",
+            "en": "Last time. Also the first.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "gec_giris_imza"
+            ]
+          }
+        },
+        "tr": "Anlattın, görevli dinledi, sonra defteri uzattı. İmzanın yanına 'otobüs' yazdın.",
+        "en": "You explained. The guard listened, then held out the book. You signed and wrote 'bus' beside it.",
+        "coach": [
+          {
+            "tr": "Bir imza, bir dipnot.",
+            "en": "One signature. One footnote.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "imza": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "gec_giris_imza"
+          ]
+        }
+      },
+      "tr": "İmzayı attın. Defterde o gece senden önce yedi imza vardı.",
+      "en": "You signed. Seven signatures before yours, same night.",
+      "coach": [
+        {
+          "tr": "Sekizinci sıra.",
+          "en": "Number eight.",
+          "roast": false
+        }
+      ]
+    },
+    "arkadas": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Arkadaşının evinde kanepede uyudun. Sabah ilk derse onun tişörtüyle gittin.",
+      "en": "You slept on a friend's couch and went to your first class in their T-shirt.",
+      "coach": [
+        {
+          "tr": "Başka kapı, başka tişört.",
+          "en": "A different door. A different shirt.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Görevli hikâyeye ikna olmaz. — M.",
+      "en": "WAGER: The guard won't buy the story. — M."
+    }
+  },
+  "intent": {
+    "setup": "yurt kapısına dört dakika geç kalmak",
+    "mechanism": "görevli dakikayı harfiyen sayıyor",
+    "mechanismId": "literalism",
+    "punch": "dört dakika da geç sayılır",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

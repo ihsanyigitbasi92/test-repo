@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_kendi_ofisi_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 7000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Kendi ofisini açacakmışsın, duydum. Portföyün de seninle mi geliyor?",
+      "en": "Heard you're opening your own office. Is your portfolio coming with you?"
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Dükkânı veririm. Yalnız vitrin camı biraz çatlak, onu sen halledersin.",
+      "en": "The shopfront's yours. The window's a bit cracked, though. You'll sort that out.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ac",
+      "tr": "Ofisi aç",
+      "en": "Open the office",
+      "pattern": "risk"
+    },
+    {
+      "id": "ortak",
+      "tr": "Patronunla ortak ol",
+      "en": "Partner with your boss",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kal",
+      "tr": "Kal, daha iyi oran iste",
+      "en": "Stay and ask for a better split",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "ego"
+      }
+    }
+  ],
+  "outcomes": {
+    "ac": {
+      "effects": {
+        "hidden": {
+          "stress": 4
+        },
+        "money": -6000,
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_kendi_ofisi"
+          ]
+        },
+        "career": {
+          "rungDelta": 1
+        },
+        "status": {
+          "job": {
+            "title": "Emlak ofisi sahibi",
+            "tier": 3,
+            "monthly": 2500
+          }
+        }
+      },
+      "tr": "Tabelanı astın, vitrin camını değiştirdin. İlk ay kasa 6.000 Para eksikte, kapıda adın yazıyor.",
+      "en": "You hung your sign and replaced the window. The first month is 6,000 in the red. Your name is on the door.",
+      "coach": [
+        {
+          "tr": "Adın kapıda. Faturalar da adresi çabuk buldu.",
+          "en": "Your name is on the door. The bills found it fast.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef: kapıdaki tabela.",
+          "en": "Goal: the sign on the door.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "ortak": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "money": -2000,
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ],
+        "career": {
+          "rungDelta": 1
+        }
+      },
+      "tr": "Patronla yarı yarıya ortak oldunuz. Tabelada ikinci isim sensin.",
+      "en": "You and the boss went fifty-fifty. Your name is second on the sign.",
+      "coach": [
+        {
+          "tr": "Ortaklık yüzde elli. Punto yüzde otuz.",
+          "en": "Fifty percent partner. Thirty percent font size.",
+          "roast": true
+        }
+      ]
+    },
+    "kal": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "realtor_yeni_oran"
+            ]
+          }
+        },
+        "tr": "Patron oranını yükseltti, ayrılık konusunu bir daha açmadı.",
+        "en": "The boss raised your split and never mentioned you leaving again.",
+        "coach": [
+          {
+            "tr": "Gitme fikri yetti. Gitmek gerekmedi.",
+            "en": "The idea of leaving was enough. The leaving was optional.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Patron 'düşünürüz' dedi. Ertesi hafta senin ilanlarını stajyere verdi.",
+        "en": "The boss said 'we'll see.' The next week, your listings went to the intern.",
+        "coach": [
+          {
+            "tr": "Düşünüldü. Hızlı düşünüldü.",
+            "en": "They did see. Quickly.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "yıllarca çalıştığın ofisten ayrılıp kendi emlak ofisini açma kararı",
+    "mechanism": "büyük adım küçük punto ve fatura detaylarına iniyor",
+    "mechanismId": "understatement",
+    "punch": "punto yüzde otuz",
+    "lift": "kapıdaki tabela",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tabela"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

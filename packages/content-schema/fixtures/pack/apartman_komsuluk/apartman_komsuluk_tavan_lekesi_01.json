@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "apartman_komsuluk_tavan_lekesi_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "apartman_komsuluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "apartman_komsuluk": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Alt kattanım. Tavanımda bir leke var, tam sizin banyonun altında.",
+      "en": "I'm from downstairs. There's a stain on my ceiling, right under your bathroom."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Başta tabak kadardı. Şimdi tepsi kadar. Yarın masa kadar olur.",
+      "en": "It started plate-sized. Now it's tray-sized. Tomorrow it's a table.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bak",
+      "tr": "Banyoya birlikte bakın",
+      "en": "Inspect the bathroom together",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Ustayı sen çağır, öde",
+      "en": "Call a plumber, pay for it",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ust",
+      "tr": "\"Üst kattandır\" de",
+      "en": "Suggest it comes from upstairs",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bak": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -120,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "alt_kat_dostu"
+            ]
+          }
+        },
+        "tr": "Küvetin silikonu açılmış. Akşamüstü 120 Paralık silikonla kapattın.",
+        "en": "The tub's sealant had cracked. By evening you'd fixed it with 120 worth of caulk.",
+        "coach": [
+          {
+            "tr": "Leke tepside durdu. Masa iptal.",
+            "en": "The stain stopped at tray. Table cancelled.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -900,
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "banyo_tadilati"
+            ]
+          }
+        },
+        "tr": "Sızıntı borudan çıktı. Fayanslar söküldü, alt katın tavan boyası da sana kaldı: 900 Para.",
+        "en": "It was the pipe. Tiles came up, and the downstairs repaint is on you: 900.",
+        "coach": [
+          {
+            "tr": "Tabak, tepsi, fatura. Tahmin tuttu.",
+            "en": "Plate, tray, invoice. The forecast held.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "money": -650,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "alt_kat_dostu"
+          ]
+        }
+      },
+      "tr": "Usta contayı değiştirdi: 650 Para. Alt kat akşam bir kutu kurabiye getirdi.",
+      "en": "The plumber swapped a gasket: 650. That evening, downstairs brought over a box of cookies.",
+      "coach": [
+        {
+          "tr": "650 Para, bir komşu. Kurabiyesiyle.",
+          "en": "650 bought you a neighbor. Cookies included.",
+          "roast": false
+        }
+      ]
+    },
+    "ust": {
+      "effects": {
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -3
+          }
+        ],
+        "meters": {
+          "cringe": 3
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Üst kat banyosunu gösterdi: kupkuru. Leke ertesi sabah masa boyutuna ulaştı.",
+      "en": "Upstairs showed you their bathroom: bone dry. By morning the stain was table-sized.",
+      "coach": [
+        {
+          "tr": "Senin tahminin tutmadı. Lekeninki tuttu.",
+          "en": "Your theory missed. The stain's didn't.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bak",
+    "slip": {
+      "tr": "İDDİA: Leke borudan çıkar. — M.",
+      "en": "WAGER: It's the pipe. — M."
+    }
+  },
+  "intent": {
+    "setup": "alt kat komşusu tavanındaki lekenin senin banyondan geldiğini söylüyor",
+    "mechanism": "leke tabaktan tepsiye büyüyor",
+    "mechanismId": "escalation",
+    "punch": "yarın masa kadar olur",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tahmin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

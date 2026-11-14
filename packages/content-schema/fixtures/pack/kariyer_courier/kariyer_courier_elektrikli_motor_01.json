@@ -1,0 +1,221 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_courier_elektrikli_motor_01",
+  "tags": [
+    "kariyer",
+    "kurye",
+    "kariyer_courier"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_courier": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 50
+    },
+    "career": {
+      "anyOf": [
+        "courier"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Filo elektrikliye geçiyor. Benzinli motorunu 2.000 Para'ya sayıyoruz, farkı on iki ayda kesiyoruz.",
+      "en": "The fleet's going electric. We'll value your gas scooter at 2,000 and take the rest over twelve months."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Sessiz çalışıyor. Müşteri geldiğini duymayacak, zile basman gerekecek.",
+      "en": "It runs silent. Customers won't hear you coming. You'll have to use the doorbell.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "degis",
+      "tr": "Teklifi kabul et",
+      "en": "Take the trade-in",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Motoruna daha fazla iste",
+      "en": "Ask more for your scooter",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Benzinliyle devam et",
+      "en": "Keep the gas scooter",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "degis": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "elektrikli_motor"
+            ]
+          }
+        },
+        "flags": {
+          "add": [
+            "kurye_elektrikli"
+          ]
+        }
+      },
+      "tr": "Elektrikli motoru aldın, aylık kesinti 150 Para. On dört yıllık benzinlin şirketin otoparkına sensiz gitti.",
+      "en": "You took the electric one, and 150 a month comes off your pay. Your gas scooter of fourteen years went to the company lot without you.",
+      "coach": [
+        {
+          "tr": "On dört yıl 2.000 Para etti. Yılı 143 Para.",
+          "en": "Fourteen years came to 2,000. That is 143 a year.",
+          "roast": true
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -100,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 3
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "elektrikli_motor"
+              ]
+            }
+          },
+          "flags": {
+            "add": [
+              "kurye_elektrikli"
+            ]
+          }
+        },
+        "tr": "Motorun 2.600 Para'ya sayıldı, kesinti aylık 100'e düştü. Patron bakım defterini görünce ikna oldu.",
+        "en": "Your scooter was valued at 2,600 and the deduction dropped to 100 a month. The boss gave in after seeing its service log.",
+        "coach": [
+          {
+            "tr": "Bakım defteri 600 Para kazandırdı.",
+            "en": "The service log earned 600.",
+            "roast": false
+          },
+          {
+            "tr": "Sayaç 600 ileride.",
+            "en": "Counter: 600 ahead.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -150,
+          "meters": {
+            "ego": -2
+          },
+          "status": {
+            "assets": {
+              "add": [
+                "elektrikli_motor"
+              ]
+            }
+          },
+          "flags": {
+            "add": [
+              "kurye_elektrikli"
+            ]
+          }
+        },
+        "tr": "Rakam 2.000'de kaldı. Patron teklifin cuma bittiğini iki kez söyledi, imzaladın.",
+        "en": "The number stayed at 2,000. The boss mentioned twice that the offer ends Friday, and you signed.",
+        "coach": [
+          {
+            "tr": "Cuma iki kez anıldı. İmza perşembe atıldı.",
+            "en": "Friday came up twice. The signature happened on Thursday.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Benzinliyle kaldın. Yakıtı sen ödüyorsun, şarj istasyonundaki kuryeler geçerken el sallıyor.",
+      "en": "You kept the gas scooter. You pay for the fuel, and the couriers at the charging station wave as you pass.",
+      "coach": [
+        {
+          "tr": "Motor hâlâ ses çıkarıyor. Zile gerek kalmadı.",
+          "en": "The scooter still makes noise. No doorbell needed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Rakam 2.000'den oynamaz. — M.",
+      "en": "WAGER: The number stays at 2,000. — M."
+    }
+  },
+  "intent": {
+    "setup": "şirket filoyu elektrikli motora geçiriyor, eski benzinli motor için sayım teklifi",
+    "mechanism": "sessiz motorun yan etkisi geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "zile gerek kalmadı",
+    "lift": "sayaç 600 ileride",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

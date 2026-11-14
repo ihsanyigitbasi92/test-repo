@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_ev_sahibi_oldun_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_satin_alma": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 500
+    },
+    "flags": {
+      "all": [
+        "yatirimlik_daire",
+        "bos_daire"
+      ],
+      "none": [
+        "kiraci_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Kiracı adayı kombinin yaşını sordu. Sonra su faturasını. Sonra komşuları.",
+      "en": "The prospective tenant asked how old the boiler is. Then the water bill. Then the neighbors."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Sen de yıllar önce aynısını sormuştun. Ev sahibinin yüzünü hatırlıyor musun?",
+      "en": "You asked all of that years ago. Remember your landlord's face?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "durust",
+      "tr": "Her şeyi dürüstçe anlat",
+      "en": "Answer everything honestly",
+      "pattern": "generosity"
+    },
+    {
+      "id": "yuksek",
+      "tr": "Kirayı yüksek tut",
+      "en": "Price it high",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "emlakci",
+      "tr": "Emlakçıya bırak",
+      "en": "Hand it to an agent",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "durust": {
+      "effects": {
+        "money": 1100,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "kiraci_var",
+            "durust_ev_sahibi"
+          ],
+          "remove": [
+            "bos_daire"
+          ]
+        }
+      },
+      "tr": "Kombinin yaşını, nemli köşeyi ve üst kattaki köpeği anlattın. Kiracı yine de imzaladı, ilk kira geldi: 1.100 Para.",
+      "en": "You disclosed the boiler age, the damp corner and the dog upstairs. They signed anyway. First rent in: 1,100.",
+      "coach": [
+        {
+          "tr": "Yıllar önceki sorular. Bu kez cevaplar sende.",
+          "en": "The same old questions. This time you had the answers.",
+          "roast": true
+        }
+      ]
+    },
+    "yuksek": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 1400,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "kiraci_var"
+            ],
+            "remove": [
+              "bos_daire"
+            ]
+          }
+        },
+        "tr": "Yüksek fiyata da kiracı çıktı. İlk kira 1.400 Para; kombi aynı yaşta.",
+        "en": "Someone took it at the higher price. First rent: 1,400. The boiler is still the same age.",
+        "coach": [
+          {
+            "tr": "Kira yükseldi. Kombi gençleşmedi.",
+            "en": "The rent went up. The boiler didn't get any younger.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "İki ay kimse aramadı. Daire boş, aidatı senden.",
+        "en": "Two months, no calls. The flat sits empty. The fees are yours.",
+        "coach": [
+          {
+            "tr": "Boş daire, dolu aidat.",
+            "en": "Empty flat. Full fees.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "emlakci": {
+      "effects": {
+        "money": 600,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kiraci_var"
+          ],
+          "remove": [
+            "bos_daire"
+          ]
+        }
+      },
+      "tr": "Emlakçı bir haftada kiracı buldu, ilk kiranın yarısını komisyon aldı: sana 600 Para kaldı.",
+      "en": "An agent found a tenant in a week and kept half the first rent as commission. You netted 600.",
+      "coach": [
+        {
+          "tr": "Yüzünü görmediğin kiracı, yarım kira.",
+          "en": "A tenant you've never met. Half a rent.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "yatırımlık daireyi ilk kez kiraya verirken kiracı adayı yıllar önce senin sorduğun soruları soruyor",
+    "mechanism": "kiracılık yıllarındaki sorular ev sahibine geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "bu kez cevaplar sende",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cevap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

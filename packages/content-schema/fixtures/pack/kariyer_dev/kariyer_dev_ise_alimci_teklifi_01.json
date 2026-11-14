@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_dev_ise_alimci_teklifi_01",
+  "tags": [
+    "kariyer",
+    "yazilimci",
+    "kariyer_dev"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 7000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_dev": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "dev"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Merhaba! Heyecan verici bir fırsat var. Dinamik ekip, hızlı tempo, rekabetçi maaş.",
+      "en": "Hi! Exciting opportunity here. Dynamic team, fast pace, competitive salary."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Rakam mı? Rakam konuşmayı çok severiz. Dört tur görüşmeden sonra.",
+      "en": "Numbers? We love talking numbers. Right after four rounds of interviews.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "rakam",
+      "tr": "Rakamı en başta iste",
+      "en": "Ask for the number up front",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "turlar",
+      "tr": "Dört turu gir",
+      "en": "Do all four rounds",
+      "pattern": "patience"
+    },
+    {
+      "id": "kal",
+      "tr": "Teşekkür et, kal",
+      "en": "Say thanks, stay put",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "rakam": [
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "kıdemli yazılımcı",
+              "tier": 3,
+              "monthly": 4300
+            }
+          },
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "dev_is_degistirdi"
+            ]
+          }
+        },
+        "tr": "Rakam ilk cevapta geldi: şimdikinin yüzde otuz fazlası. İki görüşme sonra yeni işe geçtin.",
+        "en": "The number came in the first reply: thirty percent above your current pay. Two interviews later, you'd switched jobs.",
+        "coach": [
+          {
+            "tr": "İlk cevapta rakam. Nadir tür.",
+            "en": "A number in the first reply. Rare species.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "İşe alımcı \"bütçe esnek\" dedi ve bir daha yazmadı. Mesajın hâlâ \"görüldü\" olarak duruyor.",
+        "en": "The recruiter said \"the budget is flexible\" and went quiet. Your message still says seen.",
+        "coach": [
+          {
+            "tr": "Esnek bütçe, sabit sessizlik.",
+            "en": "Flexible budget. Fixed silence.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "turlar": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "yazılımcı",
+            "tier": 2,
+            "monthly": 3900
+          }
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "dev_is_degistirdi"
+          ]
+        }
+      },
+      "tr": "Dört tur, bir ev ödevi, bir \"kültür sohbeti\". Teklif şimdikinin yüzde on beş fazlası çıktı, kabul ettin.",
+      "en": "Four rounds, one take-home test, one \"culture chat.\" The offer came in fifteen percent higher, and you took it.",
+      "coach": [
+        {
+          "tr": "Altı hafta görüşme. Bordro fark etti.",
+          "en": "Six weeks of interviews. Payroll noticed.",
+          "roast": false
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Kibarca teşekkür ettin. İki hafta sonra aynı işe alımcı aynı ilanı aynı cümlelerle yeniden yolladı.",
+      "en": "You declined politely. Two weeks later, the same recruiter sent the same posting in the same sentences.",
+      "coach": [
+        {
+          "tr": "Fırsat geri döndü. Kelimesi kelimesine.",
+          "en": "The opportunity returned. Word for word.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "rakam",
+    "slip": {
+      "tr": "İDDİA: Rakam ilk mesajda gelmez. — M.",
+      "en": "WAGER: No number in the first reply. — M."
+    }
+  },
+  "intent": {
+    "setup": "işe alımcı maaş bandı söylemeden heyecan verici fırsat teklif ediyor",
+    "mechanism": "rakamı çok seven işe alımcı rakamı sona saklıyor",
+    "mechanismId": "reversal",
+    "punch": "rakam konuşmayı çok severiz, dört turdan sonra",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bordro"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

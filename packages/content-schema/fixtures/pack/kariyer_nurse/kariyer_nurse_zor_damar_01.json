@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_nurse_zor_damar_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 24
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Benim damarım zordur. Dün üç kişi denedi, biri ağladı. Ben değil, o.",
+      "en": "I'm a tough stick. Three people tried yesterday. One of them cried. Not me."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Yardım istersen kapının önündeyim. İstemezsen de önündeyim.",
+      "en": "If you need help, I'm right outside. If you don't, I'm still right outside.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "Kendin dene",
+      "en": "Try it yourself",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kidemli",
+      "tr": "Kıdemliyi içeri çağır",
+      "en": "Call your senior in",
+      "pattern": "patience"
+    },
+    {
+      "id": "sohbet",
+      "tr": "Önce hastayla sohbet et",
+      "en": "Chat with the patient first",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "İlk denemede oldu. Hasta \"dünküler sana gelsin\" dedi, kıdemli kapıdan başını salladı.",
+        "en": "First try. The patient said, \"Send yesterday's crew to you.\" Your senior nodded from the doorway.",
+        "coach": [
+          {
+            "tr": "Kapıdan gelen baş sallama imza sayılır.",
+            "en": "A nod from the doorway counts as a signature.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "İki denemede olmadı, kıdemliyi çağırdın. Hasta seni teselli etti.",
+        "en": "Two tries, nothing. You called your senior in. The patient comforted you.",
+        "coach": [
+          {
+            "tr": "Teselli ters yönde aktı.",
+            "en": "The comfort flowed the wrong way.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kidemli": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "damar_acisi"
+          ]
+        }
+      },
+      "tr": "Kıdemli tek seferde açtı, sonra elini tutup açıyı gösterdi. Ertesi gün aynı açıyla ilk denemende oldu.",
+      "en": "Your senior got it first try, then guided your hand to show the angle. Next day, same angle, first try.",
+      "coach": [
+        {
+          "tr": "Açı öğrenildi.",
+          "en": "Angle acquired.",
+          "roast": false
+        }
+      ]
+    },
+    "sohbet": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "On dakika konuştunuz, hasta gevşedi. İkinci denemede oldu.",
+      "en": "Ten minutes of small talk and the patient relaxed. Second try worked.",
+      "coach": [
+        {
+          "tr": "On dakika sohbet, bir damar yolu.",
+          "en": "Ten minutes of chat. One line in.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dene",
+    "slip": {
+      "tr": "İDDİA: Dünkü üç kişiye bugün sen eklenirsin. — M.",
+      "en": "WAGER: Yesterday's three become four. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk haftada zor damarlı hastaya damar yolu açmak",
+    "mechanism": "ağlayanın hasta değil hemşire olması",
+    "mechanismId": "reversal",
+    "punch": "biri ağladı, ben değil, o",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

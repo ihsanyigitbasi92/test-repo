@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_ikinci_monitor_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "İkinci monitör talebi üç onay ister: yönetici, bilgi işlem, bütçe.",
+      "en": "A second-monitor request needs three approvals: manager, IT, budget."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Bütçe önce bilgi işlemin onayını ister. Bilgi işlem de önce bütçenin.",
+      "en": "Budget wants IT's sign-off first. IT wants budget's first."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Depoda bir monitör var bu arada. Kablosu yok.",
+      "en": "There's a monitor in storage, by the way. No cable.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "form",
+      "tr": "Formu doldur, takip et",
+      "en": "File the form, chase it",
+      "pattern": "patience",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "depo",
+      "tr": "Depodakini al",
+      "en": "Take the one in storage",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "tek",
+      "tr": "Tek ekranla devam et",
+      "en": "Stick with one screen",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "form": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          }
+        },
+        "tr": "Üç onay altı haftada tamamlandı. Monitör, kutusunda 'talebiniz bizim için önemli' notuyla geldi.",
+        "en": "Three approvals in six weeks. The monitor arrived with a note on the box: 'Your request matters to us.'",
+        "coach": [
+          {
+            "tr": "Altı hafta. Önem derecesi kutuya basılmış.",
+            "en": "Six weeks. The importance is printed on the box.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Form bilgi işlemle bütçe arasında üç kez gidip geldi. Dördüncüde 'talep kapandı: zaman aşımı' yazıyordu.",
+        "en": "The form bounced between IT and budget three times. On the fourth: 'Request closed: timed out.'",
+        "coach": [
+          {
+            "tr": "Form döngüde kaldı. Kalıcı olarak.",
+            "en": "The form now lives in the loop.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "depo": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:hr",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Depodaki monitörü aldın, kabloyu evden getirdin. Ertesi hafta envanterde monitör 'kayıp' göründü.",
+      "en": "You took the storage monitor and brought a cable from home. Next week's inventory listed it as 'missing.'",
+      "coach": [
+        {
+          "tr": "Monitör çalışıyor. Resmî olarak da kayıp.",
+          "en": "The monitor works. Officially, it's also missing.",
+          "roast": true
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Tek ekranla devam ettin. İş arkadaşın sekme geçişlerini saydı: günde iki yüz.",
+      "en": "You stuck with one screen. A coworker counted your tab switches: two hundred a day.",
+      "coach": [
+        {
+          "tr": "İki yüz geçiş, tek ekran.",
+          "en": "Two hundred switches. One screen.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "form",
+    "slip": {
+      "tr": "İDDİA: Form döngüden çıkamaz. — M.",
+      "en": "WAGER: The form never escapes the loop. — M."
+    }
+  },
+  "intent": {
+    "setup": "ikinci monitör talebinin üç onaylı döngüsü",
+    "mechanism": "onaylar birbirini bekliyor",
+    "mechanismId": "escalation",
+    "punch": "bütçe bilgi işlemi, bilgi işlem bütçeyi bekler",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dongu_onay"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

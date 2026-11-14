@@ -1,0 +1,234 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_mulakat_provasi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "is_arama",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Kapını çaldım, çünkü biri sana 'en büyük zayıflığın ne' diye bağırıyordu.",
+      "en": "I knocked because someone was shouting 'what's your greatest weakness' at you."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Senmişsin. Otur, ben sorayım. Kırk yıl muhasebeye adam aldım.",
+      "en": "Oh, it was you. Sit. I'll ask. I hired for accounting for forty years.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "prova",
+      "tr": "Şükran Teyze'yle prova yap",
+      "en": "Rehearse with Mrs. Dale",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "fisilti",
+      "tr": "Provaya fısıltıyla devam et",
+      "en": "Keep rehearsing, in a whisper",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "anne",
+      "tr": "Anneni arayıp ona sordur",
+      "en": "Have your mom play interviewer",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "prova": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "ikinci_gorusme"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 4,
+              "memory": "mulakat_hocasi"
+            }
+          ]
+        },
+        "tr": "Şükran Teyze'den sonra gerçek mülakat kısa geldi. İkinci görüşmeye çağrıldın.",
+        "en": "After Mrs. Dale, the real interview felt short. You got a callback.",
+        "coach": [
+          {
+            "tr": "Bir apartman provası, bir ikinci görüşme.",
+            "en": "One stairwell rehearsal, one callback.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: bir görüşme ileri.",
+            "en": "Goal counter: one interview up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "mulakat_hazir"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Provanın son sorusu 'neden hâlâ yalnızsın' oldu. Mülakatta sorulmadı; cevabın hazırdı.",
+        "en": "Mrs. Dale's last question: 'Why are you still single?' The interview didn't ask. You were ready anyway.",
+        "coach": [
+          {
+            "tr": "Müfredat dışı hazırlık. İddia tuttu.",
+            "en": "Off-syllabus prep. The wager held.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "fisilti": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "fisildayan_prova"
+          ]
+        }
+      },
+      "tr": "Provayı fısıltıyla bitirdin. Mülakatta da fısıldadın; 'biraz yüksek konuşur musunuz' dediler.",
+      "en": "You finished in a whisper. You whispered at the interview too. They asked you to speak up.",
+      "coach": [
+        {
+          "tr": "Ses seviyesi taşındı.",
+          "en": "The volume carried over.",
+          "roast": true
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "anneyle_prova"
+          ]
+        }
+      },
+      "tr": "Annen her sorudan sonra 'ama yemek yedin mi' diye ekledi.",
+      "en": "After every question, your mom added: 'But have you eaten?'",
+      "coach": [
+        {
+          "tr": "Mülakat soruları ve bir menü.",
+          "en": "Interview questions, with a menu.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "prova",
+    "slip": {
+      "tr": "İDDİA: Prova ikinci görüşme getirmez. — M.",
+      "en": "WAGER: The rehearsal won't land a callback. — M."
+    }
+  },
+  "intent": {
+    "setup": "yüksek sesle mülakat provası yaparken komşu kavga sanıp kapıyı çalıyor",
+    "mechanism": "prova bağırışının gerçek sanılması",
+    "mechanismId": "literalism",
+    "punch": "biri sana zayıflığını soruyordu, senmişsin",
+    "lift": "aktif hedefe bağlı tek satır",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "prova"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

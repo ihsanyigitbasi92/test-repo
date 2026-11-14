@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_evinde_yasam_goz_karari_tarif_01",
+  "tags": [
+    "ev",
+    "yemek",
+    "anne_evinde_yasam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "anne_evinde_yasam": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 32
+    },
+    "housing": [
+      "momsHouse"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Önce soğanı kavur. Ne kadar mı? Kıvamına gelene kadar.",
+      "en": "First, brown the onions. How long? Until they're right."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Tuz göz kararı. Un göz kararı. Su... su da göz kararı.",
+      "en": "Salt, by eye. Flour, by eye. Water... also by eye."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Ölçü mü? Benim ölçüm sensin. Tadınca anlarsın.",
+      "en": "Measurements? You're my measurement. You'll know when you taste it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tart",
+      "tr": "Her şeyi gizlice tart",
+      "en": "Secretly weigh everything",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "izle",
+      "tr": "Sadece izle ve tat",
+      "en": "Just watch and taste",
+      "pattern": "patience"
+    },
+    {
+      "id": "sen",
+      "tr": "Bu sefer sen pişir",
+      "en": "Cook it yourself this time",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "tart": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 1
+        },
+        "flags": {
+          "add": [
+            "tarif_gramajli"
+          ]
+        }
+      },
+      "tr": "Annenin \"göz kararı\" tuzu tam on iki gram çıktı. Tarifi gramlarıyla telefonuna yazdın.",
+      "en": "Mom's \"by eye\" salt came out at exactly twelve grams. You saved the recipe, in grams.",
+      "coach": [
+        {
+          "tr": "Göz kararı, terazide de tuttu.",
+          "en": "Her eye checks out on the scale.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef dosyasına bir tarif.",
+          "en": "One recipe filed under the goal.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "izle": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_tarifi_izlendi"
+          ]
+        }
+      },
+      "tr": "İzledin ve tattın. Tek bir ölçü öğrenmedin ama tadı artık tanıyorsun.",
+      "en": "You watched and you tasted. You learned no measurements. You know the taste now.",
+      "coach": [
+        {
+          "tr": "Tarif yok. Tat var.",
+          "en": "No recipe. Just the taste.",
+          "roast": false
+        }
+      ]
+    },
+    "sen": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "tarifi_kendin_yaptin"
+            ]
+          }
+        },
+        "tr": "Yemeği sen yaptın. Annen bir kaşık aldı, \"tuzu benimkinden iyi\" dedi, sonra tabağına tuz ekledi.",
+        "en": "You cooked it. Mom took one spoonful, said, \"Better salt than mine,\" then salted her plate.",
+        "coach": [
+          {
+            "tr": "Övgü geldi. Tuzlukla birlikte.",
+            "en": "Praise received. Salt shaker attached.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "momPressure": 1
+          },
+          "flags": {
+            "add": [
+              "tarif_tekrar"
+            ]
+          }
+        },
+        "tr": "Soğan yandı, un topaklandı. Annen \"kıvamı göremedin\" dedi ve ikinci tencereyi ocağa koydu.",
+        "en": "Burnt onions, lumpy flour. Mom said, \"You didn't see when it was right,\" and put a second pot on.",
+        "coach": [
+          {
+            "tr": "Kıvam bu sefer görünmedi.",
+            "en": "\"Right\" didn't show up this time.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "taşınmadan önce annenin ölçüsüz yemek tarifini öğrenmek",
+    "mechanism": "\"göz kararı\" harfiyen ölçü birimi",
+    "mechanismId": "literalism",
+    "punch": "benim ölçüm sensin",
+    "lift": "hedef dosyası",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tuzluk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

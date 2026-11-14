@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_dugun_kumbarasi_01",
+  "tags": [
+    "iliski",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli",
+        "dugun_fonu"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Düğün hesabını açtım. Ayda ikimiz de 600 koyacağız. Senin ilk taksit nerede?",
+      "en": "I opened the wedding account. 600 each, every month. Where's your first one?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraf",
+      "tr": "Harcadığını söyle",
+      "en": "Admit you spent it",
+      "pattern": "risk"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden ödünç al",
+      "en": "Borrow it from Mom",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "mesai",
+      "tr": "Hafta sonu ek iş al",
+      "en": "Pick up weekend shifts",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "itiraf": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "dugun_fonu",
+            "fon_itirafi"
+          ]
+        }
+      },
+      "tr": "Konser biletine gittiğini söyledin. Partnerin hesabın adını “Düğün ve Konserler” yaptı.",
+      "en": "You said it went on concert tickets. Your partner renamed the account “Wedding & Concerts.”",
+      "coach": [
+        {
+          "tr": "Hesap adı uzadı. Bakiye kısaldı.",
+          "en": "Longer account name. Shorter balance.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "meters": {
+          "momPressure": 5
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "dugun_fonu",
+            "anneye_borc"
+          ]
+        }
+      },
+      "tr": "Annen 600 Para'yı verdi ve düğün tarihini sordu. İkisi aynı cümledeydi.",
+      "en": "Mom handed over the 600 and asked for the wedding date. Same sentence.",
+      "coach": [
+        {
+          "tr": "Borç 600. Faizi sorulardan ödeniyor.",
+          "en": "Debt: 600. Interest payable in questions.",
+          "roast": false
+        }
+      ]
+    },
+    "mesai": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "dugun_fonu"
+          ]
+        }
+      },
+      "tr": "İki cumartesi çalıştın, taksit yatırıldı. Partnerin bakiye ekranının fotoğrafını çerçeveletti.",
+      "en": "You worked two Saturdays and made the deposit. Your partner framed a screenshot of the balance.",
+      "coach": [
+        {
+          "tr": "İki cumartesi, bir çerçeve.",
+          "en": "Two Saturdays. One frame.",
+          "roast": false
+        },
+        {
+          "tr": "Düğün fonu: 1.200 Para.",
+          "en": "Wedding fund: 1,200.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "düğün hesabına ilk aylık payını yatıramamak",
+    "mechanism": "konser bileti düğün fonunun adına giriyor",
+    "mechanismId": "understatement",
+    "punch": "düğün ve konserler",
+    "closer": "bakiye",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "Düğün fonu: 1.200 Para."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_karsi_teklif_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "is",
+    "kariyer",
+    "nevin",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 55
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "transfer"
+      ]
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Sizi kaybetmek istemem. Yeni bir unvanla konumlandıralım: Kıdemli Proaktif Uzman.",
+      "en": "I'd hate to lose you. Let's reposition you: Senior Proactive Specialist."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Bant yükselir, masanız aynı kalır. Sandalyeniz yenilenir.",
+      "en": "Your band goes up, your desk stays. Your chair gets an upgrade.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Yeni alana geç",
+      "en": "Move to the new field",
+      "pattern": "risk"
+    },
+    {
+      "id": "kal",
+      "tr": "Teklifi kabul et",
+      "en": "Take the counteroffer",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikisi",
+      "tr": "Yarı zamanlı geçiş iste",
+      "en": "Ask for a part-time transition",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "transfer"
+      }
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "kariyer_degisti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ],
+        "status": {
+          "job": {
+            "title": "Yeni alanda giriş seviyesi",
+            "tier": 1,
+            "monthly": 1800
+          }
+        }
+      },
+      "tr": "Teklifi geri çevirdin ve yeni alanda giriş seviyesinden başladın. İlk gün sana bir masa ve eski bir sandalye verdiler.",
+      "en": "You turned it down and started at entry level in the new field. On day one they gave you a desk and an old chair.",
+      "coach": [
+        {
+          "tr": "Yeni alan, eski sandalye.",
+          "en": "New field. Old chair.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "karsi_teklif_kabul"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ],
+        "career": {
+          "rungDelta": 1
+        }
+      },
+      "tr": "Kıdemli Proaktif Uzman oldun. Yeni sandalye üç hafta sonra geldi; eski masaya sığmadı.",
+      "en": "You became Senior Proactive Specialist. The new chair arrived three weeks later and didn't fit under the old desk.",
+      "coach": [
+        {
+          "tr": "Unvan uzadı, masa daraldı.",
+          "en": "Longer title, tighter desk.",
+          "roast": false
+        }
+      ]
+    },
+    "ikisi": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "yari_zamanli_gecis"
+            ]
+          }
+        },
+        "tr": "Haftada iki gün yeni alanda çalışma izni aldın. Nevin Hanım buna \"hibrit kariyer\" dedi.",
+        "en": "You got two days a week in the new field. Ms. Carver called it \"a hybrid career.\"",
+        "coach": [
+          {
+            "tr": "Haftada iki gün yeni alan.",
+            "en": "Two days a week, new field.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "gecis_ertelendi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Pazarlık uzadı. Nevin Hanım \"gelecek çeyrekte yeniden değerlendirelim\" dedi.",
+        "en": "The negotiation dragged. Ms. Carver said, \"Let's revisit next quarter.\"",
+        "nearMiss": {
+          "tr": "Nevin Hanım \"iki gün\" kısmına kadar başını sallıyordu.",
+          "en": "Ms. Carver was nodding right up to the words \"two days.\""
+        },
+        "coach": [
+          {
+            "tr": "Bir çeyrek daha.",
+            "en": "One more quarter.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da alan dışı"
+  },
+  "intent": {
+    "setup": "kariyer değiştirme hedefinde istifada patronun yeni unvanlı karşı teklifi",
+    "mechanism": "unvan büyürken masa aynı",
+    "mechanismId": "escalation",
+    "punch": "kıdemli proaktif uzman",
+    "lift": "yeni alan",
+    "target": "situation",
+    "closer": "sandalye",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

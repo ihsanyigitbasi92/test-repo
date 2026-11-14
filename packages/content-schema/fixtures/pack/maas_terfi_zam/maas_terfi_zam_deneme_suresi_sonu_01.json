@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_deneme_suresi_sonu_01",
+  "tags": [
+    "is",
+    "maas",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 24
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Deneme süreni geçtin. Tebrikler, artık resmen bizdensin.",
+      "en": "You passed probation. Congratulations, you're officially one of us."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Maaş aynı kalıyor tabii. Ama artık fotoğraflı yaka kartın var.",
+      "en": "Salary stays the same, of course. But you now get a badge with your photo on it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "zam",
+      "tr": "Küçük bir zam iste",
+      "en": "Ask for a small raise",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "tesekkur",
+      "tr": "Teşekkür et, kartı tak",
+      "en": "Say thanks, clip on the badge",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "evden",
+      "tr": "Zam yerine bir gün evden iste",
+      "en": "Ask for a remote day instead",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "zam": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": 300,
+          "meters": {
+            "ego": 5
+          },
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "ilk_zam"
+            ]
+          }
+        },
+        "tr": "Patron bir süre sustu, sonra \"makul\" dedi. Maaşına küçük bir artış geldi; ilk fark 300 Para.",
+        "en": "The boss went quiet, then said \"reasonable.\" A small bump in pay; first difference: 300.",
+        "coach": [
+          {
+            "tr": "Deneme süresinin son sorusunu sen sordun.",
+            "en": "Probation's last question came from you.",
+            "roast": false
+          },
+          {
+            "tr": "Maaş hedefi: ilk basamak.",
+            "en": "Pay goal: first rung.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "zam_erken_istendi"
+            ]
+          }
+        },
+        "tr": "Patron \"altı ay sonra konuşalım\" dedi ve takvimine bir şey yazdı. Ne yazdığını göremedin.",
+        "en": "The boss said \"let's revisit in six months\" and typed something into the calendar. You couldn't see what.",
+        "coach": [
+          {
+            "tr": "Artık bir takvim satırısın. Hangi satır olduğu belirsiz.",
+            "en": "You're a calendar entry now. What kind is unclear.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tesekkur": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Kartı taktın. Fotoğraf ilk sabah çekilmiş; arkanda bir yangın tüpü var.",
+      "en": "You clipped on the badge. The photo is from your first morning. A fire extinguisher is in the shot.",
+      "coach": [
+        {
+          "tr": "Beş yıl boyunca yangın tüpüyle aynı karedesin.",
+          "en": "Five years sharing a frame with a fire extinguisher.",
+          "roast": true
+        }
+      ]
+    },
+    "evden": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "haftada_bir_evden"
+          ]
+        }
+      },
+      "tr": "Patron kabul etti: çarşambalar evden. Maaş aynı, yol haftada bir gün eksik.",
+      "en": "The boss agreed: Wednesdays from home. Same pay, one fewer commute a week.",
+      "coach": [
+        {
+          "tr": "Para yerine çarşamba aldın. Yılda elli iki tane.",
+          "en": "You took Wednesdays instead of money. Fifty-two a year.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "zam",
+    "slip": {
+      "tr": "İDDİA: \"Altı ay sonra\" cümlesi gelir. — M.",
+      "en": "WAGER: You'll hear \"six months.\" — M."
+    }
+  },
+  "intent": {
+    "setup": "deneme süresi bitti, kadro var zam yok",
+    "mechanism": "kadronun karşılığı fotoğraflı yaka kartı",
+    "mechanismId": "bathos",
+    "punch": "ama artık fotoğraflı yaka kartın var",
+    "lift": "maaş hedefi",
+    "target": "situation",
+    "closer": "kart",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

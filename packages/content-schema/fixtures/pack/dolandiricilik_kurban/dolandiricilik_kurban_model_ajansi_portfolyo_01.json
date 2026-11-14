@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_model_ajansi_portfolyo_01",
+  "tags": [
+    "para",
+    "sokak",
+    "ajans",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Pardon, sende kamera duruşu var. Ajansımız seni bu hafta kataloğa alır.",
+      "en": "Excuse me, you've got a camera look. Our agency could have you in the catalog this week."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Tek şart portfolyo çekimi: 1.850 Para. Stüdyo bizden, ışıkçı bizden.",
+      "en": "All you need is a portfolio shoot. 1,850. Studio's ours, lighting guy's ours."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Bugün imzalarsan makyaj ücretsiz. Yarın fotoğrafçı başka şehirde.",
+      "en": "Sign today and makeup's free. Tomorrow the photographer's out of town.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Çekimi öde, kataloğa gir",
+      "en": "Pay for the shoot",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "arastir",
+      "tr": "Ajansın adını araştır",
+      "en": "Look the agency up",
+      "pattern": "patience"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "İlk işten sonra ödemeyi öner",
+      "en": "Offer to pay after your first job",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -1850,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "model_cekimi_odedi"
+          ]
+        },
+        "glossary": "portfolyo_ucreti"
+      },
+      "tr": "Çekim yapıldı, otuz fotoğraf geldi. Katalog hiç gelmedi, ajansın numarası artık kapalı.",
+      "en": "The shoot happened. Thirty photos arrived. The catalog never did, and the agency's number is now disconnected.",
+      "coach": [
+        {
+          "tr": "1.850 Para'ya otuz vesikalık. Köşedeki fotoğrafçı kıskandı.",
+          "en": "Thirty headshots for 1,850. The corner photo shop is jealous.",
+          "roast": true
+        }
+      ]
+    },
+    "arastir": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "model_ajansi_fark"
+          ]
+        },
+        "glossary": "portfolyo_ucreti"
+      },
+      "tr": "Ajansın adresi bir kırtasiyenin üst katı çıktı. On dört yorumda aynı cümle vardı: \"kamera duruşu\".",
+      "en": "The agency's address was the floor above a stationery shop. Fourteen reviews quoted the same line: \"camera look.\"",
+      "coach": [
+        {
+          "tr": "Aynı iltifat, on dört kez. Seri üretim.",
+          "en": "Same compliment, fourteen times. Mass-produced.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "charm": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "model_ajansi_fark"
+            ]
+          }
+        },
+        "tr": "\"İş çıkınca öderim\" dedin. Kâşif \"sistem öyle işlemiyor\" deyip yürüdü ve başka birini durdurdu.",
+        "en": "You said you'd pay once a job came in. The scout said that's not how it works, and went to stop someone else.",
+        "coach": [
+          {
+            "tr": "Gerçek ajanslar tam olarak öyle işler.",
+            "en": "That is exactly how real agencies work.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "model_cekimi_odedi"
+            ]
+          }
+        },
+        "tr": "Yarısına anlaştınız: 900 Para peşin, kalanı \"ilk işten\". İlk iş gelmedi.",
+        "en": "You settled on half: 900 up front, the rest \"out of your first job.\" There was no first job.",
+        "coach": [
+          {
+            "tr": "Pazarlık başarılı. Yarı fiyatına hiçbir şey.",
+            "en": "Great negotiating. Nothing, at half price.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "sokakta model kâşifinin portfolyo çekimi ücreti istemesi",
+    "mechanism": "iltifat her adımda büyüyüp faturaya dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "otuz vesikalık",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "vesikalik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

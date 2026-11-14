@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_atolye_lazer_sirasi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "atolye",
+    "proje",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Lazer kesim makinesi için sıra listesi bu. Önünde on bir proje var, makine bir tane.",
+      "en": "Here's the laser cutter queue. Eleven projects ahead of you, one machine."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Benim maket teslimi yarın 09.00. Senin? Aynı mı? Harika, beraber ağlarız.",
+      "en": "My model's due at nine tomorrow. Yours? Same? Great, we can cry together.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "gece",
+      "tr": "Gece vardiyasına yazıl",
+      "en": "Sign up for the night slot",
+      "pattern": "overwork",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "el",
+      "tr": "Maketi elle kes",
+      "en": "Cut the model by hand",
+      "pattern": "patience"
+    },
+    {
+      "id": "pay",
+      "tr": "Sırayı biriyle paylaş",
+      "en": "Share a slot with someone",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "gece": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 3,
+            "health": -2
+          },
+          "flags": {
+            "add": [
+              "lazer_kesim_yetisti"
+            ]
+          }
+        },
+        "tr": "Sıran 03.40'ta geldi. Parçalar yirmi iki dakikada kesildi; maket sabah 08.15'te kurumuştu.",
+        "en": "Your turn came at 3:40. The parts cut in twenty-two minutes. By 8:15 the glue was dry.",
+        "coach": [
+          {
+            "tr": "Saat 03.40, yirmi iki dakika. Makinenin uykusu yok.",
+            "en": "3:40 a.m., twenty-two minutes. The machine doesn't sleep.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -3,
+            "health": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "maket_eksik"
+            ]
+          }
+        },
+        "tr": "Önündeki proje dosyası hatalıydı, makine iki saat kilitlendi. Sana sıra 07.30'da geldi; çatı parçası kesilemedi.",
+        "en": "The file ahead of you was broken and the machine locked up for two hours. Your turn came at 7:30. The roof never got cut.",
+        "coach": [
+          {
+            "tr": "Maket çatısız teslim. Jüri bunu konsept sanabilir.",
+            "en": "A roofless model. The jury might call it a concept.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef sayacı bir gece geriledi.",
+            "en": "Goal counter lost a night.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "el": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": -1,
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "elle_kesim"
+          ]
+        }
+      },
+      "tr": "Maket bıçağıyla altı saat kestin. Kenarlar dalgalı; hoca \"el işçiliği güzel\" dedi, ölçüyü sormadı.",
+      "en": "Six hours with a craft knife. The edges wave. The professor praised the \"handcraft\" and didn't ask about scale.",
+      "coach": [
+        {
+          "tr": "Dalgalı kenar, düz not.",
+          "en": "Wavy edges, straight grade.",
+          "roast": false
+        }
+      ]
+    },
+    "pay": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "charm": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "lazer_kesim_yetisti"
+          ]
+        }
+      },
+      "tr": "İki dosyayı tek plakaya sığdırdınız. Kesim kırk dakika sürdü; kalan plakadan iki anahtarlık çıktı.",
+      "en": "You fit both files on one sheet. Forty minutes of cutting, and two keychains from the leftovers.",
+      "coach": [
+        {
+          "tr": "Bir plaka, iki maket, iki anahtarlık.",
+          "en": "One sheet, two models, two keychains.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef saati kırk dakika erken.",
+          "en": "Goal clock: forty minutes ahead.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gece",
+    "slip": {
+      "tr": "İDDİA: Gece sırası sabaha kalır. — M.",
+      "en": "WAGER: The night slot slips to morning. — M."
+    }
+  },
+  "intent": {
+    "setup": "teslimden önceki gece fakülte atölyesinde tek lazer kesim makinesinin sırası",
+    "mechanism": "saatlerin ve sıranın sayımı",
+    "mechanismId": "count",
+    "punch": "makinenin uykusu yok",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "plaka"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

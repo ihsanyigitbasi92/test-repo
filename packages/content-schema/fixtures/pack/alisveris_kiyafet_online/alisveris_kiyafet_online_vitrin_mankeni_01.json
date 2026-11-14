@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "alisveris_kiyafet_online_vitrin_mankeni_01",
+  "tags": [
+    "gundelik",
+    "alisveris",
+    "alisveris_kiyafet_online"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "alisveris_kiyafet_online": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "O ceketten sadece mankendeki kaldı. Çıkarmam lazım.",
+      "en": "That jacket? The only one left is on the mannequin. I'll have to take it off."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "Kolu çıkıyor ama geri takılmıyor. Geçen sefer yarım gün tek kollu kaldı.",
+      "en": "The arm comes off but won't go back on. Last time it stood one-armed for half a day.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iste",
+      "tr": "Mankenden çıkart",
+      "en": "Have them take it off",
+      "pattern": "impulseSpend",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "Vazgeç",
+      "en": "Never mind",
+      "pattern": "patience"
+    },
+    {
+      "id": "siparis",
+      "tr": "Online sipariş ver",
+      "en": "Order it online instead",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "iste": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -650,
+          "stats": {
+            "joy": 2,
+            "charm": 2
+          }
+        },
+        "tr": "Ceket çıktı, kol yerine oturdu. Manken şimdi tişörtle bekliyor.",
+        "en": "The jacket came off, the arm went back on. The mannequin now waits in a T-shirt.",
+        "coach": [
+          {
+            "tr": "Ceket sende, tişört mankende. Adil bölüşüm.",
+            "en": "You got the jacket. The mannequin got a T-shirt. Fair split.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -650,
+          "stats": {
+            "charm": 2
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Ceket çıktı, kol çıktı, kol takılmadı. Vitrin akşama kadar tek kollu kaldı.",
+        "en": "The jacket came off. The arm came off. The arm stayed off. The window is one-armed till closing.",
+        "coach": [
+          {
+            "tr": "Ceket sende. Kol yerde.",
+            "en": "You have the jacket. The floor has the arm.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Ceket mankende kaldı. Ertesi hafta vitrinde başka bir ceket vardı.",
+      "en": "The jacket stayed on the mannequin. Next week the window had a different one.",
+      "coach": [
+        {
+          "tr": "Vitrin bir hafta bekledi, sonra yoluna devam etti.",
+          "en": "The window waited a week. Then it moved on.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef bütçesi sağlam kaldı.",
+          "en": "Goal budget intact.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "siparis": {
+      "effects": {
+        "money": -620,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "ceket_online_yolda"
+          ]
+        }
+      },
+      "tr": "Aynı ceketi online sipariş ettin. Otuz Para ucuz, dokuz gün uzak.",
+      "en": "You ordered the same jacket online. Thirty cheaper, nine days away.",
+      "coach": [
+        {
+          "tr": "Otuz Para için dokuz gün. Günlük beklemenin fiyatı üç Para.",
+          "en": "Thirty saved over nine days. Waiting pays about three a day.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iste",
+    "slip": {
+      "tr": "İDDİA: Mankenin kolu yerine oturmaz. — M.",
+      "en": "WAGER: The mannequin's arm won't go back on. — M."
+    }
+  },
+  "intent": {
+    "setup": "tek kalan ceketin vitrin mankeninde olması",
+    "mechanism": "satın almak mankeni sökmeyi gerektirir",
+    "mechanismId": "escalation",
+    "punch": "kol yerde",
+    "lift": "hedef bütçesi",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "manken"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

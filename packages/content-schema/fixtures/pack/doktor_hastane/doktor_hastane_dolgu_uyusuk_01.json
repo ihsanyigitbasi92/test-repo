@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_dolgu_uyusuk_01",
+  "tags": [
+    "saglik",
+    "doktor",
+    "dis",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Uyuşukluk iki saat sürer. İki saat bir şey yemeyin, içmeyin.",
+      "en": "The numbness lasts two hours. Nothing to eat or drink for two hours."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Kahve mi? En çok sorulan şey kahve. Hayır.",
+      "en": "Coffee? Coffee is the most asked question. No.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bekle",
+      "tr": "İki saat bekle",
+      "en": "Wait the two hours",
+      "pattern": "patience"
+    },
+    {
+      "id": "pipet",
+      "tr": "Pipetle kahve iç",
+      "en": "Coffee through a straw",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annene uğra",
+      "en": "Stop by Mom's",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "bekle": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "dolgu_yapildi"
+          ]
+        }
+      },
+      "tr": "İki saat sonra dudak geri geldi. Kahveyi ısıtıp içtin; dolgu 400 Para.",
+      "en": "Two hours later, your lip came back. You reheated the coffee. The filling was 400.",
+      "coach": [
+        {
+          "tr": "Dudak döndü, kahve ısındı.",
+          "en": "Lip returned. Coffee reheated.",
+          "roast": false
+        }
+      ]
+    },
+    "pipet": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": 1
+          },
+          "money": -440,
+          "flags": {
+            "add": [
+              "dolgu_yapildi"
+            ]
+          }
+        },
+        "tr": "Tek damla kaçmadı. Bardak bitti; yüzün hâlâ uyuşuktu.",
+        "en": "Not a drop escaped. Cup empty. Face still numb.",
+        "coach": [
+          {
+            "tr": "Damla kaçmadı. Pipet işini bildi.",
+            "en": "No drips. The straw knew its job.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          },
+          "money": -440,
+          "flags": {
+            "add": [
+              "dolgu_yapildi"
+            ]
+          }
+        },
+        "tr": "Kahvenin yarısı uyuşuk taraftan çeneye indi. İlk fark eden garson oldu.",
+        "en": "Half the coffee exited through the numb side, straight down your chin. The barista noticed first.",
+        "coach": [
+          {
+            "tr": "Kahve yarı yarıya. Yarısı gömlekte.",
+            "en": "Coffee split fifty-fifty. Half went to the shirt.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "dolgu_yapildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Annen çorbayı kaşıkla ağzının sağlam tarafına verdi. \"Küçükken de böyleydin\" dedi.",
+      "en": "Your mom spooned soup into the working side of your mouth. \"You were like this as a baby,\" she said.",
+      "coach": [
+        {
+          "tr": "Kaşık sağ taraftan. Rota yirmi yıllık.",
+          "en": "Spoon from the right. A twenty-year-old route.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pipet",
+    "slip": {
+      "tr": "İDDİA: Kahve dudağı dinlemez. — M.",
+      "en": "WAGER: The coffee goes rogue. — M."
+    }
+  },
+  "intent": {
+    "setup": "dişçide dolgu sonrası uyuşuk dudakla kahve isteği",
+    "mechanism": "yasaklı kahvenin en çok sorulan şey olması",
+    "mechanismId": "bathos",
+    "punch": "kahve en çok sorulan şey. hayır",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rota"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

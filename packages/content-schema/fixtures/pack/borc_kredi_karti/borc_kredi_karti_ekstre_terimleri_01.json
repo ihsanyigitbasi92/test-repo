@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_ekstre_terimleri_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "ev_arkadasi",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KARTAL BANKASI (kurgusal)",
+      "en": "EAGLE BANK (fictional)"
+    },
+    "body": {
+      "tr": "Dönem borcunuz: 2.340 Para. Asgari ödeme tutarı: 470 Para. Son ödeme tarihinden sonra kalan bakiyeye faiz işletilir.",
+      "en": "Statement balance: 2,340. Minimum payment due: 470. Interest accrues on any balance left after the due date."
+    },
+    "translate": {
+      "tr": {
+        "from": "Asgari ödeme tutarı",
+        "to": "kartın açık kalma ücreti"
+      },
+      "en": {
+        "from": "Minimum payment due",
+        "to": "the price of keeping the card open"
+      }
+    },
+    "glossaryKey": "asgari_odeme"
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Asgariyi yatırırsan kart kapanmaz. Ben iki yıldır öyle yapıyorum.",
+      "en": "Pay the minimum and the card stays open. That's what I've done for two years."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Hâlâ iki yıl önceki pizzayı ödüyorum ama kart açık.",
+      "en": "I'm still paying off a pizza from two years ago, but hey, card's open.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "tamami",
+      "tr": "Dönem borcunun tamamını öde",
+      "en": "Pay the full statement balance",
+      "pattern": "patience"
+    },
+    {
+      "id": "asgari",
+      "tr": "Asgariyi öde, ev arkadaşı usulü",
+      "en": "Pay the minimum, roommate-style",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yarisi",
+      "tr": "Yarısını öde, kalanı sonra",
+      "en": "Pay half, the rest later",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "tamami": {
+      "effects": {
+        "money": -2340,
+        "stats": {
+          "joy": -1,
+          "brain": 2
+        },
+        "flags": {
+          "add": [
+            "ekstre_tam_odeme"
+          ],
+          "remove": [
+            "kredi_karti_borcu"
+          ]
+        },
+        "glossary": "asgari_odeme"
+      },
+      "tr": "2.340 Para ödendi, ekstre sıfırlandı. Hesap kesim tarihi takvime yazıldı.",
+      "en": "2,340 paid; statement cleared. The closing date went on your calendar.",
+      "coach": [
+        {
+          "tr": "Devreden bakiye sıfır.",
+          "en": "Zero carried over.",
+          "roast": false
+        }
+      ]
+    },
+    "asgari": {
+      "effects": {
+        "money": -470,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "asgari_aliskanligi",
+            "kredi_karti_borcu"
+          ]
+        },
+        "glossary": "asgari_odeme"
+      },
+      "tr": "470 Para ödendi. Kalan 1.870 Para'ya bir sonraki ekstrede faiz eklendi.",
+      "en": "You paid 470. The remaining 1,870 picked up interest on the next statement.",
+      "coach": [
+        {
+          "tr": "1.870 Para, faiziyle gelecek aya.",
+          "en": "1,870 rolls over, interest included.",
+          "roast": false
+        }
+      ]
+    },
+    "yarisi": {
+      "effects": {
+        "money": -1170,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Yarısı ödendi. Kalan yarıya faiz işledi, ekstreye 'devreden bakiye' satırı eklendi.",
+      "en": "Half paid. Interest landed on the other half, and a new line appeared: 'balance carried forward.'",
+      "coach": [
+        {
+          "tr": "Ekstrede yeni bir satır.",
+          "en": "One new line on the statement.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "ilk kredi kartı ekstresinde dönem borcu ile asgari ödeme farkını çözmeye çalışmak",
+    "mechanism": "ev arkadaşı iki yıllık asgari ödemeyi başarı sayıyor",
+    "mechanismId": "translation",
+    "punch": "hâlâ iki yıl önceki pizzayı ödüyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pizza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

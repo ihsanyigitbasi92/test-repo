@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kutlamalar_dogum_gunu_gizli_grup_01",
+  "tags": [
+    "sosyal",
+    "dogum_gunu",
+    "kutlamalar_dogum_gunu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "kutlamalar_dogum_gunu": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Ev arkadaşına sürpriz parti için gizli bir grup kurdun. On dört kişiyi ekledin. On beşincisi ev arkadaşının kendisiydi.",
+      "en": "You set up a secret group chat for your roommate's surprise party. You added fourteen people. The fifteenth was your roommate."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "\"Sürpriz cumartesi, sakın ona söylemeyin\" ne demek?",
+      "en": "What does 'Surprise is Saturday, don't tell them' mean?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Ben kimim bu grupta?",
+      "en": "Who am I in this group?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yalan",
+      "tr": "Başkası için olduğunu söyle",
+      "en": "Say it's for someone else",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "itiraf",
+      "tr": "İtiraf et, planı paylaş",
+      "en": "Confess and share the plan",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ertele",
+      "tr": "Partiyi başka güne al",
+      "en": "Move the party",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yalan": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "charm": 2
+          },
+          "flags": {
+            "add": [
+              "surpriz_parti_kurtarildi"
+            ]
+          }
+        },
+        "tr": "\"Komşunun kuzeni için,\" dedin. İnandı. Cumartesi gerçekten şaşırdı.",
+        "en": "You said it was for the neighbor's cousin. They bought it. On Saturday they were genuinely surprised.",
+        "coach": [
+          {
+            "tr": "Sürpriz kurtuldu. Bir kuzen icat edildi.",
+            "en": "Surprise saved. One cousin invented.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "cringe": 5
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "\"Komşunun kuzeni için,\" dedin. Ev arkadaşın komşunun kuzenini tanıyordu.",
+        "en": "You said it was for the neighbor's cousin. Your roommate knows the neighbor's cousin.",
+        "coach": [
+          {
+            "tr": "Kuzen gerçekti. Hikâye değildi.",
+            "en": "The cousin was real. The story wasn't.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "itiraf": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "İtiraf ettin. Ev arkadaşın cumartesi şaşırmış rolü yapmayı kabul etti, provasını da yaptı.",
+      "en": "You confessed. Your roommate agreed to act surprised on Saturday and even rehearsed.",
+      "coach": [
+        {
+          "tr": "Sürpriz, tiyatro dalında devam ediyor.",
+          "en": "The surprise continues, now as theater.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "money": -100,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Partiyi bir hafta öteledin. Kafe kaporayı geri vermedi: 100 Para.",
+      "en": "You pushed the party back a week. The café kept the deposit: 100.",
+      "coach": [
+        {
+          "tr": "Bir hafta ileri, bir kapora geri.",
+          "en": "One week forward. One deposit gone.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yalan",
+    "slip": {
+      "tr": "İDDİA: Bu yalan cumartesiyi görmez. — M.",
+      "en": "WAGER: That lie won't make it to Saturday. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşı için kurduğun gizli sürpriz parti grubuna yanlışlıkla onu da eklemek",
+    "mechanism": "grubun on beşinci üyesi doğum günü sahibi; yalan büyüyor",
+    "mechanismId": "escalation",
+    "punch": "ben kimim bu grupta",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kuzen"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

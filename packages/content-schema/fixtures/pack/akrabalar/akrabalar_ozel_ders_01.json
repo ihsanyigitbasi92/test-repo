@@ -1,0 +1,189 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "akrabalar_ozel_ders_01",
+  "tags": [
+    "aile",
+    "kuzen",
+    "para",
+    "akrabalar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "akrabalar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Teyzen kuzene matematik dersi verir misin diye sordu. Haftada iki gün. Yemek onlardan.",
+      "en": "Your aunt wants you to tutor your cousin in math. Twice a week. Dinner on them."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Teyzenin dolması meşhurdur. Para mı istiyorsun? İstemezsin.",
+      "en": "Your aunt's stuffed peppers are famous. You want money? You don't want money.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Yemeğe ders ver",
+      "en": "Tutor for dinner",
+      "pattern": "generosity"
+    },
+    {
+      "id": "ucret",
+      "tr": "Ücret konuş",
+      "en": "Bring up a rate",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ret",
+      "tr": "Vaktim yok de",
+      "en": "Say you're too busy",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "brain": 1
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "flags": {
+          "add": [
+            "kuzen_ozel_ders"
+          ]
+        }
+      },
+      "tr": "Sekiz hafta ders verdin, sekiz tabak dolma yedin. Kuzenin notu yükseldi; teyzen dolmayı nasıl bulduğunu sordu.",
+      "en": "Eight weeks of lessons, eight plates of stuffed peppers. Your cousin's grade went up. Your aunt asked how the peppers were.",
+      "coach": [
+        {
+          "tr": "Ders başına bir tabak. Hep aynı tarif.",
+          "en": "One plate per lesson. Same recipe every time.",
+          "roast": true
+        }
+      ]
+    },
+    "ucret": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "money": 900,
+          "flags": {
+            "add": [
+              "kuzen_ozel_ders"
+            ]
+          }
+        },
+        "tr": "Ücreti konuştun: ders başı 110 Para. Teyzen ödedi; dolma servisi durdu.",
+        "en": "You named a rate: 110 a lesson. Your aunt paid. The peppers stopped coming.",
+        "coach": [
+          {
+            "tr": "Nakit geldi, dolma gitti.",
+            "en": "Cash in. Peppers out.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "meters": {
+            "momPressure": 4,
+            "cringe": 3
+          }
+        },
+        "tr": "Ücret dediğinde teyzen \"tabii\" dedi ve bir daha aramadı. Kuzene başka hoca bulunmuş, yine yemekli.",
+        "en": "When you said 'rate,' your aunt said 'of course' and never called back. They found another tutor. Also paid in peppers.",
+        "coach": [
+          {
+            "tr": "Piyasa dolmayla dönüyor.",
+            "en": "The market runs on peppers.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ret": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        }
+      },
+      "tr": "Vaktin yok dedin. Annen pazar günü dolmayı yine de getirdi: \"Teyzen yolladı, gönlü kalmasın.\"",
+      "en": "You said you were too busy. On Sunday, Mom brought the peppers anyway. 'Your aunt sent them. No hard feelings.'",
+      "coach": [
+        {
+          "tr": "Dolma dersi beklemedi.",
+          "en": "The peppers didn't wait for a lesson.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ucret",
+    "slip": {
+      "tr": "İDDİA: Teyzen \"ücret\" lafını duymaz. — M.",
+      "en": "WAGER: Your aunt won't hear the word 'rate.' — M."
+    }
+  },
+  "intent": {
+    "setup": "teyzenin kuzene matematik dersi vermeni istemesi, ücret olarak dolma önermesi",
+    "mechanism": "dolma ders ücreti yerine geçiyor",
+    "mechanismId": "callback",
+    "punch": "Piyasa dolmayla dönüyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dolma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

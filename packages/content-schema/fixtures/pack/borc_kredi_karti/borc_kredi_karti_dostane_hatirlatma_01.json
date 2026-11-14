@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_dostane_hatirlatma_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "MERCAN BANK KART HİZMETLERİ (kurgusal)",
+      "en": "CORAL BANK CARD SERVICES (fictional)"
+    },
+    "body": {
+      "tr": "Değerli kart sahibimiz, 340 Para tutarındaki ödemenizi henüz alamadık. Bu mektup dostane bir hatırlatmadır. Bir sonraki mektubumuz da dostane olacaktır, ancak daha kısa.",
+      "en": "Dear cardholder, we have not yet received your payment of 340. This letter is a friendly reminder. Our next letter will also be friendly, but shorter."
+    },
+    "translate": {
+      "tr": {
+        "from": "ancak daha kısa",
+        "to": "ve büyük harfle"
+      },
+      "en": {
+        "from": "but shorter",
+        "to": "and in capitals"
+      }
+    },
+    "glossaryKey": "dostane_hatirlatma"
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Zarfın üstünde gülen yüz var. Bankalar gülen yüz çizer mi?",
+      "en": "There's a smiley face on the envelope. Do banks draw smiley faces?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Bugün öde",
+      "en": "Pay it today",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Arayıp nedenini öğren",
+      "en": "Call and find out what happened",
+      "pattern": "pride"
+    },
+    {
+      "id": "bekle",
+      "tr": "Maaşa kadar beklet",
+      "en": "Let it ride till payday",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -340,
+        "hidden": {
+          "stress": -1
+        },
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "hatirlatma_odendi"
+          ]
+        }
+      },
+      "tr": "340 Para ödendi. İkinci mektup hiç yazılmadı.",
+      "en": "Paid 340. The second letter was never written.",
+      "coach": [
+        {
+          "tr": "Kısa mektup iptal edildi.",
+          "en": "The shorter letter has been canceled.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "money": -340,
+        "stats": {
+          "brain": 1
+        },
+        "glossary": "dostane_hatirlatma",
+        "flags": {
+          "add": [
+            "talimat_duzeltildi"
+          ]
+        }
+      },
+      "tr": "Otomatik ödeme talimatı yanlış hesaba bağlıymış. Düzeltildi, 340 Para ödendi.",
+      "en": "Autopay had been linked to the wrong account. Fixed. 340 paid.",
+      "coach": [
+        {
+          "tr": "Talimat doğru hesapta. Gülen yüz arşivde.",
+          "en": "Autopay fixed. Smiley face, archived.",
+          "roast": false
+        },
+        {
+          "tr": "Hatırlatma sayacı sıfırda.",
+          "en": "Reminder counter: back to zero.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "money": -360,
+        "hidden": {
+          "stress": 3
+        },
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "ikinci_mektup"
+          ]
+        }
+      },
+      "tr": "İkinci mektup geldi: tek satır, büyük harf, gülen yüz yok. Gecikmeyle 360 Para ödendi.",
+      "en": "The second letter came: one line, all capitals, no smiley. Paid 360 with the late charge.",
+      "coach": [
+        {
+          "tr": "Gülen yüz kayboldu. Bedeli 20 Para.",
+          "en": "The smiley face is gone. That cost twenty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "ödenmemiş küçük kart borcu için gelen ilk 'dostane hatırlatma' mektubu ve zarftaki gülen yüz",
+    "mechanism": "'bir sonraki mektup da dostane olacak, ancak daha kısa' tercümesi",
+    "mechanismId": "translation",
+    "punch": "ancak daha kısa",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gulen"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_arama_otobuste_telefon_mulakati_01",
+  "tags": [
+    "is",
+    "is",
+    "mulakat",
+    "yol",
+    "is_arama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "is_arama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Merhaba, şimdi konuşmak için uygun musunuz? On dakika sürer.",
+      "en": "Hi, is now a good time to talk? It will take ten minutes."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "worried",
+      "tr": "Arkada bir anons duyuyorum. Neredesiniz?",
+      "en": "I hear an announcement in the background. Where are you?",
+      "delayMs": 1200
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Otobüste devam et",
+      "en": "Keep going on the bus",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm",
+        "goal": "is"
+      }
+    },
+    {
+      "id": "in",
+      "tr": "İlk durakta in",
+      "en": "Get off at the next stop",
+      "pattern": "pride"
+    },
+    {
+      "id": "ertele",
+      "tr": "Yirmi dakika sonrasını iste",
+      "en": "Ask for twenty minutes",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "ikinci_tur"
+            ]
+          }
+        },
+        "tr": "Her durakta anons girdi ama cevapların net çıktı. İkinci görüşme yüz yüze.",
+        "en": "Every stop got announced mid-answer, but you stayed clear. Round two: in person.",
+        "coach": [
+          {
+            "tr": "On dört durak, on dört anons, bir davet.",
+            "en": "Fourteen stops, fourteen announcements, one invite.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "En güçlü cevabının ortasında anons girdi: \"Son durak.\" İK görüşmeyi kibarca bitirdi.",
+        "en": "Mid-way through your best answer, the speaker said: \"Last stop.\" HR wrapped up politely.",
+        "coach": [
+          {
+            "tr": "Cevabın yarısı İK’ya, yarısı otobüse gitti.",
+            "en": "Half the answer went to HR. Half to the bus.",
+            "roast": true
+          },
+          {
+            "tr": "İş hedefi: bir durak geride.",
+            "en": "Job goal: one stop behind.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "in": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ikinci_tur"
+          ]
+        }
+      },
+      "tr": "İlk durakta indin, kaldırımda on dakika konuştun. Dönüş için bir sonraki otobüsü yirmi beş dakika bekledin.",
+      "en": "You got off and talked on the sidewalk for ten minutes. Then waited twenty-five for the next bus.",
+      "coach": [
+        {
+          "tr": "On dakika mülakat, yirmi beş dakika durak.",
+          "en": "Ten minutes of interview, twenty-five of bus stop.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "is_ariyor"
+          ]
+        }
+      },
+      "tr": "İK \"Takvimim dolu, size döneriz\" dedi.",
+      "en": "HR said, \"My calendar’s full. We’ll get back to you.\"",
+      "coach": [
+        {
+          "tr": "Yirmi dakika istendi, takvim kapandı.",
+          "en": "Twenty minutes requested. Calendar closed.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: \"Son durak\" en iyi cevabını keser. — M.",
+      "en": "WAGER: \"Last stop\" cuts off your best answer. — M."
+    }
+  },
+  "intent": {
+    "setup": "kalabalık otobüste gelen telefon mülakatı",
+    "mechanism": "durak anonsları cevaplarla yarışıyor",
+    "mechanismId": "bathos",
+    "punch": "son durak",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "anons"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

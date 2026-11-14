@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_kalibrasyon_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "employed": true,
+      "minRung": 1
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Kalibrasyon kuralı: ekibinizden en az biri 'gelişime açık' kutusuna girmeli.",
+      "en": "Calibration rule: at least one person on your team must go in the 'room to grow' box."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Herkes harika mı? Güzel. Ama eğri harika değil.",
+      "en": "Everyone's great? Lovely. The curve isn't.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "savun",
+      "tr": "Bütün ekibi savun",
+      "en": "Defend the whole team",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yeni",
+      "tr": "En yeni çalışanı kutuya koy",
+      "en": "Put the newest hire in the box",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sira",
+      "tr": "Her yıl sırayla öner",
+      "en": "Propose a yearly rotation",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "savun": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 3
+            },
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "ekip_savundu"
+            ]
+          }
+        },
+        "tr": "Örneklerle savundun. Kurul bu yıl için istisna yazdı ve tutanağa 'ikna edici' notunu düştü.",
+        "en": "You argued with examples. The panel granted an exception this year and noted 'persuasive.'",
+        "coach": [
+          {
+            "tr": "Eğri bir yıllığına düzleşti. Kin tutar.",
+            "en": "The curve flattened for a year. It holds grudges.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:hr",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kurul dinledi, sonra eğriyi kendisi uyguladı. Kutuya ekibin en sessiz üyesi girdi.",
+        "en": "The panel listened, then applied the curve itself. The quietest person on your team went in the box.",
+        "coach": [
+          {
+            "tr": "Kutuya giren konuşmadı. Sen konuştun.",
+            "en": "The one in the box didn't speak. You did.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yeni": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yeni_gelen_kutuda"
+          ]
+        }
+      },
+      "tr": "Yeni geleni kutuya koydun. Gerekçe alanına 'henüz çok yeni' yazdın; sistem kabul etti.",
+      "en": "The newest hire went in the box. Under 'reason' you typed 'still very new.' The system accepted it.",
+      "coach": [
+        {
+          "tr": "Gerekçe sağlam. Değerlendirmeyi takvim yaptı.",
+          "en": "Airtight reasoning. The calendar did the evaluation.",
+          "roast": true
+        }
+      ]
+    },
+    "sira": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:hr",
+            "affinity": 1
+          }
+        ],
+        "glossary": "zorunlu_dagilim"
+      },
+      "tr": "Sırayla koyma planını sundun. İK planı onayladı ve gelecek yılın adayını şimdiden sordu.",
+      "en": "You proposed a rotation. HR approved it and asked who next year's candidate would be.",
+      "coach": [
+        {
+          "tr": "Plan işliyor. Gelecek yılın gönüllüsü aranıyor.",
+          "en": "The plan works. Next year's volunteer is being recruited.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "savun",
+    "slip": {
+      "tr": "İDDİA: Eğri kazanır. — M.",
+      "en": "WAGER: The curve wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "yönetici olarak performans kalibrasyonunda ekibinden birini zorunlu dağılım kutusuna koymak",
+    "mechanism": "eğrinin kişileştirilmesi",
+    "mechanismId": "literalism",
+    "punch": "eğri harika değil",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "egri"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

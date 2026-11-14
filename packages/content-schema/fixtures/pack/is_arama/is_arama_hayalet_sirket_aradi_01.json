@@ -1,0 +1,235 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_arama_hayalet_sirket_aradi_01",
+  "tags": [
+    "is",
+    "is",
+    "teklif",
+    "is_arama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 2,
+  "intensity": 6500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "is_arama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Beş ay önce görüşmüştük. Hâlâ ilgileniyor musunuz?",
+      "en": "We spoke five months ago. Are you still interested?"
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Pazartesi başlayabilir misiniz? Bu arada size hiç dönmemiştik, değil mi?",
+      "en": "Could you start Monday? Also, we never got back to you, did we?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Pazartesi başla",
+      "en": "Start Monday",
+      "pattern": "patience"
+    },
+    {
+      "id": "artir",
+      "tr": "Beş ayı fiyata yansıt",
+      "en": "Price in the five months",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm",
+        "goal": "is"
+      }
+    },
+    {
+      "id": "red",
+      "tr": "Beş ay geç kaldınız de",
+      "en": "Say they are five months late",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "ofis",
+            "tier": 1,
+            "monthly": 1350
+          }
+        },
+        "flags": {
+          "add": [
+            "calisiyor"
+          ],
+          "remove": [
+            "is_ariyor"
+          ]
+        },
+        "meters": {
+          "momPressure": -8
+        },
+        "stats": {
+          "joy": 5
+        }
+      },
+      "tr": "Pazartesi işe başladın. Masanda beş ay önceki görüşme notların duruyordu.",
+      "en": "You started Monday. Your interview notes from five months ago were on the desk.",
+      "coach": [
+        {
+          "tr": "Beş ay bekleme, bir pazartesi.",
+          "en": "Five months of waiting, one Monday.",
+          "roast": false
+        }
+      ]
+    },
+    "artir": [
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "ofis",
+              "tier": 1,
+              "monthly": 1550
+            }
+          },
+          "flags": {
+            "add": [
+              "calisiyor"
+            ],
+            "remove": [
+              "is_ariyor"
+            ]
+          },
+          "meters": {
+            "momPressure": -8
+          },
+          "stats": {
+            "joy": 6
+          }
+        },
+        "tr": "Daha yüksek bir maaş istedin, kabul ettiler. Pazartesi başlıyorsun.",
+        "en": "You asked for more. They agreed. You start Monday.",
+        "coach": [
+          {
+            "tr": "Beş ay sessizlik maaşa eklendi.",
+            "en": "Five months of silence, added to the salary.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "ofis",
+              "tier": 1,
+              "monthly": 1350
+            }
+          },
+          "flags": {
+            "add": [
+              "calisiyor"
+            ],
+            "remove": [
+              "is_ariyor"
+            ]
+          },
+          "meters": {
+            "momPressure": -8
+          },
+          "stats": {
+            "joy": 3
+          }
+        },
+        "tr": "\"Bütçe aynı\" dediler. Yine de pazartesi başladın.",
+        "en": "They said, \"Same budget.\" You started Monday anyway.",
+        "coach": [
+          {
+            "tr": "Sessizlik fiyatlanmadı. İş yine de iş.",
+            "en": "The silence did not price in. A job is still a job.",
+            "roast": false
+          },
+          {
+            "tr": "Maaş satırı: aynı rakam.",
+            "en": "Salary line: same number.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "flags": {
+          "add": [
+            "hayalet_reddedildi"
+          ]
+        }
+      },
+      "tr": "Kibarca reddettin. İK \"Anlıyoruz, size döneceğiz\" dedi.",
+      "en": "You turned it down politely. HR said, \"We understand. We’ll get back to you.\"",
+      "coach": [
+        {
+          "tr": "Döngü yeniden başladı. Beş ay sonra görüşürüz.",
+          "en": "The cycle restarts. See you in five months.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da oran düşük değil"
+  },
+  "intent": {
+    "setup": "beş ay sessiz kalan şirketin geri dönmesi",
+    "mechanism": "İK sessizliğini kendisi hatırlatıyor",
+    "mechanismId": "reversal",
+    "punch": "size hiç dönmemiştik, değil mi",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "dongu2"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

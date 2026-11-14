@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_adina_acilan_hat_01",
+  "tags": [
+    "burokrasi",
+    "kimlik",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Adınıza kayıtlı üç hat görünüyor. Biri yurt dışı paketli.",
+      "en": "There are three lines registered in your name. One has an international plan."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Kimliğinizi ne zaman kaybettiniz? Bir de kimliğinizi görebilir miyim?",
+      "en": "When did you lose your ID? And may I see your ID, please?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "dilekce",
+      "tr": "Şikâyet dilekçesi ver",
+      "en": "File a formal complaint",
+      "pattern": "patience"
+    },
+    {
+      "id": "iptal",
+      "tr": "Hatları tek tek kapattır",
+      "en": "Get the lines cancelled one by one",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "İlk faturayı öde, sonra bakarsın",
+      "en": "Pay the first bill, deal with it later",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dilekce": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "glossary": "kimlik_kotuye_kullanim",
+        "flags": {
+          "add": [
+            "kimlik_sikayeti"
+          ]
+        }
+      },
+      "tr": "Dilekçeni verip dosya numarası aldın. Hatlar inceleme bitene kadar donduruldu.",
+      "en": "You filed the complaint and got a case number. The lines are frozen pending review.",
+      "coach": [
+        {
+          "tr": "Senin bir dosya numaran var. Hatların da.",
+          "en": "You have a case number now. So do the lines.",
+          "roast": false
+        }
+      ]
+    },
+    "iptal": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "kimlik_hatlari_kapandi"
+            ]
+          }
+        },
+        "tr": "Üç hattı da kapattırdın. Yurt dışı hattında kırk dakika konuşma varmış; hiçbiri sana yazılmadı.",
+        "en": "You got all three lines closed. The international one had logged forty minutes of calls. None of it was billed to you.",
+        "coach": [
+          {
+            "tr": "Biri senin adına konuştu. Fatura sustu.",
+            "en": "Someone talked in your name. The bill kept quiet.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -340,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "kimlik_borc_dosyasi"
+            ]
+          }
+        },
+        "tr": "İki hat kapandı. Üçüncüsü için \"sözleşmede sizin imzanız var\" dendi; 340 Para borç dosyası açıldı.",
+        "en": "Two lines closed. For the third, they said the contract bore your signature. A debt file for 340 was opened.",
+        "coach": [
+          {
+            "tr": "İmzan oraya senden önce varmış.",
+            "en": "Your signature got there before you did.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "kimlik_hatlari_acik"
+          ]
+        }
+      },
+      "tr": "180 Para’lık ilk faturayı ödedin. İkinci fatura daha yüksek geldi.",
+      "en": "You paid the first bill: 180. The second came in higher.",
+      "coach": [
+        {
+          "tr": "Faturayı besledin. Büyüdü.",
+          "en": "You fed the bill. It grew.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "kaybolan kimlikle adına üç telefon hattı açılmış olduğunu öğrenmek",
+    "mechanism": "memur kaybolan kimliği görmek istiyor; hatlar çoğalıyor",
+    "mechanismId": "escalation",
+    "punch": "bir de kimliğinizi görebilir miyim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dosya"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

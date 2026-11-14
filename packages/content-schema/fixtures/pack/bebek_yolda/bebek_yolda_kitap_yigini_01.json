@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bebek_yolda_kitap_yigini_01",
+  "tags": [
+    "ebeveynlik",
+    "bebek",
+    "partner",
+    "bebek_yolda"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "bebek_yolda": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "bebek_yolda"
+      ],
+      "none": [
+        "dokuz_kitap",
+        "kitap_fihristi",
+        "anne_kitap_yorumu"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Dokuz kitap aldım. Her biri başka bir şey söylüyor; hepsini okuyup ortalamasını alacağız.",
+      "en": "I bought nine books. They all say different things. We'll read them all and take the average."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Biri \"uyku eğitimi\" diyor, biri \"asla\" diyor. Yedincisi sadece fotoğraf.",
+      "en": "One says sleep training, one says never. Number seven is just photos.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "oku",
+      "tr": "Dokuzunu da oku",
+      "en": "Read all nine",
+      "pattern": "overwork"
+    },
+    {
+      "id": "fihrist",
+      "tr": "Yalnızca içindekileri oku",
+      "en": "Read the tables of contents",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "anne",
+      "tr": "Annene sor",
+      "en": "Ask your mom",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "oku": {
+      "effects": {
+        "stats": {
+          "brain": 3,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "dokuz_kitap"
+          ]
+        }
+      },
+      "tr": "Altı haftada dokuz kitap bitti. Kenar notların, kitapların birbirini yalanladığı yerleri tek tek gösteriyor.",
+      "en": "Nine books in six weeks. Your margin notes now map exactly where they contradict each other.",
+      "coach": [
+        {
+          "tr": "Dokuz kitap, bir harita. Çelişkiler işaretli.",
+          "en": "Nine books, one map. Contradictions flagged.",
+          "roast": false
+        }
+      ]
+    },
+    "fihrist": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kitap_fihristi"
+          ]
+        }
+      },
+      "tr": "Dokuz içindekiler sayfası okudun. Hepsinde ortak olan tek başlık: \"Esneklik.\"",
+      "en": "You read nine tables of contents. The only chapter they all share: \"Flexibility.\"",
+      "coach": [
+        {
+          "tr": "Ortalama alındı. Sonuç tek kelime.",
+          "en": "Average taken. The result is one word.",
+          "roast": false
+        },
+        {
+          "tr": "Okuma listesi: dokuz başlık.",
+          "en": "Reading list: nine titles.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_kitap_yorumu"
+          ]
+        }
+      },
+      "tr": "Annen kitapları elinde tarttı, \"Ben seni kitapsız büyüttüm\" dedi ve en kalınını kapı tutmaya ayırdı.",
+      "en": "Mom weighed the books in her hands, said she raised you without any, and drafted the thickest one as a doorstop.",
+      "coach": [
+        {
+          "tr": "Bir kitap görev buldu. Kapı açık kalıyor.",
+          "en": "One book found its calling. The door stays open.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "bebek yolda iken partnerin dokuz ebeveynlik kitabı alması",
+    "mechanism": "dokuz kitabın ortalamasını almak",
+    "mechanismId": "count",
+    "punch": "yedincisi sadece fotoğraf",
+    "lift": "Okuma listesi: dokuz başlık.",
+    "target": "situation",
+    "closer": "esneklik",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

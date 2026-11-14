@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_cift_anadal_ortalama_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "basvuru",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 22
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Çift anadal için ortalama 3,00. Sizinki 2,98.",
+      "en": "Double major requires a 3.00. Yours is 2.98."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Yuvarlama yapmıyoruz. Yapsak herkes yuvarlanır.",
+      "en": "We don't round. If we rounded, everyone would round.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dilekce",
+      "tr": "Komisyona dilekçe yaz",
+      "en": "Petition the committee",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "brain",
+        "goal": "enroll"
+      }
+    },
+    {
+      "id": "yaz_okulu",
+      "tr": "Yaz okuluyla yükselt",
+      "en": "Raise it in summer school",
+      "pattern": "overwork"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Tek bölümle devam et",
+      "en": "Stick with one major",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "dilekce": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "cift_anadal"
+            ]
+          }
+        },
+        "tr": "Komisyon dilekçeyi kabul etti. Çift anadal kaydın açıldı.",
+        "en": "The committee accepted your petition. Your double major is open.",
+        "coach": [
+          {
+            "tr": "İki yüzdelik puan, bir dilekçe. Kapı açık.",
+            "en": "Two hundredths, one petition. Door open.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef kapandı: çift anadal.",
+            "en": "Goal closed: double major.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Dilekçe reddedildi. Gerekçe tek satır: \"Yönetmelik.\"",
+        "en": "Petition denied. Reason, one line: \"Regulations.\"",
+        "nearMiss": {
+          "tr": "Komisyonda biri 2,99’a \"belki\" dedi. Sende 2,98 vardı.",
+          "en": "One committee member said \"maybe\" at 2.99. You had 2.98."
+        },
+        "coach": [
+          {
+            "tr": "Yönetmelik bir kelime. Sen iki yüzdelik.",
+            "en": "The regulation is one word. You were two hundredths.",
+            "roast": true
+          },
+          {
+            "tr": "Gelecek dönem: 3,00 sınırı.",
+            "en": "Next term: the 3.00 line.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "yaz_okulu": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "brain": 2,
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "yaz_okulu"
+          ]
+        }
+      },
+      "tr": "Yaz okuluna 900 Para yatırdın. Tatil iptal, ortalama yükselme yolunda.",
+      "en": "You paid 900 for summer school. Vacation canceled, GPA climbing.",
+      "coach": [
+        {
+          "tr": "Bir yaz, iki yüzdelik. Sınır eylülde tekrar ölçülecek.",
+          "en": "One summer, two hundredths. The line gets measured again in September.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Başvurudan vazgeçtin. Yaz boş kaldı.",
+      "en": "You dropped the application. The summer stayed free.",
+      "coach": [
+        {
+          "tr": "Bir bölüm, bir yaz. Takvim boş.",
+          "en": "One major, one summer. Calendar clear.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dilekce",
+    "slip": {
+      "tr": "İDDİA: Komisyon yuvarlamaz. — M.",
+      "en": "WAGER: The committee does not round up. — M."
+    }
+  },
+  "intent": {
+    "setup": "çift anadal için 2,98 ortalama",
+    "mechanism": "görevli yuvarlamanın yayılacağından korkuyor",
+    "mechanismId": "count",
+    "punch": "yapsak herkes yuvarlanır",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yuzdelik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_arama_fazla_nitelikli_01",
+  "tags": [
+    "is",
+    "mulakat",
+    "is_arama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "is_arama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Özgeçmişiniz etkileyici. Hatta bu pozisyon için fazla nitelikli.",
+      "en": "Your résumé is impressive. Overqualified for this role, in fact."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "worried",
+      "tr": "Sıkılıp bir yılda gidersiniz diye endişeleniyoruz. Sıkılmayacağınızı kanıtlayın.",
+      "en": "We worry you'd get bored and leave within a year. Prove you won't get bored.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Kalacağını anlat",
+      "en": "Make the case you'll stay",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kirp",
+      "tr": "Özgeçmişi kırp, yeniden başvur",
+      "en": "Trim the résumé, reapply",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ust",
+      "tr": "Üst pozisyonu sor",
+      "en": "Ask about the senior role",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "momPressure": -6
+          },
+          "flags": {
+            "add": [
+              "calisiyor"
+            ],
+            "remove": [
+              "is_ariyor"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "koordinatör",
+              "tier": 2,
+              "monthly": 2600
+            }
+          }
+        },
+        "tr": "Üç yıllık bir plan anlattın. İK planı beğendi; teklif bir alt kademeden geldi.",
+        "en": "You laid out a three-year plan. HR liked it. The offer came one level down.",
+        "coach": [
+          {
+            "tr": "Plan kabul. Unvan bir basamak aşağıda.",
+            "en": "Plan accepted. Title one rung lower.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "fazla_nitelikli",
+              "is_ariyor"
+            ]
+          }
+        },
+        "tr": "İkna ettikçe daha nitelikli göründün. Ret e-postası \"potansiyelinize\" teşekkür etti.",
+        "en": "The more convincing you were, the more qualified you looked. The rejection thanked you for your \"potential.\"",
+        "coach": [
+          {
+            "tr": "İkna gücü de nitelik sayıldı.",
+            "en": "Persuasion counted as a qualification too.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kirp": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "cv_kirpildi",
+            "is_ariyor"
+          ]
+        }
+      },
+      "tr": "Özgeçmişten iki iş ve bir sertifika çıkardın. Aynı şirketten \"deneyim yetersiz\" cevabı geldi.",
+      "en": "You cut two jobs and a certificate. Same company replied: \"insufficient experience.\"",
+      "coach": [
+        {
+          "tr": "Tek şirket, iki cetvel.",
+          "en": "One company. Two rulers.",
+          "roast": false
+        }
+      ]
+    },
+    "ust": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ust_pozisyon",
+            "is_ariyor"
+          ]
+        }
+      },
+      "tr": "Üst pozisyonu sordun. İK o kadronun bu yıl açılmayacağını söyledi.",
+      "en": "You asked about the senior role. HR said it won't open this year.",
+      "coach": [
+        {
+          "tr": "Üst kat kapalı. Bu yıl.",
+          "en": "Upper floor: closed. For the year.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: İkna ettikçe nitelik artar. — M.",
+      "en": "WAGER: The more you convince them, the more overqualified you get. — M."
+    }
+  },
+  "intent": {
+    "setup": "mülakatta fazla nitelikli bulunmak",
+    "mechanism": "ikna çabası sorunu büyütüyor",
+    "mechanismId": "reversal",
+    "punch": "sıkılmayacağınızı kanıtlayın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cetvel"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

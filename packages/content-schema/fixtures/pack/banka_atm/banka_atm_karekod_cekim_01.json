@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_karekod_cekim_01",
+  "tags": [
+    "para",
+    "banka",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 85
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Kartınızı unuttunuz galiba. Makine bekliyor.",
+      "en": "I think you forgot your card. The machine's waiting."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Bu makineler kartsız çalışmaz ki.",
+      "en": "These machines don't work without a card, you know.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kod",
+      "tr": "Telefonu ekrana tut",
+      "en": "Hold your phone to the screen",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kart",
+      "tr": "Kartla, eski usul çek",
+      "en": "Use the card, the old way",
+      "pattern": "patience"
+    },
+    {
+      "id": "torun",
+      "tr": "Torunu görüntülü ara",
+      "en": "Video-call the grandkid",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "kod": [
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": -2
+          },
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "karekod_ustasi"
+            ]
+          }
+        },
+        "tr": "Makine kodu okudu, para çıktı. Arkadaki yabancı telefonunu çıkarıp nasıl yaptığını sordu.",
+        "en": "The machine read the code and paid out. The stranger behind you took out their phone and asked how.",
+        "coach": [
+          {
+            "tr": "Bugün ders veren taraf sendin.",
+            "en": "Today, you were the one teaching.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "karekod_denendi"
+            ]
+          }
+        },
+        "tr": "Kodun süresi, makine reklam gösterirken doldu. Telefon \"yeni kod oluşturun\" dedi.",
+        "en": "The code expired while the machine played an ad. Your phone said \"generate a new code.\"",
+        "coach": [
+          {
+            "tr": "Kod iki dakika yaşıyor. Reklam üç.",
+            "en": "The code lives two minutes. The ad runs three.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kart": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "karekod_ertelendi"
+          ]
+        }
+      },
+      "tr": "Kartla çektin. Toruna \"denedim\" diye mesaj attın; büyük ölçüde doğruydu.",
+      "en": "You used the card and texted your grandkid \"I tried,\" which was mostly true.",
+      "coach": [
+        {
+          "tr": "Mesaj gönderildi. Kısmen doğru.",
+          "en": "Message sent. Partly accurate.",
+          "roast": false
+        }
+      ]
+    },
+    "torun": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "karekod_torunla"
+          ]
+        }
+      },
+      "tr": "Torunun kameradan yönetti, sen tuşlara bastın. Sıradaki dört kişi canlı yayını sonuna kadar izledi.",
+      "en": "Your grandkid directed via camera; you pushed the buttons. The four people in line watched the whole broadcast.",
+      "coach": [
+        {
+          "tr": "Bir para çekimi, dört kişilik seyirci.",
+          "en": "One withdrawal, a four-person audience.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "torunun öğrettiği kartsız karekodlu para çekimini ilk kez tek başına denemek",
+    "mechanism": "sıradakiler izleyiciye dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "dört kişi canlı yayını izledi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "seyirci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

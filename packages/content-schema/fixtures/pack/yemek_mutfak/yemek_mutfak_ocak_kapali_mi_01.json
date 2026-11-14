@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_ocak_kapali_mi_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "iliski",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Ocağı kapattın mı? Kapattın. Değil mi? Kapattın.",
+      "en": "Did you turn off the stove? You did. Right? You did."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Otobüs beş dakikaya gelir. Eve dönersek yirmi dakika. Davete geç kalırız.",
+      "en": "The bus is five minutes out. Going back is twenty. We'll be late for lunch.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "don",
+      "tr": "Eve dön, bak",
+      "en": "Go back and check",
+      "pattern": "patience"
+    },
+    {
+      "id": "komsu",
+      "tr": "Komşuyu ara",
+      "en": "Call the neighbor",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "hatirla",
+      "tr": "Hatırlamaya çalış",
+      "en": "Try to remember",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "don": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "yemek_ocak_kontrolu"
+          ]
+        }
+      },
+      "tr": "Eve döndün, ocak kapalıydı. Davete yirmi beş dakika geç kaldınız, tatlıya yetiştiniz.",
+      "en": "You went back. The stove was off. You were twenty-five minutes late to lunch and right on time for dessert.",
+      "coach": [
+        {
+          "tr": "Ocak kapalı. Tatlı servisi açık.",
+          "en": "Stove: off. Dessert: served.",
+          "roast": false
+        }
+      ]
+    },
+    "komsu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yemek_komsuda_anahtar"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Komşu yedek anahtarla girip ocağın fotoğrafını attı: kapalı. Tencerenin kapağı da kapalıydı.",
+      "en": "The neighbor let themself in with the spare key and sent a photo: off. The pot lid was on too.",
+      "coach": [
+        {
+          "tr": "Bir fotoğraf, iki kapalı şey.",
+          "en": "One photo. Two things, both off.",
+          "roast": false
+        }
+      ]
+    },
+    "hatirla": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "yemek_ocak_hafizasi"
+            ]
+          }
+        },
+        "tr": "Hatırladın: kapattın, kapağı örttün, anahtarı aldın. Otobüse bindiniz.",
+        "en": "It came back to you: knob off, lid on, keys grabbed. You caught the bus.",
+        "coach": [
+          {
+            "tr": "Üç adım, sırasıyla.",
+            "en": "Three steps, in order.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "yemek_ocak_supheli"
+            ]
+          }
+        },
+        "tr": "Hatırladığın şey dünkü ocaktı. Öğle yemeği boyunca partnerin \"Kapattın, değil mi?\" diye fısıldadı.",
+        "en": "What you remembered was yesterday's stove. All through lunch, your partner kept whispering, \"You did, right?\"",
+        "coach": [
+          {
+            "tr": "Dünün ocağı bugüne yetmedi.",
+            "en": "Yesterday's stove didn't cover today.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "evden çıkınca ocağı kapatıp kapatmadığından emin olamamak",
+    "mechanism": "\"kapattın\" üç kez",
+    "mechanismId": "count",
+    "punch": "kapattın, değil mi, kapattın",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tatli"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

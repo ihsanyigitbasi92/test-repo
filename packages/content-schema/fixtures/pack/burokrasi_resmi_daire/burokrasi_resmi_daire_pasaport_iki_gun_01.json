@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_pasaport_iki_gun_01",
+  "tags": [
+    "burokrasi",
+    "pasaport",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Girişte pasaportun altı ay geçerli olması isteniyor. Sizinki beş ay yirmi sekiz gün.",
+      "en": "Entry requires six months' validity. Your passport has five months, twenty-eight days."
+    }
+  ],
+  "choices": [
+    {
+      "id": "acil",
+      "tr": "Acil yenileme iste",
+      "en": "Request an urgent renewal",
+      "pattern": "impulseSpend",
+      "check": {
+        "base": 4500
+      }
+    },
+    {
+      "id": "one_al",
+      "tr": "Tatili üç gün öne çek",
+      "en": "Move the trip three days earlier",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ertele",
+      "tr": "Tatili ertele",
+      "en": "Postpone the trip",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "acil": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "money": -950,
+          "flags": {
+            "add": [
+              "pasaport_yeni"
+            ]
+          }
+        },
+        "tr": "Acil harç 950 Para. Yeni pasaport uçuştan bir gün önce kuryeyle geldi.",
+        "en": "The urgent fee was 950. The new passport arrived by courier one day before the flight.",
+        "coach": [
+          {
+            "tr": "İki gün eksikti. Günü 475 Para'dan vakit aldın.",
+            "en": "Two days short. You bought time at 475 a day.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -950,
+          "flags": {
+            "add": [
+              "pasaport_yeni",
+              "tatil_kacti"
+            ]
+          }
+        },
+        "tr": "Harcı ödedin, pasaport uçuştan iki gün sonra çıktı. On yıl geçerli.",
+        "en": "You paid the fee. The passport was issued two days after the flight. It's valid for ten years.",
+        "coach": [
+          {
+            "tr": "Pasaport on yıl geçerli. Bilet dün bitti.",
+            "en": "The passport is good for ten years. The ticket was good until yesterday.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "one_al": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -280
+      },
+      "tr": "Bileti üç gün öne aldın, değişiklik ücreti 280 Para. Girişte pasaportun altı ay bir gün geçerliydi.",
+      "en": "You moved the flight up three days for a 280 change fee. At entry your passport had six months and one day.",
+      "coach": [
+        {
+          "tr": "Bir gün payla. Kapıdaki görevli de saydı.",
+          "en": "A margin of one day. The officer at the desk counted it too.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "tatil_ertelendi"
+          ]
+        }
+      },
+      "tr": "Tatili sonbahara erteledin, iptal kesintisi 150 Para. Pasaport çekmecede süresini doldurmaya devam ediyor.",
+      "en": "You pushed the trip to autumn and lost 150 to the cancellation fee. The passport goes on expiring in a drawer.",
+      "coach": [
+        {
+          "tr": "Çekmecede geçen günler de sayılıyor.",
+          "en": "Days in the drawer count too.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "acil",
+    "slip": {
+      "tr": "İDDİA: Pasaport uçuşa yetişmez. — M.",
+      "en": "WAGER: The passport misses the flight. — M."
+    }
+  },
+  "intent": {
+    "setup": "tatil öncesi pasaportun altı ay şartına iki gün eksik kalması",
+    "mechanism": "iki günlük eksik bütün planı belirliyor",
+    "mechanismId": "understatement",
+    "punch": "pasaport on yıl geçerli, bilet dün bitti",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "cekmece"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

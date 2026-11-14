@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cocuk_buyutme_ayakkabi_yarisi_01",
+  "tags": [
+    "ebeveynlik",
+    "ergen",
+    "para",
+    "birikim",
+    "cocuk_buyutme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "cocuk_buyutme": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 43,
+      "max": 55
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Ayakkabının yarısını biriktirdim. Dört ay sürdü. Kalan yarısı sende.",
+      "en": "I saved half for the sneakers. Took four months. The other half's on you."
+    },
+    {
+      "speaker": "child",
+      "avatar": "smug",
+      "tr": "Kumbarayı da getirdim. Bozukluklar sayıldı, iki kez.",
+      "en": "I brought the piggy bank. The coins have been counted. Twice.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Kalan yarısını ver",
+      "en": "Pay the other half",
+      "pattern": "generosity"
+    },
+    {
+      "id": "bekle",
+      "tr": "Kalanı da kendisi biriktirsin",
+      "en": "Let them save the rest too",
+      "pattern": "patience",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "uygun",
+      "tr": "Daha uygun bir model öner",
+      "en": "Suggest a cheaper pair",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ayakkabi_alindi"
+          ]
+        }
+      },
+      "tr": "Ayakkabı alındı. Kutusu rafta, ayakkabının kendisinden daha iyi korunuyor.",
+      "en": "The sneakers were bought. The box sits on a shelf, better protected than the shoes.",
+      "coach": [
+        {
+          "tr": "Dört ay birikim, bir öğleden sonra harcama, bir kutu müzede.",
+          "en": "Four months of saving, one afternoon of spending, one box in a museum.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ayakkabi_kendi_parasi"
+            ]
+          }
+        },
+        "tr": "Çocuğun iki ay daha biriktirdi ve ayakkabıyı kendisi aldı. Fişi çerçeveledi.",
+        "en": "Your kid saved for two more months and bought them solo. The receipt got framed.",
+        "coach": [
+          {
+            "tr": "Altı ay, tek alıcı.",
+            "en": "Six months. One buyer.",
+            "roast": false
+          },
+          {
+            "tr": "Bir hedef tamamlandı. Senin değil.",
+            "en": "A goal got completed. Not yours.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ayakkabi_tukendi"
+            ]
+          }
+        },
+        "tr": "İki ay sonra o model tükenmişti. Kumbara şimdi yeni bir hedef için yeniden sayılıyor.",
+        "en": "Two months later, that model had sold out. The piggy bank is being recounted for a new target.",
+        "coach": [
+          {
+            "tr": "Hedef tükendi. Birikim duruyor.",
+            "en": "The target sold out. The savings didn't.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "uygun": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ayakkabi_uygun"
+          ]
+        }
+      },
+      "tr": "Uygun model alındı. Çocuğun onu yalnızca yağmurlu günlerde giyiyor.",
+      "en": "The cheaper pair was bought. Your kid wears them only on rainy days.",
+      "coach": [
+        {
+          "tr": "Bütçe korundu. Ayakkabı yağmur ekibinde.",
+          "en": "Budget protected. The shoes joined the rain crew.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bekle",
+    "slip": {
+      "tr": "İDDİA: O model iki ay beklemez. — M.",
+      "en": "WAGER: That model won't wait two months. — M."
+    }
+  },
+  "intent": {
+    "setup": "ergen çocuğun ayakkabının yarısını biriktirip kalanını istemesi",
+    "mechanism": "ay, bozukluk ve kutu sayımı",
+    "mechanismId": "count",
+    "punch": "bozukluklar iki kez sayıldı",
+    "lift": "Bir hedef tamamlandı. Senin değil.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "muze"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

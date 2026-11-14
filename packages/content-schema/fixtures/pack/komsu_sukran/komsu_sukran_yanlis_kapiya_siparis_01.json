@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_yanlis_kapiya_siparis_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "yemek",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Senin yemeğin bana geldi canım. Kurye katı karıştırmış.",
+      "en": "Your dinner came to my door, dear. The courier mixed up the floors."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Çorba soğuyordu, yarısını içtim. Yarısını da sana sakladım.",
+      "en": "The soup was getting cold, so I had half. I saved you the other half.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "cat",
+      "avatar": "neutral",
+      "tr": "(Pamuk kâseyi kokladı, sonra Şükran Teyze'ye baktı.)",
+      "en": "(Biscuit sniffed the bowl, then looked at Mrs. Dale.)",
+      "delayMs": 400,
+      "when": {
+        "npc": {
+          "cat": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Yarım çorbayı al",
+      "en": "Take the half soup",
+      "pattern": "patience"
+    },
+    {
+      "id": "birlikte",
+      "tr": "Kalanı birlikte için",
+      "en": "Finish it together",
+      "pattern": "generosity"
+    },
+    {
+      "id": "yeniden",
+      "tr": "Yeniden sipariş ver",
+      "en": "Order again",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "sukran_corba"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2,
+            "memory": "corba_paylasti"
+          }
+        ]
+      },
+      "tr": "Yarım çorbayı aldın. Şükran Teyze kuryeye senin adına yorum yazdırdı: \"Kat yanlış, çorba iyi.\"",
+      "en": "You took the half soup. Mrs. Dale had you leave the courier a review: 'Wrong floor. Good soup.'",
+      "coach": [
+        {
+          "tr": "Yarım porsiyon, tam yorum.",
+          "en": "Half a portion, full review.",
+          "roast": false
+        }
+      ]
+    },
+    "birlikte": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "sukranla_aksam_yemegi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 5,
+            "memory": "birlikte_yedi"
+          }
+        ]
+      },
+      "tr": "Kalanı onun mutfağında birlikte içtiniz. Şükran Teyze çorbanın tuzunu senin yerine şikâyet etti.",
+      "en": "You finished it together in her kitchen. Mrs. Dale complained about the salt on your behalf.",
+      "coach": [
+        {
+          "tr": "Yarım çorba, iki kişi. Akşam yemeği çözüldü.",
+          "en": "Half a soup, two people. Dinner solved.",
+          "roast": false
+        }
+      ]
+    },
+    "yeniden": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -180,
+        "flags": {
+          "add": [
+            "ikinci_siparis"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Yeniden sipariş verdin, 180 Para. İkinci kurye de onun kapısını çaldı.",
+      "en": "You ordered again: 180. The second courier also knocked on her door.",
+      "coach": [
+        {
+          "tr": "Yanlış kapı, iki sipariş. Komşunun akşamı zengin.",
+          "en": "Wrong door, twice. Mrs. Dale is eating well tonight.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "yemek siparişin komşuya gitti, çorbanın yarısını içmiş",
+    "mechanism": "yarısını içmek iyilik olarak sunuluyor",
+    "mechanismId": "understatement",
+    "punch": "yarısını da sana sakladım",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "porsiyon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

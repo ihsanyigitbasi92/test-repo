@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_ceyrek_depo_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 38
+    },
+    "dayOfMonth": {
+      "min": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "any": [
+        "araba_var",
+        "car",
+        "araba"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Depo çeyrekte. Maaşa dört gün var. İşe gidip gelmek, bir de cumartesi annenler.",
+      "en": "Tank's at a quarter. Four days to payday. The commute, plus your mom's on Saturday."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Komşu klimayı kapatırsan yeter diyor. Komşunun arabası yok.",
+      "en": "The neighbor says it'll stretch if you turn off the AC. The neighbor doesn't have a car.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "planla",
+      "tr": "Rotaları hesapla, yetir",
+      "en": "Plan the routes, make it last",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "otobus",
+      "tr": "Dört gün otobüse bin",
+      "en": "Take the bus for four days",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "yakit",
+      "tr": "Karttan 500'lük yakıt al",
+      "en": "Put 500 of fuel on the card",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "planla": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "butce_rota_plani"
+            ]
+          }
+        },
+        "tr": "Rotaları hesapladın, işleri eve dönüş yoluna dizdin. Maaş günü ibre kırmızının bir parmak üstündeydi.",
+        "en": "You planned the routes and moved errands onto the way home. Payday arrived with the needle one finger above red.",
+        "coach": [
+          {
+            "tr": "Bir parmak pay. Hesap tuttu.",
+            "en": "One finger of margin. The math held.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -250,
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "joy": -2
+          }
+        },
+        "tr": "Üçüncü gün yakıt ışığı yandı. Annene giderken yolda 250'lik yakıt aldın.",
+        "en": "The fuel light came on day three. You put in 250 on the way to your mom's.",
+        "coach": [
+          {
+            "tr": "Senin hesabın doğruydu. Işığınki daha hızlıydı.",
+            "en": "Your math was right. The fuel light's was faster.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "otobus": {
+      "effects": {
+        "money": -80,
+        "stats": {
+          "joy": -1,
+          "health": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Dört gün otobüse bindin, 80 Para. Araba otoparkta dinlendi, depo çeyrekte kaldı.",
+      "en": "Four days on the bus: eighty. The car rested in the lot. The tank stayed at a quarter.",
+      "coach": [
+        {
+          "tr": "Çeyrek depo, sıfır kilometre.",
+          "en": "Quarter tank. Zero miles.",
+          "roast": false
+        }
+      ]
+    },
+    "yakit": {
+      "effects": {
+        "hidden": {
+          "stress": -2
+        },
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "butce_kart_yakit"
+          ]
+        }
+      },
+      "tr": "500'lük yakıtı karta yazdın, depo doldu. Ekstre bir sonraki ayın ilk sürprizi olacak.",
+      "en": "Five hundred of fuel on the card. Full tank. The statement will be next month's first surprise.",
+      "coach": [
+        {
+          "tr": "Gelecek ay şimdiden başladı.",
+          "en": "Next month has already started.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "planla",
+    "slip": {
+      "tr": "İDDİA: Çeyrek depo dört günü çıkarmaz. — M.",
+      "en": "WAGER: A quarter tank won't cover four days. — M."
+    }
+  },
+  "intent": {
+    "setup": "maaşa dört gün kala arabanın deposunun çeyrekte olması",
+    "mechanism": "komşunun yakıt tavsiyesi arabası olmayan birinden",
+    "mechanismId": "count",
+    "punch": "komşunun arabası yok",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "isik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

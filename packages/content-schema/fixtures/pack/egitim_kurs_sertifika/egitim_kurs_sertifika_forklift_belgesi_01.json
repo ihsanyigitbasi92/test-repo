@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_kurs_sertifika_forklift_belgesi_01",
+  "tags": [
+    "egitim",
+    "kurs",
+    "sinav",
+    "egitim_kurs_sertifika"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_kurs_sertifika": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Pratik sınav: üç paleti üst üste dizeceksin. Raf sallanırsa sınav biter.",
+      "en": "Practical exam: stack three pallets. If the rack wobbles, the exam's over."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Süre dört dakika. Kronometre bende.",
+      "en": "You have four minutes. I'm holding the stopwatch.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yavas",
+      "tr": "Ağır ağır, santim santim",
+      "en": "Slow, inch by inch",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "hizli",
+      "tr": "Süreyi yenmek için hızlı git",
+      "en": "Go fast, beat the clock",
+      "pattern": "risk"
+    },
+    {
+      "id": "tekrar",
+      "tr": "Bir hafta daha pratik al",
+      "en": "Book another practice week",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yavas": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "forklift_belgesi"
+            ]
+          }
+        },
+        "tr": "Üç palet, sıfır sallantı. Belge iki hafta içinde postada.",
+        "en": "Three pallets, zero wobble. Certificate in the mail within two weeks.",
+        "coach": [
+          {
+            "tr": "Üç palet dik. Sınav görevlisi bile dik durmuyordu.",
+            "en": "Three pallets upright. More upright than the examiner.",
+            "roast": true
+          },
+          {
+            "tr": "Belge sayacı: bir.",
+            "en": "Certificates: one.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "money": -300,
+          "flags": {
+            "add": [
+              "forklift_tekrar"
+            ]
+          }
+        },
+        "tr": "Üçüncü palette süre doldu. Raf sağlam; sınav ücreti yeniden ödenecek: 300 Para.",
+        "en": "Time ran out on pallet three. The rack survived. Retake fee: 300.",
+        "coach": [
+          {
+            "tr": "Raf ayakta kaldı. Süre kalmadı.",
+            "en": "The rack held. The clock didn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hizli": {
+      "effects": {
+        "meters": {
+          "cringe": 4
+        },
+        "money": -300,
+        "flags": {
+          "add": [
+            "forklift_tekrar"
+          ]
+        }
+      },
+      "tr": "Hızlı girdin; ikinci palet rafa sürtündü. Görevli formu ikiye katladı.",
+      "en": "You went in fast. Pallet two grazed the rack. The examiner folded your form in half.",
+      "coach": [
+        {
+          "tr": "Bir dakika kazandın. Formun yarısı gitti.",
+          "en": "You saved a minute. Half the form went with it.",
+          "roast": true
+        }
+      ]
+    },
+    "tekrar": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "forklift_pratik"
+          ]
+        }
+      },
+      "tr": "Bir hafta daha pratik aldın: 400 Para. Görevli seni artık 'yavaş olan' diye çağırıyor.",
+      "en": "Another practice week: 400. The staff now call you 'the slow one.'",
+      "coach": [
+        {
+          "tr": "Ek hafta, ek ücret. Paletler aynı paletler.",
+          "en": "Extra week, extra fee. Same pallets.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yavas",
+    "slip": {
+      "tr": "İDDİA: Raf üçüncü paleti kabul etmez. — M.",
+      "en": "WAGER: The rack rejects pallet three. — M."
+    }
+  },
+  "intent": {
+    "setup": "forklift operatör belgesi pratik sınavı",
+    "mechanism": "sallanan raf ile dört dakikalık süre çatışır",
+    "mechanismId": "reversal",
+    "punch": "raf ayakta, süre değil",
+    "lift": "Belge sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "raf"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

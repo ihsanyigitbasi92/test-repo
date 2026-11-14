@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "gec_ask_yalnizlik_hoparlordeki_anne_01",
+  "tags": [
+    "iliski",
+    "gec_ask_yalnizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "gec_ask_yalnizlik": 15
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": false
+      }
+    },
+    "flags": {
+      "none": [
+        "hoparlor_anne"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "bulusma",
+      "tr": "İlk buluşmanın yirminci dakikası. Karşındakinin telefonu çaldı; ekranda 'Annem' yazıyor.",
+      "en": "Twenty minutes into a first date. Their phone rings. The screen says 'Mom.'"
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Açmazsam komşuyu yollar. Ciddiyim.",
+      "en": "If I don't pick up, she sends the neighbor. I'm serious."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Hoparlöre alıyorum. Anne, karşımda oturuyor, merhaba de.",
+      "en": "Putting you on speaker. Mom, they're sitting right here. Say hi.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "cevap",
+      "tr": "Annenin sorularını yanıtla",
+      "en": "Field the mom's questions",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sessiz",
+      "tr": "Gülümse, sessiz kal",
+      "en": "Smile and say nothing",
+      "pattern": "patience"
+    },
+    {
+      "id": "sen_de",
+      "tr": "Sen de anneni ara",
+      "en": "Call your own mom",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "cevap": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "charm": 1
+          },
+          "flags": {
+            "add": [
+              "hoparlor_anne",
+              "flort"
+            ]
+          }
+        },
+        "tr": "Anne yedi soru sordu, yedisini de yanıtladın. Telefonu kapatırken \"Pazar yemeğe gelsin\" dedi.",
+        "en": "The mom asked seven questions; you answered all seven. As she hung up: \"Bring them to Sunday dinner.\"",
+        "coach": [
+          {
+            "tr": "Pazar yemeği takvimde.",
+            "en": "Sunday dinner, booked.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "meters": {
+            "cringe": 5
+          },
+          "flags": {
+            "add": [
+              "hoparlor_anne"
+            ]
+          }
+        },
+        "tr": "Üçüncü soruda duraksadın; anne \"Peki\" dedi ve konuyu hava durumuna çevirdi. Buluşma tatlıdan önce bitti.",
+        "en": "You hesitated on question three. The mom said, \"I see,\" and switched to the weather. The date ended before dessert.",
+        "coach": [
+          {
+            "tr": "Tatlı gelmedi.",
+            "en": "Dessert never came.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sessiz": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "hoparlor_anne"
+          ]
+        }
+      },
+      "tr": "On iki dakika sessizce gülümsedin. Sonunda anne \"Sakin biri, iyi\" dedi.",
+      "en": "You smiled silently for twelve minutes. Finally the mom said, \"Quiet one. Good.\"",
+      "coach": [
+        {
+          "tr": "On iki dakika, bir onay.",
+          "en": "Twelve minutes. One approval.",
+          "roast": false
+        }
+      ]
+    },
+    "sen_de": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "hoparlor_anne"
+          ]
+        }
+      },
+      "tr": "Annen ilk çalışta açtı. Masada iki telefon hoparlörde, iki anne birbirine tarif verdi.",
+      "en": "Your mom picked up on the first ring. Two phones on speaker, two moms swapping recipes across the table.",
+      "coach": [
+        {
+          "tr": "Buluşma yönetime devredildi.",
+          "en": "The date has been handed over to management.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cevap",
+    "slip": {
+      "tr": "İDDİA: Hoparlördeki anne ikna olmaz. — M.",
+      "en": "WAGER: The mom on speaker won't be sold. — M."
+    }
+  },
+  "intent": {
+    "setup": "ilk buluşmada karşındakinin annesini arayıp seni hoparlörden tanıştırması",
+    "mechanism": "telefon görüşmesi masaya yerleşip mülakata dönüşüyor",
+    "mechanismId": "escalation",
+    "punch": "Anne, karşımda oturuyor, merhaba de",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "hoparlor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

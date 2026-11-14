@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_boilertech_makine_arkasi_01",
+  "tags": [
+    "kariyer",
+    "kombi",
+    "kariyer_boilertech"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_boilertech": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "boilerTech"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Kombi çamaşır makinesinin arkasında. Makine biraz ağır, su hortumu da kısa.",
+      "en": "The boiler's behind the washing machine. The machine's a bit heavy, and the hose is short."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Geçen usta tavan kapağından girmişti. Bilmem işinize yarar mı.",
+      "en": "The last technician went in through the ceiling hatch. If that helps.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cek",
+      "tr": "Makineyi tek başına çek",
+      "en": "Drag the machine out alone",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "yardim",
+      "tr": "Komşudan yardım iste",
+      "en": "Get the neighbor to help",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tavan",
+      "tr": "Tavandan uzan",
+      "en": "Reach in from the ceiling",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "cek": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": -1
+          },
+          "money": 400
+        },
+        "tr": "Makineyi çekip kombiye ulaştın. Arıza yirmi dakikada çözüldü, 400 Para.",
+        "en": "You pulled the machine out and got to the boiler. Fixed in twenty minutes: 400.",
+        "coach": [
+          {
+            "tr": "Çamaşır makinesi yerinden oynadı, sırtın oynamadı. Bugünlük beraberlik.",
+            "en": "The washing machine moved. Your back didn't. Call it a draw.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": -2,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": 200
+        },
+        "tr": "Makineyi çekerken hortum çıktı, mutfağa su yayıldı. Ücretin yarısı kurulama payına gitti.",
+        "en": "The hose popped off as you pulled, and water spread across the kitchen. Half your fee went to the cleanup.",
+        "coach": [
+          {
+            "tr": "Kombi tamir, mutfak yüzme havuzu. Hizmet yelpazesi genişledi.",
+            "en": "Boiler fixed, kitchen converted to a pool. The service menu is expanding.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yardim": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": 400,
+        "flags": {
+          "add": [
+            "kombi_komsu_borcu"
+          ]
+        }
+      },
+      "tr": "Alt kattaki komşu geldi; makineyi birlikte çektiniz. Karşılığında kendi kombisine bakmanı istedi.",
+      "en": "The downstairs neighbor came up and you moved the machine together. In return, they want you to look at their boiler.",
+      "coach": [
+        {
+          "tr": "Bir saatlik yardım, bir kombi borcu. Komşuluk faiziyle işliyor.",
+          "en": "One hour of help, one boiler owed. Neighborliness charges interest.",
+          "roast": true
+        }
+      ]
+    },
+    "tavan": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 1
+        },
+        "money": 400,
+        "flags": {
+          "add": [
+            "kombi_tavan_tornavidasi"
+          ]
+        }
+      },
+      "tr": "Tavan kapağından uzanarak tamir ettin. Tavanda önceki ustanın unuttuğu tornavidayı buldun.",
+      "en": "You fixed it reaching down through the ceiling hatch. Up there you found the screwdriver the last technician left.",
+      "coach": [
+        {
+          "tr": "Tavandan tamir, hediye tornavida. Önceki usta yolu açmış.",
+          "en": "Fixed from the ceiling, free screwdriver. Your predecessor blazed the trail.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cek",
+    "slip": {
+      "tr": "İDDİA: Makine kımıldar, hortum yerinde kalmaz. — M.",
+      "en": "WAGER: The machine moves. The hose doesn't stay put. — M."
+    }
+  },
+  "intent": {
+    "setup": "kombi dolapta, çamaşır makinesinin arkasında; makineyi çekmek gerek",
+    "mechanism": "ulaşmanın bedeli",
+    "mechanismId": "escalation",
+    "punch": "mutfak yüzme havuzu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "havuz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

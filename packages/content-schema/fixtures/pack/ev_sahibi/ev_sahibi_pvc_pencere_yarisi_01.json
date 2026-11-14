@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_pvc_pencere_yarisi_01",
+  "tags": [
+    "ev",
+    "tamir",
+    "kis",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Pencereler esiyor, haklısın. Yarısını sen öde, yarısını ben, yenisini taktıralım.",
+      "en": "The windows are drafty, you're right. You pay half, I pay half, we put in new ones."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Taşınırken pencereler tabii kalır. Evin parçası olurlar.",
+      "en": "When you move out, the windows stay, of course. They become part of the flat.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Yarısını öde",
+      "en": "Pay half",
+      "pattern": "generosity"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Payını kiradan düşmesini iste",
+      "en": "Ask to take your half off the rent",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "perde",
+      "tr": "Kalın perde as, konuyu kapat",
+      "en": "Hang heavy curtains, drop it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "health": 2
+        },
+        "money": -2500,
+        "flags": {
+          "add": [
+            "yeni_pencere"
+          ]
+        }
+      },
+      "tr": "Payın 2.500 Para. Kış boyunca kombi az çalıştı, pencereler ise sözleşme gereği ev sahibinin.",
+      "en": "Your share: 2,500. The boiler barely ran all winter. The windows, per the lease, belong to the landlord.",
+      "coach": [
+        {
+          "tr": "Sıcak bir kış. Pencereler kirada.",
+          "en": "A warm winter. The windows are rented.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "health": 2
+          },
+          "status": {
+            "rentDelta": -250
+          },
+          "flags": {
+            "add": [
+              "yeni_pencere",
+              "pencere_mahsup"
+            ]
+          }
+        },
+        "tr": "Ev sahibi payını on aya bölüp kiradan düşmeyi kabul etti. Pencereler takıldı.",
+        "en": "The landlord agreed to spread your share over ten months of rent. New windows in.",
+        "coach": [
+          {
+            "tr": "Kira pencereyi ödüyor. Pencere seni koruyor.",
+            "en": "The rent pays for the windows. The windows keep you warm.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "health": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -2500,
+          "flags": {
+            "add": [
+              "yeni_pencere"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"o zaman pencereyi ben almış olurum\" dedi. Yarısını ödedin.",
+        "en": "\"Then I'd be the one paying for the windows,\" said the landlord. You paid half.",
+        "coach": [
+          {
+            "tr": "Mantık sağlam. Senin aleyhine.",
+            "en": "Airtight logic. Against you.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "perde": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "kalin_perde"
+          ]
+        }
+      },
+      "tr": "400 Para'ya kalın perde aldın. Perde rüzgârda hâlâ hafifçe dalgalanıyor.",
+      "en": "You bought heavy curtains for 400. They still ripple gently in the breeze.",
+      "coach": [
+        {
+          "tr": "Perde de cereyanı duyuyor.",
+          "en": "Even the curtains can feel the draft.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Payın kiradan düşmez. — M.",
+      "en": "WAGER: Your half won't come off the rent. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibinin yeni pencere masrafının yarısını kiracıdan istemesi, pencereler evde kalacak",
+    "mechanism": "kiracı ödüyor, mülk ev sahibinde kalıyor",
+    "mechanismId": "reversal",
+    "punch": "pencereler kalır, evin parçası olurlar",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pencere"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

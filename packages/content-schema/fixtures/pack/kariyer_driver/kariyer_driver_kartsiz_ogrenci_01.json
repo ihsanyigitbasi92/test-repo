@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_kartsiz_ogrenci_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Öğrenciyim, kartım yurtta kaldı. Yüzümden belli değil mi?",
+      "en": "The app says my student discount expired. You could just end the trip two blocks early."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Arkadakiler şahit, sabah da binmiştim.",
+      "en": "Everyone does it. The last driver did it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "indirimli",
+      "tr": "İndirimli al",
+      "en": "Give the discount",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tam",
+      "tr": "Kart yoksa tam de",
+      "en": "No discount, full fare",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "benden",
+      "tr": "Bugünlük benden olsun",
+      "en": "This one's on me",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "indirimli": {
+      "effects": {
+        "money": -15,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "İndirimli aldın. Arka sıradan üç kişi daha öğrenci olduğunu hatırladı.",
+      "en": "You ended the trip two blocks early. Their friend booked the next ride and opened with the same request.",
+      "coach": [
+        {
+          "tr": "Öğrenci sayısı bir cümlede dörde çıktı.",
+          "en": "The discount now has a waiting list.",
+          "roast": false
+        }
+      ]
+    },
+    "tam": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 1
+          }
+        },
+        "tr": "'Kart yoksa tam' dedin. Yolcu çantasının dibinden kartı çıkardı, gerçekten öğrenciymiş.",
+        "en": "You said full fare. The rider dug a valid student ID out of their bag. The discount was real and the app was wrong.",
+        "coach": [
+          {
+            "tr": "Kart çantanın dibindeymiş. Yüz doğru söylemiş.",
+            "en": "The ID was at the bottom of the bag. The face had been telling the truth.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "sofor_ucret_sikayeti"
+            ]
+          }
+        },
+        "tr": "'Kart yoksa tam' dedin. Yolcu tam ödedi, inerken sürgülü kapıyı gereğinden hızlı çekti.",
+        "en": "You said full fare. They paid it, shut the door harder than doors need, and left one star.",
+        "coach": [
+          {
+            "tr": "Tam ücret alındı. Kapı da tam kapandı.",
+            "en": "Full fare collected. Door fully closed.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "benden": {
+      "effects": {
+        "money": -15,
+        "stats": {
+          "joy": 2
+        }
+      },
+      "tr": "Ücreti almadın. Yolcu inerken çantasından bir simit bırakıp gitti.",
+      "en": "You waved the difference. On the way out they left a granola bar on the seat.",
+      "coach": [
+        {
+          "tr": "Bir simit. Günün kârı susamlı.",
+          "en": "One granola bar. Today's profit is chewy.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tam",
+    "slip": {
+      "tr": "İDDİA: Kart çantadan çıkmaz. — M.",
+      "en": "WAGER: No ID turns up. — M."
+    }
+  },
+  "intent": {
+    "setup": "yolcu öğrenci kartı yanında olmadan indirimli tarife istiyor",
+    "mechanism": "kanıt olarak yüz gösteriliyor",
+    "mechanismId": "understatement",
+    "punch": "yüzümden belli değil mi",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "simit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. TR dolmuşta kartsız öğrenci tarifesi isteyen yolcu; EN süresi dolmuş öğrenci indirimi için yolculuğu erken bitirtmek isteyen yolcu. Uygulama/şirket/marka adı yok."
+  }
+}

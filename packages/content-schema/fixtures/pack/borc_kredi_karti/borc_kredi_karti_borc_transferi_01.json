@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_borc_transferi_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "kampanya",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Borcunuzu bize taşıyın, altı ay boyunca ek maliyet yok.",
+      "en": "Move your balance to us and there's no extra cost for six months."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Yedinci ay ise... yedinci ay.",
+      "en": "And month seven is... month seven.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasi",
+      "tr": "Taşı, altı ayda kapat",
+      "en": "Transfer it, clear it in six months",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Borcu yerinde bırak",
+      "en": "Leave the balance where it is",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "ikisi",
+      "tr": "Taşı, eski kartı da kullan",
+      "en": "Transfer, keep using the old card",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "tasi": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1800,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "borc_transferi_kapandi"
+            ],
+            "remove": [
+              "kredi_karti_borcu"
+            ]
+          }
+        },
+        "tr": "Altı ayın sonunda bakiye sıfırlandı. Yedinci ay hiç gelmedi.",
+        "en": "By the end of month six, the balance hit zero. Month seven never came.",
+        "coach": [
+          {
+            "tr": "Altı ay, sıfır bakiye.",
+            "en": "Six months. Zero balance.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -900,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "borc_transferi"
+            ]
+          }
+        },
+        "tr": "Altıncı ayın sonunda bakiyenin üçte biri kaldı. Yedinci ay geldi, maliyetiyle birlikte.",
+        "en": "At the end of month six, a third of the balance remained. Month seven arrived, costs attached.",
+        "coach": [
+          {
+            "tr": "Yedinci ay geldi. Söylendiği gibi.",
+            "en": "Month seven arrived. As advertised.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "glossary": "borc_transferi",
+        "flags": {
+          "add": [
+            "transfer_reddi"
+          ]
+        }
+      },
+      "tr": "Teklif reddedildi. Borç eski yerinde, eski düzeninde.",
+      "en": "Offer declined. The debt stays put, on its usual schedule.",
+      "coach": [
+        {
+          "tr": "Hiçbir şey değişmedi. Bilerek.",
+          "en": "Nothing changed. On purpose.",
+          "roast": false
+        }
+      ]
+    },
+    "ikisi": {
+      "effects": {
+        "money": -1200,
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "iki_kart_borcu",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Borç yeni karta taşındı. Eski kartın boşalan limiti de kısa sürede yeniden doldu.",
+      "en": "The balance moved to the new card. The old card's freed-up limit filled right back up.",
+      "coach": [
+        {
+          "tr": "İki ekstre. İkisi de dolu.",
+          "en": "Two statements. Both full.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tasi",
+    "slip": {
+      "tr": "İDDİA: Yedinci ay gelir. — M.",
+      "en": "WAGER: Month seven shows up. — M."
+    }
+  },
+  "intent": {
+    "setup": "başka bankanın 'kart borcunu bize taşı, altı ay ek maliyet yok' teklifi",
+    "mechanism": "bankacının yedinci ayı söylemeden söylemesi",
+    "mechanismId": "understatement",
+    "punch": "yedinci ay ise... yedinci ay",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yedinci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

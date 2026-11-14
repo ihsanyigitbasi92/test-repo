@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ayrilik_ilk_cumartesi_01",
+  "tags": [
+    "iliski",
+    "ayrilik_sonrasi",
+    "ayrilik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 2000,
+    "tags": {
+      "ayrilik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "ayrildi"
+      ],
+      "none": [
+        "ayrilik_sonrasi_cikis"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Üç cumartesidir aynı battaniyenin altındasın. Battaniye bile dışarı çıkmak istiyor.",
+      "en": "Three Saturdays under the same blanket. Even the blanket wants to go out."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Ceketini getirdim. İtiraz kabul etmiyorum, ceket de etmiyor.",
+      "en": "I brought your jacket. I'm not taking objections. Neither is the jacket.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cik",
+      "tr": "Ceketi giy, çık",
+      "en": "Put the jacket on, go",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "saat",
+      "tr": "Bir saatliğine çık",
+      "en": "Go, but just for an hour",
+      "pattern": "patience"
+    },
+    {
+      "id": "kal",
+      "tr": "Battaniyede kal",
+      "en": "Stay under the blanket",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": 6
+        },
+        "money": -120,
+        "flags": {
+          "add": [
+            "ayrilik_sonrasi_cikis"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Sahilde yürüdünüz, dürüm yediniz. Gece yarısı eve döndün, 120 Para eksik.",
+      "en": "You walked by the water and ate wraps. Home by midnight, 120 lighter.",
+      "coach": [
+        {
+          "tr": "Battaniye bu gece izinli. Ona da iyi gelir.",
+          "en": "The blanket gets the night off. Good for it too.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacı kıpırdadı.",
+          "en": "The goal meter twitched.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "saat": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -40,
+        "flags": {
+          "add": [
+            "ayrilik_sonrasi_cikis"
+          ]
+        }
+      },
+      "tr": "Bir saat dedin, üç saat oldu. Dönüşte ev arkadaşın hiçbir şey demedi.",
+      "en": "You said an hour. It turned into three. Your roommate said nothing on the way home.",
+      "coach": [
+        {
+          "tr": "Bir saat dedin. Saat seni dinlemedi.",
+          "en": "You said one hour. The clock didn't hear you.",
+          "roast": true
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Battaniyede kaldın. Ev arkadaşın ceketi kapı koluna asıp tek başına çıktı.",
+      "en": "You stayed under the blanket. Your roommate hung the jacket on the doorknob and went alone.",
+      "coach": [
+        {
+          "tr": "Ceket kapıda bekliyor. Acelesi yok.",
+          "en": "The jacket's waiting on the doorknob. It's in no hurry.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ayrılıktan haftalar sonra ev arkadaşının cumartesi seni zorla dışarı çıkarması",
+    "mechanism": "battaniye ve ceket kendi fikri olan eşyalara dönüşüyor",
+    "mechanismId": "literalism",
+    "punch": "battaniye bile dışarı çıkmak istiyor",
+    "lift": "hedef açıksa tek satır",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ceket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

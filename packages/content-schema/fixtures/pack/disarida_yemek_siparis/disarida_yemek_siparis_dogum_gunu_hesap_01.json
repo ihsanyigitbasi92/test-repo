@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_dogum_gunu_hesap_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "restoran",
+    "dogum_gunu",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Hesabı doğum günü sahibine getirdim. Rezervasyon sizin adınıza.",
+      "en": "I've brought the check to the birthday guest. The reservation's in your name."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Pasta kesim ücreti de var. Pastayı siz getirdiniz ama.",
+      "en": "There's also a cake-cutting fee. Even though you brought the cake.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Hepsini öde",
+      "en": "Pay the whole thing",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "bol",
+      "tr": "Hesabı masaya uzat",
+      "en": "Pass the check down the table",
+      "pattern": "patience"
+    },
+    {
+      "id": "ucret",
+      "tr": "Kesim ücretine itiraz et",
+      "en": "Dispute the cutting fee",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "money": -1400,
+        "flags": {
+          "add": [
+            "siparis_dogum_gunu_odedi"
+          ]
+        }
+      },
+      "tr": "1.400 Para ödedin. Masadakiler mumları üflerken çektikleri videoyu paylaştı.",
+      "en": "You paid 1,400. The table posted their video of you blowing out the candles.",
+      "coach": [
+        {
+          "tr": "Bir doğum günü, dokuz misafir, tek kart.",
+          "en": "One birthday, nine guests, one card.",
+          "roast": false
+        }
+      ]
+    },
+    "bol": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -160,
+        "flags": {
+          "add": [
+            "siparis_dogum_gunu_bolusuldu"
+          ]
+        }
+      },
+      "tr": "Hesap elden ele dolaştı, herkes payını koydu. Senin payın 160 Para, pasta dahil.",
+      "en": "The check went around and everyone chipped in. Your part was 160, cake included.",
+      "coach": [
+        {
+          "tr": "Hesap masayı dolaştı. Tam döndü.",
+          "en": "The check toured the table. It came back complete.",
+          "roast": false
+        }
+      ]
+    },
+    "ucret": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": -150,
+          "flags": {
+            "add": [
+              "siparis_dogum_gunu_bolusuldu"
+            ]
+          }
+        },
+        "tr": "Kesim ücreti silindi, kalan bölüşüldü. Payın 150 Para.",
+        "en": "The cutting fee was dropped and the rest was split. You owed 150.",
+        "coach": [
+          {
+            "tr": "Bıçak onların, pasta senin. Ücret geri çekildi.",
+            "en": "Their knife, your cake. The fee withdrew.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "money": -170,
+          "flags": {
+            "add": [
+              "siparis_dogum_gunu_bolusuldu"
+            ]
+          }
+        },
+        "tr": "Ücret kaldı: dilim başı 10 Para. Kalan bölüşüldü, payın 170.",
+        "en": "The fee stood, at ten per slice. The rest was split, and you owed 170.",
+        "coach": [
+          {
+            "tr": "Dilim başı on Para. Pastaya soran olmadı.",
+            "en": "Ten per slice. Nobody consulted the cake.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "kendi doğum günü yemeğinde hesabın sana getirilmesi",
+    "mechanism": "hesap sana geliyor, üstüne kendi pastan için kesim ücreti ekleniyor",
+    "mechanismId": "escalation",
+    "punch": "pasta kesim ücreti var, pastayı siz getirdiniz ama",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dilim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

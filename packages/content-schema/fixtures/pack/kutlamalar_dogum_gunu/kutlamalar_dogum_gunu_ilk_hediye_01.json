@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kutlamalar_dogum_gunu_ilk_hediye_01",
+  "tags": [
+    "sosyal",
+    "dogum_gunu",
+    "kutlamalar_dogum_gunu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "kutlamalar_dogum_gunu": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Partnerinle ilk doğum günü. Ne kadar pahalı bir hediyenin \"fazla\" kaçtığını kimse bilmiyor.",
+      "en": "First birthday together. Nobody knows how expensive counts as 'too much.'"
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Bir şey alma. Ya da küçük bir şey. Ama düşünülmüş olsun.",
+      "en": "Don't get me anything. Or something small. But thoughtful."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Küçük ama büyük düşünülmüş.",
+      "en": "Small, but big on thought.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "elyapimi",
+      "tr": "Kendin yap",
+      "en": "Make something yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "pahali",
+      "tr": "Pahalısını al",
+      "en": "Buy the expensive one",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kitap",
+      "tr": "Küçük bir şey: kitap",
+      "en": "Something small: a book",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "elyapimi": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -80,
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 6
+            }
+          ],
+          "flags": {
+            "add": [
+              "elyapimi_hediye"
+            ]
+          }
+        },
+        "tr": "Ortak fotoğraflarınızdan bir takvim yaptın. Partnerin onu duvara değil masasına koydu.",
+        "en": "You made a calendar from your photos together. Your partner put it on their desk, not the wall.",
+        "coach": [
+          {
+            "tr": "Küçük ve düşünülmüş. Şartname karşılandı.",
+            "en": "Small. Thoughtful. Brief fulfilled.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -80,
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 4
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Takvimde şubat otuz gün çıktı. Partnerin yine de astı, şubatı katlayarak.",
+        "en": "The calendar gave February thirty days. Your partner hung it anyway, with February folded under.",
+        "coach": [
+          {
+            "tr": "Şubat katlandı. Takvim duvarda.",
+            "en": "February's folded. The calendar's up.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "pahali": {
+      "effects": {
+        "money": -1200,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Pahalı saati aldın. Partnerin \"bu çok fazla\" dedi, sonra bir ay boyunca her gün taktı.",
+      "en": "You bought the pricey watch. Your partner said 'this is too much,' then wore it every day for a month.",
+      "coach": [
+        {
+          "tr": "Fazlaydı. Her gün takıldı.",
+          "en": "Too much. Worn daily.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacı: eksi 1.200.",
+          "en": "Goal meter: minus 1,200.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kitap": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Bir kitap alıp ilk sayfasına iki satır yazdın. Partnerin kitaba başlamadan o iki satırı üç kez okudu.",
+      "en": "You bought a book and wrote two lines inside the cover. Your partner read the two lines three times before starting the book.",
+      "coach": [
+        {
+          "tr": "İki satır. Kitabın en çok okunan yeri.",
+          "en": "Two lines. The most-read part of the book.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "elyapimi",
+    "slip": {
+      "tr": "İDDİA: El yapımı olan eğri çıkar. — M.",
+      "en": "WAGER: The homemade one comes out crooked. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerle ilk doğum gününde hediyenin ne kadarının fazla kaçacağını bilememek",
+    "mechanism": "küçük ama büyük düşünülmüş talimatı harfiyen",
+    "mechanismId": "literalism",
+    "punch": "küçük ama büyük düşünülmüş",
+    "lift": "Hedef sayacı: eksi 1.200.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "subat"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_academic_yolluk_iadesi_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "evrak",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "MUHASEBE BİRİMİ · YOLLUK BİLDİRİMİ İADE YAZISI (kurgusal)",
+      "en": "ACCOUNTS OFFICE · TRAVEL CLAIM RETURN NOTICE (fictional)"
+    },
+    "body": {
+      "tr": "Yolluk bildiriminiz incelenmiş, kaşesiz iki fiş nedeniyle iade edilmiştir. Belgelendirilemeyen giderler şahsi harcama sayılır.",
+      "en": "Your travel claim has been reviewed and returned owing to two unstamped receipts. Expenses that cannot be documented are deemed personal."
+    },
+    "translate": {
+      "tr": {
+        "from": "şahsi harcama sayılır",
+        "to": "kongreye kendi paranla gitmişsin"
+      },
+      "en": {
+        "from": "are deemed personal",
+        "to": "mean you attended as a hobby"
+      }
+    },
+    "glossaryKey": "belgelendirilemeyen_gider"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Taksi fişinde kaşe yok, otelinkinde tarih yanlış. Düzeltirseniz ay sonu ödemesine yetişir.",
+      "en": "No stamp on the taxi receipt, wrong date on the hotel's. Fix both and it makes the end-of-month run."
+    }
+  ],
+  "choices": [
+    {
+      "id": "pes",
+      "tr": "Uğraşma, zararı yaz",
+      "en": "Drop it, eat the cost",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "otel",
+      "tr": "Oteli ara, yeni fiş iste",
+      "en": "Call the hotel for a new receipt",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kismi",
+      "tr": "O iki fişi çıkar, gönder",
+      "en": "Resubmit without those two",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "pes": {
+      "effects": {
+        "money": -700,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "glossary": "belgelendirilemeyen_gider"
+      },
+      "tr": "Formu çekmeceye koydun. Kongre sana 700 Para'ya mal oldu; sunumun on iki dakika sürmüştü.",
+      "en": "You put the form in a drawer. The conference cost you 700. Your talk had lasted twelve minutes.",
+      "coach": [
+        {
+          "tr": "Dakikası 58 Para.",
+          "en": "About 58 a minute.",
+          "roast": false
+        }
+      ]
+    },
+    "otel": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "glossary": "belgelendirilemeyen_gider"
+        },
+        "tr": "Otel yeni fişi iki günde gönderdi, taksi durağı kaşeyi bastı. 700 Para ay sonunda hesabındaydı.",
+        "en": "The hotel sent a new receipt in two days and the taxi stand stamped the other. The 700 landed at the end of the month.",
+        "coach": [
+          {
+            "tr": "İki kaşe, 700 Para.",
+            "en": "Two stamps. 700 back.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "belgelendirilemeyen_gider"
+        },
+        "tr": "Otel tarihi düzeltti ama bu kez adını yanlış yazdı. Ay sonu ödemesi kaçtı, dosya gelecek aya devretti.",
+        "en": "The hotel fixed the date and misspelled your name instead. You missed the end-of-month run. The file rolls over to next month.",
+        "coach": [
+          {
+            "tr": "Tarih düzeldi. Sıra isimde.",
+            "en": "The date is fixed. The name is next.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kismi": {
+      "effects": {
+        "money": -250,
+        "stats": {
+          "joy": 1
+        },
+        "glossary": "belgelendirilemeyen_gider"
+      },
+      "tr": "İki fişi çıkarıp yeniden gönderdin. Gerisi ödendi; taksi ile otelin ilk gecesi, 250 Para, sende kaldı.",
+      "en": "You resubmitted without the two receipts. The rest was paid. The taxi and the first hotel night, 250, stayed with you.",
+      "coach": [
+        {
+          "tr": "İki kâğıt parçası, 250 Para.",
+          "en": "Two slips of paper. 250.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "kongre yolluk bildirimin kaşesiz taksi fişi ve yanlış tarihli otel fişi yüzünden iade ediliyor",
+    "mechanism": "şahsi harcama tercümesi",
+    "mechanismId": "translation",
+    "punch": "şahsi harcama sayılır = kongreye kendi paranla gitmişsin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kase"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

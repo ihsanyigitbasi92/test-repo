@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_comlek_atolyesi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "is",
+    "anne",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kardeşin işi bırakıyormuş. Çömlek yapacakmış. Git konuş, aklını başına getir.",
+      "en": "Your sibling is quitting their job. Pottery, apparently. Go talk to them. Bring them to their senses."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Annem seni mi yolladı? Gel otur. Önce bir kâse yap, sonra konuşuruz.",
+      "en": "Mom sent you? Come, sit. Make a bowl first, then we'll talk.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kase",
+      "tr": "Kâseyi yap",
+      "en": "Make the bowl",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikna",
+      "tr": "Vazgeçirmeyi dene",
+      "en": "Try to talk them out of it",
+      "pattern": "peoplePleasing",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "destek",
+      "tr": "Atölyeye 1.000 ver",
+      "en": "Chip in 1,000",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kase": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "kardes_atolye"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Kâsen yamuk çıktı, kardeşin yine de fırınladı. Annene \"konuştuk\" dedin; kâseyi göstermedin.",
+      "en": "Your bowl came out crooked. Your sibling fired it anyway. You told Mom you \"talked.\" You didn't show her the bowl.",
+      "coach": [
+        {
+          "tr": "Görüşme yapıldı. Kâse ekte.",
+          "en": "Meeting held. Bowl attached.",
+          "roast": false
+        }
+      ]
+    },
+    "ikna": [
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "momPressure": -4
+          },
+          "flags": {
+            "add": [
+              "kardes_isinde_kaldi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -3
+            },
+            {
+              "role": "mom",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Kardeşin işinde kaldı, çömleği hafta sonuna aldı. Annen arayıp teşekkür etti, sonra bir kâse istedi.",
+        "en": "Your sibling kept the job and moved pottery to weekends. Mom called to thank you, then asked for a bowl.",
+        "coach": [
+          {
+            "tr": "Hafta içi masa. Hafta sonu çamur.",
+            "en": "Weekdays, desk. Weekends, clay.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "momPressure": 4
+          },
+          "flags": {
+            "add": [
+              "kardes_atolye"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Kardeşin istifa mektubunu bir kâsenin içinde teslim etti. Annen seni sorumlu tutuyor.",
+        "en": "Your sibling handed in the resignation letter inside a bowl. Mom holds you responsible.",
+        "coach": [
+          {
+            "tr": "Mektup teslim edildi. Kâseyle.",
+            "en": "Letter delivered. In a bowl.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "destek": {
+      "effects": {
+        "meters": {
+          "momPressure": 3
+        },
+        "money": -1000,
+        "flags": {
+          "add": [
+            "kardes_atolye",
+            "atolye_sermayedari"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 5,
+            "memory": "atolye_ortagi"
+          }
+        ]
+      },
+      "tr": "1.000 Para verdin. Atölyenin kapısında küçük bir tabela var: \"Sermaye: kardeşim.\"",
+      "en": "You chipped in 1,000. There's a little sign on the studio door: \"Funding: my sibling.\"",
+      "coach": [
+        {
+          "tr": "Adın kapıda.",
+          "en": "Your name is on the door.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kardeşinin işini bırakıp çömlek atölyesi açacağını söylemesi ve annenin seni ikna için göndermesi",
+    "mechanism": "\"aklını başına getir\" görevi kâse yapımına dönüşüyor",
+    "mechanismId": "literalism",
+    "punch": "önce bir kâse yap, sonra konuşuruz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kase"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

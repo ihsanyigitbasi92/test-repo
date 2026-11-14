@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_yeni_asistan_yontemi_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Hocam, kılavuzlar o yöntemi artık önermiyor. Ben söylemek istemedim, kılavuz söyledi.",
+      "en": "Doctor, the guidelines dropped that method a while ago. I didn't want to say it. They said it first."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "worried",
+      "tr": "Kaynakları mail atarım. Kırk iki sayfa ama özetini çıkardım. On dokuz sayfa.",
+      "en": "I'll email you the sources. Forty-two pages, but I made a summary. Nineteen pages.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "oku",
+      "tr": "Kaynağı oku, dene",
+      "en": "Read it and give it a try",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "savun",
+      "tr": "Kendi yöntemini savun",
+      "en": "Defend your method",
+      "pattern": "pride"
+    },
+    {
+      "id": "ortak",
+      "tr": "Birlikte vaka sunumu öner",
+      "en": "Propose a joint case talk",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "oku": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 3
+          },
+          "npc": [
+            {
+              "role": "npc:doctor",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "On dokuz sayfayı okudun, yeni yöntemi ilk hafta üç hastada uyguladın. Asistan vizitte seni örnek gösterdi.",
+        "en": "You read all nineteen pages and used the new method on three patients in week one. On rounds, the resident cited you as the example.",
+        "coach": [
+          {
+            "tr": "Özet işe yaradı.",
+            "en": "The summary paid off.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir ilerledi.",
+            "en": "Goal counter: up one.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Yeni yöntemde iki gün takıldın, eski el alışkanlığı her seferinde araya girdi. Asistan yanında sessizce bekledi.",
+        "en": "Two days stuck on the new method, with old muscle memory cutting in every time. The resident stood by and waited, very quietly.",
+        "coach": [
+          {
+            "tr": "Eller güncellemeyi geç kurdu.",
+            "en": "Your hands installed the update late.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "savun": {
+      "effects": {
+        "meters": {
+          "ego": 4
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Yöntemini savundun. Asistan not aldı, akşam on dokuz sayfayı çıktı olarak masana bıraktı.",
+      "en": "You defended your method. The resident took notes, then left the nineteen pages on your desk that evening, printed.",
+      "coach": [
+        {
+          "tr": "Kâğıt masada bekliyor.",
+          "en": "The paper is waiting on your desk.",
+          "roast": false
+        }
+      ]
+    },
+    "ortak": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ortak_vaka_sunumu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Ortak sunum yaptınız: eski yöntem ve yenisi yan yana. Salon iki kuşağa bölündü, ikisi de not aldı.",
+      "en": "You gave a joint talk, old method and new side by side. The room split into two generations, both taking notes.",
+      "coach": [
+        {
+          "tr": "İki kuşak, tek salon.",
+          "en": "Two generations. One room.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "oku",
+    "slip": {
+      "tr": "İDDİA: Eski el yeni yöntemi tanımaz. — M.",
+      "en": "WAGER: Old hands won't take to the new method. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni asistan kıdemli hekime yönteminin kılavuzdan çıktığını söylüyor",
+    "mechanism": "kırk iki sayfanın özeti on dokuz sayfa",
+    "mechanismId": "count",
+    "punch": "özetini çıkardım: on dokuz sayfa",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "ozet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

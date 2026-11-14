@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lifecoach_karsi_ofis_01",
+  "tags": [
+    "kariyer",
+    "kocluk",
+    "kariyer_lifecoach"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lifecoach": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 34,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "lifeCoach"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Merhaba komşu. Karşı ofisi tuttum. Sloganım: 'Hayatını değiştir, yarı fiyatına.'",
+      "en": "Hi, neighbor. I took the office across the hall. My slogan: 'Change your life. Half price.'"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Seninki 'Hayatını değiştir' değil miydi? Ben üstüne indirim ekledim sadece.",
+      "en": "Yours was 'Change your life,' right? I just added a discount.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "indir",
+      "tr": "Fiyatını sen de düşür",
+      "en": "Cut your prices too",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tam",
+      "tr": "Tam fiyatta kal",
+      "en": "Hold your price",
+      "pattern": "pride"
+    },
+    {
+      "id": "ortak",
+      "tr": "Ortak paket öner",
+      "en": "Propose a joint package",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "indir": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 500,
+          "meters": {
+            "ego": 2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Fiyatı dörtte bir indirdin, karşı ofis daha fazla inemedi. Ay sonunda kasada 500 Para fazla vardı.",
+        "en": "You cut your price by a quarter. Across the hall, they couldn't go lower. You ended the month 500 ahead.",
+        "coach": [
+          {
+            "tr": "İndirim tuttu. Bu ay.",
+            "en": "The discount held. This month.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -600,
+          "hidden": {
+            "stress": 3
+          },
+          "career": {
+            "rungDelta": -1
+          }
+        },
+        "tr": "Fiyatı indirdin. Karşı ofis kapısına 'Yarının da yarısı' yazdı. Ay sonunda kasada 600 Para eksik vardı.",
+        "en": "You cut your price. Across the hall went up a new sign: 'Half of half.' You ended the month 600 short.",
+        "coach": [
+          {
+            "tr": "Yarının yarısı. Sırada çeyreğin yarısı var.",
+            "en": "Half of half. Next up: an eighth.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tam": {
+      "effects": {
+        "money": -300,
+        "meters": {
+          "ego": 3
+        }
+      },
+      "tr": "Fiyatına dokunmadın. İki danışanın karşıya geçti, biri geri geldi: 'Orada da aynı şeyleri söylüyorlar.'",
+      "en": "You held your price. Two clients went across the hall. One came back: 'They say the same things over there.'",
+      "coach": [
+        {
+          "tr": "Aynı cümleler, iki fiyat. Biri döndü.",
+          "en": "Same sentences, two prices. One came back.",
+          "roast": false
+        }
+      ]
+    },
+    "ortak": {
+      "effects": {
+        "money": 200,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kocluk_karsi_ofis_ortak"
+          ]
+        }
+      },
+      "tr": "Ortak paket çıktı: 'Hayatını iki kez değiştir.' İlk hafta iki kayıt geldi, payın 200 Para.",
+      "en": "You launched a joint package: 'Change your life twice.' Two sign-ups in week one. Your share: 200.",
+      "coach": [
+        {
+          "tr": "Hayat bir kez değişiyordu. Artık iki taksitte.",
+          "en": "Lives used to change once. Now in two installments.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "karşı ofise senin sloganını indirimle kullanan yeni bir koç taşınıyor",
+    "mechanism": "fiyat savaşı her turda büyüyor",
+    "mechanismId": "escalation",
+    "punch": "ben üstüne indirim ekledim sadece",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "taksit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

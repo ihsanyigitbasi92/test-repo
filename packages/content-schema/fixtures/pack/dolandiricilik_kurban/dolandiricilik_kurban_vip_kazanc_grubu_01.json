@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_vip_kazanc_grubu_01",
+  "tags": [
+    "para",
+    "dolandiricilik",
+    "yatirim",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Hoş geldiniz. Bu grupta 1.300 üye var, hepsi kazanıyor.",
+      "en": "Welcome. This group has 1,300 members, and every one of them is winning."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bugün 19 üye kazancını paylaştı. Ekran görüntüleri aşağıda.",
+      "en": "Nineteen members shared their gains today. Screenshots below."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Hepsinin ekran görüntüsünde saat aynı. Teknik bir durum.",
+      "en": "All the screenshots show the same time. A technical thing.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "cik",
+      "tr": "Gruptan çık",
+      "en": "Leave the group",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "deneme",
+      "tr": "Küçük bir deneme yatır",
+      "en": "Put in a small test amount",
+      "pattern": "risk",
+      "check": {
+        "base": 2500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayına göster",
+      "en": "Show it to your uncle",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "uncle": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "cik": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "vip_grup_cikti"
+          ]
+        }
+      },
+      "tr": "Gruptan çıktın. Ertesi gün başka bir gruba eklendin; orada 2.100 üye var.",
+      "en": "You left. Next day you were added to another group. That one has 2,100 members.",
+      "coach": [
+        {
+          "tr": "Üye sayısı büyüyor. Kazanç ekranda kalıyor.",
+          "en": "The member count keeps growing. The gains stay on the screen.",
+          "roast": false
+        }
+      ]
+    },
+    "deneme": [
+      {
+        "p": 2500,
+        "effects": {
+          "stats": {
+            "brain": 1
+          },
+          "money": -80,
+          "flags": {
+            "add": [
+              "vip_grup_cikti"
+            ]
+          }
+        },
+        "tr": "500 Para yatırdın; 420'sini \"işlem ücreti\" kesilerek geri çekebildin. Sonra çıktın.",
+        "en": "You put in 500 and got 420 back after a 'processing fee.' Then you left.",
+        "coach": [
+          {
+            "tr": "Seksen Para'lık ders. Kurs fiyatlarına göre ucuz.",
+            "en": "Eighty for the lesson. Cheap, as tuition goes.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "money": -500,
+          "flags": {
+            "add": [
+              "vip_grup_parasi_gitti"
+            ]
+          },
+          "glossary": "vip_grup"
+        },
+        "tr": "500 Para yatırdın. Ekranda 1.900 bakiye görünüyor; çekmek için önce \"vergi\" isteniyor.",
+        "en": "You put in 500. The screen shows a balance of 1,900, and withdrawing it requires a 'tax' first.",
+        "coach": [
+          {
+            "tr": "Ekranda 1.900 var. Ekran senin.",
+            "en": "There's 1,900 on the screen. You own the screen.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "vip_grup_cikti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ],
+        "glossary": "vip_grup"
+      },
+      "tr": "Dayın \"eskiden bunlar kahvede kurulurdu\" deyip grubu sesli okudu. Gülmekten bitiremedi; sen çıktın.",
+      "en": "Your uncle said 'back then they ran these out of coffee houses' and read the group aloud. He laughed too hard to finish. You left.",
+      "coach": [
+        {
+          "tr": "Dayın sesli okudu. Grup sessiz kaldı.",
+          "en": "Your uncle read it aloud. The group went quiet.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "mesajlaşma uygulamasında VIP kazanç grubuna eklenmek",
+    "mechanism": "aynı saatli ekran görüntüleri sayılıyor",
+    "mechanismId": "count",
+    "punch": "hepsinde saat aynı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ekran"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_arama_gece_vardiyasi_teklifi_01",
+  "tags": [
+    "is",
+    "teklif",
+    "is_arama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "is_arama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Depoda vardiya amir yardımcılığı. Başlıyorsunuz. Tek bir detay: gece vardiyası.",
+      "en": "Assistant shift supervisor at the warehouse. You're hired. One small detail: nights."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "22.00–06.00. Ama sabah servisi var. Kahvaltı da var, saat beşte.",
+      "en": "Ten p.m. to six a.m. There's a morning shuttle, though. And breakfast. At five.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et",
+      "en": "Take it",
+      "pattern": "overwork"
+    },
+    {
+      "id": "gunduz",
+      "tr": "Gündüz vardiyası iste",
+      "en": "Ask for days",
+      "pattern": "risk",
+      "check": {
+        "base": 3500
+      }
+    },
+    {
+      "id": "red",
+      "tr": "Teşekkür et, geç",
+      "en": "Thank them and pass",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "flags": {
+          "add": [
+            "calisiyor"
+          ],
+          "remove": [
+            "is_ariyor"
+          ]
+        },
+        "status": {
+          "job": {
+            "title": "depo vardiya amir yardımcısı",
+            "tier": 1,
+            "monthly": 1900
+          }
+        }
+      },
+      "tr": "İşe başladın. İlk hafta saat beşteki kahvaltıyı akşam yemeği sandın.",
+      "en": "You started. The first week, you thought the 5 a.m. breakfast was dinner.",
+      "coach": [
+        {
+          "tr": "Maaş var. Gün ters.",
+          "en": "Paycheck: yes. Day: upside down.",
+          "roast": false
+        }
+      ]
+    },
+    "gunduz": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "momPressure": -6
+          },
+          "flags": {
+            "add": [
+              "calisiyor"
+            ],
+            "remove": [
+              "is_ariyor"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "depo vardiya amir yardımcısı",
+              "tier": 1,
+              "monthly": 1700
+            }
+          }
+        },
+        "tr": "Gündüz vardiyasında bir boşluk varmış. Maaş biraz düşük, güneş dahil.",
+        "en": "There was a gap on the day shift. Slightly lower pay. Sunlight included.",
+        "coach": [
+          {
+            "tr": "Güneş yan haklara eklendi.",
+            "en": "Sunlight added to benefits.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacına bir iş.",
+            "en": "One job on the goal counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "gece_teklif_kacti",
+              "is_ariyor"
+            ]
+          }
+        },
+        "tr": "Gündüz kadrosu doluymuş. Gece kadrosu da sen sorarken dolmuş.",
+        "en": "Days were full. Nights filled up while you were asking.",
+        "coach": [
+          {
+            "tr": "İki vardiya, sıfır boşluk.",
+            "en": "Two shifts. Zero openings.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 3
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "gece_reddetti",
+            "is_ariyor"
+          ]
+        }
+      },
+      "tr": "Teşekkür edip geçtin. Akşam yemeğinde annen depoların gece de iyi aydınlatıldığını söyledi.",
+      "en": "You thanked them and passed. At dinner, Mom mentioned that warehouses are very well lit at night.",
+      "coach": [
+        {
+          "tr": "Aydınlatma iyiymiş. Kayda geçti.",
+          "en": "The lighting is good. Duly logged.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gunduz",
+    "slip": {
+      "tr": "İDDİA: Gündüz kadrosu dolu çıkar. — M.",
+      "en": "WAGER: The day shift is full. — M."
+    }
+  },
+  "intent": {
+    "setup": "depoda gece vardiyası iş teklifi",
+    "mechanism": "\"tek bir detay\" bütün günü ters çeviriyor",
+    "mechanismId": "understatement",
+    "punch": "kahvaltı saat beşte",
+    "lift": "Hedef sayacına bir iş.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gunes"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_temiz_denetim_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Üç gün boyunca dosyalarınızı inceledik. Tek bir bulgu yok.",
+      "en": "Three days with your files. Not one finding."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Böyle olunca ne yazacağımızı bilemiyoruz. Rapor çok kısa kalacak.",
+      "en": "When this happens, we don't know what to write. The report will be very short."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Müşteri bir sepet gönderdi. Seni de terfi listesine yazdım.",
+      "en": "The client sent a gift basket. And I've put you on the promotion list.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "terfi",
+      "tr": "Terfiyi kabul et",
+      "en": "Accept the promotion",
+      "pattern": "overwork"
+    },
+    {
+      "id": "izin",
+      "tr": "Terfi yerine izin iste",
+      "en": "Ask for time off instead",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "sepet",
+      "tr": "Sepeti ekiple paylaş",
+      "en": "Share the basket with the team",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "terfi": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "career": {
+          "rungDelta": 1
+        },
+        "status": {
+          "job": {
+            "title": "kıdemli muhasebeci",
+            "tier": 4,
+            "monthly": 3900
+          }
+        }
+      },
+      "tr": "Kıdemli muhasebeci oldun, maaşın 3.900 Para. Müşteri dosyan dokuzdan on dörde çıktı.",
+      "en": "You are senior accountant now: 3,900 a month. Your client files went from nine to fourteen.",
+      "coach": [
+        {
+          "tr": "Temiz denetimin ödülü: beş dosya daha.",
+          "en": "The prize for a clean audit: five more files.",
+          "roast": true
+        },
+        {
+          "tr": "Kariyer basamağı: bir yukarı.",
+          "en": "Career rung: up one.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "izin": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -4
+        }
+      },
+      "tr": "Beş gün izin kullandın. Döndüğünde masanda denetçiden bir not vardı: \"Kısa rapor için teşekkürler.\"",
+      "en": "You took five days off. Back at your desk, a note from the auditor: 'Thanks for the short report.'",
+      "coach": [
+        {
+          "tr": "Sen beş gün izin aldın. Denetçi de iki gün erken çıktı.",
+          "en": "Five days off for you. The auditor left two days early too.",
+          "roast": true
+        }
+      ]
+    },
+    "sepet": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          },
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Sepetteki peynir, zeytin ve kurabiye öğlene bitti. Ekip seni mutfakta \"denetimin kahramanı\" diye alkışladı.",
+      "en": "The cheese, olives, and cookies were gone by noon. The team applauded you in the kitchen as 'the audit hero.'",
+      "coach": [
+        {
+          "tr": "Üç günlük denetim, yarım günlük sepet.",
+          "en": "A three-day audit. A half-day basket.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "bağımsız denetimden tek bulgu çıkmadan geçiyorsun",
+    "mechanism": "başarının ödülü daha çok iş",
+    "mechanismId": "understatement",
+    "punch": "rapor çok kısa kalacak",
+    "lift": "kariyer basamağı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sepet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

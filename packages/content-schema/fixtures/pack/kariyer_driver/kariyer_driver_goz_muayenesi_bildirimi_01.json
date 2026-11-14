@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_driver_goz_muayenesi_bildirimi_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "evrak",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "SÜRÜCÜ SAĞLIK KURULU · PERİYODİK MUAYENE BİLDİRİMİ (kurgusal)",
+      "en": "DRIVER FITNESS BOARD · PERIODIC EXAM NOTICE (fictional)"
+    },
+    "body": {
+      "tr": "Ticari sürücü belgenizin yenilenmesi için göz muayenesi gerekmektedir. Önceki muayenede görme düzeyiniz 'sınırda yeterli' bulunmuştur. Son tarih: ayın yirmisi.",
+      "en": "Renewal of your commercial permit requires an eye exam. At your last exam your vision was found 'marginally adequate.' Deadline: the twentieth."
+    },
+    "translate": {
+      "tr": {
+        "from": "sınırda yeterli",
+        "to": "levhayı okudun, ama tahmin ederek"
+      },
+      "en": {
+        "from": "marginally adequate",
+        "to": "you read the chart, but you were guessing"
+      }
+    },
+    "glossaryKey": "sinirda_yeterli"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Muayene ücreti 90 Para. En erken randevu üç hafta sonra. Son tarihiniz iki hafta sonra.",
+      "en": "The exam fee is ninety. The earliest appointment is in three weeks. Your deadline is in two."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ozel",
+      "tr": "Özel muayeneye git",
+      "en": "Pay for a private exam",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "bekle",
+      "tr": "İptal olan randevuyu bekle",
+      "en": "Wait for a cancellation",
+      "pattern": "patience",
+      "check": {
+        "base": 4500
+      }
+    },
+    {
+      "id": "gozluk",
+      "tr": "Önce gözlüğü yenile",
+      "en": "Update your glasses first",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ozel": {
+      "effects": {
+        "money": -240,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "glossary": "sinirda_yeterli"
+      },
+      "tr": "Özel muayene 240 Para, aynı gün. Rapor 'yeterli' çıktı, belge yenilendi.",
+      "en": "A private exam: 240, same day. Result: 'adequate.' Permit renewed.",
+      "coach": [
+        {
+          "tr": "'Sınırda' kelimesi 240 Para'ya silindi.",
+          "en": "The word 'marginally' was removed for 240.",
+          "roast": true
+        }
+      ]
+    },
+    "bekle": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -90,
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Dördüncü gün iptal çıktı. Muayene 90 Para, sonuç 'yeterli'.",
+        "en": "A cancellation came up on day four. Exam: ninety. Result: 'adequate.'",
+        "coach": [
+          {
+            "tr": "Dört gün beklendi. Levha bu kez tahminsiz okundu.",
+            "en": "Four days of waiting. The chart was read without guessing this time.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "glossary": "sinirda_yeterli"
+        },
+        "tr": "İptal çıkmadı, son tarih geçti. Belge yenilenene kadar dokuz gün direksiyona geçemedin.",
+        "en": "No cancellation came and the deadline passed. You couldn't drive for nine days until the permit came through.",
+        "coach": [
+          {
+            "tr": "Dokuz gün yolcu koltuğunda geçti.",
+            "en": "Nine days were spent in the passenger seat.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gozluk": {
+      "effects": {
+        "money": -270,
+        "stats": {
+          "joy": 2
+        },
+        "glossary": "sinirda_yeterli",
+        "flags": {
+          "add": [
+            "sofor_yeni_gozluk"
+          ]
+        }
+      },
+      "tr": "Gözlükçü numaranın yarım derece arttığını söyledi, yeni cam 180 Para. Muayenede levhanın son satırını da okudun.",
+      "en": "The optician said your prescription had gone up a notch. New lenses: 180. At the exam you read the bottom line too.",
+      "coach": [
+        {
+          "tr": "Son satır da okundu. Yıllardır oradaymış.",
+          "en": "The bottom line was read. It has apparently been there for years.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "ticari sürücü belgesinin yenilenmesi için göz muayenesi bildirimi",
+    "mechanism": "sınırda yeterli tercümesi",
+    "mechanismId": "translation",
+    "punch": "levhayı tahmin ederek okudun",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "levha"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. Ticari sürücü belgesi için periyodik göz muayenesi bildirimi; kurul kurgusal, iki kabukta da aynı. Uygulama/şirket/marka adı yok."
+  }
+}

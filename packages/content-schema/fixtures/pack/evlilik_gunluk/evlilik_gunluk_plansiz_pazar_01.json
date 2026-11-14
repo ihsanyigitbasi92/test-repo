@@ -1,0 +1,229 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_plansiz_pazar_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Bu pazar plan yok. Sıfır. Kanepe, battaniye, belki bir film. Belki o da yok.",
+      "en": "No plans this Sunday. Zero. Couch, blanket, maybe a movie. Maybe not even that."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Senin listende kaç madde var? Söyleme. Biliyorum.",
+      "en": "How many things are on your list? Don’t tell me. I know.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "hepsi",
+      "tr": "Dört planı da yap",
+      "en": "Do all four plans",
+      "pattern": "overwork",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "sifir",
+      "tr": "Sıfıra uy",
+      "en": "Commit to zero",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "bir",
+      "tr": "Bir maddede anlaş",
+      "en": "Agree on one item",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "hepsi": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -350,
+          "stats": {
+            "joy": 3,
+            "health": -1
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "dolu_pazar"
+            ]
+          }
+        },
+        "tr": "Pazar, müze, kahvaltı ve fide alışverişi bitti. Akşam altıda ikiniz de kanepedeydiniz.",
+        "en": "Market, museum, brunch and seedling shopping: done. By 6 p.m., you were both on the couch anyway.",
+        "coach": [
+          {
+            "tr": "Dört plan, bir kanepe. Kanepe en sona kaldı ama kazandı.",
+            "en": "Four plans, one couch. The couch came last and still won.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -150,
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "ertelenen_plan"
+            ]
+          }
+        },
+        "tr": "İkinci planda partnerin arabada uyudu. Müze ve fideler gelecek pazara ertelendi.",
+        "en": "Your partner fell asleep in the car after plan two. The museum and the seedlings moved to next Sunday.",
+        "coach": [
+          {
+            "tr": "Liste yarıda kaldı. Gelecek pazar zaten dolu.",
+            "en": "The list stalled halfway. Next Sunday is now booked.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sifir": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "sifir_pazar"
+          ]
+        }
+      },
+      "tr": "Pazar kanepede geçti. Film başladı, ikinci sahnede ikiniz de uyudunuz.",
+      "en": "Sunday happened on the couch. The movie started. You were both asleep by scene two.",
+      "coach": [
+        {
+          "tr": "Sıfır plan, tam uygulama. Listen hâlâ cebinde.",
+          "en": "Zero plans, perfectly executed. Your list is still in your pocket.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacı: bir dinlenme günü.",
+          "en": "Goal meter: one rest day.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "bir": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "tek_plan_pazar"
+          ]
+        }
+      },
+      "tr": "Yalnızca kahvaltıya çıktınız. Dönüşte partnerin “bu iyiydi, ama şimdi kanepe” dedi.",
+      "en": "You went out for brunch, nothing else. On the way home your partner said, “That was nice. Now couch.”",
+      "coach": [
+        {
+          "tr": "Dört maddeden biri. Oran kabul edilebilir.",
+          "en": "One item out of four. An acceptable ratio.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hepsi",
+    "slip": {
+      "tr": "İDDİA: Dört plan pazara sığmaz. — M.",
+      "en": "WAGER: Four plans don’t fit in one Sunday. — M."
+    }
+  },
+  "intent": {
+    "setup": "dört planlı eşle sıfır planlı eşin pazar günü",
+    "mechanism": "plan sayısı sıfıra karşı yarışıyor",
+    "mechanismId": "count",
+    "punch": "belki o da yok",
+    "lift": "Hedef sayacı: bir dinlenme günü.",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kanepe"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

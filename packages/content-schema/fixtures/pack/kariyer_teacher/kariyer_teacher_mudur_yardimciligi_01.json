@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_teacher_mudur_yardimciligi_01",
+  "tags": [
+    "kariyer",
+    "ogretmen",
+    "kariyer_teacher"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_teacher": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "teacher"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Müdür yardımcılığı boşaldı, seni düşündüm. Dersin azalır, nöbet çizelgesi sende olur.",
+      "en": "The assistant principal post is open, and I thought of you. Fewer classes, and the duty roster is yours."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Bir de zil saatleri. Zili sen ayarlarsın.",
+      "en": "Oh, and the bell schedule. You'd be in charge of the bells.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et",
+      "en": "Accept",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sart",
+      "tr": "İki sınıfı koruma şartı koy",
+      "en": "Accept if you keep two classes",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "red",
+      "tr": "Sınıfında kal",
+      "en": "Stay in the classroom",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 3
+        }
+      },
+      "tr": "Müdür yardımcısı oldun. İlk hafta zili beş dakika erken çaldırdın, okul tarihinin en kısa üçüncü dersi yaşandı.",
+      "en": "You became assistant principal. In week one you set the bell five minutes early, giving the school its shortest third period on record.",
+      "coach": [
+        {
+          "tr": "Yetkinin ilk izi: beş dakika.",
+          "en": "Your first act in power: five minutes.",
+          "roast": true
+        }
+      ]
+    },
+    "sart": [
+      {
+        "p": 5000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Şartın kabul edildi, iki sınıfın sende kaldı. Öğle araları artık nöbet çizelgesinin başında geçiyor.",
+        "en": "Your condition was accepted, and you keep two classes. Lunch breaks now belong to the duty roster.",
+        "coach": [
+          {
+            "tr": "İki sınıf, bir çizelge, sıfır öğle arası.",
+            "en": "Two classes, one roster, zero lunch.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -3
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Müdür \"düşünelim\" dedi. Görev ertesi hafta şart koymayan bir meslektaşa gitti.",
+        "en": "The principal said, \"Let's think about it.\" The next week the post went to a colleague with no conditions.",
+        "coach": [
+          {
+            "tr": "Şart masada kaldı. Görev kapıdan çıktı.",
+            "en": "Your condition stayed on the table. The job walked out the door.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "sinifta_kaldi"
+          ]
+        }
+      },
+      "tr": "Sınıfında kaldın. Ertesi gün zil yine iki dakika geç çaldı ve bu artık senin derdin değil.",
+      "en": "You stayed in the classroom. The next day the bell rang two minutes late again, and it is no longer your problem.",
+      "coach": [
+        {
+          "tr": "Zil başkasının. Sınıf senin.",
+          "en": "The bell belongs to someone else. The class is yours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sart",
+    "slip": {
+      "tr": "İDDİA: Şart koyan görevi kaçırır. — M.",
+      "en": "WAGER: Conditions cost you the post. — M."
+    }
+  },
+  "intent": {
+    "setup": "müdürden müdür yardımcılığı ve zil saatleri sorumluluğu teklifi",
+    "mechanism": "yetki sayımı: sınıf, çizelge, öğle arası",
+    "mechanismId": "count",
+    "punch": "zili sen ayarlarsın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_evinde_yasam_kumanda_final_aksami_01",
+  "tags": [
+    "ev",
+    "televizyon",
+    "anne_evinde_yasam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "anne_evinde_yasam": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Akşam dokuzda benim dizi var. Final bölümü. Maç dediğin her hafta var.",
+      "en": "My show's on at nine. Season finale. Your game is on every week."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Ben annemden yanayım. Final kaçmaz.",
+      "en": "I'm with Mom. You don't skip a finale.",
+      "when": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Kumanda bende. Konu kapanmıştır.",
+      "en": "I have the remote. Discussion closed.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "telefon",
+      "tr": "Maçı telefondan izle",
+      "en": "Watch the game on your phone",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Devre arası dizi teklif et",
+      "en": "Pitch: finale at halftime",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birlikte",
+      "tr": "Finali onunla izle",
+      "en": "Watch the finale with her",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "telefon": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "mac_telefonda"
+          ]
+        }
+      },
+      "tr": "Maçı yatakta telefondan izledin. Gol anında salondan bir çığlık geldi; dizide biri evlenmişti.",
+      "en": "You watched in bed on your phone. At the goal, a scream from the living room. Someone on her show got married.",
+      "coach": [
+        {
+          "tr": "İki ekran, iki final.",
+          "en": "Two screens. Two finales.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "charm": 2
+          },
+          "meters": {
+            "momPressure": -1
+          },
+          "flags": {
+            "add": [
+              "kumanda_paylasimi"
+            ]
+          }
+        },
+        "tr": "Anlaşma tuttu: devre arası dizi, maçta maç. Reklamda annen skoru sordu.",
+        "en": "The deal held: show at halftime, game during the game. During the ads, Mom asked the score.",
+        "coach": [
+          {
+            "tr": "Kumanda barış içinde el değiştirdi.",
+            "en": "The remote changed hands peacefully.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "flags": {
+            "add": [
+              "kumanda_annede"
+            ]
+          }
+        },
+        "tr": "Devre arası on beş dakikaydı, finalin son sahnesi yirmi beş. İkinci yarının golünü komşunun balkonundan duydun.",
+        "en": "Halftime ran fifteen minutes. The finale's last scene ran twenty-five. You heard the goal from the neighbor's balcony.",
+        "coach": [
+          {
+            "tr": "Gol duyuldu. Görülmedi.",
+            "en": "The goal was heard. Not seen.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birlikte": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "anneyle_dizi"
+          ]
+        }
+      },
+      "tr": "Finali beraber izlediniz. Annen bütün karakterleri anlattı; sezonun tamamı kırk dakika sürdü.",
+      "en": "You watched together. Mom explained every character. The whole season took forty minutes.",
+      "coach": [
+        {
+          "tr": "Bir sezon, kırk dakika. Özet annenden.",
+          "en": "A full season in forty minutes. Recap by Mom.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Kumanda annende kalacak. — M.",
+      "en": "WAGER: The remote stays with Mom. — M."
+    }
+  },
+  "intent": {
+    "setup": "annenin dizi finali ile maçın aynı saate denk gelmesi",
+    "mechanism": "kumanda kavgası kardeşle ittifaka tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "kumanda bende",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "final"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

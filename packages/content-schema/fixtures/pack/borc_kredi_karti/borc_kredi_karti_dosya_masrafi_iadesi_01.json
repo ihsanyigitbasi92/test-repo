@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dosya_masrafi_iadesi_01",
+  "tags": [
+    "para",
+    "iade",
+    "banka",
+    "borc_kredi_karti"
+  ],
+  "rarity": "legendary",
+  "universality": "universal",
+  "valence": 2,
+  "intensity": 7000,
+  "punchOwner": "dialog",
+  "wow": true,
+  "maxPerLife": 1,
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "İç denetimde son on yılda sizden fazladan alınan ücretler tespit edildi. Hepsi.",
+      "en": "An internal audit found fees we overcharged you over the past ten years. All of them."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Tutar 16.800 Para. Bu arada size bir kart önerebilir miyim?",
+      "en": "The total is 16,800. While I have you, may I offer you a card?",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Bütün borcu kapat",
+      "en": "Wipe out the debt",
+      "pattern": "patience"
+    },
+    {
+      "id": "yari",
+      "tr": "Yarısı borca, yarısı tatile",
+      "en": "Half to debt, half to a trip",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "kart",
+      "tr": "Kart teklifini de dinle",
+      "en": "Hear out the card offer",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "money": 1800,
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "stress": -6
+        },
+        "flags": {
+          "add": [
+            "borcsuz"
+          ],
+          "remove": [
+            "kredi_karti_borcu",
+            "ihtiyac_kredisi",
+            "debt"
+          ]
+        }
+      },
+      "tr": "İade aynı gün borçlara gitti, kalan 1.800 Para hesapta. Ekstre ilk kez sıfır gösteriyor.",
+      "en": "The refund went to the debts the same day, with 1,800 left over. The statement shows zero for the first time.",
+      "coach": [
+        {
+          "tr": "Sıfır. Ekstrenin hiç yazmadığı sayı.",
+          "en": "Zero. A number the statement had never printed.",
+          "roast": false
+        }
+      ]
+    },
+    "yari": {
+      "effects": {
+        "stats": {
+          "joy": 6
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "flags": {
+          "add": [
+            "iade_tatil",
+            "borc_yarilandi"
+          ]
+        }
+      },
+      "tr": "Yarısı borca, yarısı üç günlük tatile gitti. Borç yarıya indi, fotoğraflar tam.",
+      "en": "Half paid down the debt, half went to a three-day trip. The debt is halved. The photos are complete.",
+      "coach": [
+        {
+          "tr": "Yarım borç, tam tatil.",
+          "en": "Half the debt. A whole trip.",
+          "roast": false
+        }
+      ]
+    },
+    "kart": {
+      "effects": {
+        "money": 16800,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yeni_kart"
+          ]
+        }
+      },
+      "tr": "İade hesapta duruyor. Yanına limiti 20.000 Para olan yeni bir kart geldi.",
+      "en": "The refund sits in your account. A new card with a 20,000 limit has joined it.",
+      "coach": [
+        {
+          "tr": "16.800 içeride, 20.000 kapıda.",
+          "en": "16,800 in the account. 20,000 at the door.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "bankanın iç denetimde yıllarca fazladan alınan dosya ve hesap ücretlerini toplu iade etmesi",
+    "mechanism": "iade haberinin hemen ardından yeni kart teklifi",
+    "mechanismId": "bathos",
+    "punch": "bu arada size bir kart önerebilir miyim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sifir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

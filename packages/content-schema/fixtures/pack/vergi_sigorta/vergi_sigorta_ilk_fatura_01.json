@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_ilk_fatura_01",
+  "tags": [
+    "para",
+    "vergi",
+    "serbest",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    },
+    "flags": {
+      "all": [
+        "vergi_kaydi"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Faturanızda konuştuğumuz rakamın üstüne bir satır daha var. O satırı kim ödüyor?",
+      "en": "Your invoice has an extra line on top of what we agreed. Who pays that line?"
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "typing",
+      "tr": "Bizim muhasebe \"net konuştuk\" diyor, siz \"brüt\" diyorsunuz. Konuşmanın kaydı yok.",
+      "en": "Our accounts team says we agreed net. You say gross. Nobody recorded the conversation.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ustlen",
+      "tr": "Vergiyi sen üstlen",
+      "en": "Eat the tax yourself",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "savun",
+      "tr": "Brüt olduğunu savun",
+      "en": "Argue it was gross",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bol",
+      "tr": "Farkı yarı yarıya bölüşün",
+      "en": "Split the difference",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ustlen": {
+      "effects": {
+        "money": -180,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ilk_fatura_kesildi"
+          ]
+        },
+        "glossary": "brut_net"
+      },
+      "tr": "Fatura nete çevrildi; vergi satırı senin payından. Eline beklediğinden 180 Para az geçti.",
+      "en": "The invoice went net and the tax line came out of your share: 180 less than you expected.",
+      "coach": [
+        {
+          "tr": "İlk faturan aynı zamanda ilk dersin oldu.",
+          "en": "Your first invoice doubled as your first lesson.",
+          "roast": false
+        }
+      ]
+    },
+    "savun": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "ilk_fatura_kesildi",
+              "teklif_vergi_haric"
+            ]
+          }
+        },
+        "tr": "Teklif e-postasını buldun: \"tüm vergiler hariç.\" Fatura olduğu gibi ödendi.",
+        "en": "You dug up the quote email: \"all taxes excluded.\" The invoice was paid as is.",
+        "coach": [
+          {
+            "tr": "E-posta arşivi bugün kirasını çıkardı.",
+            "en": "Your email archive earned its keep today.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -180,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ilk_fatura_kesildi"
+            ]
+          }
+        },
+        "tr": "E-postada \"vergi\" kelimesi hiç geçmiyor. Fark senden kesildi; müşteri sonraki işi \"düşüneceğini\" söyledi.",
+        "en": "The email never mentions tax. The difference came out of your share, and the client said they'd \"think about\" the next job.",
+        "coach": [
+          {
+            "tr": "E-posta sustu. Müşteri düşünüyor.",
+            "en": "The email stayed silent. The client is thinking.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bol": {
+      "effects": {
+        "money": -90,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ilk_fatura_kesildi",
+            "musteri_ikinci_is"
+          ]
+        }
+      },
+      "tr": "Farkı ikiye böldünüz: 90 Para senden. Müşteri ikinci işi de gönderdi.",
+      "en": "You split it down the middle: ninety from you. The client sent a second job.",
+      "coach": [
+        {
+          "tr": "Doksan Para, sonraki işin kaporası gibi.",
+          "en": "Ninety: basically a deposit on the next gig.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ilk serbest iş faturasında vergi satırını kimin ödeyeceğine müşteriyle anlaşamamak",
+    "mechanism": "net mi brüt mü kaydı yok",
+    "mechanismId": "deadpan_report",
+    "punch": "konuşmanın kaydı yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "arsiv"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

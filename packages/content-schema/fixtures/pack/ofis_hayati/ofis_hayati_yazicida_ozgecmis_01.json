@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_yazicida_ozgecmis_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Yazıcıda bir şey kaldı mı? Benim… bir belgem. Kişisel.",
+      "en": "Anything left in the printer? I had a… document. Personal."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Yazıcı sırası bende. Bu sayfalar kimin?",
+      "en": "I'm next at the printer. Whose pages are these?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "uzat",
+      "tr": "Sayfaları sessizce uzat",
+      "en": "Slip the pages over quietly",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sahiplen",
+      "tr": "'Benim' de",
+      "en": "Say they're yours",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "gormezden",
+      "tr": "Görmezden gel",
+      "en": "Pretend you didn't see",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "uzat": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ozgecmis_sirri"
+          ]
+        }
+      },
+      "tr": "Sayfaları bir dosyanın arasına koyup uzattın. Ertesi sabah masanda teşekkür notlu bir kahve vardı.",
+      "en": "You tucked the pages into a folder and passed it over. Next morning, a coffee with a thank-you note sat on your desk.",
+      "coach": [
+        {
+          "tr": "Bir kahve, bir sır. Başarının 7 Sırrı'na sekizinci aday.",
+          "en": "One coffee, one secret. A candidate for secret number eight of my seven.",
+          "roast": false
+        }
+      ]
+    },
+    "sahiplen": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 4
+            },
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "'Benim' dedin. Patron özgeçmişin başlığına bakıp 'güzel şablon' dedi ve kendi çıktısını aldı.",
+        "en": "'Mine,' you said. The boss glanced at the CV header, said 'Nice template,' and took their printout.",
+        "coach": [
+          {
+            "tr": "Patron şablonu beğendi. Sahibini sormadı.",
+            "en": "The boss liked the template. Didn't ask whose.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            },
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "patron_ozgecmis_gordu"
+            ]
+          }
+        },
+        "tr": "'Benim' dedin. Patron sayfadaki adı yüksek sesle okudu; o ad seninki değildi.",
+        "en": "'Mine,' you said. The boss read the name on the page aloud. It wasn't yours.",
+        "coach": [
+          {
+            "tr": "Sahiplenme bir isimle kaçtı.",
+            "en": "The claim missed by one name.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "gormezden": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Görmezden geldin. Patron sayfaları 'sahibi alsın' notuyla yazıcının üstüne bıraktı; not katın en çok okunan belgesi oldu.",
+      "en": "You looked away. The boss left the pages on the printer with a note: 'Owner, please collect.' Most-read document on the floor.",
+      "coach": [
+        {
+          "tr": "Özgeçmiş geniş bir okur kitlesine ulaştı. Benim kitabım hiç ulaşmadı.",
+          "en": "The CV reached a wide audience. My book never did.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "kota"
+  },
+  "intent": {
+    "setup": "ortak yazıcıda iş arkadaşının özgeçmişi unutulmuş",
+    "mechanism": "kişisel belge katın en çok okunanı oluyor",
+    "mechanismId": "understatement",
+    "punch": "bir belgem, kişisel",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "baslik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

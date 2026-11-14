@@ -1,0 +1,164 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_kombi_zorunlu_bakim_01",
+  "tags": [
+    "para",
+    "ev",
+    "kombi",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kombi bakımınız gecikmiş. Bu ay yapılmazsa ceza yazılıyor, haberiniz olsun.",
+      "en": "Your boiler service is overdue. If it's not done this month, there's a fine. Just so you know."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Bakım 400. Ama bu sensör bitmiş, değişmezse kış ortası durur. Parçası yanımda.",
+      "en": "Service is 400. But this sensor's shot. Leave it and it dies midwinter. I happen to have one.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "hepsi",
+      "tr": "Hepsini yaptır",
+      "en": "Do it all",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sadece",
+      "tr": "Sadece bakım yaptır",
+      "en": "Just the service",
+      "pattern": "patience"
+    },
+    {
+      "id": "kapat",
+      "tr": "Kapıda geri çevir",
+      "en": "Turn him away at the door",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "hepsi": {
+      "effects": {
+        "money": -1900,
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 6
+        },
+        "flags": {
+          "add": [
+            "sahte_kombi_parca"
+          ]
+        },
+        "glossary": "zorunlu_bakim_oltasi"
+      },
+      "tr": "Sensör, bakım, bir de \"koruma spreyi\": 1.900 Para. Eski sensörü yanında götürdü.",
+      "en": "Sensor, service, and a \"protective spray\": 1,900. He took the old sensor with him.",
+      "coach": [
+        {
+          "tr": "Ceza yoktu. Fatura vardı.",
+          "en": "There was no fine. There was an invoice.",
+          "roast": true
+        }
+      ]
+    },
+    "sadece": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kombi_bakim_yapildi"
+          ]
+        }
+      },
+      "tr": "Sadece bakım dedin. Teknisyen iki vidayı söküp geri taktı, \"kış size emanet\" dedi.",
+      "en": "Just the service, you said. He took out two screws, put them back, and said, \"Winter's on you now.\"",
+      "coach": [
+        {
+          "tr": "İki vida, 400 Para.",
+          "en": "Two screws. 400.",
+          "roast": false
+        }
+      ]
+    },
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "brain": 2
+        },
+        "flags": {
+          "add": [
+            "kombi_aramasi_reddedildi"
+          ]
+        },
+        "glossary": "zorunlu_bakim_oltasi"
+      },
+      "tr": "Kapıyı açmadın. Apartman grubunda üç dairenin aynı sensörü değiştirdiği ortaya çıktı.",
+      "en": "You kept the door shut. The building chat revealed three flats had replaced the same sensor.",
+      "coach": [
+        {
+          "tr": "Sensör bu ay apartmanda çok satıldı.",
+          "en": "Big month for sensors in this building.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "telefonla zorunlu kombi bakımı yapılmazsa ceza denip gelen teknisyenin parça değiştirmesi",
+    "mechanism": "ceza tehdidinden sensöre, spreye tırmanan fatura",
+    "mechanismId": "escalation",
+    "punch": "ceza yoktu, fatura vardı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sensor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

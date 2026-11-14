@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_oz_degerlendirme_01",
+  "tags": [
+    "is",
+    "maas",
+    "degerlendirme",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 39
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Yıllık değerlendirme formu ekte. Kendinizi birden beşe kadar puanlayın.",
+      "en": "Your annual review form is attached. Rate yourself from one to five."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Dürüst ol. Ama beşi kimseye vermiyoruz, bilgin olsun.",
+      "en": "Be honest. Just so you know, nobody gets a five.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "bes",
+      "tr": "Kendine 5 ver",
+      "en": "Give yourself a 5",
+      "pattern": "pride"
+    },
+    {
+      "id": "dort",
+      "tr": "4 ver, gerekçe yaz",
+      "en": "Give a 4 with a write-up",
+      "pattern": "overwork",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "uc",
+      "tr": "3 ver, kimse üzülmesin",
+      "en": "Give a 3, upset no one",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bes": {
+      "effects": {
+        "meters": {
+          "ego": 4
+        },
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Formda 5 yazdın. Patron 4'e çekti, kenara \"özgüven: 5\" notunu düştü.",
+      "en": "You wrote a 5. The boss marked it down to a 4 and added in the margin: \"confidence: 5.\"",
+      "coach": [
+        {
+          "tr": "Beş verdin, dört aldın, bir de kenar notu.",
+          "en": "You gave a five, got a four, plus a margin note.",
+          "roast": true
+        }
+      ]
+    },
+    "dort": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 400,
+          "meters": {
+            "ego": 2
+          },
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "degerlendirme_iyi"
+            ]
+          }
+        },
+        "tr": "Dört sayfa gerekçe yazdın. Puan 4'te kaldı, zam oranın bir kademe yükseldi; ilk fark 400 Para.",
+        "en": "You wrote four pages of justification. The 4 held and your raise moved up a band: first difference, 400.",
+        "coach": [
+          {
+            "tr": "Dört sayfa, bir kademe.",
+            "en": "Four pages, one band.",
+            "roast": false
+          },
+          {
+            "tr": "Değerlendirme hedefi: bir kademe yukarı.",
+            "en": "Review goal: one band up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -1
+          }
+        },
+        "tr": "Dört sayfa yazdın. Patron bir özet istedi; özette her şey 3'e indi.",
+        "en": "You wrote four pages. The boss asked for a summary. In the summary, everything became a 3.",
+        "coach": [
+          {
+            "tr": "Dört sayfa bir paragrafa, dört puan üçe indi.",
+            "en": "Four pages became a paragraph. A four became a three.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uc": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "oz_puan_uc"
+          ]
+        }
+      },
+      "tr": "Kendine 3 verdin. Patron da 3 verdi ve yorum kutusuna \"tutarlı\" yazdı.",
+      "en": "You gave yourself a 3. The boss gave you a 3 and wrote \"consistent\" in the comment box.",
+      "coach": [
+        {
+          "tr": "Puan üç, zam sıfır, yorum tek kelime.",
+          "en": "Score: three. Raise: zero. Comment: one word.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "yıllık değerlendirmede kendine puan vermek",
+    "mechanism": "beşi kimseye vermiyoruz; koç puanları ve sayfaları sayıyor",
+    "mechanismId": "count",
+    "punch": "beş verdin, dört aldın, bir de kenar notu",
+    "lift": "değerlendirme hedefi",
+    "target": "decision",
+    "closer": "puan",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

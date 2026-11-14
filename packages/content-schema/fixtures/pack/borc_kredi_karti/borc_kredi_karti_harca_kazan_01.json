@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_harca_kazan_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "kampanya",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Kampanyaya katılımınız onaylandı. Hedefe 4.100 Para kaldı, süreniz 23 gün.",
+      "en": "You're enrolled in the campaign. 4,100 to go, twenty-three days left."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kovala",
+      "tr": "Hedefe ulaş",
+      "en": "Hit the target",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "birak",
+      "tr": "Kampanyayı boş ver",
+      "en": "Let the campaign go",
+      "pattern": "patience"
+    },
+    {
+      "id": "kira",
+      "tr": "Kirayı kartla öde",
+      "en": "Pay rent by card",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "kovala": {
+      "effects": {
+        "money": -4100,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kampanya_tamam",
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Hedef 22. günde tuttu, 300 puan geldi. Ekstre 4.100 Para kabardı.",
+      "en": "Target hit on day twenty-two. 300 points earned. The statement swelled by 4,100.",
+      "coach": [
+        {
+          "tr": "300 puan için 4.100 Para. Puanı on üç Para'dan fazlaya aldın.",
+          "en": "4,100 spent for 300 points. That's over thirteen per point.",
+          "roast": true
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "glossary": "harca_kazan",
+        "flags": {
+          "add": [
+            "kampanya_birakildi"
+          ]
+        }
+      },
+      "tr": "Kampanya süresi doldu, puan gelmedi. Ekstre her ayki boyunda kaldı.",
+      "en": "The campaign expired with no points. The statement stayed its usual size.",
+      "coach": [
+        {
+          "tr": "Sıfır puan, sıfır fazla harcama. Kampanya kaybetti.",
+          "en": "Zero points, zero extra spending. The campaign lost.",
+          "roast": false
+        }
+      ]
+    },
+    "kira": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -60,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "kira_kartla"
+            ]
+          }
+        },
+        "tr": "Kira kartla ödendi, hedef bir günde doldu. Hizmet bedeli 60 Para, 300 puan cepte.",
+        "en": "Rent went on the card and the target filled in a day. Sixty in service fees, 300 points banked.",
+        "coach": [
+          {
+            "tr": "Kira puan getirdi. Ev sahibinin haberi yok.",
+            "en": "Rent earned points. The landlord has no idea.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -60,
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "kira_kartla_sayilmadi"
+            ]
+          }
+        },
+        "tr": "Kira ödemesi kampanya dışı sayıldı. Puan yok, 60 Para hizmet bedeli var.",
+        "en": "Rent payments didn't count toward the campaign. No points. Sixty in service fees.",
+        "coach": [
+          {
+            "tr": "Kira sayılmadı. Hizmet bedeli sayıldı.",
+            "en": "Rent didn't count. The service fee did.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kira",
+    "slip": {
+      "tr": "İDDİA: Kira sayılmaz. — M.",
+      "en": "WAGER: Rent won't count. — M."
+    }
+  },
+  "intent": {
+    "setup": "kartın 'üç ayda harca, puan kazan' kampanyasına katılıp hedefe yetişmek için harcamak",
+    "mechanism": "puanın gerçek fiyatı koç ağzında hesaplanıyor",
+    "mechanismId": "count",
+    "punch": "300 puan için 4.100 Para",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "puan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

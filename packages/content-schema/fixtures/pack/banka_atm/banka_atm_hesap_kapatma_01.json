@@ -1,0 +1,144 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_hesap_kapatma_01",
+  "tags": [
+    "para",
+    "banka",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hesabınız eksi 4 Para. Kapatmak için önce sıfırlamanız gerekiyor.",
+      "en": "Your account is at minus four. To close it, you need to bring it to zero first."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "tired",
+      "tr": "Gişeden yatırabilirsiniz. Gişe işlem ücreti 5 Para.",
+      "en": "You can pay it in at the counter. The counter fee is five.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Dokuz Para'yı öde, kapat",
+      "en": "Pay the nine, close it",
+      "pattern": "patience"
+    },
+    {
+      "id": "atm",
+      "tr": "ATM'den yatır",
+      "en": "Pay it in at the ATM",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kalsin",
+      "tr": "Hesap kalsın",
+      "en": "Leave it open",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -9,
+        "flags": {
+          "add": [
+            "eski_hesap_kapandi"
+          ]
+        }
+      },
+      "tr": "9 Para ödedin, hesap kapandı. Kapanış dekontu iki sayfa çıktı.",
+      "en": "You paid nine. The account closed. The closing receipt ran two pages.",
+      "coach": [
+        {
+          "tr": "Dokuz Para. Bir dönem kapandı.",
+          "en": "Nine. An era, closed.",
+          "roast": false
+        }
+      ]
+    },
+    "atm": {
+      "effects": {
+        "money": -10,
+        "flags": {
+          "add": [
+            "eski_hesap_kapandi"
+          ]
+        }
+      },
+      "tr": "ATM en az 10 Para kabul etti, bakiye artı 6 oldu. Hesap kapanınca şubede 6 Para verecek bozuk para çıkmadı.",
+      "en": "The ATM's minimum was ten, so the balance hit plus six. When the account closed, the branch had no coins to pay it out.",
+      "coach": [
+        {
+          "tr": "Altı Para şubede kaldı. Emanet.",
+          "en": "Six stayed at the branch. For safekeeping.",
+          "roast": false
+        }
+      ]
+    },
+    "kalsin": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "eski_hesap_acik"
+          ]
+        }
+      },
+      "tr": "Hesap açık kaldı. Bir sonraki ay eksi 8 oldu.",
+      "en": "The account stayed open. The next month it was at minus eight.",
+      "coach": [
+        {
+          "tr": "Eksi sekiz. Sayaç çalışıyor.",
+          "en": "Minus eight. The meter's running.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "yıllardır kullanılmayan eski hesabı kapatmak için önce eksi bakiyeyi ücretle sıfırlamak",
+    "mechanism": "kapatma ücretinin ücreti",
+    "mechanismId": "escalation",
+    "punch": "şubede bozuk para çıkmadı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "emanet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

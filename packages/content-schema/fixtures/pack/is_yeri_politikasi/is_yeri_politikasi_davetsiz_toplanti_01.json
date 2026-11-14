@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_yeri_politikasi_davetsiz_toplanti_01",
+  "tags": [
+    "is",
+    "politika",
+    "is_yeri_politikasi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "is_yeri_politikasi": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Saat üçte senin projen hakkında toplantı var. Davetli listesinde sen yoksun, ben varım.",
+      "en": "There's a meeting about your project at three. You're not on the invite. I am."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Belki unutmuşlardır. Belki de unutmamışlardır. Ben gidiyorum, bilgin olsun.",
+      "en": "Maybe they forgot. Or maybe they didn't. I'm going, just so you know.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Davetsiz git",
+      "en": "Show up uninvited",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sor",
+      "tr": "Düzenleyene yaz",
+      "en": "Message the organizer",
+      "pattern": "patience"
+    },
+    {
+      "id": "bekle",
+      "tr": "Notları bekle",
+      "en": "Wait for the notes",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "git": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Kapıyı çalıp girdin, ilk soruyu sen cevapladın. Toplantı sonunda davetli listesine geriye dönük eklendin.",
+        "en": "You knocked, walked in and answered the first question. By the end you'd been added to the invite, retroactively.",
+        "coach": [
+          {
+            "tr": "Geriye dönük davet. Takvimin böyle bir özelliği varmış.",
+            "en": "A retroactive invite. Turns out the calendar can do that.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -4
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "davetsiz_geldi"
+            }
+          ]
+        },
+        "tr": "Girdin; toplantı aslında projenin bütçesi hakkındaymış. On dakika boyunca kimse sana soru sormadı.",
+        "en": "You walked in. It was actually about the project's budget. For ten minutes, nobody asked you a thing.",
+        "coach": [
+          {
+            "tr": "Davetsiz giriş, sessiz oturuş. On dakikalık misafirlik.",
+            "en": "Uninvited entry, silent stay. Ten minutes as a guest.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "meters": {
+          "ego": 1
+        }
+      },
+      "tr": "Düzenleyen 'Ah, liste eskiymiş' dedi ve seni ekledi. Toplantı ertesi haftaya ertelendi.",
+      "en": "The organizer said 'Oh, old list' and added you. The meeting got moved to next week.",
+      "coach": [
+        {
+          "tr": "Davet geldi. Toplantı gitti.",
+          "en": "The invite arrived. The meeting left.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "meters": {
+          "ego": -2
+        },
+        "flags": {
+          "add": [
+            "proje_sahipligi_belirsiz"
+          ]
+        }
+      },
+      "tr": "Notlar akşam geldi: 'Proje sahipliği değerlendirilecek.' Değerlendiren belirtilmemiş.",
+      "en": "The notes came that evening: 'Project ownership to be reviewed.' Reviewer not specified.",
+      "coach": [
+        {
+          "tr": "Edilgen çatı. Kimin yaptığı belirsiz, kime yapıldığı belli.",
+          "en": "Passive voice. Unclear who's doing it, very clear who it's done to.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "git",
+    "slip": {
+      "tr": "İDDİA: Davetsiz sandalyeye soru gelmez. — M.",
+      "en": "WAGER: Nobody asks the uninvited chair a thing. — M."
+    }
+  },
+  "intent": {
+    "setup": "kendi projen hakkındaki toplantıya davet edilmemek",
+    "mechanism": "notlarda edilgen çatı",
+    "mechanismId": "deadpan_report",
+    "punch": "değerlendiren belirtilmemiş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "edilgen"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

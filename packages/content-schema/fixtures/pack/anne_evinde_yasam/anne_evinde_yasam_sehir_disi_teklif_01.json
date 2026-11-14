@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_evinde_yasam_sehir_disi_teklif_01",
+  "tags": [
+    "ev",
+    "anne",
+    "is",
+    "tasinma",
+    "anne_evinde_yasam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "anne_evinde_yasam": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 32
+    },
+    "housing": [
+      "momsHouse"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Kaç saat o şehir? Otobüsle mi, uçakla mı? Otobüsle kaç saat?",
+      "en": "How far is it? Bus or plane? How many hours by bus?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Orada dolma yapan var mı, onu soruyorum. Başka bir şey sormuyorum.",
+      "en": "Is there anyone there who makes stuffed peppers? That's all I'm asking. Nothing else.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Teklifi kabul et",
+      "en": "Take the job",
+      "pattern": "risk"
+    },
+    {
+      "id": "uzaktan",
+      "tr": "Uzaktan çalışmayı sor",
+      "en": "Ask about remote work",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "red",
+      "tr": "Teklifi geri çevir",
+      "en": "Turn it down",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "housing": "room",
+        "status": {
+          "home": {
+            "kind": "room",
+            "rent": 1500
+          }
+        },
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "sehir_disina_tasindi"
+          ]
+        }
+      },
+      "tr": "Kabul ettin. Annen ilk koliye üç kavanoz dolma ve otobüs saatlerinin çıktısını koydu.",
+      "en": "You took it. Mom packed the first box: three jars of stuffed peppers and a printout of bus times.",
+      "coach": [
+        {
+          "tr": "Taşınma kolisinin üçte biri dolma.",
+          "en": "One-third of the moving box is peppers.",
+          "roast": false
+        }
+      ]
+    },
+    "uzaktan": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "brain": 2
+          },
+          "meters": {
+            "momPressure": -1
+          },
+          "flags": {
+            "add": [
+              "uzaktan_calisma"
+            ]
+          }
+        },
+        "tr": "Haftada dört gün uzaktan çalışma onaylandı. Annen bunu \"haftada dört gün evdesin\" diye özetledi.",
+        "en": "Remote four days a week: approved. Mom summarized it as \"You're home four days a week.\"",
+        "coach": [
+          {
+            "tr": "Teklif kabul edildi. Adres değişmedi.",
+            "en": "Offer accepted. Address unchanged.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "teklif_kacti"
+            ]
+          }
+        },
+        "tr": "Uzaktan çalışmayı sordun. Şirket teklifi \"yeniden değerlendirmeye\" aldı ve bir daha aramadı.",
+        "en": "You asked about remote work. The company put the offer \"under review.\" It stayed there.",
+        "coach": [
+          {
+            "tr": "Değerlendirme sürüyor. Muhtemelen hep sürecek.",
+            "en": "The review is ongoing. Likely forever.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": -1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "teklif_reddedildi"
+          ]
+        }
+      },
+      "tr": "Teklifi geri çevirdin. Annen o akşam dolma yaptı ve kimseye nedenini söylemedi.",
+      "en": "You turned it down. Mom made stuffed peppers that evening and didn't tell anyone why.",
+      "coach": [
+        {
+          "tr": "Dolmalar bu hafta erken geldi.",
+          "en": "The peppers arrived early this week.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "başka şehirden gelen iş teklifini anneye söylemek",
+    "mechanism": "kolinin ve teklifin dolma üzerinden haber gibi aktarılması",
+    "mechanismId": "deadpan_report",
+    "punch": "orada dolma yapan var mı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "dolma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_teacher_yuksek_lisans_odevi_01",
+  "tags": [
+    "kariyer",
+    "ogretmen",
+    "kariyer_teacher"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_teacher": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "teacher"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ödevler pazar gece yarısına kadar sisteme yüklenir. Geç teslimde mazeret kabul etmiyorum.",
+      "en": "Assignments go into the system by midnight Sunday. I don't accept excuses for late work."
+    }
+  ],
+  "choices": [
+    {
+      "id": "zamaninda",
+      "tr": "Her ödevi zamanında yetiştir",
+      "en": "Hand everything in on time",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "brain",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "mazeret",
+      "tr": "Bir haftalık ek süre iste",
+      "en": "Ask for a week's extension",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "dondur",
+      "tr": "Kaydı bir dönem dondur",
+      "en": "Defer for a term",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "zamaninda": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -500,
+          "stats": {
+            "brain": 3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "yuksek_lisansli_ogretmen"
+            ]
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Dönem boyunca her pazar 23.50'de ödev yükledin. Dersler bitti, kademe başvurun onaylandı: bir basamak yukarı.",
+        "en": "All term you uploaded homework at 11:50 every Sunday night. Coursework done, your step increase came through: one up.",
+        "coach": [
+          {
+            "tr": "Öğretmen ödevini teslim etti.",
+            "en": "The teacher turned in the homework.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef: bir basamak yukarı.",
+            "en": "Goal: one step up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -500,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 5
+          }
+        },
+        "tr": "Üçüncü haftada yazılı kâğıtların ödevle çakıştı. Dört dakika geç yükledin; sistem kapanmıştı.",
+        "en": "In week three your grading collided with your homework. You uploaded four minutes late. The system had closed.",
+        "coach": [
+          {
+            "tr": "Dört dakika. Kural senin sınıfındakiyle aynı.",
+            "en": "Four minutes. Same rule as in your own classroom.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "mazeret": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Ek süre istedin. Cevap tek satırdı: 'Öğrencilerinize ne diyorsanız o.' Ödevi o gece bitirdin.",
+      "en": "You asked for an extension. The reply was one line: 'Whatever you tell your own students.' You finished it that night.",
+      "coach": [
+        {
+          "tr": "Kendi cümlen geri geldi.",
+          "en": "Your own sentence came back.",
+          "roast": false
+        }
+      ]
+    },
+    "dondur": {
+      "effects": {
+        "money": -100,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -3
+        }
+      },
+      "tr": "Kaydı bir dönem dondurdun. Pazar geceleri yeniden boş; kademe olduğu yerde bekliyor.",
+      "en": "You deferred for a term. Sunday nights are free again. The pay step is waiting where it was.",
+      "coach": [
+        {
+          "tr": "Pazar geri alındı.",
+          "en": "Sunday, reclaimed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "oran dışı; partide iddia payı dolu"
+  },
+  "intent": {
+    "setup": "kademe için akşamları yüksek lisansa başlıyorsun, bu kez ödev teslim eden sensin",
+    "mechanism": "öğretmen öğrenci oluyor, kendi kuralı ona uygulanıyor",
+    "mechanismId": "reversal",
+    "punch": "öğrencilerinize ne diyorsanız o",
+    "lift": "hedef: bir basamak",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pazar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

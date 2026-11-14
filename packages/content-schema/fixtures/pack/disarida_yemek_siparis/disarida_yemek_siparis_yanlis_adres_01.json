@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_yanlis_adres_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "kurye",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:courier",
+      "avatar": "neutral",
+      "tr": "Siparişi teslim ettim. Kapıyı bir hanımefendi açtı, \"yine mi aç kalmış\" dedi.",
+      "en": "Delivered. A lady answered the door and said, \"Hungry again, I see.\""
+    },
+    {
+      "speaker": "npc:courier",
+      "avatar": "smug",
+      "tr": "Adres \"Ev\" diye kayıtlıydı. Ben de eve götürdüm.",
+      "en": "The address was saved as \"Home.\" So I took it home.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Annenin evine git, yemeği al",
+      "en": "Go to Mom's and get the food",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "yeniden",
+      "tr": "Aynısını yeniden söyle",
+      "en": "Order the same thing again",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "ara",
+      "tr": "Kuryeyi geri çağırmayı dene",
+      "en": "Try to call the courier back",
+      "pattern": "patience",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -30,
+        "flags": {
+          "add": [
+            "siparis_adres_anne_evi"
+          ]
+        }
+      },
+      "tr": "Annenin evine gittin. Yemek ısıtılmış, yanına pilav eklenmişti.",
+      "en": "You went to Mom's. The food had been reheated, with rice added on the side.",
+      "coach": [
+        {
+          "tr": "Sipariş yolda bir tabak büyümüş.",
+          "en": "The order grew by one plate in transit.",
+          "roast": false
+        }
+      ]
+    },
+    "yeniden": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -190,
+        "flags": {
+          "add": [
+            "siparis_adres_duzeltildi"
+          ]
+        }
+      },
+      "tr": "Aynı siparişi doğru adrese verdin, 190 Para daha. İlki annenin buzdolabında kaldı.",
+      "en": "You reordered to the right address for another 190. The first one stayed in Mom's fridge.",
+      "coach": [
+        {
+          "tr": "İki ev de yemek aldı. Sipariş veren bir taneydi.",
+          "en": "Both homes got dinner. Only one of them ordered.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": -40,
+          "flags": {
+            "add": [
+              "siparis_adres_duzeltildi"
+            ]
+          }
+        },
+        "tr": "Kurye geri döndü, yemeği annenden alıp getirdi. 40 Para bahşiş verdin.",
+        "en": "The courier went back, collected it from your mom, and brought it over. You tipped forty.",
+        "coach": [
+          {
+            "tr": "Yemek bu akşam iki kapı gördü.",
+            "en": "That dinner has now seen two doorways.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "siparis_adres_anne_evi"
+            ]
+          }
+        },
+        "tr": "Kurye başka teslimata geçmişti. Annen fotoğraf gönderdi: yemek tabakta, başında kendisi.",
+        "en": "The courier had moved on to another drop. Mom sent a photo: your dinner, plated, with her sitting in front of it.",
+        "coach": [
+          {
+            "tr": "Adres defterinde \"Ev\" iki yerde yazıyor. Uygulama birini seçti.",
+            "en": "\"Home\" appears twice in your address book. The app picked one.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ara",
+    "slip": {
+      "tr": "İDDİA: Kurye geri dönmez. — M.",
+      "en": "WAGER: That courier is not coming back. — M."
+    }
+  },
+  "intent": {
+    "setup": "siparişin uygulamada kayıtlı eski adrese, anne evine gitmesi",
+    "mechanism": "\"Ev\" diye kayıtlı adres hâlâ annenin evi; yemek oraya teslim ediliyor",
+    "mechanismId": "reversal",
+    "punch": "adres ev diye kayıtlıydı, eve götürdüm",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "ev"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

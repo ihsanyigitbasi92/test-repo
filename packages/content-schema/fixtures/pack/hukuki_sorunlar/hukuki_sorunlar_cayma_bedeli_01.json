@@ -1,0 +1,198 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "hukuki_sorunlar_cayma_bedeli_01",
+  "tags": [
+    "burokrasi",
+    "abonelik",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "BAĞLANTINET İNTERNET HİZMETLERİ (kurgusal)",
+      "en": "CONNECTNET BROADBAND (fictional)"
+    },
+    "body": {
+      "tr": "Taahhüt süreniz dolmadan yaptığınız nakil talebi, yeni adresinizde altyapı bulunmaması nedeniyle karşılanamamaktadır. Aboneliğin sonlandırılması hâlinde 640 Para cayma bedeli uygulanır.",
+      "en": "Your transfer request before the end of your commitment cannot be met, as there is no coverage at your new address. Ending the plan incurs an early termination fee of 640."
+    },
+    "translate": {
+      "tr": {
+        "from": "altyapı bulunmaması",
+        "to": "kablo seni takip etmiyor"
+      },
+      "en": {
+        "from": "no coverage",
+        "to": "the cable won't follow you"
+      }
+    },
+    "glossaryKey": "cayma_bedeli"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Taşınmanızı erteleme imkânınız var mı acaba?",
+      "en": "Is postponing your move an option at all?"
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Cayma bedelini öde",
+      "en": "Pay the termination fee",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Altyapı yoksa bedel de yok, de",
+      "en": "Argue no coverage means no fee",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "eski",
+      "tr": "Hattı eski adreste bırak",
+      "en": "Keep the line at the old address",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -640,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "internet_kapandi"
+          ]
+        }
+      },
+      "tr": "640 Para ödeyip aboneliği kapattın. Yeni evdeki ilk haftan komşunun misafir ağında geçiyor.",
+      "en": "You paid 640 and closed the account. Your first week in the new place runs on the neighbor's guest network.",
+      "coach": [
+        {
+          "tr": "Sen taşındın. İnternet komşuda kaldı.",
+          "en": "You moved. Your internet stayed next door.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 1
+          },
+          "glossary": "cayma_bedeli",
+          "flags": {
+            "add": [
+              "internet_kapandi"
+            ]
+          }
+        },
+        "tr": "Kendi \"altyapı yok\" yazılarını itiraz dilekçesine ekledin. Cayma bedeli iptal edildi.",
+        "en": "You attached their own \"no coverage\" letter to your objection. The fee was waived.",
+        "coach": [
+          {
+            "tr": "Delil, onların kendi antetli kâğıdı.",
+            "en": "Exhibit A: their own letterhead.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -640,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "cayma_bedeli"
+        },
+        "tr": "İtiraz \"altyapı eksikliği nakil maddesine tabidir\" cevabıyla reddedildi. 640 Para borç yansıtıldı.",
+        "en": "Objection denied: \"Coverage gaps fall under the relocation clause.\" 640 billed.",
+        "coach": [
+          {
+            "tr": "Bir madde öbür maddeyi korudu.",
+            "en": "One clause covered for the other.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "eski": {
+      "effects": {
+        "money": -650,
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "bos_eve_internet"
+          ]
+        }
+      },
+      "tr": "Hattı eski adreste açık bıraktın. Kalan beş ay 650 Para tuttu; boş evde modem her gece yanıp sönüyor.",
+      "en": "You kept the line at the old address. Five more months came to 650. In the empty flat, the router blinks every night.",
+      "coach": [
+        {
+          "tr": "Boş eve internet. Kimse için yanıp sönüyor.",
+          "en": "Internet for an empty flat. Blinking for no one.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "taşınınca yeni adreste altyapı olmadığı için internet taahhüdünden cayma bedeli istenmesi",
+    "mechanism": "\"altyapı yok\" gerekçesi seni cezalandırıyor",
+    "mechanismId": "translation",
+    "punch": "taşınmanızı erteleme imkânınız var mı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "modem"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

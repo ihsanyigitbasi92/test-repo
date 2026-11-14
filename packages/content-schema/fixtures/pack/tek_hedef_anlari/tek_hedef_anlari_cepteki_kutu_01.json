@@ -1,0 +1,231 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_cepteki_kutu_01",
+  "tags": ["milestone:teklif", 
+    "meta",
+    "hedef",
+    "iliski",
+    "teklif",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 2,
+  "intensity": 8000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "propose"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "none": [
+        "nisanli",
+        "evli"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Fotoğrafınızı çekeyim mi? Özel bir akşam gibi duruyor.",
+      "en": "Want me to take your picture? This looks like a special evening."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Cebinizdeki kutu masaya düşmek üzere. Söyleyeyim dedim.",
+      "en": "The box in your pocket is about to land on the table. Thought you should know.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "sor",
+      "tr": "Şimdi sor",
+      "en": "Ask now",
+      "pattern": "risk",
+      "check": {
+        "base": 7000,
+        "stat": "charm",
+        "goal": "propose"
+      }
+    },
+    {
+      "id": "tatli",
+      "tr": "Tatlıya kadar bekle",
+      "en": "Wait until dessert",
+      "pattern": "patience"
+    },
+    {
+      "id": "ertele",
+      "tr": "Kutuyu cebine geri it",
+      "en": "Push the box back in",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sor": [
+      {
+        "p": 7000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 15
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 10,
+              "memory": "evlenme_teklifi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "nisanli"
+            ]
+          },
+          "notebook": {
+            "kind": "note",
+            "key": "evlenme_teklifi"
+          }
+        },
+        "tr": "Sordun. Cevap 'evet' oldu, hemen ardından 'kalk, dizin ıslandı'. Yan masa alkışladı.",
+        "en": "You asked. The answer was yes, followed immediately by 'get up, your knee is in something.' The next table applauded.",
+        "coach": [
+          {
+            "tr": "Hedef: tamam. Yüzük: takılı.",
+            "en": "Goal: done. Ring: on.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 3000,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3,
+              "memory": "evlenme_teklifi"
+            }
+          ],
+          "flags": {
+            "add": [
+              "teklif_cevap_bekliyor"
+            ]
+          }
+        },
+        "tr": "Sordun. Partnerin elini tuttu: 'Evet demek istiyorum. Bana bir hafta ver.' Yabancı fotoğrafı yine de çekti.",
+        "en": "You asked. Your partner took your hand: 'I want to say yes. Give me a week.' The stranger took the photo anyway.",
+        "coach": [
+          {
+            "tr": "Soru soruldu. Hedef bunu sayar.",
+            "en": "The question was asked. The goal counts that.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tatli": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 10
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 8,
+            "memory": "evlenme_teklifi"
+          }
+        ],
+        "flags": {
+          "add": [
+            "nisanli"
+          ]
+        }
+      },
+      "tr": "Tatlı geldi, sordun, 'evet' aldın. Mekân kutuyu görünce hesaptan iki çayı sildi; kalan 300 Para.",
+      "en": "Dessert came, you asked, you got a yes. The staff saw the box and took two teas off the bill. The rest was 300.",
+      "coach": [
+        {
+          "tr": "Hedef tamam. Çaylar ikram.",
+          "en": "Goal done. Teas on the house.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "teklif_ertelendi"
+          ]
+        }
+      },
+      "tr": "Kutu cebinde kaldı. Eve dönerken partnerin ceketinin neden bu kadar ağır olduğunu sordu.",
+      "en": "The box stayed in your pocket. On the way home your partner asked why your jacket weighs so much.",
+      "coach": [
+        {
+          "tr": "Kutu cepte. Ceket ağır.",
+          "en": "Box in pocket. Heavy jacket.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia yok"
+  },
+  "intent": {
+    "setup": "evlenme teklifi hedefinde yemekte cepteki yüzük kutusunu yabancının fark etmesi",
+    "mechanism": "büyük an pratik bir uyarıyla başlıyor",
+    "mechanismId": "bathos",
+    "punch": "kutu masaya düşmek üzere",
+    "lift": "hedef tamam",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "yuzuk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

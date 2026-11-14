@@ -1,0 +1,239 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_kafe_kapandi_01",
+  "tags": [
+    "is",
+    "isten_cikis",
+    "yari_zamanli",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 24
+    },
+    "career": {
+      "employed": true
+    },
+    "stats": {
+      "joy": {
+        "min": 30
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Kafenin kapısında kâğıt var: \"Dün gece itibarıyla kapandık. Anahtarları paspasın altına bırakın.\"",
+      "en": "There's a sign on the café door: \"Closed as of last night. Leave keys under the mat.\""
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Altında el yazısıyla: \"Son haftanın ücreti en kısa sürede. Kalan muffinler sizin.\"",
+      "en": "Handwritten underneath: \"Last week's pay ASAP. Leftover muffins are yours.\"",
+      "delayMs": 800
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "İkimiz de işsiziz yani. Muffin de on iki tane.",
+      "en": "So we're both unemployed. And there are twelve muffins.",
+      "delayMs": 1000
+    }
+  ],
+  "choices": [
+    {
+      "id": "ucret",
+      "tr": "Son haftanın ücretini yazılı iste",
+      "en": "Ask for last week's pay in writing",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "muffin",
+      "tr": "Muffinleri al, eve dön",
+      "en": "Take the muffins, go home",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "ekip",
+      "tr": "Bütün ekiple ortak mesaj at",
+      "en": "Rally the whole crew",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "ucret": [
+      {
+        "p": 5000,
+        "effects": {
+          "career": {
+            "fire": true
+          },
+          "money": 450,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "isten_cikarildi"
+            ]
+          }
+        },
+        "tr": "Kafe sahibine saat ve tutarla yazılı mesaj attın. Ertesi gün 450 Para yattı.",
+        "en": "You messaged the owner in writing, with hours and amount. 450 landed the next day.",
+        "coach": [
+          {
+            "tr": "Yazılı soru, yazılı ödeme.",
+            "en": "Written question. Written payment.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: 450 Para tahsil.",
+            "en": "Goal tracker: 450 collected.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "career": {
+            "fire": true
+          },
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "isten_cikarildi",
+              "alacak_var"
+            ]
+          }
+        },
+        "tr": "Mesaj \"görüldü\" oldu, cevap gelmedi. Kafenin camına \"devren kiralık\" ilanı asılmış.",
+        "en": "Message seen. No reply. The café window now has a \"For Lease\" sign.",
+        "coach": [
+          {
+            "tr": "Görüldü. Ödenmedi.",
+            "en": "Seen. Not paid.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "muffin": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "isten_cikarildi"
+          ]
+        }
+      },
+      "tr": "On iki muffinle eve döndün. Ev arkadaşın ikisini yedi, sonra sana bir iş ilanı gönderdi.",
+      "en": "You came home with twelve muffins. Your roommate ate two, then sent you a job listing.",
+      "coach": [
+        {
+          "tr": "On iki muffin, bir ilan.",
+          "en": "Twelve muffins, one listing.",
+          "roast": false
+        }
+      ]
+    },
+    "ekip": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "money": 450,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "isten_cikarildi",
+            "ekip_dayanismasi"
+          ]
+        }
+      },
+      "tr": "Altı kişi aynı mesajı aynı dakikada attınız. Akşam herkesin son haftası yattı.",
+      "en": "Six of you sent the same message in the same minute. By evening, everyone's last week was paid.",
+      "coach": [
+        {
+          "tr": "Altı mesaj aynı dakikada. Ödeme aynı akşam.",
+          "en": "Six messages, same minute. Payment, same evening.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "yarı zamanlı çalışılan kafenin bir gecede kapanması",
+    "mechanism": "kapanış notu muffin paylaşımıyla bitiyor",
+    "mechanismId": "deadpan_report",
+    "punch": "kalan muffinler sizin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "muffin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

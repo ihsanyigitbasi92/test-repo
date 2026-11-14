@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_kurs_sertifika_proje_yonetimi_sinavi_01",
+  "tags": [
+    "egitim",
+    "kurs",
+    "is",
+    "egitim_kurs_sertifika"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_kurs_sertifika": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Ben o sertifikayı ikinci denemede aldım. Kılavuz 640 sayfa, ama yarısı tablo.",
+      "en": "I passed that cert on my second try. The guide's 640 pages, but half of it is tables."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Sertifikayla gelirsen yeni projeyi sana veririm. Sınav ücretini şirket öder, bir kez.",
+      "en": "Come back certified and the new project's yours. The company pays the exam fee. Once.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "gir",
+      "tr": "Sınava gir",
+      "en": "Sit the exam",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "erte",
+      "tr": "Bir ay daha çalış",
+      "en": "Study one more month",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "iste",
+      "tr": "Projeyi sertifikasız iste",
+      "en": "Ask for the project anyway",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "gir": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "brain": 3
+          },
+          "flags": {
+            "add": [
+              "pm_sertifika"
+            ]
+          },
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Geçtin. Yeni proje sende; ilk toplantı daveti sertifikadan önce geldi.",
+        "en": "You passed. The new project is yours. The first meeting invite arrived before the certificate did.",
+        "coach": [
+          {
+            "tr": "Kılavuz rafa kalktı. Proje masaya indi.",
+            "en": "The guide went on the shelf. The project landed on the desk.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir basamak.",
+            "en": "Goal counter: one rung up.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "pm_tekrar"
+            ]
+          }
+        },
+        "tr": "Geçme notunun dört puan altında kaldın. Şirket bir kez ödüyordu; ikinci deneme 900 Para, senden.",
+        "en": "Four points under the pass mark. The company paid once. Round two is on you: 900.",
+        "coach": [
+          {
+            "tr": "Dört puan. İş arkadaşın da ikinci denemede almıştı.",
+            "en": "Four points short. Your coworker needed two tries too.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "erte": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "pm_erteledi"
+          ]
+        }
+      },
+      "tr": "Bir ay daha çalıştın. Bu sürede proje iş arkadaşına verildi; o da sertifikalı.",
+      "en": "You studied another month. Meanwhile the project went to your coworker. Who is certified.",
+      "coach": [
+        {
+          "tr": "Bir ay kazandın. Proje bekleyemedi.",
+          "en": "You bought a month. The project didn't wait.",
+          "roast": false
+        }
+      ]
+    },
+    "iste": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "pm_sertifikasiz"
+          ]
+        }
+      },
+      "tr": "Projeyi istedin. Patronun \"Önce sertifika\" dedi ve kılavuzu masana bıraktı.",
+      "en": "You asked for the project. Your boss said \"Certificate first\" and left the guide on your desk.",
+      "coach": [
+        {
+          "tr": "Kılavuz geri döndü. 640 sayfa, eksiksiz.",
+          "en": "The guide is back. All six hundred forty pages.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "gir",
+    "slip": {
+      "tr": "İDDİA: İlk denemede geçemezsin. — M.",
+      "en": "WAGER: You won't pass on the first try. — M."
+    }
+  },
+  "intent": {
+    "setup": "terfi şartı proje yönetimi sertifika sınavı",
+    "mechanism": "kılavuzun yarısı tablo; şirket bir kez öder",
+    "mechanismId": "count",
+    "punch": "640 sayfa",
+    "lift": "Hedef sayacı bir basamak.",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kilavuz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

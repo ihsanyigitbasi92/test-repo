@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_cihaz_arizasi_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Cihaz arızalı. Parça sipariş edildi, sekiz hafta. Üstüne kâğıt astım, kimse dokunmasın.",
+      "en": "The instrument's down. Part's on order, eight weeks. I've put a sign on it. Nobody touch it."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Kâğıdı kaldırıp deneyen üç kişi oldu bile. Çalışmıyor.",
+      "en": "Three people have already lifted the sign to try it. It doesn't work."
+    }
+  ],
+  "choices": [
+    {
+      "id": "komsu",
+      "tr": "Komşu laboratuvardan saat iste",
+      "en": "Ask the lab next door for hours",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "erteleme",
+      "tr": "Rapor için ek süre iste",
+      "en": "Ask for a report extension",
+      "pattern": "patience"
+    },
+    {
+      "id": "eldeki",
+      "tr": "Eldeki veriyle yaz",
+      "en": "Write up what you have",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "komsu": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Komşu laboratuvar cihazını salı geceleri verdi, karşılığında makalede teşekkür satırı istedi. Ölçümler dört salıda bitti.",
+        "en": "The lab next door gave you their instrument on Tuesday nights in exchange for a line in the acknowledgments. The measurements took four Tuesdays.",
+        "coach": [
+          {
+            "tr": "Dört salı, bir teşekkür satırı. Rapor zamanında.",
+            "en": "Four Tuesdays, one acknowledgment. Report on time.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Komşu laboratuvarın cihazı da üç aylık randevu listesiyle çalışıyormuş. Adın listeye yazıldı: on birinci sıra.",
+        "en": "The lab next door runs theirs on a three-month waiting list. Your name went on it. Eleventh.",
+        "coach": [
+          {
+            "tr": "Parça sekiz hafta, sıra on iki. Parça önde gidiyor.",
+            "en": "Part: eight weeks. Queue: twelve. The part is winning.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "erteleme": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Ek süre dilekçesi verdin. İki ay verildi; dilekçenin cevabı beş haftada geldi.",
+      "en": "You applied for an extension. They granted two months. The reply took five weeks to arrive.",
+      "coach": [
+        {
+          "tr": "İki ay ek süre. Beş haftası yolda geçti.",
+          "en": "Two extra months. Five weeks of it spent in the mail.",
+          "roast": true
+        }
+      ]
+    },
+    "eldeki": {
+      "effects": {
+        "stats": {
+          "joy": -1,
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "eksik_veri_raporu"
+          ]
+        }
+      },
+      "tr": "Raporu on dört ölçümle yazdın; planlanan kırktı. Sonuç bölümünde 'ön bulgular' ifadesi dokuz kez geçiyor.",
+      "en": "You wrote the report on fourteen measurements out of a planned forty. The phrase 'preliminary findings' appears nine times.",
+      "coach": [
+        {
+          "tr": "Kırk yerine on dört. Açığı 'ön' kelimesi kapattı.",
+          "en": "Fourteen out of forty. The word 'preliminary' covered the rest.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "komsu",
+    "slip": {
+      "tr": "İDDİA: Komşunun cihazı da dolu. — M.",
+      "en": "WAGER: Next door's instrument is booked too. — M."
+    }
+  },
+  "intent": {
+    "setup": "laboratuvarın tek ölçüm cihazı bozuldu, parça sekiz haftada gelecek, rapor altı hafta sonra",
+    "mechanism": "arıza ve takvim tutanak diliyle anlatılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "parça önde gidiyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "parca"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

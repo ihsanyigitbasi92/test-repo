@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "evrak_mektuplar_eski_kanepe_cezasi_01",
+  "tags": [
+    "burokrasi",
+    "ceza",
+    "evrak_mektuplar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "evrak_mektuplar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇINARLI BELEDİYESİ TEMİZLİK İŞLERİ (kurgusal)",
+      "en": "PLANETREE TOWN SANITATION DEPARTMENT (fictional)"
+    },
+    "body": {
+      "tr": "Eski adresiniz önüne bırakılan iki kişilik kanepe tarafınıza ait olarak tespit edilmiştir. 400 Para idari para cezası tebliğ olunur.",
+      "en": "A two-seater sofa left outside your former address has been identified as yours. You are hereby fined 400."
+    },
+    "translate": {
+      "tr": {
+        "from": "tarafınıza ait olarak tespit edilmiştir",
+        "to": "üç yıl önce sattığın kanepe"
+      },
+      "en": {
+        "from": "identified as yours",
+        "to": "the sofa you sold three years ago"
+      }
+    },
+    "glossaryKey": "idari_itiraz"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Minderlerin arasından adınıza bir kargo fişi çıkmış.",
+      "en": "A delivery slip with your name on it was found between the cushions."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Delil fiş. Kanepe sadece olay yeri.",
+      "en": "The slip is the evidence. The sofa is just the scene.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Cezayı öde, uğraşma",
+      "en": "Pay it and move on",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Satış mesajlarını bul, itiraz et",
+      "en": "Find the sale messages and object",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kiraci",
+      "tr": "Yeni kiracıyı ara",
+      "en": "Call the current tenant",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -400,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "400 Para’yı ödedin. Kanepe hâlâ kaldırımda, artık resmen senin değil.",
+      "en": "You paid the 400. The sofa is still on the curb, now officially not yours.",
+      "coach": [
+        {
+          "tr": "Kanepe senden ikinci kez ayrıldı.",
+          "en": "The sofa has left you twice now.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 1
+          },
+          "glossary": "idari_itiraz",
+          "flags": {
+            "add": [
+              "kanepe_itirazi_kabul"
+            ]
+          }
+        },
+        "tr": "Üç yıllık satış mesajlarını dilekçeye ekledin. Ceza iptal edildi, şimdiki kiracıya yeniden yazıldı.",
+        "en": "You attached the three-year-old sale messages to your petition. Fine cancelled and reissued to the current tenant.",
+        "coach": [
+          {
+            "tr": "O ekran görüntüsü üç yıl bugünü bekledi.",
+            "en": "That screenshot waited three years for this day.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -400,
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "idari_itiraz"
+        },
+        "tr": "Mesajlarda adres yazmıyordu. İtiraz reddedildi; ödeme için beş gün kaldı.",
+        "en": "The messages didn't mention the address. Objection denied; five days left to pay.",
+        "coach": [
+          {
+            "tr": "Fiş, mesajları yendi.",
+            "en": "The slip beat the messages.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kiraci": {
+      "effects": {
+        "money": -100,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kanepe_cezasi_acik"
+          ]
+        }
+      },
+      "tr": "Kiracı kanepeyi tanıdı ama \"ben çıkarmadım\" dedi. Hurdacıya yarı yarıya 100 Para verdiniz; ceza dosyası açık.",
+      "en": "The tenant recognized the sofa but denied putting it out. You split a junk hauler, 100 each. The fine is still open.",
+      "coach": [
+        {
+          "tr": "Kanepe gitti. Ceza onunla gitmedi.",
+          "en": "The sofa's gone. The fine didn't go with it.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "yıllar önce sattığın kanepenin eski adresin önüne atılması ve cezanın sana kesilmesi",
+    "mechanism": "minderdeki fiş kanepeyi sana geri bağlıyor",
+    "mechanismId": "reversal",
+    "punch": "kanepe sadece olay yeri",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "fis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

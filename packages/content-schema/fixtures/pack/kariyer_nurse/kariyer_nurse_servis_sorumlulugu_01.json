@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_nurse_servis_sorumlulugu_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Servis sorumluluğu sende. Hasta sayın azalıyor, tablo sayın artıyor.",
+      "en": "You're the new charge nurse. Fewer patients, more spreadsheets."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Bundan sonra nöbet çizelgesine kızan herkes seni arayacak. Ben de dahil.",
+      "en": "From now on, anyone who hates the schedule calls you. Me included.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Görevi kabul et",
+      "en": "Accept the role",
+      "pattern": "overwork"
+    },
+    {
+      "id": "sart",
+      "tr": "Bir hemşire daha şartıyla kabul et",
+      "en": "Accept if they add a nurse",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "red",
+      "tr": "Yatak başında kal",
+      "en": "Stay at the bedside",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "status": {
+          "job": {
+            "title": "Sorumlu hemşire",
+            "tier": 3,
+            "monthly": 3200
+          }
+        },
+        "meters": {
+          "ego": 4
+        },
+        "hidden": {
+          "stress": 4
+        }
+      },
+      "tr": "Masa, oda ve anahtar destesi senin. İlk gün dokuz telefon geldi, yedisi çizelge hakkındaydı.",
+      "en": "The desk, the office and the key ring are yours. Nine calls on day one, seven about the schedule.",
+      "coach": [
+        {
+          "tr": "Anahtar destesi büyüdü, boş zaman küçüldü.",
+          "en": "The key ring grew. Free time shrank.",
+          "roast": true
+        }
+      ]
+    },
+    "sart": [
+      {
+        "p": 4000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "status": {
+            "job": {
+              "title": "Sorumlu hemşire",
+              "tier": 3,
+              "monthly": 3200
+            }
+          },
+          "meters": {
+            "ego": 6
+          },
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Şart kabul edildi, servise bir hemşire daha geldi. İlk çizelgeyi tek şikâyet telefonu almadan yayımladın.",
+        "en": "Approved. One more nurse joins the unit. Your first schedule went out without a single complaint call.",
+        "coach": [
+          {
+            "tr": "Sıfır şikâyet. İlk ve muhtemelen son.",
+            "en": "Zero complaints. A first, and probably a last.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "status": {
+            "job": {
+              "title": "Sorumlu hemşire",
+              "tier": 3,
+              "monthly": 3200
+            }
+          },
+          "meters": {
+            "ego": -1
+          },
+          "hidden": {
+            "stress": 5
+          }
+        },
+        "tr": "Şart kabul edilmedi ama görev geri alınmadı. Bir hemşire eksik servisin sorumlusu sensin.",
+        "en": "The condition was declined. The promotion was not. You're in charge of a unit one nurse short.",
+        "coach": [
+          {
+            "tr": "Şart düştü. Görev düşmedi.",
+            "en": "The condition fell through. The promotion didn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "meters": {
+          "ego": 1
+        }
+      },
+      "tr": "Teklifi geri çevirdin. Yeni sorumlu ilk toplantıda seni \"danışmanımız\" diye tanıttı.",
+      "en": "You turned it down. At the first meeting, the new charge nurse introduced you as \"our consultant.\"",
+      "coach": [
+        {
+          "tr": "Unvan yok, danışmanlık var. Ücretsiz.",
+          "en": "No title. A consulting role. Unpaid.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia payı başka olayda"
+  },
+  "intent": {
+    "setup": "servis sorumlu hemşireliği teklifi: daha az hasta, daha çok tablo",
+    "mechanism": "terfinin kazanç ve kayıp sayımı",
+    "mechanismId": "count",
+    "punch": "yedisi çizelge hakkında",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "anahtar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

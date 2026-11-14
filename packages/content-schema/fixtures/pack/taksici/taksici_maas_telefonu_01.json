@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_maas_telefonu_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "İnsan kaynakları mı arıyor? Asla ilk rakamı kabul etme. Ben pazarda bile ilk fiyatı almam.",
+      "en": "Is that HR? Never take the first number. I don't even take the first price at the market."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Kırmızıda dururken parmakla işaret ederim. Üç parmak: daha iste.",
+      "en": "At the red light I'll signal. Three fingers means ask for more.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "iste",
+      "tr": "Üç parmağı dinle, daha iste",
+      "en": "Follow the three fingers",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Teklifi kabul et",
+      "en": "Accept the offer",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ertele",
+      "tr": "Düşünmek için bir gün iste",
+      "en": "Ask for a day to think",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "iste": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 1200,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "maas_pazarligi_kazanildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Daha istedin. İK \"Bir bakayım\" dedi; akşam teklif 1.500 Para işe başlama primiyle geri geldi.",
+        "en": "You asked for more. HR said \"Let me check,\" and by evening the offer came back with a 1,500 signing bonus.",
+        "coach": [
+          {
+            "tr": "Üç parmak, bir prim.",
+            "en": "Three fingers, one bonus.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Daha istedin. İK teklifin \"zaten bandın tepesinde\" olduğunu, sesinin de korna yüzünden kesildiğini söyledi.",
+        "en": "You asked for more. HR said the offer was \"already top of the band\" and that you cut out during a horn.",
+        "coach": [
+          {
+            "tr": "Korna da müzakereye katıldı.",
+            "en": "The horn joined the negotiation.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "maas_kabul"
+          ]
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Teklifi kabul ettin. Taksici kırmızıda iki parmağını indirdi, kalan başparmağı kaldırdı.",
+      "en": "You accepted. At the red light he lowered two fingers and gave you the thumb.",
+      "coach": [
+        {
+          "tr": "Anlaşma tamam. Başparmak onayladı.",
+          "en": "Deal closed. Approved by thumb.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "maas_dusunme"
+          ]
+        }
+      },
+      "tr": "Bir gün istedin, İK \"Tabii\" dedi. Taksici \"İşte bu, bekletmek de pazarlıktır\" dedi.",
+      "en": "You asked for a day; HR said \"Of course.\" The cabbie said, \"There it is. Waiting is haggling too.\"",
+      "coach": [
+        {
+          "tr": "Bir gün satın aldın.",
+          "en": "You bought yourself a day.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iste",
+    "slip": {
+      "tr": "İDDİA: Üç parmak işe yaramaz. — M.",
+      "en": "WAGER: The three fingers won't work. — M."
+    }
+  },
+  "intent": {
+    "setup": "taksideyken iş teklifi telefonunda taksicinin kırmızı ışıkta parmakla maaş pazarlığı yönetmesi",
+    "mechanism": "pazar pazarlığı maaş görüşmesine taşınıyor",
+    "mechanismId": "escalation",
+    "punch": "üç parmak: daha iste",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "korna"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uzaktan_calisma_yuruyerek_birebir_01",
+  "tags": [
+    "is",
+    "uzaktan",
+    "saglik",
+    "uzaktan_calisma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "uzaktan_calisma": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Haftalık birebiri bu sefer telefondan, yürüyerek yapalım. Ben parktayım.",
+      "en": "Let's do this week's one-on-one by phone. Walking. I'm at the park."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "typing",
+      "tr": "Adım sayarın akşam altıda 290'ı gösteriyormuş. Ekip kanalına sen paylaşmışsın, bilerek mi?",
+      "en": "Your step counter said 290 at 6 p.m. You posted it in the team channel. On purpose?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "yuru",
+      "tr": "Kalk, yürüyerek konuş",
+      "en": "Get up and walk the call",
+      "pattern": "selfCare",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "masa",
+      "tr": "Masadan, nefes nefese konuş",
+      "en": "Stay seated, breathe like you're walking",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "aksam",
+      "tr": "Yürüyüşü akşama bırak",
+      "en": "Save the walk for the evening",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "yuru": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "yuruyus_birebir"
+            ]
+          }
+        },
+        "tr": "Kırk dakika yürüyerek konuştunuz. Adım sayarın 4.800'e çıktı, birebirden iki karar çıktı.",
+        "en": "Forty minutes of walking and talking. Your step count hit 4,800. The 1:1 produced two decisions.",
+        "coach": [
+          {
+            "tr": "Kırk dakikada iki karar. Masa bunu hiç yapmamıştı.",
+            "en": "Two decisions in forty minutes. The desk never managed that.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: 4.800 adım.",
+            "en": "Goal tracker: 4,800 steps.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Merdiven boşluğunda telefon çekmedi, üç kez \"duyuyor musun\" dediniz. Birebir asansörde bitti.",
+        "en": "No signal in the stairwell. You each said \"can you hear me\" three times. The 1:1 ended in an elevator.",
+        "coach": [
+          {
+            "tr": "Üç kez \"duyuyor musun\". Üçünde de hayır.",
+            "en": "Three rounds of \"can you hear me.\" Three nos.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "masa": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Masadan nefes nefese konuştun. Nevin Hanım \"yokuş mu çıkıyorsun\" diye sordu.",
+      "en": "You talked from your desk, breathing hard on purpose. Ms. Carver asked if you were going uphill.",
+      "coach": [
+        {
+          "tr": "Yokuş yoktu. Nefes boldu.",
+          "en": "No hill. Plenty of breathing.",
+          "roast": true
+        }
+      ]
+    },
+    "aksam": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Birebiri masadan yaptın, akşam yürüdün. Adım sayarın gece onda 3.100'ü gösterdi.",
+      "en": "You did the 1:1 at your desk and walked in the evening. 3,100 steps by ten p.m.",
+      "coach": [
+        {
+          "tr": "Akşam altıda 290, gece onda 3.100.",
+          "en": "Two-ninety at six. Thirty-one hundred by ten.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yuru",
+    "slip": {
+      "tr": "İDDİA: Birebir, park bitmeden kopar. — M.",
+      "en": "WAGER: The call drops before the park ends. — M."
+    }
+  },
+  "intent": {
+    "setup": "evden çalışırken adım sayısı çok düşükken patronun yürüyerek birebir önermesi",
+    "mechanism": "adımlar ve kararlar sayılıyor",
+    "mechanismId": "count",
+    "punch": "akşam altıda 290 adım",
+    "lift": "hedef sayacı: adım",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "adim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

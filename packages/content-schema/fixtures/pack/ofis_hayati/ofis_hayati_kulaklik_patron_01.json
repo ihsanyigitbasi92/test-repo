@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_kulaklik_patron_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Patron iki dakikadır arkanda konuşuyor. Kulaklığın takılıydı.",
+      "en": "The boss has been talking behind you for two minutes. You had headphones in."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "…ve bu yüzden cuma sabaha kadar hazır olmalı. Anlaştık mı?",
+      "en": "…which is why it has to be ready by Friday morning. Agreed?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "onayla",
+      "tr": "Onayla, sonra çöz",
+      "en": "Nod, figure it out later",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "itiraf",
+      "tr": "Duymadığını söyle",
+      "en": "Admit you didn't hear",
+      "pattern": "pride"
+    },
+    {
+      "id": "tahmin",
+      "tr": "Konuyu tahmin et",
+      "en": "Guess what it was about",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "onayla": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Başını salladın. İş arkadaşın duyduklarını bir kâğıda yazdı: 'cuma' ve 'hazır'.",
+      "en": "You nodded. Your coworker wrote down what they caught: 'Friday' and 'ready.'",
+      "coach": [
+        {
+          "tr": "İki kelimelik bir brif. Teslim cuma.",
+          "en": "A two-word brief. Due Friday.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraf": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": -1
+        }
+      },
+      "tr": "Duymadığını söyledin. Patron baştan anlattı, ikinci anlatım iki dakika daha uzundu.",
+      "en": "You admitted it. The boss started over. The rerun was two minutes longer.",
+      "coach": [
+        {
+          "tr": "Kulaklık iki dakika kazandırmıştı.",
+          "en": "The headphones had saved you two minutes.",
+          "roast": true
+        }
+      ]
+    },
+    "tahmin": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "'Çeyrek raporu, değil mi?' dedin. Doğruydu. Patron kulaklığa bakıp 'iyi kulaklık' dedi.",
+        "en": "'The quarterly report, right?' Correct. The boss eyed the headphones: 'Nice headphones.'",
+        "coach": [
+          {
+            "tr": "Kulaklık hiçbir şey duymadı. Gerisini sen tamamladın.",
+            "en": "The headphones heard nothing. You filled in the rest.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "'Çeyrek raporu?' dedin. Konu kat taşınmasıydı; kutular cumaya hazır olmalıydı.",
+        "en": "'The quarterly report?' It was about the floor move. The boxes had to be ready by Friday.",
+        "coach": [
+          {
+            "tr": "Rapor yerine kutu. Cuma aynı.",
+            "en": "Boxes, not a report. Same Friday.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tahmin",
+    "slip": {
+      "tr": "İDDİA: Tahmin tutmaz. — M.",
+      "en": "WAGER: The guess misses. — M."
+    }
+  },
+  "intent": {
+    "setup": "kulaklık takılıyken patron arkada iki dakika iş tarif ediyor",
+    "mechanism": "kaçırılan brif iki kelimeye iniyor",
+    "mechanismId": "understatement",
+    "punch": "cuma ve hazır",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "brif"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

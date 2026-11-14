@@ -1,0 +1,171 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_kayip_kart_01",
+  "tags": [
+    "para",
+    "banka",
+    "kart",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kartınız iptal edildi. Yenisi yedi iş günü içinde adresinizde olur.",
+      "en": "Your card is cancelled. The new one reaches your address within seven business days."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "İptal geri alınamıyor. Bulursanız lütfen makasla ikiye kesin.",
+      "en": "Cancellations can't be undone. If you find the old one, please cut it in half.",
+      "delayMs": 600
+    }
+  ],
+  "text": [
+    {
+      "id": "kilif",
+      "tr": "Yirmi dakika sonra kart, telefon kılıfının arkasından çıktı.",
+      "en": "Twenty minutes later, the card turned up behind your phone case."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kes",
+      "tr": "Kartı ikiye kes",
+      "en": "Cut the card in half",
+      "pattern": "patience"
+    },
+    {
+      "id": "dene",
+      "tr": "Bir de ATM'de dene",
+      "en": "Try it at the ATM anyway",
+      "pattern": "risk"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden nakit iste",
+      "en": "Ask your mom for cash",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "mom": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "kes": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yeni_kart_bekliyor"
+          ]
+        }
+      },
+      "tr": "Kartı makasla ikiye kestin. Önünde yedi gün nakitle geçecek bir hafta var.",
+      "en": "You cut the card in half. Ahead of you: seven days of cash only.",
+      "coach": [
+        {
+          "tr": "Kart bütün gün kılıftaydı.",
+          "en": "It was in the phone case all day.",
+          "roast": false
+        }
+      ]
+    },
+    "dene": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yeni_kart_bekliyor"
+          ]
+        }
+      },
+      "tr": "ATM kartı okudu, biraz düşündü ve yuttu. Ekranda 'şubenize başvurunuz' yazıyordu.",
+      "en": "The ATM read the card, thought it over, and ate it. The screen said: 'Please contact your branch.'",
+      "coach": [
+        {
+          "tr": "Kart artık makinenin.",
+          "en": "The machine has it now.",
+          "roast": false
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "money": 300,
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "yeni_kart_bekliyor",
+            "anneye_borc"
+          ]
+        }
+      },
+      "tr": "Annen 300 Para gönderdi. Ardından 'kartı nerede kaybettin' diye dört mesaj geldi.",
+      "en": "Your mom sent 300. Then four texts asking where exactly you lost it.",
+      "coach": [
+        {
+          "tr": "Para geldi. Soruşturma sürüyor.",
+          "en": "The money arrived. The inquiry is ongoing.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "kayıp kartı iptal ettirdikten yirmi dakika sonra telefon kılıfında bulmak",
+    "mechanism": "iptal geri alınamıyor, kart elinde",
+    "mechanismId": "deadpan_report",
+    "punch": "kart bütün gün kılıftaydı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kilif"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

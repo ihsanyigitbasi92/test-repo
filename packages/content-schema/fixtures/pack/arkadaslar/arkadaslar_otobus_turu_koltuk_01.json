@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_otobus_turu_koltuk_01",
+  "tags": [
+    "sosyal",
+    "tur",
+    "gezi",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 85
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Günübirlik turumuza hoş geldiniz. Koltuk numaraları biletinizde yazıyor.",
+      "en": "Welcome to our day trip. Your seat numbers are on your tickets."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Arkadaşınız cam kenarı istiyor, \"manzara bana iyi geliyor\" diyor. 7 ve 8 itiraz ediyor.",
+      "en": "Your friend wants a window. \"The view does me good,\" they say. Seats 7 and 8 object.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "destek",
+      "tr": "Arkadaşını destekle",
+      "en": "Back your friend",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ver",
+      "tr": "Kendi cam kenarını ver",
+      "en": "Give up your window seat",
+      "pattern": "generosity"
+    },
+    {
+      "id": "sira",
+      "tr": "Rehbere sıra sistemi öner",
+      "en": "Propose seat rotation",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "destek": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "tur_gerginligi"
+          ]
+        }
+      },
+      "tr": "Arkadaşın cam kenarına geçti; 7 ve 8 bütün yol arkanızda yorum yaptı. Molada ayrı masada yediniz.",
+      "en": "Your friend got the window. Seats 7 and 8 commented behind you the whole way. At the rest stop, you ate at a separate table.",
+      "coach": [
+        {
+          "tr": "Cam kenarı kazanıldı. Mola masası kaybedildi.",
+          "en": "Window seat won. Lunch table lost.",
+          "roast": false
+        }
+      ]
+    },
+    "ver": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "create": true,
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yeni_tur_arkadasi"
+          ]
+        }
+      },
+      "tr": "Cam kenarını arkadaşına verdin. Koridorda yan yolcunla üç saat sohbet edip numaralaştınız.",
+      "en": "You gave your friend your window. On the aisle you chatted with your neighbor for three hours and swapped numbers.",
+      "coach": [
+        {
+          "tr": "Koridor koltuğu, üç saatlik sohbet.",
+          "en": "Aisle seat, three-hour conversation.",
+          "roast": false
+        }
+      ]
+    },
+    "sira": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "tur_sira_sistemi"
+            ]
+          }
+        },
+        "tr": "Gidişte cam kenarı arkadaşına, dönüşte 7 ve 8'e. Rehber sistemi bütün otobüse uyguladı.",
+        "en": "Window to your friend on the way out, to 7 and 8 on the way back. The guide rolled it out to the whole bus.",
+        "coach": [
+          {
+            "tr": "Bir otobüs dolusu nöbet sistemi.",
+            "en": "A busload of seat rotation.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "Rehber biletlere baktı: arkadaşın da 7 ve 8 de aynı cam kenarına yazılmış. Otobüste o koltuktan bir tane var.",
+        "en": "The guide checked the tickets. Your friend and seats 7 and 8 were all booked into the same window. The bus has one of those.",
+        "coach": [
+          {
+            "tr": "Üç bilet, bir cam.",
+            "en": "Three tickets, one window.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sira",
+    "slip": {
+      "tr": "İDDİA: Bu otobüste uzlaşma çıkmaz. — M.",
+      "en": "WAGER: There'll be no peace on this bus. — M."
+    }
+  },
+  "intent": {
+    "setup": "arkadaşınla emekliler günübirlik otobüs turunda cam kenarı koltuk anlaşmazlığı",
+    "mechanism": "tek cam için üç bilet",
+    "mechanismId": "count",
+    "punch": "üç bilet, bir cam",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cam"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

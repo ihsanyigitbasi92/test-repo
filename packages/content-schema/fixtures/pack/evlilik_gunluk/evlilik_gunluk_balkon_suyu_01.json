@@ -1,0 +1,231 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_balkon_suyu_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "balkon_kurali"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "neighbor": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Saksılarınızdan alt balkona su akıyor. Çamaşırlarım üç kez yıkandı. Üçüncüsünü siz yıkadınız.",
+      "en": "Your planters drain onto my balcony. My laundry's been washed three times. The third time, by you."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Ama biberler daha yeni çiçek açtı.",
+      "en": "But the peppers just flowered.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "altlik",
+      "tr": "Saksı altlığı al",
+      "en": "Buy drip trays",
+      "pattern": "generosity"
+    },
+    {
+      "id": "safak",
+      "tr": "Şafakta sula",
+      "en": "Water at dawn",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "tartis",
+      "tr": "Yönetmeliği aç",
+      "en": "Quote the building bylaws",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "altlik": {
+      "effects": {
+        "money": -160,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "balkon_kurali"
+          ]
+        }
+      },
+      "tr": "On iki altlık alındı, 160 Para. Alt balkonun çamaşırları artık bir kez yıkanıyor.",
+      "en": "Twelve trays bought: 160. The downstairs laundry now gets washed only once.",
+      "coach": [
+        {
+          "tr": "Akış durdu. Biberler yerinde.",
+          "en": "Drip stopped. Peppers stay.",
+          "roast": false
+        }
+      ]
+    },
+    "safak": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "health": -1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "balkon_kurali"
+            ]
+          }
+        },
+        "tr": "Altıda suladın. Damlalar komşunun çamaşırları asılmadan kurudu.",
+        "en": "You watered at six. The drips dried before the neighbor's laundry went out.",
+        "coach": [
+          {
+            "tr": "Saat altı. Şikâyet yok.",
+            "en": "Six a.m. No complaints.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "balkon_kurali",
+              "komsu_kirgin"
+            ]
+          }
+        },
+        "tr": "Komşu da altıda kalkıp çamaşır asıyormuş. Şikâyet yönetime yazılı gitti.",
+        "en": "Turns out the neighbor also hangs laundry at six. The complaint went to management in writing.",
+        "coach": [
+          {
+            "tr": "Aynı saat, aynı balkon. Şikâyet artık yazılı.",
+            "en": "Same hour, same balcony. The complaint is now in writing.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tartis": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -4
+          }
+        ],
+        "flags": {
+          "add": [
+            "balkon_kurali"
+          ]
+        }
+      },
+      "tr": "Yönetmelik okundu, saksılar hakkında madde yok. Komşu yine de balkonunda şemsiye açık tutuyor.",
+      "en": "The bylaws were consulted: nothing on planters. The neighbor now keeps an umbrella open on the balcony anyway.",
+      "coach": [
+        {
+          "tr": "Madde yok. Şemsiye var.",
+          "en": "No clause. One umbrella.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "safak",
+    "slip": {
+      "tr": "İDDİA: Şafak da seni kurtarmaz. — M.",
+      "en": "WAGER: Dawn won't save you. — M."
+    }
+  },
+  "intent": {
+    "setup": "balkon saksılarından alt komşunun çamaşırlarına su akması",
+    "mechanism": "komşu şikâyeti sayarak kuruyor",
+    "mechanismId": "deadpan_report",
+    "punch": "üçüncüsünü siz yıkadınız",
+    "closer": "semsiye",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

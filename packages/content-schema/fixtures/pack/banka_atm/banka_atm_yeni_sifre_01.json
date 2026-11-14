@@ -1,0 +1,152 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_yeni_sifre_01",
+  "tags": [
+    "para",
+    "banka",
+    "kart",
+    "sifre",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 21
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Yeni şifre ardışık olamaz, aynı rakamı tekrar edemez, doğum yılınız olamaz.",
+      "en": "Your new PIN can't be sequential, can't repeat a digit, and can't be your birth year."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Aklınıza gelen ilk şey de olmaz. O her zaman tahmin ediliyor.",
+      "en": "And not the first thing that pops into your head. That one always gets guessed.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "rastgele",
+      "tr": "Rastgele dört rakam seç",
+      "en": "Pick four random digits",
+      "pattern": "risk"
+    },
+    {
+      "id": "kapi",
+      "tr": "Çocukluk evinin numarasını gir",
+      "en": "Use your childhood house number",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "oneri",
+      "tr": "Bankacıdan ipucu iste",
+      "en": "Ask the banker for a hint",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "rastgele": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "banka_sifre_yeni",
+            "sifre_unutulabilir"
+          ]
+        }
+      },
+      "tr": "Rastgele dört rakam seçtin. Akşam olduğunda ikisini hatırlıyordun.",
+      "en": "You picked four random digits. By evening, you remembered two of them.",
+      "coach": [
+        {
+          "tr": "Şifrenin yarısı sende, yarısı bankada.",
+          "en": "Half the PIN is yours. The bank has custody of the rest.",
+          "roast": true
+        }
+      ]
+    },
+    "kapi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "banka_sifre_yeni"
+          ]
+        }
+      },
+      "tr": "Çocukluk evinin kapı numarası iki haneliydi. İki kez yazdın, sistem kabul etti.",
+      "en": "Your childhood front door had a two-digit number. You typed it twice. The system took it.",
+      "coach": [
+        {
+          "tr": "Eski kapı, yeni şifre.",
+          "en": "Old front door, new PIN.",
+          "roast": false
+        }
+      ]
+    },
+    "oneri": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "charm": 1
+        },
+        "flags": {
+          "add": [
+            "banka_sifre_yeni"
+          ]
+        }
+      },
+      "tr": "Bankacı ipucu vermenin yasak olduğunu söyledi, sonra 'sevdiğiniz bir şarkının yılı' diye fısıldadı.",
+      "en": "The banker said hints weren't allowed. Then whispered: 'Maybe the year of a song you love.'",
+      "coach": [
+        {
+          "tr": "Şifrenin artık bir melodisi var.",
+          "en": "Your PIN has a melody now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "ilk banka kartına yeni şifre belirlerken her seçeneğin yasak çıkması",
+    "mechanism": "kurallar giderek daralıp aklındaki ilk şeyi de yasaklıyor",
+    "mechanismId": "escalation",
+    "punch": "aklınıza gelen ilk şey de olmaz",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "melodi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

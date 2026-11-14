@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_el_yazisi_tarih_01",
+  "tags": [
+    "saglik",
+    "doktor",
+    "randevu",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Kontrol tarihini yazdım. Kâğıtta, orada.",
+      "en": "I wrote your follow-up date down. It's on the paper. Right there."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Burada \"salı\" mı yazıyor, \"cuma\" mı? Bence cuma. Ya da kuma.",
+      "en": "Does this say Tuesday or Thursday? I think Thursday. Or Thirsty.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sali",
+      "tr": "Salıya güven",
+      "en": "Go with Tuesday",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "ara",
+      "tr": "Kliniği ara",
+      "en": "Call the clinic",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikisi",
+      "tr": "İki güne de git",
+      "en": "Show up both days",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "sali": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 1,
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "kontrol_yapildi"
+            ]
+          }
+        },
+        "tr": "Randevu salıymış. Sekreter yazıyı yine okuyamadı ama adını listede buldu.",
+        "en": "It was Tuesday. The receptionist still couldn't read the note, but found your name on the list.",
+        "coach": [
+          {
+            "tr": "Salı tuttu. Yazı hâlâ okunmuyor.",
+            "en": "Tuesday held. The handwriting is still illegible.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kontrol_yapildi"
+            ]
+          }
+        },
+        "tr": "Randevu cumaymış. Cuma da salı kadar kalabalıktı.",
+        "en": "It was Thursday. Thursday was just as crowded.",
+        "coach": [
+          {
+            "tr": "İki gün, tek kontrol.",
+            "en": "Two days. One appointment.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ara": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kontrol_persembe"
+          ]
+        }
+      },
+      "tr": "Kırk dakika bekleme müziği. Sekreter \"cuma\" dedi, sonra \"bir dakika\", sonra \"perşembe\".",
+      "en": "Forty minutes of hold music. The receptionist said Thursday, then \"one moment,\" then Wednesday.",
+      "coach": [
+        {
+          "tr": "Üç aday gün. Kazanan perşembe.",
+          "en": "Three candidate days. Wednesday wins.",
+          "roast": true
+        }
+      ]
+    },
+    "ikisi": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kontrol_yapildi"
+          ]
+        }
+      },
+      "tr": "Salı gittin, yoktun. Cuma gittin, vardın. Doktor kâğıda bakıp \"açık yazmışım\" dedi.",
+      "en": "Tuesday: not on the list. Thursday: on the list. The doctor glanced at the note and said, \"Clear as day.\"",
+      "coach": [
+        {
+          "tr": "Yazıyı okuyabilen tek kişi yazan.",
+          "en": "Only the author can read it.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "doktorun el yazısıyla yazdığı kontrol tarihinin okunamaması",
+    "mechanism": "yazanın kendi yazısını \"açık\" bulması",
+    "mechanismId": "reversal",
+    "punch": "açık yazmışım",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "yazar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

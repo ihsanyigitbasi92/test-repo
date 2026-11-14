@@ -1,0 +1,235 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_profil_incelemesi_01",
+  "tags": [
+    "ev",
+    "basvuru",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Profilinize baktım. Bu yıl üç tatil, iki konser, bir de tekne.",
+      "en": "I looked at your profile. Three vacations this year, two concerts, and a boat."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Madem rahatsınız, kirayı 2.400 yerine 2.700 düşündüm.",
+      "en": "Since you're so comfortable, I'm thinking 2,700 instead of 2,400.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "acikla",
+      "tr": "Teknenin arkadaşınki olduğunu anlat",
+      "en": "Explain the boat was a friend's",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "ev"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "2.700'ü kabul et",
+      "en": "Accept 2,700",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "gizle",
+      "tr": "Profilini kapat, aramaya dön",
+      "en": "Go private, keep looking",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "acikla": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -2400,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 2400
+            }
+          },
+          "flags": {
+            "add": [
+              "profil_aciklandi"
+            ]
+          }
+        },
+        "tr": "Teknenin arkadaşının olduğunu, tatillerin sezon dışı indirim olduğunu anlattın. Kira 2.400'de kaldı.",
+        "en": "You explained the boat was a friend's and the vacations were off-season deals. Rent stayed at 2,400.",
+        "coach": [
+          {
+            "tr": "Tekne sahibine iade edildi. Kira yerinde.",
+            "en": "Boat returned to its owner. Rent unchanged.",
+            "roast": false
+          },
+          {
+            "tr": "Profil sade, hedef kirası 2.400.",
+            "en": "Profile quiet. Goal rent: 2,400.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -2700,
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 2700
+            }
+          },
+          "flags": {
+            "add": [
+              "yuksek_kira"
+            ]
+          }
+        },
+        "tr": "Ev sahibi tekne fotoğrafını büyütüp gösterdi. Kira 2.700 oldu.",
+        "en": "The landlord zoomed in on the boat photo and turned the screen to you. Rent: 2,700.",
+        "coach": [
+          {
+            "tr": "Fotoğraf 300 Para ekledi.",
+            "en": "The photo added 300.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -2700,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 2700
+          }
+        },
+        "flags": {
+          "add": [
+            "yuksek_kira"
+          ]
+        }
+      },
+      "tr": "2.700'e evi tuttun. Ev sahibi son tatil fotoğrafını beğendi.",
+      "en": "You took the flat at 2,700. The landlord liked your latest vacation photo.",
+      "coach": [
+        {
+          "tr": "Beğeni geldi. Aylığı 300 Para.",
+          "en": "A like arrived. Three hundred a month.",
+          "roast": false
+        }
+      ]
+    },
+    "gizle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "profil_gizli",
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Profilini gizleyip aramaya devam ettin. Sonraki ev sahibi seni hiçbir yerde bulamayınca kuşkulandı.",
+      "en": "You set your profile to private and kept looking. The next landlord found nothing on you and got suspicious.",
+      "coach": [
+        {
+          "tr": "Görünmez oldun. Bu da şüpheli sayıldı.",
+          "en": "You went invisible. That counted as suspicious too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "acikla",
+    "slip": {
+      "tr": "İDDİA: Tekne hikâyesi 300'ü geri almaz. — M.",
+      "en": "WAGER: The boat story won't win back the 300. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibinin aday kiracının sosyal medya profiline bakıp kirayı artırması",
+    "mechanism": "tatil fotoğrafı ödeme gücü kanıtı sayılıyor",
+    "mechanismId": "reversal",
+    "punch": "madem rahatsınız",
+    "lift": "profil sade, hedef kirası",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "tekne"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

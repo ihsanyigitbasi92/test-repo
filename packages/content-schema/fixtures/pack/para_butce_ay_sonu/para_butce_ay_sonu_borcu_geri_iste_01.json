@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "para_butce_ay_sonu_borcu_geri_iste_01",
+  "tags": [
+    "para",
+    "butce",
+    "para_butce_ay_sonu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "para_butce_ay_sonu": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "dayOfMonth": {
+      "min": 24
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "O 200'ü unutmadım. Ama nakit yerine bu ay sana her sabah kahvaltı hazırlasam? Hesapladım, kârdasın.",
+      "en": "I haven't forgotten the 200. Instead of cash, how about I make you breakfast every day this month? You win."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Kahvaltı dediğim yumurta. Bazen iki yumurta.",
+      "en": "By breakfast I mean eggs. Sometimes two eggs.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "nakit",
+      "tr": "Nakit iste",
+      "en": "Ask for cash",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kahvalti",
+      "tr": "Kahvaltıyı kabul et",
+      "en": "Take the breakfast deal",
+      "pattern": "patience"
+    },
+    {
+      "id": "sil",
+      "tr": "Borcu sil",
+      "en": "Forgive the debt",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "nakit": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 200,
+          "meters": {
+            "ego": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Ev arkadaşın 200'ü iki taksitte ödedi. Ertesi sabah mutfakta tek kişilik yumurta kırdı.",
+        "en": "Your roommate paid the 200 in two installments. The next morning, they cracked eggs for one.",
+        "coach": [
+          {
+            "tr": "Borç kapandı. Kahvaltı tek kişilik.",
+            "en": "Debt cleared. Breakfast for one.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "butce_borc_ertelendi"
+            ]
+          }
+        },
+        "tr": "Ev arkadaşın \"maaşta\" dedi. Maaş günü geldiğinde ilk aldığı şey yeni bir tava oldu.",
+        "en": "Your roommate said 'payday.' On payday, their first purchase was a new frying pan.",
+        "coach": [
+          {
+            "tr": "Tava yeni. Borç eski.",
+            "en": "New pan. Old debt.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kahvalti": {
+      "effects": {
+        "stats": {
+          "joy": 3,
+          "health": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "butce_kahvalti_anlasmasi"
+          ]
+        }
+      },
+      "tr": "Bir ay boyunca her sabah kahvaltı geldi: on dokuz gün yumurta, on bir gün yine yumurta.",
+      "en": "Breakfast every morning for a month: nineteen days of eggs, then eleven more days of eggs.",
+      "coach": [
+        {
+          "tr": "Otuz gün, tek menü.",
+          "en": "Thirty days. One menu.",
+          "roast": false
+        }
+      ]
+    },
+    "sil": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Borcu sildin. Ev arkadaşın buzdolabına \"Borç: 0\" yazıp yanına bir kalp çizdi.",
+      "en": "You wrote off the debt. Your roommate marked it on the fridge, 'Owed: 0,' with a little heart.",
+      "coach": [
+        {
+          "tr": "Bakiye sıfır. Kalp ikram.",
+          "en": "Balance: zero. Heart: complimentary.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "nakit",
+    "slip": {
+      "tr": "İDDİA: Ne kadar kibar istesen de nakit çıkmaz. — M.",
+      "en": "WAGER: Ask as nicely as you like. No cash. — M."
+    }
+  },
+  "intent": {
+    "setup": "ay sonunda ev arkadaşına verilen 200 Para borcu geri istemek",
+    "mechanism": "borçlu nakit yerine kahvaltı teklif ediyor; kahvaltı yumurta",
+    "mechanismId": "reversal",
+    "punch": "bazen iki yumurta",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tava"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

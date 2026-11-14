@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_anneyle_tanisma_01",
+  "tags": [
+    "ev",
+    "sozlesme",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 23
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Yenilemeden önce anneni bir tanıyayım. Çay içeriz, konuşuruz.",
+      "en": "Before we renew, I'd like to meet your mom. We'll have tea, chat."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Kiracıyı annesinden anlarım. Kırk yıllık tecrübe.",
+      "en": "You can tell a tenant by their mother. Forty years of experience.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "getir",
+      "tr": "Anneni çaya getir",
+      "en": "Bring Mom to tea",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "tek",
+      "tr": "Tek başına git",
+      "en": "Go alone",
+      "pattern": "pride"
+    },
+    {
+      "id": "ertele",
+      "tr": "Annenin yoğun olduğunu söyle",
+      "en": "Say Mom's busy",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "getir": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_ev_sahibiyle_tanisti"
+          ]
+        }
+      },
+      "tr": "Annen ve ev sahibi iki saat konuştu. Sözleşme yenilendi, annen ev sahibinin numarasını aldı.",
+      "en": "Your mom and the landlord talked for two hours. The lease was renewed. Your mom got the landlord's number.",
+      "coach": [
+        {
+          "tr": "Sözleşme yenilendi. Yeni bir hat açıldı.",
+          "en": "Lease renewed. A new line of communication opened.",
+          "roast": false
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "annesi_gorulmedi"
+          ]
+        }
+      },
+      "tr": "Tek başına gittin. Ev sahibi sözleşmeyi yeniledi, imzanın yanına \"annesi görülmedi\" diye not düştü.",
+      "en": "You went alone. The landlord renewed the lease and wrote next to your signature: \"Mother not seen.\"",
+      "coach": [
+        {
+          "tr": "Dipnot eklendi.",
+          "en": "A footnote was added.",
+          "roast": false
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ev_sahibi_anneyi_arayacak"
+          ]
+        }
+      },
+      "tr": "Annenin yoğun olduğunu söyledin. Ev sahibi annenin numarasını isteyip \"ben ararım\" dedi.",
+      "en": "You said your mom was busy. The landlord asked for her number: \"I'll call her myself.\"",
+      "coach": [
+        {
+          "tr": "Erteleme bir telefon numarası sürdü.",
+          "en": "The delay lasted exactly one phone number.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı doldu"
+  },
+  "intent": {
+    "setup": "ev sahibinin sözleşme yenilemeden önce kiracının annesiyle tanışmak istemesi",
+    "mechanism": "kiracı annesi üzerinden değerlendiriliyor",
+    "mechanismId": "callback",
+    "punch": "kiracıyı annesinden anlarım",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "dipnot"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

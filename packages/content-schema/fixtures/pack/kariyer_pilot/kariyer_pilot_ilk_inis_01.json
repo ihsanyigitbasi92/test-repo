@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_pilot_ilk_inis_01",
+  "tags": [
+    "kariyer",
+    "pilot",
+    "kariyer_pilot"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_pilot": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "pilot"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:coworker",
+      "avatar": "neutral",
+      "tr": "Bugünkü inişi sen yapıyorsun. Yan rüzgâr on beş knot. Ben yanındayım.",
+      "en": "You've got today's landing. Fifteen-knot crosswind. I'm right here."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Bir de on dördüncü sırada annenin komşusu oturuyor. Seni sordu.",
+      "en": "Also, your mom's neighbor is in row fourteen. Asked about you.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "indir",
+      "tr": "İnişi yap",
+      "en": "Fly the landing",
+      "pattern": "risk",
+      "check": {
+        "base": 6500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "devret",
+      "tr": "Kaptana bırak",
+      "en": "Hand it to the captain",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "anons",
+      "tr": "Önce kabine anons yap",
+      "en": "Brief the cabin first",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "indir": [
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "pilot_ilk_inis"
+            ]
+          }
+        },
+        "tr": "Tekerlekler piste tek seferde değdi. Kaptan rapora \"yumuşak\" yazdı; komşu daha koridordayken annene mesaj attı.",
+        "en": "Wheels down in one touch. The captain wrote 'smooth' in the report. The neighbor texted your mom from the aisle.",
+        "coach": [
+          {
+            "tr": "İlk iniş: bir temas. Annene ulaşma süresi: iki dakika.",
+            "en": "First landing: one touch. Time until your mom heard: two minutes.",
+            "roast": true
+          },
+          {
+            "tr": "Uçuş defterinde ilk iniş.",
+            "en": "Logbook: first landing.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": -2,
+            "cringe": 2
+          }
+        },
+        "tr": "İniş sert oldu, kurallar içinde ama sert. Kabinde biri \"oha\" dedi; komşu annene ayrıntılı rapor geçti.",
+        "en": "Firm landing. Within limits, but firm. Someone in the cabin said 'whoa.' The neighbor sent your mom a detailed report.",
+        "coach": [
+          {
+            "tr": "Kurallar içinde sert. Komşunun raporu kuralların dışında uzun.",
+            "en": "Firm, within limits. The neighbor's report: well beyond limits.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "devret": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "pilot_inis_devredildi"
+          ]
+        }
+      },
+      "tr": "Kaptan indirdi. Değerlendirmede \"bir dahakine sen\" dedi ve bunu rapora yazdı.",
+      "en": "The captain landed. At the debrief, said 'next one's yours' and put it in the report.",
+      "coach": [
+        {
+          "tr": "İniş ertelendi. Raporda, tarihiyle.",
+          "en": "Landing postponed. In writing, with a date.",
+          "roast": false
+        }
+      ]
+    },
+    "anons": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Kabini önceden bilgilendirdin, iniş sakin geçti. Komşu çıkışta elini sıkıp \"annene söylerim\" dedi.",
+      "en": "You briefed the cabin. The landing went smoothly. At the door, the neighbor shook your hand: 'I'll tell your mother.'",
+      "coach": [
+        {
+          "tr": "Kabin hazırlıklıydı. Annen şimdi hazırlanıyor.",
+          "en": "The cabin was briefed. Your mom is about to be.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "indir",
+    "slip": {
+      "tr": "İDDİA: İlk iniş yumuşak olmaz. — M.",
+      "en": "WAGER: Your first landing won't be soft. — M."
+    }
+  },
+  "intent": {
+    "setup": "ikinci pilot olarak ilk yolculu inişi yapmak",
+    "mechanism": "büyük an annenin komşusunun raporuna iniyor",
+    "mechanismId": "understatement",
+    "punch": "annene ulaşma süresi iki dakika",
+    "lift": "uçuş defteri",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rapor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

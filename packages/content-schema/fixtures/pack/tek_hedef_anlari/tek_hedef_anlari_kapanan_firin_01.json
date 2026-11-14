@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_kapanan_firin_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "rutin",
+    "firin",
+    "mahalle",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 80
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "samePlace"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Eski fırın kapandı, biz açtık. Tarif aynı, fırın aynı, tabela yeni. Ekmeğe artık 'artizan' diyoruz.",
+      "en": "The old bakery closed and we took over. Same recipe, same oven, new sign. We call the bread 'artisan' now."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Fiyatı da artizan oldu tabii.",
+      "en": "The price went artisan too, of course.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "devam",
+      "tr": "Yeni fırından al",
+      "en": "Buy from the new place",
+      "pattern": "patience"
+    },
+    {
+      "id": "eski",
+      "tr": "Eski fırıncıyı bul",
+      "en": "Track down the old baker",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm",
+        "goal": "samePlace"
+      }
+    },
+    {
+      "id": "kendin",
+      "tr": "Ekmeği evde yap",
+      "en": "Bake it at home",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "devam": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -60,
+        "flags": {
+          "add": [
+            "yeni_firin_musteri"
+          ]
+        }
+      },
+      "tr": "Ekmeği aldın. Tadı aynı; poşet artık kâğıttan, fiş daha uzun.",
+      "en": "You bought the bread. Same taste. Paper bag now, longer receipt.",
+      "coach": [
+        {
+          "tr": "Tarif aynı. Hedef yerinde.",
+          "en": "Same recipe. Goal intact.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "eski": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "eski_firinci_bulundu"
+            ]
+          }
+        },
+        "tr": "Eski fırıncı artık evde ekmek yapıyormuş. Haftada bir kapına bir somun bırakmayı kabul etti.",
+        "en": "The old baker bakes at home now. They agreed to leave a loaf at your door once a week.",
+        "coach": [
+          {
+            "tr": "Fırın kapandı. Ekmek adres değiştirdi.",
+            "en": "The bakery closed. The bread changed addresses.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "ekmek_tarifi"
+            ]
+          }
+        },
+        "tr": "Eski fırıncı başka şehre taşınmış. Bunu söyleyen komşu sana bir ekmek tarifi de verdi.",
+        "en": "The old baker moved to another city. The neighbor who told you also handed you a bread recipe.",
+        "nearMiss": {
+          "tr": "Bir sokak geç kaldın.",
+          "en": "One street too late."
+        },
+        "coach": [
+          {
+            "tr": "Tarif elde. Fırın dahil değil.",
+            "en": "Recipe in hand. Oven not included.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kendin": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -100,
+        "flags": {
+          "add": [
+            "evde_ekmek"
+          ]
+        }
+      },
+      "tr": "İlk ekmek taş gibi çıktı, ikincisi ekmeğe benzedi. Mutfak artık her sabah aynı kokuyor.",
+      "en": "The first loaf came out like a brick. The second resembled bread. The kitchen smells the same every morning now.",
+      "coach": [
+        {
+          "tr": "Aynılık için bir değişiklik yapıldı.",
+          "en": "A change was made. In the name of sameness.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "hiçbir şeyi değiştirmeme hedefinde yıllardır gidilen fırının kapanıp aynı tarifle yeni adla açılması",
+    "mechanism": "'artizan' etiketinin fiyata geçmesi",
+    "mechanismId": "bathos",
+    "punch": "fiyatı da artizan oldu",
+    "lift": "hedef yerinde",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "artizan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

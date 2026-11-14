@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_lisansustu_seyahat_iadesi_01",
+  "tags": [
+    "egitim",
+    "tez",
+    "konferans",
+    "para",
+    "egitim_lisansustu"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 1000,
+    "tags": {
+      "egitim_lisansustu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 37
+    },
+    "flags": {
+      "all": [
+        "grad",
+        "seyahat_fonu_bekliyor"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "İadeniz yattı. Taksi fişi okunaksız olduğu için 85 Para düşüldü.",
+      "en": "Your reimbursement has been paid. Eighty-five was deducted for an illegible taxi receipt."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "İtiraz formu var. Fişin aslıyla birlikte teslim edilir.",
+      "en": "There's an appeal form. Submit it with the original receipt.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Fişin aslını bul, itiraz et",
+      "en": "Find the original, appeal",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      },
+      "swipe": "right"
+    },
+    {
+      "id": "kabul",
+      "tr": "Kabul et, dosyayı kapat",
+      "en": "Accept it, close the file",
+      "pattern": "patience",
+      "swipe": "left"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": 2600,
+          "flags": {
+            "add": [
+              "iade_tam"
+            ],
+            "remove": [
+              "seyahat_fonu_bekliyor"
+            ]
+          }
+        },
+        "tr": "Fişin aslı zarfın dibindeymiş. İtiraz kabul edildi; 2.600 Para'nın tamamı yattı.",
+        "en": "The original was at the bottom of the envelope. Appeal upheld. All 2,600 came through.",
+        "coach": [
+          {
+            "tr": "Zarf görevini yaptı.",
+            "en": "The envelope did its job.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": 2515,
+          "flags": {
+            "add": [
+              "iade_eksik"
+            ],
+            "remove": [
+              "seyahat_fonu_bekliyor"
+            ]
+          }
+        },
+        "tr": "Fişin aslı da okunaksızmış. Taksicinin el yazısı ikinci kez reddedildi; 2.515 Para yattı.",
+        "en": "The original was illegible too. The driver's handwriting was rejected a second time. 2,515 came through.",
+        "coach": [
+          {
+            "tr": "Fiş tutarlı. İki kez okunamadı.",
+            "en": "The receipt is consistent. Unreadable twice.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "money": 2515,
+        "flags": {
+          "add": [
+            "iade_eksik"
+          ],
+          "remove": [
+            "seyahat_fonu_bekliyor"
+          ]
+        }
+      },
+      "tr": "Kabul ettin. 2.515 Para yattı; zarf çekmeceye kaldırıldı.",
+      "en": "You let it go. 2,515 came in. The envelope went into a drawer.",
+      "coach": [
+        {
+          "tr": "Seyahat bitti, dört ay gecikmeyle.",
+          "en": "The trip is officially over. Four months late.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Fişin aslı da okunmaz. — M.",
+      "en": "WAGER: The original is just as unreadable. — M."
+    }
+  },
+  "intent": {
+    "setup": "konferans seyahat iadesinden okunaksız taksi fişinin düşülmesi",
+    "mechanism": "dört ay sonra gelen 85 Paralık kesinti",
+    "mechanismId": "deadpan_report",
+    "punch": "taksi fişi okunaksız",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "zarf2"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

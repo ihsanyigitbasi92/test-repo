@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "iliski_gunluk_kondisyon_bisikleti_01",
+  "tags": [
+    "iliski",
+    "gunluk",
+    "iliski_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 1500,
+    "tags": {
+      "iliski_gunluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Bisiklet üç haftadır ceketleri taşıyor. Bence o da yoruldu.",
+      "en": "The exercise bike has been holding coats for three weeks. I think it's tired too."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Satalım mı? Yoksa sırayla mı binsek?",
+      "en": "Should we sell it? Or take turns riding?",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "sat",
+      "tr": "İlana koy",
+      "en": "List it for sale",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sira",
+      "tr": "Sırayla binin",
+      "en": "Take turns riding",
+      "pattern": "selfCare",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "kalsin",
+      "tr": "Askılık olarak kalsın",
+      "en": "Keep it as a coat rack",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "sat": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": 1800,
+        "flags": {
+          "add": [
+            "bisiklet_satildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Bisiklet 1.800 Para'ya gitti, alındığı fiyatın yarısına. Ceketler sandalyeye taşındı.",
+      "en": "The bike sold for 1,800, half what you paid. The coats moved to a chair.",
+      "coach": [
+        {
+          "tr": "Ceketler taşındı.",
+          "en": "The coats relocated.",
+          "roast": false
+        }
+      ]
+    },
+    "sira": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "bisiklet_rutini"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Bir ay boyunca sırayla bindiniz. Ceketler kapı arkasına sürüldü.",
+        "en": "You took turns for a month. The coats were exiled to the back of the door.",
+        "coach": [
+          {
+            "tr": "Ceketler sürgünde.",
+            "en": "The coats are in exile.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacında bir ay.",
+            "en": "One month on the goal counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "bisiklet_aski"
+            ]
+          }
+        },
+        "tr": "İlk hafta iki kez bindiniz. İkinci hafta ceketlere bir atkı katıldı.",
+        "en": "Week one, two rides. Week two, a scarf joined the coats.",
+        "coach": [
+          {
+            "tr": "Atkı da katıldı.",
+            "en": "The scarf moved in.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kalsin": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "bisiklet_aski"
+          ]
+        }
+      },
+      "tr": "Bisiklet askılık oldu. Pedala da şemsiye asıldı.",
+      "en": "The bike became a coat rack. The pedal now holds an umbrella.",
+      "coach": [
+        {
+          "tr": "Yeni mobilya.",
+          "en": "New furniture.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sira",
+    "slip": {
+      "tr": "İDDİA: Rutin iki haftayı geçmez. — M.",
+      "en": "WAGER: The routine won't make it two weeks. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin aldığı kondisyon bisikletinin üç hafta sonra askılığa dönüşmesi",
+    "mechanism": "eşya kişileştiriliyor; bisiklet yorgun",
+    "mechanismId": "bathos",
+    "punch": "Bence o da yoruldu.",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "aski"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

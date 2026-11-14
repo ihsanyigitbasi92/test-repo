@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_doctor_muayenehane_01",
+  "tags": [
+    "kariyer",
+    "doktor",
+    "kariyer_doctor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_doctor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "career": {
+      "anyOf": [
+        "doctor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "happy",
+      "tr": "Muayenehane açıyorum, ortak arıyorum. Kira bölünür, sekreter bölünür, çay bölünmez.",
+      "en": "I'm opening a private practice and need a partner. We split the rent, split the receptionist. Tea stays whole."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Başlangıç payı 6.500 Para. Hastaneyi bırakman gerekmez ama hafta sonların gider.",
+      "en": "Buy-in is 6,500. You can keep the hospital job. Your weekends can't stay.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ortak",
+      "tr": "Ortak ol",
+      "en": "Go in as a partner",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kal",
+      "tr": "Teşekkür et, kal",
+      "en": "Thank them, stay put",
+      "pattern": "patience"
+    },
+    {
+      "id": "danisman",
+      "tr": "Ayda iki gün danışman ol",
+      "en": "Consult two days a month",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "ortak": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "ego": 5
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "money": -6500,
+          "status": {
+            "job": {
+              "title": "muayenehane ortağı",
+              "tier": 4,
+              "monthly": 4200
+            }
+          }
+        },
+        "tr": "Muayenehane altı ayda kirasını çıkardı. Kapıdaki tabelada iki ad var, seninki ikinci sırada, punto aynı.",
+        "en": "Within six months the practice was covering its rent. Two names on the door. Yours is second, same font size.",
+        "coach": [
+          {
+            "tr": "Aynı punto, ikinci satır. Hafta sonları satıldı.",
+            "en": "Same font, second line. Weekends sold.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef sayacı: muayenehane.",
+            "en": "Goal counter: private practice.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 6
+          },
+          "money": -6500,
+          "flags": {
+            "add": [
+              "muayenehane_borcu"
+            ]
+          }
+        },
+        "tr": "İlk altı ay hasta sayısı kirayı karşılamadı. Hafta sonları çay demledin, kimse gelmedi.",
+        "en": "For six months the patient count didn't cover the rent. You brewed tea every weekend. No one came.",
+        "coach": [
+          {
+            "tr": "Çay gerçekten hep bütün kaldı.",
+            "en": "The tea really did stay whole.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:doctor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kaldın. Arkadaşın başka bir ortak buldu, açılışa seni de çağırdı ve ilk çayı sana koydu.",
+      "en": "You stayed. Your friend found another partner, invited you to the opening, and poured you the first tea.",
+      "coach": [
+        {
+          "tr": "İlk çay senin.",
+          "en": "First tea's yours.",
+          "roast": false
+        }
+      ]
+    },
+    "danisman": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": 900,
+        "flags": {
+          "add": [
+            "muayenehane_danisman"
+          ]
+        }
+      },
+      "tr": "Ayda iki cumartesi muayenehanedesin. Ayda 900 Para ek gelir, iki cumartesi eksik.",
+      "en": "Two Saturdays a month at the practice. An extra 900 a month. Two fewer Saturdays.",
+      "coach": [
+        {
+          "tr": "İki cumartesi, peşin satıldı.",
+          "en": "Two Saturdays, sold in advance.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ortak",
+    "slip": {
+      "tr": "İDDİA: Muayenehane ilk altı ay kirayı çıkaramaz. — M.",
+      "en": "WAGER: The practice can't cover its rent for six months. — M."
+    }
+  },
+  "intent": {
+    "setup": "eski sınıf arkadaşı ortak muayenehane teklif ediyor, başlangıç payı ve hafta sonları",
+    "mechanism": "bölünemeyen tek şey çay",
+    "mechanismId": "understatement",
+    "punch": "çay bölünmez",
+    "lift": "hedef sayacı: muayenehane",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cumartesi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

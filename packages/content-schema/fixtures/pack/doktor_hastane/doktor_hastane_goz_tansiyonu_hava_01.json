@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_goz_tansiyonu_hava_01",
+  "tags": [
+    "saglik",
+    "doktor",
+    "goz",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Çeneyi koyun, alnı dayayın. Gözünüze hafif bir hava gelecek.",
+      "en": "Chin here, forehead against the bar. You'll feel a gentle puff of air."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Kırptınız. Herkes kırpar. Tekrar.",
+      "en": "You blinked. Everyone blinks. Again.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "acik",
+      "tr": "Gözünü açık tut",
+      "en": "Keep your eye open",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Kırpmayı kabullen, dene",
+      "en": "Accept the blinks, keep trying",
+      "pattern": "patience"
+    },
+    {
+      "id": "damla",
+      "tr": "Damlalı ölçüm iste",
+      "en": "Ask for the eye-drop test",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "acik": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "health": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "money": -300,
+          "flags": {
+            "add": [
+              "goz_tansiyonu_olculdu"
+            ]
+          }
+        },
+        "tr": "Hava geldi, göz açık kaldı. Teknisyen \"ilk seferde\" dedi ve sıradakini çağırdı.",
+        "en": "Puff, eye open. The technician said \"first try\" and called the next patient.",
+        "coach": [
+          {
+            "tr": "İlk seferde. Sıra hızlandı.",
+            "en": "First try. The line moved.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "health": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -300,
+          "flags": {
+            "add": [
+              "goz_tansiyonu_olculdu"
+            ]
+          }
+        },
+        "tr": "Altı denemede altı kırpma. Teknisyen göz kapağını iki parmakla tuttu; yedincisi oldu.",
+        "en": "Six puffs, six blinks. The technician held your eyelid with two fingers. Seventh time worked.",
+        "coach": [
+          {
+            "tr": "Altı kırpma, bir parmak yardımı.",
+            "en": "Six blinks. One assist.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "stats": {
+          "health": 2
+        },
+        "money": -300,
+        "flags": {
+          "add": [
+            "goz_tansiyonu_olculdu"
+          ]
+        }
+      },
+      "tr": "Üçüncü denemede ölçüldü. Göz yaşardı; peçete önceden uzatılmıştı.",
+      "en": "Measured on the third try. Your eye watered. The tissue was already waiting.",
+      "coach": [
+        {
+          "tr": "Peçete hazırdı.",
+          "en": "The tissue was ready.",
+          "roast": false
+        }
+      ]
+    },
+    "damla": {
+      "effects": {
+        "stats": {
+          "health": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "money": -450,
+        "flags": {
+          "add": [
+            "goz_tansiyonu_olculdu"
+          ]
+        }
+      },
+      "tr": "Damla yaktı, ölçüm sessiz geçti. Sonuç normal.",
+      "en": "The drops stung. The test was silent. Results normal.",
+      "coach": [
+        {
+          "tr": "Hava yerine damla.",
+          "en": "Drops instead of air.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "acik",
+    "slip": {
+      "tr": "İDDİA: Gözünü kırparsın. — M.",
+      "en": "WAGER: You'll blink. — M."
+    }
+  },
+  "intent": {
+    "setup": "göz tansiyonu ölçümünde göze hava üflenen cihaz",
+    "mechanism": "her denemede refleks kırpma",
+    "mechanismId": "count",
+    "punch": "herkes kırpar. tekrar",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pecete"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

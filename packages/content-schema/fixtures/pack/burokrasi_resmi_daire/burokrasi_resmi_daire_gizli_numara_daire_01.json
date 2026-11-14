@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_gizli_numara_daire_01",
+  "tags": [
+    "burokrasi",
+    "telefon",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sizi üç kez aradık, açmadınız. Dosyaya \"ulaşılamadı\" notu düştük, başvuru işlemden kalktı.",
+      "en": "We called three times. No answer. Your file was marked \"unreachable\" and the application was withdrawn."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Numara gizli çıkar, santral öyle. Geri arama da yapılamıyor.",
+      "en": "The number shows as private. That's the switchboard. And no, you can't call it back.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yeniden",
+      "tr": "Baştan başvur",
+      "en": "Apply again from scratch",
+      "pattern": "patience"
+    },
+    {
+      "id": "yazdir",
+      "tr": "Dosyaya not düşürmeyi dene",
+      "en": "Try to get a note on the file",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yazili",
+      "tr": "Yazılı bildirim iste",
+      "en": "Ask for notice in writing",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "yeniden": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "basvuru_yeniden"
+          ]
+        }
+      },
+      "tr": "Formları yeniden doldurdun. O hafta gizli numaradan gelen her aramayı açtın: iki anket, bir kampanya, bir yanlış numara.",
+      "en": "You refilled the forms. That week you answered every private-number call: two surveys, one promotion, one wrong number.",
+      "coach": [
+        {
+          "tr": "Dört arama açtın. Hiçbiri daire değildi.",
+          "en": "Four calls answered. None of them the office.",
+          "roast": true
+        }
+      ]
+    },
+    "yazdir": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "basvuru_islemde"
+            ]
+          }
+        },
+        "tr": "Görevli notu yazdı, eski başvuruyu yeniden işleme aldı. Ertesi gün gizli numara aradı; ilk çalışta açtın.",
+        "en": "The clerk added the note and reopened the old application. The private number rang the next day. You picked up on the first ring.",
+        "coach": [
+          {
+            "tr": "İlk çalış. Santral buna hazırlıklı değildi.",
+            "en": "First ring. The switchboard wasn't ready for that.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "basvuru_yeniden"
+            ]
+          }
+        },
+        "tr": "Sistemde not alanı yokmuş. Başvuru baştan; bu kez telefonun sesi sonuna kadar açık.",
+        "en": "The system has no field for notes. You start over, ringer on full.",
+        "coach": [
+          {
+            "tr": "Ses açık. Bundan sonraki her toplantı duyacak.",
+            "en": "Ringer on. Every meeting from here on will hear it.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yazili": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "yazili_bildirim",
+            "basvuru_islemde"
+          ]
+        }
+      },
+      "tr": "Yazılı bildirim seçeneği varmış; kimse sormadığı için kimse söylememiş. Başvuru yeniden açıldı, yazı altı gün sonra geldi.",
+      "en": "A written-notice option existed. Nobody had asked, so nobody had mentioned it. The application was reopened. The letter came six days later.",
+      "coach": [
+        {
+          "tr": "Sorulmayan bir seçenek. Binada bolca var.",
+          "en": "An option nobody asked about. The building is full of them.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "resmî dairenin başvuru için gizli numaradan üç kez arayıp açılmayınca dosyaya ulaşılamadı notu düşmesi",
+    "mechanism": "açılmayan gizli numara resmî bir kayıt hâline geliyor",
+    "mechanismId": "callback",
+    "punch": "dört arama açtın, hiçbiri daire değildi",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "santral"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

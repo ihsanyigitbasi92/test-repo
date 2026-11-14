@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yemek_mutfak_krema_yag_oldu_01",
+  "tags": [
+    "gundelik",
+    "mutfak",
+    "yemek_mutfak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "yemek_mutfak": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Krema tepe yapınca dur. Durmazsan tereyağı olur. Bunu bir videoda gördüm, bir kere.",
+      "en": "Stop when the cream holds a peak. Keep going and it's butter. I saw that in a video. Once."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Partnerin yirmi dakikaya kapıda. Pastanın üstü şu an çırılçıplak.",
+      "en": "Your partner's at the door in twenty minutes. The top of that cake is completely naked.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cirp",
+      "tr": "Elle çırpmaya devam et",
+      "en": "Keep whisking by hand",
+      "pattern": "overwork",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "meyve",
+      "tr": "Üstünü meyveyle kapla",
+      "en": "Bury it in fruit",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "devret",
+      "tr": "Çırpmayı ev arkadaşına ver",
+      "en": "Hand the whisk to your roommate",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cirp": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_krema_basari"
+            ]
+          }
+        },
+        "tr": "Krema son dakikada kıvamını buldu. Partnerin fotoğraf çekmeden önce kremadan parmakla tattı.",
+        "en": "The cream held its peak with seconds to spare. Your partner swiped a fingerful before even taking a photo.",
+        "coach": [
+          {
+            "tr": "Kolun yarın ağrıyacak. Pasta bugün bitti.",
+            "en": "Your arm will ache tomorrow. The cake was gone today.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "money": -90,
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "yemek_krema_tereyagi"
+            ]
+          }
+        },
+        "tr": "Krema son turda tereyağına döndü. Pastayı öyle sundun; partnerin \"İlginç\" deyip bir dilim daha aldı.",
+        "en": "On the last stretch the cream turned to butter. You served it anyway; your partner said \"Interesting\" and took a second slice.",
+        "coach": [
+          {
+            "tr": "\"İlginç\" artı ikinci dilim. Karışık sinyal.",
+            "en": "\"Interesting\" plus a second slice. Mixed signals.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "meyve": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -140,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_pasta_meyveli"
+          ]
+        }
+      },
+      "tr": "Pastanın üstünü 140 Paralık çilekle kapladın. Kremanın ne hâlde olduğunu kimse görmedi.",
+      "en": "You buried the top under 140 worth of strawberries. Nobody ever saw what the cream had done.",
+      "coach": [
+        {
+          "tr": "Çilekler delil karartmada iyi iş çıkardı.",
+          "en": "The strawberries did excellent cover-up work.",
+          "roast": false
+        }
+      ]
+    },
+    "devret": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          },
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yemek_krema_ortak"
+          ]
+        }
+      },
+      "tr": "Ev arkadaşın çırpma telini aldı ve kremayı kurtardı. Sonra pastanın üstüne kendi baş harfini sıktı.",
+      "en": "Your roommate took the whisk and rescued the cream. Then piped their own initial on top.",
+      "coach": [
+        {
+          "tr": "Pastadaki imza başkasının.",
+          "en": "Someone else signed the cake.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cirp",
+    "slip": {
+      "tr": "İDDİA: Krema tereyağı olur. — M.",
+      "en": "WAGER: That cream ends up as butter. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin doğum günü pastası için elle krema çırparken kremanın yağlanma riski",
+    "mechanism": "çıplak pasta, yirmi dakika, bir kere izlenmiş video",
+    "mechanismId": "bathos",
+    "punch": "bunu bir videoda gördüm bir kere",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "imza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_accountant_kendi_gelir_belgesi_01",
+  "tags": [
+    "kariyer",
+    "muhasebe",
+    "kariyer_accountant"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_accountant": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "accountant"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kredi başvurunuz için gelir belgesi gerekiyor. Belge var ama imzalayan kişi siz.",
+      "en": "Your loan application needs proof of income. We have it, but you're the one who signed it."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Yani kendi gelirinizi kendiniz onaylamışsınız. Sistem buna bir şey diyemiyor ama ben diyorum.",
+      "en": "So you certified your own income. The system can't object to that. I can.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "patron",
+      "tr": "Patrona imzalat",
+      "en": "Get the boss to sign",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "dosya",
+      "tr": "Üç yıllık dökümü getir",
+      "en": "Bring three years of statements",
+      "pattern": "overwork"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Başvurudan vazgeç",
+      "en": "Withdraw the application",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "patron": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_kredi_basvurusu"
+          ]
+        }
+      },
+      "tr": "Patron belgeyi 'muhasebeci sensin ama' diye söylenerek imzaladı. Başvuru bir sonraki aşamaya geçti: ek belge.",
+      "en": "The boss signed it, muttering 'but you're the accountant.' Your application moved to the next stage: additional documents.",
+      "coach": [
+        {
+          "tr": "Aşama iki: aynı belge, başka imza.",
+          "en": "Stage two: same paper, different signature.",
+          "roast": false
+        }
+      ]
+    },
+    "dosya": {
+      "effects": {
+        "stats": {
+          "brain": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "npc:clerk",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "acc_kredi_basvurusu"
+          ]
+        }
+      },
+      "tr": "Üç yıllık dökümü kendi tablolarınla getirdin. Memur tabloları beğenip şablonunu istedi.",
+      "en": "You brought three years of statements in your own spreadsheets. The clerk liked them and asked for the template.",
+      "coach": [
+        {
+          "tr": "Kredi beklemede. Şablon onaylandı.",
+          "en": "Loan pending. Template approved.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Başvuruyu geri çektin. Banka geri çekme işlemi için bir form doldurmanı istedi.",
+      "en": "You withdrew the application. The bank asked you to fill out a form for the withdrawal.",
+      "coach": [
+        {
+          "tr": "Vazgeçmenin de formu var.",
+          "en": "Quitting has a form too.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "muhasebeci kendi kredi başvurusunda kendi imzaladığı gelir belgesiyle reddediliyor",
+    "mechanism": "kendi işini kendi onaylamış olmak",
+    "mechanismId": "reversal",
+    "punch": "kendi gelirinizi kendiniz onaylamışsınız",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "sablon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

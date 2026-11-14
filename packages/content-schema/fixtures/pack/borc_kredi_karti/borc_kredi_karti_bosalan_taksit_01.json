@@ -1,0 +1,169 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_bosalan_taksit_01",
+  "tags": [
+    "para",
+    "kredi",
+    "banka",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Krediniz kapandı, tebrikler. Boşalan taksitinizi değerlendirelim mi?",
+      "en": "Loan closed, congratulations. Shall we put that freed-up payment to work?"
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Aynı tutarda yeni bir kredi, aynı güne. Hiç fark etmezsiniz.",
+      "en": "A new loan, same amount, same day. You won't even notice.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "birikim",
+      "tr": "Taksiti birikime yönlendir",
+      "en": "Redirect it into savings",
+      "pattern": "patience"
+    },
+    {
+      "id": "yeni",
+      "tr": "Yeni krediyle mutfağı yenile",
+      "en": "New loan, new kitchen",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "harca",
+      "tr": "Bir ay keyfini çıkar",
+      "en": "Enjoy it for one month",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "birikim": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "savings",
+            "taksit_birikime"
+          ]
+        }
+      },
+      "tr": "Her ayın onunda 1.100 Para birikim hesabına geçiyor. Bir yılın sonunda 13.200 Para birikti.",
+      "en": "On the tenth of every month, 1,100 moves into savings. A year in, that's 13,200.",
+      "coach": [
+        {
+          "tr": "Aynı gün, aynı tutar. Yön değişti.",
+          "en": "Same day, same amount. New direction.",
+          "roast": false
+        }
+      ]
+    },
+    "yeni": {
+      "effects": {
+        "money": -1100,
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ihtiyac_kredisi",
+            "mutfak_yenilendi"
+          ]
+        }
+      },
+      "tr": "Mutfak yenilendi. Taksit günü aynı kaldı, bitiş tarihi dört yıl ileri gitti.",
+      "en": "New kitchen. Same payment day. The end date moved four years out.",
+      "coach": [
+        {
+          "tr": "Fark etmedin. Söyledikleri gibi.",
+          "en": "You didn't notice. Just as promised.",
+          "roast": true
+        }
+      ]
+    },
+    "harca": {
+      "effects": {
+        "money": -1100,
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "bosalan_taksit_harcandi"
+          ]
+        }
+      },
+      "tr": "Bir ay boyunca 1.100 Para fazla harcadın: iki akşam yemeği, bir konser, bir ceket.",
+      "en": "One month of spending an extra 1,100: two dinners, one concert, one jacket.",
+      "coach": [
+        {
+          "tr": "Bir ceket, otuz bir gün.",
+          "en": "One jacket, thirty-one days.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "uzun süren kredinin bitmesiyle boşalan aylık taksit tutarının ne yapılacağına karar vermek",
+    "mechanism": "bankacının 'fark etmezsiniz' vaadi gerçekleşiyor",
+    "mechanismId": "reversal",
+    "punch": "fark etmedin, söyledikleri gibi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

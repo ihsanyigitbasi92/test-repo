@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dugun_davetli_otel_blogu_01",
+  "tags": [
+    "sosyal",
+    "dugun",
+    "seyahat",
+    "para",
+    "dugun_davetli"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "dugun_davetli": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Arkadaşın sahil kasabasında evleniyor. Davetiyeyle birlikte bir otel linki geldi.",
+      "en": "Your friend's getting married in a seaside town. The invitation came with a hotel link."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Düğün indirimi üç gece konaklamada geçerli. İki gece isterseniz indirim yok, oda da yok.",
+      "en": "The wedding rate requires three nights. Two nights: no discount. Also no room."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Kahvaltı dahil. Düğün sabahı kahvaltı salonu prova için kapalı.",
+      "en": "Breakfast included. On the wedding morning, the breakfast room is closed for rehearsal.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "uc_gece",
+      "tr": "Üç geceyi al",
+      "en": "Book all three nights",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pansiyon",
+      "tr": "Yakında pansiyon bul",
+      "en": "Find a guesthouse nearby",
+      "pattern": "shortcut",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "gunubirlik",
+      "tr": "Günübirlik git",
+      "en": "Make it a day trip",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "uc_gece": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -4350,
+        "flags": {
+          "add": [
+            "dugun_tatili"
+          ]
+        }
+      },
+      "tr": "Üç gece kaldın: 4.350 Para. İkinci gün denize girdin; düğün bir tatilin parçası gibi geldi.",
+      "en": "Three nights: 4,350. Day two you swam. The wedding felt like part of a vacation.",
+      "coach": [
+        {
+          "tr": "Bir düğün, iki gün deniz. Fatura da tatil faturası.",
+          "en": "One wedding, two beach days. The bill was a vacation bill.",
+          "roast": false
+        }
+      ]
+    },
+    "pansiyon": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -1540,
+          "flags": {
+            "add": [
+              "pansiyon_kesfi"
+            ]
+          }
+        },
+        "tr": "Tepede bir pansiyon buldun: iki gece 1.540 Para. Pansiyoncu kahvaltıya kendi zeytinini koydu.",
+        "en": "Found a guesthouse up the hill: two nights, 1,540. The owner served their own olives at breakfast.",
+        "coach": [
+          {
+            "tr": "Daha ucuz, daha zeytinli.",
+            "en": "Cheaper. More olives.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef bütçesi yerinde.",
+            "en": "Goal budget: intact.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "money": -2180,
+          "flags": {
+            "add": [
+              "pansiyon_yokusu"
+            ]
+          }
+        },
+        "tr": "Pansiyon fotoğraflardakinden on beş dakika uzaktı, yokuş yukarı. Düğüne terli ve 2.180 Para eksik vardın.",
+        "en": "The guesthouse was fifteen minutes farther than pictured. Uphill. You arrived sweaty and 2,180 lighter.",
+        "coach": [
+          {
+            "tr": "Yokuş ücretsizdi. Gerisi değildi.",
+            "en": "The hill was free. Nothing else was.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "gunubirlik": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -2
+        },
+        "money": -920,
+        "flags": {
+          "add": [
+            "dugun_gunubirlik"
+          ]
+        }
+      },
+      "tr": "Günübirlik gittin: dört saat gidiş, dört saat dönüş. Pastanı otobüste yedin.",
+      "en": "Day trip: four hours there, four back. You ate your cake on the bus.",
+      "coach": [
+        {
+          "tr": "Sekiz saat yol, bir dilim pasta.",
+          "en": "Eight hours of road. One slice of cake.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pansiyon",
+    "slip": {
+      "tr": "İDDİA: Ucuz pansiyon pahalıya gelir. — M.",
+      "en": "WAGER: The cheap guesthouse costs you. — M."
+    }
+  },
+  "intent": {
+    "setup": "sahil kasabasındaki düğün için otelin üç gece zorunlu konaklama istemesi",
+    "mechanism": "iki gece: indirim yok, oda da yok; kahvaltı salonu prova için kapalı",
+    "mechanismId": "escalation",
+    "punch": "iki gece isterseniz oda da yok",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "yokus"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

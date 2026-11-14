@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_nurse_hafif_gorev_01",
+  "tags": [
+    "kariyer",
+    "hemsire",
+    "kariyer_nurse"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_nurse": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "nurse"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Belinin dinlenmesi lazım. Seni hafif göreve yazıyorum.",
+      "en": "Your back needs a break. I'm writing you up for light duty."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Hafif görevde tek boş yer arşiv. Arşiv bodrumda, asansör salı günleri çalışıyor.",
+      "en": "The only light-duty opening is the archive. It's in the basement. The elevator works on Tuesdays."
+    }
+  ],
+  "choices": [
+    {
+      "id": "arsiv",
+      "tr": "Arşive geç",
+      "en": "Take the archive post",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "cihaz",
+      "tr": "Hasta kaldırma cihazı iste",
+      "en": "Request a patient lift",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "devam",
+      "tr": "Serviste devam et",
+      "en": "Keep working the ward",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "arsiv": {
+      "effects": {
+        "status": {
+          "job": {
+            "title": "Arşiv hemşiresi",
+            "tier": 2,
+            "monthly": 2200
+          }
+        },
+        "stats": {
+          "joy": -1,
+          "health": 2
+        },
+        "hidden": {
+          "stress": -3
+        }
+      },
+      "tr": "Arşivde dosyaları yıla göre dizdin. Bodrumda telefon çekmiyor; belin üç haftada toparlandı.",
+      "en": "In the archive, you sorted files by year. There's no signal in the basement, and your back came around in three weeks.",
+      "coach": [
+        {
+          "tr": "Sinyal yok, ağrı da yok.",
+          "en": "No signal. No ache either.",
+          "roast": false
+        }
+      ]
+    },
+    "cihaz": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "health": 3,
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Cihaz bir ay sonra geldi. Bütün servis kullanıyor, adını kimse koymadı ama herkes \"senin vinç\" diyor.",
+        "en": "The lift arrived a month later. The whole ward uses it. Nobody named it, but everyone calls it 'your crane.'",
+        "coach": [
+          {
+            "tr": "Servisin bir vinci var. Adı sende.",
+            "en": "The ward has a crane. It has your name.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "nurse_cihaz_talep"
+            ]
+          }
+        },
+        "tr": "Talebin satın alma birimine gitti ve bütçe dönemine bırakıldı. Bütçe dönemi ilkbaharda.",
+        "en": "Your request went to procurement and was parked until budget season. Budget season is in spring.",
+        "coach": [
+          {
+            "tr": "İlkbahar bir cihaz uzakta.",
+            "en": "Spring is one machine away.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "devam": {
+      "effects": {
+        "stats": {
+          "health": -3,
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "meters": {
+          "ego": 2
+        }
+      },
+      "tr": "Serviste kaldın, iki hastayı tek başına kaldırdın. Akşam evde çoraplarını giymek için sandalyeye oturman gerekti.",
+      "en": "You stayed on the ward and lifted two patients alone. That evening, you had to sit down to put your socks on.",
+      "coach": [
+        {
+          "tr": "İki hasta, bir çift çorap.",
+          "en": "Two patients and one pair of socks.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cihaz",
+    "slip": {
+      "tr": "İDDİA: Cihaz bütçe dönemine kalır. — M.",
+      "en": "WAGER: The lift waits for budget season. — M."
+    }
+  },
+  "intent": {
+    "setup": "bel yorgunluğu nedeniyle hafif göreve geçiş, tek boş yer bodrumdaki arşiv",
+    "mechanism": "hafif görevin yolu salıları çalışan asansör",
+    "mechanismId": "bathos",
+    "punch": "asansör salı günleri çalışıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "corap"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

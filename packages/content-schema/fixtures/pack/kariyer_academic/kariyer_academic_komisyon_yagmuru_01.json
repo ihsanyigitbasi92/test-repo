@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_komisyon_yagmuru_01",
+  "tags": [
+    "kariyer",
+    "akademi",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Seni mezuniyet töreni komisyonuna yazdım. Deneyimlisin.",
+      "en": "I've put you on the graduation ceremony committee. You're experienced."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bir de web sitesi komisyonu. Bir de yemekhane menü komisyonu. Hepsi kısa sürer.",
+      "en": "Also the website committee. Also the cafeteria menu committee. They're all quick."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "tired",
+      "tr": "Yemekhane komisyonu 2014'ten beri toplanıyor. Menü hâlâ aynı.",
+      "en": "The cafeteria committee has met since 2014. The menu hasn't changed.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "hepsi",
+      "tr": "Üçünü de kabul et",
+      "en": "Accept all three",
+      "pattern": "overwork"
+    },
+    {
+      "id": "biri",
+      "tr": "Birinden çekilmeyi rica et",
+      "en": "Ask out of one",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vekil",
+      "tr": "Doktora öğrencini öner",
+      "en": "Nominate your PhD student",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "hepsi": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Dönem boyunca on dokuz toplantıya girdin. Tek somut sonuç: yemekhaneye ikinci bir çorba eklendi.",
+      "en": "Nineteen meetings this term. The one concrete result: a second soup at the cafeteria.",
+      "coach": [
+        {
+          "tr": "On dokuz toplantı, bir çorba.",
+          "en": "Nineteen meetings. One soup.",
+          "roast": false
+        }
+      ]
+    },
+    "biri": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Web sitesi komisyonundan çekildin. Başkan anladı, kaşını bir kez kaldırdı.",
+        "en": "You got off the website committee. The chair understood, after one raised eyebrow.",
+        "coach": [
+          {
+            "tr": "İki komisyon. Bir kaş.",
+            "en": "Two committees. One eyebrow.",
+            "roast": false
+          },
+          {
+            "tr": "Takvimde haftalık bir saat geri.",
+            "en": "One weekly hour, reclaimed.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Çekilme talebin gündeme alındı. Gündemi hazırlayan komisyona da sen yazıldın.",
+        "en": "Your withdrawal request was added to the agenda. You were added to the agenda committee.",
+        "coach": [
+          {
+            "tr": "Komisyon sayısı: dört.",
+            "en": "Committee count: four.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "vekil": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Öğrencin yemekhane komisyonuna girdi. İlk toplantıda üç yeni çorba önerdi, üçü de reddedildi.",
+      "en": "Your student joined the cafeteria committee and proposed three new soups at the first meeting. All rejected.",
+      "coach": [
+        {
+          "tr": "Yükü bir basamak aşağı verdin. Merdiven orada bitmedi.",
+          "en": "You passed the load one rung down. The ladder kept going.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "biri",
+    "slip": {
+      "tr": "İDDİA: Çekilme talebi yeni komisyon doğurur. — M.",
+      "en": "WAGER: Asking out spawns a new committee. — M."
+    }
+  },
+  "intent": {
+    "setup": "bölüm başkanı seni aynı anda üç komisyona atıyor",
+    "mechanism": "komisyonlar çoğalıyor, çekilmek bile komisyon doğuruyor",
+    "mechanismId": "escalation",
+    "punch": "menü hâlâ aynı",
+    "lift": "haftalık bir saat geri",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "corba"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

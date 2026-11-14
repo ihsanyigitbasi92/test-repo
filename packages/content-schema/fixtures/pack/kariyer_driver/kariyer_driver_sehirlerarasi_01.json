@@ -1,0 +1,180 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_driver_sehirlerarasi_01",
+  "tags": [
+    "kariyer",
+    "sofor",
+    "kariyer_driver"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_driver": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "driver"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Beni annemin köyüne götürür müsünüz? Üç saat. Pazarlık yapmam, bir şartım var.",
+      "en": "Could you drive me out to my mom's place in the country? Three hours. No haggling. One condition."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bana yol sormayın. Ben de bilmiyorum, annem telefondan tarif edecek.",
+      "en": "Don't ask me for directions. I don't know either. My mom's going to talk us in by phone.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Yola çık",
+      "en": "Take the trip",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sabit",
+      "tr": "Önce sabit fiyat yaz",
+      "en": "Set a flat price first",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "Hattından çıkmadığını söyle",
+      "en": "Say you don't leave your route",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "git": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": 1200,
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Yolcunun annesinin telefondaki tarifiyle köye üç saatte vardınız; 'büyük dut ağacı' gerçekten büyüktü. 1.200 Para ve bir kavanoz pekmezle döndün.",
+        "en": "Following the rider's mom over speakerphone, you made it in three hours, and the 'big mulberry tree' really was big. You came home with 1,200 and a jar of preserves.",
+        "coach": [
+          {
+            "tr": "Tarif telefondan, direksiyon senden. Ağaç doğrulandı.",
+            "en": "Directions by phone, driving by you. Tree confirmed.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": 900,
+          "hidden": {
+            "stress": 4
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Yolda dört tane 'büyük dut ağacı' vardı. Beş saatte vardınız; anne kapıda 'ben sağa dedim' dedi.",
+        "en": "There turned out to be four 'big mulberry trees.' You got there in five hours, and the mom met you at the gate: 'I said right.'",
+        "coach": [
+          {
+            "tr": "Dört ağaç, tek tarif. Sağ göreceli bir kavram.",
+            "en": "Four trees, one set of directions. 'Right' is relative.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sabit": {
+      "effects": {
+        "money": 1000,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Sabit fiyatı yazdınız: 1.000 Para. Yol beş saat sürdü; fiyat sabit kaldı, sabrın biraz azaldı.",
+      "en": "Flat price, 1,000, in writing. The trip took five hours; the price stayed flat, your patience less so.",
+      "coach": [
+        {
+          "tr": "Fiyat sabit. Dut ağaçları değil.",
+          "en": "Price fixed. The trees, not so much.",
+          "roast": true
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 1
+        }
+      },
+      "tr": "Kibarca reddettin. Yolcu duraktaki bir taksiye bindi; taksici tarifi duyunca kornaya bastı.",
+      "en": "You politely declined. The rider took a cab from the stand, and the cabbie honked the moment the directions started.",
+      "coach": [
+        {
+          "tr": "Hattın güvende. Dut ağaçları taksicide.",
+          "en": "Your route is safe. The trees are the cabbie's problem.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "git",
+    "slip": {
+      "tr": "İDDİA: Dut ağacı birden fazla çıkar. — M.",
+      "en": "WAGER: There's more than one mulberry tree. — M."
+    }
+  },
+  "intent": {
+    "setup": "yolcu şoförü üç saatlik yolculukla annesinin köyüne tutmak istiyor, tarifi telefondaki anne verecek",
+    "mechanism": "tarif tek dut ağacına dayanıyor, ağaç sayısı çoğalıyor",
+    "mechanismId": "reversal",
+    "punch": "annem tarif edecek",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dut"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR dolmuş şoförlüğü; EN rideshare ikamesi. TR'de dolmuş şoförü şehir dışına özel yolculuk; EN'de rideshare şoförü kırsala uzun yolculuk. Pekmez EN'de preserves. Uygulama/şirket/marka adı yok."
+  }
+}

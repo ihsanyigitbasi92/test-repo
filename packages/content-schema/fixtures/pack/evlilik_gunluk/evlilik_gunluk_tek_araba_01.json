@@ -1,0 +1,218 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_tek_araba_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Yarın arabayı ben alıyorum. Sen otobüse... dur, senin de mi sabah toplantın var?",
+      "en": "I’m taking the car tomorrow. You can bus it... wait, you have a morning meeting too?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Takvimleri paylaşalım dedik. Paylaştık. Çakışıyor.",
+      "en": "We said we’d share calendars. We did. They clash.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikinci",
+      "tr": "İkinci el bir araba daha al",
+      "en": "Buy a second used car",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sira",
+      "tr": "Gün gün sıraya koy",
+      "en": "Alternate days",
+      "pattern": "patience"
+    },
+    {
+      "id": "bisiklet",
+      "tr": "Arabayı bırak, bisiklete bin",
+      "en": "Give up the car, bike it",
+      "pattern": "selfCare",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    }
+  ],
+  "outcomes": {
+    "ikinci": {
+      "effects": {
+        "money": -8000,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -3
+        },
+        "status": {
+          "assets": {
+            "add": [
+              "ikinci_araba"
+            ]
+          }
+        },
+        "flags": {
+          "add": [
+            "iki_araba"
+          ]
+        }
+      },
+      "tr": "İkinci el bir araba aldınız: 8.000 Para. Artık iki araba ve bir park yeri var.",
+      "en": "You bought a used second car: 8,000. Now there are two cars and one parking spot.",
+      "coach": [
+        {
+          "tr": "Bir sorun çözüldü, bir park sorunu doğdu.",
+          "en": "One problem solved. One parking problem born.",
+          "roast": false
+        }
+      ]
+    },
+    "sira": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "araba_sirasi"
+          ]
+        }
+      },
+      "tr": "Pazartesi, çarşamba ve cuma senin. Salı otobüsü on iki dakika geç geliyor.",
+      "en": "Monday, Wednesday and Friday are yours. The Tuesday bus runs twelve minutes late.",
+      "coach": [
+        {
+          "tr": "Üç gün araba, iki gün otobüs. Takvim adil.",
+          "en": "Three car days, two bus days. A fair calendar.",
+          "roast": false
+        }
+      ]
+    },
+    "bisiklet": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 4,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "bisikletle_is"
+            ]
+          }
+        },
+        "tr": "Bisikletle işe gittin. Yol yirmi beş dakika, park aramak hiç.",
+        "en": "You biked to work. Twenty-five minutes on the road, none spent looking for parking.",
+        "coach": [
+          {
+            "tr": "Park aramaya sıfır dakika. İyi bir sıfır.",
+            "en": "Zero minutes hunting for parking. The good kind of zero.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: bir adım.",
+            "en": "Goal meter: one step.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -2,
+            "joy": -3
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Yokuş beklenenden uzun çıktı. Toplantıya terli, ikinci gündem maddesinde girdin.",
+        "en": "The hill was longer than expected. You walked in sweaty, at agenda item two.",
+        "coach": [
+          {
+            "tr": "Yokuş bir, sen sıfır.",
+            "en": "Hill: one. You: nil.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bisiklet",
+    "slip": {
+      "tr": "İDDİA: Bisiklet ilk günü çıkarmaz. — M.",
+      "en": "WAGER: The bike won’t survive day one. — M."
+    }
+  },
+  "intent": {
+    "setup": "evli çiftin tek arabası ve çakışan sabah toplantıları",
+    "mechanism": "paylaşılan takvim çakışmayı belgeliyor",
+    "mechanismId": "escalation",
+    "punch": "paylaştık, çakışıyor",
+    "closer": "skor",
+    "target": "situation",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

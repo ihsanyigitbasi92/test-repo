@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kronik_saglik_ilk_uzun_yuruyus_01",
+  "tags": [
+    "saglik",
+    "yuruyus",
+    "cocuk",
+    "kronik_saglik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 450,
+    "tags": {
+      "kronik_saglik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 85
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "happy",
+      "tr": "Üç aydır ilk kez \"dışarı çıkalım\" dedin. Sahile kadar mı, köşeye kadar mı?",
+      "en": "First time in three months you've said \"let's go out.\" To the shore, or to the corner?"
+    },
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Sahil iki kilometre. Yolda dört bank var, saydım.",
+      "en": "The shore is a mile and a bit. Four benches on the way. I counted.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sahil",
+      "tr": "Sahile kadar yürü",
+      "en": "Walk to the shore",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "kose",
+      "tr": "Köşeye kadar git, dön",
+      "en": "To the corner and back",
+      "pattern": "patience"
+    },
+    {
+      "id": "bank",
+      "tr": "Her bankta otur",
+      "en": "Sit on every bench",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "sahil": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 4
+          },
+          "hidden": {
+            "stress": -5
+          },
+          "flags": {
+            "add": [
+              "uzun_yuruyus"
+            ]
+          },
+          "diagnosis": "toparlanma"
+        },
+        "tr": "Sahile vardın, dört banktan yalnızca birine oturdun. Dönüşü taksiyle yaptınız, kimse itiraz etmedi.",
+        "en": "You made the shore and used just one of the four benches. You took a cab home. No objections.",
+        "coach": [
+          {
+            "tr": "Bir bank, bütün yol.",
+            "en": "One bench. The whole way.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "yuruyus_yarim"
+            ]
+          }
+        },
+        "tr": "Üçüncü bankta durdun. Sahil göründü ama gelmedi, çocuğun dönüş için taksi çağırdı.",
+        "en": "You stopped at the third bench. The shore was in sight, just not in reach. Your kid called a cab.",
+        "coach": [
+          {
+            "tr": "Üç bank. Sahil sonraki sefere.",
+            "en": "Three benches. The shore can wait.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kose": {
+      "effects": {
+        "stats": {
+          "health": 2
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "flags": {
+          "add": [
+            "kisa_yuruyus"
+          ]
+        }
+      },
+      "tr": "Köşeye gittin, döndün. Kapıda \"yarın bir köşe daha\" dedin.",
+      "en": "To the corner and back. At the door you said, \"One more corner tomorrow.\"",
+      "coach": [
+        {
+          "tr": "Yarın: bir köşe daha.",
+          "en": "Tomorrow: one more corner.",
+          "roast": false
+        }
+      ]
+    },
+    "bank": {
+      "effects": {
+        "stats": {
+          "health": 3
+        },
+        "hidden": {
+          "stress": -4
+        },
+        "flags": {
+          "add": [
+            "uzun_yuruyus"
+          ]
+        }
+      },
+      "tr": "Dört bankın dördüne de oturdun. Sahile vardığınızda çocuğun bankları puanlamıştı.",
+      "en": "You sat on all four benches. By the shore, your kid had rated each one.",
+      "coach": [
+        {
+          "tr": "Dört bank puanlandı. Sahil de geldi.",
+          "en": "Four benches rated. Shore reached.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sahil",
+    "slip": {
+      "tr": "İDDİA: Sahile varmadan dönersin. — M.",
+      "en": "WAGER: You turn back before the shore. — M."
+    }
+  },
+  "intent": {
+    "setup": "kötü bir dönemden sonra çocukla ilk uzun yürüyüşe çıkmak",
+    "mechanism": "yol bank sayısıyla ölçülüyor",
+    "mechanismId": "count",
+    "punch": "yolda dört bank var, saydım",
+    "lift": "bir köşe daha",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bank"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

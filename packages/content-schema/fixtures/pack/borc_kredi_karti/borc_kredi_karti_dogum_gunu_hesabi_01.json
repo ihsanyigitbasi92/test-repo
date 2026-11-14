@@ -1,0 +1,222 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dogum_gunu_hesabi_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "arkadas",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc",
+        "ilk_kredi_karti"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Sen kartla öde, biz sana göndeririz. Herkes gönderir. Söz.",
+      "en": "Just put it on your card, we'll all send you our shares. Everyone will. Promise."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "typing",
+      "tr": "Grubu kurdum: 'Doğum Günü Ödeme'. Şu an üç kişi 'görüldü' yaptı.",
+      "en": "Made the group: 'Birthday Payback.' Three people have 'seen' it so far.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "hatirlat",
+      "tr": "Grupta tek tek hatırlat",
+      "en": "Remind everyone by name",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hediye",
+      "tr": "Doğum günü hediyesi say",
+      "en": "Call it a birthday present",
+      "pattern": "generosity"
+    },
+    {
+      "id": "taksit",
+      "tr": "Ekstrede taksitlendir",
+      "en": "Split it on the statement",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "hatirlat": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "charm": 1
+          },
+          "flags": {
+            "add": [
+              "masa_hesabi_toplandi"
+            ]
+          }
+        },
+        "tr": "Beş kişiden dördü payını gönderdi. Beşinci kişi bir kalp yolladı; sende 300 Para kaldı.",
+        "en": "Four of five sent their share. The fifth sent a heart. You're out 300.",
+        "coach": [
+          {
+            "tr": "Kalp alındı. Nominal değeri 300 Para.",
+            "en": "One heart received. Face value: 300.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -1200,
+          "hidden": {
+            "stress": 2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "kredi_karti_borcu"
+            ]
+          },
+          "followUp": [
+            {
+              "eventId": "borc_kredi_karti_dostane_hatirlatma_01",
+              "delayDays": [
+                25,
+                40
+              ],
+              "chance": 4000
+            }
+          ]
+        },
+        "tr": "'Görüldü' sayısı yediye çıktı, ödeme sayısı birde kaldı. Ekstrede 1.200 Para duruyor.",
+        "en": "'Seen' climbed to seven. Payments stayed at one. 1,200 sits on your statement.",
+        "coach": [
+          {
+            "tr": "Yedi görüldü, bir ödeme. Grup çok okuyor.",
+            "en": "Seven seen, one paid. A very well-read group.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hediye": {
+      "effects": {
+        "money": -1500,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "Hesap hediye sayıldı: 1.500 Para. Ev arkadaşı pastanın son dilimini sana ayırdı.",
+      "en": "The bill became the present: 1,500. Your roommate saved you the last slice of cake.",
+      "coach": [
+        {
+          "tr": "1.500 Para'lık bir dilim pasta. Tadı yerinde.",
+          "en": "A 1,500 slice of cake. Tastes about right.",
+          "roast": true
+        }
+      ]
+    },
+    "taksit": {
+      "effects": {
+        "money": -500,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kredi_karti_borcu",
+            "masa_taksit"
+          ]
+        }
+      },
+      "tr": "Hesap üç taksite bölündü, ilk taksit 500 Para. Doğum günü ekstrede üç ay sürecek.",
+      "en": "The bill was split into three. First payment: 500. The birthday runs on your statement for three months.",
+      "coach": [
+        {
+          "tr": "Doğum günü üç ay sürecek. Pasta bir gün sürdü.",
+          "en": "The birthday lasts three months. The cake lasted one day.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hatirlat",
+    "slip": {
+      "tr": "İDDİA: Herkes ödemez. — M.",
+      "en": "WAGER: Not everyone pays up. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının doğum günü yemeğinde bütün masanın hesabını kartla ödeyip payları toplamaya çalışmak",
+    "mechanism": "'herkes gönderir, söz' ve artan 'görüldü' sayısı",
+    "mechanismId": "count",
+    "punch": "üç kişi görüldü yaptı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kalp"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

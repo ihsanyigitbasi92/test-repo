@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yabancilar_sokak_saat_tahmini_01",
+  "tags": [
+    "sosyal",
+    "sokak",
+    "yabanci",
+    "yabancilar_sokak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "yabancilar_sokak": 22
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Pardon, saat kaç? Telefonum kapandı, otobüsü kaçırmamam lazım.",
+      "en": "Excuse me, what time is it? My phone died and I can't miss my bus."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Sizinki de mi kapalı? Tahmin de olur.",
+      "en": "Yours is dead too? A guess works.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tahmin",
+      "tr": "Güneşe bakıp tahmin et",
+      "en": "Guess from the sun",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bilmiyorum",
+      "tr": "Bilmediğini söyle",
+      "en": "Admit you don't know",
+      "pattern": "patience"
+    },
+    {
+      "id": "sor",
+      "tr": "Bir sonraki yabancıya sor",
+      "en": "Ask the next stranger",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "tahmin": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "luck": 2
+          },
+          "flags": {
+            "add": [
+              "sokak_gunes_saati"
+            ]
+          }
+        },
+        "tr": "\"Beşe on var\" dedin. Durağın saatine baktınız: beşe dokuz vardı.",
+        "en": "\"Ten to five,\" you said. The clock at the stop read nine to five.",
+        "coach": [
+          {
+            "tr": "Bir dakika sapma. Güneş seni onayladı.",
+            "en": "One minute off. The sun signed off on it.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          }
+        },
+        "tr": "\"Üç buçuk\" dedin. Yabancı otobüse koştu; saat beşi geçiyormuş.",
+        "en": "\"Half past three,\" you said. The stranger sprinted for the bus. It was after five.",
+        "coach": [
+          {
+            "tr": "Güneş bu tahmine imza atmadı.",
+            "en": "The sun did not sign off on that one.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bilmiyorum": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Bilmediğini söyledin. Yabancı \"Kimse bilmiyor zaten\" deyip yürüdü.",
+      "en": "You said you didn't know. The stranger said, \"Nobody does, really,\" and walked off.",
+      "coach": [
+        {
+          "tr": "Saat yerine felsefe aldın.",
+          "en": "You asked for the time and got philosophy.",
+          "roast": true
+        }
+      ]
+    },
+    "sor": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        }
+      },
+      "tr": "Üçüncü yabancının kolunda gerçek bir saat vardı: dördü elli bir geçiyordu. Üçünüz aynı anda rahatladınız.",
+      "en": "The third stranger wore an actual wristwatch: 4:51. All three of you exhaled at once.",
+      "coach": [
+        {
+          "tr": "Kol saati sokakta hâlâ görevde.",
+          "en": "The wristwatch remains on active duty.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tahmin",
+    "slip": {
+      "tr": "İDDİA: Güneş seni beş dakikadan fazla yanıltır. — M.",
+      "en": "WAGER: The sun misleads you by more than five minutes. — M."
+    }
+  },
+  "intent": {
+    "setup": "telefonları kapalı iki kişinin sokakta saati tahmin etmeye çalışması",
+    "mechanism": "güneş onaylayan bir yetkili gibi",
+    "mechanismId": "understatement",
+    "punch": "güneş imza atmadı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "gunes"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

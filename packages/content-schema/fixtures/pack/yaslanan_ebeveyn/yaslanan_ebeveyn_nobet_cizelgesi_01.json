@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_nobet_cizelgesi_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 37,
+      "max": 40
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Bir çizelge yaptım. Annemi sırayla ziyaret edelim.",
+      "en": "I made a schedule. We'll take turns visiting Mom."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Sen hafta içi her akşam, ben ayın ilk pazarı. Bence adil oldu.",
+      "en": "You take every weeknight, I take the first Sunday of the month. Seems fair.",
+      "delayMs": 500
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Siz kavga etmeyin. Ben kendime bakarım.",
+      "en": "Don't you two fight. I can look after myself."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Çizelgeyi kabul et",
+      "en": "Accept the schedule",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "duzelt",
+      "tr": "Çizelgeyi yeniden böl",
+      "en": "Redraw the schedule",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "anneye",
+      "tr": "Annene seçtir",
+      "en": "Let Mom decide",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "bakim_nobet_sende"
+          ]
+        }
+      },
+      "tr": "Hafta içi her akşam annendesin. Kardeşin ayın ilk pazarı pastayla gelip fotoğraf çekiyor.",
+      "en": "You're at Mom's every weeknight. Your sibling shows up the first Sunday with a cake and takes photos.",
+      "coach": [
+        {
+          "tr": "Pasta fotoğrafa girdi. Sen bulaşığa.",
+          "en": "The cake made the photo. You made the dishes.",
+          "roast": true
+        }
+      ]
+    },
+    "duzelt": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "bakim_nobet_esit"
+            ]
+          }
+        },
+        "tr": "Yeni çizelge: ikişer akşam, pazarlar dönüşümlü. Kardeşin itiraz etti ama tabloyu sen çizmiştin.",
+        "en": "New schedule: two nights each, alternating Sundays. Your sibling objected, but you'd drawn the table.",
+        "coach": [
+          {
+            "tr": "Eşit bölüşüm. Kalem sendeydi.",
+            "en": "Even split. You held the pen.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -3
+            }
+          ],
+          "flags": {
+            "add": [
+              "bakim_nobet_sende"
+            ]
+          }
+        },
+        "tr": "Kardeşin \"Benim işim daha yoğun\" dedi ve konu kapandı. Çizelge aynı kaldı, aranız soğudu.",
+        "en": "Your sibling said \"My job is busier,\" and that was that. The schedule stayed. Things between you cooled.",
+        "coach": [
+          {
+            "tr": "Aile grubu sessize alındı.",
+            "en": "The family chat went quiet.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "anneye": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "flags": {
+          "add": [
+            "bakim_nobet_anne"
+          ]
+        }
+      },
+      "tr": "Annen ikinizi de pazar öğlen istedi, aynı masada, aynı saatte. Çizelge çöpe gitti.",
+      "en": "Mom wants you both on Sundays at noon, same table, same time. The schedule went in the trash.",
+      "coach": [
+        {
+          "tr": "Annen tek satırla çözdü.",
+          "en": "Mom solved it in one line.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "kardeşle anneye bakım nöbeti çizelgesi; adaletsiz bölüşüm",
+    "mechanism": "kardeşin 'adil' çizelgesi tırmanarak dengesizleşiyor",
+    "mechanismId": "escalation",
+    "punch": "ben ayın ilk pazarı",
+    "lift": "annen tek satırla çözdü",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bulasik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

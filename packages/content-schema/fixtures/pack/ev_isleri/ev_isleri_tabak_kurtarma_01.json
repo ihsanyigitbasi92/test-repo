@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_isleri_tabak_kurtarma_01",
+  "tags": [
+    "ev",
+    "ev_isi",
+    "ev_isleri"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "ev_isleri": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "annoyed",
+      "tr": "Odama girme. Kapıda yazıyor.",
+      "en": "Don't come in my room. It says so on the door."
+    },
+    {
+      "speaker": "child",
+      "avatar": "neutral",
+      "tr": "Tabaklar mı? Cuma getiririm. Hepsini, tek seferde, tepside.",
+      "en": "Plates? I'll bring them out Friday. All of them. One trip. On a tray.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "gir",
+      "tr": "Kapıyı çal, tabakları topla",
+      "en": "Knock and collect the plates",
+      "pattern": "overwork"
+    },
+    {
+      "id": "bekle",
+      "tr": "Cumayı bekle, karton tabak kullan",
+      "en": "Wait for Friday, use paper plates",
+      "pattern": "patience"
+    },
+    {
+      "id": "kural",
+      "tr": "'Odada yemek yok' kuralı koy",
+      "en": "Ban eating in the bedroom",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "gir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "tabaklar_dondu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Odadan dokuz tabak, dört bardak ve bir tencere kapağı çıktı. Kapı arkandan sertçe kapandı.",
+      "en": "Out came nine plates, four glasses and a pot lid. The door shut firmly behind you.",
+      "coach": [
+        {
+          "tr": "Dokuz tabak döndü. Bir kapı kapandı.",
+          "en": "Nine plates returned. One door closed.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "karton_tabak"
+          ]
+        }
+      },
+      "tr": "Cuma geldi, tepsi de geldi. Üzerinde iki tabak vardı.",
+      "en": "Friday came. So did the tray. It held two plates.",
+      "coach": [
+        {
+          "tr": "Tepsi teslim edildi. Sipariş kısmen karşılandı.",
+          "en": "Tray delivered. Order partially fulfilled.",
+          "roast": true
+        }
+      ]
+    },
+    "kural": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "odada_yemek_yok"
+            ]
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Kural kabul edildi. Karşılığında kapıdaki yazı kalıyor.",
+        "en": "Rule accepted. In exchange, the sign on the door stays.",
+        "coach": [
+          {
+            "tr": "Anlaşma imzalandı. Tabela kalıcı.",
+            "en": "Deal signed. The sign stays.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kural ilan edildi. Ertesi gün odada bir kâse mısır gevreği bulundu; teknik olarak yemek değilmiş.",
+        "en": "Rule announced. Next day: a bowl of cereal in the room. Technically, you were told, not a meal.",
+        "coach": [
+          {
+            "tr": "Kuralda bir delik var. Mısır gevreği boyunda.",
+            "en": "The rule has a loophole. Cereal-sized.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / parti wager payı dolu"
+  },
+  "intent": {
+    "setup": "ergen çocuğun odasında biriken tabakları kurtarmak",
+    "mechanism": "tabak, bardak, kapak sayımı",
+    "mechanismId": "count",
+    "punch": "hepsini tek seferde, tepside",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tepsi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

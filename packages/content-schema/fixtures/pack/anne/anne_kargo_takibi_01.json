@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_kargo_takibi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "anne"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "anne": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "typing",
+      "tr": "Kargon dağıtıma çıkmış. Kapıda ol.",
+      "en": "Your package is out for delivery. Be at the door."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kurye şu an iki sokak ötede. Haritadan izliyorum.",
+      "en": "The courier is two streets away. I'm watching the map."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "annoyed",
+      "tr": "Teslim edildi yazıyor. Kime teslim edildi? Kimdi o?",
+      "en": "It says delivered. Delivered to whom? Who was that?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "adres",
+      "tr": "Hesaptaki adresi değiştir",
+      "en": "Change the account address",
+      "pattern": "pride"
+    },
+    {
+      "id": "birak",
+      "tr": "Takibi annene bırak",
+      "en": "Let Mom run tracking",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "kapi",
+      "tr": "Kapıda bekle",
+      "en": "Wait by the door",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "adres": {
+      "effects": {
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "anne_kargo_adres_degisti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Adresi değiştirdin. Annen ertesi gün bildirimlerin bozulduğunu haber vermek için üç kez aradı.",
+      "en": "You changed the address. The next day Mom called three times to report the notifications were broken.",
+      "coach": [
+        {
+          "tr": "Bildirimler sustu. Telefon susmadı.",
+          "en": "The alerts went quiet. The phone didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "meters": {
+          "momPressure": -3
+        },
+        "flags": {
+          "add": [
+            "anne_kargo_takipcisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Takip artık annende. Paketlerinin nerede olduğunu senden önce o biliyor.",
+      "en": "Mom runs tracking now. She knows where your packages are before you do.",
+      "coach": [
+        {
+          "tr": "Lojistik departmanın kuruldu. Maaşsız.",
+          "en": "You now have a logistics department. Unpaid.",
+          "roast": false
+        }
+      ]
+    },
+    "kapi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -1
+        },
+        "flags": {
+          "add": [
+            "anne_kargo_teslim"
+          ]
+        }
+      },
+      "tr": "Paketi kapıda teslim aldın, fotoğrafını annene attın. Annen kutunun ezik köşesini büyütüp geri yolladı.",
+      "en": "You signed for it at the door and sent Mom a photo. She zoomed in on a dented corner and sent it back.",
+      "coach": [
+        {
+          "tr": "Teslim tutanağı iki taraflı imzalandı.",
+          "en": "Delivery confirmed. Both parties signed.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacına bir teslimat.",
+          "en": "One delivery on the goal counter.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da düşük gerilim"
+  },
+  "intent": {
+    "setup": "annenin adresine kayıtlı ortak hesaptan sipariş verince annenin kargonu canlı haritadan takip edip seni araması",
+    "mechanism": "annenin soruları haritadaki kuryeyle birlikte tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "kime teslim edildi, kimdi o",
+    "lift": "hedef satırı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "teslim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

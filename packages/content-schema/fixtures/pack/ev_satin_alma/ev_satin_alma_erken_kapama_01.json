@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_erken_kapama_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 46,
+      "max": 58
+    },
+    "housing": [
+      "mortgage"
+    ],
+    "money": {
+      "min": 12000
+    },
+    "flags": {
+      "all": [
+        "ev_satin_alindi"
+      ],
+      "none": [
+        "ipotek_kalkti",
+        "kredi_erken_kapandi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Krediyi erken kapatmak istiyorsunuz, ne güzel. Ayrılmanıza çok üzüldük.",
+      "en": "You'd like to pay the loan off early, how lovely. We're very sad to see you go."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "smug",
+      "tr": "Üzüntümüzü ekteki tabloda rakamla ifade ettik.",
+      "en": "We've expressed our sadness numerically, in the attached table.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Yine de erken kapat",
+      "en": "Pay it off anyway",
+      "pattern": "pride"
+    },
+    {
+      "id": "devam",
+      "tr": "Vade sonuna kadar devam et",
+      "en": "Ride out the full term",
+      "pattern": "patience"
+    },
+    {
+      "id": "kismi",
+      "tr": "Kısmi ödeme yap",
+      "en": "Make a partial payment",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "money": -8000,
+        "hidden": {
+          "stress": -4
+        },
+        "stats": {
+          "joy": 3
+        },
+        "glossary": "erken_kapama",
+        "flags": {
+          "add": [
+            "kredi_erken_kapandi",
+            "ipotek_serhi_bekliyor"
+          ]
+        }
+      },
+      "tr": "Krediyi kapattın; tazminat dahil 8.000 Para hesaptan çıktı. Banka veda kartı yerine 'borcu yoktur' yazısı gönderdi.",
+      "en": "You paid it off: 8,000 out the door, fee included. Instead of a farewell card, the bank sent a 'no balance owed' letter.",
+      "coach": [
+        {
+          "tr": "Taksit sayacı sıfırda.",
+          "en": "Installment counter: zero.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef dosyasında bir kalem kapandı.",
+          "en": "One line closed in the goal file.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "devam": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kredi_devam"
+          ]
+        }
+      },
+      "tr": "Vadeye devam kararı aldın. Banka ertesi ay 'bizi tercih ettiğiniz için' teşekkür mesajı attı.",
+      "en": "You decided to see out the term. Next month the bank texted to thank you for 'choosing to stay.'",
+      "coach": [
+        {
+          "tr": "Bankanın yası bir ay sürdü.",
+          "en": "The bank's grief lasted one month.",
+          "roast": false
+        }
+      ]
+    },
+    "kismi": {
+      "effects": {
+        "money": -3000,
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kismi_odeme"
+          ]
+        }
+      },
+      "tr": "Kısmi ödeme yaptın. Taksit tutarı aynı kaldı, vade dört ay kısaldı.",
+      "en": "You made a partial payment. The monthly amount stayed the same; the term got four months shorter.",
+      "coach": [
+        {
+          "tr": "Aynı taksit, dört ay eksiğiyle.",
+          "en": "Same installment. Four fewer of them.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "konut kredisini vadesinden önce kapatmak isteyince bankacının tazminat tablosu çıkarması",
+    "mechanism": "bankanın 'üzüntüsünü' rakamla ifade etmesi",
+    "mechanismId": "understatement",
+    "punch": "üzüntümüzü rakamla ifade ettik",
+    "lift": "taksit sayacı sıfır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tablo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

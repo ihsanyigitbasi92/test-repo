@@ -1,0 +1,244 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_pesin_kira_01",
+  "tags": [
+    "ev",
+    "kira",
+    "para",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Mutfağımı yaptırıyorum. Üç aylığı peşin versen, biraz indiririm.",
+      "en": "I'm redoing my kitchen. Pay three months up front and I'll knock a bit off."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Biraz derken... düşünürüm. Önce peşin.",
+      "en": "A bit meaning... I'll think about it. Cash first.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Peşin öde",
+      "en": "Pay up front",
+      "pattern": "generosity"
+    },
+    {
+      "id": "yazili",
+      "tr": "İndirimi yazılı iste",
+      "en": "Get the discount in writing",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "reddet",
+      "tr": "Kibarca reddet",
+      "en": "Politely decline",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -6000,
+        "flags": {
+          "add": [
+            "kira_pesin_odendi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Üç aylık 6.000 Para gitti. İndirim, mutfak bitince konuşulacak.",
+      "en": "Three months, 6,000, gone. The discount will be discussed when the kitchen's done.",
+      "coach": [
+        {
+          "tr": "İndirim sözlü, ödeme nakit. Mutfak dolapları da sende.",
+          "en": "Discount: verbal. Payment: cash. Kitchen cabinets: on you.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacı 6.000 geriledi.",
+          "en": "Goal counter: down 6,000.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "yazili": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "money": -5400,
+          "flags": {
+            "add": [
+              "kira_pesin_odendi"
+            ]
+          }
+        },
+        "tr": "Yüzde onu kâğıda geçirdin: 5.400 Para. Makbuzun altında 'son kez' notu var.",
+        "en": "You got ten percent on paper: 5,400. The receipt has 'last time' scribbled at the bottom.",
+        "coach": [
+          {
+            "tr": "Altı yüz Para kurtuldu. Kâğıt kazandı, iddia kaybetti.",
+            "en": "Six hundred saved. Paper won, the wager lost.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef açığı 5.400 büyüdü.",
+            "en": "Goal gap: 5,400 wider.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -6000,
+          "flags": {
+            "add": [
+              "kira_pesin_odendi"
+            ]
+          }
+        },
+        "tr": "İndirim 'mutfak fiyatları arttı' diye iptal edildi. Peşin yine peşin.",
+        "en": "The discount was cancelled: 'kitchen prices went up.' Up front is still up front.",
+        "coach": [
+          {
+            "tr": "Mutfak fiyatları senin indirimini yedi.",
+            "en": "Kitchen inflation ate your discount.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef kumbarası: eksi 6.000.",
+            "en": "Goal jar: minus 6,000.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "reddet": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "pesin_reddedildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Reddettin. O ay kira her zamankinden iki gün erken istendi.",
+      "en": "You declined. That month, rent was requested two days early.",
+      "coach": [
+        {
+          "tr": "İki gün erken. Küçük, kibar bir rövanş.",
+          "en": "Two days early. A small, polite rematch.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yazili",
+    "slip": {
+      "tr": "İDDİA: İndirim kâğıda geçmez. — M.",
+      "en": "WAGER: The discount never makes it onto paper. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi kendi mutfak tadilatı için üç aylık kirayı peşin istiyor",
+    "mechanism": "belirsiz \"biraz indirim\" ve peşin ısrarı",
+    "mechanismId": "reversal",
+    "punch": "biraz derken düşünürüm, önce peşin",
+    "lift": "aktif hedefe bağlı tek satır",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "mutfak"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

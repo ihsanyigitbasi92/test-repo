@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "bayram_ozel_gunler_gece_otobusu_bileti_01",
+  "tags": [
+    "mevsim",
+    "bayram",
+    "yol",
+    "anne",
+    "bayram_ozel_gunler"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "bayram_ozel_gunler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Biletini aldın mı? Sabah kahvaltıda olursun değil mi? Börek yapacağım, sıcak yenir.",
+      "en": "Got your ticket? You'll be here for breakfast, right? I'm making pastry. It's best warm."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Teyzenler de geliyor. Dokuzda masadayız, sen sekizde gel.",
+      "en": "Your aunt's lot is coming too. We sit down at nine. You come at eight.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "gece",
+      "tr": "02.40 otobüsüne bin",
+      "en": "Take the 2:40 a.m. bus",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ertesi",
+      "tr": "Ertesi günün biletini al",
+      "en": "Take the next day's bus",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "paylas",
+      "tr": "Yol paylaşımı bul",
+      "en": "Find a ride-share",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "gece": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "momPressure": -4
+        },
+        "money": -450,
+        "flags": {
+          "add": [
+            "bayram_gece_yolu"
+          ]
+        }
+      },
+      "tr": "Otobüste uyuyamadın, 08.50'de kapıdaydın. Börek sıcaktı; annen 'yüzün solmuş' deyip ikinci dilimi koydu.",
+      "en": "No sleep on the bus. You were at the door at 8:50. The pastry was warm. Mom said you looked pale and served a second slice.",
+      "coach": [
+        {
+          "tr": "Varış 08.50. Börek tam vaktinde.",
+          "en": "Arrival 8:50. Pastry on schedule.",
+          "roast": false
+        }
+      ]
+    },
+    "ertesi": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "money": -400,
+        "flags": {
+          "add": [
+            "bayram_gec_geldi"
+          ]
+        }
+      },
+      "tr": "Bir gün geç vardın. Börek ısıtılmıştı; annen bayram boyu 'dün sıcaktı' dedi.",
+      "en": "You arrived a day late. The pastry had been reheated. All holiday, Mom mentioned it was 'warm yesterday.'",
+      "coach": [
+        {
+          "tr": "Börek ısıtıldı. Konu ısıtılmaya devam ediyor.",
+          "en": "The pastry got reheated. So does the subject.",
+          "roast": true
+        }
+      ]
+    },
+    "paylas": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "momPressure": -3
+          },
+          "money": -250,
+          "flags": {
+            "add": [
+              "bayram_ortak_yol"
+            ]
+          }
+        },
+        "tr": "Akşam yola çıkan bir aileyle gittin. Yolda üç çeşit kurabiye tattın, kahvaltıya yetiştin.",
+        "en": "You rode with a family leaving that evening, sampled three kinds of cookies, and made breakfast on time.",
+        "coach": [
+          {
+            "tr": "Yol kısa, kurabiye bol, varış dakik.",
+            "en": "Short trip, ample cookies, punctual arrival.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "money": -450,
+          "flags": {
+            "add": [
+              "bayram_gece_yolu"
+            ]
+          }
+        },
+        "tr": "Sürücü son anda iptal etti. Gece otobüsünde kalan son koltuğu, tuvaletin yanındakini aldın.",
+        "en": "The driver canceled last minute. You got the night bus's last seat, the one by the toilet.",
+        "coach": [
+          {
+            "tr": "Son koltuk hep o koltuktur.",
+            "en": "The last seat is always that seat.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia kotası dışında"
+  },
+  "intent": {
+    "setup": "bayramda eve dönüş için yalnız gece otobüsünde bilet kalması",
+    "mechanism": "annenin saat talebi her cümlede öne çekiliyor",
+    "mechanismId": "escalation",
+    "punch": "dokuzda masadayız, sekizde gel",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "dakik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "localizedShell: TR bayram; EN 'the holidays'. Dini terim/tören yok, bayramın adı verilmiyor. Gece otobüsüyle eve dönüş, EN overnight bus home."
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_model_daire_kahvesi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "para",
+    "ev",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "saveDown"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Peşinat eksik. Günde bir kahveden vazgeçin, on bir yılda tamam.",
+      "en": "Down payment is short. Skip one coffee a day: eleven years."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bu fiyat yalnızca bugün geçerli. Yarın da geçerli ama başka.",
+      "en": "This price is today only. It's valid tomorrow too, but different.",
+      "delayMs": 800
+    }
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Hedef: peşinat biriktir. Hesapta 11.400 Para. Bugün model daire gezisi.",
+      "en": "Goal: save a down payment. Account: 11,400. Today: a model-unit tour."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapora",
+      "tr": "Kapora ver, daireyi tut",
+      "en": "Put down a holding deposit",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tablo",
+      "tr": "Ödeme tablosunu iste",
+      "en": "Ask for the payment table",
+      "pattern": "patience"
+    },
+    {
+      "id": "cik",
+      "tr": "Kahveni al ve çık",
+      "en": "Take your coffee and leave",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kapora": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": -2000,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kapora_iadeli"
+            ]
+          }
+        },
+        "tr": "Sözleşmeye \"iade edilebilir\" yazdırdın. 2.000 Para kapora; daire bir ay senin adına bekleyecek.",
+        "en": "You got \"refundable\" written into the contract. A 2,000 deposit; the unit waits a month in your name.",
+        "coach": [
+          {
+            "tr": "Tek kelime, iki bin Para değerinde.",
+            "en": "One word, worth two thousand.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -2000,
+          "stats": {
+            "joy": -4
+          },
+          "flags": {
+            "add": [
+              "kapora_iadesiz"
+            ]
+          }
+        },
+        "tr": "Kapora 2.000 Para. Sözleşmenin arka yüzünde küçük puntoyla: \"iade edilmez\".",
+        "en": "Deposit: 2,000. On the back of the contract, in small print: \"non-refundable.\"",
+        "coach": [
+          {
+            "tr": "Arka yüz. Her zaman en son okunan sayfa.",
+            "en": "The back page. Always the last one read.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tablo": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "pesinat_tablosu"
+          ]
+        }
+      },
+      "tr": "Tabloyu aldın. Kahve hesabıyla değil, kendi hesabınla: dört yıl iki ay.",
+      "en": "You got the table. Not the coffee math, your math: four years, two months.",
+      "coach": [
+        {
+          "tr": "Dört yıl iki ay. Kahveler kalıyor.",
+          "en": "Four years, two months. Coffee stays.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "cik": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "model_daire_gezildi"
+          ]
+        }
+      },
+      "tr": "Kahveni alıp çıktın. Danışman arkandan seslendi: \"Kahve 60 Para.\"",
+      "en": "You took your coffee and left. The agent called after you: \"That's 60 for the coffee.\"",
+      "coach": [
+        {
+          "tr": "Model dairede kahvenin bile peşinatı var.",
+          "en": "At the model unit, even the coffee needs a down payment.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kapora",
+    "slip": {
+      "tr": "İDDİA: Kaporanın bir arka yüzü var. — M.",
+      "en": "WAGER: That deposit has a back page. — M."
+    }
+  },
+  "intent": {
+    "setup": "peşinat hedefinde model dairede satış danışmanının kahve hesabı",
+    "mechanism": "on bir yıla bölünmüş kahve hesabı",
+    "mechanismId": "count",
+    "punch": "on bir yılda tamam",
+    "lift": "dört yıl iki ay",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "arka_yuz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

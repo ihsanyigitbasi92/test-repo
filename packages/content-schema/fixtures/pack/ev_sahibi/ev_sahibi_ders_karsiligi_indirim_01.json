@@ -1,0 +1,232 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_ders_karsiligi_indirim_01",
+  "tags": [
+    "ev",
+    "indirim",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Oğlan sınava hazırlanıyor. Haftada iki ders verirsen kiradan 300 düşerim.",
+      "en": "My son's got exams coming. Two lessons a week, and I'll take 300 off your rent."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Dersler bizde, alt katta. Çay benden, sabır senden.",
+      "en": "Lessons at our place, downstairs. Tea's on me. Patience is on you.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Teklifi kabul et",
+      "en": "Take the deal",
+      "pattern": "generosity"
+    },
+    {
+      "id": "tek",
+      "tr": "Haftada bir ders öner",
+      "en": "Offer one lesson a week",
+      "pattern": "selfCare",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ret",
+      "tr": "Kibarca reddet",
+      "en": "Politely decline",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "status": {
+          "rentDelta": -300
+        },
+        "flags": {
+          "add": [
+            "ev_sahibine_ders"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "İki aydır salı ve perşembe alt kattasın. Çocuk kesirleri artık sana bir oyunla anlatıyor.",
+      "en": "For two months, Tuesdays and Thursdays you've been downstairs. The kid now explains fractions to you, with a game.",
+      "coach": [
+        {
+          "tr": "Kira 300 eksik. Kesirler de oturdu.",
+          "en": "Rent minus 300. Fractions settled.",
+          "roast": false
+        },
+        {
+          "tr": "Kira 300 eksik. Hedef nefes aldı.",
+          "en": "Rent minus 300. Goal breathing easier.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "tek": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "status": {
+            "rentDelta": -150
+          },
+          "flags": {
+            "add": [
+              "ev_sahibine_ders"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Ev sahibi haftada bire razı oldu, indirim 150. Çay iki kat demli geliyor.",
+        "en": "The landlord settled for once a week: 150 off. The tea now comes twice as strong.",
+        "coach": [
+          {
+            "tr": "Yarım indirim, tam demli çay.",
+            "en": "Half the discount. Full-strength tea.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 1
+          },
+          "flags": {
+            "add": [
+              "ders_reddedildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "npc:landlord",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Ev sahibi \"haftada bir olmaz\" deyip teklifi üst kattaki öğrenciye götürdü.",
+        "en": "\"Once a week won't do,\" said the landlord, and took the offer upstairs to the other student.",
+        "coach": [
+          {
+            "tr": "Teklif bir kat yukarı çıktı.",
+            "en": "The offer moved up one floor.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ret": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "ders_reddedildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kibarca reddettin. Ev sahibi anlayışla karşıladı, ertesi sabah merdivende yine de \"kesir neydi?\" diye sordu.",
+      "en": "You declined politely. The landlord understood, then stopped you on the stairs next morning: \"What's a fraction, again?\"",
+      "coach": [
+        {
+          "tr": "Ders yok. Bir soru yine de geldi.",
+          "en": "No lessons. One question got through anyway.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "ev sahibinin çocuğuna ders vermen karşılığında kira indirimi teklifi",
+    "mechanism": "ders veren sen, kesirleri öğrenen de sen oluyorsun",
+    "mechanismId": "reversal",
+    "punch": "çocuk kesirleri sana anlatıyor",
+    "lift": "kira 300 eksik",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kesir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

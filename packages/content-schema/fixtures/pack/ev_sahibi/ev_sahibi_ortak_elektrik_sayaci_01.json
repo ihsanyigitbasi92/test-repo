@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_ortak_elektrik_sayaci_01",
+  "tags": [
+    "ev",
+    "ev",
+    "fatura",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Sayaç ortak, biliyorsunuz. Faturayı göz kararı böldüm: yarısı sizden.",
+      "en": "The meter is shared, you know. I split the bill by eye: half is yours."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Dükkânda bir buzdolabı, iki ısıtıcı var. Ama onlar az yakar.",
+      "en": "The shop has a fridge and two heaters. But those barely use anything.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Yarısını öde",
+      "en": "Pay half",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ayri",
+      "tr": "Ayrı sayaç iste",
+      "en": "Demand a separate meter",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kayit",
+      "tr": "Bir ay sayacı oku, kaydet",
+      "en": "Log the meter for a month",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -480,
+        "flags": {
+          "add": [
+            "ortak_sayac_yarisi"
+          ]
+        }
+      },
+      "tr": "Payın 480 Para geldi. Evde sen ve bir buzdolabı; dükkânda iki ısıtıcı.",
+      "en": "Your half came to 480. Your place: you and a fridge. The shop: two heaters.",
+      "coach": [
+        {
+          "tr": "Göz kararı yarı yarıya. Göz dükkândan bakıyor.",
+          "en": "Split by eye. The eye sits in the shop.",
+          "roast": true
+        }
+      ]
+    },
+    "ayri": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "brain": 1
+          },
+          "money": -300,
+          "flags": {
+            "add": [
+              "ayri_sayac"
+            ]
+          }
+        },
+        "tr": "Ayrı sayaç takıldı; kurulumu bölüştünüz, payın 300 Para. İlk faturan 140 geldi.",
+        "en": "A separate meter went in. You split installation, 300 each. Your first bill: 140.",
+        "coach": [
+          {
+            "tr": "Fatura 480'den 140'a. Sayaç kendini bir ayda ödedi.",
+            "en": "Bill down from 480 to 140. The meter paid for itself in a month.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -480,
+          "flags": {
+            "add": [
+              "ortak_sayac_yarisi"
+            ]
+          }
+        },
+        "tr": "\"Bina eski, ayrı sayaç olmaz\" dedi. Fatura yine yarı yarıya.",
+        "en": "'Old building. No separate meters.' The bill stays half and half.",
+        "coach": [
+          {
+            "tr": "Bina eski. Hesap da.",
+            "en": "Old building. Old math.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kayit": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "brain": 2
+        },
+        "money": -280,
+        "flags": {
+          "add": [
+            "sayac_kaydi"
+          ]
+        }
+      },
+      "tr": "Bir ay sabah akşam sayacı okudun. Tabloyu gösterince payın 280'e indi.",
+      "en": "For a month you read the meter morning and night. You showed the spreadsheet. Your share dropped to 280.",
+      "coach": [
+        {
+          "tr": "Altmış okuma, 200 Para fark. Tablo kazandı.",
+          "en": "Sixty readings, 200 saved. The spreadsheet won.",
+          "roast": false
+        },
+        {
+          "tr": "Bütçe sayacı: ayda 200 geri.",
+          "en": "Budget counter: 200 a month back.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "ev sahibinin dükkânıyla ortak elektrik sayacı",
+    "mechanism": "\"göz kararı\" harfiyen: göz dükkânda",
+    "mechanismId": "literalism",
+    "punch": "onlar az yakar",
+    "lift": "bütçe sayacı ayda 200 geri",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tablo"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

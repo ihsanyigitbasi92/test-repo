@@ -1,0 +1,246 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "ev_satin_alma_iskan_yazisi_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma",
+    "milestone:ev"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_satin_alma": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "money": {
+      "min": 10000
+    },
+    "flags": {
+      "none": [
+        "ev_satin_alindi"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "ÇINARLI BELEDİYESİ İmar Müdürlüğü (kurgusal)",
+      "en": "MAPLEFORD TOWN PLANNING OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "Sorgulanan bağımsız bölüm için yapı kullanma izin belgesi kayıtlarımızda bulunmamaktadır.",
+      "en": "Our records hold no occupancy certificate for the unit in question."
+    },
+    "translate": {
+      "tr": {
+        "from": "kayıtlarımızda bulunmamaktadır",
+        "to": "bina var, kâğıtta yok"
+      },
+      "en": {
+        "from": "our records hold no",
+        "to": "the building exists; the paperwork doesn't"
+      }
+    },
+    "glossaryKey": "yapi_kullanma_izni"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Daire güzel, manzara güzel. İskân meselesi de hallolur.",
+      "en": "Lovely flat, lovely view. The certificate thing will get sorted."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "\"Hallolur\" ne demek? Ne zaman hallolur?",
+      "en": "What does 'get sorted' mean? Sorted when?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "vazgec",
+      "tr": "Teklifi geri çek",
+      "en": "Withdraw the offer",
+      "pattern": "patience"
+    },
+    {
+      "id": "indirim",
+      "tr": "Eksik için indirim iste",
+      "en": "Ask for a discount for it",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hallolur",
+      "tr": "\"Hallolur\"a güven, al",
+      "en": "Trust 'it'll get sorted' and buy",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ev_arama_devam"
+          ]
+        },
+        "glossary": "yapi_kullanma_izni"
+      },
+      "tr": "Teklifi geri çektin. Arama sürüyor, kontrol listesine yeni bir satır eklendi: iskân.",
+      "en": "You withdrew the offer. The search goes on, with a new line on the checklist: occupancy certificate.",
+      "coach": [
+        {
+          "tr": "Bir satır eklendi. Bir daire çıktı.",
+          "en": "One line added. One flat removed.",
+          "roast": false
+        }
+      ]
+    },
+    "indirim": [
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "money": -8500,
+          "flags": {
+            "add": [
+              "ev_satin_alindi",
+              "iskansiz_ev"
+            ]
+          },
+          "housing": "mortgage",
+          "status": {
+            "home": {
+              "kind": "mortgage",
+              "rent": 1300
+            }
+          },
+          "glossary": "yapi_kullanma_izni"
+        },
+        "tr": "Satıcı belge eksiği için fiyatı düşürdü, tapuyu aldın. Daire senin, belge yolda.",
+        "en": "The seller dropped the price for the missing certificate and you took the deed. The flat is yours. The paperwork is pending.",
+        "coach": [
+          {
+            "tr": "Anahtar sende. Kâğıt yolda.",
+            "en": "Keys in hand. Paper in transit.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_arama_devam"
+            ]
+          }
+        },
+        "tr": "Satıcı indirime yanaşmadı, \"başka alıcı var\" dedi. Daire iki hafta sonra hâlâ ilandaydı.",
+        "en": "The seller wouldn't budge and mentioned 'other buyers.' Two weeks later the listing was still up.",
+        "coach": [
+          {
+            "tr": "Başka alıcı. İlanda hâlâ.",
+            "en": "Other buyers. Still listed.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hallolur": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "money": -9500,
+        "flags": {
+          "add": [
+            "ev_satin_alindi",
+            "iskansiz_ev"
+          ]
+        },
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 1500
+          }
+        }
+      },
+      "tr": "\"Hallolur\"a güvenip tam fiyata aldın. Bir yıl sonra belge hâlâ hallolmayı bekliyor.",
+      "en": "You trusted 'it'll get sorted' and paid full price. A year on, it's still waiting to get sorted.",
+      "coach": [
+        {
+          "tr": "\"Hallolur\" takvimi açık uçlu.",
+          "en": "'It'll get sorted.' Timeline: open-ended.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "beğenilen dairenin yapı kullanma izni olmadığını gösteren belediye yazısı",
+    "mechanism": "\"kayıtlarımızda bulunmamaktadır\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "bina var, kâğıtta yok",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yolda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_vade_sonu_01",
+  "tags": [
+    "para",
+    "birikim",
+    "vade",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 66,
+      "max": 85
+    },
+    "money": {
+      "min": 6000
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Vadeli hesabınızın vadesi doldu. Sistem otomatik yeniler, isterseniz çekebilirsiniz.",
+      "en": "Your term deposit has matured. It renews automatically, or you can withdraw."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bazı müşterilerimiz parayı evde tutmayı tercih ediyor. Biz önermiyoruz ama tercih ediyorlar.",
+      "en": "Some customers prefer to keep cash at home. We don't recommend it. They prefer it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yenile",
+      "tr": "Vadeyi yenile",
+      "en": "Roll it over",
+      "pattern": "patience"
+    },
+    {
+      "id": "torun",
+      "tr": "Bir kısmını toruna gönder",
+      "en": "Send some to your grandchild",
+      "pattern": "generosity",
+      "requires": {
+        "npc": {
+          "child": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "evde",
+      "tr": "Çek, evde sakla",
+      "en": "Withdraw it, keep it at home",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "yenile": {
+      "effects": {
+        "money": 180,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "vadeli_hesap"
+          ]
+        }
+      },
+      "tr": "Vade yenilendi, dönemin getirisi 180 Para. Bir sonraki vade sonbaharda.",
+      "en": "Rolled over. This term earned 180. Next maturity: autumn.",
+      "coach": [
+        {
+          "tr": "180 Para ve bir sonbahar.",
+          "en": "One-eighty, and an autumn.",
+          "roast": false
+        }
+      ]
+    },
+    "torun": {
+      "effects": {
+        "money": -2000,
+        "stats": {
+          "joy": 5
+        },
+        "flags": {
+          "add": [
+            "toruna_harclik"
+          ]
+        }
+      },
+      "tr": "2.000 Para torununun hesabına gitti. Torunun teşekkür için sesli mesaj attı; üç kez dinledin.",
+      "en": "2,000 went to your grandchild's account. They sent a thank-you voice note. You listened three times.",
+      "coach": [
+        {
+          "tr": "2.000 Para, üç dinleme.",
+          "en": "Two thousand. Three listens.",
+          "roast": false
+        }
+      ]
+    },
+    "evde": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "evde_nakit"
+            ]
+          }
+        },
+        "tr": "Para evde, kitaplıktaki ansiklopedinin K cildinin içinde. Yerini unutmadın.",
+        "en": "The cash is at home, inside volume K of the encyclopedia. You remember exactly where.",
+        "coach": [
+          {
+            "tr": "Banka önermedi. Ansiklopedi itiraz etmedi.",
+            "en": "The bank didn't recommend it. The encyclopedia didn't object.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -3000,
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "evde_nakit_kayip"
+            ]
+          }
+        },
+        "tr": "Para evde bir yerde. Ansiklopedide yok, kışlık botların içinde de yok. Arama sürüyor.",
+        "en": "The cash is somewhere in the house. Not in the encyclopedia. Not in the winter boots. The search continues.",
+        "coach": [
+          {
+            "tr": "Bazı müşteriler evde tutar. Bazıları evde arar.",
+            "en": "Some customers keep it at home. Some search for it at home.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "evde",
+    "slip": {
+      "tr": "İDDİA: Paranın yerini unutursun. — M.",
+      "en": "WAGER: You'll forget where you hid it. — M."
+    }
+  },
+  "intent": {
+    "setup": "vadeli hesabın vadesi dolunca yenileme, torun ya da evde saklama kararı",
+    "mechanism": "bankacının 'bazı müşteriler' cümlesi geri dönüyor",
+    "mechanismId": "callback",
+    "punch": "biz önermiyoruz ama tercih ediyorlar",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "musteri",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

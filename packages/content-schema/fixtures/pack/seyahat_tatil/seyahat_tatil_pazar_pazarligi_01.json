@@ -1,0 +1,182 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "seyahat_tatil_pazar_pazarligi_01",
+  "tags": [
+    "bos_zaman",
+    "pazar",
+    "partner",
+    "alisveris",
+    "seyahat_tatil"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "seyahat_tatil": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "İzle. İlk fiyatı kimse ödemez, burada kural bu.",
+      "en": "Watch this. Nobody pays the first price. That's the rule here."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bu sepet 300. Size de 300. Pazarlık yaparsanız 320.",
+      "en": "This basket is 300. For you, 300. If you haggle, 320.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "pazarlik",
+      "tr": "Sen de pazarlığa gir",
+      "en": "Haggle anyway",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ode",
+      "tr": "300'ü öde",
+      "en": "Pay the 300",
+      "pattern": "generosity"
+    },
+    {
+      "id": "birak",
+      "tr": "Sepeti bırak",
+      "en": "Walk away",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "pazarlik": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -250,
+          "stats": {
+            "joy": 3
+          }
+        },
+        "tr": "Satıcı güldü, sepeti 250'ye verdi ve yanına bir kavanoz zeytin ekledi.",
+        "en": "The seller laughed, let the basket go for 250 and threw in a jar of olives.",
+        "coach": [
+          {
+            "tr": "Bir gülümseme, elli Para.",
+            "en": "One smile, fifty off.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -320,
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Satıcı sözünü tuttu: 320.",
+        "en": "The seller kept their word: 320.",
+        "coach": [
+          {
+            "tr": "Fiyat söz verdiği gibi çıktı.",
+            "en": "The price did exactly what it promised.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ode": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "memory": "pazar_zaferi"
+          }
+        ]
+      },
+      "tr": "300 ödedin. Satıcı sepete bir de el yapımı sabun koydu; partnerin bunu kendi zaferi saydı.",
+      "en": "You paid 300. The seller tucked a handmade soap into the basket, and your partner counted it as their victory.",
+      "coach": [
+        {
+          "tr": "Sabun kimin zaferiyse onun.",
+          "en": "The soap belongs to whoever claims the win.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "pazar_sepeti_kacti"
+          ]
+        }
+      },
+      "tr": "Sepeti bıraktınız. Akşam otelin hediyelik dükkânında aynı sepet 540'tı.",
+      "en": "You left it. That evening, the hotel gift shop had the same basket for 540.",
+      "coach": [
+        {
+          "tr": "Sepet otele kadar geldi. Fiyatıyla birlikte.",
+          "en": "The basket followed you to the hotel. With a markup.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Pazarlık fiyatı yükseltir. — M.",
+      "en": "WAGER: Haggling raises the price. — M."
+    }
+  },
+  "intent": {
+    "setup": "tatil kasabasının pazarında partnerin pazarlık etme ısrarı",
+    "mechanism": "pazarlığın fiyatı artırdığı tezgâh",
+    "mechanismId": "reversal",
+    "punch": "pazarlık yaparsanız 320",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sabun"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

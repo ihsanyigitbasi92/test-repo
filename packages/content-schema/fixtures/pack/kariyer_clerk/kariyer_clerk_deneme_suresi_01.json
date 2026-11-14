@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_deneme_suresi_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Deneme süren bitiyor. Kendini bir sayfada değerlendir, üç sayfayı geçme.",
+      "en": "Your probation's ending. Evaluate yourself in one page. Don't go over three."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Ben 'idare eder' yazmıştım. Yedi yıldır idare ediyorum.",
+      "en": "I wrote 'adequate.' I've been adequate for seven years.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "durust",
+      "tr": "Dürüstçe yaz",
+      "en": "Write it honestly",
+      "pattern": "patience"
+    },
+    {
+      "id": "abart",
+      "tr": "Başarılarını büyüt",
+      "en": "Inflate your achievements",
+      "pattern": "pride",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "kopya",
+      "tr": "'İdare eder' yaz",
+      "en": "Write 'adequate'",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "durust": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "memur_kadro_kesin"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Bir sayfa yazdın: üç güçlü yön, iki eksik. Kadron kesinleşti, eksikler dosyada kaldı.",
+      "en": "You wrote one page: three strengths, two weaknesses. Your position was confirmed. The weaknesses stayed on file.",
+      "coach": [
+        {
+          "tr": "Üç artı, iki eksi. Dosya dengeli.",
+          "en": "Three strengths, two weaknesses. A balanced file.",
+          "roast": false
+        }
+      ]
+    },
+    "abart": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 3
+          },
+          "flags": {
+            "add": [
+              "memur_kadro_kesin"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Üç sayfa yazdın. Müdür okumadı ama kalınlığından etkilendi; kadron kesinleşti.",
+        "en": "You wrote three pages. The director didn't read them but was impressed by the thickness. Position confirmed.",
+        "coach": [
+          {
+            "tr": "Üç sayfa, sıfır okuyucu. Kalınlık kazandı.",
+            "en": "Three pages, zero readers. Thickness wins.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "memur_kadro_kesin"
+            ]
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Müdür üç sayfayı okudu ve 'Dijital arşivi siz mi kurdunuz?' diye sordu. Kurmamıştın.",
+        "en": "The director read all three pages and asked, 'You built the digital archive?' You had not.",
+        "coach": [
+          {
+            "tr": "Arşivi sen kurmadın. Artık müdür de biliyor.",
+            "en": "You didn't build the archive. Now the director knows too.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kopya": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "memur_kadro_kesin"
+          ]
+        }
+      },
+      "tr": "'İdare eder' yazdın. Kadron kesinleşti; müdür iki raporu yan yana koyup güldü.",
+      "en": "You wrote 'adequate.' Your position was confirmed, and the director laid both reports side by side and laughed.",
+      "coach": [
+        {
+          "tr": "İki rapor, aynı kelime. Kadro yine de kesin.",
+          "en": "Two reports, one word. Permanent anyway.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "abart",
+    "slip": {
+      "tr": "İDDİA: Müdür üç sayfayı okur. — M.",
+      "en": "WAGER: The director reads all three pages. — M."
+    }
+  },
+  "intent": {
+    "setup": "deneme süresi sonunda kendini değerlendirme raporu istendi",
+    "mechanism": "bir sayfa iste, üç sayfayı geçme",
+    "mechanismId": "literalism",
+    "punch": "yedi yıldır idare ediyorum",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kalinlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

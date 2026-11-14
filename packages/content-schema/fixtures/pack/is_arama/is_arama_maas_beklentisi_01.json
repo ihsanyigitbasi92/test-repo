@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "is_arama_maas_beklentisi_01",
+  "tags": [
+    "is",
+    "mulakat",
+    "teklif",
+    "is_arama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "is_arama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Maaş beklentiniz nedir? Bir rakam söyleyin, bütçemizle karşılaştıralım.",
+      "en": "What are your salary expectations? Give us a number and we'll compare it to our budget."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "smug",
+      "tr": "Bütçeyi söyleyemem tabii. Gizli. Sizinki gizli değil.",
+      "en": "I can't tell you the budget, of course. It's confidential. Yours isn't.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yuksek",
+      "tr": "Yüksek bir rakam söyle",
+      "en": "Name a high number",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "aralik",
+      "tr": "Geniş bir aralık ver",
+      "en": "Give a wide range",
+      "pattern": "patience"
+    },
+    {
+      "id": "once",
+      "tr": "Önce bütçeyi sor",
+      "en": "Ask for their range first",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "yuksek": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 3,
+            "momPressure": -6
+          },
+          "flags": {
+            "add": [
+              "calisiyor"
+            ],
+            "remove": [
+              "is_ariyor"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "uzman",
+              "tier": 2,
+              "monthly": 3600
+            }
+          }
+        },
+        "tr": "Rakamı söyledin, İK bir saniye durdu. Teklif söylediğin rakamın onda dokuzundan geldi.",
+        "en": "You named it. HR paused for one second. The offer came in at ninety percent of it.",
+        "coach": [
+          {
+            "tr": "Bir saniyelik sessizlik, yüzde doksan.",
+            "en": "One second of silence. Ninety percent.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "maas_yuksek_ret",
+              "is_ariyor"
+            ]
+          }
+        },
+        "tr": "İK \"Bunu iletirim\" dedi. Ertesi gün \"bütçemizin üzerindesiniz\" yazdılar; bütçe yine yazmıyordu.",
+        "en": "HR said, \"I'll pass that along.\" The next day: \"You're above our budget.\" The budget, still unnamed.",
+        "coach": [
+          {
+            "tr": "Onların rakamı gizli kaldı. Seninki kalmadı.",
+            "en": "Their number stayed secret. Yours didn't.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "aralik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -6
+        },
+        "flags": {
+          "add": [
+            "calisiyor"
+          ],
+          "remove": [
+            "is_ariyor"
+          ]
+        },
+        "status": {
+          "job": {
+            "title": "uzman",
+            "tier": 2,
+            "monthly": 2900
+          }
+        }
+      },
+      "tr": "Geniş bir aralık verdin. Teklif aralığın tam alt ucundan geldi, bir adım bile yukarı değil.",
+      "en": "You gave a wide range. The offer landed exactly at the bottom of it. Not one step higher.",
+      "coach": [
+        {
+          "tr": "Aralığın tabanı. Tam isabet.",
+          "en": "The floor of your range. Direct hit.",
+          "roast": true
+        }
+      ]
+    },
+    "once": {
+      "effects": {
+        "meters": {
+          "ego": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ikinci_tur"
+          ]
+        }
+      },
+      "tr": "Önce bütçeyi sordun. İK \"Bunu bir sonraki görüşmede konuşalım\" dedi; bir sonraki görüşme ayarlandı.",
+      "en": "You asked for their range first. HR said, \"Let's discuss that next round.\" A next round got booked.",
+      "coach": [
+        {
+          "tr": "Soru bir tur kazandırdı.",
+          "en": "The question bought you a round.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yuksek",
+    "slip": {
+      "tr": "İDDİA: Rakamı duyunca bütçe biter. — M.",
+      "en": "WAGER: The budget runs out the moment you say it. — M."
+    }
+  },
+  "intent": {
+    "setup": "mülakatta maaş beklentisi sorusu",
+    "mechanism": "gizlilik tek taraflı",
+    "mechanismId": "reversal",
+    "punch": "sizinki gizli değil",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "aralik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

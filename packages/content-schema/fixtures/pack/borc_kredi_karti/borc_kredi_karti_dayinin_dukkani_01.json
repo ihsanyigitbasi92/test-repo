@@ -1,0 +1,230 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dayinin_dukkani_01",
+  "tags": [
+    "para",
+    "borc",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Paranı geri isteme derdim ama dükkânda adam lazım.",
+      "en": "I'd tell you to forget the money, but I need hands at the shop."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda borç cumartesi sabah yedide ödenirdi. Kepenk açarak.",
+      "en": "In my day, debts got paid Saturday at seven a.m. By rolling up the shutters.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "calis",
+      "tr": "Cumartesileri dükkâna git",
+      "en": "Work Saturdays at the shop",
+      "pattern": "overwork"
+    },
+    {
+      "id": "nakit",
+      "tr": "Nakit taksitle öde",
+      "en": "Pay it back in cash installments",
+      "pattern": "pride"
+    },
+    {
+      "id": "saat",
+      "tr": "Saat ücretini konuş",
+      "en": "Negotiate an hourly rate",
+      "pattern": "shortcut",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "calis": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "dayiya_borc_kapandi"
+          ],
+          "remove": [
+            "dayiya_borc"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Altı cumartesi kepenk açtın, raf dizdin. Borç dayının defterinden silindi.",
+      "en": "Six Saturdays of rolling up shutters and stocking shelves. The debt came off your uncle's books.",
+      "coach": [
+        {
+          "tr": "Altı cumartesi.",
+          "en": "Six Saturdays.",
+          "roast": false
+        }
+      ]
+    },
+    "nakit": {
+      "effects": {
+        "money": -1200,
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "dayiya_borc_kapandi"
+          ],
+          "remove": [
+            "dayiya_borc"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "1.200 Para üç taksitte ödendi. Dayın her taksitte dükkânın seni beklediğini söyledi.",
+      "en": "You paid the 1,200 in three installments. With each one, your uncle mentioned the shop was still waiting.",
+      "coach": [
+        {
+          "tr": "Üç taksit, üç hatırlatma.",
+          "en": "Three installments. Three reminders.",
+          "roast": false
+        }
+      ]
+    },
+    "saat": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 300,
+          "flags": {
+            "add": [
+              "dayiya_borc_kapandi",
+              "dayinin_dukkani"
+            ],
+            "remove": [
+              "dayiya_borc"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Saat ücretinde anlaştınız. Borç dört cumartesiye indi, beşinci cumartesi 300 Para eline geçti.",
+        "en": "You agreed on an hourly rate. The debt took four Saturdays; the fifth put 300 in your pocket.",
+        "coach": [
+          {
+            "tr": "Beşinci cumartesi maaşlı.",
+            "en": "Saturday five came with pay.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "health": -1
+          },
+          "flags": {
+            "add": [
+              "dayiya_borc_kapandi"
+            ],
+            "remove": [
+              "dayiya_borc"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Dayın 'benim zamanımda saat sorulmazdı' dedi. Borç yine altı cumartesi sürdü.",
+        "en": "Your uncle said nobody asked about hourly rates in his day. The debt still took six Saturdays.",
+        "coach": [
+          {
+            "tr": "Altı cumartesi ve bir deneme.",
+            "en": "Six Saturdays and one attempt.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "dayıdan alınan borcu hafta sonları dayının dükkânında çalışarak ödemek",
+    "mechanism": "borç ödemesi kepenk saatine çevriliyor",
+    "mechanismId": "count",
+    "punch": "borç cumartesi sabah yedide ödenirdi",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kepenk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

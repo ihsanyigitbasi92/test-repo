@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_evinde_yasam_anahtarsiz_gece_01",
+  "tags": [
+    "ev",
+    "anne",
+    "gece",
+    "anne_evinde_yasam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "anne_evinde_yasam": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "housing": [
+      "momsHouse"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      },
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Saat bir buçuk canım. Merdivende oturuyorsun, ışık da sönüp duruyor.",
+      "en": "It's half past one, dear. You're sitting on the stairs, and the timer light keeps going out."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Annen on bir gibi yattı. Işığı on biri beş geçe söndü.",
+      "en": "Your mom turned in around eleven. Lights out at five past.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "zil",
+      "tr": "Zili çal",
+      "en": "Ring the bell",
+      "pattern": "risk"
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşini ara",
+      "en": "Call your sibling",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Sabahı merdivende bekle",
+      "en": "Wait it out on the stairs",
+      "pattern": "patience"
+    },
+    {
+      "id": "cay",
+      "tr": "Şükran Teyze'nin çayını kabul et",
+      "en": "Accept Mrs. Dale's tea",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "zil": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": 4
+        },
+        "flags": {
+          "add": [
+            "anahtar_unuttu"
+          ]
+        }
+      },
+      "tr": "Zili çaldın. Annen kapıyı açtı, sonra otuz beş dakika anahtarlık seçeneklerini anlattı.",
+      "en": "You rang. Mom opened up, then spent thirty-five minutes presenting keychain options.",
+      "coach": [
+        {
+          "tr": "Kapı bir dakikada açıldı. Konu otuz beş dakikada kapandı.",
+          "en": "The door took one minute. The topic took thirty-five.",
+          "roast": true
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "meters": {
+          "momPressure": -1
+        },
+        "flags": {
+          "add": [
+            "anahtar_unuttu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Kardeşin uyku sersemi kapıyı açtı. Ertesi sabah olayı annene ilk o anlattı.",
+      "en": "Your sibling let you in half asleep, then told Mom first thing in the morning.",
+      "coach": [
+        {
+          "tr": "Gece sessiz geçti. Kahvaltı geçmedi.",
+          "en": "The night went quietly. Breakfast didn't.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "merdivende_sabahladi"
+          ]
+        }
+      },
+      "tr": "Merdivende sabahladın. Annen yedide ekmek almaya çıkarken seni buldu.",
+      "en": "You spent the night on the stairs. Mom found you at seven, on her way out for bread.",
+      "coach": [
+        {
+          "tr": "Yedi saat, bir basamak. Işık yüzlerce kez söndü.",
+          "en": "Seven hours on one step. The light went out hundreds of times.",
+          "roast": false
+        }
+      ]
+    },
+    "cay": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "sukranda_sabahladi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3,
+            "memory": "gece_misafir_etti"
+          }
+        ]
+      },
+      "tr": "Şükran Teyze'de çay içip kanepede uyudun. Sabah annene haberi o verdi; senden önce.",
+      "en": "You had tea at Mrs. Dale's and slept on her couch. She told your mom in the morning, before you could.",
+      "coach": [
+        {
+          "tr": "Komşu kapıyı açtı. Komşu bülteni de yayınladı.",
+          "en": "The neighbor took you in. The neighbor also ran the bulletin.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "anahtarı unutup gece annenin kapısında kalmak",
+    "mechanism": "komşunun dakika dakika raporu",
+    "mechanismId": "deadpan_report",
+    "punch": "ışığı on biri beş geçe söndü",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kahvalti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

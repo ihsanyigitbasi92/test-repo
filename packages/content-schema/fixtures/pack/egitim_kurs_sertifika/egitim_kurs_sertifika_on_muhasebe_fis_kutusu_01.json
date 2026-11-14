@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_kurs_sertifika_on_muhasebe_fis_kutusu_01",
+  "tags": [
+    "egitim",
+    "kurs",
+    "odev",
+    "egitim_kurs_sertifika"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_kurs_sertifika": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Final ödevi: bir kırtasiyenin bir yıllık fişleri. Kutu masada.",
+      "en": "Final project: one stationery shop, one year of receipts. The box is on the table."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Bazı fişler çay lekeli. Kırtasiye sahibi öyle teslim etti.",
+      "en": "Some receipts have tea stains. That's how the shop owner handed them over.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "titiz",
+      "tr": "Fiş fiş, satır satır gir",
+      "en": "Enter every receipt, line by line",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tablo",
+      "tr": "Formülle hızlı bitir",
+      "en": "Rush it with formulas",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "ertele",
+      "tr": "Haftaya bırak",
+      "en": "Push it to next weekend",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "titiz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 3,
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "on_muhasebe_sertifika"
+            ]
+          }
+        },
+        "tr": "Yıl sonu toplamı tam tuttu. Sertifika verildi; hoca fiş kutusunu hatıra diye sana verdi.",
+        "en": "The year-end total balanced exactly. Certificate granted. The instructor gave you the box as a keepsake.",
+        "coach": [
+          {
+            "tr": "Bin küsur fiş, sıfır fark. Kutu artık senin.",
+            "en": "A thousand-odd receipts, zero variance. The box is yours now.",
+            "roast": true
+          },
+          {
+            "tr": "Sertifika hanesi: dolu.",
+            "en": "Certificate slot: filled.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "brain": 1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "on_muhasebe_tekrar"
+            ]
+          }
+        },
+        "tr": "Mart ayındaki bir fiş iki kez girilmiş. Fark bulundu, ödev bir hafta uzadı.",
+        "en": "One March receipt had gone in twice. Variance found. The project got another week.",
+        "coach": [
+          {
+            "tr": "Bir fiş, iki satır. Mart uzun sürdü.",
+            "en": "One receipt, two lines. March ran long.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "tablo": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "on_muhasebe_tablo"
+          ]
+        }
+      },
+      "tr": "Formülle iki saatte bitirdin. Hoca 'formül doğru, ama bir fiş ters taranmış' dedi.",
+      "en": "Formulas, two hours, done. The instructor said, 'Formula's fine. One receipt was scanned upside down.'",
+      "coach": [
+        {
+          "tr": "İki saat kazandın. Ters fiş seni bekliyordu.",
+          "en": "Two hours saved. The upside-down receipt was waiting.",
+          "roast": true
+        }
+      ]
+    },
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "on_muhasebe_ertelendi"
+          ]
+        }
+      },
+      "tr": "Ödevi haftaya bıraktın. Kutu salonda duruyor; gelen misafir ne olduğunu soruyor.",
+      "en": "You pushed it to next weekend. The box sits in the living room. Every guest asks what it is.",
+      "coach": [
+        {
+          "tr": "Kutu salonda. Misafir sayısı artıyor, fiş sayısı aynı.",
+          "en": "The box stays. Guests multiply. Receipts don't shrink.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "titiz",
+    "slip": {
+      "tr": "İDDİA: Fişlerden biri toplamı bozar. — M.",
+      "en": "WAGER: One receipt wrecks the total. — M."
+    }
+  },
+  "intent": {
+    "setup": "hafta sonu ön muhasebe kursunun fiş kutusu final ödevi",
+    "mechanism": "bir yıllık fiş tek kutuda",
+    "mechanismId": "count",
+    "punch": "çay lekeli fişler",
+    "lift": "Sertifika hanesi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kutu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

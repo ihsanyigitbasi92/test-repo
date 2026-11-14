@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_realtor_aidat_dokumu_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "SÖĞÜTLÜ KONAKLARI SİTE YÖNETİMİ — AİDAT DÖKÜMÜ (kurgusal)",
+      "en": "WILLOW COURT RESIDENCES — HOA FEE BREAKDOWN (fictional)"
+    },
+    "body": {
+      "tr": "Aylık aidata dahil hizmetler: ortak alan bakımı, peyzaj düzenlemesi, güvenlik ve sosyal tesis kullanımı.",
+      "en": "The monthly fee covers common-area upkeep, landscaping, security, and use of the recreational facility."
+    },
+    "translate": {
+      "tr": {
+        "from": "sosyal tesis",
+        "to": "bodrumdaki masa tenisi masası"
+      },
+      "en": {
+        "from": "recreational facility",
+        "to": "a ping-pong table in the basement"
+      }
+    },
+    "glossaryKey": "sosyal_tesis"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Aidat neden bu kadar yüksek? Sosyal tesis ne demek, havuz mu var?",
+      "en": "Why are the fees so high? What's the 'recreational facility,' a pool?"
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Tesis bodrumda. Raketleri ben saklıyorum, isteyen bana gelsin.",
+      "en": "It's in the basement. I keep the paddles. Anyone who wants one comes to me.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dogru",
+      "tr": "Tesisi olduğu gibi göster",
+      "en": "Show the facility as it is",
+      "pattern": "patience"
+    },
+    {
+      "id": "indirim",
+      "tr": "Aidat farkını fiyattan düşür",
+      "en": "Knock the fees off the price",
+      "pattern": "generosity"
+    },
+    {
+      "id": "manzara",
+      "tr": "Konuyu manzaraya getir",
+      "en": "Steer them to the view",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dogru": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": 3500,
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ],
+        "glossary": "sosyal_tesis"
+      },
+      "tr": "Bodruma indiniz, alıcı bir set oynadı. Fiyat yerinde kaldı, satış kapandı: komisyonun 3.500 Para.",
+      "en": "You went down to the basement. The buyer played one game. Price held, deal closed: 3,500 commission.",
+      "coach": [
+        {
+          "tr": "Bir set masa tenisi, bir tapu.",
+          "en": "One game of ping-pong, one title deed.",
+          "roast": true
+        }
+      ]
+    },
+    "indirim": {
+      "effects": {
+        "meters": {
+          "ego": -1
+        },
+        "money": 2800,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "glossary": "sosyal_tesis"
+      },
+      "tr": "Alıcıya aidat kadar indirim aldın, kendi komisyonundan da kırptın. Elinde 2.800 Para kaldı.",
+      "en": "You got the buyer a discount to cover the fees and trimmed your own commission. You kept 2,800.",
+      "coach": [
+        {
+          "tr": "İndirim alıcıya, fark senden çıktı.",
+          "en": "The discount went to the buyer. You covered it.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacı: 2.800 Para.",
+          "en": "Goal counter: plus 2,800.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "manzara": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": 3500,
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_aidat_sikayeti"
+          ]
+        }
+      },
+      "tr": "Alıcı manzarayı beğenip evi aldı. İlk aidat makbuzundan sonra seni üç kez aradı.",
+      "en": "The buyer loved the view and bought it. After the first fee statement, they called you three times.",
+      "coach": [
+        {
+          "tr": "Manzara satıldı. Raket de yanında gitti.",
+          "en": "You sold the view. The paddle came free with it.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "alıcı site aidat dökümündeki sosyal tesisin ne olduğunu soruyor",
+    "mechanism": "\"sosyal tesis\" bodrumdaki masa tenisi masası çıkıyor",
+    "mechanismId": "translation",
+    "punch": "raketleri ben saklıyorum",
+    "lift": "hedef sayacı",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "raket"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

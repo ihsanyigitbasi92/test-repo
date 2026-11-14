@@ -1,0 +1,219 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_sabah_yuruyusu_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "spor",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 55
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Sabah yürüyüş grubuna seni de yazdırdım. Altıda parkın kapısında. En az adım atan çayları ısmarlıyor.",
+      "en": "Signed you up for my morning walking club. Six a.m., park gate. Fewest steps buys the tea."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "neutral",
+      "tr": "Ben dün on dört bin attım. Sayacı da ben tuttum.",
+      "en": "I did fourteen thousand yesterday. I kept count myself."
+    }
+  ],
+  "choices": [
+    {
+      "id": "yuru",
+      "tr": "Tempoyu yakala",
+      "en": "Keep up with the pace",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "cay",
+      "tr": "Çayları baştan ısmarla",
+      "en": "Just buy the tea up front",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "uyu",
+      "tr": "Alarmı kapat",
+      "en": "Turn off the alarm",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "yuru": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "sabah_yuruyus_grubu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Yürüyüşü ikinci bitirdin. Birinci dayındı; sayacını kendi tuttuğu için itiraz kabul edilmedi.",
+        "en": "You finished second. Your uncle finished first. Since he kept his own count, appeals were not accepted.",
+        "coach": [
+          {
+            "tr": "İkincilik. Tescilli.",
+            "en": "Second place. Official.",
+            "roast": false
+          },
+          {
+            "tr": "Adım sayacı hedefe yaklaştı.",
+            "en": "Step counter edging toward the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "money": -120,
+          "flags": {
+            "add": [
+              "sabah_yuruyus_grubu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Üçüncü turda banka oturdun. Grubun bütün çayları sana yazıldı, 120 Para.",
+        "en": "On lap three you sat down on a bench. The whole group's tea went on your tab: 120.",
+        "coach": [
+          {
+            "tr": "On iki çay. Bir bank.",
+            "en": "Twelve teas. One bench.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cay": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -120,
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1,
+            "memory": "yuruyus_kacak"
+          }
+        ]
+      },
+      "tr": "Çayları baştan ödedin, 120 Para. Grup seni yürüyüşün sponsoru ilan edip tişört bastırmaya karar verdi.",
+      "en": "You paid for the tea up front: 120. The group declared you its sponsor and decided to print T-shirts.",
+      "coach": [
+        {
+          "tr": "Sponsorluk teklifi masada.",
+          "en": "A sponsorship has been proposed.",
+          "roast": false
+        }
+      ]
+    },
+    "uyu": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -2,
+            "memory": "yuruyus_alarm"
+          }
+        ]
+      },
+      "tr": "Uyudun. Altıyı beş geçe dayın aradı, sonra grubun yarısı sırayla aradı.",
+      "en": "You slept in. At 6:05 your uncle called, then half the group took turns.",
+      "coach": [
+        {
+          "tr": "Uyku tamam. Arama listesi de dolu.",
+          "en": "Sleep: achieved. Call log: full.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yuru",
+    "slip": {
+      "tr": "İDDİA: Üçüncü turda banka oturursun. — M.",
+      "en": "WAGER: You'll be on a bench by lap three. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının katıldığı sabah yürüyüş grubuna seni altıda yazdırması ve adım yarışı",
+    "mechanism": "sayacı kendi tutan hakem-yarışmacı",
+    "mechanismId": "count",
+    "punch": "sayacı da ben tuttum",
+    "lift": "adım sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sponsor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

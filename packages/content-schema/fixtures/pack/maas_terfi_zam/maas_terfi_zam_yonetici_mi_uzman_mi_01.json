@@ -1,0 +1,208 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_yonetici_mi_uzman_mi_01",
+  "tags": [
+    "is",
+    "terfi",
+    "kariyer_yolu",
+    "ik",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": true,
+      "minRung": 1
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Kariyer yolunuz ikiye ayrılıyor: yönetici kolu ya da uzman kolu.",
+      "en": "Your career path now forks: management track or expert track."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Yönetici kolunda ekip var. Uzman kolunda unvanınızın başına \"Baş\" ekleniyor.",
+      "en": "Management comes with a team. Expert puts \"Principal\" in front of your title."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Yönetici kolunda bir de takvim var. Senin değil, herkesin.",
+      "en": "Management also comes with a calendar. Not yours. Everyone's.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "yonetici",
+      "tr": "Yönetici kolunu seç",
+      "en": "Take the management track",
+      "pattern": "overwork"
+    },
+    {
+      "id": "uzman",
+      "tr": "Uzman kolunu seç",
+      "en": "Take the expert track",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikisi",
+      "tr": "İkisini birden iste",
+      "en": "Ask for both",
+      "pattern": "risk",
+      "check": {
+        "base": 2500,
+        "stat": "ego"
+      }
+    }
+  ],
+  "outcomes": {
+    "yonetici": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "money": 600,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "flags": {
+          "add": [
+            "yonetici_kolu"
+          ]
+        }
+      },
+      "tr": "Yönetici oldun: dört kişilik ekip, haftada on bir toplantı. Maaş 600 Para arttı.",
+      "en": "Manager now: a team of four, eleven meetings a week. Pay up 600.",
+      "coach": [
+        {
+          "tr": "Dört kişi, on bir toplantı. Takvimin artık ortak alan.",
+          "en": "Four people, eleven meetings. Your calendar is now common space.",
+          "roast": false
+        }
+      ]
+    },
+    "uzman": {
+      "effects": {
+        "career": {
+          "rungDelta": 1
+        },
+        "money": 400,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "uzman_kolu"
+          ]
+        }
+      },
+      "tr": "Baş uzman oldun. Ekip yok, toplantılar aynı; maaş 400 Para arttı.",
+      "en": "Principal now. No team, same meetings, 400 more a month.",
+      "coach": [
+        {
+          "tr": "Unvana bir kelime eklendi. Takvim olduğu gibi.",
+          "en": "One word added to the title. The calendar untouched.",
+          "roast": false
+        }
+      ]
+    },
+    "ikisi": [
+      {
+        "p": 2500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "money": 900,
+          "meters": {
+            "ego": 5
+          },
+          "hidden": {
+            "stress": 6
+          },
+          "flags": {
+            "add": [
+              "yonetici_kolu"
+            ]
+          }
+        },
+        "tr": "İK iki kolu birleştirdi: \"Yürütücü Baş Uzman\". Maaş 900 arttı, toplantılar ikiye katlandı.",
+        "en": "HR merged the tracks: \"Principal Managing Expert.\" Pay up 900. Meetings doubled.",
+        "coach": [
+          {
+            "tr": "Yeni bir unvan icat edildi. İlk taşıyıcısı sensin.",
+            "en": "A new title was invented. You are its first holder.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7500,
+        "effects": {
+          "meters": {
+            "ego": -2,
+            "cringe": 4
+          },
+          "flags": {
+            "add": [
+              "kariyer_yolu_ertelendi"
+            ]
+          }
+        },
+        "tr": "\"Sistem iki kolu birden tanımıyor\" dendi. Formun ikinci sayfası boş geri geldi.",
+        "en": "\"The system doesn't recognize both tracks,\" HR said. Page two of the form came back blank.",
+        "coach": [
+          {
+            "tr": "Boş bir sayfa. Karar bir dönem ertelendi.",
+            "en": "A blank page. The decision slid a cycle.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "terfide yönetici kolu ile uzman kolu arasında seçim yapmak",
+    "mechanism": "yönetici kolu = başkalarının takvimi",
+    "mechanismId": "deadpan_report",
+    "punch": "Senin değil, herkesin.",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "takvim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

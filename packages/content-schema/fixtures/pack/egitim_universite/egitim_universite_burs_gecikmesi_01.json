@@ -1,0 +1,233 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_burs_gecikmesi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "burs",
+    "para",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Burs mu? Bu ay ödemeler biraz kaydı. Sistem güncellemesi. Bir iki hafta, belki üç.",
+      "en": "The scholarship? Payments slipped a bit this month. System update. A week or two. Maybe three."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Kira yirmisinde, bende de durum aynı. Ben yine de bir şey diyemem, ben de burs bekliyorum.",
+      "en": "Rent's due on the twentieth, I'm in the same boat. Not that I can say anything, I'm waiting on mine too.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dilekce",
+      "tr": "Yazılı tarih iste",
+      "en": "Ask for a date in writing",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden ara borç iste",
+      "en": "Ask Mom for a bridge loan",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "kemer",
+      "tr": "İki hafta kemer sık",
+      "en": "Tighten your belt for two weeks",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "dilekce": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 1500,
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "burs_yatti"
+            ]
+          }
+        },
+        "tr": "Memur dilekçeni görünce bir yeri aradı. Burs ertesi gün yattı, 1.500 Para; güncelleme de bitmiş.",
+        "en": "The clerk saw your written request and called someone. The scholarship landed the next day: 1,500. The update was done too, apparently.",
+        "coach": [
+          {
+            "tr": "Dilekçe güncellemeyi hızlandırdı. Bilgisayardan hızlı.",
+            "en": "A written request sped up the update. Faster than the computer.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "burs_gecikti"
+            ]
+          },
+          "followUp": [
+            {
+              "eventId": "egitim_universite_cay_ocagi_veresiye_01",
+              "delayDays": [
+                3,
+                10
+              ],
+              "chance": 3000
+            }
+          ]
+        },
+        "tr": "Dilekçen \"işleme alındı\" damgası yedi. Burs on dokuz gün sonra yattı; çay ocağında hesap açıldı.",
+        "en": "Your request got an \"in process\" stamp. The money arrived nineteen days later. Meanwhile, you opened a tab at the tea stand.",
+        "coach": [
+          {
+            "tr": "İşleme alındı. Süreç on dokuz gün.",
+            "en": "In process. The process: nineteen days.",
+            "roast": true
+          },
+          {
+            "tr": "Hedef zarfı bekliyor, sen de.",
+            "en": "The goal waits. So do you.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "anne": {
+      "effects": {
+        "money": 1000,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "anneye_borc_burs"
+          ]
+        }
+      },
+      "tr": "Annen 1.000 Para gönderdi, açıklamaya \"BORÇ\" yazdı. Burs gelince geri gönderdin; \"Kalsın\" dedi, açıklamayı da değiştirmedi.",
+      "en": "Mom sent 1,000 with \"LOAN\" in the memo. When the scholarship came you sent it back. She said keep it. The memo stayed \"LOAN.\"",
+      "coach": [
+        {
+          "tr": "Borç bitti. Açıklama satırı kaldı.",
+          "en": "The loan's settled. The memo line remains.",
+          "roast": false
+        }
+      ]
+    },
+    "kemer": {
+      "effects": {
+        "stats": {
+          "joy": -3,
+          "health": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "money": -200,
+        "flags": {
+          "add": [
+            "burs_gecikti"
+          ]
+        }
+      },
+      "tr": "İki hafta yemekhane ve çay. Burs on altıncı gün geldi; kalan iki günü 200 Para'lık ilk market alışverişiyle kutladın.",
+      "en": "Two weeks of cafeteria and tea. The money came on day sixteen. You celebrated with a 200 grocery run.",
+      "coach": [
+        {
+          "tr": "On altı gün. Yemekhane menüsü artık ezberde.",
+          "en": "Sixteen days. You know the cafeteria menu by heart.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dilekce",
+    "slip": {
+      "tr": "İDDİA: Dilekçe sistemi hızlandırmaz. — M.",
+      "en": "WAGER: Paperwork won't speed up the system. — M."
+    }
+  },
+  "intent": {
+    "setup": "burs ödemesinin 'sistem güncellemesi' gerekçesiyle gecikmesi",
+    "mechanism": "bir iki hafta, belki üç; dilekçe bilgisayardan hızlı",
+    "mechanismId": "understatement",
+    "punch": "bir iki hafta, belki üç",
+    "lift": "zarf bekliyor",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "menu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

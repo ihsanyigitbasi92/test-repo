@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kronik_saglik_ilaci_evde_unutmak_01",
+  "tags": [
+    "saglik",
+    "ilac",
+    "partner",
+    "tatil",
+    "kronik_saglik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kronik_saglik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "text": [
+    {
+      "id": "setup",
+      "tr": "Hafta sonu kaçamağı, şehir dışında bir pansiyon. Valizde her şey var, ilaç kutusu hariç.",
+      "en": "Weekend getaway, a guesthouse out of town. Everything's in the suitcase except the pill box."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Ben sordum, sen \"aldım\" dedin. Sen \"aldım\" deyince ben de inandım.",
+      "en": "I asked. You said \"got it.\" You said \"got it,\" so I believed you."
+    }
+  ],
+  "choices": [
+    {
+      "id": "recete",
+      "tr": "Doktoru arayıp reçete iste",
+      "en": "Call the doctor for a prescription",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "erken",
+      "tr": "Tatili kısa kes",
+      "en": "Cut the trip short",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "atla",
+      "tr": "İki gün atla",
+      "en": "Skip two days",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "recete": [
+      {
+        "p": 6000,
+        "effects": {
+          "money": -120,
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "yedek_ilac_cantasi"
+            ]
+          }
+        },
+        "tr": "Doktor reçeteyi sisteme yazdı, kasabadaki eczaneden 120 Paraya aldın. Valizde artık kalıcı bir yedek kutu var.",
+        "en": "The doctor sent the prescription through, and the town pharmacy filled it for 120. A spare box now lives in the suitcase.",
+        "coach": [
+          {
+            "tr": "\"Aldım\" artık doğru.",
+            "en": "\"Got it\" is now accurate.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -120,
+          "stats": {
+            "health": -1,
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          }
+        },
+        "tr": "Doktora ulaşmak öğleni buldu, eczane kapanmıştı. İlacı ertesi sabah aldın, bir doz gecikti.",
+        "en": "Reaching the doctor took until noon, and the pharmacy had closed. You got the pills next morning, one dose late.",
+        "coach": [
+          {
+            "tr": "Bir doz gecikti. Pansiyon güzeldi.",
+            "en": "One dose late. Nice guesthouse.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "erken": {
+      "effects": {
+        "money": -200,
+        "stats": {
+          "health": 1,
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yedek_ilac_cantasi"
+          ]
+        }
+      },
+      "tr": "Pazar sabahı döndünüz. Pansiyona iki gece ödendi, bir gece kalındı.",
+      "en": "You headed home Sunday morning. Two nights paid, one slept.",
+      "coach": [
+        {
+          "tr": "İki gece ödendi, biri kullanıldı.",
+          "en": "Two nights paid. One used.",
+          "roast": true
+        }
+      ]
+    },
+    "atla": {
+      "effects": {
+        "stats": {
+          "health": -4,
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "doz_atlandi"
+          ]
+        }
+      },
+      "tr": "İki gün ilaçsız geçti. Pazartesi ölçümde değerler yükselmişti, doktor ek kontrol yazdı.",
+      "en": "Two days without. Monday's reading was up, and the doctor booked an extra checkup.",
+      "coach": [
+        {
+          "tr": "İki gün tatil, bir ek kontrol.",
+          "en": "Two days off. One extra checkup.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "recete",
+    "slip": {
+      "tr": "İDDİA: Eczane senden önce kapanır. — M.",
+      "en": "WAGER: The pharmacy closes before you get there. — M."
+    }
+  },
+  "intent": {
+    "setup": "hafta sonu kaçamağında düzenli ilacı evde unutmak",
+    "mechanism": "partner \"aldım\" cevabına güvendiğini hatırlatıyor",
+    "mechanismId": "callback",
+    "punch": "\"aldım\" artık doğru",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "aldim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

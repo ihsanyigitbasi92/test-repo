@@ -1,0 +1,192 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ofis_hayati_bilgi_yarismasi_01",
+  "tags": [
+    "is",
+    "ofis",
+    "ofis_hayati"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "ofis_hayati": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "happy",
+      "tr": "Departmanlar arası bilgi yarışması. Kazanan ekip bir cuma öğleden sonra izinli.",
+      "en": "Inter-department trivia. The winning team gets a Friday afternoon off."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Bizim ekipte bilgi yok, sadece sen varsın. Son soru senin.",
+      "en": "Our team has no trivia. We have you. The last question's yours."
+    }
+  ],
+  "choices": [
+    {
+      "id": "cevap",
+      "tr": "Son soruyu cevapla",
+      "en": "Answer the last one",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "pas",
+      "tr": "Pas geç",
+      "en": "Pass",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "fisilda",
+      "tr": "Ekiple fısıldaş",
+      "en": "Huddle with the team",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "cevap": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "yarisma_galibi"
+            ]
+          }
+        },
+        "tr": "Soru 'ofisteki en eski eşya'ydı. 'Faks makinesi' dedin; doğruydu, ekip cuma iznini kazandı.",
+        "en": "The question: 'Oldest object in this office?' You said 'the fax machine.' Correct. Your team won the Friday afternoon.",
+        "coach": [
+          {
+            "tr": "Faks makinesi sonunda bir şey gönderdi: yarım gün izin.",
+            "en": "The fax machine finally sent something: half a day off.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          }
+        },
+        "tr": "'Faks makinesi' dedin. Doğru cevap muhasebedeki duvar takvimiymiş; yıllardır aynı ayda.",
+        "en": "You said 'the fax machine.' The answer was accounting's wall calendar. Same month for years.",
+        "coach": [
+          {
+            "tr": "Takvim faksı yendi.",
+            "en": "The calendar beat the fax.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "pas": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Pas geçtin. Muhasebe kazandı; cuma öğleden sonra ofiste sen ve faks makinesi kaldınız.",
+      "en": "You passed. Accounting won. Friday afternoon it was just you and the fax machine.",
+      "coach": [
+        {
+          "tr": "Faks sana eşlik etti.",
+          "en": "The fax kept you company.",
+          "roast": true
+        }
+      ]
+    },
+    "fisilda": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Fısıldaştınız, ekip aynı anda üç cevap verdi. Hakem yaratıcılığa yarım puan verdi; ikinci oldunuz.",
+      "en": "You huddled, and the team gave three answers at once. The judge awarded half a point for creativity. Second place.",
+      "coach": [
+        {
+          "tr": "Yarım puan, tam bir ekip.",
+          "en": "Half a point. Whole team.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cevap",
+    "slip": {
+      "tr": "İDDİA: Son soru kaçar. — M.",
+      "en": "WAGER: The last question gets away. — M."
+    }
+  },
+  "intent": {
+    "setup": "mesai sonrası departmanlar arası bilgi yarışmasında son soru",
+    "mechanism": "ofisin en eski eşyası faks mı takvim mi",
+    "mechanismId": "callback",
+    "punch": "faks makinesi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "faks"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

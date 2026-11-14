@@ -1,0 +1,177 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "alisveris_kiyafet_online_kabin_siniri_01",
+  "tags": [
+    "gundelik",
+    "alisveris",
+    "alisveris_kiyafet_online"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "alisveris_kiyafet_online": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kabine en fazla üç parça. Kural.",
+      "en": "Three items max in the fitting room. Policy."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "smug",
+      "tr": "Kalan dördünü ben tutarım. Tutarken birini beğenirsem bilemem.",
+      "en": "I'll hold the other four. Can't promise I won't fall for one.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "uc",
+      "tr": "Üçünü seç, sırayla dene",
+      "en": "Pick three, take turns",
+      "pattern": "patience"
+    },
+    {
+      "id": "ikna",
+      "tr": "Yedisine izin iste",
+      "en": "Ask to take all seven in",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "hepsi",
+      "tr": "Denemeden yedisini al",
+      "en": "Buy all seven untried",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "uc": {
+      "effects": {
+        "money": -380,
+        "stats": {
+          "joy": -1,
+          "charm": 1
+        },
+        "flags": {
+          "add": [
+            "kabin_turu"
+          ]
+        }
+      },
+      "tr": "Üç tur yaptın. Kazanan ilk turdaki gömlek oldu.",
+      "en": "Three rounds. The winner was the shirt from round one.",
+      "coach": [
+        {
+          "tr": "Üç tur sürdü. Kazanan ilk turdaydı.",
+          "en": "Three rounds. The winner came from round one.",
+          "roast": false
+        }
+      ]
+    },
+    "ikna": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -380,
+          "stats": {
+            "joy": 2,
+            "charm": 2
+          }
+        },
+        "tr": "Görevli göz yumdu. Yedisini denedin, birini aldın, altısını askıya taktın.",
+        "en": "The clerk let it slide. You tried seven, bought one, rehung six.",
+        "coach": [
+          {
+            "tr": "Yedi seçme, bir kadro.",
+            "en": "Seven auditions, one hire.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -380,
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Görevli kuralı tekrarladı, daha yavaş. Arkadaki üç kişi de öğrendi.",
+        "en": "The clerk repeated the policy, slower. The three people behind you learned it too.",
+        "coach": [
+          {
+            "tr": "Kural yerinde. Sıradakiler eğitildi.",
+            "en": "The policy held. The line got trained.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hepsi": {
+      "effects": {
+        "money": -1400,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "iade_bekleyen_poset"
+          ]
+        }
+      },
+      "tr": "Yedi parça eve geldi. Dördü etiketiyle dolap kapısında asılı.",
+      "en": "Seven items came home. Four hang on the closet door, tags still on.",
+      "coach": [
+        {
+          "tr": "Dört etiket, on dört günlük iade süresi.",
+          "en": "Four tags. Fourteen days to return them.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Görevli yediye \"evet\" demez. — M.",
+      "en": "WAGER: The clerk won't say yes to seven. — M."
+    }
+  },
+  "intent": {
+    "setup": "deneme kabininde üç parça sınırı, elde yedi parça",
+    "mechanism": "görevli bekletilen parçaya göz koyuyor",
+    "mechanismId": "escalation",
+    "punch": "tutarken beğenirsem",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kadro"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

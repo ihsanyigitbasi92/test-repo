@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_televizyon_sesi_01",
+  "tags": [
+    "aile",
+    "anne",
+    "komsu",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "anne_tv_kulaklik",
+        "anne_isitme_kontrol"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Annenizin dizisini biz de izliyoruz. İstemeden. Üç kat aşağıdan.",
+      "en": "We're watching your mother's show too. Not by choice. From three floors down."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Ses kırk ikide ama bu kanal kısık yayın yapıyor. Öbür kanallar normal.",
+      "en": "It's on forty-two, but this channel broadcasts quiet. The other channels are fine.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kulaklik",
+      "tr": "Kablosuz TV kulaklığı al",
+      "en": "Buy wireless TV headphones",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kontrol",
+      "tr": "İşitme kontrolü öner",
+      "en": "Suggest a hearing check",
+      "pattern": "selfCare",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ozur",
+      "tr": "Komşuya tatlı götür",
+      "en": "Bring the neighbors dessert",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "kulaklik": {
+      "effects": {
+        "money": -900,
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_tv_kulaklik"
+          ]
+        }
+      },
+      "tr": "Kulaklık 900 Para. Annen diziyi artık kulaklıkla, sesi yine kırk ikide izliyor; bina sessiz.",
+      "en": "The headphones cost 900. Mom now watches with them on, still at forty-two. The building is silent.",
+      "coach": [
+        {
+          "tr": "Ses aynı, adresi değişti.",
+          "en": "Same volume. New address.",
+          "roast": false
+        }
+      ]
+    },
+    "kontrol": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "anne_isitme_kontrol"
+            ]
+          }
+        },
+        "tr": "Annen \"Bir baktırırım, zararı yok\" dedi. Kontrolden sonra sesi otuza indirdi ve kanalın düzeldiğini söyledi.",
+        "en": "Mom agreed to \"a quick look.\" Afterward she turned it down to thirty and said the channel had finally fixed itself.",
+        "coach": [
+          {
+            "tr": "Kanal düzelmiş. Resmî açıklama bu.",
+            "en": "The channel improved. That is the official version.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "momPressure": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Annen \"Kulağımda bir şey yok, kanalda var\" dedi ve konuyu kapattı. Ses kırk ikide kaldı.",
+        "en": "\"My ears are fine. It's the channel,\" said Mom, ending the discussion. The volume stayed at forty-two.",
+        "coach": [
+          {
+            "tr": "Kanal suçlu bulundu. Ses yerinde.",
+            "en": "The channel was found guilty. The volume stays.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ozur": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "komsuya_tatli"
+          ]
+        }
+      },
+      "tr": "Komşu tatlıyı aldı, \"Biz alıştık aslında\" dedi. Ertesi akşam diziyi yine birlikte, üç kat arayla izlediler.",
+      "en": "The neighbor took the dessert and said they'd gotten used to it. The next evening they watched together again, three floors apart.",
+      "coach": [
+        {
+          "tr": "Tatlı kabul edildi. Ses de.",
+          "en": "The dessert was accepted. So was the volume.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kontrol",
+    "slip": {
+      "tr": "İDDİA: Kanal suçlu bulunur. — M.",
+      "en": "WAGER: The channel takes the blame. — M."
+    }
+  },
+  "intent": {
+    "setup": "annenin televizyonu çok yüksek sesle izlemesi, alt kat komşusunun şikâyeti",
+    "mechanism": "kanal kısık yayın yapıyor teorisi",
+    "mechanismId": "escalation",
+    "punch": "bu kanal kısık yayın yapıyor",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "kanal",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

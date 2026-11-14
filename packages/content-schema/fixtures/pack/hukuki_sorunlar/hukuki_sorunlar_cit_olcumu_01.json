@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_cit_olcumu_01",
+  "tags": [
+    "burokrasi",
+    "komsu_sinir",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 60
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Çitiniz bizim bahçeye kırk santim girmiş. Kadastro geliyor, haberiniz olsun.",
+      "en": "Your fence is forty centimeters into our yard. The surveyor is coming, just so you know."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Ben de ölçtüm. Şerit metreyle. İki kere.",
+      "en": "I measured it myself. With a tape measure. Twice.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "olcum",
+      "tr": "Kadastro ölçümünü bekle",
+      "en": "Wait for the official survey",
+      "pattern": "patience",
+      "check": {
+        "base": 4500
+      }
+    },
+    {
+      "id": "cek",
+      "tr": "Çiti kendin geri çektir",
+      "en": "Have the fence moved back yourself",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "ortak",
+      "tr": "Ortak çit için masrafı böl",
+      "en": "Split the cost of a shared fence",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "olcum": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "glossary": "kadastro_olcumu",
+          "flags": {
+            "add": [
+              "cit_yerinde",
+              "komsu_komurluk_tasiyor"
+            ]
+          }
+        },
+        "tr": "Kadastro ölçtü: çit yerinde. Komşunun kömürlüğü senin bahçene yirmi santim girmiş.",
+        "en": "The surveyor measured: your fence is exactly where it belongs. The neighbor's coal shed is twenty centimeters into yours.",
+        "coach": [
+          {
+            "tr": "Şerit metre iki kere ölçmüş. Kadastro bir kere.",
+            "en": "The tape measure measured twice. The surveyor measured once.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "money": -600,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "glossary": "kadastro_olcumu",
+          "flags": {
+            "add": [
+              "cit_tasindi"
+            ]
+          }
+        },
+        "tr": "Ölçüm komşuyu doğruladı: otuz sekiz santim. Çiti taşıtmak 600 Para tuttu.",
+        "en": "The survey backed the neighbor: thirty-eight centimeters. Moving the fence cost 600.",
+        "coach": [
+          {
+            "tr": "Otuz sekiz santim. Kırk demişti, cömert davranmış.",
+            "en": "Thirty-eight centimeters. They said forty. They were being generous.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "cek": {
+      "effects": {
+        "money": -500,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "cit_tasindi"
+          ]
+        }
+      },
+      "tr": "Çiti 500 Para’ya kırk santim geri çektirdin. Ölçüm ekibi geldiğinde ölçecek bir şey kalmamıştı.",
+      "en": "You had the fence pulled back forty centimeters for 500. By the time the surveyors came, there was nothing left to measure.",
+      "coach": [
+        {
+          "tr": "Kırk santim verdin. Kavga hiç başlamadı.",
+          "en": "You gave up forty centimeters. The feud never started.",
+          "roast": false
+        }
+      ]
+    },
+    "ortak": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "ortak_cit_kapisi"
+          ]
+        }
+      },
+      "tr": "Ortak bir çit yaptırdınız, masraf yarı yarıya: 300 Para. Ortasında bir kapı var, anahtarı ikinizde.",
+      "en": "You built a shared fence and split the cost: 300 each. There is a gate in the middle. You both have a key.",
+      "coach": [
+        {
+          "tr": "Sınırın artık kapısı var.",
+          "en": "The border now has a gate.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "olcum",
+    "slip": {
+      "tr": "İDDİA: Şerit metre haklı çıkar. — M.",
+      "en": "WAGER: The tape measure wins. — M."
+    }
+  },
+  "intent": {
+    "setup": "komşunun bahçe çitinin kırk santim taştığını iddia edip kadastro çağırması",
+    "mechanism": "komşunun şerit metresi ile resmî ölçümün yarışı",
+    "mechanismId": "reversal",
+    "punch": "şerit metreyle, iki kere",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "serit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

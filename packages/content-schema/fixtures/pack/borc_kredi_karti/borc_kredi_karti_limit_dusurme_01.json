@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_limit_dusurme_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "limit",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "MAVİDENİZ KART HİZMETLERİ (kurgusal)",
+      "en": "BLUEHARBOR CARD SERVICES (fictional)"
+    },
+    "body": {
+      "tr": "Değerli müşterimiz, düzenli risk değerlendirmemiz sonucunda kart limitiniz 12.000 Para'dan 7.500 Para'ya güncellenmiştir. Size daha iyi hizmet verebilmek için.",
+      "en": "Valued customer, following our regular risk review, your card limit has been updated from 12,000 to 7,500. So we can serve you better."
+    },
+    "translate": {
+      "tr": {
+        "from": "Size daha iyi hizmet verebilmek için.",
+        "to": "Size daha az hizmet verebilmek için."
+      },
+      "en": {
+        "from": "So we can serve you better.",
+        "to": "So we can serve you less."
+      }
+    },
+    "glossaryKey": "limit_guncelleme"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Limitinizin neredeyse tamamını kullanıyordunuz. Biz de limiti size yaklaştırdık.",
+      "en": "You were using almost all of your limit. So we brought the limit closer to you."
+    }
+  ],
+  "choices": [
+    {
+      "id": "indir",
+      "tr": "Borcu limitin altına indir",
+      "en": "Pay down below the new limit",
+      "pattern": "patience"
+    },
+    {
+      "id": "geri",
+      "tr": "Eski limiti geri iste",
+      "en": "Ask for the old limit back",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "banka",
+      "tr": "Harcamayı banka kartına taşı",
+      "en": "Move spending to debit",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "indir": {
+      "effects": {
+        "money": -2500,
+        "hidden": {
+          "stress": 1
+        },
+        "stats": {
+          "joy": 0
+        },
+        "glossary": "limit_guncelleme",
+        "flags": {
+          "add": [
+            "limit_dusuk"
+          ]
+        }
+      },
+      "tr": "2.500 Para ödenerek borç yeni limitin altına indirildi. Ay sonu sıkışık geçti.",
+      "en": "Paid 2,500 to get under the new limit. The end of the month was tight.",
+      "coach": [
+        {
+          "tr": "Yeni limit, dar bir ay.",
+          "en": "New limit. Narrow month.",
+          "roast": false
+        }
+      ]
+    },
+    "geri": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "limit_iade"
+            ]
+          }
+        },
+        "tr": "Talep onaylandı, limit eski haline döndü. Değerlendirme altı ay sonra tekrarlanacak.",
+        "en": "Request approved, limit restored. The review repeats in six months.",
+        "coach": [
+          {
+            "tr": "Altı aylık izin. Sayaç başladı.",
+            "en": "A six-month reprieve. The clock is running.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "limit_dusuk"
+            ]
+          }
+        },
+        "tr": "Talep 'mevcut risk profili' gerekçesiyle reddedildi. Limit 7.500'de kaldı.",
+        "en": "Request declined due to your 'current risk profile.' The limit stays at 7,500.",
+        "coach": [
+          {
+            "tr": "Profilin konuştu. Sen dinledin.",
+            "en": "Your profile did the talking. You listened.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "banka": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "banka_karti_donemi"
+          ]
+        }
+      },
+      "tr": "Kredi kartı çekmeceye kondu, harcamalar banka kartından. Bakiye bitince harcama da bitiyor.",
+      "en": "The credit card went in a drawer. Spending moved to debit: when the balance runs out, so does the spending.",
+      "coach": [
+        {
+          "tr": "Bakiye sıfır, harcama sıfır. Basit sistem.",
+          "en": "Balance zero, spending zero. Simple system.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "bankanın risk değerlendirmesiyle kart limitini habersiz düşürmesi",
+    "mechanism": "daha iyi hizmet cümlesinin tercümesi",
+    "mechanismId": "translation",
+    "punch": "size daha iyi hizmet verebilmek için",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "profil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

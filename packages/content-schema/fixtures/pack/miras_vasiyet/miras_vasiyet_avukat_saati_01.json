@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "miras_vasiyet_avukat_saati_01",
+  "tags": [
+    "yaslilik",
+    "avukat",
+    "para",
+    "vasiyet",
+    "miras_vasiyet"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "miras_vasiyet": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 82
+    },
+    "money": {
+      "min": 2000
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Görüşme süreye göre ücretlendirilir. İlk yirmi dakika 600 Para, sonrası dakika başı.",
+      "en": "The consultation is billed by time. First twenty minutes, 600. After that, by the minute."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Hâl hatır sormak da süreye dahil.",
+      "en": "Small talk counts toward the total.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "hazir",
+      "tr": "Soruları yaz, yirmi dakikada bitir",
+      "en": "Write questions, finish in twenty",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "rahat",
+      "tr": "Acele etme, hepsini konuş",
+      "en": "Take your time, cover it all",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "erte",
+      "tr": "Randevuyu ertele",
+      "en": "Postpone the appointment",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "hazir": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "brain": 1
+          },
+          "money": -600,
+          "flags": {
+            "add": [
+              "vasiyet_danisildi"
+            ]
+          }
+        },
+        "tr": "Yedi soru, on dokuz dakika. Avukat son dakikada havayı sordu; cevap vermeden kalktın.",
+        "en": "Seven questions, nineteen minutes. In the last one the lawyer asked about the weather. You stood up without answering.",
+        "coach": [
+          {
+            "tr": "On dokuz dakika. Hava konusu faturaya girmedi.",
+            "en": "Nineteen minutes. The weather went unbilled.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -1100,
+          "flags": {
+            "add": [
+              "vasiyet_danisildi"
+            ]
+          }
+        },
+        "tr": "Üçüncü soruda annenin büfesinin hikâyesine girdin. Otuz altı dakika, 1.100 Para.",
+        "en": "On question three you began the story of your mom's sideboard. Thirty-six minutes, 1,100.",
+        "coach": [
+          {
+            "tr": "Büfenin hikâyesi 500 Para tuttu.",
+            "en": "The story of the sideboard came to 500.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "rahat": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "money": -1800,
+        "flags": {
+          "add": [
+            "vasiyet_danisildi"
+          ]
+        }
+      },
+      "tr": "Bir saat konuştunuz: vasiyet, kardeşin, balkondaki sardunyalar. 1.800 Para; hepsi not edildi.",
+      "en": "You talked for an hour: the will, your sibling, the geraniums on the balcony. 1,800, and all of it was minuted.",
+      "coach": [
+        {
+          "tr": "Sardunyaların geleceği dakika başı konuşuldu.",
+          "en": "The future of the geraniums was discussed by the minute.",
+          "roast": false
+        }
+      ]
+    },
+    "erte": {
+      "effects": {
+        "flags": {
+          "add": [
+            "vasiyet_ertelendi"
+          ]
+        }
+      },
+      "tr": "Randevu iki ay sonraya alındı. Soruların yazılı olduğu kâğıt buzdolabında, alışveriş listesinin altında.",
+      "en": "The appointment moved two months out. The page of questions is on the fridge, under the shopping list.",
+      "coach": [
+        {
+          "tr": "Yedi soru buzdolabında bekliyor.",
+          "en": "Seven questions are waiting on the fridge.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hazir",
+    "slip": {
+      "tr": "İDDİA: Yirmi dakikaya sığmaz. — M.",
+      "en": "WAGER: This runs past twenty minutes. — M."
+    }
+  },
+  "intent": {
+    "setup": "vasiyet için avukatla dakika başı ücretli görüşmeye soruları önceden yazarak girmek",
+    "mechanism": "sohbetin her dakikası faturada",
+    "mechanismId": "count",
+    "punch": "hâl hatır sormak da süreye dahil",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dakika"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

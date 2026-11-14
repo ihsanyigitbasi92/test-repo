@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_ev_arkadasi_ayrildi_01",
+  "tags": [
+    "ev",
+    "ev_arkadasi",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Ay sonunda çıkıyorum. Sözleşmede adım yoktu zaten, rahatsın.",
+      "en": "I'm out at the end of the month. My name was never on the lease, so you're fine."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Yeni ev arkadaşını ben seçerim. Yeğenimin bir arkadaşı var, gece çalışıyor.",
+      "en": "I'll pick the new roommate. My nephew has a friend. Works nights.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "aday",
+      "tr": "Kendi adayını kabul ettir",
+      "en": "Get your own pick approved",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yegen",
+      "tr": "Önerilen kişiyi kabul et",
+      "en": "Accept their pick",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tek",
+      "tr": "Kirayı tek başına öde",
+      "en": "Pay the full rent alone",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "aday": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "yeni_ev_arkadasi_secildi"
+            ]
+          }
+        },
+        "tr": "Adayını getirdin; ev sahibi on dakika soru sordu ve onayladı. Yeni ev arkadaşın ilk gün kapı zilini tamir etti.",
+        "en": "You brought your pick. The landlord asked questions for ten minutes and approved. Your new roommate fixed the doorbell on day one.",
+        "coach": [
+          {
+            "tr": "Onay alındı. Zil çalışıyor.",
+            "en": "Approved. The doorbell works.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "yegenin_arkadasi_geldi"
+            ]
+          }
+        },
+        "tr": "Ev sahibi adayını \"fazla sessiz\" bulup reddetti. Yeğenin arkadaşı salı günü taşındı.",
+        "en": "The landlord turned your pick down as \"too quiet.\" The nephew's friend moved in on Tuesday.",
+        "coach": [
+          {
+            "tr": "Fazla sessizdi. Yenisi gece çalışıyor.",
+            "en": "Too quiet. The replacement works nights.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yegen": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yegenin_arkadasi_geldi"
+          ]
+        }
+      },
+      "tr": "Yeni ev arkadaşın sabah altıda eve giriyor ve mikrodalgada makarna ısıtıyor. Kirasını ev sahibine kendisi veriyor.",
+      "en": "Your new roommate gets home at six a.m. and microwaves pasta. They pay the landlord directly.",
+      "coach": [
+        {
+          "tr": "Sabah altı. Mikrodalga zili. Her gün.",
+          "en": "Six a.m. Microwave chime. Daily.",
+          "roast": true
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "status": {
+          "rentDelta": 700
+        },
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "tek_kiraci"
+          ]
+        }
+      },
+      "tr": "Kiranın tamamını üstlendin, ayda 700 Para daha. İkinci oda artık bisikletin.",
+      "en": "You took on the full rent, 700 more a month. The second bedroom now belongs to a bicycle.",
+      "coach": [
+        {
+          "tr": "Bisikletin odası var. Kirasını sen ödüyorsun.",
+          "en": "The bicycle has its own room. You cover its rent.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "aday",
+    "slip": {
+      "tr": "İDDİA: Ev sahibinin adayı taşınır. — M.",
+      "en": "WAGER: The landlord's pick moves in. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşı çıkınca ev sahibinin yeni ev arkadaşını kendisi seçmek istemesi",
+    "mechanism": "ev arkadaşı seçimi zincirleniyor",
+    "mechanismId": "escalation",
+    "punch": "yeğenimin bir arkadaşı var, gece çalışıyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bisiklet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

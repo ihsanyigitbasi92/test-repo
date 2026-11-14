@@ -1,0 +1,185 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_erimis_dondurma_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "siparis",
+    "kurye",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "npc:courier",
+      "avatar": "neutral",
+      "tr": "Siparişiniz. Dondurma da içinde. Şey... çantada biraz yolculuk yaptı.",
+      "en": "Your order. The ice cream's in there too. It's, uh, been on a bit of a journey."
+    },
+    {
+      "speaker": "npc:courier",
+      "avatar": "worried",
+      "tr": "Kapağı lavaboya yakın açın derim.",
+      "en": "I'd open it near the sink.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ic",
+      "tr": "Pipetle iç",
+      "en": "Drink it with a straw",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "iade",
+      "tr": "Uygulamadan iade iste",
+      "en": "Request a refund",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "dondur",
+      "tr": "Tekrar dondur",
+      "en": "Refreeze it",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ic": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "siparis_icilen_dondurma"
+          ]
+        }
+      },
+      "tr": "Dondurmayı pipetle içtin. Çikolatalı ile vanilyalı karışmış, ortaya yeni bir tat çıkmıştı.",
+      "en": "You drank it with a straw. Chocolate and vanilla had merged into a brand-new flavor.",
+      "coach": [
+        {
+          "tr": "Yeni bir tat icat edildi.",
+          "en": "A new flavor has been invented.",
+          "roast": false
+        }
+      ]
+    },
+    "iade": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": 90,
+          "flags": {
+            "add": [
+              "siparis_iade_alindi"
+            ]
+          }
+        },
+        "tr": "İade talebin onaylandı, 90 Para hesabına döndü. Dondurma lavaboya gitti.",
+        "en": "Refund approved: 90 back in your account. The ice cream went down the sink.",
+        "coach": [
+          {
+            "tr": "90 Para geri döndü.",
+            "en": "90 came back.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "siparis_iade_red"
+            ]
+          }
+        },
+        "tr": "Talebin \"ürün teslim edildi\" gerekçesiyle reddedildi. Ürün gerçekten teslim edilmişti, sıvı hâlde.",
+        "en": "Refund denied: \"item was delivered.\" It was. As a liquid.",
+        "coach": [
+          {
+            "tr": "Teknik olarak doğru.",
+            "en": "Technically accurate.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "dondur": {
+      "effects": {
+        "stats": {
+          "joy": 0,
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "siparis_dondurma_blogu"
+          ]
+        }
+      },
+      "tr": "Dondurmayı buzluğa geri koydun. Ertesi gün kaşık girmeyen bir blok çıktı.",
+      "en": "You put it back in the freezer. The next day it was a block no spoon could enter.",
+      "coach": [
+        {
+          "tr": "Kaşık bükülmedi. Az kaldı.",
+          "en": "The spoon didn't bend. It came close.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da düşük gerilim"
+  },
+  "intent": {
+    "setup": "yemekle birlikte söylenen dondurmanın erimiş gelmesi",
+    "mechanism": "kuryenin durumu yolculuk diye yumuşatması",
+    "mechanismId": "understatement",
+    "punch": "çantada biraz yolculuk yaptı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "pipet"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

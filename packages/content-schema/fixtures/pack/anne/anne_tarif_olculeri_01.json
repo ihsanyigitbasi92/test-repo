@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "anne_tarif_olculeri_01",
+  "tags": [
+    "tanidik_yuzler",
+    "mutfak",
+    "anne"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "anne": 14
+    }
+  },
+  "maxPerLife": 1,
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Bir tutam tuz, göz kararı un. Kıvamını görünce durursun.",
+      "en": "A pinch of salt, flour by eye. Stop when it looks right."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Ne kadar mı? Bardakla olmaz o iş. Hisle.",
+      "en": "How much? You don't measure it with a cup. You feel it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "Hisle yap",
+      "en": "Cook by feeling",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "goruntulu",
+      "tr": "Görüntülü arayıp izlet",
+      "en": "Video-call her through it",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "hazir",
+      "tr": "Hazır köfte al",
+      "en": "Buy frozen meatballs",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "anne_tarifi_tuttu"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Köfteler tuttu. Bir arkadaşın tarifi sorunca \"bir his\" dedin.",
+        "en": "The meatballs held together. When a friend asked for the recipe, you said, \"It's a feeling.\"",
+        "coach": [
+          {
+            "tr": "Tarif el değiştirdi. Ölçü yine yok.",
+            "en": "The recipe changed hands. Still no measurements.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacına bir tabak.",
+            "en": "One plate for the goal counter.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "anne_tarifi_tutmadi"
+            ]
+          }
+        },
+        "tr": "Köfteler tavada dağıldı. Annen fotoğrafı görünce \"his eksik\" dedi.",
+        "en": "The meatballs fell apart in the pan. Mom saw the photo: \"Not enough feeling.\"",
+        "coach": [
+          {
+            "tr": "Teşhis kondu. Tedavi bilinmiyor.",
+            "en": "Diagnosis made. No known cure.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "goruntulu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Annen kırk dakika ekrandan ellerine baktı. Tuzu kendi mutfağında, kendi tenceresine attı.",
+      "en": "Mom watched your hands for forty minutes. Then she salted her own pot, in her own kitchen.",
+      "coach": [
+        {
+          "tr": "İki mutfak, bir tuzluk.",
+          "en": "Two kitchens. One salt shaker.",
+          "roast": false
+        }
+      ]
+    },
+    "hazir": {
+      "effects": {
+        "meters": {
+          "momPressure": 2
+        },
+        "money": -180,
+        "flags": {
+          "add": [
+            "anne_hazir_kofte"
+          ]
+        }
+      },
+      "tr": "Hazır köfte aldın, 180 Para. Annen paketi fotoğrafın köşesinden tanıdı.",
+      "en": "You bought frozen meatballs: 180. Mom recognized the box from the corner of the photo.",
+      "coach": [
+        {
+          "tr": "Ambalaj konuştu.",
+          "en": "The packaging talked.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dene",
+    "slip": {
+      "tr": "İDDİA: Köfte tavada dağılır. — M.",
+      "en": "WAGER: The meatballs won't survive the pan. — M."
+    }
+  },
+  "intent": {
+    "setup": "tek başına yaşarken annenden köfte tarifi isteyince ölçülerin göz kararı ve his olarak gelmesi",
+    "mechanism": "tarifin ölçüsü duygu",
+    "mechanismId": "literalism",
+    "punch": "bardak değil, hisle",
+    "lift": "hedef sayacına bir tabak",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "tesgis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

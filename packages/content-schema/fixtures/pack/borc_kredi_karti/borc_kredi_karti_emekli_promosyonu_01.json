@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_emekli_promosyonu_01",
+  "tags": [
+    "para",
+    "borc",
+    "emekli",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 75
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Emekli maaşınızı bize taşırsanız 6.000 Para promosyon veriyoruz. Üç yıl taahhütle.",
+      "en": "Move your pension deposit to us and get a 6,000 signing bonus. Three-year commitment."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Bir de takvim. Kedili olanı mı verelim, manzaralıyı mı?",
+      "en": "Plus a calendar. Would you like the cats or the landscapes?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "tasi",
+      "tr": "Maaşı taşı, borcu kapat",
+      "en": "Switch and clear your debt",
+      "pattern": "patience"
+    },
+    {
+      "id": "takvim",
+      "tr": "Sadece takvimi al",
+      "en": "Just take the calendar",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "eski",
+      "tr": "Teklifi eski bankana götür",
+      "en": "Take the offer to your old bank",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "tasi": {
+      "effects": {
+        "money": 1500,
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": -4
+        },
+        "flags": {
+          "add": [
+            "emekli_promosyonu"
+          ],
+          "remove": [
+            "kredi_karti_borcu"
+          ]
+        }
+      },
+      "tr": "6.000 Para promosyon yattı, 4.500'ü kart borcunu kapattı. Takvim manzaralı.",
+      "en": "The 6,000 bonus came in, and 4,500 of it cleared the card. You went with the landscapes.",
+      "coach": [
+        {
+          "tr": "6.000 geldi, 4.500 gitti. Kalan 1.500 ve on iki ay göl.",
+          "en": "6,000 in, 4,500 out. Leftover: 1,500 and twelve months of lakes.",
+          "roast": true
+        }
+      ]
+    },
+    "takvim": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "kedili_takvim"
+          ]
+        }
+      },
+      "tr": "Maaş yerinde kaldı, kedili takvim mutfağa asıldı. Borç da yerinde.",
+      "en": "The pension stayed put. The cat calendar went up in the kitchen. The debt stayed put too.",
+      "coach": [
+        {
+          "tr": "Bir takvim, sıfır taahhüt, aynı borç.",
+          "en": "One calendar. Zero commitment. Same debt.",
+          "roast": true
+        }
+      ]
+    },
+    "eski": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": 2000,
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "promosyon_eslesti"
+            ]
+          }
+        },
+        "tr": "Eski bankan 5.000 Para ile karşılık verdi, taşınmana gerek kalmadı. 3.000'i borca gitti.",
+        "en": "Your old bank matched with 5,000, so you didn't have to move. 3,000 went to the card.",
+        "coach": [
+          {
+            "tr": "Yerinden kalkmadan 5.000 Para.",
+            "en": "5,000 without leaving your chair.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "promosyon_kacti"
+            ]
+          }
+        },
+        "tr": "Eski bankan 'Böyle bir kampanyamız yok' dedi. Yeni bankanın teklifi de o hafta bitti.",
+        "en": "Your old bank said they had no such campaign. The new bank's offer expired that same week.",
+        "coach": [
+          {
+            "tr": "İki banka, sıfır promosyon. Takvim bile yok.",
+            "en": "Two banks. Zero bonus. Not even a calendar.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "emekli maaşını taşıma promosyonuyla kart borcunu kapatma fırsatı",
+    "mechanism": "promosyon, borç ve takvim tek tek sayılıyor",
+    "mechanismId": "count",
+    "punch": "kedili mi manzaralı mı",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "takvim",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Emekli maaşı promosyonu TR'ye özgü bir banka teşviki; EN'de genel 'pension deposit signing bonus' olarak okunur, kurum adı yok."
+  }
+}

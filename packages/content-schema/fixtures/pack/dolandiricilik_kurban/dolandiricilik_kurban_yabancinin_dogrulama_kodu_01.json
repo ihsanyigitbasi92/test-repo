@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dolandiricilik_kurban_yabancinin_dogrulama_kodu_01",
+  "tags": [
+    "para",
+    "dolandiricilik",
+    "telefon",
+    "dolandiricilik_kurban"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "dolandiricilik_kurban": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Kusura bakma, numaramı yazarken bir rakam kaydı. Sana gelen altı haneli kodu okur musun?",
+      "en": "So sorry, I typed my number one digit off. Could you read me the six-digit code you just got?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Çok acil. Kod bir dakika geçerli, sonra her şey kilitleniyor.",
+      "en": "It's really urgent. The code expires in a minute and then everything locks.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "oku",
+      "tr": "Kodu oku",
+      "en": "Read the code out",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "engel",
+      "tr": "Numarayı engelle",
+      "en": "Block the number",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "sor",
+      "tr": "\"Adın neydi?\" diye sor",
+      "en": "Ask \"what was your name again?\"",
+      "pattern": "pride",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "oku": {
+      "effects": {
+        "money": -400,
+        "hidden": {
+          "stress": 5
+        },
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "hesap_ele_gecirildi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Hesabın ele geçirildi. Rehberindeki herkese senin adınla \"acil 400 Para lazım\" gitti; dayın gönderdi.",
+      "en": "Your account got hijacked. Everyone in your contacts got \"need 400, urgent\" from you. Your uncle sent it.",
+      "coach": [
+        {
+          "tr": "Dayın sana 400 Para yolladı. Sana hiç uğramadı.",
+          "en": "Your uncle sent you 400. It never stopped by.",
+          "roast": true
+        }
+      ]
+    },
+    "engel": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 0
+        },
+        "glossary": "dogrulama_kodu",
+        "flags": {
+          "add": [
+            "dolandirici_tanidi"
+          ]
+        }
+      },
+      "tr": "Engelledin. Akşam başka bir numaradan \"neden engelledin\" mesajı geldi.",
+      "en": "You blocked it. That evening a new number wrote: \"why did you block me.\"",
+      "coach": [
+        {
+          "tr": "Altı hane. Hiçbiri evden çıkmadı.",
+          "en": "Six digits. None of them left the house.",
+          "roast": false
+        }
+      ]
+    },
+    "sor": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "brain": 2,
+            "joy": 1
+          },
+          "glossary": "dogrulama_kodu",
+          "flags": {
+            "add": [
+              "dolandirici_tanidi"
+            ]
+          }
+        },
+        "tr": "\"Adın neydi?\" dedin. Üç dakika sessizlik, sonra \"Deniz\" yazdı. Sonra \"Can\" yazdı.",
+        "en": "You asked their name. Three minutes of silence, then \"Alex.\" Then \"Chris.\"",
+        "coach": [
+          {
+            "tr": "Bir kişide iki isim. Kod yerinde.",
+            "en": "One person, two names. The code stays put.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 3
+          },
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "hesap_kilitlendi"
+            ]
+          }
+        },
+        "tr": "İsim anında geldi, üstüne bir de gülen yüz. Kodu okudun; hesabın bir gün kilitli kaldı.",
+        "en": "The name came back instantly, plus a smiley. You read the code. Your account stayed locked for a day.",
+        "coach": [
+          {
+            "tr": "Soru iyiydi. Karşı taraf çalışmıştı.",
+            "en": "Good question. They'd studied for it.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "yanlış numaraya giden doğrulama kodunu yabancının istemesi",
+    "mechanism": "acele baskısı ve tırmanan aciliyet",
+    "mechanismId": "escalation",
+    "punch": "kod bir dakika geçerli, her şey kilitleniyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "hane"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

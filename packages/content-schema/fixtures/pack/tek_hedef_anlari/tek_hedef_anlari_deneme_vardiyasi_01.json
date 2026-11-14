@@ -1,0 +1,215 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_deneme_vardiyasi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "is",
+    "is_arama",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "job1"
+      ]
+    },
+    "career": {
+      "employed": false
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kasa senin. Sıra kapıya kadar, yirmi dakika sonra konuşuruz.",
+      "en": "Till's yours, line's to the door. We'll talk in twenty."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Süt makinesi bazen tıslar. Kişisel algılamayın.",
+      "en": "The milk steamer hisses sometimes. Don't take it personally.",
+      "delayMs": 700
+    }
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Hedef: bir işe gir. Mahalle kafesinde deneme vardiyası.",
+      "en": "Goal: get a job. A trial shift at the neighborhood café."
+    }
+  ],
+  "choices": [
+    {
+      "id": "kasa",
+      "tr": "Kasayı tek başına çevir",
+      "en": "Run the till solo",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "brain",
+        "goal": "job1"
+      }
+    },
+    {
+      "id": "yardim",
+      "tr": "Ustadan yardım iste",
+      "en": "Ask the barista for help",
+      "pattern": "patience"
+    },
+    {
+      "id": "kac",
+      "tr": "Önlüğü bırakıp çık",
+      "en": "Hang up the apron and go",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kasa": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "flags": {
+            "add": [
+              "is_bulundu"
+            ]
+          },
+          "status": {
+            "job": {
+              "title": "Kafe kasiyeri",
+              "tier": 1,
+              "monthly": 1400
+            }
+          }
+        },
+        "tr": "Yirmi dakikada sıra eridi, kasa kuruşu kuruşuna tuttu. Pazartesi başlıyorsun: yarı zamanlı, ayda 1.400 Para.",
+        "en": "The line was gone in twenty minutes and the till balanced to the coin. You start Monday: part-time, 1,400 a month.",
+        "coach": [
+          {
+            "tr": "Hedef: bir iş. Önlüğüyle.",
+            "en": "Goal: one job. Apron included.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "deneme_vardiyasi_bitti"
+            ]
+          }
+        },
+        "tr": "Kasada üç sipariş birbirine karıştı. Sahibi teşekkür etti ve önlüğü geri aldı.",
+        "en": "Three orders got tangled at the till. The owner thanked you and took the apron back.",
+        "nearMiss": {
+          "tr": "Kasa 15 Para eksik çıktı. Sahibi bozuklukları iki kez saydı.",
+          "en": "The till came up fifteen short. The owner counted the coins twice."
+        },
+        "coach": [
+          {
+            "tr": "Önlük iade edildi.",
+            "en": "Apron returned.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yardim": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ikinci_deneme_vardiyasi"
+          ]
+        }
+      },
+      "tr": "Ustayla birlikte sırayı bitirdiniz. Sahibi formuna \"ekip oyuncusu\" yazdı ve seni haftaya ikinci denemeye çağırdı.",
+      "en": "You and the barista cleared the line. The owner wrote \"team player\" on the form and invited you back next week.",
+      "coach": [
+        {
+          "tr": "İkinci deneme. Hedef açık.",
+          "en": "Second trial. Goal still open.",
+          "roast": false
+        }
+      ]
+    },
+    "kac": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "meters": {
+          "cringe": 3
+        },
+        "flags": {
+          "add": [
+            "deneme_vardiyasi_bitti"
+          ]
+        }
+      },
+      "tr": "Önlüğü askıya asıp çıktın. Sıradaki üçüncü müşteri siparişini arkandan tekrar etti.",
+      "en": "You hung the apron on the hook and left. The third customer in line repeated their order at your back.",
+      "coach": [
+        {
+          "tr": "Sipariş hâlâ bekliyor.",
+          "en": "The order is still waiting.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kasa",
+    "slip": {
+      "tr": "İDDİA: Kasa bugün tutmaz. — M.",
+      "en": "WAGER: The till won't balance today. — M."
+    }
+  },
+  "intent": {
+    "setup": "iş bulma hedefinde kafede deneme vardiyası",
+    "mechanism": "önlük verilip geri alınıyor",
+    "mechanismId": "reversal",
+    "punch": "önlüğü geri aldı",
+    "lift": "önlüğüyle",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "onluk"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

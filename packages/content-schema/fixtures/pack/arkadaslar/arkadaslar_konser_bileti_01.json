@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "arkadaslar_konser_bileti_01",
+  "tags": [
+    "sosyal",
+    "para",
+    "konser",
+    "arkadaslar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "arkadaslar": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "t1",
+      "tr": "Arkadaşın gruba bir fotoğraf attı: iki konser bileti. Altında: “Seninkini de aldım, 1.150 Para, acelesi yok.”",
+      "en": "Your friend posted a photo to the group chat: two concert tickets. Caption: “Got yours too, 1,150, no rush.”"
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Hangi grup bu? Hiç duymadım. Sen de duymadın, yüzünden belli.",
+      "en": "Who's the band? Never heard of them. Neither have you. It's all over your face."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "“Acelesi yok” diyen insan biletin fotoğrafını üç kez atmaz.",
+      "en": "People with “no rush” don't post the ticket three times.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Öde, konsere git",
+      "en": "Pay up, go to the show",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sat",
+      "tr": "Bileti başkasına sat",
+      "en": "Resell your ticket",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "itiraz",
+      "tr": "“Ben istemedim” de",
+      "en": "Say “I never asked”",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -1150,
+        "flags": {
+          "add": [
+            "arkadas_konser_gitti"
+          ]
+        }
+      },
+      "tr": "1.150 Para ödeyip konsere gittin. Bir şarkıyı nakaratından tanıdın.",
+      "en": "You paid 1,150 and went. You recognized one song by its chorus.",
+      "coach": [
+        {
+          "tr": "Bir şarkı tanıdın. Kalan on altısı bilete dahildi.",
+          "en": "You knew one song. The other sixteen came with the ticket.",
+          "roast": true
+        }
+      ]
+    },
+    "sat": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "bilet_satildi"
+            ]
+          }
+        },
+        "tr": "Bileti ilan sitesinden bir yabancıya sattın. Arkadaşına ödedin, hesap sıfırlandı.",
+        "en": "You sold the ticket to a stranger off a listing. Paid your friend back. Even.",
+        "coach": [
+          {
+            "tr": "Sıfır. Bu haftanın en temiz rakamı.",
+            "en": "Zero. Cleanest number you've had all week.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "money": -800,
+          "flags": {
+            "add": [
+              "bilet_zararina"
+            ]
+          }
+        },
+        "tr": "Kimse almadı. Konser günü bileti 350 Para'ya verdin; açık 800 Para.",
+        "en": "No takers. On show day you let it go for 350. You're down 800.",
+        "coach": [
+          {
+            "tr": "Konser başladı. Sen kapıda hâlâ pazarlık yapıyordun.",
+            "en": "The show started. You were outside, still haggling.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "itiraz": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "arkadas_kirgin_bilet"
+          ]
+        }
+      },
+      "tr": "“Ben istemedim” yazdın. Grup sustu; arkadaşın bileti kuzenine verdi.",
+      "en": "You typed “I never asked.” The chat went quiet. Your friend gave the ticket to a cousin.",
+      "coach": [
+        {
+          "tr": "Mesaj kısaydı. Sessizlik uzun sürdü.",
+          "en": "Short message. Long silence.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sat",
+    "slip": {
+      "tr": "İDDİA: O bilet elden çıkmaz. — M.",
+      "en": "WAGER: Nobody buys that ticket. — M."
+    }
+  },
+  "intent": {
+    "setup": "arkadaşın sormadan aldığı konser biletinin parasını istemesi",
+    "mechanism": "'acelesi yok' deyip biletin fotoğrafını üç kez atmak",
+    "mechanismId": "reversal",
+    "punch": "acelesi yok diyen fotoğrafı üç kez atmaz",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sessizlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

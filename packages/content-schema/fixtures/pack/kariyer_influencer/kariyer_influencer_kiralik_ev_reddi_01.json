@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_influencer_kiralik_ev_reddi_01",
+  "tags": [
+    "kariyer",
+    "influencer",
+    "kariyer_influencer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_influencer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 32
+    },
+    "career": {
+      "anyOf": [
+        "influencer"
+      ],
+      "employed": true
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ev sahibi mesleğinizi sordu. 'İçerik üreticisi' deyince 'yani evde çekim mi yapacak' dedi.",
+      "en": "The owner asked what you do. When I said 'content creator,' they asked if you'd be filming in the flat."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Bir de 'duvara ışık için delik açar mı' diye sordu. Ben de bilmiyorum, açar mısınız?",
+      "en": "They also asked if you'd drill holes for lights. I don't know either. Would you?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "doku",
+      "tr": "Gelir dökümüyle ikna et",
+      "en": "Show your income records",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "serbest",
+      "tr": "Formdaki mesleğe 'serbest' yaz",
+      "en": "Put 'freelance' on the form",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kal",
+      "tr": "Şimdiki evde kal",
+      "en": "Stay where you are",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "doku": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": -2100,
+          "stats": {
+            "joy": 3
+          },
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 2100
+            }
+          },
+          "flags": {
+            "add": [
+              "infl_delik_yasagi"
+            ]
+          }
+        },
+        "tr": "Dökümü gösterdin. Ev sahibi sözleşmeye 'duvara delik yok' maddesini ekleyip anahtarı verdi.",
+        "en": "You showed the records. The owner added a 'no holes in the walls' clause and handed over the keys.",
+        "coach": [
+          {
+            "tr": "Ev tamam. Işıklar ayaklı.",
+            "en": "Flat secured. Lights on stands.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "ego": -2
+          }
+        },
+        "tr": "Dökümde son çeyreğin gelirinin bir kısmı tencere setiyle ödenmiş görünüyordu. Ev sahibi başka kiracı seçti.",
+        "en": "The records showed part of last quarter's income was paid in cookware. The owner chose another tenant.",
+        "coach": [
+          {
+            "tr": "Tencere seti kirayı karşılamadı.",
+            "en": "The cookware didn't cover rent.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "serbest": {
+      "effects": {
+        "money": -2300,
+        "hidden": {
+          "stress": 2
+        },
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 2300
+          }
+        },
+        "flags": {
+          "add": [
+            "infl_meslek_gizli"
+          ]
+        }
+      },
+      "tr": "Formda 'serbest' yazdın ve evi tuttun. Kira biraz yüksek; ev sahibi her uğradığında ışıklar dolaba giriyor.",
+      "en": "You wrote 'freelance' and got the flat. Rent's a bit steep, and the lights go in the closet whenever the owner visits.",
+      "coach": [
+        {
+          "tr": "Dolapta üç ışık, bir sır.",
+          "en": "Three lights in the closet. One secret.",
+          "roast": false
+        }
+      ]
+    },
+    "kal": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "status": {
+          "rentDelta": 200
+        }
+      },
+      "tr": "Aramayı bıraktın. Şimdiki ev sahibin sözleşmeyi uzatırken kirayı 'güncel' hale getirdi.",
+      "en": "You stopped looking. Your current landlord renewed the lease and 'updated' the rent.",
+      "coach": [
+        {
+          "tr": "Aynı ev, yeni kira.",
+          "en": "Same place. New rent.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "doku",
+    "slip": {
+      "tr": "İDDİA: Gelir dökümü ev sahibini ikna etmez. — M.",
+      "en": "WAGER: The income records won't win the owner over. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibi içerik üreticisi olduğun için daireyi kiralamak istemiyor",
+    "mechanism": "meslek adı duvar deliğine çevriliyor",
+    "mechanismId": "literalism",
+    "punch": "yani evde çekim mi yapacak",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "delik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

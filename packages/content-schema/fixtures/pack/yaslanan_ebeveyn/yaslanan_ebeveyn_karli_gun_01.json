@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_karli_gun_01",
+  "tags": [
+    "aile",
+    "anne",
+    "kis",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "season": [
+      "winter"
+    ],
+    "flags": {
+      "none": [
+        "anne_eve_siparis"
+      ]
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Bana \"evden çıkma\" dedin. Çıkmıyorum, pazara gidiyorum.",
+      "en": "You told me not to leave the house. I'm not leaving it. I'm going to the market."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Annenize söyledim, kaldırımlar cam gibi. Elinde file vardı bile.",
+      "en": "I told your mother the sidewalks are like glass. She already had her shopping bag.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ikna",
+      "tr": "Telefonda ikna etmeye çalış",
+      "en": "Try to talk her out of it",
+      "pattern": "patience",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "siparis",
+      "tr": "Pazarı eve sipariş et",
+      "en": "Order the market to her door",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "git",
+      "tr": "İzin al, yanına git",
+      "en": "Take time off and go with her",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "ikna": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "momPressure": -1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "anne_kislik_liste"
+            ]
+          }
+        },
+        "tr": "Annen evde kaldı ve sana yedi kalemlik liste yazdırdı. Pazara sen gittin, üçüncü maddeyi bulamadın.",
+        "en": "Mom stayed in and dictated a seven-item list. You went to the market and couldn't find item three.",
+        "coach": [
+          {
+            "tr": "Annen kaldı, liste gitti. Üçüncü madde kayıp.",
+            "en": "Mom stayed home. The list went out. Item three is missing.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "anne_buzda_pazar"
+            ]
+          }
+        },
+        "tr": "Annen yine pazara gitti ve komşunun koluna girerek döndü. Fileden üç kilo mandalina çıktı.",
+        "en": "Mom went anyway and came home on the neighbor's arm. Six pounds of tangerines came out of the bag.",
+        "coach": [
+          {
+            "tr": "Komşu kola terfi etti. Mandalinalar eksiksiz.",
+            "en": "The neighbor has been promoted to arm. The tangerines arrived intact.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "siparis": {
+      "effects": {
+        "money": -260,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "flags": {
+          "add": [
+            "anne_eve_siparis"
+          ]
+        }
+      },
+      "tr": "Sipariş geldi. Annen kuryeye \"Mandalinalar ekşi görünüyor\" dedi ve yarısını geri gönderdi.",
+      "en": "The order arrived. Mom told the courier the tangerines looked sour and sent half of them back.",
+      "coach": [
+        {
+          "tr": "Yarısı iade. Pazar kapıda kuruldu.",
+          "en": "Half returned. Mom ran the market from her doorway.",
+          "roast": false
+        }
+      ]
+    },
+    "git": {
+      "effects": {
+        "money": -100,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "pazar_birlikte"
+          ]
+        }
+      },
+      "tr": "Öğleden sonra izin alıp annenin koluna girdin. Pazar yirmi dakika sürdü; annen seni her tezgâhta tanıştırdı.",
+      "en": "You took the afternoon off and walked Mom there arm in arm. Twenty minutes of market, and she introduced you at every stall.",
+      "coach": [
+        {
+          "tr": "Yirmi dakika, her tezgâhta bir tanışma.",
+          "en": "Twenty minutes. One introduction per stall.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ikna",
+    "slip": {
+      "tr": "İDDİA: Annen pazara yine gider. — M.",
+      "en": "WAGER: Mom goes to the market anyway. — M."
+    }
+  },
+  "intent": {
+    "setup": "buzlu günde annenin pazara kendisi gitmekte ısrar etmesi",
+    "mechanism": "\"evden çıkma\" sözünü harfiyen yorumlamak",
+    "mechanismId": "literalism",
+    "punch": "çıkmıyorum, pazara gidiyorum",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "mandalina",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

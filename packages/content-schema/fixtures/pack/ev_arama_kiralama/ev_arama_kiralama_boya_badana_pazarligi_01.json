@@ -1,0 +1,232 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_boya_badana_pazarligi_01",
+  "tags": [
+    "ev",
+    "ilan",
+    "tadilat",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 35
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Boyayı siz yaparsanız ilk ay kira yok. Boyayı aldım bile, rengi \"kirli beyaz\".",
+      "en": "Paint it yourself and the first month is free. I've already bought the paint. The color's called \"off-white.\""
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Tavan dahil. Bir de kapılar. Kapılar tavandan kolaydır.",
+      "en": "Ceiling included. And the doors. Doors are easier than ceilings.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "boya",
+      "tr": "Kendin boya",
+      "en": "Paint it yourself",
+      "pattern": "overwork"
+    },
+    {
+      "id": "usta",
+      "tr": "Usta tut, parasını öde",
+      "en": "Hire a painter and pay",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "iki",
+      "tr": "İki ay kirasız iste",
+      "en": "Ask for two months free",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "boya": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "flags": {
+          "add": [
+            "evi_kendin_boyadin"
+          ]
+        }
+      },
+      "tr": "Üç hafta sonu boyadın, bir ay kira ödemedin. Tavandaki bir fırça izi seni her sabah selamlıyor.",
+      "en": "Three weekends of painting, one month rent-free. A brush stroke on the ceiling greets you every morning.",
+      "coach": [
+        {
+          "tr": "Bir ay kira yok. Fırça izi kalıcı.",
+          "en": "One month rent-free. The brush stroke is permanent.",
+          "roast": true
+        }
+      ]
+    },
+    "usta": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "flags": {
+          "add": [
+            "usta_boyadi"
+          ]
+        }
+      },
+      "tr": "Ustaya 900 Para verdin, iki günde bitirdi. Kapılara da \"kirli beyaz\" sürdü; kapılar ahşaptı.",
+      "en": "You paid a painter 900 and he finished in two days. He did the doors in \"off-white\" too. The doors used to be wood.",
+      "coach": [
+        {
+          "tr": "İki gün, 900 Para. Kapılar da takıma katıldı.",
+          "en": "Two days, nine hundred. The doors joined team off-white.",
+          "roast": false
+        }
+      ]
+    },
+    "iki": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "housing": "flat",
+          "status": {
+            "home": {
+              "kind": "flat",
+              "rent": 1600
+            }
+          },
+          "flags": {
+            "add": [
+              "iki_ay_kirasiz"
+            ]
+          }
+        },
+        "tr": "İki ay dedin. Ev sahibi düşündü, kabul etti: \"Ama balkon korkulukları da.\"",
+        "en": "You asked for two months. The landlord thought it over and agreed. \"But the balcony railings too.\"",
+        "coach": [
+          {
+            "tr": "İki ay kirasız. Korkuluklar hediye paketi.",
+            "en": "Two months free. Railings gift-wrapped.",
+            "roast": false
+          },
+          {
+            "tr": "Zarf kalınlaştı: iki kira cepte.",
+            "en": "Envelope thicker: two rents saved.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "ev_aramaya_devam"
+            ]
+          }
+        },
+        "tr": "Ev sahibi \"bir ay bile çok\" dedi ve boya kutusunu sıradaki adaya uzattı.",
+        "en": "The landlord said \"one month is already generous\" and handed the paint can to the next applicant.",
+        "coach": [
+          {
+            "tr": "Boya kutusu el değiştirdi.",
+            "en": "The paint can changed hands.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "iki",
+    "slip": {
+      "tr": "İDDİA: İkinci ay kirasız olmaz. — M.",
+      "en": "WAGER: No second free month. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev sahibinin \"boyayı sen yap, ilk ay kira yok\" teklifi",
+    "mechanism": "işin büyümesi: tavan, kapılar, korkuluklar",
+    "mechanismId": "escalation",
+    "punch": "kapılar tavandan kolaydır",
+    "lift": "zarf kalınlaştı, iki kira cepte",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "firca"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

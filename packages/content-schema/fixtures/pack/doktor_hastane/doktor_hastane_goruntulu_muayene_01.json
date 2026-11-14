@@ -1,0 +1,181 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "doktor_hastane_goruntulu_muayene_01",
+  "tags": [
+    "saglik",
+    "doktor",
+    "uzaktan",
+    "doktor_hastane"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "doktor_hastane": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:doctor",
+      "avatar": "neutral",
+      "tr": "Boğazınıza bakmam lazım. Telefonu ağzınıza yaklaştırın. Daha. Daha.",
+      "en": "I need to see your throat. Bring the phone to your mouth. Closer. Closer."
+    },
+    {
+      "speaker": "npc:doctor",
+      "avatar": "tired",
+      "tr": "Şimdi sadece diş görüyorum. Işığı açın. Tavan ışığını değil.",
+      "en": "Now I only see teeth. Turn on a light. Not the ceiling light.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "fener",
+      "tr": "El feneriyle dene",
+      "en": "Try with a flashlight",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "klinik",
+      "tr": "Kliniğe randevu al",
+      "en": "Book an in-person visit",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "kapat",
+      "tr": "\"Boğaz iyi\" de, kapat",
+      "en": "Say \"throat's fine\" and hang up",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "fener": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": 2,
+            "joy": 1
+          },
+          "money": -250,
+          "diagnosis": "bogaz_kizarikligi"
+        },
+        "tr": "Fener, telefon ve dil aynı anda doğru açıya geldi. Doktor \"kızarık ama masum\" dedi.",
+        "en": "Flashlight, phone, and tongue aligned at last. The doctor said, \"Red, but harmless.\"",
+        "coach": [
+          {
+            "tr": "Üç cihaz, tek açı.",
+            "en": "Three devices. One angle.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -250,
+          "flags": {
+            "add": [
+              "klinik_randevu"
+            ]
+          }
+        },
+        "tr": "Fener telefona çarptı, telefon lavaboya düştü. Doktor ekranın kenarından \"kliniğe gelin\" dedi.",
+        "en": "The flashlight knocked the phone into the sink. From the edge of the screen, the doctor said, \"Come in person.\"",
+        "coach": [
+          {
+            "tr": "Telefon lavaboda. Teşhis klinikte.",
+            "en": "Phone in the sink. Diagnosis at the clinic.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "klinik": {
+      "effects": {
+        "stats": {
+          "health": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -550,
+        "diagnosis": "bogaz_kizarikligi"
+      },
+      "tr": "Ertesi gün doktor dil basacağıyla iki saniyede baktı. Görüntülü görüşme de faturadaydı.",
+      "en": "Next day, the doctor looked for two seconds with a tongue depressor. The video call was still on the bill.",
+      "coach": [
+        {
+          "tr": "İki saniyelik bakış. İki faturalı gün.",
+          "en": "Two seconds of looking. Two days of billing.",
+          "roast": true
+        }
+      ]
+    },
+    "kapat": {
+      "effects": {
+        "stats": {
+          "health": -2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -250
+      },
+      "tr": "Görüşme bitti. Akşam boğaz kendi raporunu verdi: yutkunmak zor.",
+      "en": "Call over. That evening, your throat filed its own report: swallowing hurts.",
+      "coach": [
+        {
+          "tr": "Boğaz itiraz etti.",
+          "en": "The throat objected.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "görüntülü muayenede doktorun boğaza telefonla bakmaya çalışması",
+    "mechanism": "talimatların harfiyen izlenmesi",
+    "mechanismId": "literalism",
+    "punch": "daha. daha. şimdi sadece diş görüyorum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "aci"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

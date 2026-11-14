@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kucuk_rahatsizliklar_dis_hassasiyeti_01",
+  "tags": [
+    "saglik",
+    "kucuk_hastalik",
+    "dis",
+    "kucuk_rahatsizliklar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kucuk_rahatsizliklar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "flags": {
+      "any": [
+        "sevgili",
+        "nisanli",
+        "evli"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Dondurmayı ısırıyor musun? Kim dondurma ısırır?",
+      "en": "Are you biting the ice cream? Who bites ice cream?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Bir dakika. Yüzün dondu. Kaşık getireyim mi?",
+      "en": "Hold on. Your face froze. Should I get you a spoon?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kasik",
+      "tr": "Kaşıkla devam et",
+      "en": "Switch to a spoon",
+      "pattern": "patience"
+    },
+    {
+      "id": "sicak",
+      "tr": "Sıcak çayla dengele",
+      "en": "Balance it with hot tea",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "isir",
+      "tr": "Isırmaya devam",
+      "en": "Keep biting",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    }
+  ],
+  "outcomes": {
+    "kasik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "dis_hassas"
+          ]
+        }
+      },
+      "tr": "Dondurmayı ön dişlere değdirmeden bitirdin. Yarım saat sürdü; son kaşıklar çorbaydı.",
+      "en": "You finished without touching your front teeth. It took half an hour. The last spoonfuls were soup.",
+      "coach": [
+        {
+          "tr": "Dondurma çorbası. Dişler sakin.",
+          "en": "Ice cream soup. Teeth at ease.",
+          "roast": false
+        }
+      ]
+    },
+    "sicak": {
+      "effects": {
+        "stats": {
+          "health": -1,
+          "joy": -1
+        }
+      },
+      "tr": "Arkasından sıcak çay içtin. Diş bu kez sıcağa itiraz etti.",
+      "en": "You chased it with hot tea. The tooth objected to that too.",
+      "coach": [
+        {
+          "tr": "Diş iki cepheden şikâyetçi.",
+          "en": "The tooth has filed complaints on two fronts.",
+          "roast": true
+        }
+      ]
+    },
+    "isir": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Isırdın, diş sustu. Partnerin alkışladı, sonra kendi dondurmasını kaşıkla yedi.",
+        "en": "You bit. The tooth kept quiet. Your partner applauded, then ate theirs with a spoon.",
+        "coach": [
+          {
+            "tr": "Gösteri başarılı. Seyirci kaşıkla izledi.",
+            "en": "Stunt successful. The audience watched with a spoon.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "dis_hassas"
+            ]
+          }
+        },
+        "tr": "Isırdın; ön dişte bir şimşek çaktı. Dondurma kaldırıma düştü.",
+        "en": "You bit, and lightning struck a front tooth. The ice cream hit the sidewalk.",
+        "coach": [
+          {
+            "tr": "Dondurma yerde. Kaşık temiz.",
+            "en": "Ice cream down. Spoon unused.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "isir",
+    "slip": {
+      "tr": "İDDİA: Dondurma dişi yener. — M.",
+      "en": "WAGER: The ice cream beats the tooth. — M."
+    }
+  },
+  "intent": {
+    "setup": "dondurmayı ısırınca ön dişte hassasiyet",
+    "mechanism": "partnerin \"yüzün dondu\" yorumu",
+    "mechanismId": "literalism",
+    "punch": "yüzün dondu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kasik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

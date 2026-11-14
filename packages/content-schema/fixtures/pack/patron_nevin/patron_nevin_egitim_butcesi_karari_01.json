@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_egitim_butcesi_karari_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 56
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "{name}, eğitim bütçesi yarıya indi. Ekipten iki kişinin kursundan biri kesilecek.",
+      "en": "{name}, the training budget's been halved. One of two people on the team loses their course."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Kararı sana bırakıyorum, ikisini de benden iyi tanıyorsun. Cuma akşamına kadar, sevgiyle.",
+      "en": "I'm leaving the call to you. You know them both better than I do. By Friday evening. Warmly.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sec",
+      "tr": "Birini seç, gerekçe yaz",
+      "en": "Pick one, write it up",
+      "pattern": "pride"
+    },
+    {
+      "id": "bol",
+      "tr": "Kursu ikiye bölmeyi dene",
+      "en": "Try to split the course",
+      "pattern": "patience",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "iade",
+      "tr": "Kararı Nevin Hanım'a iade et",
+      "en": "Hand the decision back",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "sec": {
+      "effects": {
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "kurs_karari"
+          ]
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -3
+          },
+          {
+            "role": "boss",
+            "memory": "zor_karar"
+          }
+        ]
+      },
+      "tr": "Gerekçeli bir seçim yaptın. Kursu kalan teşekkür etti, diğeri gerekçeyi isteyip iki kez okudu.",
+      "en": "You made the call with a written rationale. The one who kept the course thanked you. The other asked for the rationale and read it twice.",
+      "coach": [
+        {
+          "tr": "Gerekçe iki kez okundu. Okunmaya devam edecek.",
+          "en": "The rationale was read twice. It will be read again.",
+          "roast": false
+        }
+      ]
+    },
+    "bol": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 3
+            },
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Kurs firmasıyla konuştun ve iki kişiye yarım program alındı. Nevin Hanım çözümü yönetim toplantısında 'yaratıcı bütçeleme' diye sundu.",
+        "en": "You called the provider and got two half-programs. Ms. Carver presented it upstairs as 'creative budgeting.'",
+        "coach": [
+          {
+            "tr": "İki kişi, yarım kurs. Yukarıda daha süslü bir adı var.",
+            "en": "Two people, half a course each. It has a fancier name upstairs.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Firma bölünmüş program yapmıyormuş. Cuma akşamı geldi, karar yine masandaydı.",
+        "en": "The provider doesn't do split programs. Friday evening came, and the decision was still on your desk.",
+        "coach": [
+          {
+            "tr": "Cuma geldi. Karar seni beklemişti.",
+            "en": "Friday arrived. The decision had waited for you.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "iade": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2,
+            "memory": "karar_iade"
+          }
+        ]
+      },
+      "tr": "Kararı iade ettin. Nevin Hanım iki kursu da kesti ve ekibe 'eşitlik' konulu bir mail yazdı.",
+      "en": "You handed it back. Ms. Carver cut both courses and emailed the team about 'fairness.'",
+      "coach": [
+        {
+          "tr": "Eşitlik sağlandı. Herkese sıfır kurs.",
+          "en": "Fairness achieved. Zero courses, split evenly.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bol",
+    "slip": {
+      "tr": "İDDİA: Firma kursu bölmez. — M.",
+      "en": "WAGER: The provider won't split it. — M."
+    }
+  },
+  "intent": {
+    "setup": "patronun eğitim bütçesi kesintisinde kimin kursunun kesileceği kararını sana bırakması",
+    "mechanism": "zor kararın sonuna 'sevgiyle' eklenmesi",
+    "mechanismId": "deadpan_report",
+    "punch": "cuma akşamına kadar, sevgiyle",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "esitlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

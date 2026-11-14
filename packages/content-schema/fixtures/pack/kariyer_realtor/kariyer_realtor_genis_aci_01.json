@@ -1,0 +1,175 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_realtor_genis_aci_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "Fotoğrafları geniş açıyla çek. Salon kendini büyük hissetsin.",
+      "en": "Shoot it wide-angle. Let the living room feel big about itself."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Kırk metrekare dersen kimse aramaz. 'Ferah' dersen arar.",
+      "en": "Say forty square meters and nobody calls. Say 'airy' and they do."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "İlandaki salona bakmaya geldim ama burası koridor galiba.",
+      "en": "I came to see the living room from the ad. I think this is the hallway.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Koridoru salon diye anlat",
+      "en": "Pitch the hallway as a lounge",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "gercek",
+      "tr": "Gerçek metrekareyi söyle",
+      "en": "Give them the real square meters",
+      "pattern": "patience"
+    },
+    {
+      "id": "yeniden",
+      "tr": "İlanı bu akşam yeniden çek",
+      "en": "Reshoot the listing tonight",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "anlat": {
+      "effects": {
+        "meters": {
+          "cringe": 3
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 1
+          },
+          {
+            "role": "npc:stranger",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Koridoru 'giriş salonu' diye anlattın. Müşteri ayakkabılarını çıkarmadan gitti.",
+      "en": "You presented the hallway as a 'foyer lounge.' The viewer left without taking their shoes off.",
+      "coach": [
+        {
+          "tr": "Salon büyük hissetti. Müşteri küçük hissetti.",
+          "en": "The room felt big. The viewer felt small.",
+          "roast": true
+        }
+      ]
+    },
+    "gercek": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          },
+          {
+            "role": "boss",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_ilan_duzeltildi"
+          ]
+        }
+      },
+      "tr": "Kırk metrekare dedin. Müşteri teşekkür edip bir arkadaşını sana yönlendirdi, patron ilan metnini geri istedi.",
+      "en": "You said forty square meters. The viewer thanked you and sent a friend your way. The boss asked for the listing copy back.",
+      "coach": [
+        {
+          "tr": "Bir dürüst rakam, bir yönlendirme.",
+          "en": "One honest number, one referral.",
+          "roast": false
+        }
+      ]
+    },
+    "yeniden": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": 600
+      },
+      "tr": "Akşam normal lensle yeniden çektin. Gelen üç kişiden biri evi tuttu, komisyonun 600 Para.",
+      "en": "You reshot it that evening with a normal lens. One of the next three viewers took it. Commission: 600.",
+      "coach": [
+        {
+          "tr": "Normal lens, normal oda, bir imza.",
+          "en": "Normal lens. Normal room. One signature.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacına 600 Para.",
+          "en": "Goal counter: plus 600.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "geniş açıyla çekilmiş ilan fotoğrafındaki salonu görmeye gelen müşteri koridorda kalıyor",
+    "mechanism": "patronun \"salon kendini büyük hissetsin\" talimatı birebir uygulanıyor",
+    "mechanismId": "literalism",
+    "punch": "burası koridor galiba",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "koridor"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

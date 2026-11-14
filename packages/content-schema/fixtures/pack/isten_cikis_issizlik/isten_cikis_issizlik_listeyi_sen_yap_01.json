@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_listeyi_sen_yap_01",
+  "tags": [
+    "is",
+    "isten_cikarma",
+    "yonetici",
+    "ekip",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 7500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "career": {
+      "employed": true,
+      "minRung": 1
+    },
+    "stats": {
+      "joy": {
+        "min": 30
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Ekibinden iki kişi çıkacak. İsimleri sen vereceksin. Cumaya kadar.",
+      "en": "Two people from your team are going. You will give me the names. By Friday."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Kriterler size bırakıldı. Yalnız gerekçeyi tek cümleyle yazmanız gerekiyor. Form öyle.",
+      "en": "The criteria are left to you. The justification must fit in one sentence, though. That is how the form works.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "İki isim yaz",
+      "en": "Write two names",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "gonullu",
+      "tr": "Önce gönüllü olan var mı sor",
+      "en": "Ask for volunteers first",
+      "pattern": "patience",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "kendin",
+      "tr": "Listeye kendi adını yaz",
+      "en": "Put your own name on the list",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "stats": {
+          "joy": -6
+        },
+        "hidden": {
+          "stress": 8
+        },
+        "npc": [
+          {
+            "role": "npc:coworker",
+            "affinity": -4
+          }
+        ],
+        "flags": {
+          "add": [
+            "hayatta_kalan",
+            "liste_veren"
+          ]
+        }
+      },
+      "tr": "İki ismi yazdın. Gerekçe kutusu 140 karakter alıyordu; ikisi de sığdı.",
+      "en": "You wrote two names. The justification box took 140 characters. Both fit.",
+      "coach": [
+        {
+          "tr": "İki isim. Cumadan önce.",
+          "en": "Two names. Before Friday.",
+          "roast": false
+        }
+      ]
+    },
+    "gonullu": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "hayatta_kalan"
+            ]
+          }
+        },
+        "tr": "Ekibe açıkça sordun. İki kişi paketle ayrılmayı kendisi istedi; biri zaten başka yere başvurmuş.",
+        "en": "You asked the team openly. Two people chose to take the package. One had already applied elsewhere.",
+        "coach": [
+          {
+            "tr": "Soru soruldu. İki el kalktı.",
+            "en": "The question was asked. Two hands went up.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -5
+          },
+          "hidden": {
+            "stress": 7
+          },
+          "npc": [
+            {
+              "role": "npc:coworker",
+              "affinity": -2
+            }
+          ],
+          "flags": {
+            "add": [
+              "hayatta_kalan",
+              "liste_veren"
+            ]
+          }
+        },
+        "tr": "Kimse gönüllü olmadı. Ekip artık listeyi biliyor; isimleri yine sen yazdın.",
+        "en": "Nobody volunteered. The team knows about the list now. You wrote the names anyway.",
+        "coach": [
+          {
+            "tr": "Liste aynı masada yazıldı.",
+            "en": "The list was written at the same desk.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kendin": {
+      "effects": {
+        "career": {
+          "fire": true
+        },
+        "money": 4000,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 5
+        },
+        "meters": {
+          "ego": 3
+        },
+        "flags": {
+          "add": [
+            "isten_cikarildi",
+            "gonullu_ayrildi"
+          ]
+        }
+      },
+      "tr": "Listeye bir ekip üyesini ve kendini yazdın. İK \"usule uygun\" dedi; kıdem ve paket 4.000 Para olarak hesaplandı.",
+      "en": "You listed one team member and yourself. HR called it \"procedurally valid.\" Severance and package came to 4,000.",
+      "coach": [
+        {
+          "tr": "Kendi adın. Form itiraz etmedi.",
+          "en": "Your own name. The form raised no objection.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "yönetici olarak ekibinden çıkarılacak iki kişiyi seçmek zorunda kalmak",
+    "mechanism": "ağır karar tek cümlelik form kutusuna sığdırılıyor",
+    "mechanismId": "understatement",
+    "punch": "gerekçeyi tek cümleyle yazmanız gerekiyor, form öyle",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "cuma",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "dayi_yemek_yarismasi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "aile",
+    "yemek",
+    "mahalle",
+    "dayi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "dayi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 58
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Mahalle yarışmasına biber dolmasıyla giriyorum. Sen yardımcı aşçısın. Sadece pirinci yıkayacaksın.",
+      "en": "I'm entering the neighborhood cook-off with stuffed peppers. You're sous-chef. You just wash the rice."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Tarif gizli. Senden de. Pirinci gözünü kapatıp yıka.",
+      "en": "The recipe is secret. Even from you. Wash the rice with your eyes closed.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "yika",
+      "tr": "Gözün kapalı yıka",
+      "en": "Wash it blind",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tuz",
+      "tr": "Gizlice tuz ekle",
+      "en": "Sneak in some salt",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sunum",
+      "tr": "Sunumu sen üstlen",
+      "en": "Take over the plating",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "yika": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "yemek_yarismasi_ucuncu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 4
+          }
+        ]
+      },
+      "tr": "Dolma üçüncü oldu. Dayın kürsüde yardımcı aşçısının pirinci \"kusursuz\" yıkadığını söyledi.",
+      "en": "The peppers placed third. On the podium your uncle said his sous-chef washed the rice \"flawlessly.\"",
+      "coach": [
+        {
+          "tr": "Pirinç tam puan aldı.",
+          "en": "The rice got full marks.",
+          "roast": false
+        }
+      ]
+    },
+    "tuz": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "meters": {
+            "ego": 3
+          },
+          "money": 300,
+          "flags": {
+            "add": [
+              "yemek_yarismasi_birinci"
+            ]
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Dolma birinci oldu, ödül 300 Para. Dayın jüriye tarifin \"yıllardır aynı\" olduğunu söyledi.",
+        "en": "First place, 300 in prize money. Your uncle told the judges the recipe \"hasn't changed in years.\"",
+        "coach": [
+          {
+            "tr": "Gizli tarif. Gizli tuz.",
+            "en": "Secret recipe. Secret salt.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "npc": [
+            {
+              "role": "uncle",
+              "affinity": -3,
+              "memory": "tuz_ekledi"
+            }
+          ]
+        },
+        "tr": "Tuz fazla geldi, jüri su istedi. Dayın sabotaj olduğunu açıkladı, yalnızca bakışlarıyla.",
+        "en": "Too salty. The judges asked for water. Your uncle announced sabotage, using only his eyes.",
+        "coach": [
+          {
+            "tr": "Açıklama sözsüz yapıldı.",
+            "en": "A statement was issued, nonverbally.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sunum": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "charm": 2
+        },
+        "flags": {
+          "add": [
+            "yemek_yarismasi_sunum"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Dolmaları yıldız biçiminde dizdin. Jüri sunuma özel ödül verdi; dayın belgeyi cüzdanında taşıyor.",
+      "en": "You arranged them in a star. The judges gave a special award for plating. Your uncle keeps the certificate in his wallet.",
+      "coach": [
+        {
+          "tr": "Sunum ödülü. Cüzdanda.",
+          "en": "Plating award. Wallet-sized.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tuz",
+    "slip": {
+      "tr": "İDDİA: Tuz yakalanır. — M.",
+      "en": "WAGER: The salt gets caught. — M."
+    }
+  },
+  "intent": {
+    "setup": "dayının mahalle yemek yarışmasına dolmayla girip seni yalnızca pirinç yıkayan yardımcı aşçı yapması",
+    "mechanism": "en küçük görev kürsüde büyütülüyor",
+    "mechanismId": "understatement",
+    "punch": "pirinci gözünü kapatıp yıka",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tuz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_kart_alisverisi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "para",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Kartını bir kere kullandım. Kargo sana gelecek. Sürpriz değil ama açma.",
+      "en": "I used your card once. A package is coming to you. It's not a surprise, but don't open it."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Ay sonu öderim. Ya da ayın ortası. Ayın bir yerinde.",
+      "en": "I'll pay you at the end of the month. Or the middle. Somewhere in the month.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ac",
+      "tr": "Kargoyu aç",
+      "en": "Open the package",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "bekle",
+      "tr": "Ödemeyi bekle",
+      "en": "Wait for the payment",
+      "pattern": "patience"
+    },
+    {
+      "id": "sil",
+      "tr": "Kayıtlı kartını sil",
+      "en": "Delete your saved card",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "ac": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -700,
+        "flags": {
+          "add": [
+            "kardes_kart_borcu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Kutudan 700 Para'lık bir masaj aleti çıktı. Kardeşin \"anneme hediye, o yüzden açma dedim\" dedi.",
+      "en": "Inside: a massage gadget worth 700. \"It's for Mom,\" your sibling said. \"That's why I said don't open it.\"",
+      "coach": [
+        {
+          "tr": "Annenin hediyesi senin kartından.",
+          "en": "Mom's gift, courtesy of your card.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "money": -700,
+        "flags": {
+          "add": [
+            "kardes_kart_borcu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2,
+            "memory": "kart_borcu_bekliyor"
+          }
+        ]
+      },
+      "tr": "Ay bitti, ödeme gelmedi. Kardeşin ayın \"bir yeri\"nin henüz gelmediğini söyledi.",
+      "en": "The month ended. No payment. Your sibling explained that \"somewhere in the month\" hasn't arrived yet.",
+      "coach": [
+        {
+          "tr": "Takvim kardeşinden yana.",
+          "en": "The calendar is on your sibling's side.",
+          "roast": false
+        }
+      ]
+    },
+    "sil": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "money": -700,
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -1,
+            "memory": "kart_silindi"
+          }
+        ]
+      },
+      "tr": "Kartını sildin. Ertesi gün kardeşin aynı mağazadan annenin kartıyla sipariş verdi.",
+      "en": "You deleted your card. Next day your sibling ordered from the same store using Mom's card.",
+      "coach": [
+        {
+          "tr": "Kart değişti. Mağaza aynı.",
+          "en": "Different card. Same store.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kardeşinin senin kartınla internetten alışveriş yapıp kargoyu senin adresine yollaması",
+    "mechanism": "ödeme tarihi ayın belirsiz bir yerine yayılıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "ayın bir yerinde",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "magaza"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

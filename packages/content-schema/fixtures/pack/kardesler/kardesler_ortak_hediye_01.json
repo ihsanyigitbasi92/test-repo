@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_ortak_hediye_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "para",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Annemin hediyesini ortak alalım. Sen öde, ben payımı sonra atarım.",
+      "en": "Let's go halves on Mom's present. You pay now, I'll send my half later."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Kartta ikimizin adı olsun. Benimki önde, alfabetik.",
+      "en": "Both our names on the card. Mine goes first. Alphabetical.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Öde, kartı imzala",
+      "en": "Pay, sign the card",
+      "pattern": "generosity"
+    },
+    {
+      "id": "simdi",
+      "tr": "Payını şimdi iste",
+      "en": "Ask for the half now",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "ayri",
+      "tr": "Ayrı hediye al",
+      "en": "Buy your own gift",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -600,
+        "flags": {
+          "add": [
+            "kardes_hediye_payi_bekleniyor"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Hediye alındı, 600 Para. Kartta önce kardeşinin adı var.",
+      "en": "Gift bought: 600. Your sibling's name is first on the card.",
+      "coach": [
+        {
+          "tr": "Kartta iki isim, fişte bir.",
+          "en": "Two names on the card. One on the receipt.",
+          "roast": true
+        }
+      ]
+    },
+    "simdi": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": -300,
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Kardeşin 300 Para'yı oracıkta gönderdi. Açıklama: \"faiziyle\".",
+        "en": "Your sibling sent the 300 on the spot. Memo: \"with interest.\"",
+        "coach": [
+          {
+            "tr": "Yarısı yarısı. Bu sefer gerçekten.",
+            "en": "Half and half. Actually, this time.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "money": -600,
+          "flags": {
+            "add": [
+              "kardes_hediye_payi_bekleniyor"
+            ]
+          }
+        },
+        "tr": "Kardeşin \"maaş günü\" dedi. Maaş gününün tarihi verilmedi.",
+        "en": "Your sibling said \"payday.\" No date was given for payday.",
+        "coach": [
+          {
+            "tr": "Ayın otuz ikisi. Yakında.",
+            "en": "The thirty-second of the month. Any day now.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ayri": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "money": -350
+      },
+      "tr": "İki ayrı hediye. Annen kardeşinin atkısını taktı, seninkini \"özel günlere\" ayırdı.",
+      "en": "Two gifts. Mom put on your sibling's scarf and saved yours \"for special occasions.\"",
+      "coach": [
+        {
+          "tr": "Seninki dolapta. Özel gün bekliyor.",
+          "en": "Yours is in the closet, waiting for an occasion.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "simdi",
+    "slip": {
+      "tr": "İDDİA: O yarım bugün gelmez. — M.",
+      "en": "WAGER: That half isn't coming today. — M."
+    }
+  },
+  "intent": {
+    "setup": "anneye ortak hediye, kardeş payını sonra ödeyecek",
+    "mechanism": "iki isim, tek ödeyen",
+    "mechanismId": "count",
+    "punch": "kartta iki isim, fişte bir",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sayim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lawyer_ilk_durusma_01",
+  "tags": [
+    "kariyer",
+    "avukat",
+    "kariyer_lawyer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lawyer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 23,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "lawyer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Köprüde kaldım. Duruşma onda, sen gir. Dosya çantada, çanta bende.",
+      "en": "I'm stuck on the bridge. Hearing's at ten, you go in. The file's in the bag. The bag's with me."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Sadece erteleme isteyeceksin. Muhtemelen.",
+      "en": "You're just asking for a postponement. Most likely.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "notlar",
+      "tr": "Telefondaki notlarla gir",
+      "en": "Go in with notes on your phone",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kalem",
+      "tr": "Kalemden dosya kopyası iste",
+      "en": "Ask the clerk for a copy",
+      "pattern": "patience"
+    },
+    {
+      "id": "bekle",
+      "tr": "Kapıda kıdemliyi bekle",
+      "en": "Wait at the door for the senior",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "notlar": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "lawyer_ilk_durusma"
+            ]
+          }
+        },
+        "tr": "Erteleme talebini dört cümleyle yaptın, kabul edildi. Kıdemli 10.25'te koşarak geldi, iş bitmişti.",
+        "en": "You made the request in four sentences. Granted. The senior ran in at 10:25 to find it all done.",
+        "coach": [
+          {
+            "tr": "Dört cümle, bir erteleme. Çanta hâlâ köprüde.",
+            "en": "Four sentences, one postponement. The bag is still on the bridge.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": -3,
+            "cringe": 4
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Telefonun ekranı salonda kendiliğinden kilitlendi. Talebi ezberden yaptın, sesin iki kez çatladı.",
+        "en": "Your phone locked itself mid-hearing. You recited the request from memory, and your voice cracked twice.",
+        "coach": [
+          {
+            "tr": "Ekran kilitlendi, ses çatladı, talep geçti. Üçte bir.",
+            "en": "Screen locked, voice cracked, request granted. One for three.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kalem": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "npc:clerk",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Kalem kopyayı on dakikada çıkardı. Salona dosyanın tamamıyla, iki dakika geç girdin.",
+      "en": "The clerk had a copy ready in ten minutes. You walked in with the whole file, two minutes late.",
+      "coach": [
+        {
+          "tr": "İki dakika geç, tam dosyalı. Hesap tutuyor.",
+          "en": "Two minutes late, fully filed. The math holds.",
+          "roast": false
+        }
+      ]
+    },
+    "bekle": {
+      "effects": {
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -3
+          }
+        ],
+        "hidden": {
+          "stress": 2
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Kıdemli 10.40'ta geldi, duruşma 10.05'te ertelenmişti. Tutanağa \"vekil gelmedi\" yazıldı.",
+      "en": "The senior arrived at 10:40. The hearing had been postponed at 10:05, and the record read: counsel absent.",
+      "coach": [
+        {
+          "tr": "Kapı iyi korundu. İçerideki salon da çoktan dağılmıştı.",
+          "en": "The door was well guarded. The courtroom had already emptied.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "notlar",
+    "slip": {
+      "tr": "İDDİA: Telefon seni yarı yolda bırakır. — M.",
+      "en": "WAGER: The phone quits on you halfway. — M."
+    }
+  },
+  "intent": {
+    "setup": "kıdemli yolda kalınca stajyer ilk duruşmaya dosyasız tek başına giriyor",
+    "mechanism": "dosya çantada, çanta kıdemlide; görev zinciri tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "dosya çantada, çanta bende",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kopru"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_ekipman_iadesi_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "ekipman",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": false
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true,
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Sana kargo kutusu geldi. Üstünde \"Ayrılan Personel\" yazıyor, kapıcıya da öyle söylemişler.",
+      "en": "A box came for you. It says \"Departing Employee\" on it. That's what they told the doorman, too."
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "typing",
+      "tr": "Bilgisayar, şarj adaptörü, kablolar ve fare alıcısı. Eksik parça bedeli son ödemenizden düşülür.",
+      "en": "Laptop, charger, cables and mouse receiver. Missing items come out of your final payment.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "worried",
+      "tr": "Şarj aletini ben almıştım bu arada. O beyaz kablo da şu an benim telefonda.",
+      "en": "I borrowed your charger, by the way. And that white cable? It's on my phone right now.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "topla",
+      "tr": "Her parçayı topla, gönder",
+      "en": "Gather every piece, ship it",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "eksik",
+      "tr": "Ne varsa onu gönder",
+      "en": "Send whatever's handy",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "kablo",
+      "tr": "Kabloyu bırak, bedelini öde",
+      "en": "Let them keep the cable, pay for it",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "topla": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "ekipman_iade"
+            ]
+          }
+        },
+        "tr": "Adaptör koltuğun altından, kablo ev arkadaşının telefonundan çıktı. Kutu tam gitti, son ödemen kesintisiz yattı.",
+        "en": "The charger turned up under the couch. The cable came off your roommate's phone. Full box shipped. Final payment, in full.",
+        "coach": [
+          {
+            "tr": "Bir kutu, sıfır kesinti.",
+            "en": "One box. Zero deductions.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -80,
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "ekipman_iade"
+            ]
+          },
+          "glossary": "ekipman_mahsup"
+        },
+        "tr": "Kutu gitti ama fare alıcısı yanında değilmiş. Son ödemenden 80 Para düşüldü.",
+        "en": "The box went, but the mouse receiver wasn't in it. Eighty off your final payment.",
+        "coach": [
+          {
+            "tr": "Parmak ucu kadar parça, 80 Para.",
+            "en": "A part the size of a fingertip. Eighty.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "eksik": {
+      "effects": {
+        "money": -150,
+        "stats": {
+          "joy": -2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "ekipman_iade"
+          ]
+        }
+      },
+      "tr": "Adaptörsüz gönderdin. Son ödemenden 150 Para kesildi; bilgi işlem \"teşekkür ederiz\" yazdı.",
+      "en": "You shipped it without the charger. 150 came off your final payment. IT replied: \"Thank you.\"",
+      "coach": [
+        {
+          "tr": "Bilgi işlem teşekkür etti. Kesinti de geldi.",
+          "en": "IT said thanks. The deduction said it louder.",
+          "roast": true
+        }
+      ]
+    },
+    "kablo": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "ekipman_iade"
+          ]
+        }
+      },
+      "tr": "Kabloyu ev arkadaşına bıraktın, bedelini kendin ödedin: 40 Para. Ev arkadaşın o akşam yemek ısmarladı.",
+      "en": "You let your roommate keep the cable and paid for it yourself: forty. They bought dinner that night.",
+      "coach": [
+        {
+          "tr": "Kırk Paralık kablo, altmış Paralık yemek getirdi.",
+          "en": "A cable worth forty brought back a dinner worth sixty.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "işten çıkınca şirket ekipmanını kargoyla iade etmek",
+    "mechanism": "her eksik parça son ödemeden sayılarak düşülüyor",
+    "mechanismId": "count",
+    "punch": "kutunun üstünde ayrılan personel yazıyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kutu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

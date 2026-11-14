@@ -1,0 +1,216 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "uyku_uyurgezer_ev_arkadasi_01",
+  "tags": [
+    "saglik",
+    "ev_arkadasi",
+    "gece",
+    "uyku"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "uyku": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "text": [
+    {
+      "id": "setup",
+      "tr": "Sabah. Buzdolabında üstüne adını yazdığın yoğurt boş. Kaşık lavaboda.",
+      "en": "Morning. The yogurt with your name on it is empty. The spoon is in the sink."
+    }
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "tired",
+      "tr": "Ben mi? Ben onda yattım. Uyurken yemek yemem.",
+      "en": "Me? I was in bed by ten. I don't eat in my sleep."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Gerçi annem küçükken bir kere balkonda bulmuş beni. Ama o eskidendi.",
+      "en": "Although my mom once found me on the balcony as a kid. But that was ages ago.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "yuzles",
+      "tr": "Gece nöbet tut, kanıt topla",
+      "en": "Stake out the kitchen",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "sakla",
+      "tr": "Yoğurdu en arkaya sakla",
+      "en": "Hide it at the back",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "ikinci",
+      "tr": "İki yoğurt al",
+      "en": "Buy two yogurts",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "yuzles": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": 1
+            }
+          ],
+          "flags": {
+            "add": [
+              "uyurgezer_kaniti"
+            ]
+          }
+        },
+        "tr": "Gece yarısı fotoğrafını çektin: gözler kapalı, kaşık elde. Ev arkadaşın ertesi gün sana iki yoğurt aldı.",
+        "en": "You got the midnight photo: eyes shut, spoon in hand. Next day your roommate bought you two yogurts.",
+        "coach": [
+          {
+            "tr": "Bir fotoğraf, iki yoğurt.",
+            "en": "One photo. Two yogurts.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "uyurgezer_supheli"
+            ]
+          }
+        },
+        "tr": "Sabaha kadar mutfağı bekledin, dörtte uyuyakaldın. Uyandığında yoğurt boştu, kaşık senin elindeydi.",
+        "en": "You watched the kitchen until four, then dozed off. You woke up holding an empty yogurt and the spoon.",
+        "coach": [
+          {
+            "tr": "Dava kapandı. Kaşık sende.",
+            "en": "Case closed. You have the spoon.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sakla": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "yogurt_saklandi"
+          ]
+        }
+      },
+      "tr": "Yoğurdu sebzeliğin altına sakladın. Sabah yoğurt yerindeydi, havuçlar yoktu.",
+      "en": "You hid the yogurt under the crisper drawer. By morning the yogurt was safe and the carrots were gone.",
+      "coach": [
+        {
+          "tr": "Yoğurt kurtuldu. Havuçlar feda edildi.",
+          "en": "The yogurt survived. The carrots took the hit.",
+          "roast": false
+        }
+      ]
+    },
+    "ikinci": {
+      "effects": {
+        "money": -60,
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "İki yoğurt aldın, birine onun adını yazdın. Sabah ikisi de boştu.",
+      "en": "You bought two and wrote their name on one. By morning both were empty.",
+      "coach": [
+        {
+          "tr": "Etiket iki, kaşık bir.",
+          "en": "Two labels. One spoon.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yuzles",
+    "slip": {
+      "tr": "İDDİA: Nöbette ilk uyuyan sen olursun. — M.",
+      "en": "WAGER: You fall asleep on your own stakeout. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının uyurgezerken buzdolabındaki etiketli yoğurdunu yemesi",
+    "mechanism": "inkâr eden ev arkadaşı; nöbet tutan sen kaşıkla uyanıyorsun",
+    "mechanismId": "reversal",
+    "punch": "uyandığında kaşık senin elindeydi",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kasik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

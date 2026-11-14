@@ -1,0 +1,238 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "apartman_komsuluk_aidat_listesi_01",
+  "tags": [
+    "ev",
+    "komsu",
+    "evrak",
+    "aidat",
+    "apartman_komsuluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "apartman_komsuluk": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 40
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "LALE APARTMANI YÖNETİM KURULU (kurgusal)",
+      "en": "TULIP COURT MANAGEMENT COMMITTEE (fictional)"
+    },
+    "body": {
+      "tr": "Aşağıda daire numaraları yazılı sakinlerimizin aidat ödemelerinde gecikme bulunmaktadır. Hassasiyetiniz için teşekkür ederiz.",
+      "en": "The flats listed below are behind on their monthly dues. Thank you for your understanding."
+    },
+    "translate": {
+      "tr": {
+        "from": "Hassasiyetiniz için teşekkür ederiz",
+        "to": "listede tek daire var, o da senin"
+      },
+      "en": {
+        "from": "Thank you for your understanding",
+        "to": "there is one flat on the list, and it's yours"
+      }
+    },
+    "glossaryKey": "hassasiyet"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Panodaki listeyi gördün mü? Tek satırlık.",
+      "en": "Seen the list on the noticeboard? It's one line long."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Yönetici astı. Ben bir şey demedim, liste dedi.",
+      "en": "The manager put it up. I didn't say a word. The list did.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Hemen öde",
+      "en": "Pay right now",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "dekont",
+      "tr": "Ödeme dekontunu bul",
+      "en": "Dig up your payment receipt",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "bekle",
+      "tr": "Maaş gününü bekle",
+      "en": "Wait for payday",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "money": -800,
+        "flags": {
+          "add": [
+            "aidat_odendi"
+          ]
+        }
+      },
+      "tr": "Aidatı ödedin, 800 Para. Liste o akşam indi, raptiyesi panoda kaldı.",
+      "en": "You paid the 800. The list came down that evening. The thumbtack stayed.",
+      "coach": [
+        {
+          "tr": "Liste gitti. Raptiye hatırlıyor.",
+          "en": "The list is gone. The thumbtack remembers.",
+          "roast": false
+        },
+        {
+          "tr": "Tek Hedef 800 uzaklaştı.",
+          "en": "The goal slipped 800 away.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "dekont": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -2
+          },
+          "flags": {
+            "add": [
+              "yanlis_daire_odemesi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Dekontta daire numarası 12 yerine 21 yazılmış. Yirmi bir numara senin sayende iki ay peşin ödemiş görünüyor.",
+        "en": "Your transfer said flat 21 instead of 12. Thanks to you, flat 21 is two months paid up.",
+        "coach": [
+          {
+            "tr": "Rakamlar yer değiştirmiş. Borç da.",
+            "en": "Two digits swapped places. So did the debt.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": -800,
+          "flags": {
+            "add": [
+              "aidat_odendi"
+            ]
+          }
+        },
+        "tr": "Dekont çıkmadı; otomatik ödeme talimatı geçen ay bitmiş. 800 Para ödendi, liste indi.",
+        "en": "No receipt. Your automatic payment had expired last month. You paid the 800 and the list came down.",
+        "coach": [
+          {
+            "tr": "Talimat bitmiş, liste başlamış.",
+            "en": "The standing order ended. The list began.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bekle": {
+      "effects": {
+        "stats": {
+          "joy": -3
+        },
+        "hidden": {
+          "stress": 4
+        },
+        "flags": {
+          "add": [
+            "aidat_listede"
+          ]
+        }
+      },
+      "tr": "Maaş gününe dört gün vardı. Dört gün boyunca merdivende herkes sana biraz uzun baktı.",
+      "en": "Payday was four days off. For four days, everyone on the stairs looked at you a little too long.",
+      "coach": [
+        {
+          "tr": "Dört gün, bir pano.",
+          "en": "Four days. One noticeboard.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü"
+  },
+  "intent": {
+    "setup": "panoya asılan aidat gecikme listesinde tek daire senin",
+    "mechanism": "\"hassasiyetiniz için\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "listede tek daire var",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "raptiye"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

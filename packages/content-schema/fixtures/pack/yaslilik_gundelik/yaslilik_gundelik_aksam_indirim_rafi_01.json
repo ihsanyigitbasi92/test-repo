@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_aksam_indirim_rafi_01",
+  "tags": [
+    "yaslilik",
+    "market",
+    "komsu",
+    "alisveris",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 70,
+      "max": 95
+    },
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Sarı etiketler sekiz buçukta yapışır. Şu an sekizi yirmi sekiz geçiyor. Arkanızda üç kişi var.",
+      "en": "Yellow stickers go on at eight-thirty. It's eight twenty-eight. There are three people behind you."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Yoğurt benim. Geçen hafta peyniri sen aldın, sıra bende.",
+      "en": "The yogurt is mine. You got the cheese last week. My turn.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "birak",
+      "tr": "Yoğurdu komşuya bırak",
+      "en": "Let her have the yogurt",
+      "pattern": "generosity"
+    },
+    {
+      "id": "hizli",
+      "tr": "Etikete uzan",
+      "en": "Reach for the sticker",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "tam",
+      "tr": "Tam fiyatlıyı al, git",
+      "en": "Buy full price and leave",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "birak": {
+      "effects": {
+        "money": -15,
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "indirim_sirasi"
+          ]
+        }
+      },
+      "tr": "Yoğurt komşuya gitti, sana yarı fiyatlı bir ekmek kaldı. Çıkışta 'haftaya peynir senin' dedi.",
+      "en": "The yogurt went to her. You got a half-price loaf. On the way out she said, 'Cheese is yours next week.'",
+      "coach": [
+        {
+          "tr": "Sıra kayda geçmedi ama biliniyor.",
+          "en": "The rotation isn't written down. Everyone knows it.",
+          "roast": false
+        }
+      ]
+    },
+    "hizli": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -20,
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Yoğurt sepetinde. Komşu kasada arkanda durdu ve tek kelime etmedi; bu sessizlik bir hafta sürecek.",
+        "en": "The yogurt is in your basket. She stood behind you at the register and said nothing. The silence will last a week.",
+        "coach": [
+          {
+            "tr": "Yoğurt kazandı.",
+            "en": "The yogurt won.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Görevli rafı senin önünde boşaltıp arabasına koydu. Etiketler depoda yapıştırılacakmış.",
+        "en": "The clerk cleared the shelf right in front of you and wheeled it away. The stickers go on in the back now.",
+        "coach": [
+          {
+            "tr": "Raf taşındı.",
+            "en": "The shelf moved.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tam": {
+      "effects": {
+        "money": -40,
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Tam fiyatlı yoğurdu alıp çıktın. Kasada fişe baktın, 25 Para farkı iki kez okudun.",
+      "en": "You paid full price and left. At the register you read the receipt and the difference twice.",
+      "coach": [
+        {
+          "tr": "Fiş iki kez okundu.",
+          "en": "Receipt read twice.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li iddia seçeneği yok"
+  },
+  "intent": {
+    "setup": "market kapanışında son kullanma tarihi yaklaşan ürünlere indirim etiketi yapıştırılmasını komşuyla beklemek",
+    "mechanism": "görevlinin dakika sayması ve komşunun sıra iddiası",
+    "mechanismId": "count",
+    "punch": "sıra bende",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "fis"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

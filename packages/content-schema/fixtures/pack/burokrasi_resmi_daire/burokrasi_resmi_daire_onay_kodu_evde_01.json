@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "burokrasi_resmi_daire_onay_kodu_evde_01",
+  "tags": [
+    "burokrasi",
+    "telefon",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 62,
+      "max": 85
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Telefonunuza bir onay kodu gönderdim. Üç dakika geçerli.",
+      "en": "I've sent a confirmation code to your phone. It's valid for three minutes."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "worried",
+      "tr": "Telefon evde mi? Şarjda mı? O zaman kod da evde, şarjda.",
+      "en": "Your phone's at home? Charging? Then the code is home too. Charging.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ev",
+      "tr": "Eve gidip gel",
+      "en": "Go home and come back",
+      "pattern": "patience"
+    },
+    {
+      "id": "taksi",
+      "tr": "Taksiyle git gel",
+      "en": "Take a cab there and back",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "yonetici",
+      "tr": "Yöneticiyle görüşmek iste",
+      "en": "Ask to see a supervisor",
+      "pattern": "pride",
+      "check": {
+        "base": 3000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "ev": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "onay_kodu_tamam"
+          ]
+        }
+      },
+      "tr": "Gidip gelmek iki saat sürdü. Görevli yeni kod gönderdi, telefon bu kez cebindeydi.",
+      "en": "There and back took two hours. The clerk sent a new code. This time the phone was in your pocket.",
+      "coach": [
+        {
+          "tr": "İki saat yol, altı hane.",
+          "en": "Two hours of travel for six digits.",
+          "roast": false
+        }
+      ]
+    },
+    "taksi": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -160,
+        "flags": {
+          "add": [
+            "onay_kodu_tamam"
+          ]
+        }
+      },
+      "tr": "Taksi kırk dakikada götürüp getirdi, 160 Para. Kod yeniden geldi, işlem bitti.",
+      "en": "The cab did it in forty minutes: 160. A new code arrived. Done.",
+      "coach": [
+        {
+          "tr": "Kod ücretsiz. Yolu yüz altmış.",
+          "en": "The code was free. Getting to it cost 160.",
+          "roast": false
+        }
+      ]
+    },
+    "yonetici": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "onay_kodu_tamam"
+            ]
+          }
+        },
+        "tr": "Yönetici kimliğine bakıp işlemi elle onayladı.",
+        "en": "A supervisor checked your ID and approved it by hand.",
+        "coach": [
+          {
+            "tr": "Bazen bir yüz, bir koddan hızlı.",
+            "en": "Sometimes a face beats a code.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "onay_kodu_yarin"
+            ]
+          }
+        },
+        "tr": "Yönetici sistemin elle onaya izin vermediğini söyledi. İşlem ertesi güne kaldı.",
+        "en": "The supervisor said the system doesn't allow manual approval. Back tomorrow.",
+        "coach": [
+          {
+            "tr": "Telefon evde dinleniyor. Sen yarın yine buradasın.",
+            "en": "The phone gets a rest day. You get a return trip.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "ileri yaşta resmî dairede onay kodunun evde şarjdaki telefona gitmesi",
+    "mechanism": "görevli kodun da evde şarj olduğunu söylüyor",
+    "mechanismId": "literalism",
+    "punch": "o zaman kod da evde, şarjda",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kod"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

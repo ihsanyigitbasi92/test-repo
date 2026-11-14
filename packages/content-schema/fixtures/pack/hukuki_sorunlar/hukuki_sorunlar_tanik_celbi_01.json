@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "hukuki_sorunlar_tanik_celbi_01",
+  "tags": [
+    "burokrasi",
+    "tanik",
+    "hukuki_sorunlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "hukuki_sorunlar": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Tanık sıfatıyla dinleneceksiniz. Gördüğünüzü anlatın, gördüğünüz kadarını.",
+      "en": "You'll be heard as a witness. Tell us what you saw. Only what you saw."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Siz gördünüz, değil mi? Ben sinyal vermiştim. Çok net vermiştim.",
+      "en": "You saw it, right? I signaled. I signaled very clearly.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "durust",
+      "tr": "Telefona baktığını söyle",
+      "en": "Admit you were on your phone",
+      "pattern": "patience"
+    },
+    {
+      "id": "kur",
+      "tr": "Sesleri hatırlayıp anlat",
+      "en": "Reconstruct it from the sounds",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ertele",
+      "tr": "Mazeret dilekçesi ver",
+      "en": "File an excuse to postpone",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "durust": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "glossary": "tanik_beyani",
+        "flags": {
+          "add": [
+            "tanik_dinlendi"
+          ]
+        }
+      },
+      "tr": "Telefona baktığını söyledin. Hâkim not aldı, tanıklığın 'olayı görmedi' diye geçti.",
+      "en": "You said you'd been looking at your phone. The judge wrote it down. Your testimony was entered as 'did not see the incident.'",
+      "coach": [
+        {
+          "tr": "Beş dakikalık tanıklık, tek cümle. Doğru cümle.",
+          "en": "Five minutes on the stand, one sentence. The right one.",
+          "roast": false
+        }
+      ]
+    },
+    "kur": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "brain": 2
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "glossary": "tanik_beyani",
+          "flags": {
+            "add": [
+              "tanik_dinlendi"
+            ]
+          }
+        },
+        "tr": "Fren sesini ve kornayı sırasıyla anlattın. Bilirkişi raporu senin sıranla birebir uyuştu.",
+        "en": "You described the brakes, then the horn, in order. The expert's report matched your sequence exactly.",
+        "coach": [
+          {
+            "tr": "Kulak tanığı olarak kayda geçtin.",
+            "en": "Entered into the record as an ear-witness.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "flags": {
+            "add": [
+              "tanik_dinlendi"
+            ]
+          }
+        },
+        "tr": "Kornayı frenden önce koydun. Karşı tarafın avukatı aynı soruyu üç kez sordu.",
+        "en": "You put the horn before the brakes. The other side's lawyer asked the same question three times.",
+        "coach": [
+          {
+            "tr": "Üç soru, üç farklı korna. Sıra karıştı.",
+            "en": "Three questions, three different horns. The order got lost.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ertele": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "tanik_ertelendi"
+          ]
+        }
+      },
+      "tr": "Dilekçen kabul edildi. Yeni duruşma tarihi doğum gününe denk geldi.",
+      "en": "Your excuse was accepted. The new hearing date landed on your birthday.",
+      "coach": [
+        {
+          "tr": "Takvim sana bir duruşma hediye etti.",
+          "en": "The calendar got you a hearing for your birthday.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia bu olayda yok"
+  },
+  "intent": {
+    "setup": "görmediğin bir maddi hasarlı kazaya tanık olarak çağrılmak",
+    "mechanism": "sürücü tanığından \"çok net\" sinyal onayı bekliyor",
+    "mechanismId": "deadpan_report",
+    "punch": "çok net vermiştim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "korna"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

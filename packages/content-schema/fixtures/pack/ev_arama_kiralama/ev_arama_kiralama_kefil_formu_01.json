@@ -1,0 +1,201 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "ev_arama_kiralama_kefil_formu_01",
+  "tags": [
+    "ev",
+    "ev",
+    "evrak",
+    "anne",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ],
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KİRACI ADAY BAŞVURU FORMU — KEFİL BÖLÜMÜ (kurgusal)",
+      "en": "TENANT APPLICATION — GUARANTOR SECTION (fictional)"
+    },
+    "body": {
+      "tr": "Kefilin aylık geliri kira bedelinin en az üç katı olmalıdır. Kefil, kiracının tüm borçlarından birlikte sorumludur.",
+      "en": "The guarantor's monthly income must be at least three times the rent. The guarantor is jointly liable for all of the tenant's debts."
+    },
+    "translate": {
+      "tr": {
+        "from": "tüm borçlarından birlikte sorumludur",
+        "to": "annen de seninle taşınmış sayılır"
+      },
+      "en": {
+        "from": "jointly liable for all of the tenant's debts",
+        "to": "your mom has basically moved in with you"
+      }
+    },
+    "glossaryKey": "kefil"
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "İmzalarım tabii. Bir şartla: anahtarın bir kopyası bende.",
+      "en": "Of course I'll sign. One condition: I get a copy of the key."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "smug",
+      "tr": "Her gün gelmem. Gelirsem haber veririm. Gelince.",
+      "en": "I won't come every day. If I do, I'll let you know. When I get there.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "anne",
+      "tr": "Annene imzalat, anahtarı ver",
+      "en": "Have Mom sign, give her a key",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "depozito",
+      "tr": "Kefil yerine ek depozito öner",
+      "en": "Offer a bigger deposit instead",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "kefilsiz",
+      "tr": "Kefil istemeyen ev ara",
+      "en": "Find a place with no guarantor",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "anne": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "money": -1400,
+        "flags": {
+          "add": [
+            "anne_kefil",
+            "annede_yedek_anahtar"
+          ]
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1400
+          }
+        }
+      },
+      "tr": "Annen imzaladı, yedek anahtar çantasına girdi. İlk ziyaret taşındığın akşam oldu; haber kapıdan geldi.",
+      "en": "Mom signed and the spare key went into her purse. The first visit came the night you moved in. The heads-up came from the doorstep.",
+      "coach": [
+        {
+          "tr": "Ev senin. Anahtar ikinizin.",
+          "en": "Your place. Your key. Hers too.",
+          "roast": false
+        }
+      ]
+    },
+    "depozito": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": -3400,
+        "flags": {
+          "add": [
+            "buyuk_depozito"
+          ]
+        },
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1400
+          }
+        }
+      },
+      "tr": "Kefil yerine iki aylık ek depozito verdin. Kira 1.400 Para; başlangıç 3.400.",
+      "en": "Instead of a guarantor, you paid two extra months' deposit. Rent: 1,400. Move-in cost: 3,400.",
+      "coach": [
+        {
+          "tr": "Kefil yok, anahtar tek. Mahremiyetin fiyatı 2.000 Para.",
+          "en": "No guarantor, one key. Price of privacy: 2,000.",
+          "roast": false
+        }
+      ]
+    },
+    "kefilsiz": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Kefilsiz ilanları taradın: üç tane çıktı. İkisi depo, biri çatı arası.",
+      "en": "You searched for no-guarantor listings. Three came up. Two were storage units, one was an attic.",
+      "coach": [
+        {
+          "tr": "Kefilsiz ev var. Pencere ayrıca.",
+          "en": "No-guarantor places exist. Windows sold separately.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "kira başvurusunda kefil şartı, anne yedek anahtar istiyor",
+    "mechanism": "\"birlikte sorumlu\" tercümesi",
+    "mechanismId": "translation",
+    "punch": "gelirsem haber veririm, gelince",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "anahtar"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

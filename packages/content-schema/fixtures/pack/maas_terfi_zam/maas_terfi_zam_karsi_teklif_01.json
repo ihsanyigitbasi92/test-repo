@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "maas_terfi_zam_karsi_teklif_01",
+  "tags": [
+    "is",
+    "maas",
+    "zam",
+    "maas_terfi_zam"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "maas_terfi_zam": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 36
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "annoyed",
+      "tr": "Duydum, başka yerden teklif almışsın. Kapıyı kapat lütfen.",
+      "en": "I hear you got an offer elsewhere. Close the door, please."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Bütçe yok demiştim, bütçe bulundu. Rakamı söyle, bakalım.",
+      "en": "I said there was no budget. A budget has been found. Tell me the number.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "npc:hr",
+      "avatar": "typing",
+      "tr": "Karşı teklif formunu hazırladım. Gerekçeye \"elde tutma\" yazıyorum.",
+      "en": "I've drafted the counteroffer form. Under reason I'm putting \"retention.\"",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "kal",
+      "tr": "Karşı teklifi kabul et",
+      "en": "Take the counteroffer",
+      "pattern": "patience"
+    },
+    {
+      "id": "ustu",
+      "tr": "Teklifin üstüne çık",
+      "en": "Ask for more than the offer",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "ego"
+      }
+    },
+    {
+      "id": "git",
+      "tr": "Yeni işe geç",
+      "en": "Take the new job",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kal": {
+      "effects": {
+        "money": 400,
+        "stats": {
+          "joy": 2
+        },
+        "meters": {
+          "ego": 3
+        },
+        "flags": {
+          "add": [
+            "karsi_teklif_kabul"
+          ]
+        }
+      },
+      "tr": "Kaldın. Maaşın ay sonundan itibaren 400 Para arttı; Nevin Hanım koridorda iki kez \"iyi ki\" dedi.",
+      "en": "You stayed. Pay up 400 a month from next month. Ms. Carver said \"so glad\" to you twice in the hallway.",
+      "coach": [
+        {
+          "tr": "İki yıl zam istedin, olmadı. Bir kez gidiyorum dedin, oldu.",
+          "en": "Two years of asking: nothing. One mention of leaving: done.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacı: aylık 400 fazla.",
+          "en": "Goal tracker: plus 400 a month.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "ustu": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": 700,
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 5
+          },
+          "flags": {
+            "add": [
+              "karsi_teklif_kabul"
+            ]
+          }
+        },
+        "tr": "Teklifin üstüne çıktın. Nevin Hanım yüzünü buruşturdu, İK formu yeniden yazdı: aylık 700 Para fazla.",
+        "en": "You went over the offer. Ms. Carver winced. HR redid the form: 700 more a month.",
+        "coach": [
+          {
+            "tr": "Rakamı sen söyledin, formu İK yazdı. Bu kez sıra doğruydu.",
+            "en": "You said the number. HR typed it. For once, in that order.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "ego": -3
+          },
+          "flags": {
+            "add": [
+              "teklif_kacti"
+            ]
+          }
+        },
+        "tr": "Nevin Hanım \"o kadarı olmaz\" dedi. Yeni şirket de o arada pozisyonu başkasına verdi.",
+        "en": "Ms. Carver said \"not that much.\" Meanwhile the other company gave the job to someone else.",
+        "coach": [
+          {
+            "tr": "İki masaya oturdun. İkisi de kalktı.",
+            "en": "You sat at two tables. Both got up.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "git": {
+      "effects": {
+        "money": 600,
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "istifa_verdi"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "isten_cikis_issizlik_veda_maili_01",
+            "delayDays": [
+              7,
+              14
+            ],
+            "chance": 10000
+          }
+        ]
+      },
+      "tr": "İstifanı verdin. Nevin Hanım veda kartına \"kapımız açık\" yazdı; yeni masan pencere kenarında.",
+      "en": "You handed in your notice. Ms. Carver wrote \"our door is always open\" in the card. Your new desk has a window.",
+      "coach": [
+        {
+          "tr": "Kapıyı açık bıraktılar. Sen öbüründen çıktın.",
+          "en": "They left the door open. You used a different one.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "ustu",
+    "slip": {
+      "tr": "İDDİA: Teklifin üstü masada kalır. — M.",
+      "en": "WAGER: Anything over the offer stays on the table. — M."
+    }
+  },
+  "intent": {
+    "setup": "rakip şirket teklifi sonrası patronun karşı teklif yapması",
+    "mechanism": "iki yıl yok denen bütçe istifa sinyaliyle bir anda bulunuyor",
+    "mechanismId": "reversal",
+    "punch": "bir kez gidiyorum dedin, oldu",
+    "lift": "hedef sayacı: aylık 400",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

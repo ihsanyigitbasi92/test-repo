@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_kariyer_gunu_standi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "kariyer_gunu",
+    "staj",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Özgeçmişinizi kutuya bırakabilirsiniz. Kutu dolunca yenisini getiriyoruz. Bu dördüncü kutu.",
+      "en": "You can leave your resume in the box. When a box fills up we bring another. This is box four."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bez çanta ister misiniz? Bu yıl staj kontenjanımız yok ama çantamız var.",
+      "en": "Would you like a tote bag? We have no internship openings this year, but we do have totes.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "konus",
+      "tr": "Kutuyu geç, yetkiliyle konuş",
+      "en": "Skip the box, talk to the rep",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "charm",
+        "goal": "kariyer"
+      }
+    },
+    {
+      "id": "canta",
+      "tr": "Stantları gez, çanta topla",
+      "en": "Tour the booths for free totes",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "sunum",
+      "tr": "Şirket sunumuna gir",
+      "en": "Sit in on the company talk",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "konus": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3,
+            "charm": 2
+          },
+          "flags": {
+            "add": [
+              "kariyer_karti"
+            ]
+          }
+        },
+        "tr": "Yetkili beş dakika dinledi, kartını verdi. \"Kutuya atmayın, bana gönderin\" dedi.",
+        "en": "The rep listened for five minutes and handed you a card. \"Skip the box. Send it to me.\"",
+        "coach": [
+          {
+            "tr": "Dört kutu özgeçmiş, bir kartvizit.",
+            "en": "Four boxes of resumes. One business card.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı: bir temas.",
+            "en": "Goal counter: one contact.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 1
+          }
+        },
+        "tr": "Yetkili gülümsedi ve kutuyu gösterdi. Özgeçmişin dördüncü kutunun en üstünde.",
+        "en": "The rep smiled and pointed at the box. Your resume is on top of box four.",
+        "coach": [
+          {
+            "tr": "En üstte. Beşinci kutu gelene kadar.",
+            "en": "Top of the pile. Until box five arrives.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "canta": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "bez_canta_stoku"
+          ]
+        }
+      },
+      "tr": "Altı bez çanta, on bir kalem, bir stres topu topladın. Özgeçmişin çantaların birinde kaldı.",
+      "en": "Six totes, eleven pens, one stress ball. Your resume is still inside one of the totes.",
+      "coach": [
+        {
+          "tr": "Altı çanta. Biri özgeçmişini taşıyor.",
+          "en": "Six totes. One of them is carrying your resume.",
+          "roast": true
+        }
+      ]
+    },
+    "sunum": {
+      "effects": {
+        "stats": {
+          "brain": 2,
+          "charm": 1
+        },
+        "flags": {
+          "add": [
+            "kariyer_karti"
+          ]
+        }
+      },
+      "tr": "Elli dakikalık sunumu dinledin. Sondaki tek soruyu sen sordun; konuşmacı adını not etti.",
+      "en": "You sat through fifty minutes. You asked the only question at the end. The speaker wrote your name down.",
+      "coach": [
+        {
+          "tr": "Elli dakika, bir soru, bir not.",
+          "en": "Fifty minutes. One question. One name noted.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "konus",
+    "slip": {
+      "tr": "İDDİA: Özgeçmiş kutuya gider. — M.",
+      "en": "WAGER: The resume ends up in the box. — M."
+    }
+  },
+  "intent": {
+    "setup": "kampüs kariyer gününde şirket standına özgeçmiş bırakmak",
+    "mechanism": "özgeçmişler kutu kutu sayılıyor, staj yok çanta var",
+    "mechanismId": "count",
+    "punch": "en üstte, beşinci kutu gelene kadar",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kutu_sayisi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

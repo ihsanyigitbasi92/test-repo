@@ -1,0 +1,179 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_cizik_cip_01",
+  "tags": [
+    "para",
+    "banka",
+    "atm",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Ekranda \"kart okunamıyor\" yazıyor. Üçüncü kez.",
+      "en": "Screen says \"card unreadable.\" Third time now."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Kartı bir hohlayın. Annem hep hohlardı, hiç yarı yolda kalmadı.",
+      "en": "Breathe on it. My mother always breathed on hers. Never let her down.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "hohla",
+      "tr": "Hohla, bir daha dene",
+      "en": "Breathe on it, try again",
+      "pattern": "risk",
+      "check": {
+        "base": 3000
+      }
+    },
+    {
+      "id": "sube",
+      "tr": "Şubeden yeni kart iste",
+      "en": "Order a new card",
+      "pattern": "patience"
+    },
+    {
+      "id": "kartsiz",
+      "tr": "Telefondan kartsız çek",
+      "en": "Withdraw cardless by phone",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "hohla": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kart_cipi_cizik"
+            ]
+          }
+        },
+        "tr": "Kartı hohlayıp tişörtüne sildin. ATM okudu; 200 Para çektin.",
+        "en": "You breathed on the card and wiped it on your shirt. The machine read it. You got your 200.",
+        "coach": [
+          {
+            "tr": "Tişört artık resmi kart temizleyicin.",
+            "en": "Your shirt is now an authorized card cleaner.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kart_cipi_cizik"
+            ]
+          }
+        },
+        "tr": "Kart yine okunmadı. Arkadaki kuyruk dört kişiye çıktı, para çekemedin.",
+        "en": "Still unreadable. The line behind you grew to four. No cash.",
+        "coach": [
+          {
+            "tr": "Dört kişi yöntemi gördü. Yöntem çalışmadı.",
+            "en": "Four people witnessed the method. The method did not work.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "sube": {
+      "effects": {
+        "money": -25,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "kart_yenileniyor"
+          ]
+        },
+        "glossary": "kart_yenileme"
+      },
+      "tr": "Şube yeni kartı yedi iş gününde gönderecek; kart ücreti 25 Para. Bu hafta nakit yok.",
+      "en": "The branch will mail a new card in seven business days. Card fee: twenty-five. No cash this week.",
+      "coach": [
+        {
+          "tr": "Yedi iş günü. Hafta sonlarını sen ayrıca sayacaksın.",
+          "en": "Seven business days. You will count the weekends anyway.",
+          "roast": false
+        }
+      ]
+    },
+    "kartsiz": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "health": 1
+        },
+        "flags": {
+          "add": [
+            "kart_cipi_cizik"
+          ]
+        }
+      },
+      "tr": "Bu ATM kartsız çekim yapmıyor. Altı yüz metre ötedeki yapıyor; 300 Para çektin.",
+      "en": "This machine doesn't do cardless. The one six hundred meters away does. You got 300.",
+      "coach": [
+        {
+          "tr": "Altı yüz metre. Telefon her adımı ayrıca kaydetti.",
+          "en": "Six hundred meters. Your phone logged every step.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "ATM kartın çizik çipini okumayınca arkadaki yabancının halk yöntemi önermesi",
+    "mechanism": "yabancının hohlama tavsiyesi",
+    "mechanismId": "deadpan_report",
+    "punch": "annem hep hohlardı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tisort"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

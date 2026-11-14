@@ -1,0 +1,230 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_on_dakika_odevi_01",
+  "tags": [
+    "iliski",
+    "iliski_bakimi",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 2000,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 55
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "on_dakika"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Danışman ödev verdi. Her akşam on dakika konuşacağız. Telefona alarm kurdum.",
+      "en": "The counselor gave us homework. Ten minutes of talking every evening. I set an alarm."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Konu serbest ama fatura konuşmak yasak. Peki ne konuşacağız?",
+      "en": "Any topic, but bills are banned. So what do we talk about?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "On dakikayı doldur",
+      "en": "Fill the ten minutes",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "liste",
+      "tr": "Konu listesi hazırla",
+      "en": "Prep a topic list",
+      "pattern": "overwork"
+    },
+    {
+      "id": "yuru",
+      "tr": "Konuşmayı yürüyüşe çevir",
+      "en": "Turn it into a walk",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "hidden": {
+            "stress": -3
+          },
+          "flags": {
+            "add": [
+              "on_dakika"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 5
+            }
+          ]
+        },
+        "tr": "On dakika on dokuz dakika oldu. Alarm çaldı, ikiniz de susturdunuz.",
+        "en": "Ten minutes became nineteen. The alarm went off. You both silenced it.",
+        "coach": [
+          {
+            "tr": "Alarm çaldı. Kimse kalkmadı.",
+            "en": "The alarm rang. Nobody got up.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef defterine bir akşam.",
+            "en": "One evening, logged toward the goal.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "on_dakika"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Altıncı dakikada konu faturaya kaydı. Partner alarmı erkenden çaldırdı.",
+        "en": "By minute six the topic had drifted to bills. Your partner set off the alarm early.",
+        "coach": [
+          {
+            "tr": "Fatura yasaktı. Fatura yolunu buldu.",
+            "en": "Bills were banned. Bills found a way.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "liste": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "on_dakika",
+            "konu_listesi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Kırk konuluk liste yaptın. Partner ilk maddeyi okuyup güldü: \"Bu liste de bir konu.\"",
+      "en": "You made a forty-topic list. Your partner read the first item and laughed: \"This list could be a topic.\"",
+      "coach": [
+        {
+          "tr": "Liste ilk akşamı doldurdu. Kendini anlatarak.",
+          "en": "The list filled the first evening. By being discussed.",
+          "roast": false
+        }
+      ]
+    },
+    "yuru": {
+      "effects": {
+        "stats": {
+          "health": 2,
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "on_dakika",
+            "aksam_yuruyusu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "On dakika mahallede bir tura denk geldi. Dönüşte bir tur daha attınız.",
+      "en": "Ten minutes turned out to be one lap of the neighborhood. You did a second lap anyway.",
+      "coach": [
+        {
+          "tr": "İki tur. Ödev fazlasıyla yapıldı.",
+          "en": "Two laps. Homework exceeded.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dene",
+    "slip": {
+      "tr": "İDDİA: Altıncı dakikada fatura gelir. — M.",
+      "en": "WAGER: Bills show up by minute six. — M."
+    }
+  },
+  "intent": {
+    "setup": "çift danışmanının her akşam on dakika konuşma ödevi",
+    "mechanism": "fatura yasağı konuyu boşaltıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "fatura konuşmak yasak",
+    "lift": "hedef açıksa tek satır",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "alarm"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

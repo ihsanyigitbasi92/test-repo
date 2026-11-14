@@ -1,0 +1,206 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "borc_kredi_karti_asgari_uyarisi_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "anne",
+    "evrak",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "TURNA BANKASI (kurgusal)",
+      "en": "CRANE BANK (fictional)"
+    },
+    "body": {
+      "tr": "Yalnızca asgari ödeme tutarını ödemeniz durumunda mevcut borcunuz 74 ayda kapanır.",
+      "en": "If you pay only the minimum each month, your current balance will be paid off in 74 months."
+    },
+    "translate": {
+      "tr": {
+        "from": "74 ayda kapanır",
+        "to": "bu kartla aldığın telefonu üç kez değiştirirsin"
+      },
+      "en": {
+        "from": "paid off in 74 months",
+        "to": "you'll replace the phone you bought with it three times"
+      }
+    },
+    "glossaryKey": "asgari_odeme"
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Ekstrende kutu içinde bir yazı var. Yetmiş dört ay ne demek?",
+      "en": "There's a box on your statement. What does seventy-four months mean?"
+    },
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Ben bir şey demiyorum. Sadece sordum.",
+      "en": "I'm not saying anything. I'm just asking.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "artir",
+      "tr": "Aylık ödemeyi ikiye katla",
+      "en": "Double the monthly payment",
+      "pattern": "patience"
+    },
+    {
+      "id": "asgari",
+      "tr": "Asgariye devam",
+      "en": "Stick with the minimum",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "anne",
+      "tr": "Annenden yardım iste",
+      "en": "Ask Mom for help",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "artir": {
+      "effects": {
+        "money": -940,
+        "stats": {
+          "joy": -1,
+          "brain": 2
+        },
+        "flags": {
+          "add": [
+            "asgari_ustu_odeme"
+          ]
+        },
+        "glossary": "asgari_odeme"
+      },
+      "tr": "Aylık ödeme 940 Para'ya çıktı. Bir sonraki ekstredeki kutuda 31 ay yazıyordu.",
+      "en": "Monthly payment raised to 940. The next statement's box read thirty-one months.",
+      "coach": [
+        {
+          "tr": "Yetmiş dörtten otuz bire.",
+          "en": "From seventy-four to thirty-one.",
+          "roast": false
+        },
+        {
+          "tr": "Borç sayacı 43 ay öne geldi.",
+          "en": "Debt counter: 43 months sooner.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "asgari": {
+      "effects": {
+        "money": -470,
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "asgari_aliskanligi"
+          ]
+        }
+      },
+      "tr": "470 Para ödendi. Kutu bir sonraki ay 73 ay yazdı.",
+      "en": "Paid 470. Next month, the box said seventy-three.",
+      "coach": [
+        {
+          "tr": "Bir ay ödendi. Yetmiş üç ay kaldı.",
+          "en": "One month paid. Seventy-three to go.",
+          "roast": true
+        }
+      ]
+    },
+    "anne": {
+      "effects": {
+        "money": 2000,
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "momPressure": 12
+        },
+        "flags": {
+          "add": [
+            "anne_kart_yardimi"
+          ]
+        },
+        "bailoutCheck": true
+      },
+      "tr": "Annen 2.000 Para gönderdi. Ekstreyi buzdolabına astı, kutuyu kırmızı kalemle daire içine aldı.",
+      "en": "Mom sent 2,000. She stuck the statement on the fridge and circled the box in red.",
+      "coach": [
+        {
+          "tr": "Kutu artık kırmızı.",
+          "en": "The box is red now.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "ekstredeki 'yalnızca asgari öderseniz borcunuz 74 ayda kapanır' kutusunu annenin okuması",
+    "mechanism": "asgari ödeme süresi gerçek hayat ölçüsüne çevriliyor",
+    "mechanismId": "translation",
+    "punch": "yetmiş dört ay ne demek",
+    "lift": "borç sayacı 43 ay öne geldi",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "kutu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

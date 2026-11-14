@@ -1,0 +1,220 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_kardes_borcu_01",
+  "tags": [
+    "para",
+    "birikim",
+    "aile",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "money": {
+      "min": 3000
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Kardeşin aradı. Dükkânın kirası birikmiş, 2.500 istiyor. 'Altı ayda öderim' dedi.",
+      "en": "Your sibling called. The shop rent's piled up and they need 2,500. Said they'd pay it back in six months."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Geçen sefer de 'altı ay' demişti. Ben sadece hatırlatıyorum.",
+      "en": "Last time it was also 'six months.' I'm just mentioning it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "2.500'ü ödünç ver",
+      "en": "Lend the 2,500",
+      "pattern": "generosity",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "hediye",
+      "tr": "1.000 hediye et",
+      "en": "Give 1,000 as a gift",
+      "pattern": "patience"
+    },
+    {
+      "id": "hayir",
+      "tr": "Bu sefer hayır de",
+      "en": "Say no this time",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ver": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "kardes_borc_odendi"
+            ]
+          }
+        },
+        "tr": "Kardeşin borcu yedinci ayda kapattı, üstüne dükkândan bir kutu kurabiye getirdi.",
+        "en": "Your sibling paid it all back in month seven, plus a box of cookies from the shop.",
+        "coach": [
+          {
+            "tr": "Bir ay gecikmeli, kurabiyeli.",
+            "en": "One month late. With cookies.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "money": -2100,
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "kardes_borc_acik"
+            ]
+          }
+        },
+        "tr": "Altı ay geçti; 400 Para geri geldi. Kalanı 'dükkân açılınca' başlığı altında.",
+        "en": "Six months on, 400 has come back. The rest is filed under 'once the shop picks up.'",
+        "coach": [
+          {
+            "tr": "Dört yüz geldi. Başlık hâlâ açık.",
+            "en": "Four hundred back. The file's still open.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hediye": {
+      "effects": {
+        "money": -1000,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "kardes_hediye"
+          ]
+        }
+      },
+      "tr": "1.000 Para'yı hediye diye verdin. Kardeşin 'ben borç sayıyorum' dedi.",
+      "en": "You gave 1,000 as a gift. Your sibling said, 'I'm counting it as a loan.'",
+      "coach": [
+        {
+          "tr": "İki ayrı muhasebe, aynı bin Para.",
+          "en": "Two sets of books, same thousand.",
+          "roast": true
+        }
+      ]
+    },
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kardes_ret"
+          ]
+        }
+      },
+      "tr": "Hayır dedin. Kardeşin dükkânı küçülttü ve aile grubuna iki hafta yalnızca emoji gönderdi.",
+      "en": "You said no. Your sibling downsized the shop and sent nothing but emoji to the family chat for two weeks.",
+      "coach": [
+        {
+          "tr": "İki hafta emoji. Tek kelime yok.",
+          "en": "Two weeks of emoji. Not one word.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "kardeşin dükkân kirası için birikimden borç istemesi",
+    "mechanism": "'altı ay' sözünün tekrarı",
+    "mechanismId": "deadpan_report",
+    "punch": "geçen sefer de altı ay demişti",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "baslik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

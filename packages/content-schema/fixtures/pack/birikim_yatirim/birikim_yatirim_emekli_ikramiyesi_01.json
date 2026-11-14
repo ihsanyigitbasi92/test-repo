@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "birikim_yatirim_emekli_ikramiyesi_01",
+  "tags": [
+    "para",
+    "birikim",
+    "emeklilik",
+    "dayi",
+    "birikim_yatirim"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "birikim_yatirim": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 61,
+      "max": 67
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "emekli_ikramiyesi"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda ikramiyeyle ev alınırdı. Sen de bir dükkân al, kiraya ver.",
+      "en": "In my day, a retirement payout bought a house. You buy a shop and rent it out."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Ya da bölün: biraz fon, biraz vadeli, biraz da dayınız.",
+      "en": "Or split it: some in a fund, some in a deposit, and some for your uncle.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bol",
+      "tr": "Üçe böl",
+      "en": "Split it three ways",
+      "pattern": "patience"
+    },
+    {
+      "id": "dukkan",
+      "tr": "Küçük bir dükkâna peşinat",
+      "en": "Down payment on a small shop",
+      "pattern": "risk"
+    },
+    {
+      "id": "vadeli",
+      "tr": "Hepsi vadeliye",
+      "en": "All of it in a term deposit",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "bol": {
+      "effects": {
+        "money": 7000,
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "emekli_ikramiyesi",
+            "dayiya_borc_verildi"
+          ]
+        }
+      },
+      "tr": "İkramiyeyi üçe böldün. Dayının payı 'borç' adıyla çıktı; dayın aynı akşam dükkân bakmaya gitti.",
+      "en": "You split it three ways. Your uncle's share went out as a 'loan.' That evening he went shop-hunting.",
+      "coach": [
+        {
+          "tr": "Üçüncü pay şimdiden vitrin geziyor.",
+          "en": "The third share is already window-shopping.",
+          "roast": false
+        }
+      ]
+    },
+    "dukkan": {
+      "effects": {
+        "money": 1000,
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 3
+          }
+        ],
+        "status": {
+          "assets": {
+            "add": [
+              "kucuk_dukkan"
+            ]
+          }
+        },
+        "flags": {
+          "add": [
+            "emekli_ikramiyesi",
+            "dukkan_sahibi"
+          ]
+        }
+      },
+      "tr": "İkramiye küçük bir dükkânın peşinatına gitti. Kiracı tabelayı ilk ay astı, kirayı ikinci ay getirdi.",
+      "en": "The payout went into a down payment on a small shop. The tenant hung a sign in month one and paid rent in month two.",
+      "coach": [
+        {
+          "tr": "Tabela asıldı. Kira yolda.",
+          "en": "Sign's up. Rent's in transit.",
+          "roast": false
+        }
+      ]
+    },
+    "vadeli": {
+      "effects": {
+        "money": 8000,
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "emekli_ikramiyesi",
+            "vadeli_hesap"
+          ]
+        }
+      },
+      "tr": "Hepsi vadeliye girdi. Dayın 'duran para küflenir' dedi ve konuyu üç kez açtı.",
+      "en": "It all went into a term deposit. Your uncle said 'money that sits gets moldy' and brought it up three more times.",
+      "coach": [
+        {
+          "tr": "Para dinleniyor. Dayın dinlenmiyor.",
+          "en": "The money is resting. Your uncle isn't.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dolu ya da check yok"
+  },
+  "intent": {
+    "setup": "emekli ikramiyesinin nereye konacağına dayı ve bankacının karışması",
+    "mechanism": "bankacının dağılım listesi dayıyla bitiyor",
+    "mechanismId": "bathos",
+    "punch": "biraz fon, biraz vadeli, biraz da dayınız",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dinlen"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

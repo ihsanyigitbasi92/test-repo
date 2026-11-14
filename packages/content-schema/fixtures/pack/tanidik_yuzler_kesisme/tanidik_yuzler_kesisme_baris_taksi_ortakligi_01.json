@@ -1,0 +1,230 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tanidik_yuzler_kesisme_baris_taksi_ortakligi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "taksici",
+    "is",
+    "tanidik_yuzler_kesisme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tanidik_yuzler_kesisme": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 36
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "flags": {
+      "all": [
+        "license"
+      ]
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "TAKSİCİYLE ANLAŞTIM. GECELERİ BEN SÜRÜYORUM, KESİN.",
+      "en": "I MADE A DEAL WITH THE CABBIE. I DRIVE NIGHTS. SURE THING."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "TEK EKSİK EHLİYETİM. SENİNKİYLE BAŞLARIZ.",
+      "en": "ONLY THING MISSING IS MY LICENSE. WE START WITH YOURS.",
+      "delayMs": 700
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Gece yolu başka. Kimse sinyal vermez, herkes kendini haklı sanır.",
+      "en": "Night roads are different. Nobody signals, and everyone thinks they're right.",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "sur",
+      "tr": "Bir gece dene",
+      "en": "Try one night",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "verme",
+      "tr": "Ehliyetini verme",
+      "en": "Keep your license",
+      "pattern": "pride"
+    },
+    {
+      "id": "konus",
+      "tr": "Taksiciyle konuş",
+      "en": "Talk to the cabbie",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "sur": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": 700,
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "gece_taksi_denendi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Bir gece sürdün ve 700 Para kazandın. Barış ön koltukta bütün yolculara iş fikri anlattı.",
+        "en": "You drove one night and made 700. Jordan pitched business ideas to every passenger from the front seat.",
+        "coach": [
+          {
+            "tr": "Bir gece, yedi yüz.",
+            "en": "One night, seven hundred.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -400,
+          "stats": {
+            "joy": -4
+          },
+          "flags": {
+            "add": [
+              "gece_taksi_denendi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Gece üçte gözlerin kapanmak üzereydi; taksici seni eve kendisi bıraktı. Yakıt payını sen ödedin: 400 Para.",
+        "en": "At three a.m. your eyes were closing. The cabbie drove you home personally. You paid for the fuel: 400.",
+        "coach": [
+          {
+            "tr": "Yolcu koltuğunda bitti.",
+            "en": "It ended in the passenger seat.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "verme": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ehliyet_verilmedi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Ehliyetini çekmeceye kilitledin. Barış ertesi gün buzdolabına bir sürücü kursu broşürü astı.",
+      "en": "You locked your license in a drawer. The next day Jordan taped a driving school brochure to the fridge.",
+      "coach": [
+        {
+          "tr": "Ehliyet çekmecede.",
+          "en": "The license is in the drawer.",
+          "roast": false
+        }
+      ]
+    },
+    "konus": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "baris_bisiklet_sarti"
+          ]
+        },
+        "npc": [
+          {
+            "role": "cabbie",
+            "affinity": 2
+          },
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Taksiciyle konuştun. Taksici anlaşmayı \"önce bisikletle bir ay\" şartına bağladı.",
+      "en": "You talked to the cabbie. The cabbie made the deal conditional on \"a month on a bicycle first.\"",
+      "coach": [
+        {
+          "tr": "Şart konuldu.",
+          "en": "Terms were set.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sur",
+    "slip": {
+      "tr": "İDDİA: İlk gece sabaha varmaz. — M.",
+      "en": "WAGER: The first night never reaches morning. — M."
+    }
+  },
+  "intent": {
+    "setup": "ev arkadaşının taksiciyle gece vardiyası ortaklığı; senin ehliyetinle",
+    "mechanism": "plan büyüdükçe eksik parça senin ehliyetin",
+    "mechanismId": "escalation",
+    "punch": "tek eksik ehliyetim",
+    "lift": "yok",
+    "target": "situation",
+    "closer": "brosur",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

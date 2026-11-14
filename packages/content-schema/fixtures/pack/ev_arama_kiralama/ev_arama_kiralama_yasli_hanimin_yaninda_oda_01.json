@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_yasli_hanimin_yaninda_oda_01",
+  "tags": [
+    "ev",
+    "oda",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    },
+    "housing": [
+      "momsHouse",
+      "room",
+      "flat"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Oda güneş alır. Kuralım az: ayakkabı kapıda, saat onda ışık söner.",
+      "en": "The room gets sun. I have few rules: shoes at the door, lights out at ten."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Bir de çay altıda, birlikte içilir. Bir de salı günleri halı silkeleriz.",
+      "en": "Also, tea is at six, together. Also, Tuesdays we beat the rugs."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "smug",
+      "tr": "Bir de... Neyse, gerisini yaşadıkça öğrenirsin.",
+      "en": "Also... never mind. You'll learn the rest by living it.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Odayı tut",
+      "en": "Take the room",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Saat on bir için pazarlık et",
+      "en": "Haggle for eleven o'clock",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "vazgec",
+      "tr": "\"Düşüneyim\" de",
+      "en": "Say you'll think about it",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "money": -700,
+        "housing": "room",
+        "status": {
+          "home": {
+            "kind": "room",
+            "rent": 700
+          }
+        },
+        "flags": {
+          "add": [
+            "oda_ev_sahibesi"
+          ]
+        }
+      },
+      "tr": "Oda ayda 700 Para'ya senin. İlk akşam çayla birlikte bir de nöbet çizelgesi geldi.",
+      "en": "The room is yours for 700 a month. The first evening's tea came with a chore rota.",
+      "coach": [
+        {
+          "tr": "Ucuz oda, dolu takvim.",
+          "en": "Cheap room. Full calendar.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -700,
+          "housing": "room",
+          "status": {
+            "home": {
+              "kind": "room",
+              "rent": 700
+            }
+          },
+          "flags": {
+            "add": [
+              "oda_ev_sahibesi",
+              "sali_halisi"
+            ]
+          }
+        },
+        "tr": "Işıklar artık on birde sönüyor. Karşılığında salı halıları tamamen sana geçti.",
+        "en": "Lights out moved to eleven. In exchange, Tuesday rugs are now entirely yours.",
+        "coach": [
+          {
+            "tr": "Bir saat aldın, bir halı verdin.",
+            "en": "One hour gained. One rug acquired.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "ev_aramaya_devam"
+            ]
+          }
+        },
+        "tr": "Saat on tartışmaya açılmadı. Oda ertesi gün halılara itirazı olmayan birine gitti.",
+        "en": "Ten o'clock was not up for debate. The room went next day to someone with no position on rugs.",
+        "coach": [
+          {
+            "tr": "Saat on yerinde kaldı.",
+            "en": "Ten o'clock held.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Düşüneceğini söyledin. Kapıda ayakkabılarını giyerken dördüncü kuralı da duydun.",
+      "en": "You said you'd think about it. While putting your shoes back on, you heard rule four anyway.",
+      "coach": [
+        {
+          "tr": "Dördüncü kural bedavaya geldi.",
+          "en": "Rule four was a free sample.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok / iddia payı dolu"
+  },
+  "intent": {
+    "setup": "yaşlı ev sahibesinin yanında kiralık oda, kurallar listesi uzuyor",
+    "mechanism": "her cümle bir kural daha ekliyor",
+    "mechanismId": "escalation",
+    "punch": "gerisini yaşadıkça öğrenirsin",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kural"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

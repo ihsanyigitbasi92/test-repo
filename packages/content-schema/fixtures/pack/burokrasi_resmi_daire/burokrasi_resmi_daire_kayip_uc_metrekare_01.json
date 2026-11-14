@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "burokrasi_resmi_daire_kayip_uc_metrekare_01",
+  "tags": [
+    "burokrasi",
+    "emlak",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 60
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "KENT GELİRLER BİRİMİ (kurgusal)",
+      "en": "CITY REVENUE OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "Taşınmazınız tapu kaydında 97 m², birimimiz kayıtlarında 100 m² görünmektedir. Vergi tahakkuku birimimiz kayıtları esas alınarak yapılmıştır.",
+      "en": "Your property is listed as 97 m² in the land registry and 100 m² in our records. Tax has been assessed on the basis of our records."
+    },
+    "translate": {
+      "tr": {
+        "from": "birimimiz kayıtları esas alınarak",
+        "to": "büyük olan sayıdan"
+      },
+      "en": {
+        "from": "on the basis of our records",
+        "to": "using the bigger number"
+      }
+    },
+    "glossaryKey": "tahakkuk"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Düzeltme için yerinde ölçüm gerekir. Ölçüm ücreti aradaki vergi farkından fazla.",
+      "en": "Correcting it requires an on-site survey. The survey costs more than the tax difference."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Yüz metrekareden öde",
+      "en": "Pay on the hundred",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "olcum",
+      "tr": "Ölçüm iste",
+      "en": "Order the survey",
+      "pattern": "pride",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "kendin",
+      "tr": "Kendi metrenle ölç, dilekçe yaz",
+      "en": "Measure it yourself and file a note",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -45,
+        "flags": {
+          "add": [
+            "emlak_kaydi_yuz"
+          ]
+        },
+        "glossary": "tahakkuk"
+      },
+      "tr": "Farkı ödedin: yılda 45 Para. Üç metrekarenin yeri hâlâ bilinmiyor.",
+      "en": "You paid the difference: 45 a year. The location of the three square meters remains unknown.",
+      "coach": [
+        {
+          "tr": "Üç metrekarenin vergisini ödüyorsun. Adresini bilen yok.",
+          "en": "You pay tax on three square meters. Nobody has their address.",
+          "roast": true
+        }
+      ]
+    },
+    "olcum": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 2
+          },
+          "money": -400,
+          "flags": {
+            "add": [
+              "emlak_kaydi_duzeltildi"
+            ]
+          },
+          "glossary": "tahakkuk"
+        },
+        "tr": "Ölçüm 97 çıktı, kayıt düzeltildi. Ölçüm ücreti 400 Para; fark kendini dokuz yılda çıkarır.",
+        "en": "The survey came back at 97 and the record was corrected. The survey cost 400. It pays for itself in nine years.",
+        "coach": [
+          {
+            "tr": "Haklı çıktın. Dokuz yıl sonra kârdasın.",
+            "en": "You were right. You break even in nine years.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "money": -400,
+          "flags": {
+            "add": [
+              "emlak_kaydi_yuz_bir"
+            ]
+          }
+        },
+        "tr": "Ölçüm 101 çıktı. Kayıt güncellendi, vergi de.",
+        "en": "The survey came back at 101. The record was updated. So was the tax.",
+        "coach": [
+          {
+            "tr": "Bir metrekare daha bulundu. Faturasıyla geldi.",
+            "en": "They found one more square meter. It arrived with a bill.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kendin": {
+      "effects": {
+        "stats": {
+          "brain": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "emlak_kaydi_yuz"
+          ]
+        }
+      },
+      "tr": "Evi şerit metreyle ölçtün: 96,5. Dilekçen 'yetkisiz ölçüm' notuyla dosyaya kondu.",
+      "en": "You measured the place with a tape: 96.5. Your note was filed under 'unauthorized measurement.'",
+      "coach": [
+        {
+          "tr": "Yarım metrekareyi de sen kaybettin.",
+          "en": "You've now misplaced another half meter yourself.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "evin tapuda 97, vergi kaydında 100 metrekare görünmesi",
+    "mechanism": "vergi büyük sayıdan kesiliyor, fark hiçbir odada yok",
+    "mechanismId": "literalism",
+    "punch": "üç metrekarenin adresini bilen yok",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "metrekare"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

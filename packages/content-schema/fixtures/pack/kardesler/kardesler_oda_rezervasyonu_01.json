@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_oda_rezervasyonu_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "ev",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 21
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    },
+    "housing": [
+      "momsHouse"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Ben gidiyorum ama oda bende kalıyor. Kapıya yazdım: DOLU.",
+      "en": "I'm moving out, but I'm keeping the room. Sign's on the door: OCCUPIED."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "neutral",
+      "tr": "Yatağıma oturabilirsin. Saat başı, haber vererek.",
+      "en": "You can sit on my bed. Hourly. With notice."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kardeşin gidince orayı ütü odası mı yapsak? Sen ne dersin, neyse.",
+      "en": "Once your sibling's gone, should that be the ironing room? What do you think—never mind.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "yayil",
+      "tr": "Odaya yayıl",
+      "en": "Take over the room",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yarisi",
+      "tr": "Yarısını resmen iste",
+      "en": "Formally request half",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Kapıya dokunma",
+      "en": "Leave the sign alone",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "yayil": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "kardes_odasi_isgal"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Masanı onun masasının yanına çektin. Akşamki görüntülü aramada kardeşin arka planda kendi duvarını tanıdı.",
+      "en": "You moved your desk next to theirs. On the evening video call, your sibling recognized their own wall behind you.",
+      "coach": [
+        {
+          "tr": "Duvar tanıklık etti.",
+          "en": "The wall testified.",
+          "roast": false
+        }
+      ]
+    },
+    "yarisi": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "flags": {
+            "add": [
+              "kardes_odasi_paylasildi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Kardeşin kapıdaki yazıyı düzeltti: DOLU (YARISI).",
+        "en": "Your sibling amended the sign: OCCUPIED (HALF).",
+        "coach": [
+          {
+            "tr": "Yarım oda, tam imza.",
+            "en": "Half a room. Full signature.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "momPressure": 2,
+            "cringe": 2
+          }
+        },
+        "tr": "Kardeşin talebini annene iletti. Annen ütü masasını odanın ortasına kurdu.",
+        "en": "Your sibling forwarded the request to Mom. Mom set up the ironing board in the middle of the room.",
+        "coach": [
+          {
+            "tr": "Üçüncü taraf kazandı.",
+            "en": "Third party wins.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "meters": {
+          "momPressure": -2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Yazı yerinde kaldı. Odaya girmeden hâlâ kapıyı çalıyorsun; içeride kimse yok.",
+      "en": "The sign stayed. You still knock before going in. No one's in there.",
+      "coach": [
+        {
+          "tr": "Boş odaya kapı çalmak. Terbiye yerinde, metrekare kayıp.",
+          "en": "Knocking on an empty room. Good manners, lost square footage.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia payı başka olaylarda"
+  },
+  "intent": {
+    "setup": "kardeş yurda giderken ortak odaya \"dolu\" yazısı asıyor",
+    "mechanism": "boşalan oda rezervasyonla tutuluyor",
+    "mechanismId": "literalism",
+    "punch": "Saat başı, haber vererek",
+    "lift": "Yarım oda, tam imza",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

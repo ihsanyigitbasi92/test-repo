@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "kariyer_realtor_teslim_tutanagi_01",
+  "tags": [
+    "kariyer",
+    "emlak",
+    "kariyer_realtor"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_realtor": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "realtor"
+      ],
+      "employed": true
+    }
+  },
+  "document": {
+    "letterhead": {
+      "tr": "MARTI EMLAK — ANAHTAR TESLİM TUTANAĞI (kurgusal)",
+      "en": "GULL REALTY — KEY HANDOVER FORM (fictional)"
+    },
+    "body": {
+      "tr": "Madde 4: Kombi, şofben ve tüm elektrikli cihazlar çalışır durumda teslim edilmiştir. Alıcı: ____ Satıcı: ____",
+      "en": "Item 4: Boiler, water heater and all appliances are handed over in working order. Buyer: ____ Seller: ____"
+    },
+    "translate": {
+      "tr": {
+        "from": "çalışır durumda",
+        "to": "bu sabah bir kez çalıştı"
+      },
+      "en": {
+        "from": "in working order",
+        "to": "it worked once, this morning"
+      }
+    },
+    "glossaryKey": "calisir_durumda"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Kombi tıkır tıkır. Sabah yaktım, ev hamam oldu.",
+      "en": "The boiler runs like a dream. Fired it up this morning. Place was a sauna."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "O zaman şimdi bir yakalım. İmzadan önce.",
+      "en": "Great, let's fire it up now, then. Before I sign."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "annoyed",
+      "tr": "Şimdi olmaz. Sabah yaktım dedim ya, dinleniyor.",
+      "en": "Not now. I told you, it ran this morning. It needs its rest.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "imza",
+      "tr": "Önce imza, sonra kombi",
+      "en": "Sign first, boiler later",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "dene",
+      "tr": "Kombiyi şimdi yaktır",
+      "en": "Have them fire it up now",
+      "pattern": "patience"
+    },
+    {
+      "id": "usta",
+      "tr": "Tanıdık ustayı çağır",
+      "en": "Call your repair guy",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "imza": {
+      "effects": {
+        "money": 1800,
+        "hidden": {
+          "stress": 4
+        },
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": -3
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_kombi_sikayeti"
+          ]
+        }
+      },
+      "tr": "İmzalar atıldı, komisyon yattı. Akşam alıcı aradı: kombi hâlâ dinleniyor.",
+      "en": "Signed, sealed, commission paid. That evening the buyer called: the boiler is still resting.",
+      "coach": [
+        {
+          "tr": "Madde 4 imzalandı. Kombi imzalamadı.",
+          "en": "Item 4 got signed. The boiler abstained.",
+          "roast": false
+        }
+      ]
+    },
+    "dene": {
+      "effects": {
+        "money": 1600,
+        "stats": {
+          "brain": 1
+        },
+        "npc": [
+          {
+            "role": "npc:landlord",
+            "affinity": -2
+          },
+          {
+            "role": "npc:stranger",
+            "affinity": 3
+          }
+        ],
+        "glossary": "calisir_durumda"
+      },
+      "tr": "Kombi üçüncü denemede yandı, dördüncüde sustu. Satıcı fiyattan 1.200 Para düştü, komisyonun da onunla eridi.",
+      "en": "The boiler lit on the third try and quit on the fourth. The seller knocked 1,200 off the price, and your commission shrank with it.",
+      "coach": [
+        {
+          "tr": "Madde 4 artık yıldızlı.",
+          "en": "Item 4 now comes with an asterisk.",
+          "roast": false
+        }
+      ]
+    },
+    "usta": {
+      "effects": {
+        "money": 1550,
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          },
+          {
+            "role": "npc:landlord",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "realtor_tanidik_usta"
+          ]
+        }
+      },
+      "tr": "Usta yarım saatte geldi, bir vanayı çevirdi, kombi yandı. İki taraf imzaladı; ustanın 250 Para'sı senden çıktı.",
+      "en": "Your repair guy showed up in half an hour, turned one valve, and the boiler lit. Both sides signed; his 250 came out of your pocket.",
+      "coach": [
+        {
+          "tr": "Bir vana, iki imza.",
+          "en": "One valve. Two signatures.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "anahtar teslim tutanağında kombi çalışır durumda maddesi; alıcı imzadan önce kombiyi denemek istiyor",
+    "mechanism": "\"çalışır durumda\" bu sabah bir kez çalıştı demek",
+    "mechanismId": "translation",
+    "punch": "şimdi olmaz, dinleniyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "vana"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

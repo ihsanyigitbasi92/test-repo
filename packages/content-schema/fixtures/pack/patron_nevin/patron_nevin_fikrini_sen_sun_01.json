@@ -1,0 +1,229 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_fikrini_sen_sun_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "smug",
+      "tr": "{name}, yeni haftalık rapor formatını ekibe sen sun. Benden gelince direnç oluyor, senden gelince fikir.",
+      "en": "{name}, you present the new weekly report format. From me it's resistance. From you it's an idea."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Format on iki sekme. Ama sen anlatınca dokuz gibi görünür.",
+      "en": "The format has twelve tabs. But when you explain it, it'll feel like nine.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sun",
+      "tr": "Kendi fikrinmiş gibi sun",
+      "en": "Present it as yours",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kes",
+      "tr": "Önce sekmeleri azalt",
+      "en": "Cut the tabs first",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain",
+        "goal": "terfi"
+      }
+    },
+    {
+      "id": "acik",
+      "tr": "'Nevin Hanım'ın önerisi' de",
+      "en": "Credit Ms. Carver openly",
+      "pattern": "risk"
+    }
+  ],
+  "outcomes": {
+    "sun": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": -2
+          }
+        ],
+        "flags": {
+          "add": [
+            "nevin_fikrini_sundu"
+          ]
+        }
+      },
+      "tr": "Sundun. Ekip itirazlarını sana yöneltti, Nevin Hanım toplantı sonunda 'ne güzel fikir, {name}' dedi.",
+      "en": "You presented. The team aimed every objection at you. At the end Ms. Carver said, 'What a great idea, {name}.'",
+      "coach": [
+        {
+          "tr": "Fikir onun, itirazlar senin.",
+          "en": "Her idea. Your objections.",
+          "roast": false
+        }
+      ]
+    },
+    "kes": [
+      {
+        "p": 5000,
+        "effects": {
+          "meters": {
+            "ego": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 2
+            },
+            {
+              "role": "npc:coworker",
+              "affinity": 2
+            }
+          ],
+          "career": {
+            "rungDelta": 1
+          }
+        },
+        "tr": "Sekmeleri on ikiden dörde indirip sundun. Ekip benimsedi, Nevin Hanım formatı üst yönetime senin adınla gönderdi.",
+        "en": "You cut it from twelve tabs to four and presented. The team bought in. Ms. Carver sent it upstairs with your name on it.",
+        "coach": [
+          {
+            "tr": "Sekiz sekme sildin. Adın kaldı.",
+            "en": "Eight tabs deleted. Your name stayed.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef sayacı bir adım ileride.",
+            "en": "Goal counter, one step forward.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2,
+              "memory": "format_kesildi"
+            }
+          ]
+        },
+        "tr": "Sekmeleri azalttın ama Nevin Hanım 'onlar en önemlileriydi' dedi. Sunum on iki sekmeyle, senin adınla yapıldı.",
+        "en": "You trimmed the tabs, but Ms. Carver said those were the important ones. All twelve got presented, under your name.",
+        "coach": [
+          {
+            "tr": "On iki sekme, yine senin adınla.",
+            "en": "All twelve tabs. Still under your name.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "acik": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": -2
+          },
+          {
+            "role": "npc:coworker",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "'Nevin Hanım'ın önerisi' diye başladın. Toplantı on dakikada bitti, kimse itiraz etmedi, kimse kullanmadı.",
+      "en": "You opened with 'Ms. Carver's proposal.' The meeting ended in ten minutes. Nobody objected. Nobody used it.",
+      "coach": [
+        {
+          "tr": "İtirazsız kabul edildi, kullanılmadan kaldı.",
+          "en": "Accepted unanimously. Used by no one.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kes",
+    "slip": {
+      "tr": "İDDİA: Sekmeler kesilmeye direnir. — M.",
+      "en": "WAGER: The tabs resist the cut. — M."
+    }
+  },
+  "intent": {
+    "setup": "patronun kendi rapor formatını sana kendi fikrinmiş gibi sundurmak istemesi",
+    "mechanism": "fikir sahipliği ters yönde devrediliyor",
+    "mechanismId": "bathos",
+    "punch": "sen anlatınca dokuz gibi görünür",
+    "lift": "hedef sayacı bir adım ileride",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sekme"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_oda_ne_zaman_01",
+  "tags": [
+    "iliski",
+    "dugun_hazirlik",
+    "ev",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 24,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "nisanli"
+      ],
+      "none": [
+        "evli",
+        "birlikte_ev"
+      ]
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    },
+    "housing": [
+      "room",
+      "flat"
+    ]
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Nişanlandın, çok iyi. Tebrikler. Odan ne zaman boşalıyor?",
+      "en": "You got engaged, amazing, congrats. When’s your room free?"
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Kuzenim soruyor. Ben sormuyorum. Kuzenim soruyor.",
+      "en": "My cousin’s asking. Not me. My cousin.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ay_sonu",
+      "tr": "Ay sonunda partnerle taşın",
+      "en": "Move in with your partner at month-end",
+      "pattern": "risk"
+    },
+    {
+      "id": "dugune_kadar",
+      "tr": "Düğüne kadar kal",
+      "en": "Stay until the wedding",
+      "pattern": "patience"
+    },
+    {
+      "id": "kira",
+      "tr": "Kuzene kirayı sor",
+      "en": "Ask what the cousin would pay",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ay_sonu": {
+      "effects": {
+        "money": -1600,
+        "housing": "flat",
+        "status": {
+          "home": {
+            "kind": "flat",
+            "rent": 1600
+          }
+        },
+        "stats": {
+          "joy": 5
+        },
+        "flags": {
+          "add": [
+            "birlikte_ev"
+          ]
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Ay sonunda taşındın. Kuzen ertesi gün geldi; bıraktığın lambayı “dahil mi” diye sordu.",
+      "en": "You moved out at month’s end. The cousin arrived the next day and asked if the lamp you left was included.",
+      "coach": [
+        {
+          "tr": "Nişan yüzüğü bir oda boşalttı, bir kuzen doldurdu.",
+          "en": "One ring emptied a room. One cousin filled it.",
+          "roast": true
+        }
+      ]
+    },
+    "dugune_kadar": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -2,
+            "memory": "oda_bekliyor"
+          }
+        ],
+        "flags": {
+          "add": [
+            "oda_bekliyor"
+          ]
+        }
+      },
+      "tr": "Kaldın. Kuzen her hafta bir kez “gelip odaya bakmak” için uğradı.",
+      "en": "You stayed. The cousin dropped by once a week “just to look at the room.”",
+      "coach": [
+        {
+          "tr": "Oda haftada bir ziyaret alıyor. Sen almıyorsun.",
+          "en": "The room gets a weekly visitor. You don’t.",
+          "roast": true
+        }
+      ]
+    },
+    "kira": {
+      "effects": {
+        "money": 300,
+        "meters": {
+          "cringe": 3
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "oda_bekliyor",
+            "kuzen_kapora"
+          ]
+        }
+      },
+      "tr": "Kuzen odanın tutulması için 300 Para kapora bıraktı. Sen henüz çıkmadın.",
+      "en": "The cousin left a 300 holding deposit on the room. You haven’t moved out yet.",
+      "coach": [
+        {
+          "tr": "Odanın kirası ödendi, sen hâlâ içindesin.",
+          "en": "Someone’s paying for your room. You’re still in it.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da sessizlik günü"
+  },
+  "intent": {
+    "setup": "nişan haberinden sonra ev arkadaşının odanın ne zaman boşalacağını sorması",
+    "mechanism": "tebrik cümlesi emlak sorusuna dönüyor",
+    "mechanismId": "literalism",
+    "punch": "kuzenim soruyor",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "oda"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

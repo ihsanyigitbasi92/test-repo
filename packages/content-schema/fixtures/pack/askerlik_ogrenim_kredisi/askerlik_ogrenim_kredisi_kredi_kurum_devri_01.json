@@ -1,0 +1,166 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "askerlik_ogrenim_kredisi_kredi_kurum_devri_01",
+  "tags": [
+    "egitim",
+    "kredi",
+    "askerlik_ogrenim_kredisi"
+  ],
+  "rarity": "common",
+  "universality": "localeOnly",
+  "substituteFor": "askerlik_ogrenim_kredisi_yemin_toreni_ziyareti_01",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "askerlik_ogrenim_kredisi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Krediniz bize devredildi. Bakiye aynı; hesap numarası ve sistem yeni.",
+      "en": "Your loan has been transferred to us. Same balance, new account number, new portal."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Eski otomatik ödemeniz taşınmadı, eski şifreniz de. Bakiyeniz taşındı.",
+      "en": "Your old autopay didn't transfer. Neither did your password. Your balance did.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "kur",
+      "tr": "Otomatik ödemeyi hemen kur",
+      "en": "Set up autopay right now",
+      "pattern": "patience"
+    },
+    {
+      "id": "sonra",
+      "tr": "Ay sonunda bakarsın",
+      "en": "Deal with it at month's end",
+      "pattern": "procrastination"
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşine kurdur",
+      "en": "Get your sibling to do it",
+      "pattern": "leanOnFamily"
+    }
+  ],
+  "outcomes": {
+    "kur": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "kredi_otomatik_kuruldu"
+          ]
+        }
+      },
+      "tr": "Kırk dakikada yeni hesap açtın. Otomatik ödeme kuruldu; sistem seni iki kez tebrik etti.",
+      "en": "Forty minutes to make a new account. Autopay is on, and the portal congratulated you twice.",
+      "coach": [
+        {
+          "tr": "Kırk dakika, iki tebrik.",
+          "en": "Forty minutes, two congratulations.",
+          "roast": false
+        }
+      ]
+    },
+    "sonra": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": -35,
+        "flags": {
+          "add": [
+            "kredi_gecikme_bedeli"
+          ]
+        }
+      },
+      "tr": "Ay sonunda yeni sistemde 35 Para gecikme bedeli buldun. Hesaptaki ilk kayıt oydu.",
+      "en": "At month's end, a late fee of thirty-five was waiting in the new portal. It was the account's first entry.",
+      "coach": [
+        {
+          "tr": "Yeni sistem. İlk kayıt sende.",
+          "en": "New portal. First entry: yours.",
+          "roast": false
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kredi_kardes_kurdu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Kardeşin altı dakikada kurdu ve güvenlik sorusunu 'Evin akıllısı kim?' yaptı.",
+      "en": "Your sibling set it up in six minutes and changed your security question to 'Who's the smart one?'",
+      "coach": [
+        {
+          "tr": "Altı dakika. Güvenlik sorusu artık kardeşin.",
+          "en": "Six minutes. The security question now belongs to your sibling.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia bu olayda kapalı"
+  },
+  "intent": {
+    "setup": "öğrenim kredisinin başka bir kuruma devredilmesi",
+    "mechanism": "taşınmayanlar sayılır, taşınan tek şey bakiye",
+    "mechanismId": "deadpan_report",
+    "punch": "bakiyeniz taşındı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tebrik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "EN-only ikiz (D-048): askerlik yerine öğrenim kredisi. Mekanik iskelet aynı (SC-24); TR bundle’ına girmez. Faiz oranı/kurum adı yok (K17)."
+  },
+  "l10n": {
+    "onlyLocale": "en",
+    "mechanismNote": "TR metni yalnızca inceleme içindir; TR oyuncu askerlik ikizini görür."
+  }
+}

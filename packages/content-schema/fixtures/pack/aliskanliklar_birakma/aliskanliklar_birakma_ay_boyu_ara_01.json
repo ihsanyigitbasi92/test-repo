@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "aliskanliklar_birakma_ay_boyu_ara_01",
+  "tags": [
+    "saglik",
+    "substance:alcohol",
+    "birakma",
+    "ev_arkadasi",
+    "aliskanliklar_birakma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "aliskanliklar_birakma": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Doğum günüm, bir kadeh kaldır benimle. On dokuzuncu gün, bir kadeh sayılmaz.",
+      "en": "It's my birthday. One drink with me. It's day nineteen, one doesn't count."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Hem zaten şubat. Şubatın yarısı sayılmaz.",
+      "en": "Besides, it's February. Half of February doesn't count.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "soda",
+      "tr": "Soda ile kadeh kaldır",
+      "en": "Toast with soda water",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "bir",
+      "tr": "Bir kadeh iç",
+      "en": "Have one",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "oda",
+      "tr": "Pastadan sonra odana geç",
+      "en": "Cake, then your room",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "soda": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 2,
+            "health": 1
+          },
+          "flags": {
+            "add": [
+              "ab_ara_suruyor"
+            ]
+          }
+        },
+        "tr": "Bütün gece soda içtin. Gece yarısı ev arkadaşın \"en ayık misafirim\" diye sana kadeh kaldırdı.",
+        "en": "You drank soda water all night. At midnight your roommate raised a glass to \"my most sober guest.\"",
+        "coach": [
+          {
+            "tr": "On dokuzuncu gün tamam.",
+            "en": "Day nineteen, complete.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": -2,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 1
+          },
+          "flags": {
+            "add": [
+              "ab_ara_bozuldu"
+            ]
+          }
+        },
+        "tr": "Saat on birde biri bardağını tazeledi, itiraz etmedin. Sabah on dokuz günlük sayacı sıfırladın.",
+        "en": "At eleven someone topped up your glass and you didn't object. In the morning you reset a nineteen-day counter.",
+        "coach": [
+          {
+            "tr": "Soda bardağı saat on birde istifa etti.",
+            "en": "At eleven, the soda glass resigned.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "bir": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ab_ara_bozuldu"
+          ]
+        }
+      },
+      "tr": "Bir kadeh ikiye çıktı. Ev arkadaşın mutluydu; sen sabah başın ağrıyarak takvime baktın.",
+      "en": "One became two. Your roommate was happy. You woke with a headache and stared at the calendar.",
+      "coach": [
+        {
+          "tr": "Şubatın yarısı sayılmadı. Baş ağrısı sayıldı.",
+          "en": "Half of February didn't count. The headache did.",
+          "roast": false
+        }
+      ]
+    },
+    "oda": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": -1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "ab_ara_suruyor"
+          ]
+        }
+      },
+      "tr": "Pastanı yedin, odana geçtin. Duvarın arkasından gelen şarkılar on dokuzuncu günün müziği oldu.",
+      "en": "You had cake and retreated to your room. The songs through the wall became day nineteen's soundtrack.",
+      "coach": [
+        {
+          "tr": "Gün kapandı. Parti duvarın öbür yüzünde sürdü.",
+          "en": "Day closed. The party continued on the other side of the wall.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "soda",
+    "slip": {
+      "tr": "İDDİA: Soda gece yarısını görmez. — M.",
+      "en": "WAGER: The soda won't make it to midnight. — M."
+    }
+  },
+  "intent": {
+    "setup": "bir aylık alkol arasının on dokuzuncu gününde ev arkadaşının doğum günü partisi",
+    "mechanism": "ev arkadaşının sayılmaz mantığı büyüyor",
+    "mechanismId": "escalation",
+    "punch": "şubatın yarısı sayılmaz",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "sayilmaz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

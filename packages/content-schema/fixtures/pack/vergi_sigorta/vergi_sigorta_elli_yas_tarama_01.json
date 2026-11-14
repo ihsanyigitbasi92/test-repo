@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_elli_yas_tarama_01",
+  "tags": [
+    "para",
+    "vergi",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 56
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Elli yaşından sonra yenileme için tarama şartı var. Aç karnına gelmeniz gerekiyor.",
+      "en": "After fifty, renewal requires a screening. Come in on an empty stomach."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Randevu sabah 7:40. Kahve de yasak, biliyorum.",
+      "en": "Appointment at 7:40 a.m. No coffee either. I know.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "git",
+      "tr": "Randevuya aç git",
+      "en": "Go in fasting",
+      "pattern": "patience"
+    },
+    {
+      "id": "kahve",
+      "tr": "Önce küçük bir kahve iç",
+      "en": "Sneak a small coffee first",
+      "pattern": "shortcut",
+      "check": {
+        "base": 6000
+      }
+    },
+    {
+      "id": "ertele",
+      "tr": "Randevuyu ertele",
+      "en": "Reschedule",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "git": {
+      "effects": {
+        "stats": {
+          "health": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "police_yenilendi"
+          ]
+        }
+      },
+      "tr": "Tarama kırk dakika sürdü. Sonuçlar normal; en yüksek değer kahvesiz sabah sinirindi.",
+      "en": "The screening took forty minutes. Results: normal. The highest reading was your pre-coffee mood.",
+      "coach": [
+        {
+          "tr": "Değerler normal. Poliçe yenilendi.",
+          "en": "Readings normal. Policy renewed.",
+          "roast": false
+        }
+      ]
+    },
+    "kahve": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "police_yenilendi"
+            ]
+          }
+        },
+        "tr": "Kahve fark edilmedi. Hemşire sadece \"çok sakinsiniz\" dedi.",
+        "en": "Nobody noticed the coffee. The nurse just said you seemed very relaxed.",
+        "coach": [
+          {
+            "tr": "Sakin hasta, kafeinli hasta.",
+            "en": "Calm patient. Caffeinated patient.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "money": -80,
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "tarama_tekrar"
+            ]
+          }
+        },
+        "tr": "Kan değerlerin kahveyi ele verdi. Tarama 80 Para ek ücretle tekrarlanacak.",
+        "en": "Your bloodwork gave away the coffee. Repeat screening, 80 extra.",
+        "coach": [
+          {
+            "tr": "O yudum 80 Para tuttu.",
+            "en": "That sip cost 80.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "ertele": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "tarama_ertelendi"
+          ]
+        }
+      },
+      "tr": "Randevu iki hafta sonraya alındı. Yeni saat: 7:20.",
+      "en": "Rescheduled two weeks out. New time: 7:20 a.m.",
+      "coach": [
+        {
+          "tr": "Erteleme yirmi dakika erken kalkmak demekmiş.",
+          "en": "Rescheduling just meant getting up twenty minutes earlier.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "wager payı başka olayda"
+  },
+  "intent": {
+    "setup": "sağlık poliçesi yenilemesi için elli yaş sonrası aç karnına zorunlu tarama",
+    "mechanism": "erteleyince saat daha erkene kayıyor",
+    "mechanismId": "escalation",
+    "punch": "yeni saat 7:20",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "yudum"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

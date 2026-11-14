@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslanan_ebeveyn_gunduz_bakicisi_01",
+  "tags": [
+    "aile",
+    "anne",
+    "bakim",
+    "yaslanan_ebeveyn"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "maxPerLife": 1,
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "yaslanan_ebeveyn": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 45,
+      "max": 70
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    },
+    "flags": {
+      "none": [
+        "anne_bakim_karari"
+      ]
+    }
+  },
+  "text": [
+    {
+      "id": "a",
+      "tr": "Annen markete gidip dönmenin artık bir gün sürdüğünü söyledi. Gülerek söyledi; sen gülmedin.",
+      "en": "Mom said a trip to the store takes a whole day now. She laughed when she said it. You didn't."
+    }
+  ],
+  "choices": [
+    {
+      "id": "bakici",
+      "tr": "Gündüz bakıcısı tut",
+      "en": "Hire a day carer",
+      "pattern": "generosity"
+    },
+    {
+      "id": "yanina",
+      "tr": "Anneni yanına al",
+      "en": "Move Mom in with you",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kardes",
+      "tr": "Kardeşinle nöbet yap",
+      "en": "Take turns with your sibling",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "sibling": {
+            "exists": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "bakici": {
+      "effects": {
+        "money": -3000,
+        "meters": {
+          "momPressure": -5
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_bakim_karari",
+            "anne_bakicisi"
+          ]
+        },
+        "followUp": [
+          {
+            "eventId": "yaslanan_ebeveyn_bakici_odemesi_01",
+            "delayDays": [
+              150,
+              210
+            ],
+            "chance": 10000
+          }
+        ]
+      },
+      "tr": "Bakıcı haftada beş gün geliyor. İlk ay 3.000 Para. Annen ona yemek yapmayı öğretiyor; bakıcı da sabırla öğreniyor.",
+      "en": "The carer comes five days a week. First month: 3,000. Mom is teaching her to cook. She's learning patiently.",
+      "coach": [
+        {
+          "tr": "Bakıcı öğreniyor. Annen öğretmeyi bırakmadı.",
+          "en": "The carer is learning. Mom never stopped teaching.",
+          "roast": false
+        }
+      ]
+    },
+    "yanina": {
+      "effects": {
+        "money": -800,
+        "hidden": {
+          "stress": 6
+        },
+        "meters": {
+          "momPressure": -8
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 6
+          }
+        ],
+        "flags": {
+          "add": [
+            "anne_bakim_karari",
+            "anne_bizde"
+          ]
+        },
+        "stats": {
+          "joy": 0
+        }
+      },
+      "tr": "Annen salondaki çekyata yerleşti. Kumandanın yeri değişti, akşam yemeği bir saat öne alındı.",
+      "en": "Mom moved onto the living-room sofa bed. The remote moved. Dinner moved an hour earlier.",
+      "coach": [
+        {
+          "tr": "Ev aynı, saatler annenin.",
+          "en": "Same house. Mom's hours.",
+          "roast": false
+        }
+      ]
+    },
+    "kardes": {
+      "effects": {
+        "hidden": {
+          "stress": 5
+        },
+        "meters": {
+          "momPressure": -3
+        },
+        "flags": {
+          "add": [
+            "anne_bakim_karari",
+            "anne_nobet"
+          ]
+        },
+        "stats": {
+          "joy": -1
+        }
+      },
+      "tr": "Çizelge yapıldı: pazartesi, çarşamba, cuma sen. Kardeşin cumartesiyi \"bonus\" diye ekledi, gelmedi.",
+      "en": "A schedule went up: Monday, Wednesday, Friday are yours. Your sibling added Saturday \"as a bonus,\" then didn't show.",
+      "coach": [
+        {
+          "tr": "Bonus gün yazıldı. Gün gelmedi.",
+          "en": "The bonus day was written down. It didn't arrive.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "para kararı; iddia yok"
+  },
+  "intent": {
+    "setup": "yaşlanan annenin gündelik bakım ihtiyacı",
+    "mechanism": "bakıcıya yemek öğreten anne",
+    "punch": "annen öğretmeyi bırakmadı",
+    "lift": "yok",
+    "target": "decision",
+    "mechanismId": "reversal",
+    "antithesis": false,
+    "closer": "tanik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

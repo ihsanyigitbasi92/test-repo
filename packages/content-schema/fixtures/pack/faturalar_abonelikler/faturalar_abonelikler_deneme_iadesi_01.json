@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_deneme_iadesi_01",
+  "tags": [
+    "para",
+    "abonelik",
+    "uygulama",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Deneme süreniz 00.00'da bitmiş. Yıllık plan 00.01'de başlamış.",
+      "en": "Your free trial ended at midnight. The annual plan started at 12:01."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "İade için on iki soruluk anket var. Bu arada nefes egzersizimizi denemenizi öneririm.",
+      "en": "There's a twelve-question survey for refunds. In the meantime, may I suggest our breathing exercise?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anket",
+      "tr": "On iki soruyu cevapla",
+      "en": "Answer all twelve questions",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tut",
+      "tr": "Yılı kullan bari",
+      "en": "Fine, use the whole year",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "itiraz",
+      "tr": "Kart üzerinden itiraz et",
+      "en": "Dispute it through the card",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "anket": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "deneme_iadesi"
+            ]
+          }
+        },
+        "tr": "Anket bitti, iade onaylandı. Uygulama vedalaşırken bir anket daha gönderdi.",
+        "en": "Survey done, refund approved. On the way out, the app sent another survey.",
+        "coach": [
+          {
+            "tr": "On iki soru, bir iade, bir yeni anket.",
+            "en": "Twelve questions, one refund, one new survey.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -720,
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": 0
+          }
+        },
+        "tr": "Onuncu soruda oturum zaman aşımına uğradı. 720 Para'lık yıllık plan yerinde.",
+        "en": "The session timed out on question ten. The 720 annual plan stays.",
+        "coach": [
+          {
+            "tr": "On soru cevaplandı. Sistem iki soru daha bekleyemedi.",
+            "en": "Ten answered. The system couldn't wait for two more.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tut": {
+      "effects": {
+        "money": -720,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "yillik_meditasyon"
+          ]
+        }
+      },
+      "tr": "Yıllık plan kaldı: 720 Para. Uygulama her sabah 07.00'de nefes almayı hatırlatıyor.",
+      "en": "The annual plan stays: 720. Every morning at seven, the app reminds you to breathe.",
+      "coach": [
+        {
+          "tr": "Bir yıl, 365 hatırlatma.",
+          "en": "One year. 365 reminders.",
+          "roast": false
+        }
+      ]
+    },
+    "itiraz": {
+      "effects": {
+        "money": -720,
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kart_itirazi_acik"
+          ]
+        }
+      },
+      "tr": "Kart itirazı açıldı. Sonuç otuz iş günü içinde; plan o zamana kadar aktif.",
+      "en": "Dispute filed. Decision within thirty business days. The plan stays active meanwhile.",
+      "coach": [
+        {
+          "tr": "Otuz gün bekleme. Nefes egzersizi dahil.",
+          "en": "Thirty days of waiting. Breathing exercise included.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "iddia payı dolu"
+  },
+  "intent": {
+    "setup": "ücretsiz denemesi gece yarısı yıllık plana dönen meditasyon uygulamasından iade istemek",
+    "mechanism": "sakinlik uygulamasının destek hattı stres üretiyor",
+    "mechanismId": "reversal",
+    "punch": "nefes egzersizimizi denemenizi öneririm",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "nefes"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

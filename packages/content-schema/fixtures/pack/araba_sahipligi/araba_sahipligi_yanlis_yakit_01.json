@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "araba_sahipligi_yanlis_yakit_01",
+  "tags": [
+    "ulasim",
+    "araba",
+    "araba_sahipligi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "araba_sahipligi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "all": [
+        "araba_var"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Pardon, sizin araba benzinli değil mi? O tabanca mazot.",
+      "en": "Excuse me, isn't yours a gas car? That's the diesel pump."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Kayınbiraderimin başına geldi. Sakın çalıştırmayın.",
+      "en": "Happened to my brother-in-law. Whatever you do, don't start it.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "cekici",
+      "tr": "Çekici çağır, depoyu boşalttır",
+      "en": "Call a tow, drain the tank",
+      "pattern": "patience"
+    },
+    {
+      "id": "az",
+      "tr": "Azıcık koydum, devam et",
+      "en": "It's only a little, drive on",
+      "pattern": "risk",
+      "check": {
+        "base": 3500
+      }
+    },
+    {
+      "id": "dayi",
+      "tr": "Dayını ara",
+      "en": "Call your uncle",
+      "pattern": "leanOnFamily",
+      "requires": {
+        "npc": {
+          "uncle": {
+            "alive": true
+          }
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "cekici": {
+      "effects": {
+        "money": -1800,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "yakit_dersi"
+          ]
+        }
+      },
+      "tr": "Çekici geldi, depo sanayide boşaltıldı: 1.800 Para. Yan pompadaki yabancı faturayı görmeden gitmişti.",
+      "en": "A tow, a drained tank, a bill of 1,800. The stranger from the next pump left before seeing it.",
+      "coach": [
+        {
+          "tr": "On litre yanlış, 1.800 Para doğru.",
+          "en": "Ten liters wrong. 1,800 exactly right.",
+          "roast": true
+        }
+      ]
+    },
+    "az": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": -300,
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Depo zaten neredeyse doluydu. Araba öksürerek de olsa eve vardı.",
+        "en": "The tank was mostly gas already. The car coughed its way home.",
+        "coach": [
+          {
+            "tr": "Öksürük geçti. Bu sefer.",
+            "en": "The cough passed. This time.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -4500,
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "yakit_pompasi_degisti"
+            ]
+          }
+        },
+        "tr": "Üç kilometre sonra motor durdu. Yakıt pompası değişti: 4.500 Para.",
+        "en": "Two miles later the engine quit. New fuel pump: 4,500.",
+        "coach": [
+          {
+            "tr": "Üç kilometre, bir pompa, bir aylık bütçe.",
+            "en": "Two miles, one pump, a month's budget.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "dayi": {
+      "effects": {
+        "money": -600,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "yakit_dersi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Dayın yarım saatte geldi, depoyu el pompasıyla kendisi boşalttı. Akşam aileye \"Bizim zamanımızda pompacı vardı\" diye anlattı.",
+      "en": "Your uncle arrived in half an hour and drained the tank himself with a hand pump. At dinner he told everyone, \"In my day, pumps had attendants.\"",
+      "coach": [
+        {
+          "tr": "Depo boş, hikâye dolu.",
+          "en": "Tank empty. Story full.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "az",
+    "slip": {
+      "tr": "İDDİA: Araba eve varamaz. — M.",
+      "en": "WAGER: The car won't make it home. — M."
+    }
+  },
+  "intent": {
+    "setup": "benzinlikte benzinli arabaya yanlışlıkla mazot koyarken yan pompadaki yabancının uyarması",
+    "mechanism": "küçük hata pompa faturasına büyüyor",
+    "mechanismId": "escalation",
+    "punch": "üç kilometre, bir pompa",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "pompa"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

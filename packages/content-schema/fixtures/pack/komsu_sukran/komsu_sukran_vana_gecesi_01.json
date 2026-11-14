@@ -1,0 +1,223 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "komsu_sukran_vana_gecesi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "komsu",
+    "komsu_sukran"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "komsu_sukran": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 58
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Mutfak göl oldu. Vana bodrumda ama hangisi bilmiyorum. Hepsi aynı renk.",
+      "en": "My kitchen's a lake. The valve's in the basement, but which one? They're all the same color."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Terliğini giy. O bodruma çıplak ayakla inilmez.",
+      "en": "Put your slippers on. Nobody goes down to that basement barefoot.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "bul",
+      "tr": "Doğru vanayı bul",
+      "en": "Find the right valve",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "hepsi",
+      "tr": "Bütün vanaları kapat",
+      "en": "Shut every valve",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kova",
+      "tr": "Sabaha kadar kovayla boşalt",
+      "en": "Bail with buckets till dawn",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "bul": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 4,
+              "memory": "vana_kahramani"
+            }
+          ],
+          "flags": {
+            "add": [
+              "vana_bilen"
+            ]
+          }
+        },
+        "tr": "Üçüncü denemede doğru vanayı buldun. Mutfak kurudu, Şükran Teyze sabah yedide börek getirdi.",
+        "en": "Third try, right valve. The kitchen dried out. Mrs. Dale brought pastries at seven a.m.",
+        "coach": [
+          {
+            "tr": "Vana haritası artık sende. Gece nöbeti de.",
+            "en": "You now hold the valve map. And the night shift that comes with it.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Yanlış vanayı kapattın; alt kat sabaha sıcak susuz uyandı. Usta saat sekizde geldi.",
+        "en": "Wrong valve. The downstairs flat woke without hot water. The plumber arrived at eight.",
+        "coach": [
+          {
+            "tr": "Sel durdu. Alt kat soğuk duşla uyandı.",
+            "en": "The flood stopped. Downstairs woke to a cold shower.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "hepsi": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "bina_susuz_sabah"
+          ]
+        }
+      },
+      "tr": "Bütün vanaları kapattın. Sızıntı durdu; bina sabaha susuz uyandı, sebebi öğlene doğru anlaşıldı.",
+      "en": "You shut every valve. The leak stopped. The whole building woke up dry and worked out why by noon.",
+      "coach": [
+        {
+          "tr": "Kesin çözüm, toplu sonuç.",
+          "en": "Total solution. Collective consequences.",
+          "roast": true
+        }
+      ]
+    },
+    "kova": {
+      "effects": {
+        "stats": {
+          "health": -2,
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 5,
+            "memory": "kova_gecesi"
+          }
+        ]
+      },
+      "tr": "Sabaha kadar kova taşıdınız. Usta geldiğinde mutfak kuruydu, siz değildiniz.",
+      "en": "You bailed until dawn. When the plumber came, the kitchen was dry. The two of you were not.",
+      "coach": [
+        {
+          "tr": "Kova vardiyası altı saat sürdü.",
+          "en": "The bucket shift ran six hours.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bul",
+    "slip": {
+      "tr": "İDDİA: O vanayı usta bulur. — M.",
+      "en": "WAGER: The plumber finds that valve. — M."
+    }
+  },
+  "intent": {
+    "setup": "gece yarısı komşunun mutfağında boru patlıyor, bodrumda doğru vanayı aramak",
+    "mechanism": "bütün vanalar aynı renk",
+    "mechanismId": "literalism",
+    "punch": "hepsi aynı renk",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "vana"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

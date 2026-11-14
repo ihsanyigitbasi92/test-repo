@@ -1,0 +1,171 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_dayi_kefil_01",
+  "tags": [
+    "para",
+    "borc",
+    "kredi",
+    "dayi",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kredi geçmişiniz yok. Bir kefil gerekiyor.",
+      "en": "You have no credit history. We'll need a co-signer."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda kefillik kahvede bir el sıkışmaydı. İmzalarım ama herkes duyacak.",
+      "en": "In my day, co-signing was a handshake at the coffeehouse. I'll sign, but everyone will hear about it.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dayi",
+      "tr": "Dayını kefil yaz",
+      "en": "Put your uncle down",
+      "pattern": "leanOnFamily"
+    },
+    {
+      "id": "kucuk",
+      "tr": "Kefilsiz küçük kredi iste",
+      "en": "Ask for a smaller loan, no co-signer",
+      "pattern": "patience"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Krediden vazgeç",
+      "en": "Drop the loan",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dayi": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": 2,
+            "memory": "kefil_oldu"
+          }
+        ],
+        "flags": {
+          "add": [
+            "dayi_kefil",
+            "ihtiyac_kredisi"
+          ]
+        }
+      },
+      "tr": "Kredi onaylandı. Dayın kefilliğini aile grubuna imza anının fotoğrafıyla duyurdu.",
+      "en": "Loan approved. Your uncle announced the co-signing to the family group, with a photo of the signature.",
+      "coach": [
+        {
+          "tr": "Kredi onaylı. Haber yayında.",
+          "en": "Loan approved. Story published.",
+          "roast": false
+        }
+      ]
+    },
+    "kucuk": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "ihtiyac_kredisi",
+            "kucuk_kredi"
+          ]
+        }
+      },
+      "tr": "Kefilsiz limit istediğinin üçte biri çıktı. Plan eksik kalan kısma göre yeniden yapıldı.",
+      "en": "The no-co-signer limit came to a third of what you asked for. The plan got redrawn around the gap.",
+      "coach": [
+        {
+          "tr": "Üçte bir kredi. Duyurusuz.",
+          "en": "A third of a loan. No announcement.",
+          "roast": false
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "glossary": "kredi_gecmisi",
+        "flags": {
+          "add": [
+            "kredi_vazgecildi"
+          ]
+        }
+      },
+      "tr": "Kredi alınmadı. Kredi geçmişi de böylece boş kaldı.",
+      "en": "No loan. Your credit history stays blank as a result.",
+      "coach": [
+        {
+          "tr": "Geçmiş boş, imza yok.",
+          "en": "No history. No signature.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "kredi geçmişi olmadığı için ilk kredide bankanın kefil istemesi ve dayının kefil olmayı önermesi",
+    "mechanism": "dayının kefilliği herkesin haberi oluyor",
+    "mechanismId": "escalation",
+    "punch": "imzalarım ama herkes duyacak",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "yayin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_balayi_manzarasi_01",
+  "tags": [
+    "iliski",
+    "balayi",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 3000,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 36
+    },
+    "flags": {
+      "all": [
+        "dugun_yapildi"
+      ],
+      "none": [
+        "balayi_deniz",
+        "balayi_otopark",
+        "balayi_sahil"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "annoyed",
+      "tr": "Fotoğrafta deniz manzarası vardı. Burada otopark manzarası var.",
+      "en": "The photo had an ocean view. This has a parking-lot view."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Otoparkın ucunda mavi bir şey görünüyor. Deniz mi o, branda mı?",
+      "en": "There's something blue at the far end of the lot. Is that the sea or a tarp?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sikayet",
+      "tr": "Resepsiyona şikâyet et",
+      "en": "Complain at the front desk",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yukselt",
+      "tr": "Parayla oda yükselt",
+      "en": "Pay for an upgrade",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "sahil",
+      "tr": "Odada kal, sahile in",
+      "en": "Keep the room, live on the beach",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "sikayet": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "flags": {
+            "add": [
+              "balayi_deniz"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Resepsiyon sizi ücretsiz deniz cepheli odaya aldı. Mavi şey denizmiş.",
+        "en": "The front desk moved you to a sea-view room for free. The blue thing was the sea.",
+        "coach": [
+          {
+            "tr": "Deniz doğrulandı.",
+            "en": "Sea: verified.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "balayi_otopark"
+            ]
+          }
+        },
+        "tr": "Oda değişmedi, odaya meyve tabağı gönderildi. Tabak da otoparka bakıyordu.",
+        "en": "The room stayed. They sent up a fruit plate. It also faced the parking lot.",
+        "coach": [
+          {
+            "tr": "Meyve tabağı da aynı manzarayı aldı. Adil.",
+            "en": "The fruit plate got the same view. Fair is fair.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yukselt": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "money": -1800,
+        "flags": {
+          "add": [
+            "balayi_deniz"
+          ]
+        }
+      },
+      "tr": "Fark 1.800 Para. Yeni odanın balkonundan deniz görünüyor, otopark da.",
+      "en": "The difference: 1,800. The new balcony shows the sea. And the parking lot.",
+      "coach": [
+        {
+          "tr": "1.800 Para manzaraya deniz ekledi. Otopark paketin içindeydi.",
+          "en": "1,800 added a sea to the view. The parking lot was included.",
+          "roast": true
+        }
+      ]
+    },
+    "sahil": {
+      "effects": {
+        "stats": {
+          "health": 1,
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "balayi_sahil"
+          ]
+        }
+      },
+      "tr": "Odayı yalnızca uyumak için kullandınız. Günler sahilde geçti, otopark geceleri ışıl ışıldı.",
+      "en": "The room was just for sleeping. Days on the beach. At night, the parking lot was lit up and kind of lovely.",
+      "coach": [
+        {
+          "tr": "Otopark geceleri güzelmiş. Broşürde yazmıyordu.",
+          "en": "The parking lot is nice at night. The brochure left that out.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sikayet",
+    "slip": {
+      "tr": "İDDİA: Resepsiyon oda değiştirmez. — M.",
+      "en": "WAGER: That room isn't changing. — M."
+    }
+  },
+  "intent": {
+    "setup": "balayı otelinde fotoğraftaki deniz manzarası yerine otopark",
+    "mechanism": "partner mavi şeyin deniz mi branda mı olduğunu soruyor",
+    "mechanismId": "bathos",
+    "punch": "deniz mi o, branda mı",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "manzara"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

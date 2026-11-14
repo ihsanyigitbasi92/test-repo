@@ -1,0 +1,184 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_academic_ofis_saati_01",
+  "tags": [
+    "kariyer",
+    "akademisyen",
+    "kariyer_academic"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 650,
+    "tags": {
+      "kariyer_academic": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "academic"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Hocam, sınav yarın. Ofis saatiniz ne zamandı acaba?",
+      "en": "Professor, the exam is tomorrow. When were your office hours, again?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "worried",
+      "tr": "Bir de konular neydi? Bir de sınav hangi binada?",
+      "en": "Also, what topics are on it? Also, which building?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "typing",
+      "tr": "Bir de ben bu dersi alıyor muyum? Sistemde göremedim.",
+      "en": "Also, am I actually enrolled? I can't see it in the system."
+    }
+  ],
+  "choices": [
+    {
+      "id": "toplu",
+      "tr": "Herkese tek toplu cevap yaz",
+      "en": "Send one reply to everyone",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "tek",
+      "tr": "Hepsini tek tek yanıtla",
+      "en": "Answer each one individually",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sabah",
+      "tr": "Sabah sekizde ofisi aç",
+      "en": "Open your office at 8 a.m.",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "toplu": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": 1
+        }
+      },
+      "tr": "Kırk iki e-postaya tek cevap yazdın: konular, bina, saat. Yarım saat içinde \"tümünü yanıtla\" ile on yedi teşekkür geldi.",
+      "en": "One reply to forty-two emails: topics, building, time. Within half an hour, seventeen reply-all thank-yous.",
+      "coach": [
+        {
+          "tr": "Bir cevap, on yedi teşekkür. Hepsi herkese.",
+          "en": "One reply. Seventeen thank-yous. All reply-all.",
+          "roast": false
+        }
+      ]
+    },
+    "tek": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 4
+        }
+      },
+      "tr": "Gece birde kırk ikinci e-postayı yanıtladın. Sabah iki öğrenci binayı yine bulamadı.",
+      "en": "At 1 a.m. you answered email forty-two. In the morning, two students still couldn't find the building.",
+      "coach": [
+        {
+          "tr": "Gece bir. Bina hâlâ kayıp.",
+          "en": "1 a.m. The building is still missing.",
+          "roast": false
+        }
+      ]
+    },
+    "sabah": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "ofis_saati_dolu"
+            ]
+          }
+        },
+        "tr": "Sabah sekizde kapında on bir öğrenci vardı. Dönemin ilk ve tek ofis saati kırk dakika sürdü.",
+        "en": "At eight there were eleven students at your door. The first and only office hour of the term lasted forty minutes.",
+        "coach": [
+          {
+            "tr": "Kırk dakika. Bütün bir dönem.",
+            "en": "Forty minutes. A whole semester.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 1
+          }
+        },
+        "tr": "Sabah sekizde kapıyı açtın, kimse gelmedi. Dokuzu çeyrek geçe \"Ofis saatiniz var mıydı?\" e-postası geldi.",
+        "en": "You opened the door at eight. Nobody came. At 9:15 an email arrived: \"Do you have office hours?\"",
+        "coach": [
+          {
+            "tr": "Kapı açıktı. E-posta yine de geldi.",
+            "en": "The door was open. The email came anyway.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false
+  },
+  "intent": {
+    "setup": "dönem boyunca ofis saatine kimse gelmiyor, finalden önceki gece kırk iki e-posta geliyor",
+    "mechanism": "öğrenci soruları her satırda bir kat temele iniyor",
+    "mechanismId": "escalation",
+    "punch": "ben bu dersi alıyor muyum",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "kapi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

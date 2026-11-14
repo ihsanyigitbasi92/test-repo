@@ -1,0 +1,174 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_lawyer_e_imza_suresi_01",
+  "tags": [
+    "kariyer",
+    "avukat",
+    "kariyer_lawyer"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_lawyer": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "lawyer"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Elektronik imzanızın süresi dün dolmuş. Sistem sizi tanıyor, imzanızı tanımıyor.",
+      "en": "Your e-signature expired yesterday. The system recognizes you, not your signature."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "tired",
+      "tr": "Yenileme üç iş günü, süreniz bugün beşte doluyor. İkisi de doğru.",
+      "en": "Renewal takes three business days, and your deadline is five p.m. today. Both are true.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kagit",
+      "tr": "Kâğıtla elden teslim et",
+      "en": "File on paper, by hand",
+      "pattern": "patience"
+    },
+    {
+      "id": "hizli",
+      "tr": "Hızlı yenilemeye koş",
+      "en": "Run for express renewal",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "uzatim",
+      "tr": "Süre uzatımı talep et",
+      "en": "Request an extension",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "kagit": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 3
+        }
+      },
+      "tr": "Kâğıt gişesinde bir saat elli dakika sıra bekledin. Dosya 16.41'de teslim edildi.",
+      "en": "You stood in the paper-filing line for an hour and fifty minutes. Filed at 4:41 p.m.",
+      "coach": [
+        {
+          "tr": "On dokuz dakika payla. Kâğıt hâlâ çalışıyor.",
+          "en": "Nineteen minutes to spare. Paper still works.",
+          "roast": false
+        }
+      ]
+    },
+    "hizli": [
+      {
+        "p": 5000,
+        "effects": {
+          "money": -450,
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "e_imza_yenilendi"
+            ]
+          }
+        },
+        "tr": "Hızlı yenileme iki saat sürdü, ücreti 450 Para. Dosya 16.05'te sistemden gitti.",
+        "en": "Express renewal took two hours and cost 450. Filed electronically at 4:05 p.m.",
+        "coach": [
+          {
+            "tr": "450 Para, iki saat, elli beş dakika pay.",
+            "en": "450, two hours, fifty-five minutes to spare.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "hidden": {
+            "stress": 4
+          },
+          "meters": {
+            "ego": -2
+          }
+        },
+        "tr": "Hızlı yenileme masası 15.00'te kapanmıştı. Dosyayı 16.58'de kâğıtla yetiştirdin.",
+        "en": "The express desk had closed at three. You made it on paper at 4:58.",
+        "coach": [
+          {
+            "tr": "İki dakika. Saat sana bugün iki dakika borç verdi.",
+            "en": "Two minutes. The clock lent you two minutes today.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "uzatim": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "meters": {
+          "ego": -1
+        }
+      },
+      "tr": "Talebin \"değerlendirmeye alındı\". Değerlendirme beklenirken dosyayı 16.52'de kâğıtla verdin.",
+      "en": "Your request was \"taken under review.\" While it was under review, you filed on paper at 4:52.",
+      "coach": [
+        {
+          "tr": "Talep değerlendirmede. Dosya teslimde.",
+          "en": "Request: under review. File: delivered.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti iddia payı doldu"
+  },
+  "intent": {
+    "setup": "son gün elektronik imzanın süresinin dolduğunu öğrendin",
+    "mechanism": "iki doğru aynı anda çelişiyor",
+    "mechanismId": "literalism",
+    "punch": "ikisi de doğru",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "pay"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

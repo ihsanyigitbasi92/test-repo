@@ -1,0 +1,150 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kutlamalar_dogum_gunu_kimlik_tarihi_01",
+  "tags": [
+    "sosyal",
+    "dogum_gunu",
+    "restoran",
+    "kutlamalar_dogum_gunu"
+  ],
+  "rarity": "common",
+  "universality": "localizedShell",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 730,
+    "tags": {
+      "kutlamalar_dogum_gunu": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:waiter",
+      "avatar": "neutral",
+      "tr": "Doğum günü tatlısı ikram, ama kimlik görmem lazım. Kural.",
+      "en": "Birthday dessert's on the house, but I need to see ID. Rules."
+    },
+    {
+      "speaker": "npc:waiter",
+      "avatar": "annoyed",
+      "tr": "Burada doğum gününüz üç hafta sonra görünüyor. Tatlıyı üç hafta sonra verebilirim.",
+      "en": "This says your birthday is three weeks from now. I can give you the dessert in three weeks.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Nüfus hikâyesini anlat",
+      "en": "Explain the late registration",
+      "pattern": "patience"
+    },
+    {
+      "id": "ode",
+      "tr": "Tatlının parasını öde",
+      "en": "Just pay for the dessert",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "gel",
+      "tr": "Üç hafta sonra yine gel",
+      "en": "Come back in three weeks",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "anlat": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "cringe": 2
+        },
+        "npc": [
+          {
+            "role": "npc:waiter",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Annenin seni nüfusa üç hafta geç yazdırdığını anlattın. Garson kendi kimliğinin de yanlış olduğunu söyleyip iki tatlı getirdi.",
+      "en": "You explained your birth got registered three weeks late. The waiter said his was off too and brought two desserts.",
+      "coach": [
+        {
+          "tr": "İki yanlış tarih, iki tatlı.",
+          "en": "Two wrong dates. Two desserts.",
+          "roast": false
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 2
+        }
+      },
+      "tr": "Tatlıyı 180 Para'ya aldın. Garson yine de mum yaktı: 'Gayriresmî kutlama.'",
+      "en": "You paid 180 for the dessert. The waiter lit a candle anyway. 'Unofficial celebration.'",
+      "coach": [
+        {
+          "tr": "Resmî tarih bekleyebilir.",
+          "en": "The official date can wait.",
+          "roast": false
+        }
+      ]
+    },
+    "gel": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "flags": {
+          "add": [
+            "iki_dogum_gunu"
+          ]
+        }
+      },
+      "tr": "Üç hafta sonra aynı masaya oturdun. Garson kimliğe bakıp mumu yaktı; artık yılda iki doğum günün var.",
+      "en": "Three weeks later, same table. The waiter checked your ID and lit the candle. You now have two birthdays a year.",
+      "coach": [
+        {
+          "tr": "Yılda iki kutlama. Evrak sayesinde.",
+          "en": "Two birthdays a year, courtesy of the paperwork.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok"
+  },
+  "intent": {
+    "setup": "restoranda doğum günü ikramı için kimlik istenmesi ve kimlikteki tarihin farklı çıkması",
+    "mechanism": "kural bugünü yarına itiyor",
+    "mechanismId": "reversal",
+    "punch": "üç hafta sonra verebilirim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "tarih"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok",
+    "cultureNote": "Nüfusa geç kayıt nedeniyle kimlikte farklı doğum tarihi TR'de yaygın; EN'de 'registered late / paperwork mix-up' olarak verildi."
+  }
+}

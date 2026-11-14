@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "document",
+  "id": "burokrasi_resmi_daire_hurda_motor_kaydi_01",
+  "tags": [
+    "burokrasi",
+    "tasit",
+    "burokrasi_resmi_daire"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "burokrasi_resmi_daire": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 65,
+      "max": 90
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "document": {
+    "letterhead": {
+      "tr": "TAŞIT KAYIT VE TESCİL BİRİMİ (kurgusal)",
+      "en": "VEHICLE RECORDS OFFICE (fictional)"
+    },
+    "body": {
+      "tr": "Adınıza kayıtlı motosikletin tescil kaydı devam etmektedir. Kayıt kapatılmadığından birikmiş yıllık harç 310 Para olarak hesaplanmıştır.",
+      "en": "The motorcycle registered in your name remains on record. As the registration was never closed, accrued annual fees total 310."
+    },
+    "translate": {
+      "tr": {
+        "from": "tescil kaydı devam etmektedir",
+        "to": "kâğıt üzerinde hâlâ sürüyorsun"
+      },
+      "en": {
+        "from": "remains on record",
+        "to": "on paper, you're still riding it"
+      }
+    },
+    "glossaryKey": "tescil_kaydi"
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Hurdaya verdiyseniz hurda belgesi lazım. Hurdacının adı, tarihi, kaşesi.",
+      "en": "If it was scrapped, we need the scrap certificate. Dealer's name, date, and stamp."
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Harcı öde, kaydı kapat",
+      "en": "Pay the fees and close it",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "hurdaci",
+      "tr": "Kırk yıl önceki hurdacıyı ara",
+      "en": "Track down the scrap dealer",
+      "pattern": "patience",
+      "check": {
+        "base": 3000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "itiraz",
+      "tr": "\"Motor yok ki\" diye itiraz et",
+      "en": "Argue that the bike is gone",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "money": -310,
+        "flags": {
+          "add": [
+            "motor_kaydi_kapandi"
+          ]
+        },
+        "glossary": "tescil_kaydi"
+      },
+      "tr": "310 Para ödedin, kayıt kapandı. Kırk yıl sonra aynı motosikleti ikinci kez elden çıkardın.",
+      "en": "You paid 310 and the record was closed. Forty years on, you got rid of the same motorcycle a second time.",
+      "coach": [
+        {
+          "tr": "İlkinde hurdacı sana para vermişti.",
+          "en": "The first time, the dealer paid you.",
+          "roast": true
+        }
+      ]
+    },
+    "hurdaci": [
+      {
+        "p": 3000,
+        "effects": {
+          "stats": {
+            "joy": 6
+          },
+          "flags": {
+            "add": [
+              "motor_kaydi_kapandi"
+            ]
+          }
+        },
+        "tr": "Hurdacının oğlu dükkânı sürdürüyormuş; defteri buldu. Senin motor üçüncü sayfada: \"kırmızı, tek ayna.\" Harç silindi.",
+        "en": "The dealer's son still runs the yard and found the ledger. Your bike was on page three: \"red, one mirror.\" The fees were waived.",
+        "coach": [
+          {
+            "tr": "Kırmızı, tek ayna. Hurdacının defteri senden iyi hatırlıyor.",
+            "en": "Red, one mirror. The dealer's ledger remembers it better than you do.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 7000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "glossary": "tescil_kaydi"
+        },
+        "tr": "Hurdalığın yerinde bir düğün salonu var. Harç duruyor; itiraz için yirmi günün kaldı.",
+        "en": "There's a wedding hall where the scrapyard was. The fees stand. You have twenty days left to contest them.",
+        "coach": [
+          {
+            "tr": "Hurdalık gitmiş. Kayıt yerinde.",
+            "en": "The scrapyard is gone. The record isn't.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "itiraz": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "motor_itirazi"
+          ]
+        },
+        "glossary": "tescil_kaydi"
+      },
+      "tr": "Görevli haklı olduğunu söyledi ve itiraz formunu uzattı: dört sayfa. Bu arada harç işlemeye devam ediyor.",
+      "en": "The clerk agreed you had a point and handed over the objection form: four pages. The fees keep running meanwhile.",
+      "coach": [
+        {
+          "tr": "Olmayan motor hâlâ masraf çıkarıyor.",
+          "en": "A bike that doesn't exist is still running up costs.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "evrak günü (D-ÖNERİ-03-05)"
+  },
+  "intent": {
+    "setup": "kırk yıl önce hurdaya verilen motosikletin tescil kaydının hâlâ açık olduğunu ve harç biriktiğini bildiren yazı",
+    "mechanism": "kâğıt üzerinde var olmaya devam eden bir taşıt",
+    "mechanismId": "translation",
+    "punch": "ilkinde hurdacı sana para vermişti",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "tek_ayna"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

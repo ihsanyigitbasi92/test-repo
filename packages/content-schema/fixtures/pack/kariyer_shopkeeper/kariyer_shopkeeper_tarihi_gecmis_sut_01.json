@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_tarihi_gecmis_sut_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Bu sütün tarihi dün geçmiş. Fark etmesem çay yapacaktım.",
+      "en": "This milk expired yesterday. If I hadn't noticed, it would've gone in my tea."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Ben fark ederim tabii. Ben her şeyi fark ederim. Raftaki diğer üçü de geçmiş.",
+      "en": "Of course I noticed. I notice everything. The other three on the shelf are expired too.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "ozur",
+      "tr": "Özür dile, yenisini ver",
+      "en": "Apologize, swap it out",
+      "pattern": "generosity"
+    },
+    {
+      "id": "raf",
+      "tr": "Bütün rafı kontrol et",
+      "en": "Check the whole shelf",
+      "pattern": "patience",
+      "check": {
+        "base": 6000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "tartis",
+      "tr": "Tarihin bugün olduğunu söyle",
+      "en": "Insist it expires today",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "ozur": {
+      "effects": {
+        "money": -60,
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Yeni sütü verdin. Komşu teşekkür etti, sonra kasada bekleyen iki müşteriye olayı anlattı.",
+      "en": "You swapped the milk. The neighbor said thanks, then told the whole story to the two people in line.",
+      "coach": [
+        {
+          "tr": "Bir süt, iki dinleyici.",
+          "en": "One carton. Two listeners.",
+          "roast": false
+        }
+      ]
+    },
+    "raf": [
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "esnaf_raf_kontrol"
+            ]
+          }
+        },
+        "tr": "Rafta üç geçmiş süt ve geçen yıldan kalma bir maya buldun. Hepsi kaldırıldı, komşu \"gördün mü\" dedi.",
+        "en": "You found three expired cartons and a yogurt starter from last year. All pulled. The neighbor said, \"See?\"",
+        "coach": [
+          {
+            "tr": "Raf temiz. Maya emekli.",
+            "en": "Shelf clear. Starter retired.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Rafı kontrol ettin, birini kaçırdın. Ertesi sabah komşu o sütle yine kapıdaydı.",
+        "en": "You checked the shelf and missed one. Next morning the neighbor was back at the door with it.",
+        "coach": [
+          {
+            "tr": "Komşu tutarlı.",
+            "en": "The neighbor is nothing if not consistent.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "tartis": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "ego": -2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Tarihe birlikte baktınız: dünkü. Komşu bu konuşmayı merdiven boşluğunda iki kez anlattı.",
+      "en": "You checked the date together: yesterday. The neighbor retold the exchange in the stairwell twice.",
+      "coach": [
+        {
+          "tr": "Tarih bir kez okundu, hikâye iki kez.",
+          "en": "The date was read once. The story, twice.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "raf",
+    "slip": {
+      "tr": "İDDİA: Bir kutu gözünden kaçar. — M.",
+      "en": "WAGER: One carton slips past you. — M."
+    }
+  },
+  "intent": {
+    "setup": "komşu tarihi bir gün önce geçmiş sütle dükkânın kapısına geliyor",
+    "mechanism": "komşu her şeyi fark ettiğini sakin sakin ekliyor",
+    "mechanismId": "understatement",
+    "punch": "raftaki diğer üçü de geçmiş",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "merdiven_boslugu"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

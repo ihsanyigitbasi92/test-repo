@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "vergi_sigorta_bisiklet_calindi_01",
+  "tags": [
+    "para",
+    "sigorta",
+    "ev",
+    "vergi_sigorta"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "vergi_sigorta": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 36
+    },
+    "career": {
+      "employed": true
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bisiklet ortak alanda çalınmış. Poliçe yalnızca daire içini kapsıyor.",
+      "en": "The bike was stolen from a shared area. The policy only covers inside the flat."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Bisiklet salonda olsaydı öderdik. Salonda olsaydı çalınmazdı tabii.",
+      "en": "If it had been in the living room, we'd pay. Of course, in the living room it wouldn't have been stolen.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Yazılı itiraz et",
+      "en": "File a written appeal",
+      "pattern": "pride",
+      "check": {
+        "base": 2000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kabul",
+      "tr": "Kabul et, ikinci el bak",
+      "en": "Accept it, look secondhand",
+      "pattern": "patience"
+    },
+    {
+      "id": "genislet",
+      "tr": "Poliçeyi ortak alana genişlet",
+      "en": "Extend cover to shared areas",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 2000,
+        "effects": {
+          "money": 300,
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "bisiklet_tazmin"
+            ]
+          }
+        },
+        "tr": "İtirazın kabul edildi: merdiven boşluğu 'kilitli bölüm' sayıldı. 300 Para ödendi.",
+        "en": "Appeal accepted: the stairwell counted as a 'locked section.' Payout: 300.",
+        "coach": [
+          {
+            "tr": "Merdiven boşluğu bir günlüğüne dairen oldu.",
+            "en": "For one day, the stairwell was part of your flat.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 8000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "bisiklet_yok"
+            ]
+          }
+        },
+        "tr": "İtiraz on beş gün sonra reddedildi. Ret yazısı iki sayfaydı.",
+        "en": "The appeal was rejected fifteen days later. The rejection ran two pages.",
+        "coach": [
+          {
+            "tr": "İki sayfa ret, sıfır bisiklet.",
+            "en": "Two pages of no. Zero bikes.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kabul": {
+      "effects": {
+        "money": -180,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ikinci_el_bisiklet"
+          ]
+        }
+      },
+      "tr": "180 Para'ya ikinci el bir bisiklet buldun. Kilidi bisikletten pahalıya geldi.",
+      "en": "You found a secondhand bike for 180. The lock cost more than the bike.",
+      "coach": [
+        {
+          "tr": "Bisiklet artık geceleri içeride yatıyor.",
+          "en": "The bike sleeps indoors now.",
+          "roast": false
+        }
+      ]
+    },
+    "genislet": {
+      "effects": {
+        "money": -45,
+        "glossary": "ortak_alan_kapsami",
+        "flags": {
+          "add": [
+            "police_genisletildi"
+          ]
+        }
+      },
+      "tr": "Poliçeye ortak alan ekini aldın: yıllık 45 Para. Merdiven boşluğunda şu an hiçbir eşyan yok.",
+      "en": "You added shared-area cover: 45 a year. You currently own nothing in the stairwell.",
+      "coach": [
+        {
+          "tr": "Boş merdiven, tam kapsam.",
+          "en": "Empty stairwell. Full coverage.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "partide wager kotası dışında"
+  },
+  "intent": {
+    "setup": "apartman merdiven boşluğundan çalınan bisikletin konut sigortası kapsamı dışında kalması",
+    "mechanism": "görevlinin kendi mantığını sonuna kadar götürmesi",
+    "mechanismId": "literalism",
+    "punch": "salonda olsaydı çalınmazdı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "merdiven"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

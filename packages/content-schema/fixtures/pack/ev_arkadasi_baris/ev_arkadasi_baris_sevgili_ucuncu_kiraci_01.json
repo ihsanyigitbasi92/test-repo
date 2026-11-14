@@ -1,0 +1,205 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arkadasi_baris_sevgili_ucuncu_kiraci_01",
+  "tags": [
+    "tanidik_yuzler",
+    "baris",
+    "ev_arkadasi_baris"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "ev_arkadasi_baris": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 21,
+      "max": 25
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ],
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Deniz bu hafta da kalacak. Sadece hafta içi. Bir de hafta sonu.",
+      "en": "Riley's staying this week too. Just weekdays. And the weekend."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "neutral",
+      "tr": "Duşa sabah yedide o giriyor. Sen alarmı yedi buçuğa kurarsın artık.",
+      "en": "They shower at seven now. So you'll want your alarm at seven-thirty.",
+      "delayMs": 400
+    }
+  ],
+  "choices": [
+    {
+      "id": "kira",
+      "tr": "Kiraya katkı iste",
+      "en": "Ask them to chip in on rent",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "alarm",
+      "tr": "Alarmı yedi buçuğa kur",
+      "en": "Move your alarm to 7:30",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "toplanti",
+      "tr": "Ev toplantısı çağır",
+      "en": "Call a house meeting",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "kira": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 400,
+          "stats": {
+            "joy": 3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "deniz_kira_katkisi"
+            ]
+          }
+        },
+        "tr": "Deniz biraz utanarak kabul etti: ayda 400 Para ve haftada bir akşam yemeği. Barış'ın yüzü bir an düştü.",
+        "en": "Riley agreed, a little sheepishly: 400 a month and one cooked dinner a week. Jordan's face fell for a second.",
+        "coach": [
+          {
+            "tr": "Ev kalabalıklaştı, payın küçüldü. Aritmetik taraf değiştirdi.",
+            "en": "The household grew. Your share shrank. Arithmetic switched sides.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -5,
+              "memory": "kira_meselesi"
+            }
+          ]
+        },
+        "tr": "Barış 'misafirden para mı alınır' dedi ve kapısını kapattı. Deniz akşam yine geldi, bu kez daha sessiz.",
+        "en": "Jordan said 'You charge guests now?' and shut their door. Riley came over that evening anyway, just quieter.",
+        "coach": [
+          {
+            "tr": "Konu açıldı. Kapı kapandı. Kira aynı.",
+            "en": "Topic raised. Door closed. Rent unchanged.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "alarm": {
+      "effects": {
+        "stats": {
+          "joy": -2,
+          "health": -1
+        },
+        "hidden": {
+          "stress": 2
+        }
+      },
+      "tr": "Alarmı kaydırdın. Duşa yedi buçukta girdin; sıcak su yedi kırkta bitti.",
+      "en": "You moved your alarm. Got in the shower at 7:30. The hot water quit at 7:40.",
+      "coach": [
+        {
+          "tr": "Kendi banyonda ikinci vardiyaya geçtin.",
+          "en": "You're on second shift in your own bathroom.",
+          "roast": true
+        }
+      ]
+    },
+    "toplanti": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "dus_takvimi"
+          ]
+        }
+      },
+      "tr": "Toplantıdan bir duş takvimi çıktı. Barış takvimi lamine ettirdi; Deniz ilk satıra kendi adını yazdı.",
+      "en": "The meeting produced a shower schedule. Jordan had it laminated. Riley wrote their own name on line one.",
+      "coach": [
+        {
+          "tr": "Takvim lamine. Sen ikinci satırdasın.",
+          "en": "Schedule laminated. You're on line two.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kira",
+    "slip": {
+      "tr": "İDDİA: Para lafı kapı kapatır. — M.",
+      "en": "WAGER: Mention money, hear a door close. — M."
+    }
+  },
+  "intent": {
+    "setup": "Barış'ın sevgilisi fiilen eve yerleşti, sabah duşunu o alıyor",
+    "mechanism": "hafta içi, bir de hafta sonu; alan daralıyor",
+    "mechanismId": "escalation",
+    "punch": "bir de hafta sonu",
+    "target": "situation",
+    "closer": "vardiya",
+    "lift": "yok",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

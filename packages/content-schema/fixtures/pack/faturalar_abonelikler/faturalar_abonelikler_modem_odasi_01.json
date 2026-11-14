@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_modem_odasi_01",
+  "tags": [
+    "para",
+    "internet",
+    "ev_arkadasi",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "annoyed",
+      "tr": "Senin odada sinyal tam, bizde tek çizgi. Kapının önüne minder koydum.",
+      "en": "Your room gets full bars. We get one. I put a cushion outside your door."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Zaten modem sende, interneti en çok sen kullanıyorsun. Faturayı ona göre bölelim.",
+      "en": "And since the router's in your room, you're the heaviest user. Let's split the bill accordingly.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "koridor",
+      "tr": "Modemi koridora taşı",
+      "en": "Move the router to the hallway",
+      "pattern": "generosity"
+    },
+    {
+      "id": "guclendirici",
+      "tr": "Sinyal güçlendirici al",
+      "en": "Buy a range extender",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "indirim",
+      "tr": "Modem için indirim iste",
+      "en": "Charge them for hosting it",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    }
+  ],
+  "outcomes": {
+    "koridor": {
+      "effects": {
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "modem_koridorda"
+          ]
+        }
+      },
+      "tr": "Modem koridorda. Herkes iki çizgi çekiyor, fatura eşit bölünüyor.",
+      "en": "The router lives in the hallway now. Everyone gets two bars. The bill splits evenly.",
+      "coach": [
+        {
+          "tr": "Eşitlik sağlandı. Kişi başı iki çizgi.",
+          "en": "Equality achieved. Two bars per person.",
+          "roast": false
+        }
+      ]
+    },
+    "guclendirici": {
+      "effects": {
+        "money": -350,
+        "npc": [
+          {
+            "role": "roommate",
+            "affinity": 1
+          }
+        ],
+        "flags": {
+          "add": [
+            "sinyal_guclendirici"
+          ]
+        }
+      },
+      "tr": "Güçlendirici 350 Para. Minder kapının önünden kalktı, şarj kablon da onunla gitti.",
+      "en": "The extender cost 350. The cushion left your doorway. Your charging cable left with it.",
+      "coach": [
+        {
+          "tr": "350 Para ve bir kablo. Kapı önü boş.",
+          "en": "350 and one cable. The doorway's clear.",
+          "roast": false
+        }
+      ]
+    },
+    "indirim": [
+      {
+        "p": 5500,
+        "effects": {
+          "status": {
+            "rentDelta": -40
+          },
+          "stats": {
+            "joy": 1
+          },
+          "flags": {
+            "add": [
+              "modem_indirimi"
+            ]
+          }
+        },
+        "tr": "Ev arkadaşları ikna oldu: modem ev sahipliği payını ayda 40 Para düşürdü.",
+        "en": "Your roommates caved: hosting the router takes forty a month off your share.",
+        "coach": [
+          {
+            "tr": "Ayda 40 Para. Minder yerinde duruyor.",
+            "en": "Forty a month. The cushion stays where it is.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "kapi_onu_kamp"
+            ]
+          }
+        },
+        "tr": "Teklif oylamaya gitti, ikiye bir reddedildi. Minderin yanına bir de battaniye geldi.",
+        "en": "The motion went to a vote and lost two to one. A blanket has joined the cushion.",
+        "coach": [
+          {
+            "tr": "İkiye bir. Battaniye çekimser kaldı.",
+            "en": "Two to one. The blanket abstained.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "intent": {
+    "setup": "modem senin odanda olduğu için ev arkadaşlarının kapı önünde oturup faturayı yeniden bölmek istemesi",
+    "mechanism": "minder kampı büyüyerek pazarlığa dönüyor",
+    "mechanismId": "escalation",
+    "punch": "kapının önüne minder koydum",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "minder"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_satin_alma_nakit_alim_01",
+  "tags": [
+    "ev",
+    "satin_alma",
+    "ev_satin_alma"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "ev_satin_alma": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 75
+    },
+    "money": {
+      "min": 10000
+    },
+    "flags": {
+      "all": [
+        "ev_kucultuldu"
+      ],
+      "none": [
+        "ev_kucuk_alindi"
+      ]
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Nakit mi? Peki. Yine de küçük bir kredi düşünür müsünüz? Kısa vadeli.",
+      "en": "Cash? Certainly. But might you consider a small loan? Short term."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "worried",
+      "tr": "Kredi istemediğinizi not ettim. Üçüncü kez soruyorum, sistem sordurtuyor.",
+      "en": "I've noted that you don't want a loan. This is my third time asking. The system makes me.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "nakit",
+      "tr": "Nakit öde, imzala",
+      "en": "Pay cash, sign",
+      "pattern": "patience"
+    },
+    {
+      "id": "kredi",
+      "tr": "Küçük krediyi kabul et",
+      "en": "Fine, take the small loan",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "sube",
+      "tr": "Karşıdaki şubeye geç",
+      "en": "Try the branch across the street",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "nakit": {
+      "effects": {
+        "money": -10000,
+        "stats": {
+          "joy": 5
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "housing": "owned",
+        "status": {
+          "home": {
+            "kind": "owned",
+            "rent": 0
+          }
+        },
+        "flags": {
+          "add": [
+            "ev_satin_alindi",
+            "ev_kucuk_alindi"
+          ]
+        }
+      },
+      "tr": "Nakit ödedin, tapu tek oturuşta bitti. Bankacı çıkışta bir broşür uzattı: 'Kredi kartı.'",
+      "en": "You paid cash and the deed was done in one sitting. On the way out, the banker handed you a brochure: 'Credit cards.'",
+      "coach": [
+        {
+          "tr": "Sıfır taksit, bir broşür.",
+          "en": "Zero installments. One brochure.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef sayacında taksit yok.",
+          "en": "Goal counter: no installments.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "kredi": {
+      "effects": {
+        "money": -7000,
+        "hidden": {
+          "stress": 3
+        },
+        "housing": "mortgage",
+        "status": {
+          "home": {
+            "kind": "mortgage",
+            "rent": 300
+          }
+        },
+        "flags": {
+          "add": [
+            "ev_satin_alindi",
+            "ev_kucuk_alindi",
+            "kredi_paketi"
+          ]
+        }
+      },
+      "tr": "Küçük krediyi kabul ettin: on iki taksit. Bankacı rahatladı, sistem de.",
+      "en": "You took the small loan: twelve installments. The banker relaxed. So did the system.",
+      "coach": [
+        {
+          "tr": "Sistem memnun.",
+          "en": "The system is pleased.",
+          "roast": false
+        }
+      ]
+    },
+    "sube": {
+      "effects": {
+        "money": -10000,
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "housing": "owned",
+        "status": {
+          "home": {
+            "kind": "owned",
+            "rent": 0
+          }
+        },
+        "flags": {
+          "add": [
+            "ev_satin_alindi",
+            "ev_kucuk_alindi"
+          ]
+        }
+      },
+      "tr": "Karşıdaki şubeye geçtin. Orada yalnızca iki kez soruldu ve tapu öğleden sonra bitti.",
+      "en": "You crossed to the other branch. They only asked twice there, and the deed was done by afternoon.",
+      "coach": [
+        {
+          "tr": "Üçten ikiye. İlerleme.",
+          "en": "Three down to two. Progress.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "evi küçülttükten sonra yeni daireyi kredisiz nakit almak isterken bankacının üç kez kredi önermesi",
+    "mechanism": "kredi teklifinin sayılarak tekrarlanması",
+    "mechanismId": "count",
+    "punch": "üçüncü kez soruyorum, sistem soruyor",
+    "lift": "hedef sayacında taksit yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "brosur"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kardesler_tahlil_yarisi_01",
+  "tags": [
+    "aile",
+    "kardes",
+    "saglik",
+    "kardesler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "kardesler": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 48,
+      "max": 60
+    },
+    "npc": {
+      "sibling": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "sibling",
+      "avatar": "smug",
+      "tr": "Sonuçlar geldi mi? Benim değerlerin hepsi aralıkta. Biri sınırda ama aralık.",
+      "en": "Got your results? All my numbers are in range. One's borderline, but in range."
+    },
+    {
+      "speaker": "sibling",
+      "avatar": "happy",
+      "tr": "Kaybeden pazar kahvaltısını ısmarlıyor. Fotoğrafını at, yan yana koyalım.",
+      "en": "Loser buys Sunday breakfast. Send a photo and we'll compare.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "karsilastir",
+      "tr": "Sonuçları yan yana koy",
+      "en": "Compare side by side",
+      "pattern": "risk",
+      "check": {
+        "base": 5000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "atma",
+      "tr": "Sonucu atma",
+      "en": "Don't send it",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "doktor",
+      "tr": "Önce doktoruna göster",
+      "en": "Show your doctor first",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "karsilastir": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "kardes_tahlil_galibi"
+            ]
+          },
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Senin dokuz değerin aralıkta, kardeşinin sekiz. Kahvaltıyı o ısmarladı, rövanş şartıyla.",
+        "en": "Nine of your numbers in range, eight of theirs. They bought breakfast, on condition of a rematch.",
+        "coach": [
+          {
+            "tr": "Dokuza sekiz. Rövanş altı ay sonra.",
+            "en": "Nine to eight. Rematch in six months.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "money": -320,
+          "npc": [
+            {
+              "role": "sibling",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "Kardeşinin sınırdaki değeri bile seninkinden iyi çıktı. Kahvaltı 320 Para tuttu; reçel ekstra.",
+        "en": "Even their borderline number beat yours. Breakfast came to 320. They ordered extra jam.",
+        "coach": [
+          {
+            "tr": "Reçel ekstra. Hesap da.",
+            "en": "Extra jam. Extra bill.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "atma": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "momPressure": 2
+        },
+        "npc": [
+          {
+            "role": "sibling",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Sonucu atmadın. Kardeşin annene \"saklıyor\" dedi; annen iki gün boyunca ne yediğini sordu.",
+      "en": "You didn't send it. Your sibling told Mom you were 'hiding something.' Mom asked what you'd eaten, for two days.",
+      "coach": [
+        {
+          "tr": "Annen tahlili yeniden yaptı. Sözlü olarak.",
+          "en": "Mom ran her own tests. Verbally.",
+          "roast": true
+        }
+      ]
+    },
+    "doktor": {
+      "effects": {
+        "stats": {
+          "joy": 1,
+          "brain": 1,
+          "health": 2
+        }
+      },
+      "tr": "Sonuçları önce doktoruna gösterdin. \"Hepsi yolunda\" dedi. Kardeşine yalnızca bunu ilettin.",
+      "en": "You showed your doctor first. 'All fine,' they said. That's all you passed on.",
+      "coach": [
+        {
+          "tr": "İki kelime. Kıyaslanamaz.",
+          "en": "Two words. No comparison possible.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "karsilastir",
+    "slip": {
+      "tr": "İDDİA: Kahvaltıyı sen ödersin. — M.",
+      "en": "WAGER: You're buying breakfast. — M."
+    }
+  },
+  "intent": {
+    "setup": "kardeşinle aynı gün kan tahlili verip sonuçları yarıştırmak",
+    "mechanism": "tahlil sonuçları skor tabelasına dönüyor",
+    "mechanismId": "count",
+    "punch": "Dokuza sekiz, rövanş altı ay sonra",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "rovans"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

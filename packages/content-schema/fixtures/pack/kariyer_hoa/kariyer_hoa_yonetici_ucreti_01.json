@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_hoa_yonetici_ucreti_01",
+  "tags": [
+    "kariyer",
+    "site_yonetici",
+    "kariyer_hoa"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_hoa": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 50,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "hoa"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Gündemin on birinci maddesi: yönetici ücreti. Sizin ücretiniz. Maddeyi siz okuyacaksınız.",
+      "en": "Item eleven on the agenda: the manager's fee. Your fee. You're reading it out."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Zam mı istenecek? Geçen yıl çöp poşeti kalemi dört saat sürmüştü.",
+      "en": "Is someone asking for a raise? Last year the trash-bag line item took four hours."
+    }
+  ],
+  "choices": [
+    {
+      "id": "iste",
+      "tr": "Ücret artışı iste",
+      "en": "Ask for a higher fee",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sabit",
+      "tr": "Aynı ücrette kal",
+      "en": "Keep the same fee",
+      "pattern": "generosity"
+    },
+    {
+      "id": "gorev",
+      "tr": "Ücret yerine görev indirimi iste",
+      "en": "Ask for fewer duties instead",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "iste": [
+      {
+        "p": 4500,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "stats": {
+            "joy": 2
+          }
+        },
+        "tr": "Artış kabul edildi. Sakinlerin talebiyle tutanağa \"yönetici artık telefonunu açacak\" maddesi eklendi.",
+        "en": "The raise passed. At the residents' request, the minutes now read: 'The manager will answer their phone.'",
+        "coach": [
+          {
+            "tr": "Artış kayda geçti. Beklenti de.",
+            "en": "The raise is on record. So are the expectations.",
+            "roast": false
+          },
+          {
+            "tr": "Basamak çıkıldı. Sayaç bir ileri.",
+            "en": "One rung up. Counter moved.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "meters": {
+            "ego": -3,
+            "cringe": 3
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "joy": -1
+          }
+        },
+        "tr": "Teklif reddedildi. Aynı toplantıda bahçıvanın ücreti artırıldı.",
+        "en": "Proposal rejected. The same meeting gave the gardener a raise.",
+        "coach": [
+          {
+            "tr": "Bahçıvan sunumunu çiçekle yaptı.",
+            "en": "The gardener presented with flowers.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sabit": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "hoa_ucret_sabit"
+          ]
+        }
+      },
+      "tr": "Ücretin sabit kaldı. Toplantı kırk dakikada bitti, sana bir alkış düştü.",
+      "en": "Your fee stayed put. The meeting wrapped in forty minutes and you got a round of applause.",
+      "coach": [
+        {
+          "tr": "Alkış bordroya işlenmez. Ama toplantı kısaydı.",
+          "en": "Applause doesn't hit payroll. The meeting was short, though.",
+          "roast": false
+        }
+      ]
+    },
+    "gorev": {
+      "effects": {
+        "hidden": {
+          "stress": -4
+        },
+        "stats": {
+          "joy": 2
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "hoa_bahce_gorevi_devredildi"
+          ]
+        }
+      },
+      "tr": "Bahçe ve havuz işleri denetim kuruluna devredildi. Kurul ilk hafta seni üç kez arayıp nasıl yapıldığını sordu.",
+      "en": "Garden and pool duties moved to the audit committee. In week one, the committee called you three times to ask how it was done.",
+      "coach": [
+        {
+          "tr": "Görev gitti. Telefon kaldı.",
+          "en": "The duties left. The phone calls stayed.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "parti wager kotası dolu / check yok"
+  },
+  "intent": {
+    "setup": "genel kurulda yönetici ücretinin gündem maddesini kendinin okuması",
+    "mechanism": "zam istenen toplantıda bahçıvana zam çıkıyor ya da sakinler telefon şartı koyuyor",
+    "mechanismId": "reversal",
+    "punch": "yönetici artık telefonunu açacak",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "bahcivan"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_degisimi_baska_sehir_teklifi_01",
+  "tags": [
+    "is",
+    "kariyer_degisimi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6500,
+  "punchOwner": "outcome",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "kariyer_degisimi": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:hr",
+      "avatar": "neutral",
+      "tr": "Teklifimiz hazır: eğitim koordinatörü, ayda 2.800 Para. Tek koşul, kıyıdaki merkezimize taşınmanız.",
+      "en": "Our offer is ready: training coordinator, 2,800 a month. One condition: relocating to our coastal office."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Deniz kenarı güzel. Benim işim burada. Bunu bu akşam mı konuşuyoruz, hemen mi?",
+      "en": "The coast is lovely. My job is here. Are we discussing this tonight, or right now?",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Kabul et, taşın",
+      "en": "Accept and move",
+      "pattern": "risk"
+    },
+    {
+      "id": "uzaktan",
+      "tr": "Uzaktan çalışmayı iste",
+      "en": "Ask to do it remotely",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "red",
+      "tr": "Reddet, burada kal",
+      "en": "Decline and stay",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -4
+          }
+        ],
+        "status": {
+          "job": {
+            "title": "eğitim koordinatörü",
+            "tier": 3,
+            "monthly": 2800
+          },
+          "home": {
+            "kind": "flat",
+            "rent": 1400
+          }
+        },
+        "flags": {
+          "add": [
+            "kariyer_degisti",
+            "sehir_degisti"
+          ]
+        }
+      },
+      "tr": "Kabul ettin. Kıyıda kirası 1.400 Para olan bir daire tuttun. Partnerin hafta sonları geliyor, şimdilik.",
+      "en": "You accepted. You rented a flat on the coast for 1,400. Your partner visits on weekends, for now.",
+      "coach": [
+        {
+          "tr": "Yeni iş, yeni adres. Hafta sonları iki kişilik.",
+          "en": "New job, new address. Weekends for two.",
+          "roast": false
+        }
+      ]
+    },
+    "uzaktan": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 2
+            }
+          ],
+          "status": {
+            "job": {
+              "title": "eğitim koordinatörü",
+              "tier": 3,
+              "monthly": 2600
+            }
+          },
+          "flags": {
+            "add": [
+              "kariyer_degisti"
+            ]
+          }
+        },
+        "tr": "Uzaktan çalışmayı kabul ettiler, ayda bir hafta merkezde olmak şartıyla. Maaş 2.600 Para'ya indi; adresin değişmedi.",
+        "en": "They agreed to remote, with one week a month at the office. The salary dropped to 2,600. Your address didn't change.",
+        "coach": [
+          {
+            "tr": "İki yüz Para eksik. Adres aynı, sofra iki kişilik.",
+            "en": "Two hundred less. Same address, table still set for two.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "teklif_cumaya_kadar"
+            ]
+          }
+        },
+        "tr": "Uzaktan çalışma 'rolün doğasına uygun' bulunmadı. Teklif cuma gününe kadar masada.",
+        "en": "Remote work was found 'incompatible with the nature of the role.' The offer stands until Friday.",
+        "coach": [
+          {
+            "tr": "Rolün doğası konuştu. Cuma yaklaşıyor.",
+            "en": "The nature of the role has spoken. Friday approaches.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "red": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": -1
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ],
+        "flags": {
+          "add": [
+            "kariyer_degisimi_ertelendi"
+          ]
+        }
+      },
+      "tr": "Reddettin. İK 'kapımız açık' yazdı. Partnerin o akşam en sevdiğin yemeği yaptı, bir şey demeden.",
+      "en": "You declined. HR wrote, 'Our door remains open.' That night your partner made your favorite dinner without comment.",
+      "coach": [
+        {
+          "tr": "Teklif gitti. Yemek kaldı.",
+          "en": "The offer left. Dinner stayed.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "uzaktan",
+    "slip": {
+      "tr": "İDDİA: 'Rolün doğası' uzaktan çalışmaya izin vermez. — M.",
+      "en": "WAGER: 'The nature of the role' won't allow remote. — M."
+    }
+  },
+  "intent": {
+    "setup": "yeni alandaki iş teklifinin başka şehre taşınma koşuluyla gelmesi",
+    "mechanism": "rolün doğası konuşur",
+    "mechanismId": "deadpan_report",
+    "punch": "rolün doğasına uygun bulunmadı",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "cuma"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

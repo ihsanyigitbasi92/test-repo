@@ -1,0 +1,190 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_sinavlar_kapi_son_dakika_01",
+  "tags": [
+    "egitim",
+    "sinav",
+    "egitim_sinavlar"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_sinavlar": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 18,
+      "max": 23
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Kapılar 09.15’te kapanır. Saat şu an 09.13.",
+      "en": "Doors close at 9:15. It is now 9:13."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "annoyed",
+      "tr": "Önce telefon kutuya, sonra çanta rafa, sonra kimlik bana. Sonra turnike.",
+      "en": "Phone in the box, bag on the shelf, ID to me. Then the turnstile.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kos",
+      "tr": "Turnikeye koş",
+      "en": "Sprint for the turnstile",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "sirayla",
+      "tr": "Sırayla teslim et",
+      "en": "Hand things over in order",
+      "pattern": "patience"
+    },
+    {
+      "id": "rica",
+      "tr": "Bir dakika rica et",
+      "en": "Ask for one more minute",
+      "pattern": "peoplePleasing"
+    }
+  ],
+  "outcomes": {
+    "kos": [
+      {
+        "p": 6000,
+        "effects": {
+          "hidden": {
+            "stress": 2
+          },
+          "stats": {
+            "health": 1
+          },
+          "flags": {
+            "add": [
+              "sinav_son_saniye"
+            ]
+          }
+        },
+        "tr": "Koştun. Kapı arkandan 09.15’te kapandı; ilk soruyu nefes nefese iki kez okudun.",
+        "en": "You sprinted, and the door shut behind you at 9:15 sharp. You read the first question twice, panting.",
+        "coach": [
+          {
+            "tr": "Turnike yenildi. Nabız henüz değil.",
+            "en": "Turnstile: beaten. Pulse: still racing.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "hidden": {
+            "stress": 5
+          },
+          "stats": {
+            "joy": -3
+          },
+          "flags": {
+            "add": [
+              "sinav_kapida_kaldi"
+            ]
+          }
+        },
+        "tr": "Turnikede ceplerindeki anahtarlar öttü, geri döndün. Kapı 09.15’te kapandı; görevli camın arkasından başını salladı.",
+        "en": "Your keys set off the turnstile and you got sent back. The door closed at 9:15 while the clerk shook their head through the glass.",
+        "coach": [
+          {
+            "tr": "Anahtarlar evi açar. Bugün bir kapıyı kapattılar.",
+            "en": "Keys are for opening doors. Today they closed one.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sirayla": {
+      "effects": {
+        "hidden": {
+          "stress": -1
+        },
+        "stats": {
+          "brain": 1
+        },
+        "flags": {
+          "add": [
+            "sinav_girildi_sirayla"
+          ]
+        }
+      },
+      "tr": "Telefon, çanta, kimlik. Görevli saate baktı, “Bir dakikan var” dedi ve kapıyı tuttu.",
+      "en": "Phone, bag, ID. The clerk checked the clock, said “You have a minute,” and held the door.",
+      "coach": [
+        {
+          "tr": "Sıra kuralı bu kez senden yanaydı.",
+          "en": "For once the procedure was on your side.",
+          "roast": false
+        }
+      ]
+    },
+    "rica": {
+      "effects": {
+        "meters": {
+          "cringe": 2
+        },
+        "flags": {
+          "add": [
+            "sinav_girildi_sirayla"
+          ]
+        }
+      },
+      "tr": "Görevli kural kitapçığını açıp 6. maddeyi gösterdi. Sen maddeyi okurken saat 09.14 oldu ve içeri girdin.",
+      "en": "The clerk opened the rulebook to item six. You finished reading it at 9:14 and got in.",
+      "coach": [
+        {
+          "tr": "Madde altıyı okudun. Okuma süresi bir dakika.",
+          "en": "You read item six. Reading time: one minute.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "kos",
+    "slip": {
+      "tr": "İDDİA: Turnike seni geri çevirir. — M.",
+      "en": "WAGER: The turnstile sends you back. — M."
+    }
+  },
+  "intent": {
+    "setup": "sınav kapısına kapanıştan iki dakika önce varmak",
+    "mechanism": "görevlinin teslim sırası her saniyeyi uzatıyor",
+    "mechanismId": "escalation",
+    "punch": "önce telefon, sonra çanta, sonra kimlik",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "turnike"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

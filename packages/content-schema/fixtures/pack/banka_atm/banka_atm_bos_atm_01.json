@@ -1,0 +1,173 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "banka_atm_bos_atm_01",
+  "tags": [
+    "para",
+    "banka",
+    "atm",
+    "banka_atm"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "banka_atm": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "tired",
+      "tr": "Boş. Ben de üçüncü ATM'deyim. Hepsi aynı cümleyi kuruyor.",
+      "en": "Empty. This is my third machine tonight. They all say the same sentence."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Karşıdaki çalışıyor ama başka banka. Çekim ücreti 16 Para.",
+      "en": "The one across the street works. Different bank, though. Sixteen just to withdraw.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ode",
+      "tr": "Ücreti öde, çek",
+      "en": "Pay the fee, withdraw",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "yuru",
+      "tr": "Kendi ATM'ne yürü",
+      "en": "Walk to your own bank's ATM",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "kart",
+      "tr": "Nakitsiz idare et",
+      "en": "Get by on card",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "ode": {
+      "effects": {
+        "money": -16,
+        "flags": {
+          "add": [
+            "baska_atm_ucreti"
+          ]
+        }
+      },
+      "tr": "200 Para çektin, 16 Para ücret ödedin. Fişte ücret, çekilen paradan daha büyük puntoyla yazıyordu.",
+      "en": "You took out 200 and paid sixteen for the privilege. The receipt printed the fee in a bigger font than the cash.",
+      "coach": [
+        {
+          "tr": "Fiş, en büyük satırı ücrete ayırdı.",
+          "en": "The receipt gave its biggest line to the fee.",
+          "roast": false
+        }
+      ]
+    },
+    "yuru": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "health": 1
+          },
+          "hidden": {
+            "stress": -1
+          }
+        },
+        "tr": "Yirmi dakika yürüdün. Kendi ATM'n doluydu ve ücretsizdi.",
+        "en": "Twenty minutes on foot. Your bank's machine was stocked and free.",
+        "coach": [
+          {
+            "tr": "Sıfır ücret, iki bin adım.",
+            "en": "Zero fee. About two thousand steps.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -16,
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 3
+          }
+        },
+        "tr": "Yirmi dakika sonra kendi ATM'n 'geçici olarak hizmet dışı' çıktı. Dönüşte karşıdakinden 16 Para'yla çektin.",
+        "en": "Twenty minutes later, your bank's machine was 'temporarily out of service.' On the way back you paid the sixteen anyway.",
+        "coach": [
+          {
+            "tr": "Ücret seni yirmi dakika bekledi.",
+            "en": "The fee waited twenty minutes for you.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kart": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "glossary": "baska_banka_ucreti"
+      },
+      "tr": "Gece boyunca her şeyi kartla ödedin. Kart kabul etmeyen tek yer gece dürümcüsüydü.",
+      "en": "You paid for everything by card all night. The only place that didn't take cards was the late-night wrap stand.",
+      "coach": [
+        {
+          "tr": "Gecenin tek nakit durağı, gecenin tek gerekli durağıymış.",
+          "en": "The one cash-only stop was the one that mattered.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "yuru",
+    "slip": {
+      "tr": "İDDİA: Yirmi dakikalık yürüyüş başka bir boş ATM'de biter. — M.",
+      "en": "WAGER: That walk ends at another dead machine. — M."
+    }
+  },
+  "intent": {
+    "setup": "cuma gecesi yurda yakın tek ATM'nin boş çıkması ve karşıdaki başka banka ATM'sinin ücret alması",
+    "mechanism": "üç ATM'nin aynı cümleyi kurması",
+    "mechanismId": "deadpan_report",
+    "punch": "hepsi aynı cümleyi kuruyor",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "punto"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

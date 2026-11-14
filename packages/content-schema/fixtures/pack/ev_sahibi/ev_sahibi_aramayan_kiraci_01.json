@@ -1,0 +1,191 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_sahibi_aramayan_kiraci_01",
+  "tags": [
+    "ev",
+    "ev",
+    "kira",
+    "ev_sahibi"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_sahibi": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 60
+    },
+    "housing": [
+      "room",
+      "flat",
+      "wide"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:landlord",
+      "avatar": "happy",
+      "tr": "Bu yıl kiraya zam yok. Sebebini sorma.",
+      "en": "No rent increase this year. Don't ask why."
+    },
+    {
+      "speaker": "npc:landlord",
+      "avatar": "neutral",
+      "tr": "Sen hiç aramayan tek kiracımsın. Ötekiler her hafta bir şey kırıyor.",
+      "en": "You're the only tenant who never calls. The others break something every week.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "hediye",
+      "tr": "Bir kutu lokum götür",
+      "en": "Bring a box of sweets",
+      "pattern": "generosity"
+    },
+    {
+      "id": "pencere",
+      "tr": "Fırsat bu, pencereyi söyle",
+      "en": "Mention the drafty window now",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "sus",
+      "tr": "Hiçbir şey söyleme",
+      "en": "Say nothing at all",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "hediye": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "money": -90,
+        "flags": {
+          "add": [
+            "ev_sahibi_memnun"
+          ]
+        }
+      },
+      "tr": "Lokumu götürdün. Ev sahibi kutuyu açmadan rafa koydu; misafirlerine \"kiracım getirdi\" diye ikram edecekmiş.",
+      "en": "You brought sweets. The landlord shelved the box unopened. It's for guests: 'my tenant brought these.'",
+      "coach": [
+        {
+          "tr": "Kira sabit. Lokum vitrinde.",
+          "en": "Rent steady. Sweets on display.",
+          "roast": false
+        }
+      ]
+    },
+    "pencere": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "pencere_degisti",
+              "ev_sahibi_memnun"
+            ]
+          }
+        },
+        "tr": "Pencere iki haftada değişti. Ev sahibi \"bir kere aradın, olsun\" dedi.",
+        "en": "The window was replaced within two weeks. 'You called once. That's allowed.'",
+        "coach": [
+          {
+            "tr": "Bir arama hakkın vardı. Pencereye harcandı.",
+            "en": "You had one call. You spent it on the window.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "flags": {
+            "add": [
+              "ev_sahibi_listesinde"
+            ]
+          },
+          "status": {
+            "rentDelta": 60
+          }
+        },
+        "tr": "Pencereyi not aldı. Ertesi hafta zamsız yılı \"yeniden değerlendirdi\": kira 60 Para arttı.",
+        "en": "The landlord wrote down the window. Next week the no-raise year was 'reconsidered': rent up 60.",
+        "coach": [
+          {
+            "tr": "Sessizlik primin vardı. Bir cümlede yandı.",
+            "en": "You had a silence bonus. One sentence voided it.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "sus": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "ev_sahibi_memnun"
+          ]
+        }
+      },
+      "tr": "Hiçbir şey söylemedin. Pencere hâlâ ıslık çalıyor; kira hâlâ aynı.",
+      "en": "You said nothing. The window still whistles. The rent still holds.",
+      "coach": [
+        {
+          "tr": "Bir esinti, sabit kira. Bu yılın takası.",
+          "en": "One draft, flat rent. This year's trade.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da iddia kotası dolu"
+  },
+  "intent": {
+    "setup": "ev sahibi hiç aramayan kiracıya zam yapmıyor",
+    "mechanism": "sessiz kalmak ödüllendiriliyor",
+    "mechanismId": "reversal",
+    "punch": "sen hiç aramayan tek kiracımsın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "esinti"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_son_urun_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "hediye",
+    "alisveris",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 27,
+      "max": 38
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "gift"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Bunu ben aldım sayılır. Sadece sepete koymadım.",
+      "en": "I've basically bought this. I just haven't put it in the basket."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Ama siz daha üzgün görünüyorsunuz. Kime alıyorsunuz?",
+      "en": "But you look sadder. Who's it for?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Hikâyeni anlat",
+      "en": "Tell your story",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm",
+        "goal": "gift"
+      }
+    },
+    {
+      "id": "baska",
+      "tr": "Başka bir şey seç",
+      "en": "Pick something else",
+      "pattern": "patience"
+    },
+    {
+      "id": "siparis",
+      "tr": "İnternetten sipariş ver",
+      "en": "Order it online",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "anlat": [
+      {
+        "p": 5500,
+        "effects": {
+          "money": -450,
+          "stats": {
+            "joy": 4
+          },
+          "flags": {
+            "add": [
+              "hediye_alindi"
+            ]
+          }
+        },
+        "tr": "Hikâyeni anlattın; yabancı ürünü sana uzattı. Kasada kendi indirim kartını okuttu, 450 Para.",
+        "en": "You told your story, and the stranger handed it over. At the register they scanned their own discount card. 450.",
+        "coach": [
+          {
+            "tr": "Hediye sayacı: bir.",
+            "en": "Gift count: one.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "hediye_kacti"
+            ]
+          }
+        },
+        "tr": "Hikâyeni sonuna kadar dinledi, ürünü yine de aldı. Çıkarken \"benimki daha acil\" dedi.",
+        "en": "They listened to the whole story, then bought it anyway. On the way out: \"Mine's more urgent.\"",
+        "coach": [
+          {
+            "tr": "Acil olan kazandı. Raf boş.",
+            "en": "Urgency won. Shelf empty.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "baska": {
+      "effects": {
+        "money": -300,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "hediye_alindi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Raftan el yapımı bir fincan aldın, 300 Para. Partnerin fincanı ilk gün kırdı, ikinci gün yapıştırdı.",
+      "en": "You picked a handmade mug instead, 300. Your partner broke it on day one and glued it on day two.",
+      "coach": [
+        {
+          "tr": "Yapıştırılmış fincan, sayılan hediye.",
+          "en": "Glued mug. Counted gift.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "siparis": {
+      "effects": {
+        "money": -520,
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "hediye_gec"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Sipariş verdin, 520 Para. Kargo doğum gününden bir gün sonra geldi; kutu çok iyi paketlenmişti.",
+      "en": "You ordered it online, 520. It arrived the day after the birthday. Beautifully packed.",
+      "coach": [
+        {
+          "tr": "Bir gün geç. Kutu sağlam.",
+          "en": "One day late. Box intact.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "anlat",
+    "slip": {
+      "tr": "İDDİA: Yabancı ürünü bırakmaz. — M.",
+      "en": "WAGER: The stranger isn't letting go. — M."
+    }
+  },
+  "intent": {
+    "setup": "hediye hedefinde mağazadaki son ürünün bir yabancının elinde olması",
+    "mechanism": "yabancı sahiplik iddia ediyor",
+    "mechanismId": "understatement",
+    "punch": "aldım sayılır",
+    "lift": "hediye sayacı",
+    "target": "situation",
+    "closer": "fincan",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

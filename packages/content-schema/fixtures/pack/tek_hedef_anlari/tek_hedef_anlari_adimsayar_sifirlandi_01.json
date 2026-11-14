@@ -1,0 +1,186 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_adimsayar_sifirlandi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "saglik",
+    "yuruyus",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 64,
+      "max": 80
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "walk"
+      ]
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Sizin adımsayar da mı sıfırlandı? Benimki de. Ben kafadan saydım: altı bin üç yüz kırk.",
+      "en": "Did your step counter reset too? Mine did. I counted in my head: six thousand three hundred forty."
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Sizi de saydım, beş bin küsur. Küsuru bilmiyorum, önden gidiyordunuz.",
+      "en": "I counted you too. Five thousand and change. Can't vouch for the change. You were ahead.",
+      "delayMs": 900
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Onun sayısını kabul et",
+      "en": "Accept their count",
+      "pattern": "patience"
+    },
+    {
+      "id": "tekrar",
+      "tr": "Turu baştan at",
+      "en": "Walk the loop again",
+      "pattern": "overwork",
+      "check": {
+        "base": 5000,
+        "stat": "health",
+        "goal": "walk"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Saymayı bırak",
+      "en": "Stop counting",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "kafadan_sayim"
+          ]
+        },
+        "notebook": {
+          "kind": "note",
+          "key": "kafadan_sayim"
+        }
+      },
+      "tr": "Beş bin küsur kayda geçti. Ertesi gün aynı yabancı seni yine saydı, bu kez yüksek sesle.",
+      "en": "Five thousand and change went on record. The next day the same stranger counted you again. Out loud.",
+      "coach": [
+        {
+          "tr": "Beş bin küsur. Günün hedefi kurtuldu.",
+          "en": "Five thousand-ish. The day's goal survives.",
+          "roast": false,
+          "lift": true
+        }
+      ]
+    },
+    "tekrar": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "cift_tur"
+            ]
+          }
+        },
+        "tr": "Turu baştan attın. Adımsayar bu kez çalıştı ve yabancı sonucu kendi rakamıyla karşılaştırdı.",
+        "en": "You walked the loop again. The counter worked this time, and the stranger checked it against their own number.",
+        "coach": [
+          {
+            "tr": "İki kez yüründü. Bir kez kaydedildi.",
+            "en": "Walked twice. Recorded once.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          }
+        },
+        "tr": "Yarısında banka oturdun. Yabancı da yanına oturdu ve kalan adımları sana anlattı.",
+        "en": "Halfway through you sat on a bench. The stranger sat down too and narrated the remaining steps.",
+        "nearMiss": {
+          "tr": "Yarım tur eksik.",
+          "en": "Half a loop short."
+        },
+        "coach": [
+          {
+            "tr": "Bank kazandı. Bu seferlik.",
+            "en": "The bench won. This time.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "adimsayar_cekmecede"
+          ]
+        }
+      },
+      "tr": "Adımsayarı çekmeceye koydun. Yürüyüş aynı sürdü; sayı artık yok.",
+      "en": "You put the counter in a drawer. Same walk, same length. No number.",
+      "coach": [
+        {
+          "tr": "Sayı yok. Yürüyüş var.",
+          "en": "No count. Still a walk.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "her gün yürüme hedefinde ileri yaşta adımsayarın sıfırlanması; parktaki yabancının herkesi kafadan sayması",
+    "mechanism": "kayıp veriyi tamamlayan gönüllü sayım memuru",
+    "mechanismId": "count",
+    "punch": "küsuru bilmiyorum",
+    "lift": "günün hedefi kurtuldu",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "kusur"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

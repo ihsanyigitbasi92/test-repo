@@ -1,0 +1,209 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "isten_cikis_issizlik_kartvizit_danisman_01",
+  "tags": [
+    "is",
+    "issizlik",
+    "dayi",
+    "serbest",
+    "isten_cikis_issizlik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "isten_cikis_issizlik": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "employed": false
+    },
+    "npc": {
+      "uncle": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "uncle",
+      "avatar": "smug",
+      "tr": "Benim zamanımda işsiz denmezdi, \"serbest çalışıyor\" denirdi. Kartvizit bastır, gerisi gelir.",
+      "en": "In my day nobody was unemployed. They were \"independent.\" Print some business cards. The rest follows."
+    },
+    {
+      "speaker": "uncle",
+      "avatar": "happy",
+      "tr": "Üstüne \"Danışman\" yaz. Neyin danışmanı diye sorana \"duruma göre\" dersin.",
+      "en": "Put \"Consultant\" on it. If anyone asks consultant of what, you say \"it depends.\"",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "bastir",
+      "tr": "Kartvizit bastır, dağıt",
+      "en": "Print the cards, hand them out",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "charm",
+        "goal": "is"
+      }
+    },
+    {
+      "id": "profil",
+      "tr": "Önce çevrim içi profil aç",
+      "en": "Start with an online profile",
+      "pattern": "patience"
+    },
+    {
+      "id": "ara",
+      "tr": "Kadrolu iş aramayı sürdür",
+      "en": "Keep applying for staff jobs",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "bastir": [
+      {
+        "p": 4000,
+        "effects": {
+          "status": {
+            "job": {
+              "title": "serbest danışman",
+              "tier": 2,
+              "monthly": 2200
+            }
+          },
+          "money": 800,
+          "stats": {
+            "joy": 6
+          },
+          "meters": {
+            "ego": 4
+          },
+          "flags": {
+            "add": [
+              "serbest_danisman"
+            ]
+          }
+        },
+        "tr": "Beş yüz kartın on dördünü dağıttın. Biri aradı: üç haftalık bir iş, 800 Para avans.",
+        "en": "You handed out fourteen of the five hundred cards. One person called: three weeks of work, 800 up front.",
+        "coach": [
+          {
+            "tr": "On dört kart, bir telefon. Unvan çalıştı.",
+            "en": "Fourteen cards, one phone call. The title did its job.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "money": -150,
+          "meters": {
+            "cringe": 2
+          },
+          "stats": {
+            "joy": 1
+          }
+        },
+        "tr": "Kartlar basıldı: 150 Para. Dağıttığın on dört kişiden dönen olmadı; 486 kart ayakkabı kutusunda.",
+        "en": "The cards were printed: 150. None of the fourteen recipients called back. The other 486 are in a shoebox.",
+        "coach": [
+          {
+            "tr": "486 kart. Kutu dolu.",
+            "en": "Four hundred and eighty-six cards. The box is full.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "profil": {
+      "effects": {
+        "stats": {
+          "brain": 1,
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "serbest_profil"
+          ]
+        }
+      },
+      "tr": "Profili açtın, \"Bağımsız Danışman\" yazdın. İlk hafta dört görüntülenme: ikisi sen, biri dayın.",
+      "en": "You set up the profile and typed \"Independent Consultant.\" Four views in the first week: two were you, one was your uncle.",
+      "coach": [
+        {
+          "tr": "Dört görüntülenme. Biri tanımadığın biri.",
+          "en": "Four views. One from a stranger.",
+          "roast": false
+        }
+      ]
+    },
+    "ara": {
+      "effects": {
+        "hidden": {
+          "stress": 2
+        },
+        "npc": [
+          {
+            "role": "uncle",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "basvuru_basladi"
+          ]
+        }
+      },
+      "tr": "Kartvizit fikrini geçtin, o hafta dokuz başvuru yaptın. Dayın her aramada kartları sordu.",
+      "en": "You skipped the business cards and sent nine applications that week. Your uncle asked about the cards on every call.",
+      "coach": [
+        {
+          "tr": "Dokuz başvuru. Kart sorusu açık.",
+          "en": "Nine applications. The card question remains open.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "bastir",
+    "slip": {
+      "tr": "İDDİA: Kartlar kutudan çıkmaz. — M.",
+      "en": "WAGER: The cards never leave the box. — M."
+    }
+  },
+  "intent": {
+    "setup": "işsizken dayının \"Danışman\" yazan kartvizit bastırmayı önermesi",
+    "mechanism": "dayı unvanın belirsizliğini avantaj sayıyor",
+    "mechanismId": "callback",
+    "punch": "neyin danışmanı diye sorana \"duruma göre\" dersin",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "unvan",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

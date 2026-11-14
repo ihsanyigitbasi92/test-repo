@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "borc_kredi_karti_temassiz_kayip_01",
+  "tags": [
+    "para",
+    "kredi_karti",
+    "banka",
+    "borc_kredi_karti"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "borc_kredi_karti": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 20,
+      "max": 25
+    },
+    "flags": {
+      "any": [
+        "debt",
+        "kredi_karti_borcu",
+        "ihtiyac_kredisi",
+        "ek_hesap_borcu",
+        "yapilandirma",
+        "dayiya_borc"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kartınız dün gece iki kez temassız kullanılmış. Bir benzinlikte, bir dönercide.",
+      "en": "Your card was tapped twice last night. Once at a gas station, once at a kebab place."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Kartı ne zaman kaybettiğinizi tam saatiyle hatırlıyor musunuz?",
+      "en": "Do you remember exactly what time you lost it?",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Saat ver, itiraz et",
+      "en": "Give a time, file a dispute",
+      "pattern": "patience",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "kapat",
+      "tr": "Kartı kapat, harcamayı kabul et",
+      "en": "Cancel the card, eat the charges",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "iz",
+      "tr": "Dönerciye gidip kamera sor",
+      "en": "Ask the kebab place for footage",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "kart_itiraz_kabul"
+            ]
+          }
+        },
+        "tr": "İtiraz kabul edildi, 640 Para kartına iade edildi. Yeni kart bir hafta sonra geldi.",
+        "en": "Dispute approved; 640 refunded. A new card arrived a week later.",
+        "coach": [
+          {
+            "tr": "640 Para geri döndü.",
+            "en": "640 came back.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "money": -640,
+          "hidden": {
+            "stress": 3
+          },
+          "flags": {
+            "add": [
+              "kart_itiraz_red",
+              "kredi_karti_borcu"
+            ]
+          }
+        },
+        "tr": "Kayıp bildirimi harcamalardan sonra yapıldığı için itiraz reddedildi. 640 Para ekstrede kaldı.",
+        "en": "The loss was reported after the charges, so the dispute was denied. The 640 stays on your statement.",
+        "coach": [
+          {
+            "tr": "Bildirim iki saat geç.",
+            "en": "Reported two hours late.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "kapat": {
+      "effects": {
+        "money": -640,
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "kart_kapatildi_kayip"
+          ]
+        },
+        "glossary": "temassiz_limit"
+      },
+      "tr": "Kart kapatıldı, 640 Para borç olarak kaldı. Biri dün gece senin hesabına iyi yemek yedi.",
+      "en": "Card canceled; the 640 stays as debt. Someone ate well on your dime last night.",
+      "coach": [
+        {
+          "tr": "Dürüm iki kişilikmiş.",
+          "en": "Dinner for two, apparently.",
+          "roast": true
+        }
+      ]
+    },
+    "iz": {
+      "effects": {
+        "money": -640,
+        "meters": {
+          "cringe": 2
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kart_kamera_bakildi"
+          ]
+        }
+      },
+      "tr": "Dönerci kamerayı gösterdi: kapüşonlu biri, iki porsiyon. Görüntü itiraz dosyasına eklenemedi.",
+      "en": "The kebab place showed you the footage: someone in a hoodie, two portions. It couldn't be added to the dispute.",
+      "coach": [
+        {
+          "tr": "Bir kapüşon, iki porsiyon, 640 Para.",
+          "en": "One hoodie. Two portions. 640.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Saati bilemezsin. — M.",
+      "en": "WAGER: You won't know the time. — M."
+    }
+  },
+  "intent": {
+    "setup": "kaybolan kredi kartıyla temassız iki harcama yapılması ve itiraz süreci",
+    "mechanism": "banka kaybın saatini soruyor; harcamalar bir dönerciye çıkıyor",
+    "mechanismId": "deadpan_report",
+    "punch": "dürüm iki kişilikmiş",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "porsiyon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

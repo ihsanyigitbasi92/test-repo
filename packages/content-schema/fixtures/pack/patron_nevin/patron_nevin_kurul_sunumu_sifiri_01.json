@@ -1,0 +1,211 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_kurul_sunumu_sifiri_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 6000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 40
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "tired",
+      "tr": "{name}, yönetim kurulu sunumuma on dakika var. Son bir göz at, sadece yazım hatası ara.",
+      "en": "{name}, ten minutes until my board presentation. One last look. Just typos."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "worried",
+      "tr": "Üçüncü slaytta bir sıfır fazla gibi. Ben bir şey demedim.",
+      "en": "Slide three has an extra zero, I think. You didn't hear it from me.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "soyle",
+      "tr": "Hemen söyle",
+      "en": "Tell her now",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yazim",
+      "tr": "Sadece yazım hatasına bak",
+      "en": "Stick to typos",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "not",
+      "tr": "Dosyasına not yapıştır",
+      "en": "Stick a note on her folder",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "soyle": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": 4,
+              "memory": "sifiri_yakaladi"
+            }
+          ]
+        },
+        "tr": "Söyledin, Nevin Hanım sıfırı sildi. Sunumdan sonra 'o sıfır bize bir çeyreğe mal olurdu' dedi.",
+        "en": "You told her and she deleted the zero. Afterward she said, 'That zero would've cost us a quarter.'",
+        "coach": [
+          {
+            "tr": "Bir sıfır silindi. Bir çeyrek kurtuldu.",
+            "en": "One zero deleted. One quarter spared.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "meters": {
+            "ego": -1
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Nevin Hanım 'yazım hatası demiştim' dedi ve sunuma öyle girdi. Kurul sıfırı ikinci dakikada buldu.",
+        "en": "Ms. Carver said, 'I said typos,' and went in as is. The board found the zero in two minutes.",
+        "coach": [
+          {
+            "tr": "Kurulun iki dakikası vardı. Senin onun vardı.",
+            "en": "The board needed two minutes. You'd had ten.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yazim": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "sifir_sessiz"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "memory": "kurul_sifiri"
+          }
+        ]
+      },
+      "tr": "İki yazım hatası düzelttin. Kurul sıfırı buldu, Nevin Hanım çıkışta 'yazımlar kusursuzdu ama' dedi.",
+      "en": "You fixed two typos. The board found the zero. On the way out, Ms. Carver said, 'The spelling was flawless, at least.'",
+      "coach": [
+        {
+          "tr": "Yazım kusursuz. Rakam başka bir departman.",
+          "en": "Flawless spelling. Numbers are another department.",
+          "roast": true
+        }
+      ]
+    },
+    "not": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "meters": {
+          "ego": 1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Dosyasına 'slayt 3, bir sıfır fazla' yazan bir not yapıştırdın. Nevin Hanım notu sunumun ortasında görüp 'ekibim bir düzeltme önerdi' dedi.",
+      "en": "You stuck a note on her folder: 'Slide 3, one zero too many.' She spotted it mid-presentation and said, 'My team has a correction.'",
+      "coach": [
+        {
+          "tr": "Yapışkan not, ekip adına söz aldı.",
+          "en": "The sticky note took the floor. On behalf of the team.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "soyle",
+    "slip": {
+      "tr": "İDDİA: 'Yazım hatası demiştim' gelir. — M.",
+      "en": "WAGER: She'll say 'I said typos.' — M."
+    }
+  },
+  "intent": {
+    "setup": "patronun kurul sunumunda son dakika fark edilen fazla sıfır",
+    "mechanism": "sadece yazım hatası ara talimatı harfiyen",
+    "mechanismId": "literalism",
+    "punch": "sadece yazım hatası ara",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sifir"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

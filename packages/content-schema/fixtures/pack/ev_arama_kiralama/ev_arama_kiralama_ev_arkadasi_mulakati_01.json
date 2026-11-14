@@ -1,0 +1,212 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_arama_kiralama_ev_arkadasi_mulakati_01",
+  "tags": [
+    "ev",
+    "ev",
+    "oda",
+    "ev_arama_kiralama"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 400,
+    "tags": {
+      "ev_arama_kiralama": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "housing": [
+      "momsHouse",
+      "room"
+    ]
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Odanın kirası 950. Önce birkaç soru: bulaşığı ne zaman yıkarsın?",
+      "en": "The room is 950 a month. A few questions first. When do you do your dishes?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Duşta şarkı söyler misin? Söylersen hangi tonda?",
+      "en": "Do you sing in the shower? If so, in what key?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "smug",
+      "tr": "Son soru: etiketli rafa saygın var mı? Örnek veriyorum, şu raf.",
+      "en": "Last one. Do you respect labeled fridge shelves? For example, that one.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "durust",
+      "tr": "Dürüst cevap ver",
+      "en": "Answer honestly",
+      "pattern": "risk",
+      "check": {
+        "base": 5500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "rol",
+      "tr": "İdeal ev arkadaşını oyna",
+      "en": "Play the perfect roommate",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "vazgec",
+      "tr": "Teşekkür et, aramaya devam",
+      "en": "Thank them, keep looking",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "durust": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "money": -950,
+          "flags": {
+            "add": [
+              "ortak_evde_oda"
+            ]
+          },
+          "housing": "room",
+          "status": {
+            "home": {
+              "kind": "room",
+              "rent": 950
+            }
+          }
+        },
+        "tr": "\"Bulaşık ertesi sabah\" dedin. Onlar da öyleymiş; oda senin, ayda 950 Para.",
+        "en": "You said 'dishes, next morning.' Turns out so do they. The room is yours at 950 a month.",
+        "coach": [
+          {
+            "tr": "Dürüstlük ve kirli tabak. Ortak payda.",
+            "en": "Honesty and dirty plates. Common ground.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "oda_reddi"
+            ]
+          }
+        },
+        "tr": "\"Duşta şarkı, her sabah, tiz\" dedin. Odayı ertesi gün başkasına verdiler.",
+        "en": "You said 'shower singing, daily, high notes.' They gave the room to someone else the next day.",
+        "coach": [
+          {
+            "tr": "Dürüsttün. Bir de tiz.",
+            "en": "Honest. Also a soprano.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "rol": {
+      "effects": {
+        "hidden": {
+          "stress": 3
+        },
+        "money": -950,
+        "flags": {
+          "add": [
+            "ortak_evde_oda",
+            "rol_yapiyor"
+          ]
+        },
+        "housing": "room",
+        "status": {
+          "home": {
+            "kind": "room",
+            "rent": 950
+          }
+        }
+      },
+      "tr": "Mükemmel ev arkadaşını oynadın, oda senin. Artık her bulaşığı aynı gün yıkıyorsun.",
+      "en": "You played the perfect roommate and got the room. Now you wash every dish the same day.",
+      "coach": [
+        {
+          "tr": "Mülakat bitti. Rol sürüyor. Ben de seminerde bir rol oynamıştım; hâlâ sürüyor.",
+          "en": "The interview's over. The role isn't. I played one at seminars once. Still playing it.",
+          "roast": true
+        }
+      ]
+    },
+    "vazgec": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ev_aramaya_devam"
+          ]
+        }
+      },
+      "tr": "Teşekkür edip çıktın. Merdivende sıradaki aday cevapları ezberliyordu.",
+      "en": "You thanked them and left. On the stairs, the next applicant was memorizing answers.",
+      "coach": [
+        {
+          "tr": "Bir oda eksildi. Liste duruyor. Ben olsam ben de vazgeçerdim. Karar senindi.",
+          "en": "One room down. The list goes on. I'd have walked away too. Up to you.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "durust",
+    "slip": {
+      "tr": "İDDİA: Dürüstlük o odayı almaz. — M.",
+      "en": "WAGER: Honesty won't land you that room. — M."
+    }
+  },
+  "intent": {
+    "setup": "ortak evde oda için ev arkadaşı mülakatı",
+    "mechanism": "sorular giderek tuhaflaşıyor",
+    "mechanismId": "escalation",
+    "punch": "örnek veriyorum, şu raf",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "liste"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

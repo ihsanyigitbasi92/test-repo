@@ -1,0 +1,103 @@
+/**
+ * Ad and consent copy — English, written for English (not translated line by line). Same rules as adsTr.ts:
+ * a label says what happens ("Watch ad → get X"), declining is the same size and blame-free, and the only
+ * countdown is the demo ad's own length (offers never carry a timer).
+ */
+import { groupDigits } from './format';
+import type { AdsStrings } from './adsTr';
+
+const n = (x: number) => groupDigits(x, ',');
+
+export const adsEn: AdsStrings = {
+  feed: {
+    adIncoming: "Ad incoming. I don't want it either. It pays my salary.",
+    adConsentIntro: "Paperwork. I don't have a legal department, so I kept it short. Read it, move on.",
+    adSponsorOffer: (x: number) => `A jersey sponsor called. Watch one ad and they pay a bonus worth a quarter of six months' salary: +${n(x)}. Watch an ad, become one. Or don't; you're still my client.`,
+    adSponsorFree: (x: number) => `A jersey sponsor called. You own the no-ads pass, so we skip the ad part. Bonus: +${n(x)}. Take it or leave it.`,
+    adSponsorGranted: (x: number) => `Jersey: SPONSORED. +${n(x)} in your account. There's a logo on your chest now; nobody asked, it's staying.`,
+    adClosedEarly: "You bailed halfway. Doesn't count; the advertiser isn't counting it either.",
+    adNoFill: "No ad came through. Not your fault this time; I didn't count it against you.",
+  },
+  offer: {
+    watch: (x: number) => `Watch ad → get +${n(x)}`,
+    free: (x: number) => `Claim, no ad → +${n(x)}`,
+    decline: 'No thanks',
+    note: 'One ad, about 30 seconds. Skip it and you lose nothing.',
+    noteFree: 'You own the no-ads pass: no ad is shown, same reward.',
+  },
+  mock: {
+    demoTag: 'DEMO AD · NOT A REAL AD',
+    breakTitle: 'AD BREAK',
+    rewardedTitle: 'REWARDED AD',
+    body: 'A real ad would go here. The demo has this box instead. The box is not selling anything.',
+    skipIn: (sec: number) => `Skip in ${sec}s`,
+    skip: 'Skip ad',
+    rewardIn: (sec: number) => `Reward in ${sec}s`,
+    closeNoReward: 'Close (no reward)',
+    rewardReady: "Done. The reward's yours.",
+    collect: 'Close and collect',
+  },
+  card: {
+    title: 'Privacy, on one page',
+    body: "Motto runs on your device; no account, no name. Anonymous usage counts and crash reports go to Google Firebase; no advertising ID is used. When we show ads, Google AdMob may process data such as your device's advertising ID and IP address. These providers are abroad. The permission below starts off; left off, the game is the same.",
+    bodyBoth: "Motto runs on your device; no account, no name. When we show ads, Google AdMob may process data such as your device's advertising ID and IP address; if you allow it, game events and crash reports go to Google Firebase without your name. These providers are abroad. Both permissions start off; left off, the game is the same.",
+    bodyAnalytics: 'Motto runs on your device; no account, no name. If you allow it, game events go as numbers and crash reports without your name to Google Firebase, a provider abroad. The permission starts off; left off, the game is the same.',
+    link: 'Privacy Notice (draft)',
+    foot: 'You can change this anytime in Settings › Privacy.',
+    decline: 'Keep everything off',
+    save: 'Save my choice',
+    ok: 'Got it',
+  },
+  consent: {
+    noticeTitle: 'About your personal data',
+    noticeBody: "Motto runs on your device; no account, no name. When we show ads, the ad provider (Google AdMob) may process data such as your device's advertising ID and IP address, and that data is transferred abroad. Ads are not picked for you unless you separately allow it.",
+    noticeLink: 'Privacy Notice',
+    noticeOk: 'Got it',
+    choiceTitle: 'Your permissions',
+    personalized: 'Personalised ads',
+    personalizedHint: "If off, you still see ads; they just aren't picked for you.",
+    foot: 'The game works fully without this. You can change it any time under "Privacy / ad preferences"; the row is on the shop screen and on the "Enough for today" sheet.',
+    declineHint: '"Decline" means ads are not personalised. Nothing else changes.',
+    save: 'Save',
+    decline: 'Decline',
+    on: 'ON',
+    off: 'OFF',
+    umpTitle: 'Ad consent',
+    umpDemo: "DEMO · The real app shows Google's consent form here",
+    umpBody: "In the European Economic Area, the UK and Switzerland, ad consent is asked through Google's certified form. Allow it and ads may be picked by interest; refuse and you get limited ads. Same game either way.",
+    umpAllow: 'Consent',
+    umpDeny: 'Do not consent',
+    attTitle: 'iOS will ask a permission next',
+    attBody: '"Allow" means ads are picked using your activity in other apps. "Ask App Not to Track" means the same game, less relevant ads. Either is fine.',
+    attContinue: 'Continue',
+  },
+  age: {
+    title: 'YEAR OF BIRTH',
+    body: 'One question before I open the file: what year were you born? Just the year; the answer stays on this device.',
+    placeholder: 'YYYY',
+    inputA11y: 'Year of birth, four digits',
+    invalid: 'Type a real, four-digit year.',
+    cont: 'Continue',
+    confirm: (y: number) => `${y}, is that right?`,
+    fix: 'Fix it',
+    yes: 'Yes',
+    blockedFix: "Typed it wrong? Clear the app's data and open it again.",
+    blockedTitle: 'FILE CLOSED',
+    blocked: 'This file opens at sixteen.',
+  },
+  privacy: {
+    entry: 'Privacy / ad preferences',
+    title: 'PRIVACY AND AD PREFERENCES',
+    statusNonPersonal: 'Ads are currently not picked for you.',
+    statusPersonal: 'Ads can currently be picked for you.',
+    statusPending: "You haven't been asked yet; until then there are no ads either.",
+    noAds: 'Your no-ads pass is active: no ad breaks. Rewarded ad offers stay where they are; watching one is entirely up to you.',
+    noAdsFree: 'Your no-ads pass is active: no ad breaks, and rewards are granted without watching anything.',
+    minor: 'Personalised ads are off and locked on this device. Ads are not picked for you.',
+    umpButton: "Open Google's consent form",
+    iosNote: 'The iOS tracking permission is changed in Settings › Privacy › Tracking.',
+    rating: 'Ad content rating: "T" (teen) at most. If you see an ad that does not belong here, tell us and we will have it removed.',
+    save: 'Save',
+    cancel: 'Cancel',
+  },
+};

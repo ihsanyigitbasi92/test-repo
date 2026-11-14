@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "taksici_aksam_tarifesi_01",
+  "tags": [
+    "tanidik_yuzler",
+    "yol",
+    "taksi",
+    "taksici"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "taksici": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 26,
+      "max": 40
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "cabbie",
+      "avatar": "neutral",
+      "tr": "Sabah aynı yol yüz seksen mi tuttu? Sabah trafik uyuyordu. Akşam uyanık.",
+      "en": "Same trip was one-eighty this morning? Traffic was asleep then. Now it is wide awake."
+    },
+    {
+      "speaker": "cabbie",
+      "avatar": "smug",
+      "tr": "Trafik hava durumu gibidir. Tahmin edersin, tutmaz, yine de ödersin.",
+      "en": "Traffic is like the weather. You forecast it, it ignores you, you pay anyway.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Taksimetreye itiraz et",
+      "en": "Dispute the meter",
+      "pattern": "pride",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "yuru",
+      "tr": "Son iki durağı yürü",
+      "en": "Walk the last two blocks",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "ode",
+      "tr": "Öde, sesini çıkarma",
+      "en": "Pay and say nothing",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 3500,
+        "effects": {
+          "money": -200,
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 2
+          }
+        },
+        "tr": "Taksimetre gece tarifesinde unutulmuş. Taksici düzeltti, ücret 200 Para’ya indi.",
+        "en": "The meter had been left on the night rate. He fixed it, and the fare dropped to 200.",
+        "coach": [
+          {
+            "tr": "Haklıydın. Altmış Para’lık haklılık.",
+            "en": "You were right, to the tune of sixty.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "money": -260,
+          "meters": {
+            "cringe": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "cabbie",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Taksimetre doğru çıktı. Taksici telefonundan trafik yoğunluk haritasını uzun uzun gösterdi.",
+        "en": "The meter checked out. He showed you a traffic map on his phone, at length.",
+        "coach": [
+          {
+            "tr": "İtiraz reddedildi. Harita ektedir.",
+            "en": "Objection denied. Map attached.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "yuru": {
+      "effects": {
+        "money": -210,
+        "stats": {
+          "health": 1,
+          "joy": 0
+        }
+      },
+      "tr": "İki durak önce inip 210 Para ödedin. Kalan yolu on dakikada yürüdün.",
+      "en": "You got out two blocks early and paid 210. Walked the rest in ten minutes.",
+      "coach": [
+        {
+          "tr": "Elli Para için on dakika. Saatlik ücretin belli oldu.",
+          "en": "Fifty saved for ten minutes. Your hourly rate, revealed.",
+          "roast": true
+        }
+      ]
+    },
+    "ode": {
+      "effects": {
+        "money": -260,
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "taksi_aksam_bilgisi"
+          ]
+        }
+      },
+      "tr": "260 Para ödedin. Akşamki fişi cüzdanda sabahkinin yanına koydun.",
+      "en": "You paid 260 and filed the receipt next to this morning's.",
+      "coach": [
+        {
+          "tr": "İki fiş, aynı yol.",
+          "en": "Two receipts, one road.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "itiraz",
+    "slip": {
+      "tr": "İDDİA: Taksimetre haklı çıkar. — M.",
+      "en": "WAGER: The meter turns out right. — M."
+    }
+  },
+  "intent": {
+    "setup": "sabah 180 tutan aynı taksi yolunun akşam 260 tutması ve taksicinin trafik hava durumudur teorisi",
+    "mechanism": "farkın sayıyla saatlik ücrete çevrilmesi",
+    "mechanismId": "count",
+    "punch": "saatlik ücretin belli oldu",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "saatlik"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

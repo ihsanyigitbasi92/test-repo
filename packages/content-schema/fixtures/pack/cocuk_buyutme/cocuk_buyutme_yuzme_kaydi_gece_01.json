@@ -1,0 +1,230 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "cocuk_buyutme_yuzme_kaydi_gece_01",
+  "tags": [
+    "ebeveynlik",
+    "kurs",
+    "para",
+    "cocuk_buyutme"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 900,
+    "tags": {
+      "cocuk_buyutme": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "child": {
+        "exists": true
+      },
+      "partner": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "worried",
+      "tr": "Yüzme kursu kaydı gece yarısı açılıyor. Geçen yıl dört dakikada dolmuş.",
+      "en": "Swim lesson signup opens at midnight. Last year it filled up in four minutes."
+    },
+    {
+      "speaker": "child",
+      "avatar": "happy",
+      "tr": "Arkadaşımın annesi üç tane alarm kurmuş.",
+      "en": "My friend's mom set three alarms.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "alarm",
+      "tr": "Alarm kur, formda bekle",
+      "en": "Set an alarm, wait on the form",
+      "pattern": "overwork",
+      "check": {
+        "base": 4500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ozel",
+      "tr": "Pahalı özel derse yazdır",
+      "en": "Book private lessons instead",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "atla",
+      "tr": "Bu yılı atla",
+      "en": "Skip it this year",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "alarm": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": -900,
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 2
+            }
+          ],
+          "flags": {
+            "add": [
+              "yuzme_kursu"
+            ]
+          }
+        },
+        "tr": "Form 00.01'de gönderildi. Sıra numaran 38, kontenjan 40.",
+        "en": "Form submitted at 12:01. You were number thirty-eight out of forty spots.",
+        "coach": [
+          {
+            "tr": "Gece yarısı bir form. Uykun iki sıralık pay satın aldı.",
+            "en": "A midnight form. Your sleep bought you a two-spot margin.",
+            "roast": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 4
+          },
+          "flags": {
+            "add": [
+              "yuzme_yedek"
+            ]
+          }
+        },
+        "tr": "Sayfa iki kez yenilendi. Geri geldiğinde kontenjan dolmuştu; yedek listede 61. sıradasın.",
+        "en": "The page reloaded twice. When it came back, signups were full and you were sixty-first on the waitlist.",
+        "coach": [
+          {
+            "tr": "Yedek listede 61. sıra. Havuz o kadar uzun değil.",
+            "en": "Sixty-first on the waitlist. The pool isn't that long.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ozel": {
+      "effects": {
+        "money": -2200,
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "yuzme_ozel"
+          ]
+        }
+      },
+      "tr": "Özel ders dört kat pahalı. Hoca ilk hafta en çok senin havuz kenarında dolanmanı düzeltti.",
+      "en": "Private lessons cost four times as much. In week one the instructor mainly worked on getting you to stop hovering at the edge.",
+      "coach": [
+        {
+          "tr": "Ders iyi gidiyor. Kenar boşaldı.",
+          "en": "Lessons are going fine. The poolside is clear.",
+          "roast": true
+        }
+      ]
+    },
+    "atla": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "hidden": {
+          "stress": -2
+        },
+        "npc": [
+          {
+            "role": "child",
+            "affinity": -1
+          }
+        ],
+        "flags": {
+          "add": [
+            "yuzme_atlandi"
+          ]
+        }
+      },
+      "tr": "Bu yıl kursa yazılmadınız. Yaz boyunca çocuğun yüzme videolarını sana yorumlayarak izletti.",
+      "en": "No lessons this year. All summer your kid narrated swimming videos at you.",
+      "coach": [
+        {
+          "tr": "Sekiz saat uyku. Canlı yorumlu.",
+          "en": "Eight hours of sleep. With live commentary.",
+          "roast": true
+        },
+        {
+          "tr": "Hedef sayacında 900 Para duruyor.",
+          "en": "Nine hundred stays in the goal fund.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "alarm",
+    "slip": {
+      "tr": "İDDİA: Gece yarısı formuna yetişemezsin. — M.",
+      "en": "WAGER: You won't beat the midnight form. — M."
+    }
+  },
+  "intent": {
+    "setup": "çocuğun yüzme kursu kaydının gece yarısı açılıp dakikalar içinde dolması",
+    "mechanism": "kayıt yarışının tırmanması",
+    "mechanismId": "escalation",
+    "punch": "havuz o kadar uzun değil",
+    "lift": "hedef sayacı",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "havuz"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

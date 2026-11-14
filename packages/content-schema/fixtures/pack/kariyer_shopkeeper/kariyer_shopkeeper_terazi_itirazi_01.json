@@ -1,0 +1,200 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_shopkeeper_terazi_itirazi_01",
+  "tags": [
+    "kariyer",
+    "esnaf",
+    "kariyer_shopkeeper"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "kariyer_shopkeeper": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "career": {
+      "anyOf": [
+        "shopkeeper"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "annoyed",
+      "tr": "Evde tarttım, peynir yirmi gram eksik. Benim terazim hiç yanılmaz.",
+      "en": "I weighed it at home. The cheese is twenty grams short. My scale is never wrong."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Terazisi doğrudur. Bir kere bizim kediyi tarttı, veteriner de aynısını buldu.",
+      "en": "Their scale is accurate. They weighed my cat once and the vet got the same number.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "ver",
+      "tr": "Yirmi gramı ver, kapat",
+      "en": "Hand over twenty grams, done",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "tart",
+      "tr": "Birlikte yeniden tartın",
+      "en": "Reweigh it together",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "ayar",
+      "tr": "Teraziyi ayara götür",
+      "en": "Get the scale calibrated",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "ver": {
+      "effects": {
+        "meters": {
+          "ego": -2
+        },
+        "money": -20,
+        "npc": [
+          {
+            "role": "npc:stranger",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Yirmi gram peyniri kâğıda sarıp verdin. Müşteri ertesi hafta zeytin için de terazisini getirdi.",
+      "en": "You wrapped twenty grams and handed it over. Next week the customer brought their scale for the olives too.",
+      "coach": [
+        {
+          "tr": "Yirmi gram verdin. Terazi artık müdavim.",
+          "en": "Twenty grams, and now a scale is a regular.",
+          "roast": true
+        }
+      ]
+    },
+    "tart": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "ego": 3
+          },
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -1
+            },
+            {
+              "role": "neighbor",
+              "affinity": 1
+            }
+          ]
+        },
+        "tr": "Tezgâhta yeniden tarttınız, tam geldi. Müşteri evdeki terazinin pilini değiştireceğini söyledi.",
+        "en": "You reweighed it at the counter: exact. The customer said they'd change the batteries in their scale.",
+        "coach": [
+          {
+            "tr": "Pil değişiyor. Peynir aynı.",
+            "en": "New batteries. Same cheese.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "meters": {
+            "cringe": 4
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "money": -20,
+          "npc": [
+            {
+              "role": "npc:stranger",
+              "affinity": -3
+            }
+          ]
+        },
+        "tr": "Senin terazin on beş gram eksik tarttı. Müşteri haklıydı, mahalle de duydu.",
+        "en": "Your scale came up fifteen grams light. The customer was right, and the street heard about it.",
+        "coach": [
+          {
+            "tr": "On beş gram, bir mahalle.",
+            "en": "Fifteen grams. One whole street.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "ayar": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -150,
+        "flags": {
+          "add": [
+            "shop_terazi_ayarli"
+          ]
+        }
+      },
+      "tr": "Teraziyi ayara götürdün, mühür yenilendi. Belgeyi kasanın üstüne astın.",
+      "en": "You had the scale calibrated and resealed. The certificate now hangs above the till.",
+      "coach": [
+        {
+          "tr": "Belge asıldı. Tartışma bitti.",
+          "en": "Certificate up. Debate over.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "tart",
+    "slip": {
+      "tr": "İDDİA: Terazi müşteriden yana çıkar. — M.",
+      "en": "WAGER: Your scale sides with the customer. — M."
+    }
+  },
+  "intent": {
+    "setup": "müşteri evde tarttığı peynirin yirmi gram eksik çıktığını söylüyor",
+    "mechanism": "komşu müşterinin terazisine kedi tartımıyla kefil oluyor",
+    "mechanismId": "deadpan_report",
+    "punch": "veteriner aynısını buldu",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "pil"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

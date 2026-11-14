@@ -1,0 +1,207 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "patron_nevin_izin_bilgisayari_01",
+  "tags": [
+    "is",
+    "patron",
+    "patron_nevin"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 720,
+    "tags": {
+      "patron_nevin": 12
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 22,
+      "max": 25
+    },
+    "career": {
+      "employed": true
+    },
+    "npc": {
+      "boss": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "{name}, iki haftalık iznini gönül rahatlığıyla onayladım. Dinlenmek de bir performans göstergesi.",
+      "en": "{name}, I've approved your two weeks off, wholeheartedly. Rest is a performance metric too."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Sadece bilgisayarını yanına al. Açman gerekmez, yanında olsun yeter.",
+      "en": "Just bring your laptop. You don't have to open it. Just have it with you.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "birak",
+      "tr": "Bilgisayarı evde 'unut'",
+      "en": "'Forget' the laptop at home",
+      "pattern": "risk",
+      "check": {
+        "base": 5000
+      }
+    },
+    {
+      "id": "kapali",
+      "tr": "Yanına al, kapalı tut",
+      "en": "Pack it, keep it closed",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "kontrol",
+      "tr": "Her sabah bir kez aç",
+      "en": "Check in every morning",
+      "pattern": "overwork"
+    }
+  ],
+  "outcomes": {
+    "birak": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 5
+          },
+          "hidden": {
+            "stress": -4
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "memory": "izinde_ulasilamaz"
+            }
+          ]
+        },
+        "tr": "Bilgisayar evde kaldı, iki hafta tek bir mail görmedin. Döndüğünde Nevin Hanım 'bak, işler yürüdü' dedi.",
+        "en": "The laptop stayed home: two weeks, zero emails. When you got back, Ms. Carver said, 'See? Everything kept running.'",
+        "coach": [
+          {
+            "tr": "İki hafta çevrim dışı. Şirket ayakta.",
+            "en": "Two weeks offline. The company survived.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "npc": [
+            {
+              "role": "boss",
+              "affinity": -2
+            }
+          ]
+        },
+        "tr": "Üçüncü gün Nevin Hanım otelin resepsiyonunu aradı. Resepsiyon sana bir not getirdi: 'Dönünce bir bakarsın.'",
+        "en": "On day three, Ms. Carver called the hotel front desk. They brought you a note: 'Have a look when you're back.'",
+        "coach": [
+          {
+            "tr": "Bilgisayarı bıraktın. Resepsiyon devraldı.",
+            "en": "You left the laptop. The front desk took over.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "kapali": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": 1
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Bilgisayar iki hafta çantada kapalı kaldı. Dönüşte Nevin Hanım 'gördün mü, yanında olması yetti' dedi.",
+      "en": "The laptop stayed shut in your bag for two weeks. Back home, Ms. Carver said, 'See? Just having it was enough.'",
+      "coach": [
+        {
+          "tr": "İki hafta taşındı. Neye yettiği belirsiz.",
+          "en": "Carried for two weeks. Enough for what, unclear.",
+          "roast": true
+        }
+      ]
+    },
+    "kontrol": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "izinde_mail"
+          ]
+        },
+        "npc": [
+          {
+            "role": "boss",
+            "affinity": 3,
+            "memory": "izinde_calisir"
+          }
+        ]
+      },
+      "tr": "On dakikalık kontroller ikinci hafta bir saate çıktı. Tatil fotoğraflarının yarısında arkada bir ekran var.",
+      "en": "The ten-minute check-ins became an hour by week two. Half your vacation photos have a screen in the background.",
+      "coach": [
+        {
+          "tr": "Tatil albümü, toplantı tutanağı gibi.",
+          "en": "Your vacation album doubles as meeting minutes.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "birak",
+    "slip": {
+      "tr": "İDDİA: Nevin Hanım başka bir yol bulur. — M.",
+      "en": "WAGER: Ms. Carver finds another way in. — M."
+    }
+  },
+  "intent": {
+    "setup": "patron izni onaylıyor ama bilgisayarın yanında olmasını istiyor",
+    "mechanism": "açman gerekmez, yanında olsun yeter",
+    "mechanismId": "understatement",
+    "punch": "yanında olsun yeter",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "resepsiyon"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

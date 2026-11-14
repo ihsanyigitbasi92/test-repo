@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "egitim_universite_ders_notu_satisi_01",
+  "tags": [
+    "egitim",
+    "okul",
+    "not",
+    "para",
+    "egitim_universite"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 300,
+    "tags": {
+      "egitim_universite": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "flags": {
+      "all": [
+        "okul"
+      ]
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:clerk",
+      "avatar": "happy",
+      "tr": "Notların çok temiz. Sayfası bir Para'dan alırım, ben üçe satarım.",
+      "en": "Your notes are very clean. I'll pay one a page and sell them for three."
+    },
+    {
+      "speaker": "npc:clerk",
+      "avatar": "neutral",
+      "tr": "Adını kapağa yazmam. İsim yazınca satmıyor.",
+      "en": "Your name won't go on the cover. Names don't sell.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "sat",
+      "tr": "Teklifi kabul et",
+      "en": "Take the offer",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Sayfa başı iki iste",
+      "en": "Ask for two a page",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "bedava",
+      "tr": "Sınıf grubuna bedava at",
+      "en": "Post them free in the class chat",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "sat": {
+      "effects": {
+        "money": 120,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "not_satici"
+          ]
+        }
+      },
+      "tr": "Yüz yirmi sayfa için 120 Para aldın. Ertesi hafta yanındaki öğrenci aynı notları 360'a almıştı.",
+      "en": "You got 120 for a hundred and twenty pages. Next week the student next to you had the same notes, bought for 360.",
+      "coach": [
+        {
+          "tr": "Yanındaki 360 ödedi. Notların bir hafta içinde terfi etti.",
+          "en": "Your neighbor paid 360. Your notes got promoted in a week.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "money": 240,
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "not_satici"
+            ]
+          }
+        },
+        "tr": "Fotokopici yüzünü buruşturdu, kabul etti. 240 Para; kapakta yine isim yok.",
+        "en": "The copy guy winced and agreed. 240, still no name on the cover.",
+        "coach": [
+          {
+            "tr": "Sayfa başı iki. İsim hâlâ satmıyor.",
+            "en": "Two a page. Your name still doesn't sell.",
+            "roast": false
+          },
+          {
+            "tr": "Hedef kumbarasına 240 eklendi.",
+            "en": "Goal fund: plus 240.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "ego": -2
+          }
+        },
+        "tr": "Fotokopici omuz silkti, \"başkasınınkini alırım\" dedi. Ertesi gün vitrinde senin bölümden bir not vardı; daha dağınık.",
+        "en": "He shrugged and said he'd buy someone else's. Next day the window had notes from your class. Messier ones.",
+        "coach": [
+          {
+            "tr": "Dağınık not satıldı. Temiz not cebinde.",
+            "en": "The messy notes sold. The clean ones are in your bag.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "bedava": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "ego": 2
+        },
+        "flags": {
+          "add": [
+            "not_paylasimci"
+          ]
+        }
+      },
+      "tr": "Notları gruba attın. Otuz iki kişi indirdi; teşekkür eden iki kişi oldu.",
+      "en": "You posted them. Thirty-two downloads. Two thank-yous.",
+      "coach": [
+        {
+          "tr": "Otuz iki indirme, iki teşekkür. Final sonrası belki üç olur.",
+          "en": "Thirty-two downloads, two thank-yous. Maybe three after finals.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Fotokopici bir Para'dan şaşmaz. — M.",
+      "en": "WAGER: The copy guy won't budge past one a page. — M."
+    }
+  },
+  "intent": {
+    "setup": "temiz el yazısı ders notlarını fotokopiciye satmak",
+    "mechanism": "fotokopici notlarını senden pahalıya satıyor",
+    "mechanismId": "reversal",
+    "punch": "kendi notunu fotokopiciden satın alan sınıf arkadaşın",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "fotokopi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

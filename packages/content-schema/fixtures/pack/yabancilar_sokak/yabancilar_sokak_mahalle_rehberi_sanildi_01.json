@@ -1,0 +1,183 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yabancilar_sokak_mahalle_rehberi_sanildi_01",
+  "tags": [
+    "sosyal",
+    "sokak",
+    "yabancilar_sokak"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "yabancilar_sokak": 25
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 42,
+      "max": 55
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:stranger",
+      "avatar": "happy",
+      "tr": "Yeni taşındık. Sizin yüzünüz tam mahalle yüzü. Buralarda terzi var mı?",
+      "en": "We just moved in. You've got a real neighborhood face. Is there a tailor around here?"
+    },
+    {
+      "speaker": "npc:stranger",
+      "avatar": "neutral",
+      "tr": "Bir de anahtarcı, postane ve sabah erken açan fırın. Acele yok, sırayla.",
+      "en": "Also a key cutter, a post office and an early bakery. No rush, one at a time.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "anlat",
+      "tr": "Bildiğin kadarını anlat",
+      "en": "Tell them what you know",
+      "pattern": "pride",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "birlikte",
+      "tr": "Birlikte bakmayı öner",
+      "en": "Offer to look together",
+      "pattern": "generosity"
+    },
+    {
+      "id": "harita",
+      "tr": "Haritaya bakmasını söyle",
+      "en": "Suggest a map app",
+      "pattern": "shortcut"
+    }
+  ],
+  "outcomes": {
+    "anlat": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "mahalle_rehberi"
+            ]
+          }
+        },
+        "tr": "Dördünden üçünü bildin. Terziyi yanlış sokağa koydun ama yabancı o sokakta başka bir terzi buldu.",
+        "en": "You got three out of four. You put the tailor on the wrong street, but the stranger found a different tailor there.",
+        "coach": [
+          {
+            "tr": "Yanlış tarif, doğru terzi.",
+            "en": "Wrong directions, right tailor.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "meters": {
+            "cringe": 3
+          }
+        },
+        "tr": "Hiçbirini bilmedin. Yirmi yıldır aynı üç dükkâna gittiğini o an fark ettin.",
+        "en": "You knew none of them. It hit you that you'd been going to the same three shops for twenty years.",
+        "coach": [
+          {
+            "tr": "Yirmi yıl, üç dükkân. Mahalle senden büyükmüş.",
+            "en": "Twenty years, three shops. The neighborhood was bigger than you thought.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "birlikte": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "hidden": {
+          "luck": 1
+        },
+        "flags": {
+          "add": [
+            "mahalle_kesfi"
+          ]
+        }
+      },
+      "tr": "Beraber yürüdünüz. Kırk dakikada iki terzi, bir anahtarcı ve senin hiç görmediğin bir sokak buldunuz.",
+      "en": "You walked it together. In forty minutes: two tailors, a key cutter and a street you'd never seen.",
+      "coach": [
+        {
+          "tr": "Rehberli tur: iki turist.",
+          "en": "Guided tour: two tourists.",
+          "roast": false
+        },
+        {
+          "tr": "Hedef haritasına yeni sokak.",
+          "en": "New street on the goal map.",
+          "roast": false,
+          "lift": true,
+          "when": {
+            "goal": {
+              "active": true
+            }
+          }
+        }
+      ]
+    },
+    "harita": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "cringe": 1
+        }
+      },
+      "tr": "Haritaya bakmasını söyledin. Yabancı baktı: 'Sizin sokakta fırın varmış, haritada görünüyor.'",
+      "en": "You suggested a map. They checked: 'There's a bakery on your street. It's right there on the map.'",
+      "coach": [
+        {
+          "tr": "Fırın hep oradaymış. Harita biliyordu.",
+          "en": "The bakery was always there. The map knew.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "intent": {
+    "setup": "mahalleye yeni taşınan bir yabancının yirmi yıldır oturduğun mahallenin dükkânlarını sana sorması",
+    "mechanism": "eski sakin yeni gelenden az biliyor",
+    "mechanismId": "reversal",
+    "punch": "sizin yüzünüz tam mahalle yüzü",
+    "lift": "hedef haritası",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "firin"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "seyahat_tatil_kasa_sifresi_01",
+  "tags": [
+    "bos_zaman",
+    "partner",
+    "otel",
+    "is",
+    "seyahat_tatil"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "seyahat_tatil": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 30,
+      "max": 40
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Telefonunu otel kasasına kilitledim. Şifre, asla unutmayacağın bir tarih.",
+      "en": "I locked your phone in the hotel safe. The code is a date you'd never forget."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Ben de unuttum. Ama tatil başladı, değil mi?",
+      "en": "I forgot it too. But the vacation's started, hasn't it?",
+      "delayMs": 800
+    }
+  ],
+  "choices": [
+    {
+      "id": "dene",
+      "tr": "Tarihleri dene",
+      "en": "Try dates",
+      "pattern": "risk",
+      "check": {
+        "base": 3500,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "birak",
+      "tr": "Telefonu kasada bırak",
+      "en": "Leave it in there",
+      "pattern": "selfCare"
+    },
+    {
+      "id": "gorevli",
+      "tr": "Görevli çağır",
+      "en": "Call the front desk",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "dene": [
+      {
+        "p": 3500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "flags": {
+            "add": [
+              "tatilde_telefonsuz"
+            ]
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": 3
+            }
+          ]
+        },
+        "tr": "Üçüncü denemede açıldı: tanıştığınız gün. Telefona bakmadan kasayı geri kapattın.",
+        "en": "Third try: the day you met. You shut the safe again without checking the phone.",
+        "coach": [
+          {
+            "tr": "Üç deneme, doğru tarih. Kasa yine kapalı.",
+            "en": "Three tries, right date. Safe shut again anyway.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "meters": {
+            "cringe": 3
+          },
+          "npc": [
+            {
+              "role": "partner",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Beş yanlış denemeden sonra kasa kendini bir saatliğine kilitledi. O bir saat boyunca denize baktınız.",
+        "en": "After five wrong tries, the safe locked itself for an hour. You spent the hour looking at the sea.",
+        "coach": [
+          {
+            "tr": "Beş yanlış tarih, bir saat deniz. Kasa tatili zorunlu kıldı.",
+            "en": "Five wrong dates, one hour of sea. The safe made the vacation mandatory.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 6,
+          "health": 2
+        },
+        "flags": {
+          "add": [
+            "tatilde_telefonsuz"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "Telefon beş gün kasada kaldı. Dönüşte elli dokuz okunmamış e-posta vardı, hiçbiri acil değildi.",
+      "en": "The phone stayed in the safe for five days. Back home: fifty-nine unread emails, none of them urgent.",
+      "coach": [
+        {
+          "tr": "Beş gün, elli dokuz e-posta, sıfır acil durum.",
+          "en": "Five days, fifty-nine emails, zero emergencies.",
+          "roast": false
+        }
+      ]
+    },
+    "gorevli": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -150,
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": -2
+          }
+        ]
+      },
+      "tr": "Görevli kasayı ana anahtarla açtı, 150 Para servis yazdı. Telefonu önce partnerin kaptı ve yeniden kilitledi.",
+      "en": "The front desk opened it with a master key and charged 150. Your partner grabbed the phone first and locked it back in.",
+      "coach": [
+        {
+          "tr": "150 Para ödendi. Kasa sahibini değiştirmedi.",
+          "en": "You paid 150. The safe kept its owner.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dene",
+    "slip": {
+      "tr": "İDDİA: Kasa şifresini bulamazsın. — M.",
+      "en": "WAGER: You won't crack the safe code. — M."
+    }
+  },
+  "intent": {
+    "setup": "partnerin tatilde telefonu otel kasasına kilitlemesi",
+    "mechanism": "şifreyi koyan da unutuyor ve bunu kutluyor",
+    "mechanismId": "reversal",
+    "punch": "ben de unuttum",
+    "lift": "yok",
+    "target": "decision",
+    "closer": "kasa",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

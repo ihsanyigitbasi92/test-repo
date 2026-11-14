@@ -1,0 +1,225 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "evlilik_gunluk_direksiyon_dersi_01",
+  "tags": [
+    "iliski",
+    "evlilik_gunluk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "evlilik_gunluk": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 55
+    },
+    "flags": {
+      "all": [
+        "evli"
+      ],
+      "none": [
+        "ders_veren"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "child": {
+        "exists": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "child",
+      "avatar": "happy",
+      "tr": "Ehliyet kursum başladı. Pratik için ikinizden biri lazım. Hanginiz daha sakin?",
+      "en": "My driving lessons started. I need one of you for practice. Which of you is calmer?"
+    },
+    {
+      "speaker": "partner",
+      "avatar": "smug",
+      "tr": "Ben. Sen geçen sefer park ederken bağırdın.",
+      "en": "Me. You yelled last time we parked.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "sen",
+      "tr": "Dersi sen ver",
+      "en": "You teach",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "joy"
+      }
+    },
+    {
+      "id": "partner",
+      "tr": "Partnerine bırak",
+      "en": "Let your partner teach",
+      "pattern": "patience"
+    },
+    {
+      "id": "kurs",
+      "tr": "Ek kurs saati al",
+      "en": "Buy extra lesson hours",
+      "pattern": "impulseSpend"
+    }
+  ],
+  "outcomes": {
+    "sen": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": 3
+            }
+          ],
+          "flags": {
+            "add": [
+              "ders_veren"
+            ]
+          }
+        },
+        "tr": "Bir saatlik derste sesin bir kez yükseldi, o da kornaya. Çocuğun seni 'sakin' diye bildirdi.",
+        "en": "In an hour-long lesson your voice rose once, and only at a horn. Your kid reported you as 'calm.'",
+        "coach": [
+          {
+            "tr": "Bir yükselme. Kornaya.",
+            "en": "One raised voice. At a horn.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 0
+          },
+          "hidden": {
+            "stress": 3
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "npc": [
+            {
+              "role": "child",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "ders_veren"
+            ]
+          }
+        },
+        "tr": "Paralel parkta sesin iki kez yükseldi. Çocuğun derse partnerinle devam etmek istedi.",
+        "en": "Parallel parking: your voice rose twice. Your kid asked to continue with your partner.",
+        "coach": [
+          {
+            "tr": "Kurul kararı: partner.",
+            "en": "Committee ruling: partner.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "partner": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          },
+          {
+            "role": "child",
+            "affinity": 2
+          }
+        ],
+        "flags": {
+          "add": [
+            "ders_veren"
+          ]
+        }
+      },
+      "tr": "Partnerin ders verdi. Eve döndüklerinde ikisi de senin park etmeni taklit ediyordu.",
+      "en": "Your partner taught. They came home doing impressions of the way you park.",
+      "coach": [
+        {
+          "tr": "Ders bitti. Konusu sen oldun.",
+          "en": "Lesson over. You were the case study.",
+          "roast": false
+        }
+      ]
+    },
+    "kurs": {
+      "effects": {
+        "money": -900,
+        "stats": {
+          "joy": 1
+        },
+        "flags": {
+          "add": [
+            "ders_veren"
+          ]
+        }
+      },
+      "tr": "Beş ek ders, 900 Para. Hoca, çocuğunun 'evde kimse sakin değil' dediğini aktardı.",
+      "en": "Five extra lessons: 900. The instructor passed on that your kid said 'nobody at home is calm.'",
+      "coach": [
+        {
+          "tr": "Sakinlik dışarıdan satın alındı.",
+          "en": "Calm, outsourced.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sen",
+    "slip": {
+      "tr": "İDDİA: Paralel parkta ses yükselir. — M.",
+      "en": "WAGER: Parallel parking ends in raised voices. — M."
+    }
+  },
+  "intent": {
+    "setup": "çocuğun ehliyet pratiğini hangi ebeveynin yaptıracağı",
+    "mechanism": "sakinlik yarışı park manevrasında tırmanıyor",
+    "mechanismId": "escalation",
+    "punch": "sen geçen sefer park ederken bağırdın",
+    "closer": "park",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "yok"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

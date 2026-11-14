@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "kariyer_clerk_seflik_sinavi_01",
+  "tags": [
+    "kariyer",
+    "memur",
+    "terfi",
+    "kariyer_clerk"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 6500,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "kariyer_clerk": 14
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 41,
+      "max": 60
+    },
+    "career": {
+      "anyOf": [
+        "clerk"
+      ],
+      "employed": true
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Şeflik sınavı açıldı, kaynak listesi üç yüz sayfa. Hazırlık öz-yönlendirmeli.",
+      "en": "The section chief exam is open, reading list three hundred pages. Prep is self-directed."
+    },
+    {
+      "speaker": "npc:coworker",
+      "avatar": "smug",
+      "tr": "Ben de gireceğim. Notlarım var ama renk kodlu, size karışık gelebilir.",
+      "en": "I'm taking it too. I have notes, but they're color-coded, might be a lot for you.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "calis",
+      "tr": "Altı hafta akşamları çalış",
+      "en": "Study six weeks of evenings",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "notlar",
+      "tr": "Renkli notları ödünç iste",
+      "en": "Borrow the color-coded notes",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "girme",
+      "tr": "Bu yıl girme",
+      "en": "Skip it this year",
+      "pattern": "selfCare"
+    }
+  ],
+  "outcomes": {
+    "calis": [
+      {
+        "p": 5000,
+        "effects": {
+          "career": {
+            "rungDelta": 1
+          },
+          "status": {
+            "job": {
+              "title": "şef",
+              "tier": 3,
+              "monthly": 2200
+            }
+          },
+          "meters": {
+            "ego": 4
+          }
+        },
+        "tr": "Sınavı geçtin. Şef oldun; maaş 2.200 Para.",
+        "en": "You passed and made section chief. Pay: 2,200 a month.",
+        "coach": [
+          {
+            "tr": "Üç yüz sayfa, kırk iki akşam, bir unvan. Sayfa başı yedi Para.",
+            "en": "Three hundred pages, forty-two evenings, one title. About seven Para a page.",
+            "roast": false
+          },
+          {
+            "tr": "Kariyer sayacı: şef.",
+            "en": "Career counter: chief.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "seflik_sinavi_tekrar"
+            ]
+          }
+        },
+        "tr": "Üç puanla kaldın. Sınav seneye tekrar açılacak.",
+        "en": "You missed by three points. The exam reopens next year.",
+        "coach": [
+          {
+            "tr": "Kırk iki akşam, üç puan eksik. Akşamlar iade edilmiyor.",
+            "en": "Forty-two evenings, three points short. Evenings are non-refundable.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "notlar": {
+      "effects": {
+        "hidden": {
+          "stress": 1
+        },
+        "flags": {
+          "add": [
+            "seflik_yedek_liste"
+          ]
+        }
+      },
+      "tr": "Kırmızı önemliydi, yeşil de önemliydi, mavi bilinmiyordu. Yedek listeye girdin.",
+      "en": "Red meant important, green also meant important, blue was unclear. You made the waiting list.",
+      "coach": [
+        {
+          "tr": "Üç renk, bir yedek liste.",
+          "en": "Three colors, one waiting list.",
+          "roast": false
+        }
+      ]
+    },
+    "girme": {
+      "effects": {
+        "stats": {
+          "joy": 2
+        },
+        "hidden": {
+          "stress": -2
+        }
+      },
+      "tr": "Bu yıl girmedin. Akşamlar sende kaldı; iş arkadaşın kazandı, masası hâlâ yanında.",
+      "en": "You sat this one out and kept your evenings. Your coworker passed, and their desk is still next to yours.",
+      "coach": [
+        {
+          "tr": "Akşamlar kurtuldu. Masa komşun şef oldu.",
+          "en": "Evenings saved. Your desk neighbor is now your chief.",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "calis",
+    "slip": {
+      "tr": "İDDİA: Şeflik bu yıl gelmez. — M.",
+      "en": "WAGER: The chief title doesn't come this year. — M."
+    }
+  },
+  "intent": {
+    "setup": "kurum içi şeflik sınavına hazırlık",
+    "mechanism": "koç sayfa başına unvan maliyeti çıkarıyor",
+    "mechanismId": "count",
+    "punch": "sayfa başı yedi Para",
+    "lift": "kariyer sayacı şef",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "iade"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

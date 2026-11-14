@@ -1,0 +1,213 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "ev_tamiri_ariza_tikali_oluk_01",
+  "tags": [
+    "ev",
+    "tamir",
+    "ev_tamiri_ariza"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "ev_tamiri_ariza": 18
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 58
+    },
+    "housing": [
+      "mortgage",
+      "owned"
+    ],
+    "season": [
+      "autumn"
+    ]
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Oluğunuz taşıyor, kapının önü şelale oldu.",
+      "en": "Your gutter's overflowing. There's a waterfall at your door."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Biz her ekim temizletiriz. Siz temizletmiyorsunuz galiba.",
+      "en": "We have ours done every October. You don't, I gather.",
+      "delayMs": 400
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "smug",
+      "tr": "Merdiven bende. Tutmam ama veririm.",
+      "en": "I've got a ladder. I won't hold it, but I'll lend it.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "cik",
+      "tr": "Merdivenle kendin çık",
+      "en": "Take the ladder up yourself",
+      "pattern": "risk",
+      "check": {
+        "base": 6000,
+        "stat": "health"
+      }
+    },
+    {
+      "id": "usta",
+      "tr": "Oluk temizleyici çağır",
+      "en": "Call a gutter cleaner",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "kova",
+      "tr": "Kapının önüne kova koy",
+      "en": "Put a bucket by the door",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "cik": [
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "hidden": {
+            "stress": -1
+          },
+          "flags": {
+            "add": [
+              "oluk_temiz"
+            ]
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "İki kova yaprak çıktı, bir de yıllar önce kaybolan badminton topu. Oluk aktı, şelale kapandı.",
+        "en": "Two buckets of leaves came out, plus a long-lost shuttlecock. The gutter flows and the waterfall is closed.",
+        "coach": [
+          {
+            "tr": "Oluk akıyor. Top da evine döndü.",
+            "en": "The gutter flows. The shuttlecock is home.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "health": -1,
+            "joy": -2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "npc": [
+            {
+              "role": "neighbor",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Oluğun ucundaki çamur tam üstüne boşaldı. İşin yarısı bitti, merdiven komşuya çamurlu döndü.",
+        "en": "The muck at the end of the gutter emptied straight onto you. Half done, and the ladder went back muddy.",
+        "coach": [
+          {
+            "tr": "Yarısı temiz. Merdiven iade edildi, yorumuyla.",
+            "en": "Half clear. Ladder returned, with remarks.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "usta": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "money": -450,
+        "flags": {
+          "add": [
+            "oluk_temiz"
+          ]
+        }
+      },
+      "tr": "Oluk temizleyici yarım saatte bitirdi, 450 Para. Yaprakları bahçenin köşesine yığdı.",
+      "en": "The gutter cleaner was done in half an hour, for 450. The leaves went in a pile in the corner of your yard.",
+      "coach": [
+        {
+          "tr": "Yapraklar bir kat aşağı taşındı.",
+          "en": "The leaves were relocated one level down.",
+          "roast": false
+        }
+      ]
+    },
+    "kova": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 2
+        },
+        "flags": {
+          "add": [
+            "kapi_kovasi"
+          ]
+        }
+      },
+      "tr": "Kapının önüne kova koydun. Kova bir saatte doldu, akşama kadar dört kez boşalttın.",
+      "en": "You put a bucket by the door. It filled in an hour. You emptied it four times before dinner.",
+      "coach": [
+        {
+          "tr": "Kova her saat başı haber veriyor.",
+          "en": "The bucket reports on the hour.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "cik",
+    "slip": {
+      "tr": "İDDİA: Oluk ilk turu kazanır. — M.",
+      "en": "WAGER: The gutter wins round one. — M."
+    }
+  },
+  "intent": {
+    "setup": "sonbaharda çatı oluğu yaprakla tıkanıyor, yağmur suyu kapının önüne şelale gibi akıyor",
+    "mechanism": "komşu kıyas yapıp merdiveni şartlı veriyor",
+    "mechanismId": "understatement",
+    "punch": "tutmam ama veririm",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "haber"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

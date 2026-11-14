@@ -1,0 +1,195 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "sans_ikramiye_kampanya_aramasi_01",
+  "tags": [
+    "para",
+    "ikramiye",
+    "banka",
+    "sans_ikramiye"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 4000,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "sans_ikramiye": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 44,
+      "max": 60
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "npc:banker",
+      "avatar": "happy",
+      "tr": "Kart kampanyamızda hafta sonu tatili kazandınız. Tebrik ederiz.",
+      "en": "You've won a weekend getaway in our card promotion. Congratulations."
+    },
+    {
+      "speaker": "npc:banker",
+      "avatar": "neutral",
+      "tr": "Hayır, şifrenizi istemiyorum. Lütfen şifrenizi söylemeyin. Gerçekten.",
+      "en": "No, I don't need your PIN. Please don't tell me your PIN. Really.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "kapat",
+      "tr": "Telefonu kapat",
+      "en": "Hang up",
+      "pattern": "avoidance"
+    },
+    {
+      "id": "sube",
+      "tr": "Şubeye gidip sor",
+      "en": "Check at the branch",
+      "pattern": "patience"
+    },
+    {
+      "id": "sorgu",
+      "tr": "Arayanı sorguya çek",
+      "en": "Grill the caller",
+      "pattern": "pride",
+      "check": {
+        "base": 5500,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "kapat": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": -1
+        },
+        "flags": {
+          "add": [
+            "tatil_kacti"
+          ]
+        },
+        "glossary": "kampanya_cekilisi"
+      },
+      "tr": "Kapattın. Ertesi hafta şube panosuna kazananlar listesi asıldı; adının yanında 'ulaşılamadı' yazıyordu.",
+      "en": "You hung up. The next week the winners' list went up in the branch. Next to your name: 'unreachable.'",
+      "coach": [
+        {
+          "tr": "Temkin bir hafta sonuna mal oldu.",
+          "en": "Caution cost you one weekend away.",
+          "roast": false
+        }
+      ]
+    },
+    "sube": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "hidden": {
+          "luck": 1
+        },
+        "flags": {
+          "add": [
+            "kampanya_tatili"
+          ]
+        }
+      },
+      "tr": "Şubede doğruladılar: ödül gerçekti. İki gece otel, kahvaltı dahil.",
+      "en": "The branch confirmed it: the prize was real. Two nights in a hotel, breakfast included.",
+      "coach": [
+        {
+          "tr": "Doğrulandı. Kahvaltı dahil.",
+          "en": "Confirmed. Breakfast included.",
+          "roast": false
+        }
+      ]
+    },
+    "sorgu": [
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 3
+          },
+          "meters": {
+            "ego": 2
+          },
+          "flags": {
+            "add": [
+              "kampanya_tatili"
+            ]
+          }
+        },
+        "tr": "Kampanya kodunu, tarihleri ve şube adını sordun. Hepsi tuttu; bankacı sonunda 'umarım iyi bir tatil olur, gerçekten' dedi.",
+        "en": "You asked for the promo code, the dates, the branch name. All checked out. The banker said, 'I truly hope you enjoy it.'",
+        "coach": [
+          {
+            "tr": "Sorgu bitti. Tatil başladı.",
+            "en": "Interrogation over. Vacation on.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": -1
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "flags": {
+            "add": [
+              "tatil_kacti"
+            ]
+          }
+        },
+        "tr": "Sorular uzayınca bankacı 'bilgileri yazılı gönderiyorum' deyip kapattı. Mektup, ödül süresi bittikten bir gün sonra geldi.",
+        "en": "The questions went on until the banker said they'd send it in writing and hung up. The letter arrived a day after the deadline.",
+        "coach": [
+          {
+            "tr": "Mektup bir gün geç.",
+            "en": "The letter, one day late.",
+            "roast": false
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": true,
+    "check": "sorgu",
+    "slip": {
+      "tr": "İDDİA: Sorgu, tatili kaçırtır. — M.",
+      "en": "WAGER: The interrogation costs you the trip. — M."
+    }
+  },
+  "intent": {
+    "setup": "bankanın kart kampanyasında tatil kazandığını bildiren gerçek aramayı dolandırıcılık sanmak",
+    "mechanism": "bankacının şifreyi duymamak için yalvarması",
+    "mechanismId": "escalation",
+    "punch": "lütfen şifrenizi söylemeyin",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "dogrulandi"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

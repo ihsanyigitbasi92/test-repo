@@ -1,0 +1,194 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "disarida_yemek_siparis_son_dilim_01",
+  "tags": [
+    "gundelik",
+    "yemek",
+    "paket",
+    "ev_arkadasi",
+    "disarida_yemek_siparis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "disarida_yemek_siparis": 16
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 24
+    },
+    "npc": {
+      "roommate": {
+        "exists": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "roommate",
+      "avatar": "smug",
+      "tr": "Son dilim kimsenin değildir. Sahipsiz mal sayılır.",
+      "en": "The last slice belongs to no one. It counts as abandoned property."
+    },
+    {
+      "speaker": "roommate",
+      "avatar": "happy",
+      "tr": "Ben de sahipsiz malı koruma altına aldım.",
+      "en": "So I took it into protective custody.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "itiraz",
+      "tr": "Kutuyu kimin ödediğini hatırlat",
+      "en": "Mention who paid for the box",
+      "pattern": "pride",
+      "check": {
+        "base": 4000,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "yeni",
+      "tr": "Kendine küçük pizza söyle",
+      "en": "Order yourself a small one",
+      "pattern": "impulseSpend"
+    },
+    {
+      "id": "birak",
+      "tr": "Bırak, kenar kabuklarını ye",
+      "en": "Let it go, eat the crusts",
+      "pattern": "patience"
+    }
+  ],
+  "outcomes": {
+    "itiraz": [
+      {
+        "p": 4000,
+        "effects": {
+          "money": 60,
+          "stats": {
+            "joy": 1
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "siparis_son_dilim_kurali"
+            ]
+          }
+        },
+        "tr": "Kutunun yarısını sen ödemiştin. Ev arkadaşın dilimin payını, 60 Para, aynı gece gönderdi.",
+        "en": "You had paid for half the box. Your roommate sent sixty for the slice that same night.",
+        "coach": [
+          {
+            "tr": "Sahipsiz mal, sahibine ödendi.",
+            "en": "Abandoned property: compensated.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "npc": [
+            {
+              "role": "roommate",
+              "affinity": -1
+            }
+          ],
+          "flags": {
+            "add": [
+              "siparis_son_dilim_kurali"
+            ]
+          }
+        },
+        "tr": "Ev arkadaşın buzdolabına \"Son Dilim Kuralı\" yazan bir kâğıt astı. Altında imzan için boşluk bıraktı.",
+        "en": "Your roommate taped a \"Last Slice Law\" to the fridge, with a space left for your signature.",
+        "coach": [
+          {
+            "tr": "Yasa yürürlükte. İmza bekleniyor.",
+            "en": "The law is in force. Awaiting signature.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "yeni": {
+      "effects": {
+        "money": -110,
+        "stats": {
+          "joy": 1,
+          "health": -1
+        }
+      },
+      "tr": "Küçük pizza söyledin, 110 Para. Kutu gelince ev arkadaşın kuralı bir kez daha, yavaşça anlattı.",
+      "en": "You ordered a small one: 110. When it arrived, your roommate explained the rule again, slowly.",
+      "coach": [
+        {
+          "tr": "Yeni kutu, eski yasa.",
+          "en": "New box. Same law.",
+          "roast": false
+        }
+      ]
+    },
+    "birak": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "flags": {
+          "add": [
+            "siparis_kabuk_yiyen"
+          ]
+        }
+      },
+      "tr": "Kenar kabuklarını yedin. Ev arkadaşın kabukları da sahipsiz sayıyordu ama sesini çıkarmadı.",
+      "en": "You ate the crusts. Your roommate considered those abandoned too, but let it slide.",
+      "coach": [
+        {
+          "tr": "Kabuk sende. Ateşkes sürüyor.",
+          "en": "The crusts are yours. The ceasefire holds.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da wager kotası"
+  },
+  "intent": {
+    "setup": "ev arkadaşının ortak pizzanın son dilimini \"sahipsiz\" ilan edip yemesi",
+    "mechanism": "son dilim hukuk terimine çevriliyor",
+    "mechanismId": "literalism",
+    "punch": "sahipsiz malı koruma altına aldım",
+    "lift": "yok",
+    "target": "npc",
+    "closer": "ateskes",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

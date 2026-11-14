@@ -1,0 +1,187 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "faturalar_abonelikler_gelir_orani_01",
+  "tags": [
+    "para",
+    "fatura",
+    "partner",
+    "faturalar_abonelikler"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 3500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "faturalar_abonelikler": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 29,
+      "max": 40
+    },
+    "housing": [
+      "flat",
+      "wide",
+      "mortgage",
+      "owned"
+    ],
+    "npc": {
+      "partner": {
+        "exists": true
+      }
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "season"
+  ],
+  "dialog": [
+    {
+      "speaker": "partner",
+      "avatar": "neutral",
+      "tr": "Zam aldım ya. Faturaları yarı yarıya bölmek bana artık adil gelmiyor.",
+      "en": "So I got a raise. Splitting bills fifty-fifty doesn't feel fair anymore."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "happy",
+      "tr": "Kim ne kazanıyorsa o oranda ödesin. Tabloyu hazırladım bile.",
+      "en": "Everyone pays in proportion to what they earn. I already made the spreadsheet.",
+      "delayMs": 500
+    }
+  ],
+  "choices": [
+    {
+      "id": "kabul",
+      "tr": "Tabloyu kabul et",
+      "en": "Accept the spreadsheet",
+      "pattern": "patience"
+    },
+    {
+      "id": "esit",
+      "tr": "Yarı yarıya devam",
+      "en": "Keep it fifty-fifty",
+      "pattern": "pride"
+    },
+    {
+      "id": "sutun",
+      "tr": "Tabloya ev işleri sütunu ekle",
+      "en": "Add a chores column",
+      "pattern": "generosity"
+    }
+  ],
+  "outcomes": {
+    "kabul": {
+      "effects": {
+        "money": 260,
+        "stats": {
+          "joy": 2
+        },
+        "flags": {
+          "add": [
+            "fatura_gelir_orani"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "Yeni tabloyla aylık fatura payın 260 Para azaldı. Tablo buzdolabının kapağına asıldı.",
+      "en": "Under the new split, your monthly share dropped by 260. The spreadsheet went up on the fridge door.",
+      "coach": [
+        {
+          "tr": "Ayda 260 Para daha az.",
+          "en": "260 a month lighter.",
+          "roast": false
+        }
+      ]
+    },
+    "esit": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "meters": {
+          "ego": 3
+        },
+        "flags": {
+          "add": [
+            "fatura_esit"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Eşit bölüşüm sürdü. Partnerin tabloyu 'arşiv' adlı bir klasöre kaydetti.",
+      "en": "Fifty-fifty stands. Your partner saved the spreadsheet to a folder called 'Archive.'",
+      "coach": [
+        {
+          "tr": "Arşivde bir tablo duruyor.",
+          "en": "There's a spreadsheet in the archive.",
+          "roast": false
+        }
+      ]
+    },
+    "sutun": {
+      "effects": {
+        "money": 260,
+        "stats": {
+          "health": -1
+        },
+        "flags": {
+          "add": [
+            "fatura_gelir_orani",
+            "ev_isleri_sutunu"
+          ]
+        },
+        "npc": [
+          {
+            "role": "partner",
+            "affinity": 1
+          }
+        ]
+      },
+      "tr": "Ev işleri sütunu eklendi. Bulaşık ve çamaşır artık senin, 260 Para'lık indirim de.",
+      "en": "A chores column was added. Dishes and laundry are now yours, along with the 260 discount.",
+      "coach": [
+        {
+          "tr": "Sütun eklendi. Bulaşık sende.",
+          "en": "Column added. Dishes assigned.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check yok ya da partide wager kotası dolu"
+  },
+  "intent": {
+    "setup": "partnerin zam alınca faturaları gelir oranına göre bölüşmeyi önermesi",
+    "mechanism": "adalet tablosu her öneride bir sütun büyüyor",
+    "mechanismId": "escalation",
+    "punch": "tabloyu hazırladım bile",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "sutun"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

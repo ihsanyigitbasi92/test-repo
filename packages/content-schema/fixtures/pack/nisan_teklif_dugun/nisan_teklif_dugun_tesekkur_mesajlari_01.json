@@ -1,0 +1,214 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "nisan_teklif_dugun_tesekkur_mesajlari_01",
+  "tags": [
+    "iliski",
+    "nisan_teklif_dugun"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 1,
+  "intensity": 4000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 700,
+    "tags": {
+      "nisan_teklif_dugun": 15
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 28,
+      "max": 36
+    },
+    "flags": {
+      "all": [
+        "dugun_yapildi"
+      ],
+      "none": [
+        "tesekkur_bitti"
+      ]
+    },
+    "npc": {
+      "partner": {
+        "exists": true
+      },
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "neutral",
+      "tr": "Teşekkür mesajlarını attınız mı? Herkese ayrı yazılır. Hediyesini de anarak.",
+      "en": "Have you sent the thank-yous? Each one written separately. Mention the gift."
+    },
+    {
+      "speaker": "partner",
+      "avatar": "tired",
+      "tr": "Yüz altmış dört kişi. Hediyelerin otuzunu kimin verdiğini bilmiyoruz.",
+      "en": "164 people. We don't know who gave thirty of the gifts.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "ayri",
+      "tr": "Herkese ayrı yaz",
+      "en": "Write each one separately",
+      "pattern": "patience"
+    },
+    {
+      "id": "toplu",
+      "tr": "Tek mesaj, herkese",
+      "en": "One message to everyone",
+      "pattern": "shortcut"
+    },
+    {
+      "id": "tahmin",
+      "tr": "Sahipsiz hediyeleri tahmin et",
+      "en": "Guess the mystery gifts",
+      "pattern": "risk",
+      "check": {
+        "base": 4000,
+        "stat": "brain"
+      }
+    }
+  ],
+  "outcomes": {
+    "ayri": {
+      "effects": {
+        "stats": {
+          "joy": 2,
+          "health": -1
+        },
+        "meters": {
+          "momPressure": -5
+        },
+        "flags": {
+          "add": [
+            "tesekkur_bitti"
+          ]
+        }
+      },
+      "tr": "Dört akşam sürdü. Annen mesajlardan üçünü çok beğenip kendi adıyla da gönderdi.",
+      "en": "It took four evenings. Mom liked three of them so much she resent them under her own name.",
+      "coach": [
+        {
+          "tr": "164 mesaj yazıldı. Üçü annen tarafından ikinci baskıya girdi.",
+          "en": "164 messages written. Three went into a second edition, published by Mom.",
+          "roast": true
+        }
+      ]
+    },
+    "toplu": {
+      "effects": {
+        "stats": {
+          "joy": 3
+        },
+        "meters": {
+          "momPressure": 5
+        },
+        "flags": {
+          "add": [
+            "tesekkur_bitti",
+            "toplu_tesekkur"
+          ]
+        }
+      },
+      "tr": "Tek mesaj gitti. Teyzen cevap yazdı: 'Bize de mi bu?'",
+      "en": "One message went out. Your aunt replied: 'This is what we get too?'",
+      "coach": [
+        {
+          "tr": "Bir mesaj, bir itiraz. Teyzenin cevabı mesajdan uzun.",
+          "en": "One message, one appeal. Your aunt's reply was longer than the message.",
+          "roast": true
+        }
+      ]
+    },
+    "tahmin": [
+      {
+        "p": 4000,
+        "effects": {
+          "stats": {
+            "joy": 4,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "tesekkur_bitti"
+            ]
+          }
+        },
+        "tr": "Otuz hediyenin yirmi altısını doğru eşleştirdin. Kalan dördüne genel bir teşekkür gitti.",
+        "en": "You matched twenty-six of the thirty mystery gifts. The other four got a vague 'thanks, everyone.'",
+        "coach": [
+          {
+            "tr": "Yirmi altı isabet, dört sis.",
+            "en": "Twenty-six hits. Four lost in the fog.",
+            "roast": false
+          },
+          {
+            "tr": "Teşekkür sayacı: 164 / 164.",
+            "en": "Thank-yous: 164 of 164.",
+            "roast": false,
+            "lift": true,
+            "when": {
+              "goal": {
+                "active": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "p": 6000,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "cringe": 5,
+            "momPressure": 3
+          },
+          "flags": {
+            "add": [
+              "tesekkur_bitti",
+              "dayi_caydanlik"
+            ]
+          }
+        },
+        "tr": "Dayına çaydanlık için teşekkür ettin. Dayın çaydanlık almamıştı, şimdi alacak.",
+        "en": "You thanked your uncle for the kettle. He hadn't bought a kettle. Now he's going to.",
+        "coach": [
+          {
+            "tr": "Eksik hediye tamamlanıyor. Tedarikçi dayın.",
+            "en": "The missing gift is being supplied. Vendor: your uncle.",
+            "roast": true
+          }
+        ]
+      }
+    ]
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "check'li seçenek iddiaya açılmadı"
+  },
+  "intent": {
+    "setup": "düğün sonrası yüz altmış dört kişiye teşekkür mesajı yazmak",
+    "mechanism": "sahipsiz hediye tahmini yeni hediye doğuruyor",
+    "mechanismId": "count",
+    "punch": "şimdi alacak",
+    "closer": "hediye",
+    "target": "decision",
+    "antithesis": false,
+    "lift": "Teşekkür sayacı: 164 / 164."
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

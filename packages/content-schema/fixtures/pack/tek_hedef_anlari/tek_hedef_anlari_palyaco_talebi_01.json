@@ -1,0 +1,235 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "tek_hedef_anlari_palyaco_talebi_01",
+  "tags": [
+    "meta",
+    "hedef",
+    "anne",
+    "hayir",
+    "tek_hedef_anlari"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "tek_hedef_anlari": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 19,
+      "max": 25
+    },
+    "goal": {
+      "active": true,
+      "anyOf": [
+        "sayNo"
+      ]
+    },
+    "npc": {
+      "mom": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "warmup"
+  ],
+  "dialog": [
+    {
+      "speaker": "mom",
+      "avatar": "happy",
+      "tr": "Kuzeninin oğluna palyaço olur musun? Kostüm hazır.",
+      "en": "Clown for your cousin's kid? Costume's ready."
+    },
+    {
+      "speaker": "mom",
+      "avatar": "worried",
+      "tr": "Kırmızı burnu da aldım. Ayıp olmaz mı?",
+      "en": "Got the red nose too. Rude to refuse?",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "hayir",
+      "tr": "Hayır de",
+      "en": "Say no",
+      "pattern": "pride",
+      "check": {
+        "base": 4500,
+        "stat": "ego",
+        "goal": "sayNo"
+      }
+    },
+    {
+      "id": "evet",
+      "tr": "Kostümü giy",
+      "en": "Put on the costume",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "bakarim",
+      "tr": "\"Bakarım\" de",
+      "en": "Say \"I'll see\"",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "hayir": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 4
+          },
+          "meters": {
+            "momPressure": 2
+          },
+          "flags": {
+            "add": [
+              "ilk_hayir",
+              "dayi_palyaco"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": -1
+            }
+          ]
+        },
+        "tr": "Hayır dedin. Annen burnu dayına verdi; dayın partide iki saat palyaçoluk yaptı.",
+        "en": "You said no. Mom gave the nose to your uncle, who clowned for two hours.",
+        "coach": [
+          {
+            "tr": "Hayır sayacı: bir.",
+            "en": "No count: one.",
+            "roast": false,
+            "lift": true
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "meters": {
+            "cringe": 5
+          },
+          "flags": {
+            "add": [
+              "palyaco_oldun"
+            ]
+          },
+          "npc": [
+            {
+              "role": "mom",
+              "affinity": 2
+            }
+          ]
+        },
+        "tr": "\"Hayır\" diye başlayıp \"ama bir saatliğine\" diye bitirdin. Fotoğraflarda burun senin yüzünde.",
+        "en": "You opened with \"no\" and closed with \"but just for an hour.\" In the photos, the nose is on your face.",
+        "nearMiss": {
+          "tr": "İlk kelime \"hayır\"dı. İkincisi \"ama\".",
+          "en": "Your first word was \"no.\" Your second was \"but.\""
+        },
+        "coach": [
+          {
+            "tr": "Hayır bir kelime sürdü. Burun iki saat.",
+            "en": "The no lasted one word. The nose lasted two hours.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "evet": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "meters": {
+          "cringe": 4,
+          "momPressure": -4
+        },
+        "flags": {
+          "add": [
+            "palyaco_oldun"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": 3
+          }
+        ]
+      },
+      "tr": "İki saat palyaço oldun. Doğum günü çocuğu pastanın yanında seni \"biraz korkunç\" ilan etti.",
+      "en": "You were the clown for two hours. By the cake, the birthday kid declared you \"a little scary.\"",
+      "coach": [
+        {
+          "tr": "Hedef \"hayır de\"ydi. Kostüm \"evet\" dedi.",
+          "en": "The goal was saying no. The costume said yes.",
+          "roast": true
+        }
+      ]
+    },
+    "bakarim": {
+      "effects": {
+        "meters": {
+          "momPressure": 3
+        },
+        "flags": {
+          "add": [
+            "kostum_kapida"
+          ]
+        },
+        "npc": [
+          {
+            "role": "mom",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "\"Bakarım\" dedin. Annen bunu \"evet\" olarak kaydetti; kostüm kapına geldi.",
+      "en": "You said \"I'll see.\" Mom logged it as a yes. The costume arrived at your door.",
+      "coach": [
+        {
+          "tr": "Annenin sözlüğünde \"bakarım\", \"gelirim\" demek.",
+          "en": "In Mom's dictionary, \"I'll see\" means \"I'm coming.\"",
+          "roast": true
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "hayir",
+    "slip": {
+      "tr": "İDDİA: \"Hayır\" ikinci kelimeye dayanmaz. — M.",
+      "en": "WAGER: The \"no\" won't survive to the second word. — M."
+    }
+  },
+  "intent": {
+    "setup": "bir kez hayır deme hedefinde annenin çocuk partisinde palyaço olmanı istemesi",
+    "mechanism": "evet ve hayır yer değiştiriyor",
+    "mechanismId": "reversal",
+    "punch": "burun senin yüzünde",
+    "lift": "hayır sayacı",
+    "target": "decision",
+    "closer": "burun",
+    "antithesis": false
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}
