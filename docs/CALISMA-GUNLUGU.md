@@ -161,3 +161,11 @@ Her konu için: 1 araştırmacı ajan (web araştırması + Türkçe doküman ya
 - **Testler:** uygulama 252/252, motor 56/56, derleme denetimi temiz. Demo sürüm 8 yayımlandı.
 - **Doğrulanmayan:** gerçek cihaz derlemesi, gerçek mağaza/AdMob/Firebase/Meta hesaplarıyla çalışma, seslerin kulakla dinlenmesi.
 - **Açık:** kullanım koşulları/gizlilik sayfaları, ödül parasının motor eylemine taşınması, "son reklamı bildir", bildirimler, paylaşım kartları, mağaza paketi; üç uzman tekrar testi sürüyor.
+
+## 2026-11-13/14 — Uzman tekrar testleri ve denge sprinti 3
+- Tekrar test puanları: UX 7,5 (önce 6), davranış 7 (önce 6), deneyim 7,5 (önce 6,5). Etik kırmızı bayrak yok. Raporlar: docs/playtest/2026-11-13-*.md.
+- **İçerik:** 10.000 hedefi geçildi, havuz **10.206 olay**, tüm kontroller 0 hata. 68 kedi olayına "kedi yaşıyor", 68 kayın sahnesine "evli/nişanlı" koşulu; kira olayları yalnız kiracıya; 72 dolgu satırı (önce 15); 21 alamet olayı (önce 4); 45 orta yaş para kararı; 9 ev alma olayı Hayat Yolu'na bağlandı.
+- **Motor:** ev tipine göre kira/aidat/kredi satırı (miras evde kira satırı 1563 → 0), kedi öldükten sonra kedi satırı → 0, emeklilik (60–67) ve emekli aylığı, her terfi unvan değiştirir, ekonomi yeniden ayar (60 yaşında medyan bakiye ~37 aylık gelir; önce 172), orta yaş sürpriz kuraklığı giderildi (hayat başına 9 → 29–51 sürpriz), Keyif/Anne Baskısı/Cringe artık hareketli, tüm hastalık ölümlerinden önce uyarı, Sağlık<30 asla "Geçer" değil, yas molası, koç satırı rotasyonu, 18–28 korumasında metin = para.
+- **Uygulama:** eğitim 3 sayfa (ilk karar 50 sn okuyarak / 11 sn atlayarak), tek gizlilik kartı ilk karnede, **analitik varsayılan açık (D-161, sahip kararı)** — AB/İngiltere/İsviçre'de rıza, 16 altı veri yok, Meta rıza+ATT ile; yaş onayı "doğru mu?", mağazada yalnız Reklamsız 49,99 ₺, taslak yasal ekranlar (avukat onayı bekliyor), yerel bildirimler (doc 19), EŞ/NİŞANLI etiketleri, 158 meslek adı EN, koçun son sözü 24 varyant.
+- Testler: motor 67/67, uygulama 278/278, içerik check 0 hata. Demo sürüm 9 yayımlandı.
+- Açık: emeklilikte kirada oturan bazı hayatlar 70'lerde her yıl iflas kartı görüyor; hayat başına ~43 sürpriz (fazla gelirse azaltılabilir); cihaz testi; avukat soruları.
