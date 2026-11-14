@@ -54,22 +54,78 @@ function preAliveRoles(pre: Pre | undefined, out: Set<string>): Set<string> {
 
 const NL = TUNING.npcLife;
 const TAG_ROLE = Object.entries(NL.impliedByTag).filter(([k]) => k !== '$comment') as [string, string][];
+const FLAG_TAGS = Object.entries(NL.flagsByTag).filter(([k]) => k !== '$comment') as [string, string[]][];
+interface TextGate { role?: string; flagsAny?: string[]; words: string[]; skipWords: string[] }
+const TEXT_GATES = NL.textGates as unknown as TextGate[];
+const isGrief = (ev: GameEvent): boolean => ev.tags.some((t) => NL.griefTags.includes(t) || t.startsWith('loss:'));
+const textCache = new WeakMap<GameEvent, string>();
+/** Every string of an event (ids, tags, tr/en text) — memoised; the text gates look for names in it. */
+function eventText(ev: GameEvent): string {
+  let v = textCache.get(ev);
+  if (v === undefined) { v = JSON.stringify(ev); textCache.set(ev, v); }
+  return v;
+}
+const mentions = (text: string, words: readonly string[]): boolean => words.some((w) => text.includes(w));
+
+/** Flags the precondition tree names anywhere (flags.all / any / none under all/any/none). */
+function preFlags(pre: Pre | undefined, out: Set<string>): Set<string> {
+  if (!pre) return out;
+  for (const f of [...(pre.flags?.all ?? []), ...(pre.flags?.any ?? []), ...(pre.flags?.none ?? [])]) out.add(f);
+  for (const p of [...(pre.all ?? []), ...(pre.any ?? []), ...(pre.none ?? [])]) preFlags(p, out);
+  return out;
+}
+
 const tagRoleCache = new WeakMap<GameEvent, readonly string[]>();
 /**
  * NPC aging: roles an event's tags imply must be alive (e.g. `kedi` → cat, `anne` → mom), like the D-062 speaker
- * gate for narration-only scenes. Skipped for a role the pre sets `alive` for, and for grief-tagged events. Memoised.
+ * gate for narration-only scenes. Sprint 3: a text gate role counts too (an untagged scene that names Pamuk / Biscuit
+ * needs the cat). Skipped for a role the pre sets `alive` for, and for grief-tagged events. Memoised.
  */
 export function tagImpliedRoles(ev: GameEvent): readonly string[] {
   let v = tagRoleCache.get(ev);
   if (v === undefined) {
-    if (ev.tags.some((t) => NL.griefTags.includes(t) || t.startsWith('loss:'))) v = [];
+    if (isGrief(ev)) v = [];
     else {
       const explicit = preAliveRoles(ev.pre, new Set());
-      v = [...new Set(TAG_ROLE.filter(([t, r]) => ev.tags.includes(t) && !explicit.has(r)).map(([, r]) => r))];
+      const roles = TAG_ROLE.filter(([t]) => ev.tags.includes(t)).map(([, r]) => r);
+      for (const g of TEXT_GATES) if (g.role && mentions(eventText(ev), g.words)) roles.push(g.role);
+      v = [...new Set(roles.filter((r) => !explicit.has(r)))];
     }
     tagRoleCache.set(ev, v);
   }
   return v;
+}
+
+const flagGateCache = new WeakMap<GameEvent, readonly (readonly string[])[]>();
+/**
+ * Sprint 3 implicit flag gates: each returned set needs at least one flag present — from a tag (npcLife.flagsByTag,
+ * e.g. `kayin_aile` → evli / nisanli / …) or an in-law word in the text (npcLife.textGates). A set is skipped when
+ * the pre already names one of its flags. Memoised.
+ */
+export function impliedFlagSets(ev: GameEvent): readonly (readonly string[])[] {
+  let v = flagGateCache.get(ev);
+  if (v === undefined) {
+    const named = preFlags(ev.pre, new Set());
+    const sets: string[][] = [];
+    for (const [tag, flags] of FLAG_TAGS) if (ev.tags.includes(tag)) sets.push(flags);
+    for (const g of TEXT_GATES) if (g.flagsAny && mentions(eventText(ev), g.words)) sets.push(g.flagsAny);
+    v = sets.filter((fs) => !fs.some((f) => named.has(f)));
+    flagGateCache.set(ev, v);
+  }
+  return v;
+}
+
+/** Sprint 3: a skip line that names a gated NPC (e.g. "kedi") needs it alive; one with in-law words needs the flags. */
+export function skipLineBlocked(line: { tr: string; en: string }, st: LifeState): boolean {
+  for (const g of TEXT_GATES) {
+    if (!g.skipWords.length || !(mentions(line.tr, g.skipWords) || mentions(line.en, g.skipWords))) continue;
+    if (g.role) {
+      const n = st.npcs.find((x) => x.role === g.role);
+      if (!n || !n.exists || !n.alive) return true;
+    }
+    if (g.flagsAny && !g.flagsAny.some((f) => st.flags.includes(f))) return true;
+  }
+  return false;
 }
 
 const CH = TUNING.child;
@@ -108,6 +164,7 @@ export function eligible(ev: GameEvent, st: LifeState, meta: MetaState): boolean
     const n = st.npcs.find((x) => x.role === role);
     if (n && n.exists && !n.alive) return false;                        // only a known death closes it
   }
+  for (const fs of impliedFlagSets(ev)) if (!fs.some((f) => st.flags.includes(f))) return false;
   const cw = childWindow(ev);
   if (cw) {
     const kid = st.npcs.find((x) => x.role === 'child');

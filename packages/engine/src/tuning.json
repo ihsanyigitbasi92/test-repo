@@ -1,26 +1,20 @@
 {
   "$comment": "Single source of tuning constants (D-100). Integers only (D-098): bp = basis points (10000 = 1.0), pm = per-mille, Para = display money unit (1 Birim = 1000 Para). Points = 0..100 stat scale (engine stores 100 bp per point).",
   "version": 1,
-  "calendar": {
-    "startYear": 2026,
-    "startAge": 18,
-    "eventHourMin": 8,
-    "eventHourMax": 21
-  },
+  "calendar": {"startYear": 2026, "startAge": 18, "eventHourMin": 8, "eventHourMax": 21},
   "dayBudget": {
-    "bands": [{"name": "warmup", "maxAge": 25, "min": 12, "max": 18, "maxGap": 90}, {"name": "season", "maxAge": 40, "min": 8, "max": 12, "maxGap": 120}, {"name": "secondHalf", "maxAge": 60, "min": 5, "max": 8, "maxGap": 140}, {"name": "overtime", "maxAge": 200, "min": 3, "max": 5, "maxGap": 140}],
+    "bands": [
+      {"name": "warmup", "maxAge": 25, "min": 12, "max": 18, "maxGap": 90},
+      {"name": "season", "maxAge": 40, "min": 8, "max": 12, "maxGap": 120},
+      {"name": "secondHalf", "maxAge": 60, "min": 5, "max": 8, "maxGap": 140},
+      {"name": "overtime", "maxAge": 200, "min": 3, "max": 5, "maxGap": 140}
+    ],
     "capAboveMax": 2,
     "stressBonusAboveBp": 7000,
     "chainBonus": 1,
     "$comment": "D-061 bands; shown days per year incl. the birthday card; cap = band max + capAboveMax"
   },
-  "session": {
-    "expectedDays": 20,
-    "wowBudget": 3,
-    "relaxEvery": 10,
-    "lolMinGap": 6,
-    "lolMaxGap": 10
-  },
+  "session": {"expectedDays": 20, "wowBudget": 3, "relaxEvery": 10, "lolMinGap": 6, "lolMaxGap": 10},
   "salience": {
     "rarityPm": {"common": 1000, "uncommon": 500, "rare": 200, "legendary": 0},
     "specificityStepPm": 350,
@@ -52,16 +46,10 @@
     "minGap": 3,
     "sessionCap": 6,
     "greatSharePm": 250,
-    "startDay": 4
+    "startDay": 4,
+    "$comment": "Sprint 3: a day picked from the surprise pool (card.surpriseTier) resets pity and counts as a surprise, tagged or not (the counter used to see only the 9 tagged events, so pity never reset and sessionCap never bound)."
   },
-  "legendary": {
-    "baseBp": 40,
-    "softPity": 90,
-    "hardPity": 140,
-    "rampBp": 200,
-    "sessionCap": 1,
-    "minDay": 10
-  },
+  "legendary": {"baseBp": 40, "softPity": 90, "hardPity": 140, "rampBp": 200, "sessionCap": 1, "minDay": 10},
   "wager": {
     "pMinBp": 3500,
     "pMaxBp": 6500,
@@ -73,13 +61,7 @@
     "succeedAboveBp": 5000,
     "stampVariants": 12
   },
-  "nearMiss": {
-    "windowBp": 1500,
-    "maxRatePm": 300,
-    "sessionCap": 2,
-    "goalCooldownDays": 40,
-    "bonusBp": 1000
-  },
+  "nearMiss": {"windowBp": 1500, "maxRatePm": 300, "sessionCap": 2, "goalCooldownDays": 40, "bonusBp": 1000},
   "envelope": {
     "minOpen": 1,
     "maxOpen": 2,
@@ -106,38 +88,112 @@
     "healthDriftYearBp": [[29, 0], [44, -40], [59, -70], [69, -100], [200, -120]],
     "brainDriftYearBp": [[59, 0], [69, -30], [200, -60]],
     "charmDriftYearBp": [[29, 0], [39, -30], [200, -100]],
-    "stressHealthYearBp": {"above70": -120, "above85": -260}, "momReliefYearBp": 500,
+    "stressHealthYearBp": {"above70": -120, "above85": -260},
     "stressDecayYearBp": -400,
     "stressDecayHighJoyYearBp": -300,
     "highJoyBp": 7000,
     "egoReversionYearBp": 200,
-    "cringeDecayYearBp": -1000,
     "momAccrualYearBp": {"single24": 300, "unemployed": 300, "momsHouse": 400},
     "momYearCapBp": 1200,
     "joyTarget": {"healthWeightPm": 150, "moneyTanhScaleBp": 800, "moneyTanhDivisorPara": 24000, "stressWeightPm": 250, "stressFromBp": 5000},
     "cringeSpikeBp": 800,
-    "egoHighBp": 8500
+    "egoHighBp": 8500,
+    "momReversion": {
+      "$comment": "Sprint 3: Anne Baskısı mean-reverts toward restBp (yearPm per year of the distance) while mom lives; birthday pulses (bp) add life-stage pressure.",
+      "restBp": 2000,
+      "yearPm": 300,
+      "pulse": {"single27": 700, "noChild32": 500, "unemployed": 600, "momsHouse28": 600}
+    },
+    "cringeReversion": {
+      "$comment": "Sprint 3: Cringe mean-reverts toward restBp (yearPm per year of the distance) instead of decaying to 0; a birthday pulse adds egoPm x (ego - 50) when ego is high.",
+      "restBp": 1200,
+      "yearPm": 400,
+      "egoPulsePm": 300
+    },
+    "joyHedonic": {
+      "$comment": "Sprint 3 hedonic adaptation: positive joy outcomes are scaled by highPm above highBp and topPm above topBp; drift pulls joy above midBp back by yearPm per year of the excess.",
+      "highBp": 7000,
+      "highPm": 600,
+      "topBp": 8500,
+      "topPm": 300,
+      "midBp": 6000,
+      "yearPm": 250
+    }
   },
   "economy": {
     "startMoneyPara": 2000,
     "due": {"payday": 1, "rent": 5, "cat": 10, "health": 20},
-    "housing": {"momsHouse": {"rent": 100, "daily": 0, "maxRent": 100}, "room": {"rent": 300, "daily": 10, "maxRent": 550}, "flat": {"rent": 500, "daily": 12, "maxRent": 900}, "wide": {"rent": 700, "daily": 13, "maxRent": 1300}, "mortgage": {"rent": 800, "daily": 15, "maxRent": 1400}, "owned": {"rent": 100, "daily": 12, "maxRent": 200}},
-    "rentCard": {"$comment": "D-159: the rent-crisis card is shown at most once per minGapDays; other shortfalls only accrue debt (gap line)", "minGapDays": 150},
-    "careerLadder": {"$comment": "D-159: birthday raise roll for an employed life (tier+1 up to maxTier) after minYearsInTier", "chanceBp": 3000, "minYearsInTier": 2, "maxTier": 5},
+    "housing": {
+      "momsHouse": {"rent": 100, "daily": 0, "maxRent": 100},
+      "room": {"rent": 300, "daily": 10, "maxRent": 550},
+      "flat": {"rent": 500, "daily": 12, "maxRent": 900},
+      "wide": {"rent": 700, "daily": 13, "maxRent": 1300},
+      "mortgage": {"rent": 800, "daily": 15, "maxRent": 1400},
+      "owned": {"rent": 250, "daily": 12, "maxRent": 400}
+    },
+    "rentCard": {
+      "$comment": "D-159: the rent-crisis card is shown at most once per minGapDays; other shortfalls only accrue debt (gap line). Sprint 3: only for a landlord's home (kinds); owned / mortgage / mom's house never get the landlord card.",
+      "minGapDays": 150,
+      "kinds": ["room", "flat", "wide"]
+    },
+    "careerLadder": {
+      "$comment": "D-159 birthday raise roll (tier+1 up to maxTier) after minYearsByTier[tier] years in the tier (sprint 3: slower at the top so mid-career still moves). Never for a retiree. ranks[tier] = title-ladder key the app prefixes to the job title (jobRank()).",
+      "chanceBp": 2500,
+      "minYearsByTier": [0, 2, 3, 3, 4, 6, 8],
+      "maxTier": 5,
+      "ranks": ["", "stajyer", "uzman", "kidemli", "sef", "mudur", "direktor"]
+    },
     "allowanceMomsHouse": 100,
     "tiersMonthlyPara": [0, 1000, 1600, 2500, 4000, 6000, 12000],
     "catMonthlyPara": 50,
-    "healthCostPara": [[44, 0], [59, 100], [69, 250], [200, 450]],
+    "healthCostPara": [[44, 0], [54, 100], [64, 250], [74, 500], [200, 800]],
     "bankruptcyAtPara": -24000,
     "bankruptcyResetPara": -6000,
     "bankruptcy": {"eventId": "doc_icra", "egoPoints": -15, "cringePoints": 20},
-    "bailout": {"maxAge": 27, "events": ["evt_anne_borc_verdi", "evt_dayi_is_buldu", "evt_ev_arkadasi_kira"], "$comment": "02 §2.3.6: offered as a day card (priority 7) from the rent-day event (effects.bailoutCheck) or the birthday pulse; amounts live in the events"},
-    "protection": {"fromAge": 18, "toAge": 28, "minMultPm": 500},
+    "bailout": {
+      "maxAge": 27,
+      "events": ["evt_anne_borc_verdi", "evt_dayi_is_buldu", "evt_ev_arkadasi_kira"],
+      "$comment": "02 §2.3.6: offered as a day card (priority 7) from the rent-day event (effects.bailoutCheck) or the birthday pulse; amounts live in the events"
+    },
+    "protection": {
+      "fromAge": 18,
+      "toAge": 28,
+      "minMultPm": 500,
+      "$comment": "Sprint 3 (P1-4): the 18-28 window halves only negative HEALTH outcomes; money effects apply exactly as written (no '600 ödedin -> -300')."
+    },
     "rentStressPoints": 8,
-    "lifestylePm": {"base": 300, "impulseSpend": 500, "patience": 200},
-    "retirementAge": 65,
-    "pensionPm": {"full": 900, "short": 500},
-    "pensionFullYears": 20
+    "flowKind": {
+      "$comment": "Denge sprinti 3 (P0-1): the 5th-of-month housing payment is a 'rent' flow line only for rented homes. owned / inherited -> 'upkeep' (aidat + bills), mortgage -> 'mortgage' (installment), momsHouse after mom's death -> 'upkeep'. The rent-crisis card (and pre.rentShortfall) only counts shortfalls on rentCard.kinds.",
+      "rented": ["room", "flat", "wide", "momsHouse"]
+    },
+    "lifestyle": {
+      "$comment": "Sprint 3 lifestyle creep (02 §2.3.3): share of income spent per month, by job tier (index = tier), plus a pattern offset; snapshotted each birthday.",
+      "byTierPm": [300, 300, 360, 420, 480, 540, 600],
+      "impulseSpendPm": 150,
+      "patiencePm": -100
+    },
+    "comfortSpend": {
+      "$comment": "Sprint 3 money sink: savings above freeMonths x monthly income (floor floorMonthlyPara) are spent at yearPm per year (cars, holidays, helping family) - folded into the daily line.",
+      "freeMonths": 12,
+      "floorMonthlyPara": 2000,
+      "yearPm": 120
+    },
+    "child": {
+      "$comment": "Sprint 3: a living child costs max(minPara, income x pm) per month until untilAge (folded into the daily line, GapLine.child).",
+      "pm": 150,
+      "minPara": 300,
+      "untilAge": 22
+    },
+    "mortgage": {"$comment": "Sprint 3: a mortgage is paid off after termYears (birthday check) and the home becomes 'owned'.", "termYears": 20},
+    "retirement": {
+      "$comment": "Sprint 3 (P1-3): from minAge each birthday rolls chanceBp to retire (certain at maxAge). Pension = pm x last salary (full after fullYears worked). A retiree gets no raises / rung changes, the 'emekli' flag, no boss, and a 'pension' flow line instead of 'payday'.",
+      "minAge": 60,
+      "maxAge": 67,
+      "chanceBp": 3000,
+      "pensionPm": {"full": 650, "short": 450},
+      "fullYears": 25,
+      "flag": "emekli"
+    }
   },
   "hazard": {
     "minAge": 28,
@@ -150,14 +206,23 @@
     "causeState": {
       "$comment": "Playtest 2026-11-12: cause follows state. Per-mille multipliers on the age-band weights. Rows [maxHealthPoints, illnessPm, suddenPm] (illness = circ/tumor/resp, sudden = accident/external); absurd stays as is.",
       "byHealth": [[19, 5000, 150], [34, 2500, 400], [59, 1000, 1000], [100, 600, 1300]],
-      "stressAbovePoints": 70, "stressCircPm": 1800,
-      "sigaraRespTumorPm": 1800, "sporcuCircPm": 600
+      "stressAbovePoints": 70,
+      "stressCircPm": 1800,
+      "sigaraRespTumorPm": 1800,
+      "sporcuCircPm": 600
     },
     "omen": {
-      "$comment": "Son perde: an illness death rolled on a birthday while health < healthBelowPoints or age >= ageFrom is deferred by deathDelayDays and foreshadowed by 1..maxCards 'omen' events (forced, priority 6). No omen event eligible -> immediate death (old behaviour).",
-      "healthBelowPoints": 35, "ageFrom": 70, "maxCards": 2, "secondCardChanceBp": 6000,
-      "deathDelayDays": [45, 150], "firstOmenDays": [3, 20], "omenGapDays": [10, 40],
-      "illnessClasses": ["circ", "tumor", "resp"], "tag": "omen", "flag": "son_perde"
+      "$comment": "Son perde: an illness death rolled on a birthday (sprint 3: always, any health/age) is deferred by deathDelayDays and foreshadowed by 1..maxCards 'omen' events (forced, priority 6). No omen event eligible -> immediate death (old behaviour).",
+      "healthBelowPoints": 101,
+      "ageFrom": 70,
+      "maxCards": 2,
+      "secondCardChanceBp": 10000,
+      "deathDelayDays": [45, 150],
+      "firstOmenDays": [3, 20],
+      "omenGapDays": [10, 40],
+      "illnessClasses": ["circ", "tumor", "resp"],
+      "tag": "omen",
+      "flag": "son_perde"
     }
   },
   "npcLife": {
@@ -166,50 +231,162 @@
     "dueDays": [5, 60],
     "pendingFlagPrefix": "kayip_sirada_",
     "deadMemory": "vefat",
-    "cat": { "ageAtStart": 2, "hazardBpByAge": [[13, 0], [15, 1500], [17, 2500], [19, 4000], [21, 6000], [200, 10000]] },
-    "mom": { "ageAtStart": 47, "hazardBpByAge": [[73, 0], [79, 300], [84, 700], [89, 1500], [94, 3000], [200, 10000]] },
-    "uncle": { "ageAtStart": 42, "hazardBpByAge": [[71, 0], [77, 400], [82, 900], [87, 1800], [92, 3500], [200, 10000]] },
-    "neighbor": { "ageAtStart": 42, "hazardBpByAge": [[73, 0], [79, 300], [84, 700], [89, 1500], [94, 3000], [200, 10000]] },
-    "impliedByTag": { "$comment": "Implicit NPC gate by tag (like the D-062 speaker gate): an event carrying one of these tags needs the role alive, unless its pre names that role under npc or it carries a grief tag.", "kedi": "cat", "pamuk": "cat", "evcil_pamuk": "cat", "anne": "mom", "cagri_anne": "mom", "dayi": "uncle", "komsu_sukran": "neighbor" },
-    "griefTags": ["veda_kayip", "cenaze_taziye", "miras_vasiyet", "yas"]
+    "cat": {"ageAtStart": 2, "hazardBpByAge": [[13, 0], [15, 1500], [17, 2500], [19, 4000], [21, 6000], [200, 10000]]},
+    "mom": {"ageAtStart": 47, "hazardBpByAge": [[73, 0], [79, 300], [84, 700], [89, 1500], [94, 3000], [200, 10000]]},
+    "uncle": {"ageAtStart": 42, "hazardBpByAge": [[71, 0], [77, 400], [82, 900], [87, 1800], [92, 3500], [200, 10000]]},
+    "neighbor": {"ageAtStart": 42, "hazardBpByAge": [[73, 0], [79, 300], [84, 700], [89, 1500], [94, 3000], [200, 10000]]},
+    "impliedByTag": {
+      "$comment": "Implicit NPC gate by tag (like the D-062 speaker gate): an event carrying one of these tags needs the role alive, unless its pre names that role under npc or it carries a grief tag.",
+      "kedi": "cat",
+      "pamuk": "cat",
+      "evcil_pamuk": "cat",
+      "anne": "mom",
+      "cagri_anne": "mom",
+      "dayi": "uncle",
+      "komsu_sukran": "neighbor"
+    },
+    "griefTags": ["veda_kayip", "cenaze_taziye", "miras_vasiyet", "yas"],
+    "griefShownDays": 3,
+    "$griefComment": "Sprint 3 (O3): a forced followUp queued by a grief-tagged event waits at least griefShownDays shown days (the inheritance decision no longer lands the day after the death).",
+    "flagsByTag": {
+      "$comment": "Sprint 3 implicit flag gate: an event carrying the tag needs at least one of the flags (unless its pre names one of them).",
+      "kayin_aile": ["evli", "nisanli", "bosanma_sureci", "bosandi"],
+      "evlilik_gunluk": ["evli", "bosanma_sureci"]
+    },
+    "textGates": [
+      {
+        "$comment": "Sprint 3: events whose text names the player's cat (TR Pamuk / EN Biscuit) are gated like a 'kedi' tag (cat alive); in-law words need a marriage flag. Grief-tagged events are exempt. Skip lines naming a cat need the cat alive.",
+        "role": "cat",
+        "words": ["Pamuk", "Biscuit"],
+        "skipWords": ["kedi", "Kedi", "Pamuk", "cat ", "cat.", "The cat", "the cat"]
+      },
+      {
+        "flagsAny": ["evli", "nisanli", "bosanma_sureci", "bosandi"],
+        "words": ["Kayınvalide", "kayınvalide", "Kayınpeder", "kayınpeder", "mother-in-law", "father-in-law", "Mother-in-law"],
+        "skipWords": []
+      }
+    ]
   },
   "child": {
     "$comment": "Minimal child-age gate (content schema has no childAge leaf). Child age = (calendarDay - npc.bornDay)/365. Tag rows [tag, minYears, maxYears] (-1 = open); untagged child events need childAge >= pre.age.min - assumedParentAge. Legacy children without bornDay are not gated.",
     "assumedParentAge": 32,
-    "byTag": [["bebek", 0, 4], ["yeni_ebeveyn", 0, 5], ["cocuk_buyutme", 3, -1], ["okul", 6, -1], ["ergen", 12, -1], ["yetiskin_cocuk", 18, -1], ["bos_yuva", 18, -1], ["torun", 22, -1], ["torunlar", 22, -1]]
+    "byTag": [
+      ["bebek", 0, 4],
+      ["yeni_ebeveyn", 0, 5],
+      ["cocuk_buyutme", 3, -1],
+      ["okul", 6, -1],
+      ["ergen", 12, -1],
+      ["yetiskin_cocuk", 18, -1],
+      ["bos_yuva", 18, -1],
+      ["torun", 22, -1],
+      ["torunlar", 22, -1]
+    ]
   },
-  "roast": {
-    "topPatterns": 3,
-    "gentleTopPatterns": 2
-  },
+  "roast": {"topPatterns": 3, "gentleTopPatterns": 2},
   "report": {
     "decadeAges": [30, 40, 50, 60],
     "gradeDelta": [10, 3, -2, -9],
     "moneyRatioPm": [500, 150, -150, -500],
     "absolute": {
       "$comment": "Playtest 2026-11-12: the yearly-delta grade is capped/floored by the absolute level. caps [[belowPoints, maxGrade]] (first match wins, lowest threshold first), floors [[atLeastPoints, minGrade]] (highest first). Grades: 4 A · 3 B · 2 C · 1 D · 0 F. Money in Para.",
-      "health": { "caps": [[10, 0], [20, 1], [35, 2]], "floors": [[90, 4], [80, 3]] },
-      "brain": { "caps": [[10, 0], [20, 1], [35, 2]], "floors": [[90, 4], [80, 3]] },
-      "relationships": { "caps": [[10, 0], [20, 1], [30, 2]], "floors": [[80, 4], [65, 3]] },
-      "money": { "caps": [[-10000, 0], [0, 1]], "floors": [[100000, 2]] }
+      "health": {
+        "caps": [[30, 0], [45, 1], [55, 2]],
+        "floors": [[90, 4], [80, 3]],
+        "$comment": "Sprint 3: health < 30 is always Zayıf (F), < 45 at most Geçer, < 55 at most Orta."
+      },
+      "brain": {"caps": [[10, 0], [20, 1], [35, 2]], "floors": [[90, 4], [80, 3]]},
+      "relationships": {"caps": [[10, 0], [20, 1], [30, 2]], "floors": [[80, 4], [65, 3]]},
+      "money": {"caps": [[-10000, 0], [0, 1]], "floors": [[100000, 2]]}
     }
   },
   "ritual": {
     "$comment": "Yearly ritual variants (playtest: the birthday line / Yılın Mottosu / 'Zarf yok' repeated verbatim 46x). The engine picks an index on the cosmetic channel, never one used in the last noRepeatYears picks; the app owns the text (apps/mobile i18n). Pool sizes must match the app catalog.",
-    "birthdayVariants": 12, "birthdayNoRepeatYears": 6,
-    "mottoVariants": 6, "mottoNoRepeatYears": 3,
-    "noEnvelopeVariants": 8, "noEnvelopeNoRepeatYears": 4,
-    "noWagerVariants": 6, "noWagerNoRepeatYears": 3
+    "birthdayVariants": 12,
+    "birthdayNoRepeatYears": 6,
+    "mottoVariants": 6,
+    "mottoNoRepeatYears": 3,
+    "noEnvelopeVariants": 8,
+    "noEnvelopeNoRepeatYears": 4,
+    "noWagerVariants": 6,
+    "noWagerNoRepeatYears": 3
   },
   "milestones": {
-    "$comment": "D-157 Hayat Yolu: on each birthday, a stage whose conditions hold rolls chanceBp; on success one eligible 'milestone:<id>' event is queued (priority 6, in dueMin..dueMax days).",
-    "dueMinDays": 20, "dueMaxDays": 200,
+    "$comment": "D-157 Hayat Yolu: on each birthday, a stage whose conditions hold rolls chanceBp; on success one eligible 'milestone:<id>' event is queued (priority 6, in dueMin..dueMax days). Sprint 3: needPartner null = either; minMoney (Para) and housingNone gate a stage too. Stage 'ev' (buy a home) fires 'milestone:ev' events (content to tag).",
+    "dueMinDays": 20,
+    "dueMaxDays": 200,
     "stages": [
-      { "id": "sevgili", "chanceBp": 3500, "ageMin": 19, "ageMax": 62, "needPartner": false, "flagsAll": [], "flagsNone": ["evli", "nisanli"], "minPartnerYears": 0 },
-      { "id": "teklif", "chanceBp": 4000, "ageMin": 22, "ageMax": 65, "needPartner": true, "flagsAll": [], "flagsNone": ["evli", "nisanli"], "minPartnerYears": 1 },
-      { "id": "dugun", "chanceBp": 8000, "ageMin": 22, "ageMax": 70, "needPartner": true, "flagsAll": ["nisanli"], "flagsNone": ["evli"], "minPartnerYears": 0 },
-      { "id": "bebek", "chanceBp": 4500, "ageMin": 24, "ageMax": 42, "needPartner": true, "flagsAll": ["evli"], "flagsNone": ["bebek_yolda", "bebek_geldi"], "minPartnerYears": 0 },
-      { "id": "dogum", "chanceBp": 9000, "ageMin": 24, "ageMax": 45, "needPartner": true, "flagsAll": ["bebek_yolda"], "flagsNone": ["bebek_geldi"], "minPartnerYears": 0 }
+      {
+        "id": "sevgili",
+        "chanceBp": 3500,
+        "ageMin": 19,
+        "ageMax": 62,
+        "needPartner": false,
+        "flagsAll": [],
+        "flagsNone": ["evli", "nisanli"],
+        "minPartnerYears": 0,
+        "minMoney": 0,
+        "housingNone": []
+      },
+      {
+        "id": "teklif",
+        "chanceBp": 4000,
+        "ageMin": 22,
+        "ageMax": 65,
+        "needPartner": true,
+        "flagsAll": [],
+        "flagsNone": ["evli", "nisanli"],
+        "minPartnerYears": 1,
+        "minMoney": 0,
+        "housingNone": []
+      },
+      {
+        "id": "dugun",
+        "chanceBp": 8000,
+        "ageMin": 22,
+        "ageMax": 70,
+        "needPartner": true,
+        "flagsAll": ["nisanli"],
+        "flagsNone": ["evli"],
+        "minPartnerYears": 0,
+        "minMoney": 0,
+        "housingNone": []
+      },
+      {
+        "id": "bebek",
+        "chanceBp": 4500,
+        "ageMin": 24,
+        "ageMax": 42,
+        "needPartner": true,
+        "flagsAll": ["evli"],
+        "flagsNone": ["bebek_yolda", "bebek_geldi"],
+        "minPartnerYears": 0,
+        "minMoney": 0,
+        "housingNone": []
+      },
+      {
+        "id": "dogum",
+        "chanceBp": 9000,
+        "ageMin": 24,
+        "ageMax": 45,
+        "needPartner": true,
+        "flagsAll": ["bebek_yolda"],
+        "flagsNone": ["bebek_geldi"],
+        "minPartnerYears": 0,
+        "minMoney": 0,
+        "housingNone": []
+      },
+      {
+        "id": "ev",
+        "chanceBp": 2500,
+        "ageMin": 28,
+        "ageMax": 55,
+        "needPartner": null,
+        "flagsAll": [],
+        "flagsNone": ["ev_sahibi"],
+        "minPartnerYears": 0,
+        "minMoney": 20000,
+        "housingNone": ["owned", "mortgage"]
+      }
     ]
   }
 }

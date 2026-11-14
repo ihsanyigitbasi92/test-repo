@@ -119,7 +119,7 @@ function PrivacyCard({ view, done }: { view: ViewOf<'privacyCard'>; done: Done<'
   const locked = view.minor;
   return (
     <Sheet title={t.title} testID="privacy-card">
-      <Text style={st.body}>{view.ads ? t.body : t.bodyAnalytics}</Text>
+      <Text style={st.body}>{view.ads ? (view.analytics ? t.bodyBoth : t.body) : t.bodyAnalytics}</Text>
       {view.ads && (locked
         ? <Text style={st.body} testID="consent-minor-locked">{s.ads.privacy.minor}</Text>
         : <Switch label={s.ads.consent.personalized} hint={s.ads.consent.personalizedHint} value={personalized} onChange={setPersonalized} testID="consent-personalized" />)}

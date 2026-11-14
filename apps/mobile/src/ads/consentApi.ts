@@ -30,15 +30,16 @@ export interface ConsentSnapshot {
 }
 
 const platform: AdPlatform = Platform.OS === 'ios' ? 'ios' : Platform.OS === 'android' ? 'android' : 'web';
-let memo: { key: unknown; age: AgeState; snap: ConsentSnapshot } | null = null;
+let memo: { key: unknown; age: AgeState; region: Region; snap: ConsentSnapshot } | null = null;
 
 export function getConsent(): ConsentSnapshot {
   const c = ads.getConsent();
   const age = ageGate.getState();
-  if (memo?.key === c && memo.age === age) return memo.snap;                       // stable reference for useSyncExternalStore
+  const region = ads.region();
+  if (memo?.key === c && memo.age === age && memo.region === region) return memo.snap;                       // stable reference for useSyncExternalStore
   const snap: ConsentSnapshot = { resolved: c.resolved, adsPersonalized: c.adsPersonalized, att: c.att, trackingAllowed: personalizedAllowed(c, platform),
-    isMinor: c.isMinor || age === 'blocked' || age === 'minor', age, region: c.region };
-  memo = { key: c, age, snap };
+    isMinor: c.isMinor || age === 'blocked' || age === 'minor', age, region: c.resolved && c.region !== 'UNKNOWN' ? c.region : ads.region() };
+  memo = { key: c, age, region, snap };
   return snap;
 }
 

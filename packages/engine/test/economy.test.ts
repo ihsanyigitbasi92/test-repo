@@ -17,7 +17,7 @@ describe('cash flow (02 §2.3, D-067)', () => {
     expect(get('payday')).toBe(12_000);
     expect(get('rent')).toBe(-6_000);
     expect(get('cat')).toBe(-600);
-    const lifestyle = Math.floor((1000 * TUNING.economy.lifestylePm.base * 365 + 15000) / 30000);
+    const lifestyle = Math.floor((1000 * TUNING.economy.lifestyle.byTierPm[0]! * 365 + 15000) / 30000);   // yearStats snapshot (no job at creation)
     expect(get('daily')).toBe(-(TUNING.economy.housing.flat.daily * 365 + lifestyle));
     expect(st.money.balance - before).toBe(r.lines.reduce((s, l) => s + l.para, 0));
     expect(r.lines.map((l) => l.kind)).toEqual(['payday', 'rent', 'daily']);              // D-088: ≤ 3 lines, cat folded

@@ -6,7 +6,6 @@
 import { TUNING, bandFor } from './tuning';
 import { queueMilestones, careerRaise } from './milestones';
 import { birthdayAfterYears, civilFromDays, parseISO, toISO, daysFromCivil } from './calendar';
-import { applyDrift } from './drift';
 import { applyBankruptcy, applyCashflow, BANKRUPTCY_PENDING, startAbs } from './cashflow';
 import { drawGap, drawYearBudget, dropDue, pickDay, settleFreePlay, skipSummary } from './director';
 import { notePlayed } from './pity';
@@ -15,10 +14,12 @@ import { ageNpcs, deferDeath, killNpc, lossRole } from './mortality';
 import { buildReportCard, pickRitual, rankPatterns } from './report';
 import { freshYearStats } from './life';
 import { indexContent } from './content';
-import { openEnvelope } from './apply';
 import { bailoutCheck } from './bailout';
 import { buildEventCard } from './card';
-import { drawInt } from './util';
+import { addFlag, drawChanceBp, drawInt } from './util';
+import { applyDrift, birthdayPressure } from './drift';
+import { openEnvelope, setHome } from './apply';
+import { isEmployed, isRetired, RETIRED_TITLE } from './status';
 import type { ContentBundle, DayCard, Effect, GapLine, LifeState, MetaState, SkipSummary } from './types';
 
 const RENT_EVENT = 'evt_kira_gunu';
@@ -47,17 +48,32 @@ export function ensureEnvelope(st: LifeState, content: ContentBundle): void {
   openEnvelope(st, 'sys', { teaserKey: TUNING.envelope.systemTeasers[0]!, dueDays: TUNING.envelope.dueDays, weight: TUNING.envelope.weightDefault, resolverEventId: resolver });
 }
 
-/** Pension (02 §2.3): 0.9 × last salary after ≥ 20 working years, else 0.5 ×. */
+/**
+ * Retirement (sprint 3, P1-3): from retirement.minAge each birthday rolls chanceBp (certain at maxAge). The pension is
+ * pm × the last salary (full after fullYears worked); the job becomes 'emekli', the boss leaves, the 'emekli' flag is set.
+ */
 function retire(st: LifeState): void {
-  const job = st.status.job;
-  if (!job || st.calendar.age < E.retirementAge || job.title === 'emekli') return;
-  const pm = st.counters.yearsWorked >= E.pensionFullYears ? E.pensionPm.full : E.pensionPm.short;
-  st.status.job = { title: 'emekli', tier: job.tier, monthly: Math.trunc((job.monthly * pm) / 1000), since: st.calendar.calendarDay };
+  const R = E.retirement, job = st.status.job;
+  if (!job || isRetired(job) || st.calendar.age < R.minAge) return;
+  if (st.calendar.age < R.maxAge && !drawChanceBp(st, 'director', R.chanceBp)) return;
+  const pm = st.counters.yearsWorked >= R.fullYears ? R.pensionPm.full : R.pensionPm.short;
+  st.status.job = { title: RETIRED_TITLE, tier: job.tier, monthly: Math.trunc((job.monthly * pm) / 1000), since: st.calendar.calendarDay };
+  addFlag(st, R.flag);
+  const boss = st.npcs.find((n) => n.role === 'boss');
+  if (boss) boss.exists = false;
+}
+
+/** Sprint 3: a mortgage ends after economy.mortgage.termYears — the home becomes owned (upkeep only). */
+function payOffMortgage(st: LifeState): void {
+  const h = st.status.home;
+  if (h.kind === 'mortgage' && st.calendar.calendarDay - h.since >= E.mortgage.termYears * 365) { setHome(st, 'owned'); addFlag(st, 'ev_sahibi'); }
 }
 
 function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: Omit<DayCard, 'eventId'>, out: Effect[]): void {
   st.calendar.age++;
-  if (st.status.job) { st.counters.yearsWorked++; retire(st); }
+  if (isEmployed(st)) { st.counters.yearsWorked++; retire(st); }   // a retiree's years are not "years worked"
+  payOffMortgage(st);
+  birthdayPressure(st);                                           // sprint 3: mid-life Anne Baskısı / Cringe pulses
   const start = parseISO(st.calendar.startDateISO);
   st.calendar.nextBirthdayDay = daysFromCivil(birthdayAfterYears(start, st.calendar.age - TUNING.calendar.startAge + 1)) - startAbs(st);   // before the die: son perde needs the year's end
   const cause = st.pendingDeath ? null : rollHazard(st);         // hazard before the report card: the dead get no card
@@ -104,7 +120,7 @@ function eventDay(st: LifeState, meta: MetaState, content: ContentBundle, base: 
   }
   if (ev.id === RENT_EVENT) st.counters.rentEvents++;
   st.yearStats.valenceSum += ev.valence;
-  notePlayed(st, ev, pick.legendary);
+  notePlayed(st, ev, pick.legendary, pick.surpriseTier !== null);
   const daily = pick.daily && st.director.daily ? { localDay: st.director.daily.localDay } : undefined;
   st.card = buildEventCard(st, meta, ev, { ...base, legendary: pick.legendary, momCall: pick.momCall, forced: !!pick.forced, surpriseTier: pick.surpriseTier, ...(daily ? { daily } : {}) });
   const lost = lossRole(pick.forced);                             // the loss card is the NPC's last scene

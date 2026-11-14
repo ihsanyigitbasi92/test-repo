@@ -6,13 +6,13 @@
 
 | Ölçü | Değer |
 |---|---:|
-| Alan paketlerindeki geçerli olay | **9.760** / 10.000 (97.6%) |
-| Kotası dolan alan | 112 / 132 |
-| Kotayı aşan alan | 13 |
+| Alan paketlerindeki geçerli olay | **9.946** / 10.000 (99.5%) |
+| Kotası dolan alan | 124 / 132 |
+| Kotayı aşan alan | 14 |
 | Alan dışı: `core` | 6 |
-| Alan dışı: `demo` | 42 |
-| Genel toplam geçerli olay | **9.808** |
-| Şema hatalı dosya | 3 |
+| Alan dışı: `demo` | 41 |
+| Genel toplam geçerli olay | **9.993** |
+| Şema hatalı dosya | 1 |
 
 ## Grup bazında
 
@@ -23,20 +23,20 @@
 | kariyer | 24 | 1175 | 1142 | 102.9% |
 | para | 8 | 617 | 617 | 100% |
 | ev | 8 | 618 | 618 | 100% |
-| tanidik_yuzler | 8 | 779 | 814 | 95.7% |
+| tanidik_yuzler | 8 | 804 | 814 | 98.8% |
 | iliski | 7 | 697 | 670 | 104% |
 | aile | 6 | 424 | 424 | 100% |
 | cagrilar | 2 | 169 | 169 | 100% |
 | ebeveynlik | 5 | 395 | 359 | 110% |
-| sosyal | 8 | 531 | 539 | 98.5% |
+| sosyal | 8 | 539 | 539 | 100% |
 | saglik | 9 | 720 | 716 | 100.6% |
 | gundelik | 6 | 501 | 501 | 100% |
 | ulasim | 3 | 234 | 234 | 100% |
 | teknoloji | 3 | 268 | 268 | 100% |
-| burokrasi | 3 | 258 | 273 | 94.5% |
-| bos_zaman | 4 | 234 | 299 | 78.3% |
-| mevsim | 2 | 127 | 163 | 77.9% |
-| yaslilik | 6 | 344 | 422 | 81.5% |
+| burokrasi | 3 | 273 | 273 | 100% |
+| bos_zaman | 4 | 299 | 299 | 100% |
+| mevsim | 2 | 163 | 163 | 100% |
+| yaslilik | 6 | 381 | 422 | 90.3% |
 | meta | 4 | 366 | 469 | 78% |
 
 ## Alan bazında
@@ -154,20 +154,20 @@
 | 109 | `sosyal_medya` | teknoloji | Sosyal medya | 98 | 98 | 0 | 100% | ██████████ |
 | 110 | `dijital_eglence` | teknoloji | Dizi, oyun ve ekran keyfi | 72 | 72 | 0 | 100% | ██████████ |
 | 111 | `burokrasi_resmi_daire` | burokrasi | Bürokrasi ve resmî daireler (kurgusal) | 111 | 111 | 0 | 100% | ██████████ |
-| 112 | `evrak_mektuplar` | burokrasi | Evrak kartları ve resmî mektuplar | 101 (+3 geçersiz) | 104 | 3 | 97.1% | ██████████ |
-| 113 | `hukuki_sorunlar` | burokrasi | Küçük hukuki dertler (kurgusal) | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 114 | `hobiler` | bos_zaman | Hobiler (el işi, müzik, kitap, bahçe) | 86 | 111 | 25 | 77.5% | ████████░░ |
-| 115 | `spor_amator_izleme` | bos_zaman | Amatör spor ve maç izlemek | 46 | 58 | 12 | 79.3% | ████████░░ |
-| 116 | `seyahat_tatil` | bos_zaman | Seyahat ve tatil | 71 | 91 | 20 | 78% | ████████░░ |
-| 117 | `evcil_pamuk` | tanidik_yuzler | Pamuk (kedi) arkı | 87 | 111 | 24 | 78.4% | ████████░░ |
-| 118 | `diger_evcil_hayvanlar` | bos_zaman | Diğer evcil hayvanlar | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 119 | `gonulluluk_iyilik` | sosyal | Gönüllülük ve küçük iyilikler | 31 | 39 | 8 | 79.5% | ████████░░ |
-| 120 | `mevsimler_hava` | mevsim | Mevsimler ve hava durumu | 66 | 85 | 19 | 77.6% | ████████░░ |
-| 121 | `bayram_ozel_gunler` | mevsim | Bayramlar, yılbaşı ve özel günler (genel) | 61 | 78 | 17 | 78.2% | ████████░░ |
-| 122 | `orta_yas` | yaslilik | Orta yaş | 46 | 58 | 12 | 79.3% | ████████░░ |
+| 112 | `evrak_mektuplar` | burokrasi | Evrak kartları ve resmî mektuplar | 104 | 104 | 0 | 100% | ██████████ |
+| 113 | `hukuki_sorunlar` | burokrasi | Küçük hukuki dertler (kurgusal) | 58 | 58 | 0 | 100% | ██████████ |
+| 114 | `hobiler` | bos_zaman | Hobiler (el işi, müzik, kitap, bahçe) | 111 | 111 | 0 | 100% | ██████████ |
+| 115 | `spor_amator_izleme` | bos_zaman | Amatör spor ve maç izlemek | 58 | 58 | 0 | 100% | ██████████ |
+| 116 | `seyahat_tatil` | bos_zaman | Seyahat ve tatil | 91 | 91 | 0 | 100% | ██████████ |
+| 117 | `evcil_pamuk` | tanidik_yuzler | Pamuk (kedi) arkı | 112 | 111 | 0 | 100.9% | ██████████ |
+| 118 | `diger_evcil_hayvanlar` | bos_zaman | Diğer evcil hayvanlar | 39 | 39 | 0 | 100% | ██████████ |
+| 119 | `gonulluluk_iyilik` | sosyal | Gönüllülük ve küçük iyilikler | 39 | 39 | 0 | 100% | ██████████ |
+| 120 | `mevsimler_hava` | mevsim | Mevsimler ve hava durumu | 85 | 85 | 0 | 100% | ██████████ |
+| 121 | `bayram_ozel_gunler` | mevsim | Bayramlar, yılbaşı ve özel günler (genel) | 78 | 78 | 0 | 100% | ██████████ |
+| 122 | `orta_yas` | yaslilik | Orta yaş | 58 | 58 | 0 | 100% | ██████████ |
 | 123 | `emeklilik_gecis` | yaslilik | Emekliliğe geçiş | 51 | 65 | 14 | 78.5% | ████████░░ |
 | 124 | `emekli_hayati` | yaslilik | Emekli hayatı | 81 | 104 | 23 | 77.9% | ████████░░ |
-| 125 | `yaslilik_gundelik` | yaslilik | Yaşlılık ve gündelik hayat | 86 | 111 | 25 | 77.5% | ████████░░ |
+| 125 | `yaslilik_gundelik` | yaslilik | Yaşlılık ve gündelik hayat | 111 | 111 | 0 | 100% | ██████████ |
 | 126 | `miras_vasiyet` | yaslilik | Miras, vasiyet ve düzen | 33 | 39 | 6 | 84.6% | ████████░░ |
 | 127 | `veda_kayip` | yaslilik | Vedalar ve kayıplar (sessizlik protokolü) | 47 | 45 | 0 | 104.4% | ██████████ |
 | 128 | `tanidik_yuzler_kesisme` | tanidik_yuzler | Tanıdık Yüzler kesişme günleri | 51 | 65 | 14 | 78.5% | ████████░░ |

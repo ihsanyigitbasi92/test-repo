@@ -65,7 +65,8 @@ export interface Envelope {
 /** 03 §2.3.5 priority classes: 3 mom-call · 4 envelope · 5 chain · 6 forced follow-up · 7 rent/bailout · 9 lucky follow-up. */
 export type DuePriority = 3 | 4 | 5 | 6 | 7 | 9;
 /** `envelopeId` ties a priority-4 resolver to its exact envelope; `source` is 'rent' | 'bailout' | 'bankruptcy' | 'chain:<id>' | … */
-export interface DueItem { day: number; eventId: string; priority: DuePriority; valence: number; deferredOnce: boolean; source: string; envelopeId?: string }
+/** `minDayIndex` (sprint 3 grief pause): the item may not play before this shown-day index (set only on follow-ups of grief events). */
+export interface DueItem { day: number; eventId: string; priority: DuePriority; valence: number; deferredOnce: boolean; source: string; envelopeId?: string; minDayIndex?: number }
 
 export interface ChainState { node: string; startedDay: number; done: string[] }
 
@@ -106,13 +107,20 @@ export interface LifeCounters {
 }
 
 /** Detailed money movement kinds of a gap (CashflowResult.detail). */
-export type GapKind = 'payday' | 'allowance' | 'rent' | 'cat' | 'health' | 'daily' | 'debt';
+export type GapKind = 'payday' | 'pension' | 'allowance' | 'rent' | 'upkeep' | 'mortgage' | 'cat' | 'child' | 'health' | 'daily' | 'comfort' | 'debt';
 /**
- * D-088 flowLog line (≤ 3 per shown day): income (payday | allowance), rent, and one folded `daily` total
- * (living cost + cat + health cost + card-debt growth).
+ * D-088 flowLog line (≤ 3 per shown day): income (payday | pension | allowance), one housing line and one folded
+ * `daily` total (living cost + cat + child + health cost + comfort spend + card-debt growth).
+ * Housing line by home (sprint 3, P0-1): `rent` = a rented home (room / flat / wide) or the mom's-house
+ * contribution while mom lives; `upkeep` = owned / inherited home (aidat + bills, also mom's house after her
+ * death); `mortgage` = the installment. `pension` replaces `payday` once retired (no "Maaş günü" at 90).
  */
-export type FlowKind = 'payday' | 'allowance' | 'rent' | 'daily';
-export interface GapLine { kind: FlowKind; para: number }
+export type FlowKind = 'payday' | 'pension' | 'allowance' | 'rent' | 'upkeep' | 'mortgage' | 'daily';
+/**
+ * `cat` / `child` (daily line only): the part of `para` that was cat food / child cost in this interval
+ * (negative Para), present only when non-zero — the app writes "Mama dahil" only when `cat` is set.
+ */
+export interface GapLine { kind: FlowKind; para: number; cat?: number; child?: number }
 export interface SkipSummary { days: number; key: string; params: Record<string, number> }
 
 export interface CardChoice { id: string; textKey: string; locked: boolean; pattern?: PatternId; swipe?: 'left' | 'right' }

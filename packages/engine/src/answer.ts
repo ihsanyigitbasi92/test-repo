@@ -16,6 +16,7 @@ import { evalPre } from './pre';
 import { effectivePBp, resolveWager } from './wager';
 import { applyEffects } from './apply';
 import { die } from './day';
+import { noteFelt } from './pity';
 import type { Bubble, ContentBundle, Effect, GameEvent, LifeState, MetaState } from './types';
 
 const NM = TUNING.nearMiss;
@@ -93,6 +94,12 @@ export function answer(st: LifeState, meta: MetaState, content: ContentBundle, c
   const lines = coachLines(st, meta, outcome.coach, ev.id);
   const floats: Effect[] = [];
   const deathCause = applyEffects(st, meta, content, ev, outcome.effects, floats);
+  let felt = 0, money = 0;
+  for (const f of floats) if (f.kind === 'FLOAT_NUM') {
+    if (f.stat === 'money') money += f.delta;
+    else if (f.stat === 'health' || f.stat === 'joy' || f.stat === 'brain' || f.stat === 'charm') felt += f.delta;
+  }
+  noteFelt(st, ev, felt, money);
   const params = textParams(st, n);                                // after effects: `{ego}` shows the new value
   out.push({ kind: 'SHOW_DIALOG', layer: 'outcome', bubbles: [{ speaker: 'narrator', delayMs: 0, params,
     textKey: r.nearMiss ? keyNearMiss(ev, choiceId, r.branch) : keyOutcome(ev, choiceId, r.branch) }] }, ...floats);

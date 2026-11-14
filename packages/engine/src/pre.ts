@@ -4,6 +4,7 @@
  */
 import type { Pre, PatternId } from '@motto/content-schema';
 import { seasonOf, civilFromDays, absOfISO } from './calendar';
+import { isRetired } from './status';
 import type { LifeState, MetaState, StatId, MeterId, HiddenId } from './types';
 
 const inRange = (v: number, r: { min?: number; max?: number } | undefined): boolean =>
@@ -50,9 +51,9 @@ export function evalPre(pre: Pre | undefined, st: LifeState, meta: MetaState, ev
     if (pre.flags.none && pre.flags.none.some((x) => f.includes(x))) return false;
   }
   if (pre.career) {
-    const job = st.status.job;
-    if (pre.career.employed !== undefined && (job !== null) !== pre.career.employed) return false;
-    if (pre.career.minRung !== undefined && (job?.tier ?? 0) < pre.career.minRung) return false;
+    const job = st.status.job, working = job !== null && !isRetired(job);   // sprint 3: a pension is not a job
+    if (pre.career.employed !== undefined && working !== pre.career.employed) return false;
+    if (pre.career.minRung !== undefined && (working ? job.tier : 0) < pre.career.minRung) return false;
     if (pre.career.anyOf && !(job && pre.career.anyOf.includes(job.title))) return false;
   }
   if (pre.housing && !pre.housing.includes(st.status.home.kind)) return false;

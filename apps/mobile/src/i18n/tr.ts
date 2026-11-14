@@ -309,7 +309,18 @@ export const tr = {
     sound: 'Ses efektleri', soundHint: 'Damga, kâğıt, bozukluk. Müzik yok; senin müziğine de dokunmam.',
     volume: 'Ses düzeyi', volumeLevels: ['Kısık', 'Orta', 'Yüksek'],
     haptics: 'Titreşim', hapticsHint: 'Damga inince telefon da hisseder.',
+    language: 'Dil', languageHint: 'Akış ve kartlar hemen o dile geçer.',
+    reminders: 'Hatırlatma', remindersHint: 'Günde en çok bir kısa satır, genelde oynadığın saatte. Sayı yok, rozet yok. Bir hafta yanıt yoksa susarım.',
+    privacy: 'GİZLİLİK VE METİNLER',
+    legal: { notice: 'Aydınlatma Metni (taslak)', privacy: 'Gizlilik Politikası (taslak)', terms: 'Kullanım Koşulları (taslak)' },
   },
+  /** Reminder opt-in on the Enough-for-today sheet (docs/design/19): asked once, from the 2nd session's end. */
+  reminderAsk: {
+    text: 'Arada bir satır yazayım mı? Günde en çok bir kez, genelde oynadığın saatte. Sayı yok, rozet yok.',
+    yes: 'Evet, yaz', no: 'Hayır, gerek yok',
+    on: 'Tamam. Arada bir yazarım; açınca susarım.', off: 'Peki. Yazmam. Ayarlar\'dan açılır.',
+  },
+  shareDone: { copied: 'Kart metni panoya kopyalandı.', shared: 'Paylaşım sayfası açıldı.', failed: 'Paylaşılamadı; tarayıcı izin vermedi.' },
   // Tutorial / first-time help (docs/design/18): intro pages, coach-mark hints, Settings entry. No "!", no "—".
   tutorial: {
     label: 'Nasıl oynanır', skip: 'Geç', next: 'İleri', back: 'Geri', start: 'Başlayalım', backToGame: 'Oyuna dön',

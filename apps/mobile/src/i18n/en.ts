@@ -286,7 +286,17 @@ export const en: Strings = {
     sound: 'Sound effects', soundHint: "Stamp, paper, loose change. No music; I won't touch yours either.",
     volume: 'Volume', volumeLevels: ['Low', 'Medium', 'High'],
     haptics: 'Vibration', hapticsHint: 'When the stamp lands, the phone feels it too.',
+    language: 'Language', languageHint: 'The feed and the cards switch at once.',
+    reminders: 'Reminders', remindersHint: "At most one short line a day, around when you usually play. No numbers, no badges. A week of no answer and I go quiet.",
+    privacy: 'PRIVACY AND TEXTS',
+    legal: { notice: 'Privacy Notice (draft)', privacy: 'Privacy Policy (draft)', terms: 'Terms of Use (draft)' },
   },
+  reminderAsk: {
+    text: 'Should I send a line now and then? At most once a day, around when you usually play. No numbers, no badges.',
+    yes: 'Yes, write', no: 'No thanks',
+    on: "Fine. I'll write now and then; I go quiet when you open the app.", off: "Fine. I won't. It's in Settings if you change your mind.",
+  },
+  shareDone: { copied: 'Card text copied to the clipboard.', shared: 'Share sheet opened.', failed: "Couldn't share; the browser said no." },
   // Tutorial / first-time help (docs/design/18). Written for English, not translated: short, dry, plain.
   tutorial: {
     label: 'How it works', skip: 'Skip', next: 'Next', back: 'Back', start: "Let's begin", backToGame: 'Back to the game',

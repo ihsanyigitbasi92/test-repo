@@ -1,7 +1,11 @@
 /**
  * Analytics consent — pure (no React Native imports; unit-tested in node). docs/design/17 §5.
  *
- * Two separate purposes, two separate switches on the one consent surface (11 §2.2.4, D-104):
+ * D-161 (owner decision, 2026-11-13): analytics is ON by default after the age gate (adult and 16–17), except in
+ * EEA / UK / CH / unknown regions where it stays gated on the privacy card's analytics switch. Marketing (Meta,
+ * ad-id, ad signals) is unchanged: personalised-ads opt-in + iOS ATT. Under 16: nothing.
+ *
+ * Two separate purposes (11 §2.2.4, D-104):
  *   analytics  "Analitik paylaşımı"        → Firebase Analytics + Crashlytics (+ Remote Config fetch, see config.ts)
  *   marketing  "Kişiselleştirilmiş reklam" → Meta App Events (campaign measurement) and Firebase's ad signals.
  *              This one is owned by the ad layer (src/ads ConsentState.adsPersonalized + iOS ATT); it is only READ here.
@@ -43,6 +47,12 @@ export interface AdsConsentView {
    * Absent (older builds, tests): treated as answered.
    */
   age?: 'loading' | 'ask' | 'blocked' | 'minor' | 'adult';
+  /**
+   * Ad-layer region (src/ads/consent.ts `Region`). D-161: analytics is ON by default after the age gate everywhere
+   * except EEA / UK / CH — and an unknown region, which might be one of them — where it stays gated on consent
+   * (the analytics switch of the single privacy card). Absent (older builds, tests): treated as unknown → gated.
+   */
+  region?: 'TR' | 'EEA' | 'US' | 'OTHER' | 'UNKNOWN';
 }
 export const NO_ADS_CONSENT: AdsConsentView = { resolved: false, adsPersonalized: false, isMinor: false, att: 'undetermined' };
 
@@ -57,7 +67,18 @@ export interface ConsentSnapshot {
   minor: boolean;
 }
 
-export function analyticsState(choice: AnalyticsChoice, minor: boolean): PurposeState {
+/** D-161 (owner decision): regions where anonymous usage analytics + crash reports run by default after the age gate. */
+export function analyticsDefaultOn(region: AdsConsentView['region']): boolean {
+  return region === 'TR' || region === 'US' || region === 'OTHER';
+}
+
+/**
+ * `defaultOn` (D-161): no question, analytics runs for adults and 16–17 alike (no advertising id, no ad signals —
+ * those are the marketing purpose). An explicit "no" stored by an older build is still honoured.
+ * Gated regions: unknown until answered, locked off for a minor (as before).
+ */
+export function analyticsState(choice: AnalyticsChoice, minor: boolean, defaultOn = false): PurposeState {
+  if (defaultOn) return choice.analytics === false ? 'denied' : 'granted';
   if (minor) return 'denied';
   if (choice.analytics === null || choice.noticeVersion < NOTICE_VERSION) return 'unknown';
   return choice.analytics ? 'granted' : 'denied';
@@ -81,8 +102,10 @@ export function marketingState(ads: AdsConsentView, platform: Platform): Purpose
 
 export function deriveConsent(choice: AnalyticsChoice, ads: AdsConsentView, platform: Platform): ConsentSnapshot {
   const minor = isMinorView(ads);
+  const blocked = ads.age === 'blocked';
   const marketing = marketingState(ads, platform);
-  const analytics = ageUnknown(ads) && !minor ? 'unknown' : analyticsState(choice, minor);
+  const defaultOn = !blocked && !ageUnknown(ads) && analyticsDefaultOn(ads.region);
+  const analytics = blocked ? 'denied' : ageUnknown(ads) && !minor ? 'unknown' : analyticsState(choice, minor, defaultOn);
   return { analytics, marketing, advertiserTracking: marketing === 'granted', minor };
 }
 

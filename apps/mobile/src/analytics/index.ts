@@ -7,4 +7,5 @@ export type { RcKey } from './remoteConfig';
 export { EVENTS, SCHEMA_VERSION } from './events';
 export type { EventName, EventParams, UserProps } from './events';
 export type { FtueFunnelStep } from './gameHooks';
-export { AnalyticsHost, AnalyticsSettings, AnalyticsSwitch, promptAnalyticsIfDue } from './ConsentUI';
+export { AnalyticsDataRights, promptAnalyticsIfDue } from './ConsentUI';
+export { privacyDue, runPrivacyFlow } from './privacyFlow';

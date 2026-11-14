@@ -311,7 +311,8 @@ export class AnalyticsCore {
   setAdsConsent(view: AdsConsentView): void {
     try {
       this.ads = { resolved: !!view.resolved, adsPersonalized: !!view.adsPersonalized, isMinor: !!view.isMinor, att: view.att,
-        ...(typeof view.trackingAllowed === 'boolean' ? { trackingAllowed: view.trackingAllowed } : {}), ...(view.age ?? this.ads.age ? { age: view.age ?? this.ads.age } : {}) };
+        ...(typeof view.trackingAllowed === 'boolean' ? { trackingAllowed: view.trackingAllowed } : {}), ...(view.age ?? this.ads.age ? { age: view.age ?? this.ads.age } : {}),
+        ...(view.region ?? this.ads.region ? { region: view.region ?? this.ads.region } : {}) };
       this.recompute();
     } catch { /* never throws */ }
   }

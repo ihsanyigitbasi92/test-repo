@@ -1,0 +1,203 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "emeklilik_gecis_dilekce_teslimi_01",
+  "tags": [
+    "yaslilik",
+    "is",
+    "dilekce",
+    "patron",
+    "emeklilik_gecis"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": 0,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 600,
+    "tags": {
+      "emeklilik_gecis": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 59,
+      "max": 60
+    },
+    "career": {
+      "employed": true
+    }
+  },
+  "ageBand": [
+    "secondHalf"
+  ],
+  "dialog": [
+    {
+      "speaker": "boss",
+      "avatar": "worried",
+      "tr": "Emeklilik dilekçesi mi? Otur, önce bir kahve içelim. Kahveden sonra konuşuruz.",
+      "en": "A retirement letter? Sit. Coffee first. We'll talk after the coffee."
+    },
+    {
+      "speaker": "boss",
+      "avatar": "happy",
+      "tr": "Bir yıl daha kal. Unvanını yükseltirim, odanı değiştiririm. Sandalyeni bile yenilerim.",
+      "en": "Stay one more year. New title, new office. I'll even replace your chair.",
+      "delayMs": 600
+    },
+    {
+      "speaker": "boss",
+      "avatar": "neutral",
+      "tr": "Dilekçe şimdilik çekmecemde dursun. Çekmecem geniştir, bir yıl bekler.",
+      "en": "I'll keep the letter in my drawer for now. It's a roomy drawer. It can wait a year.",
+      "delayMs": 600
+    }
+  ],
+  "choices": [
+    {
+      "id": "imzalat",
+      "tr": "İmzalat, tarihi yazdır",
+      "en": "Get it signed and dated",
+      "pattern": "pride"
+    },
+    {
+      "id": "pazarlik",
+      "tr": "Bir yıl için pazarlık et",
+      "en": "Negotiate the extra year",
+      "pattern": "risk",
+      "check": {
+        "base": 4500,
+        "stat": "charm"
+      }
+    },
+    {
+      "id": "cekmece",
+      "tr": "Çekmecede kalsın, düşün",
+      "en": "Leave it in the drawer",
+      "pattern": "procrastination"
+    }
+  ],
+  "outcomes": {
+    "imzalat": {
+      "effects": {
+        "stats": {
+          "joy": 4
+        },
+        "flags": {
+          "add": [
+            "emeklilik_dilekcesi_verildi"
+          ]
+        }
+      },
+      "tr": "Dilekçe imzalandı, çıkış tarihi takvime yazıldı: doksan gün sonra. Patron kahvesini bitirmedi.",
+      "en": "The letter is signed and the date is on the calendar: ninety days out. Your boss didn't finish the coffee.",
+      "coach": [
+        {
+          "tr": "Doksan gün. Geri sayım başladı.",
+          "en": "Ninety days. The countdown is running.",
+          "roast": false
+        }
+      ]
+    },
+    "pazarlik": [
+      {
+        "p": 4500,
+        "effects": {
+          "stats": {
+            "joy": 2
+          },
+          "hidden": {
+            "stress": 2
+          },
+          "money": 2500,
+          "flags": {
+            "add": [
+              "bir_yil_uzatma"
+            ]
+          }
+        },
+        "tr": "Bir yıl daha kalıyorsun: tek seferlik 2.500 Para ve pencereli oda. Dilekçe çekmecede, üstünde yeni tarih var.",
+        "en": "You're staying one more year: a one-time 2,500 and the office with the window. The letter sits in the drawer with a new date on it.",
+        "coach": [
+          {
+            "tr": "Pencere alındı. Emeklilik bir yıl bekliyor.",
+            "en": "The window is yours. Retirement waits a year.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5500,
+        "effects": {
+          "stats": {
+            "joy": 1
+          },
+          "meters": {
+            "cringe": 2
+          },
+          "flags": {
+            "add": [
+              "emeklilik_dilekcesi_verildi"
+            ]
+          }
+        },
+        "tr": "Patron bütçeye baktı, sandalyeden öteye geçemedi. Dilekçen işleme kondu, sandalye teklifi hâlâ geçerli.",
+        "en": "Your boss checked the budget and couldn't get past the chair. Your letter was processed. The chair offer still stands.",
+        "coach": [
+          {
+            "tr": "Masadaki teklif: bir sandalye.",
+            "en": "The offer on the table was a chair.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "cekmece": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "hidden": {
+          "stress": 3
+        },
+        "flags": {
+          "add": [
+            "dilekce_cekmecede"
+          ]
+        }
+      },
+      "tr": "Dilekçe patronun çekmecesinde kaldı. Akşam eve giderken çantanda ikinci bir kopya taşıdığını fark ettin.",
+      "en": "The letter stayed in your boss's drawer. On the way home you noticed you were carrying a second copy in your bag.",
+      "coach": [
+        {
+          "tr": "İki kopya var. İmza yok.",
+          "en": "Two copies exist. No signatures.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "pazarlik",
+    "slip": {
+      "tr": "İDDİA: Teklif sandalyede kalır. — M.",
+      "en": "WAGER: The offer stops at the chair. — M."
+    }
+  },
+  "intent": {
+    "setup": "emeklilik dilekçesini patrona teslim ettiğin gün patronun dilekçeyi çekmecesine koyup bir yıl daha kalmanı istemesi",
+    "mechanism": "karşı teklif unvandan odaya, odadan sandalyeye iniyor",
+    "mechanismId": "escalation",
+    "punch": "sandalyeni bile yenilerim",
+    "lift": "yok",
+    "target": "npc",
+    "antithesis": false,
+    "closer": "geri_sayim"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -10,7 +10,8 @@ import { moneyDelta, protectionMultPm } from './cashflow';
 import { evalPre } from './pre';
 import { indexContent } from './content';
 import { bailoutCheck } from './bailout';
-import type { ContentBundle, Effect, GameEvent, Housing, LifeState, MetaState, MeterId, StatId } from './types';
+import { isRetired, RETIRED_TITLE } from './status';
+import type { ContentBundle, DueItem, Effect, GameEvent, Housing, LifeState, MetaState, MeterId, StatId } from './types';
 
 const ST = TUNING.stats;
 const FLOOR: Record<StatId, number> = { health: 0, joy: ST.floors.joy, brain: 0, charm: ST.floors.charm };
@@ -21,10 +22,17 @@ function npc(st: LifeState, role: string) {
   return n;
 }
 
+const JH = ST.joyHedonic;
+/** Sprint 3 hedonic adaptation: a positive joy delta (bp) shrinks when joy is already high (never below 1 point). */
+export function hedonic(joy: number, d: number): number {
+  const pm = joy >= JH.topBp ? JH.topPm : joy >= JH.highBp ? JH.highPm : 1000;
+  return pm === 1000 ? d : Math.max(100, mulDiv(d, pm, 1000));
+}
+
 /** A job brings a boss (D-062 speaker gate: `boss` exists only while employed). */
 function setJobNpc(st: LifeState, employed: boolean): void { npc(st, 'boss').exists = employed; }
 
-function setHome(st: LifeState, kind: Housing, rent?: number): void {
+export function setHome(st: LifeState, kind: Housing, rent?: number): void {
   const h = TUNING.economy.housing[kind];
   st.status.home = { kind, rent: clamp(rent ?? h.rent, Math.min(h.rent, h.maxRent), h.maxRent), since: st.calendar.calendarDay };   // D-159 rent band
   if (kind === 'momsHouse') addFlag(st, 'anne_evinde'); else removeFlag(st, 'anne_evinde');
@@ -48,6 +56,7 @@ export function applyEffects(
     if (!v) continue;
     let d = v * 100;
     if (d < 0 && k === 'health') d = -mulDiv(-d, prot, 1000);
+    if (d > 0 && k === 'joy') d = hedonic(st.stats.joy, d);     // sprint 3: a happy life gets used to good news
     const before = st.stats[k];
     st.stats[k] = clamp(before + d, FLOOR[k], 10000);
     if (st.stats[k] !== before) out.push({ kind: 'FLOAT_NUM', stat: k, delta: st.stats[k] - before });
@@ -63,10 +72,9 @@ export function applyEffects(
   }
   if (fx.hidden?.luck) st.hidden.luck = clamp(st.hidden.luck + fx.hidden.luck * 100, -5000, 5000);
   if (fx.hidden?.stress) st.hidden.stress = clamp(st.hidden.stress + fx.hidden.stress * 100, 0, 10000);
-  if (fx.money) {
-    const m = fx.money < 0 ? -mulDiv(-fx.money, prot, 1000) : fx.money;
-    moneyDelta(st, m);
-    out.push({ kind: 'FLOAT_NUM', stat: 'money', delta: m });
+  if (fx.money) {                                                 // sprint 3 (P1-4): money applies exactly as the text says
+    moneyDelta(st, fx.money);
+    out.push({ kind: 'FLOAT_NUM', stat: 'money', delta: fx.money });
   }
   const wasMarried = st.flags.includes('evli'), hadPartner = st.status.partner !== null;
   for (const f of fx.flags?.add ?? []) addFlag(st, f);
@@ -87,9 +95,15 @@ export function applyEffects(
   }
   if (fx.career) {
     const tiers = TUNING.economy.tiersMonthlyPara;
-    if (fx.career.fire && st.status.job) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); }
-    if (fx.career.set) { st.status.job = { title: fx.career.set, tier: st.status.job?.tier ?? 1, monthly: st.status.job?.monthly ?? tiers[1]!, since: st.calendar.calendarDay }; setJobNpc(st, true); }
-    if (fx.career.rungDelta && st.status.job) {
+    const retired = isRetired(st.status.job);                    // sprint 3: a pension is not a job (no firing, no rungs)
+    if (fx.career.fire && st.status.job && !retired) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); }
+    if (fx.career.set && fx.career.set !== RETIRED_TITLE) {
+      const prev = retired ? null : st.status.job;
+      st.status.job = { title: fx.career.set, tier: prev?.tier ?? 1, monthly: prev?.monthly ?? tiers[1]!, since: st.calendar.calendarDay };
+      removeFlag(st, TUNING.economy.retirement.flag);
+      setJobNpc(st, true);
+    }
+    if (fx.career.rungDelta && st.status.job && !isRetired(st.status.job)) {
       const tier = clamp(st.status.job.tier + fx.career.rungDelta, 1, tiers.length - 1);   // D-159: a job never pays 0
       st.status.job = { ...st.status.job, tier, monthly: tiers[tier]! };
     }
@@ -97,8 +111,8 @@ export function applyEffects(
   if (fx.housing) setHome(st, fx.housing);
   const s = fx.status;
   if (s) {
-    if (s.job === null) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); }
-    else if (s.job) { st.status.job = { ...s.job, since: st.calendar.calendarDay }; removeFlag(st, 'is_ariyor'); setJobNpc(st, true); }
+    if (s.job === null) { if (!isRetired(st.status.job)) { st.status.job = null; addFlag(st, 'is_ariyor'); setJobNpc(st, false); } }
+    else if (s.job) { st.status.job = { ...s.job, since: st.calendar.calendarDay }; removeFlag(st, 'is_ariyor'); removeFlag(st, TUNING.economy.retirement.flag); setJobNpc(st, true); }
     if (s.home) setHome(st, s.home.kind, s.home.rent);
     if (s.rentDelta) st.status.home.rent = clamp(st.status.home.rent + s.rentDelta, 0, TUNING.economy.housing[st.status.home.kind].maxRent);
     if (s.partner === null) st.status.partner = null;
@@ -108,12 +122,15 @@ export function applyEffects(
   }
   relationshipContinuity(st, wasMarried, hadPartner);
   const idx = indexContent(content);
+  const grief = ev.tags.some((t) => (TUNING.npcLife.griefTags as string[]).includes(t) || t.startsWith('loss:'));
   for (const fu of fx.followUp ?? []) {
     const target = idx.byId.get(fu.eventId);
     if (!target) continue;
     if (fu.chance !== undefined && !drawChanceBp(st, 'beats', fu.chance)) continue;
     const day = st.calendar.calendarDay + drawInt(st, 'beats', fu.delayDays[0], Math.max(fu.delayDays[0], fu.delayDays[1]));
-    st.dueQueue.push({ day, eventId: fu.eventId, priority: fu.forced ? 6 : 9, valence: target.valence, deferredOnce: false, source: `followUp:${ev.id}` });
+    const item: DueItem = { day, eventId: fu.eventId, priority: fu.forced ? 6 : 9, valence: target.valence, deferredOnce: false, source: `followUp:${ev.id}` };
+    if (grief) item.minDayIndex = st.calendar.dayIndex + 1 + TUNING.npcLife.griefShownDays;   // O3: a grief pause of N shown days
+    st.dueQueue.push(item);
   }
   if (fx.envelope && idx.byId.has(fx.envelope.resolverEventId)) openEnvelope(st, ev.id, fx.envelope);
   if (ev.chain) {

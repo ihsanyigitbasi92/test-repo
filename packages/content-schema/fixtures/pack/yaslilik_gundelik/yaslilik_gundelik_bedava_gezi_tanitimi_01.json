@@ -1,0 +1,202 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_bedava_gezi_tanitimi_01",
+  "tags": [
+    "yaslilik",
+    "gezi",
+    "komsu",
+    "para",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5000,
+  "punchOwner": "coach",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 70,
+      "max": 90
+    },
+    "money": {
+      "min": 2000
+    },
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "happy",
+      "tr": "Günübirlik göl gezisi var. Otobüs bedava, öğle yemeği bedava. Sana da yer ayırttım.",
+      "en": "There's a day trip to the lake. Free bus, free lunch. I put your name down."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "neutral",
+      "tr": "Yolda kısa bir tanıtım olacakmış. Yarım saat dediler.",
+      "en": "There's a short presentation on the way. Half an hour, they said.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "dinle",
+      "tr": "Git, cüzdanı kapalı tut",
+      "en": "Go, and keep the wallet shut",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "al",
+      "tr": "Git, küçük bir şey al",
+      "en": "Go, and buy something small",
+      "pattern": "peoplePleasing"
+    },
+    {
+      "id": "gitme",
+      "tr": "Gitme",
+      "en": "Stay home",
+      "pattern": "avoidance"
+    }
+  ],
+  "outcomes": {
+    "dinle": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "tanitim_gezisi"
+            ]
+          }
+        },
+        "tr": "Tanıtım üç saat sürdü. Hiçbir şey almadın; göl kıyısında yirmi dakika kaldınız.",
+        "en": "The presentation ran three hours. You bought nothing. The lake got twenty minutes.",
+        "coach": [
+          {
+            "tr": "Üç saat tanıtım, yirmi dakika göl.",
+            "en": "Three hours of presentation. Twenty minutes of lake.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -3
+          },
+          "money": -1800,
+          "flags": {
+            "add": [
+              "tanitim_gezisi",
+              "yastik_taksidi"
+            ]
+          }
+        },
+        "tr": "Üçüncü saatte sağlık yastığı sözleşmesini imzaladın: 1.800 Para, on iki taksit.",
+        "en": "In hour three you signed for the orthopedic pillow: 1,800, in twelve installments.",
+        "coach": [
+          {
+            "tr": "Bedava gezinin dökümü: on iki taksit.",
+            "en": "The free trip, itemized: twelve installments.",
+            "roast": true
+          }
+        ]
+      }
+    ],
+    "al": {
+      "effects": {
+        "stats": {
+          "joy": 0
+        },
+        "money": -300,
+        "flags": {
+          "add": [
+            "tanitim_gezisi"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": 2
+          }
+        ]
+      },
+      "tr": "En ucuz ürünü aldın: 300 Para tutan bir yün içlik. Komşun iki yastık aldı, birini sana verdi.",
+      "en": "You bought the cheapest thing: a wool undershirt for 300. Your neighbor bought two pillows and gave you one.",
+      "coach": [
+        {
+          "tr": "Katılım belgesi yerine yün içlik.",
+          "en": "One wool undershirt, in lieu of a certificate.",
+          "roast": false
+        }
+      ]
+    },
+    "gitme": {
+      "effects": {
+        "stats": {
+          "joy": 1
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -1
+          }
+        ]
+      },
+      "tr": "Gitmedin. Komşun akşam yastıkla döndü; göle pek vakit kalmadığını söyledi.",
+      "en": "You stayed home. Your neighbor came back that evening with a pillow and said there hadn't been much time for the lake.",
+      "coach": [
+        {
+          "tr": "Gölü pek gören olmadı.",
+          "en": "Reports of the lake are thin.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": true,
+    "check": "dinle",
+    "slip": {
+      "tr": "İDDİA: O cüzdan üçüncü saatte açılır. — M.",
+      "en": "WAGER: That wallet opens by hour three. — M."
+    }
+  },
+  "intent": {
+    "setup": "bedava günübirlik göl gezisinin yolda saatlerce süren yastık tanıtımına dönmesi",
+    "mechanism": "yarım saatlik tanıtım üç saat, göl yirmi dakika",
+    "mechanismId": "escalation",
+    "punch": "on iki taksit",
+    "lift": "yok",
+    "target": "decision",
+    "antithesis": false,
+    "closer": "taksit"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { applyAction, createLife, eligible, emptyMeta, renderText, resolveText, TUNING } from '../src/index';
+import { applyAction, applyCashflow, createLife, eligible, emptyMeta, isEmployed, renderText, resolveText, TUNING } from '../src/index';
 import type { Action, Bubble, Effect, GameEvent, LifeState, Locale } from '../src/index';
 import { BUNDLE } from './helpers/content';
 import { runLife } from './helpers/sim';
@@ -151,11 +151,12 @@ describe('speaker gate (D-062, 03 §2.2.3) and economy details', () => {
     expect(eligible({ ...nevin, pre: {} } as GameEvent, st, meta)).toBe(true);
   });
 
-  it('pension: 0.9 × after ≥ 20 working years, else 0.5 ×', () => {
-    for (const [years, pm] of [[25, TUNING.economy.pensionPm.full], [10, TUNING.economy.pensionPm.short]] as const) {
+  it('pension (sprint 3): certain at retirement.maxAge; full pm after fullYears worked, else short; flag + pension line', () => {
+    const R = TUNING.economy.retirement;
+    for (const [years, pm] of [[R.fullYears + 1, R.pensionPm.full], [10, R.pensionPm.short]] as const) {
       const meta = emptyMeta();
       const st = applyAction(null as unknown as LifeState, meta, { type: 'START_LIFE', seed: `PEN${years}`, name: 'x' }, BUNDLE).state;
-      st.calendar.age = TUNING.economy.retirementAge - 1;
+      st.calendar.age = R.maxAge - 1;
       st.counters.yearsWorked = years - 1;
       st.status.job = { title: 'ofis', tier: 3, monthly: 2000, since: 0 };
       st.director.shownThisYear = st.director.yearBudget;                  // next gap runs to the birthday
@@ -164,6 +165,11 @@ describe('speaker gate (D-062, 03 §2.2.3) and economy details', () => {
       if (st.death) continue;                                              // hazard roll may still end it
       expect(st.status.job!.title).toBe('emekli');
       expect(st.status.job!.monthly).toBe((2000 * pm) / 1000);
+      expect(st.flags).toContain(R.flag);
+      expect(isEmployed(st)).toBe(false);
+      const r = applyCashflow(st, st.calendar.calendarDay, st.calendar.calendarDay + 40);
+      expect(r.lines.some((l) => l.kind === 'pension')).toBe(true);
+      expect(r.lines.some((l) => l.kind === 'payday')).toBe(false);
     }
   });
 });

@@ -1,0 +1,196 @@
+{
+  "v": 1,
+  "type": "event",
+  "id": "yaslilik_gundelik_bina_yenileme_imzasi_01",
+  "tags": [
+    "yaslilik",
+    "ev",
+    "komsu",
+    "apartman",
+    "yaslilik_gundelik"
+  ],
+  "rarity": "common",
+  "universality": "universal",
+  "valence": -1,
+  "intensity": 5500,
+  "punchOwner": "dialog",
+  "cooldownDays": {
+    "self": 500,
+    "tags": {
+      "yaslilik_gundelik": 20
+    }
+  },
+  "pre": {
+    "age": {
+      "min": 70,
+      "max": 90
+    },
+    "housing": [
+      "owned",
+      "mortgage"
+    ],
+    "npc": {
+      "neighbor": {
+        "alive": true
+      }
+    }
+  },
+  "ageBand": [
+    "overtime"
+  ],
+  "dialog": [
+    {
+      "speaker": "neighbor",
+      "avatar": "worried",
+      "tr": "Binayı yıkıp yeniden yapacaklarmış. Herkes imzalarsa iki yıl başka yerde oturacağız.",
+      "en": "They want to knock the block down and rebuild. If everyone signs, we live elsewhere for two years."
+    },
+    {
+      "speaker": "neighbor",
+      "avatar": "annoyed",
+      "tr": "Müteahhit iki yıl dedi. Ben müteahhit yılının kaç ay çektiğini bilirim.",
+      "en": "The contractor said two years. I know how many months are in a contractor's year.",
+      "delayMs": 700
+    }
+  ],
+  "choices": [
+    {
+      "id": "imza",
+      "tr": "İmzala",
+      "en": "Sign",
+      "pattern": "risk"
+    },
+    {
+      "id": "oku",
+      "tr": "Sona kal, sözleşmeyi oku",
+      "en": "Hold out and read the contract",
+      "pattern": "patience",
+      "check": {
+        "base": 5000,
+        "stat": "brain"
+      }
+    },
+    {
+      "id": "hayir",
+      "tr": "İmzalama",
+      "en": "Refuse to sign",
+      "pattern": "pride"
+    }
+  ],
+  "outcomes": {
+    "imza": {
+      "effects": {
+        "stats": {
+          "joy": -2
+        },
+        "flags": {
+          "add": [
+            "bina_yenileme_imza"
+          ]
+        }
+      },
+      "tr": "İmzaladın. Taşınma bahara yazıldı; kira yardımı ayda 1.500 Para.",
+      "en": "You signed. The move is set for spring. Rent support: 1,500 a month.",
+      "coach": [
+        {
+          "tr": "İki yıl. Müteahhit takvimiyle.",
+          "en": "Two years. On a contractor's calendar.",
+          "roast": false
+        }
+      ]
+    },
+    "oku": [
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": 1,
+            "brain": 1
+          },
+          "flags": {
+            "add": [
+              "bina_yenileme_imza",
+              "gecikme_maddesi"
+            ]
+          }
+        },
+        "tr": "Sözleşmede gecikme cezası yoktu; yazdırdın. Geciken her ay için kira yardımı artacak.",
+        "en": "The contract had no late penalty. You had one added. Rent support now rises for every month of delay.",
+        "coach": [
+          {
+            "tr": "Bir madde eklendi. İki yıl artık yazılı.",
+            "en": "One clause added. The two years are in writing now.",
+            "roast": false
+          }
+        ]
+      },
+      {
+        "p": 5000,
+        "effects": {
+          "stats": {
+            "joy": -2
+          },
+          "flags": {
+            "add": [
+              "bina_yenileme_imza"
+            ]
+          }
+        },
+        "tr": "Sözleşme otuz sayfaydı. Sen on ikinci sayfadayken son imza da atılmıştı; seninki altına eklendi.",
+        "en": "The contract ran thirty pages. You were on page twelve when the last neighbor signed. Yours went underneath.",
+        "coach": [
+          {
+            "tr": "Otuz sayfa. Çoğunluk on ikide karar verdi.",
+            "en": "Thirty pages. The majority decided at page twelve.",
+            "roast": false
+          }
+        ]
+      }
+    ],
+    "hayir": {
+      "effects": {
+        "stats": {
+          "joy": -1
+        },
+        "flags": {
+          "add": [
+            "bina_yenileme_ret"
+          ]
+        },
+        "npc": [
+          {
+            "role": "neighbor",
+            "affinity": -3
+          }
+        ]
+      },
+      "tr": "Tek imzasız daire seninki. Asansörde artık sana yalnızca kaçıncı kata çıktığını soruyorlar.",
+      "en": "Yours is the only unsigned flat. In the elevator people now ask you which floor and nothing else.",
+      "coach": [
+        {
+          "tr": "Bir daire, bir veto, sessiz bir asansör.",
+          "en": "One flat, one veto, one quiet elevator.",
+          "roast": false
+        }
+      ]
+    }
+  },
+  "wager": {
+    "eligible": false,
+    "reason": "domain wager payı dolu"
+  },
+  "intent": {
+    "setup": "apartmanın yıkılıp yeniden yapılması için imza toplanması, iki yıl geçici taşınma",
+    "mechanism": "müteahhit yılı takvim yılından uzun",
+    "mechanismId": "understatement",
+    "punch": "müteahhit yılının kaç ay çektiğini bilirim",
+    "lift": "yok",
+    "target": "situation",
+    "antithesis": false,
+    "closer": "veto"
+  },
+  "review": {
+    "status": "draft",
+    "legal": "ok"
+  }
+}

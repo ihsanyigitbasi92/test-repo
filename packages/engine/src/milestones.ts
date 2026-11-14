@@ -8,6 +8,7 @@
 import { TUNING } from './tuning';
 import { drawChanceBp, drawInt, weightedIndex } from './util';
 import { eligible, noveltyPm } from './salience';
+import { isRetired } from './status';
 import type { ContentBundle, LifeState, MetaState } from './types';
 
 const M = TUNING.milestones;
@@ -17,7 +18,8 @@ export function queueMilestones(st: LifeState, meta: MetaState, content: Content
   const age = st.calendar.age, now = st.calendar.calendarDay, p = st.status.partner;
   for (const s of M.stages) {
     if (age < s.ageMin || age > s.ageMax) continue;
-    if (s.needPartner !== !!p) continue;
+    if (s.needPartner !== null && s.needPartner !== !!p) continue;    // null = with or without a partner
+    if (st.money.balance < s.minMoney || (s.housingNone as string[]).includes(st.status.home.kind)) continue;
     if (p && now - p.since < s.minPartnerYears * 365) continue;
     if (!s.flagsAll.every((f) => st.flags.includes(f)) || s.flagsNone.some((f) => st.flags.includes(f))) continue;
     const tag = MILESTONE_TAG + s.id;
@@ -32,10 +34,15 @@ export function queueMilestones(st: LifeState, meta: MetaState, content: Content
   }
 }
 
-/** D-159 career ladder: an employed life that stayed ≥ minYearsInTier in its tier rolls for a raise each birthday. */
+/**
+ * D-159 career ladder: an employed life that stayed ≥ minYearsByTier[tier] years in its tier rolls for a raise each
+ * birthday (sprint 3: never a retiree; the rank — jobRank() — moves with the tier, so a promotion changes the title).
+ */
 export function careerRaise(st: LifeState): void {
   const L = TUNING.economy.careerLadder, job = st.status.job, tiers = TUNING.economy.tiersMonthlyPara;
-  if (!job || job.tier >= L.maxTier || st.calendar.calendarDay - job.since < L.minYearsInTier * 365) return;
+  if (!job || isRetired(job) || job.tier >= L.maxTier) return;
+  const years = L.minYearsByTier[Math.min(job.tier, L.minYearsByTier.length - 1)] ?? 2;
+  if (st.calendar.calendarDay - job.since < years * 365) return;
   if (!drawChanceBp(st, 'director', L.chanceBp)) return;
   const tier = Math.max(1, job.tier + 1);
   st.status.job = { ...job, tier, monthly: tiers[tier]!, since: st.calendar.calendarDay };

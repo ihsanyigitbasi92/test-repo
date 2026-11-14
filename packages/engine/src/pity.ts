@@ -35,15 +35,30 @@ export const isSurprise = (ev: GameEvent): boolean => ev.tags.some((t) => t === 
 
 function hit(c: PityCounter, day: number): void { c.sinceLast = 0; c.sessionCount++; c.total++; c.lastDay = day; }
 
-/** Update pity counters, LOL/wow/neg-streak trackers after a shown event day. */
-export function notePlayed(st: LifeState, ev: GameEvent | null, legendary: boolean): void {
+/**
+ * Update pity counters, LOL/wow trackers after a shown event day. `surprise` = the day was picked from the surprise
+ * pool (sprint 3: untagged pool picks count too, so pity resets and the session cap binds). The negative streak is
+ * kept by `noteFelt` after the answer (a quiet day without an event resets it here).
+ */
+export function notePlayed(st: LifeState, ev: GameEvent | null, legendary: boolean, surprise = false): void {
   const r = st.reward, day = st.calendar.dayIndex;
-  if (ev && isSurprise(ev)) { hit(r.surprise, day); st.counters.surprises++; } else r.surprise.sinceLast++;
+  if (ev && (surprise || isSurprise(ev))) { hit(r.surprise, day); st.counters.surprises++; } else r.surprise.sinceLast++;
   if (legendary) { hit(r.legendary, day); st.counters.legendaries++; } else r.legendary.sinceLast++;
   const valence = ev?.valence ?? 0;
-  r.negStreak = valence < 0 ? r.negStreak + 1 : 0;
-  if (r.negStreak > st.counters.maxNegStreak) st.counters.maxNegStreak = r.negStreak;
+  if (!ev) r.negStreak = 0;
   r.beatsSinceLol = ev?.isLOL ? 0 : r.beatsSinceLol + 1;
   if (ev?.wow) r.wowCount++;
   st.director.lastValence = valence;
+}
+
+/**
+ * Sprint 3 (O7): the negative streak follows what the player felt, not only the event's label. `feltBp` = net stat
+ * change of the answered outcome (health + joy + brain + charm, bp); 0 falls back to the money sign, then to the
+ * event valence. The D-052 valence guard reads this counter on the next pick.
+ */
+export function noteFelt(st: LifeState, ev: GameEvent, feltBp: number, money: number): void {
+  const r = st.reward;
+  const sign = feltBp !== 0 ? Math.sign(feltBp) : money !== 0 ? Math.sign(money) : Math.sign(ev.valence);
+  r.negStreak = sign < 0 ? r.negStreak + 1 : 0;
+  if (r.negStreak > st.counters.maxNegStreak) st.counters.maxNegStreak = r.negStreak;
 }

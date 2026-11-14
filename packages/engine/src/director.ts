@@ -19,7 +19,8 @@ import { applyBankruptcy, BANKRUPTCY_PENDING } from './cashflow';
 import { indexContent } from './content';
 import { currentCivil } from './pre';
 import { seasonOf } from './calendar';
-import { eligible, noveltyPm, salience, salienceCtx } from './salience';
+import { eligible, noveltyPm, salience, salienceCtx, skipLineBlocked } from './salience';
+import { catAlive, isEmployed } from './status';
 import { rollLegendary, rollSurprise } from './pity';
 import { killNpc, lossRole } from './mortality';
 import type { ContentBundle, DueItem, Envelope, GameEvent, LifeState, MetaState, SkipSummary } from './types';
@@ -36,7 +37,12 @@ export function drawYearBudget(st: LifeState): number {
 }
 
 /** Earliest due calendar day in the forced queue, if any. */
-const earliestDue = (st: LifeState): number | null => (st.dueQueue.length ? Math.min(...st.dueQueue.map((d) => d.day)) : null);
+const earliestDue = (st: LifeState): number | null => {
+  const ready = st.dueQueue.filter((d) => notPaused(st, d));        // a grief-paused item must not shrink every gap to 1
+  return ready.length ? Math.min(...ready.map((d) => d.day)) : null;
+};
+/** Sprint 3 grief pause: an item with `minDayIndex` waits until that shown day (drawGap runs after dayIndex++). */
+const notPaused = (st: LifeState, d: DueItem): boolean => d.minDayIndex === undefined || st.calendar.dayIndex >= d.minDayIndex;
 
 /**
  * Calendar days until the next shown day (03 §2.3.2). Self-correcting: mean = days-to-birthday / remaining budget;
@@ -66,14 +72,15 @@ export function drawGap(st: LifeState): number {
 export function skipSummary(st: LifeState, gap: number, lines: readonly SkipLineT[]): SkipSummary | null {
   if (gap < 2) return null;
   const ctx = new Set<string>(['default']);
-  ctx.add(st.status.job ? 'employed' : 'unemployed');
+  ctx.add(isEmployed(st) ? 'employed' : st.status.job ? 'retired' : 'unemployed');
+  ctx.add(catAlive(st) ? 'cat' : 'noCat');                             // sprint 3: content may pin a line to either
   if (st.meters.momPressure >= 5000) ctx.add('momHigh');
   if (st.envelopes.some((e) => !e.resolved)) ctx.add('envelopeOpen');
   const season = seasonOf(currentCivil(st).m);
   if (season === 'winter' || season === 'summer') ctx.add(season);
   const band = bandFor(st.calendar.age).name;
   if (band === 'secondHalf' || band === 'overtime') ctx.add(band);
-  const fit = lines.filter((l) => gap >= l.bucket[0] && gap <= l.bucket[1] && l.ctx.every((x) => ctx.has(x) || x === 'default'));
+  const fit = lines.filter((l) => gap >= l.bucket[0] && gap <= l.bucket[1] && l.ctx.every((x) => ctx.has(x) || x === 'default') && !skipLineBlocked(l, st));
   if (!fit.length) return { days: gap, key: 'skip.generic', params: { days: gap } };
   const minSeen = Math.min(...fit.map((l) => st.seen[`skip.${l.id}`] ?? 0));
   const least = fit.filter((l) => (st.seen[`skip.${l.id}`] ?? 0) === minSeen);
@@ -108,7 +115,7 @@ function envelopeOf(st: LifeState, item: DueItem): Envelope | undefined {
  */
 function takeForced(st: LifeState, meta: MetaState, content: ContentBundle): { item: DueItem; event: GameEvent } | null {
   const idx = indexContent(content);
-  const due = st.dueQueue.filter((d) => d.day <= st.calendar.calendarDay).sort((a, b) => a.priority - b.priority || a.day - b.day);
+  const due = st.dueQueue.filter((d) => d.day <= st.calendar.calendarDay && notPaused(st, d)).sort((a, b) => a.priority - b.priority || a.day - b.day);
   for (const item of due) {
     if (item.priority === 4) { const env = envelopeOf(st, item); if (env) env.opened = true; }
     const ev = idx.byId.get(item.eventId);

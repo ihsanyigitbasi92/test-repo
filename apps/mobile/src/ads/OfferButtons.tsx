@@ -29,11 +29,11 @@ export function RewardedOfferButtons({ offer, onAccept, onDecline }: { offer: Of
 }
 
 /** Persistent entry to the consent settings (shop screen, "Enough for today" sheet). 44 pt target. */
-export function PrivacyEntry() {
+export function PrivacyEntry({ onOpen }: { onOpen?: () => void } = {}) {
   const { s } = useI18n();
   useSyncExternalStore(ads.subscribe, () => ads.getConsent(), () => ads.getConsent());
   return (
-    <Pressable onPress={() => { void ads.ready().then(() => ads.openPrivacy()); }} accessibilityRole="button" testID="privacy-entry" style={({ pressed }) => [st.entry, pressed && st.pressed]}>
+    <Pressable onPress={() => { onOpen?.(); void ads.ready().then(() => ads.openPrivacy()); }} accessibilityRole="button" testID="privacy-entry" style={({ pressed }) => [st.entry, pressed && st.pressed]}>
       <Text style={st.entryTxt}>{s.ads.privacy.entry} ›</Text>
     </Pressable>
   );
