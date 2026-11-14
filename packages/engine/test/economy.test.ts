@@ -21,7 +21,8 @@ describe('cash flow (02 §2.3, D-067)', () => {
     expect(get('daily')).toBe(-(TUNING.economy.housing.flat.daily * 365 + lifestyle));
     expect(st.money.balance - before).toBe(r.lines.reduce((s, l) => s + l.para, 0));
     expect(r.lines.map((l) => l.kind)).toEqual(['payday', 'rent', 'daily']);              // D-088: ≤ 3 lines, cat folded
-    expect(r.lines[2]!.para).toBe(get('daily') + get('cat'));
+    expect(r.lines[2]!.para).toBe(get('daily') + get('cat') + get('comfort'));   // sprint 3: comfort spend folds in too
+    expect(r.lines[2]!.cat).toBe(get('cat'));
     expect(st.yearStats.paydays).toBe(12);
   });
 

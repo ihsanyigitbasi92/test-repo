@@ -1,7 +1,8 @@
 /**
  * Neutral age screen (ageGate.ts): the first thing after the splash, once. One numeric field for the year of birth —
- * empty by default, no yes/no shortcut, no word about what any answer leads to. An under-16 answer ends on a plain
- * closed-file line with nothing to tap (no way back to re-answer). Covers the whole phone; the game waits under it.
+ * empty by default, no yes/no shortcut, no word about what any answer leads to. Every valid year then gets the same
+ * neutral "YYYY, is that right?" [Fix it] [Yes] (sprint 3). An under-16 answer ends on a plain closed-file line
+ * (plus how to start over: clear the app's data). Covers the whole phone; the game waits under it.
  */
 import { useState, useSyncExternalStore } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -35,6 +36,8 @@ export function AgeGate({ onLocale }: { onLocale?: (l: Locale) => void }) {
   const state = useAgeState();
   const [text, setText] = useState('');
   const [tried, setTried] = useState(false);
+  /** The year waiting for the neutral confirmation (same for every answer, so it hints at nothing). */
+  const [confirm, setConfirm] = useState<number | null>(null);
   if (state === 'adult' || state === 'minor') return null;
   if (state === 'loading') return <View style={[StyleSheet.absoluteFill, st.root]} testID="age-gate-loading" />;
   if (state === 'blocked') {
@@ -43,18 +46,38 @@ export function AgeGate({ onLocale }: { onLocale?: (l: Locale) => void }) {
         <Lang onLocale={onLocale} />
         <Text style={st.title}>{t.blockedTitle}</Text>
         <Text style={st.body}>{t.blocked}</Text>
+        <Text style={st.hint}>{t.blockedFix}</Text>
       </View>
     );
   }
   const year = /^\d{4}$/.test(text) ? Number(text) : NaN;
   const ok = ageGate.valid(year);
-  const submit = () => { if (ok) ageGate.submit(year); else setTried(true); };
+  // UX P1-5: every valid year gets the same "YYYY, is that right?" with [Fix it] [Yes] — a typo can be fixed
+  // without the screen revealing which answer opens what.
+  const submit = () => { if (ok) setConfirm(year); else setTried(true); };
+  if (confirm !== null) {
+    return (
+      <View style={[StyleSheet.absoluteFill, st.root]} testID="age-confirm">
+        <Lang onLocale={onLocale} />
+        <Text style={st.title} accessibilityRole="header">{t.title}</Text>
+        <Text style={st.confirm} testID="age-confirm-text">{t.confirm(confirm)}</Text>
+        <View style={st.row}>
+          <Pressable onPress={() => setConfirm(null)} accessibilityRole="button" testID="age-fix" style={({ pressed }) => [st.btn, st.flex1, pressed && st.pressed]}>
+            <Text style={st.btnTxt}>{upper(locale, t.fix)}</Text>
+          </Pressable>
+          <Pressable onPress={() => { ageGate.submit(confirm); }} accessibilityRole="button" testID="age-yes" style={({ pressed }) => [st.btn, st.flex1, pressed && st.pressed]}>
+            <Text style={st.btnTxt}>{upper(locale, t.yes)}</Text>
+          </Pressable>
+        </View>
+      </View>
+    );
+  }
   return (
     <View style={[StyleSheet.absoluteFill, st.root]} testID="age-gate">
       <Lang onLocale={onLocale} />
       <Text style={st.title} accessibilityRole="header">{t.title}</Text>
       <Text style={st.body}>{t.body}</Text>
-      <TextInput value={text} onChangeText={(v) => { setText(v.replace(/\D/g, '').slice(0, 4)); setTried(false); }} onSubmitEditing={submit}
+      <TextInput value={text} autoFocus onChangeText={(v) => { setText(v.replace(/\D/g, '').slice(0, 4)); setTried(false); }} onSubmitEditing={submit}
         keyboardType="number-pad" inputMode="numeric" maxLength={4} placeholder={t.placeholder} placeholderTextColor={colors.grave}
         accessibilityLabel={t.inputA11y} testID="age-year" style={st.input} returnKeyType="done" autoComplete="off" />
       <Text style={st.err} accessibilityLiveRegion="polite" testID="age-invalid">{tried && !ok ? t.invalid : ' '}</Text>
@@ -75,6 +98,10 @@ const st = StyleSheet.create({
   btn: { minHeight: 58, borderRadius: 8, borderWidth: 2, borderColor: colors.ink2, backgroundColor: colors.paper2, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14 },
   btnTxt: { fontFamily: fonts.stamp, fontSize: 16, letterSpacing: 1.8, color: colors.ink },
   pressed: { transform: [{ scale: 0.98 }] },
+  row: { flexDirection: 'row', gap: 10 },
+  flex1: { flex: 1 },
+  confirm: { fontFamily: fonts.stamp, fontSize: 26, letterSpacing: 1.5, color: colors.ink, textAlign: 'center', paddingVertical: 12 },
+  hint: { fontSize: 13, lineHeight: 19, color: colors.ink2, fontFamily: fonts.body },
   lang: { position: 'absolute', top: 12, right: 12, flexDirection: 'row', gap: 6 },
   chip: { borderWidth: 1, borderColor: colors.line, borderRadius: 999, minHeight: 44, minWidth: 44, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center' },
   chipOn: { backgroundColor: colors.lime, borderColor: colors.lime },

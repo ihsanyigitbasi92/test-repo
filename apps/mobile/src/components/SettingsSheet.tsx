@@ -1,6 +1,7 @@
 /**
  * Settings sheet (07 §2.2.9 "Geri bildirim"; docs/design/16-ses-efektleri.md): how to play (replay the intro, reset
- * the hints — docs/design/18), sound effects on/off + level, vibration on/off. Opened from the ≡ button of the
+ * the hints — docs/design/18), sound effects on/off + level, vibration on/off, language, reminders (docs/design/19)
+ * and privacy (ad preferences + legal drafts). No analytics switch (D-161: on by default; rights on the notice page). Opened from the ≡ button of the
  * decision zone; every switch persists under its own storage key.
  */
 import { useEffect, useState } from 'react';
@@ -10,8 +11,11 @@ import { useI18n } from '../i18n';
 import { haptic, hapticsPrefs, useHapticsEnabled } from '../state/haptics';
 import { sfx, sound, useSoundPrefs } from '../state/sound';
 import { PrimaryButton } from './ActionZone';
-import { AnalyticsSettings } from '../analytics/ConsentUI';
 import { trackHintsReset } from '../analytics/hooks';
+import { PrivacyEntry } from '../ads/OfferButtons';
+import { openLegal, type LegalDoc } from '../legal/store';
+import { reminders, useReminders } from '../notifications/runtime';
+import type { Locale } from '@motto/engine';
 
 /** Master volume steps (soundCore DEFAULT_PREFS.volume = the middle one). */
 export const VOLUME_STEPS = [0.35, 0.6, 0.9] as const;
@@ -34,8 +38,9 @@ function SmallBtn({ label, onPress, testID, done = false }: { label: string; onP
   );
 }
 
-export function SettingsSheet({ open, onClose, onHowTo, onResetHints }: { open: boolean; onClose: () => void; onHowTo?: () => void; onResetHints?: () => void }) {
-  const { s } = useI18n();
+export function SettingsSheet({ open, onClose, onHowTo, onResetHints, onLocale }: { open: boolean; onClose: () => void; onHowTo?: () => void; onResetHints?: () => void; onLocale?: (l: Locale) => void }) {
+  const { s, locale } = useI18n();
+  const rem = useReminders();
   const prefs = useSoundPrefs();
   const hapticsOn = useHapticsEnabled();
   const [hintsReset, setHintsReset] = useState(false);
@@ -99,7 +104,42 @@ export function SettingsSheet({ open, onClose, onHowTo, onResetHints }: { open: 
               onToggle={() => { hapticsPrefs.set(!hapticsOn); haptic.selection(); sfx('ui_tap'); }} />
           </View>
         )}
-        <AnalyticsSettings />
+        {onLocale && (
+          <View style={st.row} testID="language-row">
+            <View style={st.flex1}>
+              <Text style={st.label}>{s.settings.language}</Text>
+              <Text style={st.hint}>{s.settings.languageHint}</Text>
+            </View>
+            <View style={st.seg} accessibilityRole="radiogroup">
+              {(['tr', 'en'] as Locale[]).map((l) => (
+                <Pressable key={l} onPress={() => onLocale(l)} accessibilityRole="radio" accessibilityState={{ selected: locale === l }} accessibilityLabel={l === 'tr' ? 'Türkçe' : 'English'}
+                  testID={`settings-lang-${l}`} style={[st.segBtn, locale === l && st.segOn]}>
+                  <Text style={[st.segTxt, locale === l && st.segTxtOn]}>{l.toUpperCase()}</Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        )}
+        {reminders.available && (
+          <View style={st.row}>
+            <View style={st.flex1}>
+              <Text style={st.label}>{s.settings.reminders}</Text>
+              <Text style={st.hint}>{s.settings.remindersHint}</Text>
+            </View>
+            <Switch on={rem.optIn === 'yes'} label={s.settings.reminders} testID="reminders-toggle"
+              onToggle={() => { haptic.selection(); void reminders.answer(rem.optIn !== 'yes', 'settings'); }} />
+          </View>
+        )}
+        {/* Privacy (UX P2-3): ad preferences + the in-app legal drafts (data rights live on the notice page, D-161). */}
+        <View style={st.block} testID="privacy-settings">
+          <Text style={st.section}>{s.settings.privacy}</Text>
+          <PrivacyEntry />
+          {(['notice', 'privacy', 'terms'] as LegalDoc[]).map((d) => (
+            <Pressable key={d} onPress={() => openLegal(d)} accessibilityRole="link" testID={`settings-legal-${d}`} style={({ pressed }) => [st.link, pressed && st.pressed]}>
+              <Text style={st.linkTxt}>{s.settings.legal[d]} ›</Text>
+            </Pressable>
+          ))}
+        </View>
         <PrimaryButton label={s.cta.close} onPress={onClose} testID="settings-close" />
       </ScrollView>
     </View>
@@ -127,4 +167,8 @@ const st = StyleSheet.create({
   segTxt: { fontSize: 12, fontWeight: '700', color: colors.ink2 },
   segTxtOn: { color: colors.paper },
   pressed: { transform: [{ scale: 0.98 }] },
+  block: { gap: 4, borderTopWidth: 1, borderTopColor: colors.line, paddingTop: 12 },
+  section: { fontFamily: fonts.stamp, letterSpacing: 1.2, fontSize: 12, color: colors.ink2 },
+  link: { minHeight: 44, justifyContent: 'center' },
+  linkTxt: { fontSize: 14, fontWeight: '600', color: colors.ink, textDecorationLine: 'underline' },
 });
