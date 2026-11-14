@@ -52,6 +52,8 @@ const PLATFORMS = ['ios', 'android', 'web'] as const;
 /** Ad placement ids come from src/ads (sponsor, physio, tactic, extra_practice, return …): an `id`, snake_cased by trackAd. */
 const AD_FORMATS = ['rewarded', 'interstitial'] as const;
 const SURFACES = ['store', 'settings', 'post_death_2', 'other'] as const;
+export const SHARE_CHANNELS = ['native_sheet', 'web_share', 'download', 'clipboard', 'cancelled', 'failed'] as const;
+export type ShareChannel = (typeof SHARE_CHANNELS)[number];
 
 export const EVENTS = {
   // ── lifecycle ──────────────────────────────────────────────────────────────
@@ -93,7 +95,8 @@ export const EVENTS = {
   milestone: { group: 'core', kpi: 'milestones reached', p: { kind: ['birthday', 'promotion', 'sad', 'legendary', 'wager_win'], age: 'int' } },
   death: { group: 'core', kpi: 'death age distribution (harness comparison)', p: { age: 'int', cause_class: 'id', channel: ['hazard', 'scripted'], life_no: 'int', shown_days: 'int', auto_days: 'int' } },
   rebirth: { group: 'core', kpi: 'death → new client within 2 min', p: { ms_since_death: 'int', life_no: 'int' } },
-  share: { group: 'core', kpi: 'shares per session', p: { card: ['death', 'report'] } },
+  /** `channel`: how the card left the app (native share sheet, Web Share with the PNG, PNG download, text to clipboard, cancelled, failed). */
+  share: { group: 'core', kpi: 'shares per session, share channel mix', p: { card: ['death', 'report'], channel: SHARE_CHANNELS, format: ['story', 'square'] }, opt: ['channel', 'format'] },
   /** Variable-reward schedule as played: surprise / legendary days and the shown days since the previous one. */
   surprise_shown: { group: 'core', kpi: 'reward schedule (days_since p95 ≤ 14)', p: { tier: ['nice', 'great', 'legendary'], days_since: 'int', age_band: AGE_BANDS } },
   /** Cards that may drive churn: a loss (grief), the rent-crisis card, an omen (son perde). */

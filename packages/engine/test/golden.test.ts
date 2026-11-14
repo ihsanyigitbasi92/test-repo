@@ -8,7 +8,7 @@ import { BUNDLE } from './helpers/content';
  * every JS engine (Hermes, V8, JSC). Changing engine rules or tuning legitimately changes it — update the literal
  * in the same commit and say why.
  */
-const GOLDEN = '210270a956fe8a90e82b30369fd7ca0f';   // denge sprinti 3 (2026-11-14): housing flow kinds, lifestyle creep + comfort/child costs, felt neg streak, surprise-pool pity, mean-reverting meters, coach rotation, retirement roll
+const GOLDEN = 'a7426a315b0a3747f03524900c7d79e6';   // old-age sprint (2026-11-14): counters.peakMonthly on paydays (pension reference), İcra cap, elder care, debt freeze 63+; before: '210270a956fe8a90e82b30369fd7ca0f' (denge sprinti 3)
 
 describe('golden state hash (AC-10-03)', () => {
   it('seed GOLDEN-1, 250 days, always the first open choice, a session end every 20 days', () => {

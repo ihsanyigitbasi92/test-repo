@@ -37,6 +37,8 @@ import type { MomentHistory, MomentKind, MomentReason, MomentView } from '../ava
 import { SAVE_KEY, decodeSave, encodeSave, engineShape, feedForSave, saveMatchesContent } from './save';
 import type { SaveV1 } from './save';
 import { readItem, writeItem } from './storage';
+import { emptyHighlights, fromFinalState, noteStep, readHighlights } from '../share/highlights';
+import type { LifeHighlights } from '../share/highlights';
 import { ads, registerAdDebug } from '../ads/runtime';
 import { AD_CONFIG } from '../ads/config';
 import { adGameContext, grantMoney, isGriefScene } from '../ads/gameContext';
@@ -63,6 +65,12 @@ export interface DeathView {
   /** The player's face for the tombstone and the share card (desaturated there); null if the life had no look. */
   look: Look | null;
   outfit: ReturnType<typeof outfitFor>;
+  /** Share card: the life's highlights (best / hardest moment, top job) and the final job / family facts. */
+  highlights: LifeHighlights;
+  job: { title: string; tier: number } | null;
+  cause: string;
+  /** A partner at the end of the life (any stage). */
+  partner: boolean;
 }
 export interface Snapshot {
   stage: Stage;
@@ -198,6 +206,8 @@ export class GameController {
   private held = false;
   /** Shown avatar moments this life (global gap + per-kind cooldowns, see moments.ts). */
   private momentHist: MomentHistory = emptyMomentHistory();
+  /** Share card highlights of the current life (noteStep on every dispatch; saved with the life). */
+  private highlights: LifeHighlights = emptyHighlights();
   /** A career / love change seen while a choice was pending: played after the answer. */
   private deferred: { kind: 'promotion' | 'sad'; reason: MomentReason; outfitFrom: ReturnType<typeof outfitFor> } | null = null;
   /** Look per life (engine `lifeSeed` → look). In-memory, like the rest of the session. */
@@ -339,6 +349,7 @@ export class GameController {
     const u = life.ui;
     this.autoDays = u.autoDays; this.lowJoyShown = u.lowJoyShown; this.healthWarned = !!u.healthWarned; this.lastMotto = u.lastMotto; this.lastReport = u.lastReport;
     this.momentHist = u.momentHist ?? emptyMomentHistory(); this.deferred = null;
+    this.highlights = readHighlights(u.highlights) ?? fromFinalState(life.state);
     if (life.look) this.looks.set(life.state.lifeSeed, life.look);
     // One "where were we" line at most: the previous launch's line (and its consent / ad notice) is replaced, not stacked (UX B-1).
     const feed = life.feed.filter((f) => f.kind !== 'typing' && !(f.kind === 'coach' && f.ui && RETURN_LINES.has(f.ui.k))).map((f) => ({ ...f, restored: true }));
@@ -368,7 +379,7 @@ export class GameController {
       life: live && st ? {
         state: st, look: this.looks.get(st.lifeSeed) ?? s.look, lifeNo: s.lifeNo, feed: feedForSave(s.feed),
         ui: { autoDays: this.autoDays, lowJoyShown: this.lowJoyShown, healthWarned: this.healthWarned, lastMotto: this.lastMotto, lastReport: this.lastReport, unread: s.unread,
-          momentHist: this.momentHist, session: s.session },
+          momentHist: this.momentHist, session: s.session, highlights: this.highlights },
       } : null,
     };
   }
@@ -434,7 +445,10 @@ export class GameController {
   // ── engine dispatch ───────────────────────────────────────────────────────
   private dispatch(action: Action): StepResult | null {
     if (!this.state && action.type !== 'START_LIFE') return null;
+    const prev = action.type === 'START_LIFE' ? null : this.state;
     const r = step(this.state as LifeState, this.meta, action, getBundle());
+    if (action.type === 'START_LIFE') this.highlights = emptyHighlights();
+    this.highlights = noteStep(this.highlights, prev, r.state, r.effects);
     this.state = r.state;
     this.meta = r.meta;
     if (r.state?.calendar) advanceContent(r.state.calendar.age);          // D-156: merge reached bands, prefetch the next
@@ -752,6 +766,8 @@ export class GameController {
         epitaph: this.lastMotto ? mottoLine(s, this.lastMotto, this.lastReport?.ritual?.motto ?? 0) : null, autoDays: this.autoDays, report: this.lastReport,
         look: this.looks.get(st.lifeSeed) ?? this.snap.look, outfit: outfitFor({ job: st.status.job, age: st.calendar.age }),
         facts: lifeFacts(st), seed: [...st.lifeSeed].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7),
+        highlights: this.highlights.topJob || this.highlights.best || this.highlights.worst ? this.highlights : fromFinalState(st),
+        job: st.status.job ? { title: st.status.job.title, tier: st.status.job.tier } : null, cause: st.death?.cause ?? 'unknown', partner: !!st.status.partner,
       },
     });
     haptic.heavy();

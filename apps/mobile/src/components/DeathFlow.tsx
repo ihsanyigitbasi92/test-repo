@@ -11,8 +11,8 @@ import { useEffect, useRef, useState } from 'react';
 import { sfx } from '../state/sound';
 import { UI_SFX } from '../state/sfx';
 import { lastWordText } from '../i18n/lastWord';
-import { Animated, Easing, Platform, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
-import { gameAnalytics } from '../analytics/hooks';
+import { Animated, Easing, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ShareSection } from '../share/ShareSection';
 import type { ScrollViewInstance } from 'react-native';
 import { colors, fonts, nativeDriver } from '../theme';
 import { upper, useI18n } from '../i18n';
@@ -43,7 +43,7 @@ function Ecg() {
   );
 }
 
-/** The player's last face, in grayscale (tombstone portrait / share card). */
+/** The player's last face, in grayscale (tombstone portrait). */
 function DeadFace({ d, size, bg }: { d: DeathView; size: number; bg: string }) {
   if (!d.look) return null;
   return (
@@ -82,63 +82,6 @@ function WrongStamp() {
   const { s } = useI18n();
   const anim = useSlam(true, '-8deg', 3, useReducedMotion());
   return <Animated.View style={[st.wStamp, anim]}><Text style={st.wStampTxt}>{s.stampWrong}</Text></Animated.View>;
-}
-
-const GRADE_ORDER = ['health', 'money', 'relationships', 'brain', 'courage', 'spectacle'] as const;
-
-/** Shares a text; resolves with what visibly happened. */
-async function shareText(msg: string): Promise<'copied' | 'shared' | 'failed'> {
-  if (Platform.OS === 'web' && typeof navigator !== 'undefined') {
-    const nav = navigator as Navigator & { share?: (d: { text: string }) => Promise<void> };
-    if (typeof nav.share === 'function') {
-      try { await nav.share({ text: msg }); return 'shared'; } catch { /* dismissed / not allowed: try the clipboard */ }
-    }
-    try { await nav.clipboard.writeText(msg); return 'copied'; } catch { return 'failed'; }
-  }
-  try { await Share.share({ message: msg }); return 'shared'; } catch { return 'failed'; }
-}
-
-/** Share card (mock `.share`, 1:1): last report card grades, motto, name · age. Rendered on device; the system share sheet gets the text. */
-function ShareCard({ d }: { d: DeathView }) {
-  const { s, locale } = useI18n();
-  const age = d.roast.ageAtDeath;
-  const motto = d.epitaph ?? s.epitaphDefault;
-  const msg = `${d.name} · ${age} — “${motto}” · MOTTO`;
-  const [shared, setShared] = useState<'copied' | 'shared' | 'failed' | null>(null);
-  // UX B-5: the web button was silent. Web: the browser's share sheet when it has one, else the clipboard; every
-  // outcome gets a visible line. Native: the system share sheet.
-  const onShare = () => {
-    gameAnalytics.share('death');
-    void shareText(msg).then(setShared);
-  };
-  return (
-    <View style={st.shareWrap} testID="share-card">
-      <View style={st.share}>
-        <View>
-          <View style={st.shareHead}>
-            <DeadFace d={d} size={44} bg="#3a3d38" />
-            <Text style={[st.shareK, { flex: 1 }]}>{upper(locale, s.reportTitle)} · {d.report ? d.report.age : age}</Text>
-          </View>
-          {d.report && (
-            <View style={st.shareG}>
-              {GRADE_ORDER.map((k) => (
-                <View key={k} style={st.shareCell}>
-                  <Text style={st.shareCellLbl}>{s.gradeNames[k]}</Text>
-                  <Text style={st.shareCellVal}>{upper(locale, s.grades[d.report!.grades[k]] ?? '')}</Text>
-                </View>
-              ))}
-            </View>
-          )}
-        </View>
-        <Text style={st.shareQ}>“{motto}”</Text>
-        <View style={st.shareF}><Text style={st.shareFTxt}>{d.name} · {age}</Text><Text style={st.shareFTxt}>MOTTO · {d.birthYear}–{d.deathYear}</Text></View>
-      </View>
-      <Pressable onPress={onShare} accessibilityRole="button" testID="share" style={({ pressed }) => [st.shareBtn, pressed && { opacity: 0.7 }]}>
-        <Text style={st.shareBtnTxt}>↗ {s.cta.share}</Text>
-      </Pressable>
-      {shared && <Text style={st.shareDone} accessibilityLiveRegion="polite" testID="share-done">{s.shareDone[shared]}</Text>}
-    </View>
-  );
 }
 
 export function DeathFlow({ death, onNewClient }: { death: DeathView; onNewClient: () => void }) {
@@ -218,7 +161,7 @@ export function DeathFlow({ death, onNewClient }: { death: DeathView; onNewClien
               )}
               {step >= LAST && (
                 <View style={st.block}>
-                  <ShareCard d={death} />
+                  <ShareSection d={death} />
                   <Text style={st.closed}>{s.closed}</Text>
                   <PrimaryButton label={s.cta.newClient} onPress={onNewClient} pulse testID="new-client" />
                 </View>
@@ -239,7 +182,6 @@ const st = StyleSheet.create({
   grave: { width: 160, minHeight: 170, backgroundColor: colors.grave, borderTopLeftRadius: 75, borderTopRightRadius: 75, borderBottomLeftRadius: 6, borderBottomRightRadius: 6,
     borderWidth: 3, borderColor: colors.graveEdge, alignItems: 'center', justifyContent: 'center', padding: 14, gap: 4 },
   deadFace: { overflow: 'hidden', alignItems: 'center', borderWidth: 2, borderColor: colors.graveEdge, marginBottom: 4 },
-  shareHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   graveName: { fontFamily: fonts.stamp, fontSize: 13, letterSpacing: 0.6, color: '#e8e6dc', textAlign: 'center' },
   graveYears: { fontSize: 11, color: '#b9bdb4', fontVariant: ['tabular-nums'] },
   graveEp: { fontFamily: fonts.coach, fontStyle: 'italic', fontSize: 12, color: '#d7dbd0', textAlign: 'center', marginTop: 6 },
@@ -268,18 +210,5 @@ const st = StyleSheet.create({
   unlockTxt: { fontFamily: fonts.coach, fontStyle: 'italic', fontSize: 16, lineHeight: 21, color: colors.ink },
   closed: { alignSelf: 'center', fontFamily: fonts.stamp, fontSize: 18, letterSpacing: 2, color: colors.ink2, borderWidth: 3, borderColor: colors.ink2, borderRadius: 4,
     paddingVertical: 2, paddingHorizontal: 10, transform: [{ rotate: '-4deg' }], marginBottom: 6 },
-  shareWrap: { gap: 8, marginBottom: 8 },
-  share: { aspectRatio: 1, width: '100%', backgroundColor: colors.ink, borderRadius: 8, padding: 16, justifyContent: 'space-between' },
-  shareK: { fontFamily: fonts.stamp, letterSpacing: 1.6, fontSize: 12, color: colors.limeInk },
-  shareG: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, rowGap: 6 },
-  shareCell: { width: '33.33%' },
-  shareCellLbl: { fontSize: 11, color: colors.paper3 },
-  shareCellVal: { fontFamily: fonts.stamp, fontSize: 13, color: colors.paper },
-  shareQ: { fontFamily: fonts.coach, fontStyle: 'italic', fontSize: 20, lineHeight: 25, color: colors.paper },
-  shareF: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
-  shareFTxt: { fontSize: 10, letterSpacing: 1.2, color: colors.paper3, fontWeight: '700' },
-  shareBtn: { alignSelf: 'flex-start', minHeight: 44, minWidth: 96, justifyContent: 'center', alignItems: 'center', borderWidth: 1.5, borderColor: colors.line, borderStyle: 'dashed', borderRadius: 8, paddingVertical: 8, paddingHorizontal: 14 },
-  shareDone: { fontSize: 13, color: colors.ink2, fontFamily: fonts.body },
-  shareBtnTxt: { fontSize: 13, fontWeight: '600', color: colors.ink },
   tap: { fontSize: 10, letterSpacing: 1.4, color: colors.ink2 },
 });

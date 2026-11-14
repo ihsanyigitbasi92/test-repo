@@ -6,7 +6,8 @@
 import { TUNING, bandFor } from './tuning';
 import { queueMilestones, careerRaise } from './milestones';
 import { birthdayAfterYears, civilFromDays, parseISO, toISO, daysFromCivil } from './calendar';
-import { applyBankruptcy, applyCashflow, BANKRUPTCY_PENDING, startAbs } from './cashflow';
+import { applyBankruptcy, applyCashflow, bankruptcyAllowed, BANKRUPTCY_PENDING, startAbs } from './cashflow';
+import { eligible } from './salience';
 import { drawGap, drawYearBudget, dropDue, pickDay, settleFreePlay, skipSummary } from './director';
 import { notePlayed } from './pity';
 import { rollHazard } from './hazard';
@@ -16,7 +17,7 @@ import { freshYearStats } from './life';
 import { indexContent } from './content';
 import { bailoutCheck } from './bailout';
 import { buildEventCard } from './card';
-import { addFlag, drawChanceBp, drawInt } from './util';
+import { addFlag, drawChanceBp, drawInt, removeFlag } from './util';
 import { applyDrift, birthdayPressure } from './drift';
 import { openEnvelope, setHome } from './apply';
 import { isEmployed, isRetired, RETIRED_TITLE } from './status';
@@ -57,10 +58,41 @@ function retire(st: LifeState): void {
   if (!job || isRetired(job) || st.calendar.age < R.minAge) return;
   if (st.calendar.age < R.maxAge && !drawChanceBp(st, 'director', R.chanceBp)) return;
   const pm = st.counters.yearsWorked >= R.fullYears ? R.pensionPm.full : R.pensionPm.short;
-  st.status.job = { title: RETIRED_TITLE, tier: job.tier, monthly: Math.trunc((job.monthly * pm) / 1000), since: st.calendar.calendarDay };
+  st.status.job = { title: RETIRED_TITLE, tier: job.tier, monthly: pensionFor(st, job.monthly, pm), since: st.calendar.calendarDay };
   addFlag(st, R.flag);
   const boss = st.npcs.find((n) => n.role === 'boss');
   if (boss) boss.exists = false;
+}
+
+/**
+ * Old-age sprint: pm × max(last salary, peakRefPm × the best salary ever paid), never below minPensionPara; a renter's pension also covers the rent plus
+ * renterCoverPara (capped at the reference salary, so a pension never out-earns the career) — a short career no longer
+ * retires straight into a rent deficit.
+ */
+export function pensionFor(st: LifeState, lastMonthly: number, pm: number): number {
+  const R = E.retirement, home = st.status.home;
+  const ref = Math.max(lastMonthly, Math.trunc(((st.counters.peakMonthly ?? 0) * R.peakRefPm) / 1000));
+  let p = Math.max(Math.trunc((ref * pm) / 1000), R.minPensionPara);
+  if ((E.rentCard.kinds as string[]).includes(home.kind)) p = Math.max(p, Math.min(home.rent + R.renterCoverPara, ref));
+  return p;
+}
+
+/**
+ * Old-age sprint: a jobless elder is never left without income. From retirement.minAge someone with at least
+ * earlyMinYears worked files for the pension (peak-based, as above); otherwise at socialAge a social old-age pension
+ * (socialPensionPara, flag socialFlag) starts.
+ */
+function pensionForJobless(st: LifeState): void {
+  const R = E.retirement, age = st.calendar.age;
+  if (st.status.job || age < R.minAge) return;
+  if (st.counters.yearsWorked >= R.earlyMinYears) {
+    const pm = st.counters.yearsWorked >= R.fullYears ? R.pensionPm.full : R.pensionPm.short;
+    st.status.job = { title: RETIRED_TITLE, tier: 0, monthly: pensionFor(st, 0, pm), since: st.calendar.calendarDay };
+  } else if (age >= R.socialAge) {
+    st.status.job = { title: RETIRED_TITLE, tier: 0, monthly: R.socialPensionPara, since: st.calendar.calendarDay };
+    addFlag(st, R.socialFlag);
+  } else return;
+  addFlag(st, R.flag); removeFlag(st, 'is_ariyor');
 }
 
 /** Sprint 3: a mortgage ends after economy.mortgage.termYears — the home becomes owned (upkeep only). */
@@ -72,6 +104,7 @@ function payOffMortgage(st: LifeState): void {
 function birthday(st: LifeState, meta: MetaState, content: ContentBundle, base: Omit<DayCard, 'eventId'>, out: Effect[]): void {
   st.calendar.age++;
   if (isEmployed(st)) { st.counters.yearsWorked++; retire(st); }   // a retiree's years are not "years worked"
+  else pensionForJobless(st);
   payOffMortgage(st);
   birthdayPressure(st);                                           // sprint 3: mid-life Anne Baskısı / Cringe pulses
   const start = parseISO(st.calendar.startDateISO);
@@ -130,14 +163,38 @@ function eventDay(st: LifeState, meta: MetaState, content: ContentBundle, base: 
   if (st.card.bubbles.length) out.push({ kind: 'SHOW_DIALOG', bubbles: st.card.bubbles, layer: 'dialog' });
 }
 
+/**
+ * Old-age sprint (elderCare): a retiree / jobless elder in debt gets one gentle, forced help card — move in with
+ * the grown child, downsize, or the municipal support desk (first eligible in tuning order) — at most once per
+ * minGapDays. The help itself (home, money, flags) lives in the events; no event eligible → nothing happens.
+ */
+function elderCareCheck(st: LifeState, meta: MetaState, content: ContentBundle): void {
+  const C = E.elderCare, day = st.calendar.calendarDay;
+  if (st.dueQueue.some((d) => d.source === 'elderCare')) return;
+  removeFlag(st, C.flag);                                         // the help events need it: forced-only, never a free pick
+  if (st.calendar.age < C.fromAge || isEmployed(st) || st.money.balance >= C.triggerPara) return;
+  if (C.events.some((id) => st.cooldowns.self[id] !== undefined && day - st.cooldowns.self[id]! < C.minGapDays)) return;
+  const idx = indexContent(content);
+  addFlag(st, C.flag);
+  for (const id of C.events) {
+    const ev = idx.byId.get(id);
+    if (!ev || !eligible(ev, st, meta)) continue;
+    st.dueQueue.push({ day, eventId: id, priority: 7, valence: ev.valence, deferredOnce: false, source: 'elderCare' });
+    return;
+  }
+  removeFlag(st, C.flag);
+}
+
 /** Rent shortfall and İcra become forced day cards for today (02 §2.3.2 / §2.3.4); never silent gap effects. */
-function queueObligations(st: LifeState, content: ContentBundle, rentShortfall: boolean): void {
+function queueObligations(st: LifeState, meta: MetaState, content: ContentBundle, rentShortfall: boolean): void {
   const idx = indexContent(content), day = st.calendar.calendarDay;
   const lastRent = st.cooldowns.self[RENT_EVENT];
   const rentCardOk = lastRent === undefined || day - lastRent >= E.rentCard.minGapDays;   // D-159: no rent-card loop
   if (rentShortfall && rentCardOk && idx.byId.has(RENT_EVENT) && !st.dueQueue.some((d) => d.eventId === RENT_EVENT))
     st.dueQueue.push({ day, eventId: RENT_EVENT, priority: 7, valence: idx.byId.get(RENT_EVENT)!.valence, deferredOnce: false, source: 'rent' });
+  elderCareCheck(st, meta, content);
   if (!st.flags.includes(BANKRUPTCY_PENDING) || st.dueQueue.some((d) => d.source === 'bankruptcy')) return;
+  if (!bankruptcyAllowed(st)) { removeFlag(st, BANKRUPTCY_PENDING); return; }   // old-age sprint: no İcra loop
   const icra = idx.byId.get(E.bankruptcy.eventId);
   if (icra) st.dueQueue.push({ day, eventId: icra.id, priority: 7, valence: icra.valence, deferredOnce: false, source: 'bankruptcy' });
   else applyBankruptcy(st);                                       // no İcra card in this bundle → immediate reset
@@ -157,7 +214,7 @@ export function nextDay(st: LifeState, meta: MetaState, content: ContentBundle, 
   c.dateISO = toISO(civilFromDays(startAbs(st) + c.calendarDay));
   c.hour = drawInt(st, 'director', TUNING.calendar.eventHourMin, TUNING.calendar.eventHourMax);
   const flowLog: GapLine[] = cash.lines;                          // ≤ 3 lines (D-088)
-  queueObligations(st, content, cash.rentShortfall);
+  queueObligations(st, meta, content, cash.rentShortfall);
   st.counters.shownDays++;
   d.shownThisYear++;
   d.sessionDayIndex++;

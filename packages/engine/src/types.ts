@@ -106,6 +106,8 @@ export interface YearStats {
 export interface LifeCounters {
   shownDays: number; yearsWorked: number; peakMoney: number; rentEvents: number; momCalls: number;
   surprises: number; legendaries: number; maxNegStreak: number; quietDays: number; bailouts: number; bankruptcies: number;
+  /** Old-age sprint: best monthly salary ever paid (set on paydays; absent until the first one, so old saves keep their shape). */
+  peakMonthly?: number;
   /** Sprint 3: longest felt-negative outcome run (optional for older saves). */
   maxFeltNegStreak?: number;
 }

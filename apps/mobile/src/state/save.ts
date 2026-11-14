@@ -14,6 +14,7 @@ import { ENGINE_VERSION, createLife, cyrb128 } from '@motto/engine';
 import type { LifeState, Locale, MetaState, ReportCardData, Speed } from '@motto/engine';
 import type { Look } from '../avatar/look';
 import type { MomentHistory } from '../avatar/moments';
+import type { LifeHighlights } from '../share/highlights';
 import type { FeedItem } from './feed';
 
 export const SAVE_KEY = 'motto.save.v1';
@@ -36,6 +37,8 @@ export interface SavedLife {
     momentHist: MomentHistory;
     /** The "enough for today" sheet was up when saved. */
     session: { years: number; days: number } | null;
+    /** Share card highlights (share/highlights.ts); absent in saves written before the share card. */
+    highlights?: LifeHighlights;
   };
 }
 

@@ -4,7 +4,7 @@
  * game loop pays nothing measurable. Game code passes ids and numbers only; names and prose never enter here.
  */
 import type { AnalyticsCore, FtueStep } from './core';
-import { ageBand, causeClass, livesBucket, toId, type EventParams } from './events';
+import { ageBand, causeClass, livesBucket, toId, type EventParams, type ShareChannel } from './events';
 
 type Surface = EventParams<'paywall_view'>['surface'];
 type FailReason = EventParams<'purchase_fail'>['reason'];
@@ -126,7 +126,9 @@ export function createHooks(a: AnalyticsCore, o: HookOptions = {}) {
         a.track('settings_change', { setting: 'language', value: l });
       },
       setting(setting: 'fast_life' | 'auto' | 'haptics', on: boolean): void { a.track('settings_change', { setting, value: on ? 'on' : 'off' }); },
-      share(card: 'death' | 'report'): void { a.track('share', { card }); },
+      share(card: 'death' | 'report', channel?: ShareChannel, format?: 'story' | 'square'): void {
+        a.track('share', { card, ...(channel ? { channel } : {}), ...(format ? { format } : {}) });
+      },
       /** A surprise / legendary day was shown; `daysSince` = shown days since the previous one this life. */
       surprise(p: { tier: 'nice' | 'great' | 'legendary'; daysSince: number; age: number }): void {
         a.track('surprise_shown', { tier: p.tier, days_since: Math.max(0, Math.round(p.daysSince)), age_band: ageBand(p.age) });

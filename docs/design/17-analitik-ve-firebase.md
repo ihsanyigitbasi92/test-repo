@@ -88,7 +88,7 @@ Her olaya çekirdek `schema_v` (=1) ekler; kuyrukta ≥ 60 sn beklemiş olaya `l
 | | `milestone` | `kind: birthday\|promotion\|sad\|legendary\|wager_win`, `age` | kilometre taşları | `fb_mobile_achievement_unlocked` |
 | | `death` | `age`, `cause_class`, `channel`, `life_no`, `shown_days`, `auto_days` | ölüm yaşı dağılımı (harness kıyası) | — |
 | | `rebirth` | `ms_since_death`, `life_no` | ölüm → yeni müşteri (2 dk) | — |
-| | `share` | `card: death\|report` | paylaşım/oturum | — |
+| | `share` | `card: death\|report`, `channel: native_sheet\|web_share\|download\|clipboard\|cancelled\|failed` (ops.), `format: story\|square` (ops.) | paylaşım/oturum, kanal dağılımı | — |
 | Reklam | `ad_offer_shown` | `placement` | rewarded opt-in paydası | — |
 | | `ad_skip` | `placement`, `reason: declined\|no_fill\|closed\|error` | no-fill, red oranı | — |
 | | `ad_shown` | `placement`, `format: rewarded\|interstitial` | gösterim/DAU (yerleşim bazında) | — |

@@ -133,7 +133,8 @@
       "flat": {"rent": 500, "daily": 12, "maxRent": 900},
       "wide": {"rent": 700, "daily": 13, "maxRent": 1300},
       "mortgage": {"rent": 800, "daily": 15, "maxRent": 1400},
-      "owned": {"rent": 250, "daily": 12, "maxRent": 400}
+      "owned": {"rent": 250, "daily": 12, "maxRent": 400},
+      "family": {"rent": 150, "daily": 8, "maxRent": 250}
     },
     "rentCard": {
       "$comment": "D-159: the rent-crisis card is shown at most once per minGapDays; other shortfalls only accrue debt (gap line). Sprint 3: only for a landlord's home (kinds); owned / mortgage / mom's house never get the landlord card.",
@@ -153,7 +154,17 @@
     "healthCostPara": [[44, 0], [54, 60], [64, 150], [74, 250], [200, 350]],
     "bankruptcyAtPara": -24000,
     "bankruptcyResetPara": -6000,
-    "bankruptcy": {"eventId": "doc_icra", "egoPoints": -15, "cringePoints": 20},
+    "bankruptcy": {"eventId": "doc_icra", "egoPoints": -15, "cringePoints": 20, "minGapDays": 2920, "maxAge": 69,
+      "$comment": "Old-age sprint: at most one İcra per minGapDays (8 years) and none after maxAge (the last stretch of life is not a debt loop). A blocked crossing only drops the pending flag; elderCare handles old-age debt."},
+    "elderCare": {
+      "$comment": "Old-age sprint: from fromAge a retiree (or a jobless elder) whose balance is below triggerPara gets one forced, gentle help card (downsize / move in with the kid / municipal support desk) at most once per minGapDays; the first eligible event in `events` order wins. The events require `flag`, which the engine sets only while their card is queued (forced-only, never a free pick). Card-debt interest stops from freezeDebtFromAge (restructured, no compounding).",
+      "fromAge": 63,
+      "triggerPara": -1500,
+      "minGapDays": 1095,
+      "freezeDebtFromAge": 63,
+      "flag": "yasli_destek_sirada",
+      "events": ["yaslilik_gundelik_cocugun_yanina_tasinma_01", "yaslilik_gundelik_kucuk_eve_gecis_01", "yaslilik_gundelik_vefa_masasi_destek_01"]
+    },
     "bailout": {
       "maxAge": 27,
       "events": ["evt_anne_borc_verdi", "evt_dayi_is_buldu", "evt_ev_arkadasi_kira"],
@@ -202,7 +213,15 @@
       "chanceBp": 3000,
       "pensionPm": {"full": 800, "short": 600},
       "fullYears": 25,
-      "flag": "emekli"
+      "flag": "emekli",
+      "$floorComment": "Old-age sprint: pension = max(pm x max(last salary, peakRefPm x career-best salary), minPensionPara) - a late low-paid job no longer collapses the pension; a renter's pension also covers rent + renterCoverPara (capped at the last salary). A jobless elder files for the pension from minAge with earlyMinYears worked; otherwise a social old-age pension (socialPensionPara, flag socialFlag) starts at socialAge.",
+      "minPensionPara": 1100,
+      "peakRefPm": 400,
+      "renterCoverPara": 700,
+      "earlyMinYears": 15,
+      "socialAge": 67,
+      "socialPensionPara": 1000,
+      "socialFlag": "yasli_ayligi"
     }
   },
   "hazard": {

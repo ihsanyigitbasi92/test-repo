@@ -147,6 +147,7 @@ export const tr = {
   home: {
     momsHouse: 'Anne evi · katkı payı', room: (r: number) => `Oda · kira ${n(r)}/ay`, flat: (r: number) => `Daire · kira ${n(r)}/ay`,
     wide: (r: number) => `Geniş daire · kira ${n(r)}/ay`, mortgage: (r: number) => `Kredili ev ${n(r)}/ay`, owned: 'Kendi evin',
+    family: (r: number) => `Çocuğunun evi · katkı ${n(r)}/ay`,
   },
   single: 'Bekâr',
   /** `name`: the partner NPC's name when the engine gives one. */
@@ -265,6 +266,8 @@ export const tr = {
     pension: (x: number) => `Emekli aylığı: +${n(x)}. Az ama düzenli; tıpkı sen.`,
     mortgage: (x: number) => `Kredi taksiti: −${n(x)}. Banka "evin hayırlı olsun" dedi; her ay.`,
     upkeep: (x: number) => `Aidat ve ev giderleri: −${n(x)}. Yönetici "bu ay da" dedi.`,
+    /** Living with the grown child (old-age sprint): a grocery share, not rent. */
+    family: (x: number) => `Market payı: −${n(x)}. Çocuğun fişi yine geri getirdi.`,
     daily: (x: number) => `Gündelik giderler: ${x < 0 ? '−' : '+'}${n(x)}.`,
     /** Only while the cat is alive (deneyim P0-2). */
     dailyCat: (x: number) => `Gündelik giderler: ${x < 0 ? '−' : '+'}${n(x)}. Mama dahil.`,
@@ -324,7 +327,7 @@ export const tr = {
     yes: 'Evet, yaz', no: 'Hayır, gerek yok',
     on: 'Tamam. Arada bir yazarım; açınca susarım.', off: 'Peki. Yazmam. Ayarlar\'dan açılır.',
   },
-  shareDone: { copied: 'Kart metni panoya kopyalandı.', shared: 'Paylaşım sayfası açıldı.', failed: 'Paylaşılamadı; tarayıcı izin vermedi.' },
+  shareDone: { copied: 'Kart metni panoya kopyalandı.', shared: 'Paylaşım sayfası açıldı.', downloaded: 'Kart indirildi (PNG).', cancelled: 'Paylaşım kapatıldı.', failed: 'Paylaşılamadı; kart oluşturulamadı.' },
   // Tutorial / first-time help (docs/design/18): intro pages, coach-mark hints, Settings entry. No "!", no "—".
   tutorial: {
     label: 'Nasıl oynanır', skip: 'Geç', next: 'İleri', back: 'Geri', start: 'Başlayalım', backToGame: 'Oyuna dön',
@@ -460,6 +463,32 @@ export const tr = {
   lastWord: 'Koçun son sözü',
   autoNote: (k: number) => `${k} gün koç seçti. Onları da saydım; söyleyeyim dedim.`,
   closed: 'KAPANDI',
+  /** Share card after death ("Müşteri Dosyası — KAPANDI"). Grief-safe: no joke about the cause, only its class, gently. */
+  shareCard: {
+    title: 'MÜŞTERİ DOSYASI', closed: 'KAPANDI', noName: 'İsimsiz müşteri',
+    age: (a: number) => `${a} yaşında`,
+    career: 'Kariyer', family: 'Aile', best: 'En güzel an', worst: 'En zor an', lastWord: 'Koçun son sözü',
+    careerLine: (job: string, retired: boolean) => (retired ? `${job} · emekli` : job),
+    retiredOnly: 'Emekli', partner: 'Bir sevgili', child: 'Bir çocuk', grandchild: 'Torun', ownWay: 'Kendi bildiği yolda',
+    married: (y: number) => (y > 0 ? `Eşiyle ${y} yıl` : 'Yeni evli'),
+    farewell: {
+      circ: 'Kalbi yoruldu.', tumor: 'Uzun bir hastalıktan sonra.', resp: 'Nefesi yoruldu.', accident: 'Bir kazada, ansızın.',
+      external: 'Beklenmedik bir günde.', absurd: 'Beklenmedik bir günde.', unknown: 'Dosya sessizce kapandı.',
+    } as Record<string, string>,
+    bestLine: {
+      wedding: (a: number) => `${a} yaşında evlendi`, child: (a: number) => `${a} yaşında ebeveyn oldu`,
+      grandchild: (a: number) => `${a} yaşında torun sevdi`, home: (a: number) => `${a} yaşında evin anahtarını aldı`,
+      promotion: (a: number) => `${a} yaşında terfi etti`, firstJob: (a: number) => `${a} yaşında ilk işe girdi`,
+      wagerWin: (a: number, p: number) => `${a} yaşında koçu %${p} ihtimalle haksız çıkardı`,
+    } as Record<'wedding' | 'child' | 'grandchild' | 'home' | 'promotion' | 'firstJob' | 'wagerWin', (a: number, p: number) => string>,
+    worstLine: {
+      bankruptcy: (a: number) => `${a} yaşında icra kapıyı çaldı`, divorce: (a: number) => `${a} yaşında boşandı`,
+      fired: (a: number) => `${a} yaşında işten çıkarıldı`, breakup: (a: number) => `${a} yaşında bir ayrılık`,
+      rentCrisis: (a: number) => `${a} yaşında kira yine yetmedi`,
+      coachCalled: (a: number, p: number) => `${a} yaşında koç %${p} dedi, haklı çıktı`,
+    } as Record<'bankruptcy' | 'divorce' | 'fired' | 'breakup' | 'rentCrisis' | 'coachCalled', (a: number, p: number) => string>,
+    formatLabel: 'Kart biçimi', story: 'Dikey 9:16', square: 'Kare 1:1', preparing: 'Kart hazırlanıyor…',
+  },
   tapToSkip: 'dokun: devam',
   // patterns (D-024 neutral names)
   pattern: {

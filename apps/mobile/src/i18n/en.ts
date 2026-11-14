@@ -136,6 +136,7 @@ export const en: Strings = {
   home: {
     momsHouse: "Mom's (free*)", room: (r: number) => `Room · rent ${n(r)}/mo`, flat: (r: number) => `Flat · rent ${n(r)}/mo`,
     wide: (r: number) => `Big flat · rent ${n(r)}/mo`, mortgage: (r: number) => `Mortgage ${n(r)}/mo`, owned: 'Your own place',
+    family: (r: number) => `Your kid's place · chipping in ${n(r)}/mo`,
   },
   single: 'Single',
   partner: (years: number, stage: 'dating' | 'engaged' | 'married' = 'dating', name: string | null = null) => {
@@ -248,6 +249,8 @@ export const en: Strings = {
     pension: (x: number) => `Pension: +${n(x)}. Small but regular; like you.`,
     mortgage: (x: number) => `Mortgage payment: −${n(x)}. The bank said "enjoy your home"; monthly.`,
     upkeep: (x: number) => `Upkeep and building dues: −${n(x)}. The building manager said "this month too."`,
+    /** Living with the grown child (old-age sprint): a grocery share, not rent. */
+    family: (x: number) => `Grocery share: −${n(x)}. Your kid brought the receipt back again.`,
     daily: (x: number) => `Daily costs: ${x < 0 ? '−' : '+'}${n(x)}.`,
     dailyCat: (x: number) => `Daily costs: ${x < 0 ? '−' : '+'}${n(x)}. Cat food included.`,
   },
@@ -300,7 +303,7 @@ export const en: Strings = {
     yes: 'Yes, write', no: 'No thanks',
     on: "Fine. I'll write now and then; I go quiet when you open the app.", off: "Fine. I won't. It's in Settings if you change your mind.",
   },
-  shareDone: { copied: 'Card text copied to the clipboard.', shared: 'Share sheet opened.', failed: "Couldn't share; the browser said no." },
+  shareDone: { copied: 'Card text copied to the clipboard.', shared: 'Share sheet opened.', downloaded: 'Card downloaded (PNG).', cancelled: 'Share closed.', failed: "Couldn't share; the card could not be made." },
   // Tutorial / first-time help (docs/design/18). Written for English, not translated: short, dry, plain.
   tutorial: {
     label: 'How it works', skip: 'Skip', next: 'Next', back: 'Back', start: "Let's begin", backToGame: 'Back to the game',
@@ -434,6 +437,31 @@ export const en: Strings = {
   lastWord: "Coach's last word",
   autoNote: (k: number) => `The coach picked ${k} days. I counted those too; thought you should know.`,
   closed: 'CLOSED',
+  shareCard: {
+    title: 'CLIENT FILE', closed: 'CLOSED', noName: 'Unnamed client',
+    age: (a: number) => `Age ${a}`,
+    career: 'Career', family: 'Family', best: 'Best moment', worst: 'Hardest moment', lastWord: "Coach's last word",
+    careerLine: (job: string, retired: boolean) => (retired ? `${job} · retired` : job),
+    retiredOnly: 'Retired', partner: 'A partner', child: 'A child', grandchild: 'A grandchild', ownWay: 'Their own way',
+    married: (y: number) => (y > 0 ? `${y} years married` : 'Newly married'),
+    farewell: {
+      circ: 'The heart grew tired.', tumor: 'After a long illness.', resp: 'The breath grew tired.', accident: 'Suddenly, in an accident.',
+      external: 'On an unexpected day.', absurd: 'On an unexpected day.', unknown: 'The file closed quietly.',
+    },
+    bestLine: {
+      wedding: (a: number) => `Married at ${a}`, child: (a: number) => `Became a parent at ${a}`,
+      grandchild: (a: number) => `Held a grandchild at ${a}`, home: (a: number) => `Got the keys to a home at ${a}`,
+      promotion: (a: number) => `Promoted at ${a}`, firstJob: (a: number) => `First job at ${a}`,
+      wagerWin: (a: number, p: number) => `At ${a}, proved the coach wrong at ${p}% odds`,
+    },
+    worstLine: {
+      bankruptcy: (a: number) => `At ${a}, the bailiff knocked`, divorce: (a: number) => `Divorced at ${a}`,
+      fired: (a: number) => `Let go at ${a}`, breakup: (a: number) => `A breakup at ${a}`,
+      rentCrisis: (a: number) => `At ${a}, rent fell short again`,
+      coachCalled: (a: number, p: number) => `At ${a}, the coach said ${p}% and was right`,
+    },
+    formatLabel: 'Card format', story: 'Vertical 9:16', square: 'Square 1:1', preparing: 'Preparing the card…',
+  },
   tapToSkip: 'tap: next',
   pattern: {
     procrastination: 'Procrastination', avoidance: 'Avoidance', impulseSpend: 'Impulse spending', peoplePleasing: 'People-pleasing',

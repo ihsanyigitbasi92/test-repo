@@ -67,9 +67,20 @@ export function moneyDelta(st: LifeState, para: number, log?: Map<GapKind, numbe
   st.money.balance += para;
   if (para > 0) st.yearStats.income += para; else st.yearStats.spend -= para;
   if (log && kind) log.set(kind, (log.get(kind) ?? 0) + para);
-  if (st.money.balance < E.bankruptcyAtPara) addFlag(st, BANKRUPTCY_PENDING);
+  if (st.money.balance < E.bankruptcyAtPara && bankruptcyAllowed(st)) addFlag(st, BANKRUPTCY_PENDING);
   if (st.money.balance > st.counters.peakMoney) st.counters.peakMoney = st.money.balance;
   st.money.debt = st.money.balance < 0 ? -st.money.balance : 0;
+}
+
+/**
+ * Old-age sprint: may an İcra happen now? At most one per bankruptcy.minGapDays (the last one is remembered in
+ * cooldowns.self under the İcra event id, whether or not its card was shown) and none after bankruptcy.maxAge.
+ */
+export function bankruptcyAllowed(st: LifeState): boolean {
+  const b = E.bankruptcy;
+  if (st.calendar.age > b.maxAge) return false;
+  const last = st.cooldowns.self[b.eventId];
+  return last === undefined || st.calendar.calendarDay - last >= b.minGapDays;
 }
 
 /** İcra/İflas reset (02 §2.3.4): debt → −6 Birim, Ego −15, Cringe +20, `iflas` flag. Called from the İcra card. */
@@ -83,6 +94,7 @@ export function applyBankruptcy(st: LifeState): void {
   const i = st.flags.indexOf(BANKRUPTCY_PENDING);
   if (i >= 0) st.flags.splice(i, 1);
   st.counters.bankruptcies++;
+  st.cooldowns.self[b.eventId] = st.calendar.calendarDay;        // bankruptcyAllowed: one İcra per minGapDays
 }
 
 function dueDays(fromAbs: number, toAbs: number): { abs: number; kind: DueKind }[] {
@@ -117,7 +129,7 @@ function applyDaily(st: LifeState, days: number, log: Map<GapKind, number>): voi
     const c = mulDiv(st.money.balance - free, cs.yearPm * days, 365_000);
     if (c > 0) moneyDelta(st, -c, log, 'comfort');
   }
-  if (st.money.balance < 0) {
+  if (st.money.balance < 0 && st.calendar.age < E.elderCare.freezeDebtFromAge) {   // old-age sprint: restructured, no compounding
     const grown = -mulDiv(-st.money.balance, debtGrowPpm(days), 1_000_000);
     if (grown !== st.money.balance) moneyDelta(st, grown - st.money.balance, log, 'debt');
   }
@@ -141,7 +153,10 @@ export function applyCashflow(st: LifeState, fromDay: number, toDay: number): Ca
     switch (due.kind) {
       case 'payday':
         if (st.status.job && isRetired(st.status.job)) moneyDelta(st, st.status.job.monthly, log, 'pension');
-        else if (st.status.job) { moneyDelta(st, st.status.job.monthly, log, 'payday'); st.yearStats.paydays++; }
+        else if (st.status.job) {
+          moneyDelta(st, st.status.job.monthly, log, 'payday'); st.yearStats.paydays++;
+          if (st.status.job.monthly > (st.counters.peakMonthly ?? 0)) st.counters.peakMonthly = st.status.job.monthly;   // pension reference
+        }
         else if (st.status.home.kind === 'momsHouse' && st.npcs.some((n) => n.role === 'mom' && n.alive)) moneyDelta(st, E.allowanceMomsHouse, log, 'allowance');
         break;
       case 'rent': {

@@ -52,6 +52,7 @@ export function flowLineText(s: Strings, line: GapLine, item: { momsHouse: boole
   const kind = String(line.kind);
   const l = line as GapLine & { cat?: unknown; catFood?: unknown };
   if (kind === 'rent' && item.momsHouse) return s.flow.rentMom(line.para);
+  if (item.home === 'family' && (UPKEEP_KINDS.has(kind) || kind === 'rent')) return s.flow.family(line.para);   // living with the grown child
   if (UPKEEP_KINDS.has(kind) || (kind === 'rent' && item.home === 'owned')) return s.flow.upkeep(line.para);
   if (kind === 'daily') {
     // Engine (sprint 3): `cat` = the cat-food part of the line, present only when non-zero.
