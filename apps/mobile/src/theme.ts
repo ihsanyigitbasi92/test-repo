@@ -1,7 +1,9 @@
 /**
  * Design tokens — "night notebook" palette of docs/mock/motto-demo.html (07 §2.4): dark paper, acid-lime accent,
- * Fraunces italic coach lines, Archivo Black stamps. Web loads the Google fonts (see App.tsx); native falls back
- * to system serif / heavy sans (no font files are bundled).
+ * Fraunces italic coach lines, Archivo Black stamps, IBM Plex Sans body (all SIL OFL 1.1, src/legal/licenses.ts).
+ * Web loads them from Google Fonts (App.tsx). Native: the expo-font config plugin (app.json › plugins) embeds the TTFs
+ * from @expo-google-fonts/* at prebuild, registered under the same family names, so `fontWeight` / `fontStyle` pick
+ * the right face (Fraunces 500/700 italic, Plex 400–700). Needs a dev/EAS build; Expo Go would show system fonts.
  */
 import { Platform } from 'react-native';
 
@@ -14,9 +16,9 @@ export const colors = {
 } as const;
 
 export const fonts = {
-  coach: Platform.select({ web: '"Fraunces", Georgia, "Times New Roman", serif', ios: 'Georgia', default: 'serif' }),
-  body: Platform.select({ web: '"IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif', default: undefined }),
-  stamp: Platform.select({ web: '"Archivo Black", Impact, "Arial Black", sans-serif', ios: 'AvenirNext-Heavy', default: 'sans-serif-black' }),
+  coach: Platform.select({ web: '"Fraunces", Georgia, "Times New Roman", serif', default: 'Fraunces' }),
+  body: Platform.select({ web: '"IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif', default: 'IBM Plex Sans' }),
+  stamp: Platform.select({ web: '"Archivo Black", Impact, "Arial Black", sans-serif', default: 'Archivo Black' }),
 } as const;
 
 /** Native drivers are unavailable on web (react-native-web runs Animated in JS). */

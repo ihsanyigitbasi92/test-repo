@@ -4,8 +4,14 @@ import type { LegalText } from './types';
 import { NOTICE } from './notice';
 import { PRIVACY } from './privacy';
 import { TERMS } from './terms';
+import { LICENSES } from './licenses';
 
-export const LEGAL_TEXTS: Record<LegalDoc, LegalText> = { notice: NOTICE, privacy: PRIVACY, terms: TERMS };
+/** The legal drafts (all carry DRAFT_TAG). */
+export type LegalDraft = Exclude<LegalDoc, 'licenses'>;
+export const LEGAL_TEXTS: Record<LegalDraft, LegalText> = { notice: NOTICE, privacy: PRIVACY, terms: TERMS };
+/** Every text the legal screen can show: the drafts + the font licences (no draft tag). */
+export const ALL_LEGAL_TEXTS: Record<LegalDoc, LegalText> = { ...LEGAL_TEXTS, licenses: LICENSES };
+export { LICENSES, OFL_1_1 } from './licenses';
 export { DRAFT_TAG } from './types';
 export type { LegalText } from './types';
 

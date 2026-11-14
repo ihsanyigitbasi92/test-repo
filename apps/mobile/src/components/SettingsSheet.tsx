@@ -134,7 +134,7 @@ export function SettingsSheet({ open, onClose, onHowTo, onResetHints, onLocale }
         <View style={st.block} testID="privacy-settings">
           <Text style={st.section}>{s.settings.privacy}</Text>
           <PrivacyEntry />
-          {(['notice', 'privacy', 'terms'] as LegalDoc[]).map((d) => (
+          {(['notice', 'privacy', 'terms', 'licenses'] as LegalDoc[]).map((d) => (
             <Pressable key={d} onPress={() => openLegal(d)} accessibilityRole="link" testID={`settings-legal-${d}`} style={({ pressed }) => [st.link, pressed && st.pressed]}>
               <Text style={st.linkTxt}>{s.settings.legal[d]} ›</Text>
             </Pressable>

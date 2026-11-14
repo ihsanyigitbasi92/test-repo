@@ -1,4 +1,6 @@
-# Renders the provisional icon (512, 1024) and the Play feature graphics (1024x500, TR/EN) via compose.js.
+# Renders the Play feature graphics (1024x500, TR/EN) via compose.js. The store icons (icon-512 / icon-1024) now come
+# from the app's icon generator: `node apps/mobile/scripts/gen-icons.mjs` (same design as assets/icon.png).
+# icon() below is the old provisional design, kept for reference only (not in the plan).
 # Needs raw/{tr,en}-69/decision-1-*.png from capture.js. Usage: python3 brand.py && node compose.js plan-brand.json
 import base64, glob, json, os
 HERE = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.join(os.path.dirname(HERE), 'screenshots')
@@ -31,8 +33,6 @@ body{{background:radial-gradient(ellipse at 15% 10%,rgba(201,255,58,.13),transpa
 <div class="ph"><img src="{img}"></div><div class="stamp">{t[2]}</div>'''
 
 raw = lambda l: sorted(glob.glob(os.path.join(HERE, 'raw', f'{l}-69', 'decision-1-*.png')))[0]
-plan = [{"kind": "raw", "w": 512, "h": 512, "html": icon(512), "out": f"{OUT}/icon-512.png"},
-        {"kind": "raw", "w": 1024, "h": 1024, "html": icon(1024), "out": f"{OUT}/icon-1024.png"},
-        {"kind": "raw", "w": 1024, "h": 500, "html": feature('tr', raw('tr')), "out": f"{OUT}/play-feature-graphic-tr.png"},
+plan = [{"kind": "raw", "w": 1024, "h": 500, "html": feature('tr', raw('tr')), "out": f"{OUT}/play-feature-graphic-tr.png"},
         {"kind": "raw", "w": 1024, "h": 500, "html": feature('en', raw('en')), "out": f"{OUT}/play-feature-graphic-en.png"}]
 json.dump(plan, open(os.path.join(HERE, 'plan-brand.json'), 'w'))

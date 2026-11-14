@@ -319,7 +319,7 @@ export const tr = {
     language: 'Dil', languageHint: 'Akış ve kartlar hemen o dile geçer.',
     reminders: 'Hatırlatma', remindersHint: 'Günde en çok bir kısa satır, genelde oynadığın saatte. Sayı yok, rozet yok. Bir hafta yanıt yoksa susarım.',
     privacy: 'GİZLİLİK VE METİNLER',
-    legal: { notice: 'Aydınlatma Metni (taslak)', privacy: 'Gizlilik Politikası (taslak)', terms: 'Kullanım Koşulları (taslak)' },
+    legal: { notice: 'Aydınlatma Metni (taslak)', privacy: 'Gizlilik Politikası (taslak)', terms: 'Kullanım Koşulları (taslak)', licenses: 'Lisanslar (yazı tipleri)' },
   },
   /** Reminder opt-in on the Enough-for-today sheet (docs/design/19): asked once, from the 2nd session's end. */
   reminderAsk: {

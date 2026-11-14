@@ -2,7 +2,8 @@
  * Which in-app legal text is open (pure TS external store; <LegalHost/> in LifeScreen renders it above everything,
  * consent cards included). Legal links never leave the app while the texts are drafts (UX B-2: no example.com).
  */
-export type LegalDoc = 'notice' | 'privacy' | 'terms';
+/** The three legal drafts + the open-source font licences (src/legal/licenses.ts, not a draft). */
+export type LegalDoc = 'notice' | 'privacy' | 'terms' | 'licenses';
 let open: LegalDoc | null = null;
 const listeners = new Set<() => void>();
 export const subscribeLegal = (l: () => void): (() => void) => { listeners.add(l); return () => { listeners.delete(l); }; };

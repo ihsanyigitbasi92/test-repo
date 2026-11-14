@@ -296,7 +296,7 @@ export const en: Strings = {
     language: 'Language', languageHint: 'The feed and the cards switch at once.',
     reminders: 'Reminders', remindersHint: "At most one short line a day, around when you usually play. No numbers, no badges. A week of no answer and I go quiet.",
     privacy: 'PRIVACY AND TEXTS',
-    legal: { notice: 'Privacy Notice (draft)', privacy: 'Privacy Policy (draft)', terms: 'Terms of Use (draft)' },
+    legal: { notice: 'Privacy Notice (draft)', privacy: 'Privacy Policy (draft)', terms: 'Terms of Use (draft)', licenses: 'Licenses (fonts)' },
   },
   reminderAsk: {
     text: 'Should I send a line now and then? At most once a day, around when you usually play. No numbers, no badges.',
