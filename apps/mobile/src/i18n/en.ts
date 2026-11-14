@@ -158,6 +158,8 @@ export const en: Strings = {
   },
   /** Asset ids (`status.assets`, content `effects.status.assets`); unknown ids are humanized (labels.ts). */
   asset: {
+    // sprint 3: ids the content uses that had no label ("Kosu bandi" in the HUD)
+    ajans_kanepesi: 'agency couch', ayakli_vantilator: 'standing fan', bahce_parseli: 'garden plot', baskili_tisort: 'printed T-shirt', bilgi_gecesi_kupasi: 'quiz night trophy', boyali_figurler: 'painted figurines', boyali_sandalye: 'painted chair', buyuk_boy_fotograf: 'large-format photo', cocukluk_patenleri: 'childhood skates', dayinin_arabasi: "uncle's car", dayinin_bisikleti: "uncle's bike", dayinin_kamp_sandalyesi: "uncle's camp chair", devre_mulk: 'timeshare', fal_ajandalari: 'fortune-telling planners', gurultu_engelleyici_kulaklik: 'noise-cancelling headphones', hamster: 'hamster', harici_disk: 'external drive', ikinci_el_araba: 'used car', ikinci_korkuluk: 'second handrail', imzali_top: 'signed ball', inen_raf: 'pull-down shelf', is_telefonu: 'work phone', iskele_albumu: 'pier photo album', islemeli_ortu: 'embroidered tablecloth', koc_tabelasi: 'coaching sign', kosu_bandi: 'treadmill', anne_kosu_bandi: "mom's treadmill", linol_baski: 'linocut print', merkez_masasi: 'centre table', mini_pompa: 'mini pump', ogrenci_dairesi: 'student flat', on_bir_tabure: 'eleven stools', on_dort_paket_makarna: 'fourteen packs of pasta', onursal_rozet: 'honorary badge', ortak_saksi: 'shared flowerpot', plak: 'record', pvc_pencere: 'PVC window', rahat_ayakkabi: 'comfortable shoes', salon_lambasi: 'living-room lamp', sesli_kitap: 'audiobook', spor_salonu_karti: 'gym card', su_aritma_cihazi: 'water filter', tahta_kasik: 'wooden spoon', tahta_spatula: 'wooden spatula', televizyon: 'TV', tesadufler_kitabi: 'book of coincidences', tuslu_telefon: 'push-button phone', tutamakli_tabure: 'stool with a handle', tutanlar_kitabi: 'book of keepers', ucuz_kulaklik: 'cheap earphones', yeni_gecis_etiketi: 'new toll tag', yeni_kilif: 'new phone case', yenilenmis_sandalye: 'refurbished chair', yol_bisikleti: 'road bike',
     kedi: 'cat', telefon: 'phone', adim_bilekligi: 'step tracker', adina_kutuphane: 'library in your name',
     aile_bufesi: 'family sideboard', aile_yuzugu: 'family ring', akilli_saat: 'smartwatch', akilli_termostat: 'smart thermostat',
     akvaryum: 'aquarium', alyans: 'wedding ring', analog_makine: 'film camera', anneannenin_bufesi: "grandma's sideboard",
@@ -430,8 +432,6 @@ export const en: Strings = {
   rightMomentLine: (d: number, p: number) => `Day ${d}. Odds were ${p}%. I said no. It happened.`,
   noRightMoment: "You never proved me wrong. That's not a compliment.",
   lastWord: "Coach's last word",
-  lastWordLine: (k: number, p: string) => `${p}, ${k} times. Don't tell anyone, but it was good.`,
-  noLastWord: 'Last word: I looked for something good in the file. The cat liked you. That counts.',
   autoNote: (k: number) => `The coach picked ${k} days. I counted those too; thought you should know.`,
   closed: 'CLOSED',
   tapToSkip: 'tap: next',

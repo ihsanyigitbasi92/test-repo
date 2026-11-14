@@ -10,6 +10,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { sfx } from '../state/sound';
 import { UI_SFX } from '../state/sfx';
+import { lastWordText } from '../i18n/lastWord';
 import { Animated, Easing, Platform, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import { gameAnalytics } from '../analytics/hooks';
 import type { ScrollViewInstance } from 'react-native';
@@ -211,7 +212,7 @@ export function DeathFlow({ death, onNewClient }: { death: DeathView; onNewClien
               {step >= 6 && (
                 <View style={st.unlock}>
                   <Text style={st.unlockLbl}>{upper(locale, s.lastWord)}</Text>
-                  <Text style={st.unlockTxt}>{r.lastWord ? s.lastWordLine(r.lastWord.count, s.pattern[r.lastWord.pattern] ?? r.lastWord.pattern) : s.noLastWord}</Text>
+                  <Text style={st.unlockTxt}>{lastWordText(locale, death.facts ?? null, r.lastWord, r.lastWord ? s.pattern[r.lastWord.pattern] ?? r.lastWord.pattern : '', death.seed ?? 0)}</Text>
                   {death.autoDays > 0 && <Text style={st.small}>{s.autoNote(death.autoDays)}</Text>}
                 </View>
               )}

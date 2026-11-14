@@ -69,6 +69,26 @@ function coachLines(st: LifeState, meta: MetaState, lines: CoachLineT[], evId?: 
     (!line.when || evalPre(line.when, st, meta, evId)) && (!line.level || line.level.includes(st.voice)) && !(lowJoy && line.roast));
 }
 
+const CO = TUNING.coach;
+/**
+ * Sprint 3 coach rotation: of several unconditional lines only the least-seen plays (conditional `when` lines always
+ * do), and a line already heard maxRepeatsPerLife times this life stays silent (the rent card's "Saklambaç…" 6×).
+ * Counters live in `seen['coach.<event>.<choice>.<branch>.<j>']`.
+ */
+function rotateCoach(st: LifeState, evId: string, choiceId: string, branch: number, lines: { line: CoachLineT; j: number }[]): { line: CoachLineT; j: number }[] {
+  const key = (j: number) => `coach.${evId}.${choiceId}.${branch}.${j}`;
+  const plain = lines.filter(({ line }) => !line.when);
+  let keep = lines;
+  if (plain.length > 1) {
+    const min = Math.min(...plain.map(({ j }) => st.seen[key(j)] ?? 0));
+    const pick = plain.find(({ j }) => (st.seen[key(j)] ?? 0) === min)!;
+    keep = lines.filter((l) => l.line.when || l === pick);
+  }
+  keep = keep.filter(({ j }) => (st.seen[key(j)] ?? 0) < CO.maxRepeatsPerLife);
+  for (const { j } of keep) st.seen[key(j)] = (st.seen[key(j)] ?? 0) + 1;
+  return keep;
+}
+
 export function answer(st: LifeState, meta: MetaState, content: ContentBundle, choiceId: string, out: Effect[]): void {
   const card = st.card;
   if (st.phase !== 'day' || !card) return;
@@ -103,7 +123,7 @@ export function answer(st: LifeState, meta: MetaState, content: ContentBundle, c
   const params = textParams(st, n);                                // after effects: `{ego}` shows the new value
   out.push({ kind: 'SHOW_DIALOG', layer: 'outcome', bubbles: [{ speaker: 'narrator', delayMs: 0, params,
     textKey: r.nearMiss ? keyNearMiss(ev, choiceId, r.branch) : keyOutcome(ev, choiceId, r.branch) }] }, ...floats);
-  const coach = lines.map(({ line, j }): Bubble => ({
+  const coach = rotateCoach(st, ev.id, choiceId, r.branch, lines).map(({ line, j }): Bubble => ({
     speaker: 'coach', textKey: keyCoach(ev, choiceId, r.branch, j), roast: line.roast, lift: line.lift, delayMs: 0, params }));
   if (card.wager && card.wager.choiceId === choiceId) {
     const s = resolveWager(st, ev, card.wager, r.success);

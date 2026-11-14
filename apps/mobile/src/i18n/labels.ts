@@ -7,6 +7,7 @@
 import type { LifeState, Locale } from '@motto/engine';
 import type { Strings } from './tr';
 import { upper } from './format';
+import { JOB_TITLES_EN, enJobFallback } from './jobTitlesEn';
 
 /** A raw id / token shape the UI must never render. */
 export const RAW_ID = /[a-z]+_[a-z]+|[a-z][A-Z]/;
@@ -35,8 +36,9 @@ export function assetLabel(s: Strings, locale: Locale, id: string): string {
  */
 export function jobLabel(s: Strings, locale: Locale, title: string, tier?: number | null, job?: object | null): string {
   const own = engineTitle(job);
-  if (own) return s.jobTitle[own] ?? humanizeId(locale, own);
-  const base = s.jobTitle[title] ?? humanizeId(locale, title);
+  if (own) return s.jobTitle[own] ?? (locale === 'en' ? JOB_TITLES_EN[own] ?? enJobFallback(own) : humanizeId(locale, own));
+  // EN never shows a free-text Turkish title (content writes titles in Turkish): table, then a word-map fallback.
+  const base = s.jobTitle[title] ?? (locale === 'en' ? JOB_TITLES_EN[title] ?? (/\s|[çğıöşüÇĞİÖŞÜ]/.test(title) ? enJobFallback(title) : humanizeId(locale, title)) : humanizeId(locale, title));
   if (title === 'emekli' || !tier || tier < 2) return base;
   const rank = s.jobRank[Math.min(tier, s.jobRank.length - 1)];
   return rank ? `${base} · ${rank}` : base;

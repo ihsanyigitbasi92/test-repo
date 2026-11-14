@@ -240,3 +240,46 @@ describe('D-161: analytics on by default after the age gate', () => {
     expect(awayHours(1e12)).toBe(720);
   });
 });
+
+// ── content agent notes: last word, EN job titles, asset labels ──────────────
+import { lastWordText, type LifeFacts } from '../src/i18n/lastWord';
+import { assetLabel } from '../src/i18n/labels';
+
+describe('coach\'s last word follows the life', () => {
+  const f = (o: Partial<LifeFacts> = {}): LifeFacts => ({ age: 70, marriedYears: null, hasChild: false, hasGrandchild: false, catYears: null, catAlive: false,
+    momAlive: false, momOutlivedAge: null, alone: false, ownedHome: false, ...o });
+  it('a long marriage is named; a dead cat never "liked you"', () => {
+    expect(lastWordText('tr', f({ marriedYears: 39 }), null, '', 1)).toMatch(/39 yıl/);
+    expect(lastWordText('tr', f(), null, '', 0)).not.toMatch(/Pamuk|Kedi/);
+    expect(lastWordText('en', f({ catAlive: true, age: 60 }), null, '', 0)).toMatch(/Biscuit|Pamuk/);
+    expect(lastWordText('tr', f({ age: 60 }), { pattern: 'patience', count: 12 }, 'Sabır', 2)).toMatch(/12/);
+  });
+});
+
+describe('EN never shows a Turkish job title; every content asset id has a label', () => {
+  const walk = (o: unknown, out: { titles: Set<string>; assets: Set<string> }): void => {
+    if (Array.isArray(o)) { for (const v of o) walk(v, out); return; }
+    if (!o || typeof o !== 'object') return;
+    const r = o as Record<string, unknown>;
+    const job = r.job as { title?: unknown } | undefined;
+    if (job && typeof job.title === 'string') out.titles.add(job.title);
+    const st = r.status as { assets?: unknown } | undefined;
+    const a = st?.assets;
+    if (Array.isArray(a)) for (const x of a) if (typeof x === 'string') out.assets.add(x);
+    if (a && typeof a === 'object' && !Array.isArray(a)) for (const v of Object.values(a)) for (const x of [v].flat()) if (typeof x === 'string') out.assets.add(x);
+    for (const v of Object.values(r)) walk(v, out);
+  };
+  const out = { titles: new Set<string>(), assets: new Set<string>() };
+  const root = join(APP, '..', '..', 'packages', 'content-schema', 'fixtures');
+  const files = (d: string): string[] => readdirSync(d).flatMap((x) => { const p = join(d, x); return statSync(p).isDirectory() ? files(p) : p.endsWith('.json') ? [p] : []; });
+  for (const p of files(root)) { try { walk(JSON.parse(readFileSync(p, 'utf8')), out); } catch { /* not ours */ } }
+  it('job titles', () => {
+    expect(out.titles.size).toBeGreaterThan(50);
+    for (const t of out.titles) expect(jobLabel(I18N.en, 'en', t), t).not.toMatch(/[çğıöşüÇĞİÖŞÜ]/);
+    expect(jobLabel(I18N.en, 'en', 'kıdemli bilinmeyen unvan')).toBe('Employee');
+  });
+  it('asset labels (no "Kosu bandi")', () => {
+    for (const a of out.assets) for (const loc of ['tr', 'en'] as const) expect(I18N[loc].asset[a], `${loc}.${a}`).toBeTruthy();
+    expect(assetLabel(I18N.tr, 'tr', 'anne_kosu_bandi')).toBe('Annenin koşu bandı');
+  });
+});

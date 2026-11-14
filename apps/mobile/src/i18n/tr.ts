@@ -3,7 +3,7 @@
  * this file holds only interface strings, system lines the engine names by key (death causes, envelope teasers)
  * and coach lines the UI owns (FTUE intro, birthday card, mottos). en.ts must mirror every key (type-checked).
  */
-import { groupDigits, lowerTr } from './format';
+import { groupDigits } from './format';
 import { sfx } from './trSuffix';
 import { shopTr } from './shopTr';
 import { adsTr } from './adsTr';
@@ -171,6 +171,8 @@ export const tr = {
   } as Record<string, string>,
   /** Asset ids (`status.assets`, content `effects.status.assets`); unknown ids are humanized (labels.ts). */
   asset: {
+    // sprint 3: ids the content uses that had no label ("Kosu bandi" in the HUD)
+    ajans_kanepesi: 'ajans kanepesi', ayakli_vantilator: 'ayaklı vantilatör', bahce_parseli: 'bahçe parseli', baskili_tisort: 'baskılı tişört', bilgi_gecesi_kupasi: 'bilgi gecesi kupası', boyali_figurler: 'boyalı figürler', boyali_sandalye: 'boyalı sandalye', buyuk_boy_fotograf: 'büyük boy fotoğraf', cocukluk_patenleri: 'çocukluk patenleri', dayinin_arabasi: 'dayının arabası', dayinin_bisikleti: 'dayının bisikleti', dayinin_kamp_sandalyesi: 'dayının kamp sandalyesi', devre_mulk: 'devre mülk', fal_ajandalari: 'fal ajandaları', gurultu_engelleyici_kulaklik: 'gürültü engelleyici kulaklık', hamster: 'hamster', harici_disk: 'harici disk', ikinci_el_araba: 'ikinci el araba', ikinci_korkuluk: 'ikinci korkuluk', imzali_top: 'imzalı top', inen_raf: 'inen raf', is_telefonu: 'iş telefonu', iskele_albumu: 'iskele albümü', islemeli_ortu: 'işlemeli örtü', koc_tabelasi: 'koç tabelası', kosu_bandi: 'koşu bandı', anne_kosu_bandi: 'annenin koşu bandı', linol_baski: 'linol baskı', merkez_masasi: 'merkez masası', mini_pompa: 'mini pompa', ogrenci_dairesi: 'öğrenci dairesi', on_bir_tabure: 'on bir tabure', on_dort_paket_makarna: 'on dört paket makarna', onursal_rozet: 'onursal rozet', ortak_saksi: 'ortak saksı', plak: 'plak', pvc_pencere: 'PVC pencere', rahat_ayakkabi: 'rahat ayakkabı', salon_lambasi: 'salon lambası', sesli_kitap: 'sesli kitap', spor_salonu_karti: 'spor salonu kartı', su_aritma_cihazi: 'su arıtma cihazı', tahta_kasik: 'tahta kaşık', tahta_spatula: 'tahta spatula', televizyon: 'televizyon', tesadufler_kitabi: 'tesadüfler kitabı', tuslu_telefon: 'tuşlu telefon', tutamakli_tabure: 'tutamaklı tabure', tutanlar_kitabi: 'tutanlar kitabı', ucuz_kulaklik: 'ucuz kulaklık', yeni_gecis_etiketi: 'yeni geçiş etiketi', yeni_kilif: 'yeni kılıf', yenilenmis_sandalye: 'yenilenmiş sandalye', yol_bisikleti: 'yol bisikleti',
     kedi: 'kedi', telefon: 'telefon', adim_bilekligi: 'adım bilekliği', adina_kutuphane: 'adına kütüphane',
     aile_bufesi: 'aile büfesi', aile_yuzugu: 'aile yüzüğü', akilli_saat: 'akıllı saat', akilli_termostat: 'akıllı termostat',
     akvaryum: 'akvaryum', alyans: 'alyans', analog_makine: 'analog makine', anneannenin_bufesi: 'anneannenin büfesi',
@@ -456,8 +458,6 @@ export const tr = {
   rightMomentLine: (d: number, p: number) => `Gün ${d}. Oran %${sfx(p, 'ydi')}. Olmaz dedim; oldu.`,
   noRightMoment: 'Beni hiç haksız çıkarmadın. Bu bir iltifat değil.',
   lastWord: 'Koçun son sözü',
-  lastWordLine: (k: number, p: string) => `${k} kez ${lowerTr(p)}. Kimseye söyleme ama iyiydi.`,
-  noLastWord: 'Son söz: dosyada iyi bir şey aradım. Kedi seni sevdi. Bu sayılır.',
   autoNote: (k: number) => `${k} gün koç seçti. Onları da saydım; söyleyeyim dedim.`,
   closed: 'KAPANDI',
   tapToSkip: 'dokun: devam',

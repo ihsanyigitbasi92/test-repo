@@ -28,6 +28,7 @@ import { MOMENT_SFX, SFX, UI_SFX, isGrief, isMilestone, sfxForCard, sfxForChoice
 import type { SfxName } from './sfx';
 import { HEALTH_DANGER } from '../components/hudConst';
 import { catAlive, partnerStage } from '../i18n/labels';
+import type { LifeFacts } from '../i18n/lastWord';
 import type { CardVariant, Delta, FeedItem, StampResult } from './feed';
 import { cyclePart, generateLook, outfitFor } from '../avatar/look';
 import type { Look, LookPart, Mood as FaceMood } from '../avatar/look';
@@ -56,6 +57,9 @@ export interface DeathView {
   roast: RoastReport; name: string; birthYear: number; deathYear: number; epitaph: string | null; autoDays: number;
   /** Last birthday report card of this life (share card). */
   report: ReportCardData | null;
+  /** Life facts for the coach's last word (lastWord.ts) and a stable variant seed. */
+  facts: LifeFacts | null;
+  seed: number;
   /** The player's face for the tombstone and the share card (desaturated there); null if the life had no look. */
   look: Look | null;
   outfit: ReturnType<typeof outfitFor>;
@@ -124,6 +128,29 @@ const FAST: Timing = { reportHold: 1100, typing: 140, line: 90, bubble: 150, out
 const TURBO: Timing = { reportHold: 1300, typing: 0, line: 20, bubble: 35, outcome: 40, stamp: 120, coach: 50, resume: 60, dayFlow: 140, autoPick: 120, report: 2800, ageUp: 380, typeMs: 0, delayScale: 0, bigStamp: 650, moment: 1100 };
 
 const PHASES_FLOW = new Set(['idle', 'answered']);
+
+/** What the coach's last word may refer to (content: docs/content/sprint3/lastword-variants.json). */
+export function lifeFacts(st: LifeState): LifeFacts {
+  const age = st.death?.age ?? st.calendar.age;
+  const day = st.calendar.calendarDay;
+  const married = !!st.status.partner && partnerStage(st) === 'married';
+  const npc = (r: string) => st.npcs.find((n) => n.role === r);
+  const cat = catAlive(st);
+  const mom = npc('mom');
+  const relFlags = ['evli', 'nisanli', 'bosandi', 'sevgili', 'ayrildi'];
+  return {
+    age,
+    marriedYears: married ? Math.max(0, Math.floor((day - st.status.partner!.since) / 365)) : null,
+    hasChild: st.npcs.some((n) => n.role.startsWith('child') && n.exists),
+    hasGrandchild: st.npcs.some((n) => /grand|torun/.test(n.role) && n.exists) || st.flags.some((f) => f.startsWith('torun')),
+    catYears: cat ? Math.max(0, age - START_AGE) : null,
+    catAlive: cat,
+    momAlive: !!mom && mom.exists && mom.alive,
+    momOutlivedAge: null,                                                    // needs the engine's mom death day (not exposed yet)
+    alone: !st.status.partner && !st.flags.some((f) => relFlags.includes(f)),
+    ownedHome: st.status.home.kind === 'owned',
+  };
+}
 /** Feed lines that belong to one launch only (dropped from the restored feed so they never pile up). */
 const RETURN_LINES = new Set<string>(['resumed', 'adConsentIntro', 'adIncoming']);
 const FAMILY_TAGS = ['aile', 'anne', 'telefon'];
@@ -724,6 +751,7 @@ export class GameController {
         roast: buildRoast(st), name: st.name, birthYear, deathYear: birthYear + (st.death?.age ?? st.calendar.age),
         epitaph: this.lastMotto ? mottoLine(s, this.lastMotto, this.lastReport?.ritual?.motto ?? 0) : null, autoDays: this.autoDays, report: this.lastReport,
         look: this.looks.get(st.lifeSeed) ?? this.snap.look, outfit: outfitFor({ job: st.status.job, age: st.calendar.age }),
+        facts: lifeFacts(st), seed: [...st.lifeSeed].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7),
       },
     });
     haptic.heavy();
