@@ -150,3 +150,10 @@ eas submit --profile production --platform android  # Play internal track'e tasl
 - EAS sunucusu `eas-build-post-install` betiğiyle içerik paketlerini kendisi üretir (`package.json`); `assets/content/` commit edilmez.
 - Aynı profil sisteminde sideload APK'yı EAS'ta da üretebilirsiniz: `eas build --profile preview --platform android` (`buildType: apk`, EAS imzası).
 - Yayından önce: `AD_UNITS.useTestIds: false` + gerçek AdMob kimlikleri, gerçek RevenueCat anahtarları (`checklist.md` §0).
+
+## 2026-11-15 — İlk başarılı APK
+- `motto-1.0.0-preview.apk`: 63 MB, com.d2ptechnology.motto 1.0.0 (versionCode 1), minSdk 24, targetSdk 36, yalnız arm64-v8a, debug anahtarıyla imzalı (yalnız test kurulumu; Play kabul etmez).
+- İçinde: index.android.bundle (33 MB, içerik paketleri dahil), 41 ses dosyası.
+- Bu ortamda gereken ek ayarlar: Maven Central yerine Google aynası (`~/.gradle/init.d/central-mirror.gradle`, `maven-central.storage-download.googleapis.com`), JDK 17 (`org.gradle.java.installations.paths`), proxy portu `~/.gradle/gradle.properties` içinde güncel olmalı.
+- Düzeltme: iOS'a özel `NSUserTrackingUsageDescription` Android dil dosyalarına yazılıp release lint'ini düşürüyordu → `locales/*.json` artık `{ "ios": { ... } }`.
+- İzinler (birleşmiş manifest): INTERNET, VIBRATE, MODIFY_AUDIO_SETTINGS (expo-audio), AD_ID ve ACCESS_ADSERVICES_* (AdMob), WAKE_LOCK, ACCESS_NETWORK_STATE, RECEIVE_BOOT_COMPLETED, POST_NOTIFICATIONS (bildirimler), BILLING (RevenueCat), install referrer, ve bildirim rozeti için üretici launcher izinleri (Samsung/Huawei/Oppo/HTC/Sony vb., ShortcutBadger). Rozet kullanmıyoruz (doc 19) → mağaza öncesi bu launcher izinleri `blockedPermissions` ile kaldırılabilir; compliance.md'ye eklenmeli.
